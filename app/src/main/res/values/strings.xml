@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">WebPOS</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Sign In</string>
+    <string name="title_activity_registration">Sign Up</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_offer">Top Offers</string>
+    <string name="title_activity_hotel_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_fragment_profile">Hotel Profile</string>
+
+
+    <!-- Operation Message -->
+    <string name="MsgValidation">Please correct the errors</string>
+    <string name="MsgNoRecord">No record found.</string>
+    <string name="MsgAlreadyExist">Record already exist</string>
+    <string name="MsgInsertFail">Failed to insert record</string>
+    <string name="MsgInsertSuccess">Record inserted successfully</string>
+    <string name="MsgDeleteFail">Failed to delete record</string>
+    <string name="MsgDeleteSuccess">Record deleted successfully</string>
+    <string name="MsgUpdateFail">Failed to update record</string>
+    <string name="MsgUpdateSuccess">Record updated successfully</string>
+    <string name="MsgSelectFail">Failed to select record</string>
+    <string name="MsgCheckConnection">Please check internet connection</string>
+    <string name="MsgConfirmDelete">Delete Record?</string>
+    <string name="MsgConfirmLogout">Are you sure to Logout?</string>
+    <string name="MsgConfirmSettings">Push notification off?</string>
+    <string name="MsgServerNotResponding">Server not responding, Try again later</string>
+    <string name="MsgFeedback">Thank you for your feedback, your response will help us to improve the quality of service.</string>
+    <string name="MsgVerification">Your Phone Number is Verified.</string>
+    <string name="MsgCart">Cart is empty.</string>
+    <string name="MsgCartItem">Item is added into dish</string>
+    <string name="MsgConfirmOrder">Items are place into order</string>
+    <string name="MsgAddPerson">Person is added successfully</string>
+    <string name="MsgUpdateProfile">Profile updated successfully</string>
+    <string name="MsgUpdatePassword">Password changed successfully</string>
+    <string name="MsgOffer">Currently no offers available.</string>
+    <string name="MsgGallery">No Images Yet.</string>
+    <string name="MsgItem">There is no item.</string>
+    <string name="MsgChangeMode">Switch to waiter mode?</string>
+    <!-- End -->
+
+    <!-- signupActivity -->
+    <string name="suAgree">By Signing up you will agree</string>
+    <string name="suPrivacyPolicy">Privacy Policy</string>
+    <string name="suAnd">and</string>
+    <string name="suTerms">Terms of Service</string>
+    <string name="suSignUp">Sign Up</string>
+    <string name="suSignIn">Sign In</string>
+    <string name="suAlreadyRegistered">Already Registered?</string>
+    <string name="suFirstName">First Name</string>
+    <string name="suValidEmail">Valid Email</string>
+    <string name="suLastName">Last Name</string>
+    <string name="suEmail">Email</string>
+    <string name="suPhone">Mobile</string>
+    <string name="suPassword">Password</string>
+    <string name="suMale">Male</string>
+    <string name="suFemale">Female</string>
+    <string name="suGender">Gender</string>
+    <string name="suBirthDate">Birth Date</string>
+    <string name="suUpdate">Update Profile</string>
+    <!-- end -->
+
+    <!-- loginActivity -->
+    <string name="siUserName">User Name</string>
+    <string name="siPassword">Password</string>
+    <string name="siSignIn">Login</string>
+    <string name="siNewUser">New User?</string>
+    <string name="siSignupHere">Sign Up</string>
+    <string name="siLoginFailedMsg">Username or Password are invalid.</string>
+    <string name="siLoginSucessMsg">Successfully logged in.</string>
+    <string name="clear_text">Clear Text</string>
+    <!-- end -->
+
+    <!-- row_workinghours-->
+    <string name="rTimings">Timings</string>
+    <string name="rTo">To</string>
+    <!-- End -->
+
+</resources>

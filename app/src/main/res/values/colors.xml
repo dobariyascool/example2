@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="primary_light">#E1BEE7</color>
+
+    <array name="colorArray">
+        <item name="first">#FFBB00</item>
+        <item name="second">#FF9800</item>
+        <item name="third">#FF6F00</item>
+    </array>
+
+    <color name="error_text">#FF5252</color>
+    <color name="blue_grey">#263238</color>
+    <color name="offwhite">#F5F5F5</color>
+    <color name="secondary_text">#727272</color>
+    <color name="hint_text">#BDBDBD</color>
+</resources>

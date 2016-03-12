@@ -1,0 +1,215 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="dialog_horizontal_margin">16dp</dimen>
+    <dimen name="dialog_vertical_margin">8dp</dimen>
+
+    <!-- set elevation -->
+    <dimen name="app_bar_elevation">4dp</dimen>
+    <dimen name="top_bar_elevation">8dp</dimen>
+    <dimen name="navigation_view_elevation">16dp</dimen>
+    <dimen name="snackbar_elevation">6dp</dimen>
+    <!-- end -->
+
+    <dimen name="floating_action_button_padding">16dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="subtitle_height">48dp</dimen>
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="navigation_drawer_icon_padding">16dp</dimen>
+    <dimen name="navigation_drawer_text_padding">72dp</dimen>
+
+    <!--In tablet -->
+    <dimen name="toolbar_height_in_tab">64dp</dimen>
+    <dimen name="navigation_drawer_icon_padding_in_tab">24dp</dimen>
+    <dimen name="navigation_drawer_text_padding_in_tab">80dp</dimen>
+    <!-- end -->
+
+    <!-- bottom sheet -->
+    <dimen name="bottom_sheet_margin">16dp</dimen>
+    <dimen name="list_icon_size">24dp</dimen>
+    <dimen name="list_text_margin">32dp</dimen>
+    <dimen name="list_height">48dp</dimen>
+    <dimen name="list_header_height">56dp</dimen>
+    <dimen name="grid_list_margin">24dp</dimen>
+    <dimen name="grid_list_icon_size">48dp</dimen>
+    <dimen name="grid_list_text_area">16dp</dimen>
+    <dimen name="grid_bottom_margin">16dp</dimen>
+    <!-- end -->
+
+    <!-- dialog button -->
+    <dimen name="dialog_button_height">48dp</dimen>
+    <dimen name="dialog_button_layout_height">52dp</dimen>
+    <dimen name="dialog_button_layout_margin_top">24dp</dimen>
+    <dimen name="dialog_margin">24dp</dimen>
+    <dimen name="dialog_button_padding_end">8dp</dimen>
+    <dimen name="dialog_button_padding_top">8dp</dimen>
+    <dimen name="dialog_button_padding_bottom">8dp</dimen>
+    <!-- end -->
+
+    <!-- app bar-->
+    <dimen name="app_bar_padding">0dp</dimen>
+    <!-- end -->
+
+    <!--in mobile (56*5=280) in tablet(64*5=320)-->
+    <dimen name="navWidth">280dp</dimen>
+
+    <!-- logo size -->
+    <dimen name="app_logo_height">96dp</dimen>
+    <dimen name="app_logo_width">96dp</dimen>
+    <!-- end -->
+
+    <dimen name="toolbar_Height">56dp</dimen>
+
+    <dimen name="control_SpecingTiny">4dp</dimen>
+    <dimen name="control_SpecingSmall">8dp</dimen>
+    <dimen name="control_SpecingMedium">16dp</dimen>
+    <dimen name="control_SpecingLarge">24dp</dimen>
+
+    <dimen name="control_TextTiny">10sp</dimen>
+    <dimen name="control_TextSmall">12sp</dimen>
+    <dimen name="control_TextNormal">14sp</dimen>
+    <dimen name="control_TextMedium">16sp</dimen>
+    <dimen name="control_TextLarge">24sp</dimen>
+
+    <!-- START Buttons -->
+    <dimen name="button_Height">36dp</dimen>
+    <dimen name="button_TouchableHeight">48dp</dimen>
+    <dimen name="button_MinimumWidth">88dp</dimen>
+    <dimen name="button_Margin">8dp</dimen>
+    <dimen name="button_Padding">2dp</dimen>
+    <dimen name="button_cornerRadius">4dp</dimen>
+    <!-- END Buttons -->
+
+    <!-- START Toogle Buttons -->
+    <dimen name="tbutton_Height">24dp</dimen>
+    <dimen name="tbutton_Width">24dp</dimen>
+    <dimen name="tbutton_MarginTop">8dp</dimen>
+    <!-- END Toogle Buttons -->
+
+    <!-- START Floating Action Button -->
+    <dimen name="fbuttonMini_Height">40dp</dimen>
+    <dimen name="fbutton_Height">56dp</dimen>
+    <dimen name="fbutton_MarginBottomEnd">16dp</dimen>
+    <dimen name="fbutton_MarginBottomEndTablet">24dp</dimen>
+    <dimen name="fbutton_cornerRadius">4dp</dimen>
+    <!-- END Floating Action Button -->
+
+    <!-- START Cards -->
+    <dimen name="card_MinimumHeight">56dp</dimen>
+    <dimen name="card_ActionPadding">8dp</dimen>
+    <dimen name="card_TextPadding">14dp</dimen>
+    <dimen name="card_TitleArea">72dp</dimen>
+    <dimen name="card_CornerRadius">4dp</dimen>
+    <dimen name="card_Elevation">2dp</dimen>
+    <dimen name="card_Margin">8dp</dimen>
+
+    <dimen name="card_PrimaryText">24sp</dimen>
+    <dimen name="card_SubtitleText">14sp</dimen>
+    <!-- END Cards -->
+
+    <!-- START Dividers -->
+    <dimen name="divider_Height">1dp</dimen>
+    <!-- END Dividers -->
+
+    <!-- START Single-line Lists -->
+    <dimen name="slist_Height">48dp</dimen>
+    <dimen name="slist_PaddingTop">16dp</dimen>
+    <dimen name="slist_PaddingBottom">20dp</dimen>
+    <dimen name="slist_SingleLineText">16sp</dimen>
+    <!-- END Single-line Lists -->
+
+    <!-- START Tabs -->
+    <dimen name="tab_Height">48dp</dimen>
+    <dimen name="tab_MaximumWidth">264dp</dimen>
+    <dimen name="tab_MinimumWidthSmallView">72dp</dimen>
+    <dimen name="tab_MinimumWidthLargeView">160dp</dimen>
+    <dimen name="tab_PaddingLeftRight">12dp</dimen>
+    <dimen name="tab_PaddingBottomSingleLine">20dp</dimen>
+    <dimen name="tab_PaddingBottomTwoLines">12dp</dimen>
+    <dimen name="tab_IndicatorHeight">4dp</dimen>
+    <dimen name="tab_SingleLineText">14sp</dimen>
+    <dimen name="tab_TwoLinesText">12sp</dimen>
+    <!-- END Tabs -->
+
+    <!-- START Text fields -->
+    <dimen name="text_TileHeight">48dp</dimen>
+    <dimen name="text_PaddingTopBottom">16dp</dimen>
+    <dimen name="text_PaddingDivider">8dp</dimen>
+    <dimen name="text_HintInput">16sp</dimen>
+    <!-- END Text fields -->
+
+    <!-- START Floating labels -->
+    <dimen name="ftext_TileHeight">72dp</dimen>
+    <dimen name="ftext_PaddingTopBottom">16dp</dimen>
+    <dimen name="ftext_PaddingDivider">8dp</dimen>
+
+    <dimen name="ftext_HintInput">16sp</dimen>
+    <dimen name="ftext_Label">12sp</dimen>
+    <!-- END Floating labels -->
+
+    <!-- START Navigation drawer -->
+    <dimen name="nav_MarginLeftRight">16dp</dimen>
+    <dimen name="nav_MarginTopBottom">16dp</dimen>
+    <dimen name="nav_MarginTopBottomTablet">24dp</dimen>
+    <dimen name="nav_MarginIconLeft">72dp</dimen>
+    <dimen name="nav_Statusbar">24dp</dimen>
+    <dimen name="nav_Subtitle">56dp</dimen>
+    <dimen name="nav_ContentAreaSpace">8dp</dimen>
+    <dimen name="nav_SubitemHeight">48dp</dimen>
+
+    <dimen name="nav_Text">14sp</dimen>
+    <!-- END Navigation drawer -->
+
+    <!-- START OptionMenu -->
+    <dimen name="OMenu_item_height">48dp</dimen>
+    <dimen name="OMenu_ItemTextLeftPadding">16dp</dimen>
+    <dimen name="OMenu_ItemTextBottomPadding">20dp</dimen>
+    <!-- END OptionMenu -->
+
+    <!-- Image Button-->
+    <dimen name="ib_Margin">8dp</dimen>
+    <dimen name="ib_height">24dp</dimen>
+    <dimen name="ib_width">24dp</dimen>
+    <!-- END Image Button -->
+
+    <!--Start Circular TextView -->
+    <dimen name="ct_height">64dp</dimen>
+    <dimen name="ct_width">64dp</dimen>
+    <!-- END-->
+
+
+    <!--Fixed Tab-->
+    <dimen name="ft_Height">48dp</dimen>
+    <!-- End-->
+
+    <!-- Category and Top Merchants-->
+    <dimen name="ctn_CardHeight">112dp</dimen>
+    <dimen name="ctn_CardWidth">112dp</dimen>
+    <!-- End-->
+
+    <!-- carview_grid-->
+    <dimen name="grid_CardHeight">250dp</dimen>
+    <dimen name="grid_ImageHeight">140dp</dimen>
+    <!-- End -->
+
+    <!-- splash screen imageview size-->
+    <dimen name="sImageHeight">150dp</dimen>
+    <dimen name="sImageWidth">150dp</dimen>
+    <dimen name="sHeight">35dp</dimen>
+    <dimen name="sMedium">16dp</dimen>
+    <dimen name="sMargin">8dp</dimen>
+
+    <!-- orderplace panel row size-->
+    <dimen name="leftHeight">40dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="itemListImageWidth">100dp</dimen>
+    <dimen name="itemListImageHeight">100dp</dimen>
+    <dimen name="itemGridImageHeight">130dp</dimen>
+
+    <dimen name="swipeImageHeight">100dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+</resources>
