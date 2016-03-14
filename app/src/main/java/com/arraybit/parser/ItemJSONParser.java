@@ -1,14 +1,15 @@
 package com.arraybit.parser;
 
-//import abPOS_Web.global.Globals;
-//import abPOS_Web.global.Service;
-//import abPOS_Web.global.SpinnerItem;
-//import abPOS_Web.model.ItemMaster;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.ItemMaster;
 
 import org.json.JSONArray;
@@ -21,22 +22,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-/// <summary>
-/// JSONParser for ItemMaster
-/// </summary>
 public class ItemJSONParser {
-    public String InsertItemMaster = "InsertItemMaster";
-    public String UpdateItemMaster = "UpdateItemMaster";
-    public String DeleteItemMaster = "DeleteItemMaster";
-    public String SelectItemMaster = "SelectItemMaster";
     public String SelectAllItemMaster = "SelectAllItemMasterPageWise";
-    public String SelectAllItemMasterItemName = "SelectAllItemMasterItemName";
-
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-    //ItemMasterRequestListener objItemMasterRequestListener;
+    ItemMasterRequestListener objItemMasterRequestListener;
 
+    //region Class Methods
     private ItemMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         ItemMaster objItemMaster = null;
         try {
@@ -93,7 +86,7 @@ public class ItemJSONParser {
             return null;
         }
     }
-//
+
     private ArrayList<ItemMaster> SetListPropertiesFromJSONArray(JSONArray jsonArray) {
         ArrayList<ItemMaster> lstItemMaster = new ArrayList<>();
         ItemMaster objItemMaster;
@@ -152,6 +145,7 @@ public class ItemJSONParser {
             return null;
         }
     }
+    //endregion
 
     //region Commented Codes
 //    public String InsertItemMaster(ItemMaster objItemMaster) {
@@ -278,78 +272,37 @@ public class ItemJSONParser {
 //    }
     //endregion
 
-    public void SelectAllItemMasterPageWise(final Fragment targetFragment, Context context, String currentPage, String linktoBusinessMasterId) {
+    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage,String categoryMasterId) {
+        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllItemMaster + "Result");
+                    if (jsonArray != null) {
+                        ArrayList<ItemMaster> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
+                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                        objItemMasterRequestListener.ItemMasterResponse(alBusinessGalleryTran);
+                    }
+                } catch (Exception e) {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                    objItemMasterRequestListener.ItemMasterResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                objItemMasterRequestListener.ItemMasterResponse(null);
+            }
+
+        });
+        queue.add(jsonObjectRequest);
     }
-//        ArrayList<ItemMaster> lstItemMaster = null;
-//        try {
-//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllItemMasterPageWise);
-//            if (jsonResponse != null) {
-//                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllItemMaster + "PageWiseResult");
-//                if (jsonArray != null) {
-//                    lstItemMaster = SetListPropertiesFromJSONArray(jsonArray);
-//                }
-//            }
-//            return lstItemMaster;
-//        }
-//        catch (Exception ex) {
-//            return null
-//        }
 
-
-//        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + linktoBusinessMasterId;
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//                JSONArray jsonArray = null;
-//                try {
-//                    jsonArray = jsonObject.getJSONArray(SelectAllItemMaster + "Result");
-//                    if (jsonArray != null) {
-//                        ArrayList<ItemMaster> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
-//                        objItemMasterRequestListener = (BusinessGalleryRequestListener) targetFragment;
-//                        objBusinessGalleryRequestListener.BusinessGalleryResponse(alBusinessGalleryTran);
-//                    }
-//                } catch (Exception e) {
-//                    objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) targetFragment;
-//                    objBusinessGalleryRequestListener.BusinessGalleryResponse(null);
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) targetFragment;
-//                objBusinessGalleryRequestListener.BusinessGalleryResponse(null);
-//            }
-//
-//        });
-//        queue.add(jsonObjectRequest);
-//    }
-
-//    public ArrayList<SpinnerItem> SelectAllItemMasterItemName() {
-//        ArrayList<SpinnerItem> lstSpinnerItem = null;
-//        try {
-//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllItemMasterItemName);
-//            if (jsonResponse != null) {
-//                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllItemMasterItemName + "Result");
-//                if (jsonArray != null) {
-//                    lstSpinnerItem = new ArrayList<>();
-//                    SpinnerItem objSpinnerItem;
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        objSpinnerItem = new SpinnerItem();
-//                        objSpinnerItem.setText(jsonArray.getJSONObject(i).getString("ItemName"));
-//                        objSpinnerItem.setValue(jsonArray.getJSONObject(i).getInt("ItemMasterId"));
-//                        lstSpinnerItem.add(objSpinnerItem);
-//                    }
-//                }
-//            }
-//            return lstSpinnerItem;
-//        }
-//        catch (Exception ex) {
-//            return null;
-//        }
-//    }
-
-//    public interface ItemMasterRequestListener {
-//        void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster);
-//    }
+    public interface ItemMasterRequestListener {
+        void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster);
+    }
 }
