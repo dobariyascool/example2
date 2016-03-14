@@ -9,7 +9,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
-import com.arraybit.modal.BusinessGalleryTran;
 import com.arraybit.modal.CategoryMaster;
 
 import org.json.JSONArray;
