@@ -15,13 +15,18 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class ItemListFragment extends Fragment {
 
+    public final static String ITEMS_COUNT_KEY = "ItemTabFragment";
     ArrayList<CategoryMaster> alCategoryMaster;
     RecyclerView rvItemMaster;
     ProgressDialog progressDialog;
     int currentPage = 1;
 
-    public ItemListFragment(ArrayList<CategoryMaster> alCategoryMaster) {
-        this.alCategoryMaster = alCategoryMaster;
+    public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
+        ItemListFragment itemTabFragment = new ItemListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ITEMS_COUNT_KEY, objCategoryMaster);
+        itemTabFragment.setArguments(bundle);
+        return itemTabFragment;
     }
 
     @Override
