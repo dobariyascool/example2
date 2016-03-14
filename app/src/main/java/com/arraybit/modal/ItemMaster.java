@@ -31,6 +31,8 @@ public class ItemMaster implements Parcelable {
     short linktoUserMasterIdCreatedBy;
     String UpdateDateTime;
     short linktoUserMasterIdUpdatedBy;
+    double Rate;
+
     /// Extra
     String Unit;
     String Category;
@@ -65,6 +67,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoUserMasterIdCreatedBy = (short)source.readInt();
             objItemMaster.UpdateDateTime = source.readString();
             objItemMaster.linktoUserMasterIdUpdatedBy = (short)source.readInt();
+            objItemMaster.Rate = source.readDouble();
 
             /// Extra
             objItemMaster.Unit = source.readString();
@@ -198,9 +201,17 @@ public class ItemMaster implements Parcelable {
 
     public String getUserUpdatedBy() { return this.UserUpdatedBy; }
 
+    public void setUserUpdatedBy(String userUpdatedBy) { this.UserUpdatedBy = userUpdatedBy; }
+
+    public double getRate() {
+        return Rate;
+    }
+
     //endregion
 
-    public void setUserUpdatedBy(String userUpdatedBy) { this.UserUpdatedBy = userUpdatedBy; }
+    public void setRate(double rate) {
+        Rate = rate;
+    }
 
     public int describeContents() {
         return 0;
@@ -215,7 +226,7 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(ShortDescription);
         parcel.writeInt(linktoUnitMasterId);
         parcel.writeInt(linktoCategoryMasterId);
-        parcel.writeByte((byte)(IsFavourite ? 1 : 0));
+        parcel.writeByte((byte) (IsFavourite ? 1 : 0));
         parcel.writeString(ImageNameBytes);
         parcel.writeString(ImageName);
         parcel.writeInt(linktoItemStatusMasterId);
@@ -224,7 +235,7 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(SearchWords);
         parcel.writeInt(linktoBusinessMasterId);
         parcel.writeInt(SortOrder);
-        parcel.writeByte((byte)(IsEnabled ? 1 : 0));
+        parcel.writeByte((byte) (IsEnabled ? 1 : 0));
         parcel.writeByte((byte)(IsDeleted ? 1 : 0));
         parcel.writeByte((byte)(IsDineInOnly ? 1 : 0));
         parcel.writeInt(ItemType);
@@ -232,6 +243,7 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoUserMasterIdCreatedBy);
         parcel.writeString(UpdateDateTime);
         parcel.writeInt(linktoUserMasterIdUpdatedBy);
+        parcel.writeDouble(Rate);
 
         /// Extra
         parcel.writeString(Unit);

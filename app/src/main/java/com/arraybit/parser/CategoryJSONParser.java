@@ -39,9 +39,6 @@ public class CategoryJSONParser {
                 objCategoryMaster = new CategoryMaster();
                 objCategoryMaster.setCategoryMasterId((short) jsonObject.getInt("CategoryMasterId"));
                 objCategoryMaster.setCategoryName(jsonObject.getString("CategoryName"));
-                if (!jsonObject.getString("linktoCategoryMasterIdParent").equals("null")) {
-                    objCategoryMaster.setlinktoCategoryMasterIdParent((short) jsonObject.getInt("linktoCategoryMasterIdParent"));
-                }
                 objCategoryMaster.setImageName(jsonObject.getString("ImageName"));
                 objCategoryMaster.setCategoryColor(jsonObject.getString("CategoryColor"));
                 objCategoryMaster.setDescription(jsonObject.getString("Description"));
@@ -83,9 +80,6 @@ public class CategoryJSONParser {
                 objCategoryMaster = new CategoryMaster();
                 objCategoryMaster.setCategoryMasterId((short) jsonArray.getJSONObject(i).getInt("CategoryMasterId"));
                 objCategoryMaster.setCategoryName(jsonArray.getJSONObject(i).getString("CategoryName"));
-                if (!jsonArray.getJSONObject(i).getString("linktoCategoryMasterIdParent").equals("null")) {
-                    objCategoryMaster.setlinktoCategoryMasterIdParent((short) jsonArray.getJSONObject(i).getInt("linktoCategoryMasterIdParent"));
-                }
                 objCategoryMaster.setImageName(jsonArray.getJSONObject(i).getString("ImageName"));
                 objCategoryMaster.setCategoryColor(jsonArray.getJSONObject(i).getString("CategoryColor"));
                 objCategoryMaster.setDescription(jsonArray.getJSONObject(i).getString("Description"));

@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ItemJSONParser {
-    public String SelectAllItemMaster = "SelectAllItemMasterPageWise";
+    public String SelectAllItemMaster = "SelectAllItemMasterByCategoryMasterId";
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
@@ -71,6 +71,7 @@ public class ItemJSONParser {
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
+                objItemMaster.setRate(jsonObject.getDouble("Rate"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonObject.getString("Unit"));
@@ -129,6 +130,7 @@ public class ItemJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
+                objItemMaster.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonArray.getJSONObject(i).getString("Unit"));
