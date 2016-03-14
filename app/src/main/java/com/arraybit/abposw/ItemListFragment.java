@@ -16,7 +16,7 @@ public class ItemListFragment extends Fragment {
     CategoryMaster objCategoryMaster;
     RecyclerView rvItemMaster;
     ProgressDialog progressDialog;
-    int currentPage = 1;
+    int currentPage = 0;
 
     public ItemListFragment(CategoryMaster objCategoryMaster) {
         this.objCategoryMaster = objCategoryMaster;
