@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.arraybit.abposw.MenuActivity;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.ItemMaster;
@@ -22,6 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public boolean isItemAnimate = false;
     View view;
     Context context;
+//    boolean isViewChange;
     ArrayList<ItemMaster> alItemMaster;
     int previousPosition;
     ItemMaster objItemMaster;
@@ -33,7 +35,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.row_category_item, parent, false);
+        if(MenuActivity.isViewChange){
+            if (MenuActivity.i == 1) {
+                view = LayoutInflater.from(context).inflate(R.layout.row_category_item_grid, parent, false);
+            } else {
+                //isWaiterGrid = true;
+                view = LayoutInflater.from(context).inflate(R.layout.row_category_item_tile, parent, false);
+            }
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.row_category_item, parent, false);
+        }
+
         return new ItemViewHolder(view);
     }
 

@@ -120,8 +120,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), null);
         }
     }
+    //endregion
 
-    private void SetRecyclerView() {
+    public void SetRecyclerView() {
         if (alItemMaster == null) {
             if (currentPage == 1) {
                 Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvItemMaster);
@@ -143,5 +144,4 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             rvItemMaster.setLayoutManager(linearLayoutManager);
         }
     }
-    //endregion
 }

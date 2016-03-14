@@ -27,6 +27,8 @@ import java.util.List;
 @SuppressWarnings("ConstantConditions")
 public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener {
 
+    public static short i = 0;
+    public static boolean isViewChange = false;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -80,7 +82,26 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if (id == R.id.action_settings) {
             return true;
         }else if(id == R.id.viewChange){
-
+            if(!errorLayout.isShown()){
+                ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+                i = (short) (i + 1);
+                if(i == 1) {
+                    item.setIcon(R.drawable.view_grid);
+                    isViewChange = true;
+                    itemListFragment.SetRecyclerView();
+                }
+                else if (i == 2){
+                    item.setIcon(R.drawable.view_grid_two);
+                    isViewChange = true;
+                    itemListFragment.SetRecyclerView();
+                }
+                else {
+                    i = 0;
+                    item.setIcon(R.drawable.view_list);
+                    isViewChange = true;
+                    itemListFragment.SetRecyclerView();
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item);
