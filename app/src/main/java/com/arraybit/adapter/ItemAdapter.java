@@ -38,6 +38,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
+        objItemMaster = alItemMaster.get(position);
+
         holder.txtItemName.setText(objItemMaster.getItemName());
         if (objItemMaster.getShortDescription().equals("")) {
             holder.txtItemDescription.setVisibility(View.GONE);
