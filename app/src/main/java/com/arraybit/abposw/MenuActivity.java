@@ -64,6 +64,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         progressDialog.dismiss();
         this.alCategoryMaster = alCategoryMaster;
         SetTabLayout();
+
     }
 
     //region Private Methods
@@ -106,6 +107,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             ArrayList<CategoryMaster> alCategory = new ArrayList<>();
             alCategory.add(objCategoryMaster);
             alCategoryMaster.addAll(0, alCategory);
+
+            itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
 
             for (int i = 0; i < alCategoryMaster.size(); i++) {
                 itemPagerAdapter.AddFragment(ItemListFragment.createInstance(alCategoryMaster.get(i)), alCategoryMaster.get(i));
