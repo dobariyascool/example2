@@ -8,6 +8,4 @@
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
     </style>
-
-
 </resources>
