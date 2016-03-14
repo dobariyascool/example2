@@ -45,10 +45,10 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
         errorLayout = (LinearLayout) view.findViewById(R.id.error_layout);
         rvItemMaster = (RecyclerView) view.findViewById(R.id.rvItemMaster);
-        rvItemMaster.setNestedScrollingEnabled(false);
         rvItemMaster.setVisibility(View.GONE);
 
         linearLayoutManager = new LinearLayoutManager(this.getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         RequestItemMaster();
         return view;
