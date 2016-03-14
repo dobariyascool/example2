@@ -44,11 +44,15 @@ public class ItemJSONParser {
                 if (!jsonObject.getString("linktoUnitMasterId").equals("null")) {
                     objItemMaster.setlinktoUnitMasterId((short) jsonObject.getInt("linktoUnitMasterId"));
                 }
-                objItemMaster.setlinktoCategoryMasterId((short)jsonObject.getInt("linktoCategoryMasterId"));
+                objItemMaster.setlinktoCategoryMasterId((short) jsonObject.getInt("linktoCategoryMasterId"));
                 if (!jsonObject.getString("IsFavourite").equals("null")) {
                     objItemMaster.setIsFavourite(jsonObject.getBoolean("IsFavourite"));
                 }
-                objItemMaster.setImageName(jsonObject.getString("ImageName"));
+                objItemMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
+                objItemMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
+                objItemMaster.setLg_ImagePhysicalName(jsonObject.getString("lg_ImagePhysicalName"));
+                objItemMaster.setXl_ImagePhysicalName(jsonObject.getString("xl_ImagePhysicalName"));
+                objItemMaster.setMd_ImagePhysicalName(jsonObject.getString("md_ImagePhysicalName"));
                 if (!jsonObject.getString("linktoItemStatusMasterId").equals("null")) {
                     objItemMaster.setlinktoItemStatusMasterId((short) jsonObject.getInt("linktoItemStatusMasterId"));
                 }
@@ -72,6 +76,7 @@ public class ItemJSONParser {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
                 objItemMaster.setRate(jsonObject.getDouble("Rate"));
+                objItemMaster.setMRP(jsonObject.getDouble("MRP"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonObject.getString("Unit"));
@@ -103,11 +108,15 @@ public class ItemJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoUnitMasterId").equals("null")) {
                     objItemMaster.setlinktoUnitMasterId((short) jsonArray.getJSONObject(i).getInt("linktoUnitMasterId"));
                 }
-                objItemMaster.setlinktoCategoryMasterId((short)jsonArray.getJSONObject(i).getInt("linktoCategoryMasterId"));
+                objItemMaster.setlinktoCategoryMasterId((short) jsonArray.getJSONObject(i).getInt("linktoCategoryMasterId"));
                 if (!jsonArray.getJSONObject(i).getString("IsFavourite").equals("null")) {
                     objItemMaster.setIsFavourite(jsonArray.getJSONObject(i).getBoolean("IsFavourite"));
                 }
-                objItemMaster.setImageName(jsonArray.getJSONObject(i).getString("ImageName"));
+                objItemMaster.setXs_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xs_ImagePhysicalName"));
+                objItemMaster.setSm_ImagePhysicalName(jsonArray.getJSONObject(i).getString("sm_ImagePhysicalName"));
+                objItemMaster.setLg_ImagePhysicalName(jsonArray.getJSONObject(i).getString("lg_ImagePhysicalName"));
+                objItemMaster.setXl_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xl_ImagePhysicalName"));
+                objItemMaster.setMd_ImagePhysicalName(jsonArray.getJSONObject(i).getString("md_ImagePhysicalName"));
                 if (!jsonArray.getJSONObject(i).getString("linktoItemStatusMasterId").equals("null")) {
                     objItemMaster.setlinktoItemStatusMasterId((short) jsonArray.getJSONObject(i).getInt("linktoItemStatusMasterId"));
                 }
@@ -131,6 +140,7 @@ public class ItemJSONParser {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
                 objItemMaster.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
+                objItemMaster.setMRP(jsonArray.getJSONObject(i).getDouble("MRP"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonArray.getJSONObject(i).getString("Unit"));
