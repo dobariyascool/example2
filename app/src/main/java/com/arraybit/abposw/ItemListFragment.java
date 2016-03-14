@@ -10,16 +10,18 @@ import android.view.ViewGroup;
 
 import com.arraybit.modal.CategoryMaster;
 
+import java.util.ArrayList;
+
 @SuppressLint("ValidFragment")
 public class ItemListFragment extends Fragment {
 
-    CategoryMaster objCategoryMaster;
+    ArrayList<CategoryMaster> alCategoryMaster;
     RecyclerView rvItemMaster;
     ProgressDialog progressDialog;
     int currentPage = 1;
 
-    public ItemListFragment(CategoryMaster objCategoryMaster) {
-        this.objCategoryMaster = objCategoryMaster;
+    public ItemListFragment(ArrayList<CategoryMaster> alCategoryMaster) {
+        this.alCategoryMaster = alCategoryMaster;
     }
 
     @Override
