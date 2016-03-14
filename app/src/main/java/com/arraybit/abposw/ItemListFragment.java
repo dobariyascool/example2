@@ -47,10 +47,14 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         rvItemMaster = (RecyclerView) view.findViewById(R.id.rvItemMaster);
         rvItemMaster.setNestedScrollingEnabled(false);
         rvItemMaster.setVisibility(View.GONE);
-
         linearLayoutManager = new LinearLayoutManager(this.getActivity());
 
-        RequestItemMaster();
+        Bundle bundle = getArguments();
+        objCategoryMaster = bundle.getParcelable(ITEMS_COUNT_KEY);
+
+        if(linearLayoutManager.canScrollVertically()){
+            RequestItemMaster();
+        }
         return view;
     }
 
@@ -65,7 +69,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         progressDialog = new ProgressDialog();
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId));
+        objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()));
     }
 
     private void SetRecyclerView(ArrayList<ItemMaster> lstItemMaster){

@@ -13,6 +13,7 @@ import com.arraybit.global.Globals;
 import com.arraybit.modal.ItemMaster;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else {
             holder.txtItemDescription.setVisibility(View.VISIBLE);
             holder.txtItemDescription.setText(objItemMaster.getShortDescription());
+        }
+        if (!objItemMaster.getMd_ImagePhysicalName().equals("")) {
+            Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(holder.ivItem);
         }
         holder.txtItemPrice.setText("Rs. " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
