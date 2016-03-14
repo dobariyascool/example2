@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +17,7 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.modal.CategoryMaster;
 import com.arraybit.parser.CategoryJSONParser;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,14 @@ import java.util.List;
 @SuppressWarnings("ConstantConditions")
 public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener {
 
-    FrameLayout menuActivity;
+    CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
     ProgressDialog progressDialog;
     PageAdapter itemPagerAdapter;
     ArrayList<CategoryMaster> alCategoryMaster;
     LinearLayout errorLayout;
+    FloatingActionMenu famRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        menuActivity = (FrameLayout) findViewById(R.id.menuActivity);
+        menuActivity = (CoordinatorLayout) findViewById(R.id.menuActivity);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
+
+        famRoot = (FloatingActionMenu) findViewById(R.id.famRoot);
 
         if (Service.CheckNet(this)) {
             RequestCategoryMaster();
@@ -77,19 +81,23 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtMsg.setText(errorMsg);
             tabLayout.setVisibility(View.GONE);
             viewPager.setVisibility(View.GONE);
+            famRoot.setVisibility(View.GONE);
 
         } else {
             errorLayout.setVisibility(View.GONE);
             tabLayout.setVisibility(View.VISIBLE);
             viewPager.setVisibility(View.VISIBLE);
+            famRoot.setVisibility(View.VISIBLE);
         }
     }
 
 
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
-            Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgSelectFail), MenuActivity.this, 1000);
+            SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail));
         } else {
+
+            SetErrorLayout(false, null);
 
             CategoryMaster objCategoryMaster = new CategoryMaster();
             objCategoryMaster.setCategoryMasterId((short) 0);
@@ -109,6 +117,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     //set the current view on tab click
+                    if (famRoot.isMenuButtonHidden()) {
+                        famRoot.showMenuButton(true);
+                    }
                     viewPager.setCurrentItem(tab.getPosition());
                 }
 

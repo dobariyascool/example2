@@ -10,6 +10,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_fragment_profile">Hotel Profile</string>
+    <string name="title_activity_menu">Menu</string>
 
 
     <!-- Operation Message -->
@@ -77,7 +78,12 @@
     <!-- row_workinghours-->
     <string name="rTimings">Timings</string>
     <string name="rTo">To</string>
-    <string name="title_activity_menu">MenuActivity</string>
     <!-- End -->
+
+    <!-- menuActivity -->
+    <string name="mAVeg">Veg</string>
+    <string name="mANonVeg">Non Veg</string>
+    <string name="mAJain">Jain</string>
+    <!-- end -->
 
 </resources>

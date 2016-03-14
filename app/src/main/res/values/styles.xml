@@ -164,4 +164,32 @@
         <!--<item name="tabTextAppearance">@style/TabLayoutTextStyle</item>-->
     </style>
 
+    <style name="FloatingActionButton">com.github.clans.fab.FloatingActionButton</style>
+    <style name="FloatingActionMenu">com.github.clans.fab.FloatingActionMenu</style>
+
+    <style name="FloatingMenu" parent="FloatingActionMenu">
+        <item name="menu_backgroundColor">@color/transparentBackground</item>
+        <item name="menu_colorNormal">@color/orange</item>
+        <item name="menu_colorPressed">@color/orange_light</item>
+        <item name="menu_colorRipple">@color/orange_light</item>
+        <item name="menu_labels_ellipsize">end</item>
+        <item name="menu_labels_hideAnimation">@anim/jump_to_down</item>
+        <item name="menu_labels_position">left</item>
+        <item name="menu_labels_showAnimation">@anim/jump_from_down</item>
+        <item name="menu_labels_singleLine">true</item>
+    </style>
+
+    <style name="FloatingButtonWithTextStyle" parent="FloatingActionButton">
+        <item name="fab_colorNormal">@android:color/white</item>
+        <item name="rd_rippleColor">@android:color/white</item>
+        <item name="rd_cornerRadius">@dimen/fbutton_cornerRadius</item>
+        <item name="android:height">@dimen/fbuttonMini_Height</item>
+        <item name="android:minHeight">@dimen/fbuttonMini_Height</item>
+        <item name="android:layout_marginEnd">@dimen/fbutton_MarginBottomEnd</item>
+        <item name="android:layout_marginBottom">@dimen/fbutton_MarginBottomEndTablet</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorPressed">@android:color/white</item>
+        <item name="fab_colorRipple">@android:color/white</item>
+    </style>
+
 </resources>

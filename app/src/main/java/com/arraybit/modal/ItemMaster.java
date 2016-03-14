@@ -15,8 +15,6 @@ public class ItemMaster implements Parcelable {
     short linktoUnitMasterId;
     short linktoCategoryMasterId;
     boolean IsFavourite;
-    String ImageNameBytes;
-    String ImageName;
     short linktoItemStatusMasterId;
     short ItemPoint;
     short PriceByPoint;
@@ -32,6 +30,12 @@ public class ItemMaster implements Parcelable {
     String UpdateDateTime;
     short linktoUserMasterIdUpdatedBy;
     double Rate;
+    double MRP;
+    String xs_ImagePhysicalName;
+    String sm_ImagePhysicalName;
+    String md_ImagePhysicalName;
+    String lg_ImagePhysicalName;
+    String xl_ImagePhysicalName;
 
     /// Extra
     String Unit;
@@ -51,8 +55,6 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoUnitMasterId = (short)source.readInt();
             objItemMaster.linktoCategoryMasterId = (short)source.readInt();
             objItemMaster.IsFavourite = source.readByte() != 0;
-            objItemMaster.ImageNameBytes = source.readString();
-            objItemMaster.ImageName = source.readString();
             objItemMaster.linktoItemStatusMasterId = (short)source.readInt();
             objItemMaster.ItemPoint = (short)source.readInt();
             objItemMaster.PriceByPoint = (short)source.readInt();
@@ -68,6 +70,12 @@ public class ItemMaster implements Parcelable {
             objItemMaster.UpdateDateTime = source.readString();
             objItemMaster.linktoUserMasterIdUpdatedBy = (short)source.readInt();
             objItemMaster.Rate = source.readDouble();
+            objItemMaster.MRP = source.readDouble();
+            objItemMaster.xs_ImagePhysicalName = source.readString();
+            objItemMaster.sm_ImagePhysicalName = source.readString();
+            objItemMaster.md_ImagePhysicalName = source.readString();
+            objItemMaster.lg_ImagePhysicalName = source.readString();
+            objItemMaster.xl_ImagePhysicalName = source.readString();
 
             /// Extra
             objItemMaster.Unit = source.readString();
@@ -118,14 +126,6 @@ public class ItemMaster implements Parcelable {
     public boolean getIsFavourite() { return this.IsFavourite; }
 
     public void setIsFavourite(boolean isFavourite) { this.IsFavourite = isFavourite; }
-
-    public String getImageNameBytes() { return this.ImageNameBytes; }
-
-    public void setImageNameBytes(String imageNameBytes) { this.ImageNameBytes = imageNameBytes; }
-
-    public String getImageName() { return this.ImageName; }
-
-    public void setImageName(String imageName) { this.ImageName = imageName; }
 
     public short getlinktoItemStatusMasterId() { return this.linktoItemStatusMasterId; }
 
@@ -207,10 +207,58 @@ public class ItemMaster implements Parcelable {
         return Rate;
     }
 
-    //endregion
-
     public void setRate(double rate) {
         Rate = rate;
+    }
+
+    public String getXl_ImagePhysicalName() {
+        return xl_ImagePhysicalName;
+    }
+
+    public void setXl_ImagePhysicalName(String xl_ImagePhysicalName) {
+        this.xl_ImagePhysicalName = xl_ImagePhysicalName;
+    }
+
+    public String getLg_ImagePhysicalName() {
+        return lg_ImagePhysicalName;
+    }
+
+    public void setLg_ImagePhysicalName(String lg_ImagePhysicalName) {
+        this.lg_ImagePhysicalName = lg_ImagePhysicalName;
+    }
+
+    public String getMd_ImagePhysicalName() {
+        return md_ImagePhysicalName;
+    }
+
+    public void setMd_ImagePhysicalName(String md_ImagePhysicalName) {
+        this.md_ImagePhysicalName = md_ImagePhysicalName;
+    }
+
+    public String getSm_ImagePhysicalName() {
+        return sm_ImagePhysicalName;
+    }
+
+    public void setSm_ImagePhysicalName(String sm_ImagePhysicalName) {
+        this.sm_ImagePhysicalName = sm_ImagePhysicalName;
+    }
+
+    public String getXs_ImagePhysicalName() {
+        return xs_ImagePhysicalName;
+    }
+
+    public void setXs_ImagePhysicalName(String xs_ImagePhysicalName) {
+        this.xs_ImagePhysicalName = xs_ImagePhysicalName;
+    }
+
+    public double getMRP() {
+        return MRP;
+    }
+
+    //endregion
+
+    public void setMRP(double MRP) {
+        this.MRP = MRP;
     }
 
     public int describeContents() {
@@ -227,8 +275,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoUnitMasterId);
         parcel.writeInt(linktoCategoryMasterId);
         parcel.writeByte((byte) (IsFavourite ? 1 : 0));
-        parcel.writeString(ImageNameBytes);
-        parcel.writeString(ImageName);
         parcel.writeInt(linktoItemStatusMasterId);
         parcel.writeInt(ItemPoint);
         parcel.writeInt(PriceByPoint);
@@ -236,14 +282,20 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoBusinessMasterId);
         parcel.writeInt(SortOrder);
         parcel.writeByte((byte) (IsEnabled ? 1 : 0));
-        parcel.writeByte((byte)(IsDeleted ? 1 : 0));
-        parcel.writeByte((byte)(IsDineInOnly ? 1 : 0));
+        parcel.writeByte((byte) (IsDeleted ? 1 : 0));
+        parcel.writeByte((byte) (IsDineInOnly ? 1 : 0));
         parcel.writeInt(ItemType);
         parcel.writeString(CreateDateTime);
         parcel.writeInt(linktoUserMasterIdCreatedBy);
         parcel.writeString(UpdateDateTime);
         parcel.writeInt(linktoUserMasterIdUpdatedBy);
         parcel.writeDouble(Rate);
+        parcel.writeDouble(MRP);
+        parcel.writeString(xs_ImagePhysicalName);
+        parcel.writeString(sm_ImagePhysicalName);
+        parcel.writeString(md_ImagePhysicalName);
+        parcel.writeString(lg_ImagePhysicalName);
+        parcel.writeString(xl_ImagePhysicalName);
 
         /// Extra
         parcel.writeString(Unit);

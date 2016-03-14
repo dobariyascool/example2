@@ -16,4 +16,7 @@
     <color name="offwhite">#F5F5F5</color>
     <color name="secondary_text">#727272</color>
     <color name="hint_text">#BDBDBD</color>
+    <color name="transparentBackground">#B5000000</color>
+    <color name="orange">#E65100</color>
+    <color name="orange_light">#F17826</color>
 </resources>
