@@ -118,6 +118,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.viewChange).setVisible(true);
+        menu.findItem(R.id.cart_layout).setVisible(true);
         return super.onPrepareOptionsMenu(menu);
     }
 

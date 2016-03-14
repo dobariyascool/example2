@@ -15,4 +15,13 @@
         android:title="@string/mAViewChange"
         android:visible="false"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cart_layout"
+        android:orderInCategory="400"
+        android:title="@string/mACart"
+        android:visible="false"
+        app:actionLayout="@layout/cart_layout"
+        app:showAsAction="always" />
+
 </menu>

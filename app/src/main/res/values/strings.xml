@@ -85,5 +85,6 @@
     <string name="mANonVeg">Non Veg</string>
     <string name="mAJain">Jain</string>
     <string name="mAViewChange">View Change</string>
+    <string name="mACart">Cart</string>
     <!-- end -->
 </resources>
