@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivCart"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/control_SpecingMedium"
+        android:layout_marginStart="@dimen/control_SpecingMedium"
+        android:background="@drawable/cart_layout"
+        tools:ignore="ContentDescription" />
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/txtCartNumber"
+        android:layout_width="20dp"
+        android:layout_height="24dp"
+        android:layout_alignEnd="@+id/ivCart"
+        android:layout_alignStart="@+id/ivCart"
+        android:layout_alignTop="@+id/ivCart"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        tools:ignore="SmallSp" />
+
+</RelativeLayout>
