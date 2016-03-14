@@ -8,7 +8,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
@@ -18,39 +21,37 @@ import com.arraybit.parser.CategoryJSONParser;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ConstantConditions")
 public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener {
 
     FrameLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
     ProgressDialog progressDialog;
-    PageAdapter pageAdapter;
+    PageAdapter itemPagerAdapter;
     ArrayList<CategoryMaster> alCategoryMaster;
+    LinearLayout errorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        Toolbar app_bar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(app_bar);
+        if (app_bar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         menuActivity = (FrameLayout) findViewById(R.id.menuActivity);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         if (Service.CheckNet(this)) {
-            RequestItemMaster();
+            RequestCategoryMaster();
         } else {
-            Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection));
         }
     }
 
@@ -62,21 +63,65 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     }
 
     //region Private Methods
-    private void RequestItemMaster() {
+    private void RequestCategoryMaster() {
         progressDialog = new ProgressDialog();
         progressDialog.show(MenuActivity.this.getSupportFragmentManager(), "");
         CategoryJSONParser objCategoryJSONParser = new CategoryJSONParser();
         objCategoryJSONParser.SelectAllCategoryMaster(MenuActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
+    private void SetErrorLayout(boolean isShow, String errorMsg) {
+        TextView txtMsg = (TextView) errorLayout.findViewById(R.id.txtMsg);
+        if (isShow) {
+            errorLayout.setVisibility(View.VISIBLE);
+            txtMsg.setText(errorMsg);
+            tabLayout.setVisibility(View.GONE);
+            viewPager.setVisibility(View.GONE);
+
+        } else {
+            errorLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.VISIBLE);
+            viewPager.setVisibility(View.VISIBLE);
+        }
+    }
+
+
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
             Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgSelectFail), MenuActivity.this, 1000);
         } else {
-            pageAdapter.addFragment(new ItemListFragment(alCategoryMaster), "Information");
 
-            viewPager.setAdapter(pageAdapter);
+            CategoryMaster objCategoryMaster = new CategoryMaster();
+            objCategoryMaster.setCategoryMasterId((short) 0);
+            objCategoryMaster.setCategoryName("All");
+            ArrayList<CategoryMaster> alCategory = new ArrayList<>();
+            alCategory.add(objCategoryMaster);
+            alCategoryMaster.addAll(0, alCategory);
+
+            for (int i = 0; i < alCategoryMaster.size(); i++) {
+                itemPagerAdapter.AddFragment(ItemListFragment.createInstance(alCategoryMaster.get(i)), alCategoryMaster.get(i));
+            }
+
+            viewPager.setAdapter(itemPagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
+
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    //set the current view on tab click
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
         }
     }
     //endregion
@@ -84,15 +129,23 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     //region Page Adapter
     static class PageAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
-        private final List<String> fragmentTitleList = new ArrayList<>();
+        private final List<CategoryMaster> fragmentTitleList = new ArrayList<>();
 
         public PageAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        public void AddFragment(Fragment fragment, CategoryMaster title) {
             fragmentList.add(fragment);
             fragmentTitleList.add(title);
+        }
+
+        public Fragment GetCurrentFragment(int position) {
+            return fragmentList.get(position);
+        }
+
+        public CategoryMaster GetCategoryMaster(int position) {
+            return fragmentTitleList.get(position);
         }
 
         @Override
@@ -107,7 +160,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return fragmentTitleList.get(position);
+            return fragmentTitleList.get(position).getCategoryName();
         }
     }
     //endregion

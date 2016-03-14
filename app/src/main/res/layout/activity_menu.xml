@@ -13,6 +13,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <include android:id="@+id/app_bar"
+            layout="@layout/app_bar_layout"/>
+
+        <include android:id="@+id/errorLayout"
+            layout="@layout/error_layout"
+            android:visibility="gone"/>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             style="@style/TabLayout"
