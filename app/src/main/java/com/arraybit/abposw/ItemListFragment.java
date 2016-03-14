@@ -11,21 +11,21 @@ import com.arraybit.global.Globals;
 import com.arraybit.modal.CategoryMaster;
 import com.arraybit.parser.ItemJSONParser;
 
-public class CategoryFragment extends Fragment {
+public class ItemListFragment extends Fragment {
 
     CategoryMaster objCategoryMaster;
     RecyclerView rvItemMaster;
     ProgressDialog progressDialog;
     int currentPage = 1;
 
-    public CategoryFragment(CategoryMaster objCategoryMaster) {
+    public ItemListFragment(CategoryMaster objCategoryMaster) {
         this.objCategoryMaster = objCategoryMaster;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_itemlist, container, false);
 
         rvItemMaster = (RecyclerView) view.findViewById(R.id.rvItemMaster);
         rvItemMaster.setNestedScrollingEnabled(false);
