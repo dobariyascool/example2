@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.arraybit.abposw.R;
 import com.rey.material.widget.EditText;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +35,7 @@ public class Globals {
     public static short linktoStateMasterId = 1;
     public static short linktoBusinessMasterId = 1;
     public static short linktoSourceMasterId = 2;
+    public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
     static int y, M, d, H, m;
 
     public static void ShowDatePickerDialog(final EditText txtView, Context context) {
