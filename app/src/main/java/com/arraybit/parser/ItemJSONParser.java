@@ -56,22 +56,20 @@ public class ItemJSONParser {
                 if (!jsonObject.getString("linktoItemStatusMasterId").equals("null")) {
                     objItemMaster.setlinktoItemStatusMasterId((short) jsonObject.getInt("linktoItemStatusMasterId"));
                 }
-                objItemMaster.setItemPoint((short)jsonObject.getInt("ItemPoint"));
-                objItemMaster.setPriceByPoint((short)jsonObject.getInt("PriceByPoint"));
+                objItemMaster.setItemPoint((short) jsonObject.getInt("ItemPoint"));
+                objItemMaster.setPriceByPoint((short) jsonObject.getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonObject.getString("SearchWords"));
-                objItemMaster.setlinktoBusinessMasterId((short)jsonObject.getInt("linktoBusinessMasterId"));
+                objItemMaster.setlinktoBusinessMasterId((short) jsonObject.getInt("linktoBusinessMasterId"));
                 if (!jsonObject.getString("SortOrder").equals("null")) {
                     objItemMaster.setSortOrder(jsonObject.getInt("SortOrder"));
                 }
                 objItemMaster.setIsEnabled(jsonObject.getBoolean("IsEnabled"));
                 objItemMaster.setIsDeleted(jsonObject.getBoolean("IsDeleted"));
                 objItemMaster.setIsDineInOnly(jsonObject.getBoolean("IsDineInOnly"));
-                objItemMaster.setItemType((short)jsonObject.getInt("ItemType"));
+                objItemMaster.setItemType((short) jsonObject.getInt("ItemType"));
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("CreateDateTime"));
                 objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
-                objItemMaster.setlinktoUserMasterIdCreatedBy((short)jsonObject.getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonObject.getString("UpdateDateTime"));
-                objItemMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                objItemMaster.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
@@ -120,22 +118,20 @@ public class ItemJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoItemStatusMasterId").equals("null")) {
                     objItemMaster.setlinktoItemStatusMasterId((short) jsonArray.getJSONObject(i).getInt("linktoItemStatusMasterId"));
                 }
-                objItemMaster.setItemPoint((short)jsonArray.getJSONObject(i).getInt("ItemPoint"));
-                objItemMaster.setPriceByPoint((short)jsonArray.getJSONObject(i).getInt("PriceByPoint"));
+                objItemMaster.setItemPoint((short) jsonArray.getJSONObject(i).getInt("ItemPoint"));
+                objItemMaster.setPriceByPoint((short) jsonArray.getJSONObject(i).getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonArray.getJSONObject(i).getString("SearchWords"));
-                objItemMaster.setlinktoBusinessMasterId((short)jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
+                objItemMaster.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
                 if (!jsonArray.getJSONObject(i).getString("SortOrder").equals("null")) {
                     objItemMaster.setSortOrder(jsonArray.getJSONObject(i).getInt("SortOrder"));
                 }
                 objItemMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
                 objItemMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
                 objItemMaster.setIsDineInOnly(jsonArray.getJSONObject(i).getBoolean("IsDineInOnly"));
-                objItemMaster.setItemType((short)jsonArray.getJSONObject(i).getInt("ItemType"));
+                objItemMaster.setItemType((short) jsonArray.getJSONObject(i).getInt("ItemType"));
                 dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
                 objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
-                objItemMaster.setlinktoUserMasterIdCreatedBy((short)jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
-                objItemMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                objItemMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
@@ -284,8 +280,8 @@ public class ItemJSONParser {
 //    }
     //endregion
 
-    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage,String categoryMasterId) {
-        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId;
+    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage,String categoryMasterId,String optionMasterId) {
+        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" +optionMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -294,9 +290,9 @@ public class ItemJSONParser {
                 try {
                     jsonArray = jsonObject.getJSONArray(SelectAllItemMaster + "Result");
                     if (jsonArray != null) {
-                        ArrayList<ItemMaster> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
+                        ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(alBusinessGalleryTran);
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
                     }
                 } catch (Exception e) {
                     objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;

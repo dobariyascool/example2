@@ -66,6 +66,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return alItemMaster.size();
     }
 
+    public void ItemDataChanged(ArrayList<ItemMaster> result) {
+        alItemMaster.addAll(result);
+        isItemAnimate = false;
+        notifyDataSetChanged();
+    }
+
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItemName, txtItemDescription, txtItemPrice;
