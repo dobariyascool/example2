@@ -1,14 +1,5 @@
 package com.arraybit.parser;
 
-/**
- * Created by Pratik Panchal on 14/03/2016.
- */
-
-//import abPOS_Web.global.Globals;
-//import abPOS_Web.global.Service;
-//import abPOS_Web.global.SpinnerItem;
-//import abPOS_Web.model.CategoryMaster;
-
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
@@ -18,35 +9,36 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.modal.BusinessGalleryTran;
 import com.arraybit.modal.CategoryMaster;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class CategoryJSONParser {
-    public String InsertCategoryMaster = "InsertCategoryMaster";
-    public String UpdateCategoryMaster = "UpdateCategoryMaster";
-    public String DeleteCategoryMaster = "DeleteCategoryMaster";
-    public String SelectCategoryMaster = "SelectCategoryMaster";
-    public String SelectAllCategoryMaster = "SelectAllCategoryMasterPageWise";
-    public String SelectAllCategoryMasterCategoryName = "SelectAllCategoryMasterCategoryName";
+
+    public String SelectAllCategoryMaster = "SelectAllCategoryMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     CategoryRequestListener objCategoryRequestListener;
 
+    //region ClassMethod
+
     private CategoryMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         CategoryMaster objCategoryMaster = null;
         try {
             if (jsonObject != null) {
                 objCategoryMaster = new CategoryMaster();
-                objCategoryMaster.setCategoryMasterId((short)jsonObject.getInt("CategoryMasterId"));
+                objCategoryMaster.setCategoryMasterId((short) jsonObject.getInt("CategoryMasterId"));
                 objCategoryMaster.setCategoryName(jsonObject.getString("CategoryName"));
                 if (!jsonObject.getString("linktoCategoryMasterIdParent").equals("null")) {
                     objCategoryMaster.setlinktoCategoryMasterIdParent((short) jsonObject.getInt("linktoCategoryMasterIdParent"));
@@ -54,7 +46,7 @@ public class CategoryJSONParser {
                 objCategoryMaster.setImageName(jsonObject.getString("ImageName"));
                 objCategoryMaster.setCategoryColor(jsonObject.getString("CategoryColor"));
                 objCategoryMaster.setDescription(jsonObject.getString("Description"));
-                objCategoryMaster.setlinktoBusinessMasterId((short)jsonObject.getInt("linktoBusinessMasterId"));
+                objCategoryMaster.setlinktoBusinessMasterId((short) jsonObject.getInt("linktoBusinessMasterId"));
                 if (!jsonObject.getString("SortOrder").equals("null")) {
                     objCategoryMaster.setSortOrder((short) jsonObject.getInt("SortOrder"));
                 }
@@ -65,7 +57,7 @@ public class CategoryJSONParser {
                 objCategoryMaster.setIsDeleted(jsonObject.getBoolean("IsDeleted"));
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("CreateDateTime"));
                 objCategoryMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
-                objCategoryMaster.setlinktoUserMasterIdCreatedBy((short)jsonObject.getInt("linktoUserMasterIdCreatedBy"));
+                objCategoryMaster.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("UpdateDateTime"));
                 objCategoryMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
@@ -84,51 +76,50 @@ public class CategoryJSONParser {
         }
     }
 
-    //region ClassMethod
-//    private ArrayList<CategoryMaster> SetListPropertiesFromJSONArray(JSONArray jsonArray) {
-//        ArrayList<CategoryMaster> lstCategoryMaster = new ArrayList<>();
-//        CategoryMaster objCategoryMaster;
-//        try {
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                objCategoryMaster = new CategoryMaster();
-//                objCategoryMaster.setCategoryMasterId((short)jsonArray.getJSONObject(i).getInt("CategoryMasterId"));
-//                objCategoryMaster.setCategoryName(jsonArray.getJSONObject(i).getString("CategoryName"));
-//                if (!jsonArray.getJSONObject(i).getString("linktoCategoryMasterIdParent").equals("null")) {
-//                    objCategoryMaster.setlinktoCategoryMasterIdParent(jsonArray.getJSONObject(i).getShort("linktoCategoryMasterIdParent"));
-//                }
-//                objCategoryMaster.setImageName(jsonArray.getJSONObject(i).getString("ImageName"));
-//                objCategoryMaster.setCategoryColor(jsonArray.getJSONObject(i).getString("CategoryColor"));
-//                objCategoryMaster.setDescription(jsonArray.getJSONObject(i).getString("Description"));
-//                objCategoryMaster.setlinktoBusinessMasterId((short)jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
-//                if (!jsonArray.getJSONObject(i).getString("SortOrder").equals("null")) {
-//                    objCategoryMaster.setSortOrder(jsonArray.getJSONObject(i).getShort("SortOrder"));
-//                }
-//                objCategoryMaster.setSEOPageTitle(jsonArray.getJSONObject(i).getString("SEOPageTitle"));
-//                objCategoryMaster.setSEOMetaDescription(jsonArray.getJSONObject(i).getString("SEOMetaDescription"));
-//                objCategoryMaster.setSEOMetaKeywords(jsonArray.getJSONObject(i).getString("SEOMetaKeywords"));
-//                objCategoryMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
-//                objCategoryMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
-//                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
-//                objCategoryMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
-//                objCategoryMaster.setlinktoUserMasterIdCreatedBy((short)jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
-//                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
-//                objCategoryMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
-//                if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
-//                    objCategoryMaster.setlinktoUserMasterIdUpdatedBy(jsonArray.getJSONObject(i).getShort("linktoUserMasterIdUpdatedBy"));
-//                }
-//
-//                /// Extra
-//                objCategoryMaster.setCategoryParent(jsonArray.getJSONObject(i).getString("CategoryParent"));
-//                objCategoryMaster.setBusiness(jsonArray.getJSONObject(i).getString("Business"));
-//                lstCategoryMaster.add(objCategoryMaster);
-//            }
-//            return lstCategoryMaster;
-//        } catch (JSONException e) {
-//            return null;
-//        } catch (ParseException e) {
-//            return null;
-//        }
-//    }
+    private ArrayList<CategoryMaster> SetListPropertiesFromJSONArray(JSONArray jsonArray) {
+        ArrayList<CategoryMaster> lstCategoryMaster = new ArrayList<>();
+        CategoryMaster objCategoryMaster;
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                objCategoryMaster = new CategoryMaster();
+                objCategoryMaster.setCategoryMasterId((short) jsonArray.getJSONObject(i).getInt("CategoryMasterId"));
+                objCategoryMaster.setCategoryName(jsonArray.getJSONObject(i).getString("CategoryName"));
+                if (!jsonArray.getJSONObject(i).getString("linktoCategoryMasterIdParent").equals("null")) {
+                    objCategoryMaster.setlinktoCategoryMasterIdParent((short) jsonArray.getJSONObject(i).getInt("linktoCategoryMasterIdParent"));
+                }
+                objCategoryMaster.setImageName(jsonArray.getJSONObject(i).getString("ImageName"));
+                objCategoryMaster.setCategoryColor(jsonArray.getJSONObject(i).getString("CategoryColor"));
+                objCategoryMaster.setDescription(jsonArray.getJSONObject(i).getString("Description"));
+                objCategoryMaster.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
+                if (!jsonArray.getJSONObject(i).getString("SortOrder").equals("null")) {
+                    objCategoryMaster.setSortOrder((short) jsonArray.getJSONObject(i).getInt("SortOrder"));
+                }
+                objCategoryMaster.setSEOPageTitle(jsonArray.getJSONObject(i).getString("SEOPageTitle"));
+                objCategoryMaster.setSEOMetaDescription(jsonArray.getJSONObject(i).getString("SEOMetaDescription"));
+                objCategoryMaster.setSEOMetaKeywords(jsonArray.getJSONObject(i).getString("SEOMetaKeywords"));
+                objCategoryMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
+                objCategoryMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
+                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
+                objCategoryMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
+                objCategoryMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
+                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
+                objCategoryMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
+                    objCategoryMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
+                }
+
+                /// Extra
+                objCategoryMaster.setCategoryParent(jsonArray.getJSONObject(i).getString("CategoryParent"));
+                objCategoryMaster.setBusiness(jsonArray.getJSONObject(i).getString("Business"));
+                lstCategoryMaster.add(objCategoryMaster);
+            }
+            return lstCategoryMaster;
+        } catch (JSONException e) {
+            return null;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
     //endregion
 
     //region Commented Code
@@ -259,21 +250,21 @@ public class CategoryJSONParser {
 //    }
     //endregion
 
-    public void SelectAllCategoryMasterCategoryName(final Context context) {
+    public void SelectAllCategoryMaster(final Context context, String linktoBusinessMasterId) {
         try {
-            String url = Service.Url + this.SelectAllCategoryMasterCategoryName;
+            String url = Service.Url + this.SelectAllCategoryMaster + "/" + linktoBusinessMasterId;
 
             RequestQueue queue = Volley.newRequestQueue(context);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
+                    JSONArray jsonArray = null;
                     try {
-                        if (jsonObject != null) {
-                            JSONObject jsonResponse = jsonObject.getJSONObject(SelectAllCategoryMasterCategoryName + "Result");
-                            if (jsonResponse != null) {
-                                objCategoryRequestListener = (CategoryRequestListener) context;
-                                objCategoryRequestListener.CategoryResponse(SetClassPropertiesFromJSONObject(jsonResponse));
-                            }
+                        jsonArray = jsonObject.getJSONArray(SelectAllCategoryMaster + "Result");
+                        if (jsonArray != null) {
+                            ArrayList<CategoryMaster> alCategoryMaster = SetListPropertiesFromJSONArray(jsonArray);
+                            objCategoryRequestListener = (CategoryRequestListener) context;
+                            objCategoryRequestListener.CategoryResponse(alCategoryMaster);
                         }
                     } catch (Exception e) {
                         objCategoryRequestListener = (CategoryRequestListener) context;
@@ -293,7 +284,8 @@ public class CategoryJSONParser {
             objCategoryRequestListener.CategoryResponse(null);
         }
     }
+
     public interface CategoryRequestListener {
-        void CategoryResponse(CategoryMaster objCategoryMaster);
+        void CategoryResponse(ArrayList<CategoryMaster> alCategoryMaster);
     }
 }
