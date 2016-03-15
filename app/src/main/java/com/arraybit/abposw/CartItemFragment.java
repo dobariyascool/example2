@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,17 +57,19 @@ public class CartItemFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         if(v.getId()==R.id.btnAddMore){
             Globals.counter = Globals.counter+1;
-            objCartItemChangeListener = (CartItemChangeListener)getActivity();
-            objCartItemChangeListener.CartItemChangeResponse();
-            getActivity().getSupportFragmentManager().popBackStack();
+            //objCartItemChangeListener = (CartItemChangeListener)getActivity();
+            //objCartItemChangeListener.CartItemChangeResponse();
+            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().finish();
+            //getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.viewChange).setVisible(false);
-        menu.findItem(R.id.cart_layout).setVisible(false);
+        //menu.findItem(R.id.viewChange).setVisible(false);
+       // menu.findItem(R.id.cart_layout).setVisible(false);
     }
 
     @Override

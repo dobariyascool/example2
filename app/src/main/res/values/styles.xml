@@ -165,6 +165,7 @@
     </style>
 
     <style name="FloatingActionButton">com.github.clans.fab.FloatingActionButton</style>
+
     <style name="FloatingActionMenu">com.github.clans.fab.FloatingActionMenu</style>
 
     <style name="FloatingMenu" parent="FloatingActionMenu">

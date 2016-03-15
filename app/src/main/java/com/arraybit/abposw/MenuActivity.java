@@ -1,12 +1,12 @@
 package com.arraybit.abposw;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -202,12 +202,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
 
         if (v.getId() == R.id.ivCart) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-           // Intent intent = new Intent(this)
-            //this.startActivityForResult(null,0);
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.commit();
+            Intent intent = new Intent(this,CartItemActivity.class);
+            this.startActivityForResult(intent,0);
         }
     }
 
@@ -216,13 +216,15 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         SetCartNumber();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if(requestCode == RESULT_OK){
-//            SetCartNumber();
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            if (requestCode == 0) {
+                SetCartNumber();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     //region Private Methods
     private void RequestCategoryMaster() {

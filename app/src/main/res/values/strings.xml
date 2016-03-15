@@ -92,5 +92,6 @@
     <!-- cartItemFragment -->
     <string name="cifAddMore">Add More</string>
     <string name="cifConfirmOrder">Confirm Order</string>
+    <string name="title_activity_cart_item">CartItemActivity</string>
     <!--end -->
 </resources>
