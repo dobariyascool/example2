@@ -156,6 +156,22 @@ public class Globals {
             return intValue;
         }
     }
+
+    public enum OptionValue {
+        Veg(7),
+        NonVeg(6),
+        Jain(5);
+
+        private int intValue;
+
+        OptionValue(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
     //endregion
 
     //region Commented Code
