@@ -136,7 +136,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         if (cnt == 0) {
             progressDialog = new ProgressDialog();
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
-           cnt = 1;
+            cnt = 1;
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
@@ -200,7 +200,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        cnt = 0;
                         RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
@@ -218,7 +217,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        cnt = 0;
                         RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);

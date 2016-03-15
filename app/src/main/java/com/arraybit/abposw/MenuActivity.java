@@ -203,9 +203,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
         if (v.getId() == R.id.ivCart) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.menuActivity, new CartItemFragment());
+            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+           // Intent intent = new Intent(this)
+            //this.startActivityForResult(null,0);
         }
     }
 
@@ -213,6 +215,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     public void CartItemChangeResponse() {
         SetCartNumber();
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if(requestCode == RESULT_OK){
+//            SetCartNumber();
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
     //region Private Methods
     private void RequestCategoryMaster() {
