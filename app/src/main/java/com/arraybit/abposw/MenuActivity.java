@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener,View.OnClickListener,CartItemFragment.CartItemChangeListener {
+public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener, CartItemFragment.CartItemChangeListener {
 
     public static short i = 0;
     public static boolean isViewChange = false;
@@ -201,14 +201,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             famRoot.close(true);
         }
 
-        if(v.getId()==R.id.ivCart){
+        if (v.getId() == R.id.ivCart) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.menuActivity, new CartItemFragment());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }
-    
+
     @Override
     public void CartItemChangeResponse() {
         SetCartNumber();
@@ -274,15 +274,27 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         famRoot.showMenuButton(true);
                     }
 
-                    if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
-                        itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                    } else {
-                        itemListFragment.ItemByOptionName(null);
-                    }
+//                    if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
+//                        itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+//                    } else {
+//                        itemListFragment.ItemByOptionName(null);
+//                    }
 
                     if (isForceToChange) {
-                        itemListFragment.SetRecyclerView(true);
-                        isForceToChange = false;
+                        //itemListFragment.SetRecyclerView(true);
+                        //isForceToChange = false;
+                        if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
+                            itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                            isForceToChange = false;
+                        } else {
+                            itemListFragment.ItemByOptionName(null);
+                        }
+                    } else {
+                        if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
+                            itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                        } else {
+                            itemListFragment.ItemByOptionName(null);
+                        }
                     }
                 }
 
