@@ -6,14 +6,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arraybit.global.Globals;
@@ -27,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener {
+public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener,View.OnClickListener,CartItemFragment.CartItemChangeListener {
 
     public static short i = 0;
     public static boolean isViewChange = false;
@@ -43,13 +47,16 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     FloatingActionButton fabVeg, fabNonVeg, fabJain;
     short isVegCheck = 0, isNonVegCheck = 0, isJainCheck = 0;
     StringBuilder sbItemTypeMasterId;
+    RelativeLayout relativeLayout;
+    com.rey.material.widget.TextView txtCartNumber;
+    Toolbar app_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        Toolbar app_bar = (Toolbar) findViewById(R.id.app_bar);
+        app_bar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(app_bar);
         if (app_bar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,6 +68,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         famRoot = (FloatingActionMenu) findViewById(R.id.famRoot);
+        famRoot.setClosedOnTouchOutside(true);
         fabVeg = (FloatingActionButton) findViewById(R.id.fabVeg);
         fabNonVeg = (FloatingActionButton) findViewById(R.id.fabNonVeg);
         fabJain = (FloatingActionButton) findViewById(R.id.fabJain);
@@ -126,6 +134,17 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_item, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.cart_layout);
+
+        relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
+        final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
+
+        SetCartNumber();
+
+        ivCart.setOnClickListener(this);
+
         return true;
     }
 
@@ -181,6 +200,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
             famRoot.close(true);
         }
+
+        if(v.getId()==R.id.ivCart){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.menuActivity, new CartItemFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+    
+    @Override
+    public void CartItemChangeResponse() {
+        SetCartNumber();
     }
 
     //region Private Methods
@@ -272,6 +303,17 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
         if (fabJain.isSelected()) {
             sbItemTypeMasterId.append(Globals.OptionValue.Jain.getValue() + ",");
+        }
+    }
+
+    private void SetCartNumber() {
+        if (Globals.counter > 0) {
+            txtCartNumber.setText(String.valueOf(Globals.counter));
+            txtCartNumber.setSoundEffectsEnabled(true);
+            txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
+//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
+        } else {
+            txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));
         }
     }
     //endregion

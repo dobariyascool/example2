@@ -36,6 +36,7 @@ public class Globals {
     public static short linktoBusinessMasterId = 1;
     public static short linktoSourceMasterId = 2;
     public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
+    public static int counter = 0;
     static int y, M, d, H, m;
 
     public static void ShowDatePickerDialog(final EditText txtView, Context context) {
