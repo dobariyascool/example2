@@ -180,6 +180,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     //set the current view on tab click
+                    viewPager.setCurrentItem(tab.getPosition());
                     ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
 
                     if (famRoot.isMenuButtonHidden()) {
@@ -190,10 +191,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         itemListFragment.SetRecyclerView(true);
                         isForceToChange = false;
                     }
-                    else {
-                        isForceToChange = false;
-                    }
-                    viewPager.setCurrentItem(tab.getPosition());
                 }
 
                 @Override

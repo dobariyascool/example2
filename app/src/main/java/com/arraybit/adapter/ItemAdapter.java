@@ -21,12 +21,11 @@ import java.util.ArrayList;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     public boolean isItemAnimate = false;
+    public boolean isTileGrid = false;
     View view;
     Context context;
-    boolean isTileGrid = false;
     ArrayList<ItemMaster> alItemMaster;
     int previousPosition;
-    ItemMaster objItemMaster;
 
     public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster) {
         this.context = context;
@@ -51,7 +50,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        objItemMaster = alItemMaster.get(position);
+        ItemMaster objItemMaster = alItemMaster.get(position);
         if(!isTileGrid) {
             if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
                 Picasso.with(holder.ivItem.getContext()).load(R.drawable.default_image).into(holder.ivItem);

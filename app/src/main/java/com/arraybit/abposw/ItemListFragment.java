@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener {
 
     public final static String ITEMS_COUNT_KEY = "ItemTabFragment";
-    static int cnt=0;
+    static int cnt = 0;
     LinearLayout errorLayout;
     CategoryMaster objCategoryMaster;
     RecyclerView rvItemMaster;
@@ -36,6 +36,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     GridLayoutManager gridLayoutManager;
     ArrayList<ItemMaster> alItemMaster;
     int currentPage = 1;
+    boolean isLayoutChange;
 
     public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
         ItemListFragment itemTabFragment = new ItemListFragment();
@@ -56,7 +57,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
 
         Bundle bundle = getArguments();
@@ -99,6 +100,24 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 }
             }
         });
+
+        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!itemAdapter.isItemAnimate) {
+                    itemAdapter.isItemAnimate = true;
+                }
+                if (current_page > currentPage) {
+                    currentPage = current_page;
+                    if (Service.CheckNet(getActivity())) {
+                        cnt = 0;
+                        RequestItemMaster();
+                    } else {
+                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -113,7 +132,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     //region Private Methods
     private void RequestItemMaster() {
-        if(cnt == 0){
+        if (cnt == 0) {
             progressDialog = new ProgressDialog();
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
             cnt = 1;
@@ -125,40 +144,44 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), null);
         }
     }
-
-    public void SetRecyclerView(boolean isCurrentPageChange) {
-//        if(isCurrentPageChange){
-//            currentPage = 1;
-//        }
-        if (alItemMaster == null) {
-            if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvItemMaster);
-            }
-        } else if (alItemMaster.size() == 0) {
-            if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvItemMaster);
-            }
-        } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
-            if (currentPage > 1) {
-                itemAdapter.ItemDataChanged(alItemMaster);
-                return;
-            } else if (alItemMaster.size() < 10) {
-                currentPage += 1;
-            }
-            SetLayout(MenuActivity.isViewChange);
-        }
-    }
     //endregion
 
-    private void SetLayout(boolean isViewChange){
-        itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster);
-        rvItemMaster.setAdapter(itemAdapter);
-        if(isViewChange){
-            rvItemMaster.setLayoutManager(gridLayoutManager);
-        }else {
-            rvItemMaster.setLayoutManager(linearLayoutManager);
+    public void SetRecyclerView(boolean isCurrentPageChange) {
+        if (isCurrentPageChange) {
+            currentPage = 1;
+            isLayoutChange = true;
+            rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+            if (MenuActivity.isViewChange) {
+                rvItemMaster.setLayoutManager(gridLayoutManager);
+            } else {
+                rvItemMaster.setLayoutManager(linearLayoutManager);
+            }
+        } else {
+            if (alItemMaster == null) {
+                if (currentPage == 1) {
+                    Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+                }
+            } else if (alItemMaster.size() == 0) {
+                if (currentPage == 1) {
+                    Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+                }
+            } else {
+                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
+                if (currentPage > 1) {
+                    itemAdapter.ItemDataChanged(alItemMaster);
+                    return;
+                } else if (alItemMaster.size() < 10) {
+                    currentPage += 1;
+                }
+                itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster);
+                rvItemMaster.setAdapter(itemAdapter);
+                if (MenuActivity.isViewChange) {
+                    rvItemMaster.setLayoutManager(gridLayoutManager);
+                } else {
+                    rvItemMaster.setLayoutManager(linearLayoutManager);
+                }
+            }
         }
-
     }
+
 }
