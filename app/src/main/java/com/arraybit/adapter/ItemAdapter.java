@@ -23,7 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public boolean isItemAnimate = false;
     View view;
     Context context;
-//    boolean isViewChange;
+    boolean isTileGrid = false;
     ArrayList<ItemMaster> alItemMaster;
     int previousPosition;
     ItemMaster objItemMaster;
@@ -39,7 +39,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             if (MenuActivity.i == 1) {
                 view = LayoutInflater.from(context).inflate(R.layout.row_category_item_grid, parent, false);
             } else {
-                //isWaiterGrid = true;
+                isTileGrid = true;
                 view = LayoutInflater.from(context).inflate(R.layout.row_category_item_tile, parent, false);
             }
         } else {
@@ -52,16 +52,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         objItemMaster = alItemMaster.get(position);
-
+        if(!isTileGrid) {
+            if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
+                Picasso.with(holder.ivItem.getContext()).load(R.drawable.default_image).into(holder.ivItem);
+            }
+            else{
+                Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(holder.ivItem);
+            }
+        }
         holder.txtItemName.setText(objItemMaster.getItemName());
         if (objItemMaster.getShortDescription().equals("")) {
             holder.txtItemDescription.setVisibility(View.GONE);
         } else {
             holder.txtItemDescription.setVisibility(View.VISIBLE);
             holder.txtItemDescription.setText(objItemMaster.getShortDescription());
-        }
-        if (!objItemMaster.getMd_ImagePhysicalName().equals("")) {
-            Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(holder.ivItem);
         }
         holder.txtItemPrice.setText("Rs. " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 

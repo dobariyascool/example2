@@ -29,6 +29,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     public static short i = 0;
     public static boolean isViewChange = false;
+    boolean isForceToChange = false;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -88,17 +89,20 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 if(i == 1) {
                     item.setIcon(R.drawable.view_grid);
                     isViewChange = true;
+                    isForceToChange = true;
                     itemListFragment.SetRecyclerView();
                 }
                 else if (i == 2){
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
+                    isForceToChange = true;
                     itemListFragment.SetRecyclerView();
                 }
                 else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
-                    isViewChange = true;
+                    isViewChange = false;
+                    isForceToChange = true;
                     itemListFragment.SetRecyclerView();
                 }
             }
@@ -176,8 +180,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     //set the current view on tab click
+                    ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+
                     if (famRoot.isMenuButtonHidden()) {
                         famRoot.showMenuButton(true);
+                    }
+
+                    if(isForceToChange) {
+                        itemListFragment.SetRecyclerView();
+                        isForceToChange = false;
+                    }
+                    else {
+                        isForceToChange = false;
                     }
                     viewPager.setCurrentItem(tab.getPosition());
                 }
