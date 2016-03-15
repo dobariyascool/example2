@@ -1,12 +1,15 @@
 package com.arraybit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arraybit.abposw.MenuActivity;
 import com.arraybit.abposw.R;
@@ -21,11 +24,12 @@ import java.util.ArrayList;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     public boolean isItemAnimate = false;
-    public boolean isTileGrid = false;
+    boolean isTileGrid = false;
     View view;
     Context context;
     ArrayList<ItemMaster> alItemMaster;
     int previousPosition;
+    int width, height;
 
     public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster) {
         this.context = context;
@@ -36,18 +40,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(MenuActivity.isViewChange){
             if (MenuActivity.i == 1) {
+                isTileGrid = false;
                 view = LayoutInflater.from(context).inflate(R.layout.row_category_item_grid, parent, false);
             } else {
                 isTileGrid = true;
                 view = LayoutInflater.from(context).inflate(R.layout.row_category_item_tile, parent, false);
             }
         } else {
+            isTileGrid = false;
             view = LayoutInflater.from(context).inflate(R.layout.row_category_item, parent, false);
         }
 
         return new ItemViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
@@ -104,6 +111,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             txtItemName = (TextView) itemView.findViewById(R.id.txtItemName);
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemDescription);
             txtItemPrice = (TextView) itemView.findViewById(R.id.txtItemPrice);
+
+            if (!isTileGrid && MenuActivity.isViewChange) {
+                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+                width = displayMetrics.widthPixels / 2 - 32;
+                height = displayMetrics.widthPixels / 2 - 32;
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+                ivItem.setLayoutParams(layoutParams);
+            }
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
         }

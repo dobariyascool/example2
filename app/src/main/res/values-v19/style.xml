@@ -8,4 +8,11 @@
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
     </style>
+
+    <style name="CardViewTransparent" parent="AppCompactCardView">
+        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
+        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
+        <item name="cardElevation">@dimen/card_Elevation</item>
+        <item name="cardBackgroundColor">@color/transparent_orange</item>
+    </style>
 </resources>

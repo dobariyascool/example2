@@ -148,7 +148,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     public void SetRecyclerView(boolean isCurrentPageChange) {
         if (isCurrentPageChange) {
-            currentPage = 1;
             isLayoutChange = true;
             rvItemMaster.setAdapter(rvItemMaster.getAdapter());
             if (MenuActivity.isViewChange) {
