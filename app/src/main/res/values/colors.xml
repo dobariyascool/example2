@@ -25,4 +25,5 @@
     <color name="accent">#FFC400</color>
     <color name="accent_dark">#FFAB00</color>
     <color name="darkgoldenrod">#AF7817</color>
+    <color name="accent_secondary">#FFBB00</color>
 </resources>

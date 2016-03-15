@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,13 +20,14 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.modal.CategoryMaster;
 import com.arraybit.parser.CategoryJSONParser;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener {
+public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener {
 
     public static short i = 0;
     public static boolean isViewChange = false;
@@ -38,6 +40,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     ArrayList<CategoryMaster> alCategoryMaster;
     LinearLayout errorLayout;
     FloatingActionMenu famRoot;
+    FloatingActionButton fabVeg, fabNonVeg, fabJain;
+    short isVegCheck = 0, isNonVegCheck = 0, isJainCheck = 0;
+    StringBuilder sbItemTypeMasterId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         famRoot = (FloatingActionMenu) findViewById(R.id.famRoot);
+        fabVeg = (FloatingActionButton) findViewById(R.id.fabVeg);
+        fabNonVeg = (FloatingActionButton) findViewById(R.id.fabNonVeg);
+        fabJain = (FloatingActionButton) findViewById(R.id.fabJain);
+
+        fabVeg.setOnClickListener(this);
+        fabNonVeg.setOnClickListener(this);
+        fabJain.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
             RequestCategoryMaster();
@@ -82,23 +94,21 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.viewChange){
-            if(!errorLayout.isShown()){
+        } else if (id == R.id.viewChange) {
+            if (!errorLayout.isShown()) {
                 ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
                 i = (short) (i + 1);
-                if(i == 1) {
+                if (i == 1) {
                     item.setIcon(R.drawable.view_grid);
                     isViewChange = true;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true);
-                }
-                else if (i == 2){
+                } else if (i == 2) {
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true);
-                }
-                else {
+                } else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
                     isViewChange = false;
@@ -126,6 +136,53 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    public void onClick(View v) {
+        ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+        if (v.getId() == R.id.fabVeg) {
+            if (isVegCheck == 0) {
+                fabVeg.setSelected(true);
+                fabVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                isVegCheck += 1;
+            } else {
+                fabVeg.setSelected(false);
+                fabVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                isVegCheck = 0;
+            }
+        }
+        if (v.getId() == R.id.fabNonVeg) {
+            if (isNonVegCheck == 0) {
+                fabNonVeg.setSelected(true);
+                fabNonVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                isNonVegCheck += 1;
+            } else {
+                fabNonVeg.setSelected(false);
+                fabNonVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                isNonVegCheck = 0;
+            }
+        }
+        if (v.getId() == R.id.fabJain) {
+            if (isJainCheck == 0) {
+                fabJain.setSelected(true);
+                fabJain.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                isJainCheck += 1;
+            } else {
+                fabJain.setSelected(false);
+                fabJain.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                isJainCheck = 0;
+            }
+        }
+        CheckSelected();
+
+        if (sbItemTypeMasterId.toString().equals("")) {
+            itemListFragment.ItemByOptionName(null);
+            famRoot.close(true);
+        } else {
+            itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+            famRoot.close(true);
+        }
+    }
+
     //region Private Methods
     private void RequestCategoryMaster() {
         progressDialog = new ProgressDialog();
@@ -151,7 +208,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             famRoot.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
@@ -187,7 +243,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         famRoot.showMenuButton(true);
                     }
 
-                    if(isForceToChange) {
+                    if (isForceToChange) {
                         itemListFragment.SetRecyclerView(true);
                         isForceToChange = false;
                     }
@@ -203,6 +259,19 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
                 }
             });
+        }
+    }
+
+    private void CheckSelected() {
+        sbItemTypeMasterId = new StringBuilder();
+        if (fabVeg.isSelected()) {
+            sbItemTypeMasterId.append(Globals.OptionValue.Veg.getValue() + ",");
+        }
+        if (fabNonVeg.isSelected()) {
+            sbItemTypeMasterId.append(Globals.OptionValue.NonVeg.getValue() + ",");
+        }
+        if (fabJain.isSelected()) {
+            sbItemTypeMasterId.append(Globals.OptionValue.Jain.getValue() + ",");
         }
     }
     //endregion

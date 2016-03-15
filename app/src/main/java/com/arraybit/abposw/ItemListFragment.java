@@ -35,6 +35,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
     ArrayList<ItemMaster> alItemMaster;
+    String OptionIds;
     int currentPage = 1;
     boolean isLayoutChange;
 
@@ -139,9 +140,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds);
         } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds);
         }
     }
     //endregion
@@ -183,4 +184,8 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
     }
 
+    public void ItemByOptionName(String OptionIds){
+        this.OptionIds = OptionIds;
+        RequestItemMaster();
+    }
 }
