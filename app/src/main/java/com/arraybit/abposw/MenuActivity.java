@@ -90,20 +90,20 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     item.setIcon(R.drawable.view_grid);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView();
+                    itemListFragment.SetRecyclerView(true);
                 }
                 else if (i == 2){
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView();
+                    itemListFragment.SetRecyclerView(true);
                 }
                 else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
                     isViewChange = false;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView();
+                    itemListFragment.SetRecyclerView(true);
                 }
             }
         }
@@ -187,7 +187,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     }
 
                     if(isForceToChange) {
-                        itemListFragment.SetRecyclerView();
+                        itemListFragment.SetRecyclerView(true);
                         isForceToChange = false;
                     }
                     else {

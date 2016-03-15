@@ -98,6 +98,7 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
     }
 
     //region Private Methods
+
     private void RequestOfferMaster() {
         progressDialog = new com.arraybit.abposw.ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");

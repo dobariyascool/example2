@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     ProgressDialog progressDialog;
     ItemAdapter itemAdapter;
     LinearLayoutManager linearLayoutManager;
+    GridLayoutManager gridLayoutManager;
     ArrayList<ItemMaster> alItemMaster;
     int currentPage = 1;
 
@@ -51,8 +53,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         errorLayout = (LinearLayout) view.findViewById(R.id.error_layout);
         rvItemMaster = (RecyclerView) view.findViewById(R.id.rvItemMaster);
         rvItemMaster.setVisibility(View.GONE);
-        linearLayoutManager = new LinearLayoutManager(this.getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
 
         Bundle bundle = getArguments();
         objCategoryMaster = bundle.getParcelable(ITEMS_COUNT_KEY);
@@ -103,7 +108,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             cnt = 1;
         }
         this.alItemMaster = alItemMaster;
-        SetRecyclerView();
+        SetRecyclerView(false);
     }
 
     //region Private Methods
@@ -120,9 +125,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), null);
         }
     }
-    //endregion
 
-    public void SetRecyclerView() {
+    public void SetRecyclerView(boolean isCurrentPageChange) {
+//        if(isCurrentPageChange){
+//            currentPage = 1;
+//        }
         if (alItemMaster == null) {
             if (currentPage == 1) {
                 Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvItemMaster);
@@ -139,9 +146,19 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             } else if (alItemMaster.size() < 10) {
                 currentPage += 1;
             }
-            itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster);
-            rvItemMaster.setAdapter(itemAdapter);
+            SetLayout(MenuActivity.isViewChange);
+        }
+    }
+    //endregion
+
+    private void SetLayout(boolean isViewChange){
+        itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster);
+        rvItemMaster.setAdapter(itemAdapter);
+        if(isViewChange){
+            rvItemMaster.setLayoutManager(gridLayoutManager);
+        }else {
             rvItemMaster.setLayoutManager(linearLayoutManager);
         }
+
     }
 }
