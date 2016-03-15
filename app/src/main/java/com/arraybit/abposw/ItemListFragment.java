@@ -136,7 +136,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         if (cnt == 0) {
             progressDialog = new ProgressDialog();
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
-            cnt = 1;
+           cnt = 1;
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
@@ -188,6 +188,43 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     public void ItemByOptionName(String OptionIds){
         this.OptionIds = OptionIds;
         currentPage = 1;
+
         RequestItemMaster();
+
+        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!itemAdapter.isItemAnimate) {
+                    itemAdapter.isItemAnimate = true;
+                }
+                if (current_page > currentPage) {
+                    currentPage = current_page;
+                    if (Service.CheckNet(getActivity())) {
+                        cnt = 0;
+                        RequestItemMaster();
+                    } else {
+                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
+            }
+        });
+
+        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!itemAdapter.isItemAnimate) {
+                    itemAdapter.isItemAnimate = true;
+                }
+                if (current_page > currentPage) {
+                    currentPage = current_page;
+                    if (Service.CheckNet(getActivity())) {
+                        cnt = 0;
+                        RequestItemMaster();
+                    } else {
+                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
+            }
+        });
     }
 }

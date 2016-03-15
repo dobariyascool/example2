@@ -274,6 +274,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         famRoot.showMenuButton(true);
                     }
 
+                    if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
+                        itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                    } else {
+                        itemListFragment.ItemByOptionName(null);
+                    }
+
                     if (isForceToChange) {
                         itemListFragment.SetRecyclerView(true);
                         isForceToChange = false;

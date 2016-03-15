@@ -54,8 +54,6 @@ public class CategoryJSONParser {
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("CreateDateTime"));
                 objCategoryMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objCategoryMaster.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonObject.getString("UpdateDateTime"));
-                objCategoryMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objCategoryMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
