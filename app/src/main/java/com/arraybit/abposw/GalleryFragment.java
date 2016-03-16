@@ -108,11 +108,10 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
     @Override
     public void ImageOnClick(BusinessGalleryTran objBusinessGalleryTran, View view, String transitionName) {
-
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FullImageViewDialogFragment fullViewDialogFragment = new FullImageViewDialogFragment();
         if (Build.VERSION.SDK_INT >= 21) {
 
-
-            FullImageViewDialogFragment fullViewDialogFragment = new FullImageViewDialogFragment();
             //fullViewDialogFragment.setSharedElementEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move));
             //fullViewDialogFragment.setEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
 
@@ -120,16 +119,16 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
             bundle.putParcelable("BusinessGallery", objBusinessGalleryTran);
             bundle.putString("Element", transitionName);
             fullViewDialogFragment.setArguments(bundle);
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+
             //fragmentTransaction.addSharedElement(view,transitionName);
             //fullViewDialogFragment.show(fragmentTransaction, "");
             //fragmentTransaction.commit();
             //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(android.R.id.content, fullViewDialogFragment, "fullViewDialogFragment");
-            fragmentTransaction.addToBackStack("fullViewDialogFragment");
-            fragmentTransaction.addSharedElement(view, transitionName);
-            fragmentTransaction.commit();
         }
+        fragmentTransaction.replace(android.R.id.content, fullViewDialogFragment, "fullViewDialogFragment");
+        fragmentTransaction.addToBackStack("fullViewDialogFragment");
+        fragmentTransaction.addSharedElement(view, transitionName);
+        fragmentTransaction.commit();
     }
 
     //region Private Methods

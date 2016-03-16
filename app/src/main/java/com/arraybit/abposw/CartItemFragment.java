@@ -16,7 +16,7 @@ import com.arraybit.global.Globals;
 import com.rey.material.widget.Button;
 
 @SuppressWarnings("ConstantConditions")
-public class CartItemFragment extends Fragment implements View.OnClickListener{
+public class CartItemFragment extends Fragment implements View.OnClickListener {
 
 
     CartItemChangeListener objCartItemChangeListener;
@@ -45,8 +45,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener{
 
         setHasOptionsMenu(true);
 
-        Button btnAddMore = (Button)view.findViewById(R.id.btnAddMore);
-        Button btnConfirmOrder = (Button)view.findViewById(R.id.btnConfirmOrder);
+        Button btnAddMore = (Button) view.findViewById(R.id.btnAddMore);
+        Button btnConfirmOrder = (Button) view.findViewById(R.id.btnConfirmOrder);
 
         btnAddMore.setOnClickListener(this);
 
@@ -55,13 +55,14 @@ public class CartItemFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btnAddMore){
-            Globals.counter = Globals.counter+1;
+        if (v.getId() == R.id.btnAddMore) {
+            Globals.counter = Globals.counter + 1;
             //objCartItemChangeListener = (CartItemChangeListener)getActivity();
             //objCartItemChangeListener.CartItemChangeResponse();
+
             getActivity().setResult(Activity.RESULT_OK);
-            getActivity().finish();
             //getActivity().getSupportFragmentManager().popBackStack();
+            getActivity().finish();
         }
     }
 
@@ -69,21 +70,23 @@ public class CartItemFragment extends Fragment implements View.OnClickListener{
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         //menu.findItem(R.id.viewChange).setVisible(false);
-       // menu.findItem(R.id.cart_layout).setVisible(false);
+        // menu.findItem(R.id.cart_layout).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             Globals.counter = 0;
-            objCartItemChangeListener = (CartItemChangeListener)getActivity();
-            objCartItemChangeListener.CartItemChangeResponse();
-            getActivity().getSupportFragmentManager().popBackStack();
+            //objCartItemChangeListener = (CartItemChangeListener)getActivity();
+            //objCartItemChangeListener.CartItemChangeResponse();
+            //getActivity().getSupportFragmentManager().popBackStack();
+            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    interface CartItemChangeListener{
+    interface CartItemChangeListener {
         void CartItemChangeResponse();
     }
 }
