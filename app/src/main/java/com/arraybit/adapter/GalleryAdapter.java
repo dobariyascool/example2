@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.BusinessGalleryTran;
-import com.arraybit.abposw.R;
 import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -25,8 +25,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
     ArrayList<BusinessGalleryTran> alBusinessGalleryTran;
     View view;
     int previousPosition;
-    private LayoutInflater inflater;
     ImageViewClickListener objImageViewClickListener;
+    private LayoutInflater inflater;
 
     public GalleryAdapter(Context context, ArrayList<BusinessGalleryTran> alBusinessGalleryTran,ImageViewClickListener objImageViewClickListener) {
         this.context = context;
@@ -92,7 +92,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
             ivGalleryImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    objImageViewClickListener.ImageOnClick(alBusinessGalleryTran.get(getAdapterPosition()),v,v.getTransitionName());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        objImageViewClickListener.ImageOnClick(alBusinessGalleryTran.get(getAdapterPosition()),v,v.getTransitionName());
+                    }else{
+                        objImageViewClickListener.ImageOnClick(alBusinessGalleryTran.get(getAdapterPosition()),null,null);
+                    }
                 }
             });
         }

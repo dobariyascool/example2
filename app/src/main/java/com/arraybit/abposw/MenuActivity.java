@@ -168,8 +168,16 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 fabVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
                 isVegCheck = 0;
             }
-        }
-        if (v.getId() == R.id.fabNonVeg) {
+            CheckSelected();
+
+            if (sbItemTypeMasterId.toString().equals("")) {
+                itemListFragment.ItemByOptionName(null);
+                famRoot.close(true);
+            } else {
+                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                famRoot.close(true);
+            }
+        } else if (v.getId() == R.id.fabNonVeg) {
             if (isNonVegCheck == 0) {
                 fabNonVeg.setSelected(true);
                 fabNonVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
@@ -179,8 +187,16 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 fabNonVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
                 isNonVegCheck = 0;
             }
-        }
-        if (v.getId() == R.id.fabJain) {
+            CheckSelected();
+
+            if (sbItemTypeMasterId.toString().equals("")) {
+                itemListFragment.ItemByOptionName(null);
+                famRoot.close(true);
+            } else {
+                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                famRoot.close(true);
+            }
+        } else if (v.getId() == R.id.fabJain) {
             if (isJainCheck == 0) {
                 fabJain.setSelected(true);
                 fabJain.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
@@ -190,24 +206,22 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 fabJain.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
                 isJainCheck = 0;
             }
-        }
-        CheckSelected();
+            CheckSelected();
 
-        if (sbItemTypeMasterId.toString().equals("")) {
-            itemListFragment.ItemByOptionName(null);
-            famRoot.close(true);
-        } else {
-            itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-            famRoot.close(true);
-        }
-
-        if (v.getId() == R.id.ivCart) {
+            if (sbItemTypeMasterId.toString().equals("")) {
+                itemListFragment.ItemByOptionName(null);
+                famRoot.close(true);
+            } else {
+                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                famRoot.close(true);
+            }
+        } else if (v.getId() == R.id.ivCart) {
 //            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent intent = new Intent(this,CartItemActivity.class);
-            this.startActivityForResult(intent,0);
+            Intent intent = new Intent(this, CartItemActivity.class);
+            this.startActivityForResult(intent, 0);
         }
     }
 
@@ -218,7 +232,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 SetCartNumber();
             }
@@ -291,19 +305,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                             isForceToChange = false;
                         } else {
-                            if(sbItemTypeMasterId==null){
+                            if (sbItemTypeMasterId == null) {
                                 itemListFragment.SetRecyclerView(true);
                                 isForceToChange = false;
-                            }else {
+                            } else {
                                 itemListFragment.ItemByOptionName(null);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                         } else {
-                            if(sbItemTypeMasterId!=null) {
+                            if (sbItemTypeMasterId != null) {
                                 itemListFragment.ItemByOptionName(null);
                             }
                         }
