@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,7 @@ import com.arraybit.parser.ItemJSONParser;
 import java.util.ArrayList;
 
 @SuppressLint("ValidFragment")
-public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener {
+public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener {
 
     public final static String ITEMS_COUNT_KEY = "ItemTabFragment";
     static int cnt = 0;
@@ -131,6 +132,13 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         SetRecyclerView(false);
     }
 
+    @Override
+    public void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName) {
+        Intent i = new Intent(getActivity(), DetailActivity.class);
+        i.putExtra("ItemMaster", objItemMaster);
+        startActivity(i);
+    }
+
     //region Private Methods
     private void RequestItemMaster() {
         if (cnt == 0) {
@@ -174,7 +182,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 } else if (alItemMaster.size() < 10) {
                     currentPage += 1;
                 }
-                itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster);
+                itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster, this);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
@@ -185,7 +193,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
     }
 
-    public void ItemByOptionName(String OptionIds){
+    public void ItemByOptionName(String OptionIds) {
         this.OptionIds = OptionIds;
         currentPage = 1;
 

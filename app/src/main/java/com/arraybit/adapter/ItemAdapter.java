@@ -2,6 +2,7 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -28,17 +29,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     View view;
     Context context;
     ArrayList<ItemMaster> alItemMaster;
+    ItemClickListener objItemClickListener;
     int previousPosition;
     int width, height;
 
-    public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster) {
+    public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster, ItemClickListener objItemClickListener) {
         this.context = context;
         this.alItemMaster = alItemMaster;
+        this.objItemClickListener = objItemClickListener;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(MenuActivity.isViewChange){
+        if (MenuActivity.isViewChange) {
             if (MenuActivity.i == 1) {
                 isTileGrid = false;
                 view = LayoutInflater.from(context).inflate(R.layout.row_category_item_grid, parent, false);
@@ -58,11 +61,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
-        if(!isTileGrid) {
+        if (!isTileGrid) {
             if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
                 Picasso.with(holder.ivItem.getContext()).load(R.drawable.default_image).into(holder.ivItem);
-            }
-            else{
+            } else {
                 Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(holder.ivItem);
             }
         }
@@ -94,6 +96,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         notifyDataSetChanged();
     }
 
+    public interface ItemClickListener {
+        void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName);
+    }
+
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItemName, txtItemDescription, txtItemPrice;
@@ -123,6 +129,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
+
+            cvItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), v, v.getTransitionName());
+                    } else {
+                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), null, null);
+                    }
+                }
+            });
         }
     }
 }
