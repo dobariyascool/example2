@@ -221,6 +221,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if(resultCode == RESULT_OK){
             if (requestCode == 0) {
                 SetCartNumber();
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
