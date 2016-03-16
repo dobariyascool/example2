@@ -286,26 +286,26 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         famRoot.showMenuButton(true);
                     }
 
-//                    if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
-//                        itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-//                    } else {
-//                        itemListFragment.ItemByOptionName(null);
-//                    }
-
                     if (isForceToChange) {
-                        //itemListFragment.SetRecyclerView(true);
-                        //isForceToChange = false;
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                             isForceToChange = false;
                         } else {
-                            itemListFragment.ItemByOptionName(null);
+                            if(sbItemTypeMasterId==null){
+                                itemListFragment.SetRecyclerView(true);
+                                isForceToChange = false;
+                            }else {
+                                itemListFragment.ItemByOptionName(null);
+                            }
                         }
-                    } else {
+                    }
+                    else {
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                         } else {
-                            itemListFragment.ItemByOptionName(null);
+                            if(sbItemTypeMasterId!=null) {
+                                itemListFragment.ItemByOptionName(null);
+                            }
                         }
                     }
                 }
