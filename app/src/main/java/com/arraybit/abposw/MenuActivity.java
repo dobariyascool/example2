@@ -221,7 +221,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
             Intent intent = new Intent(this, CartItemActivity.class);
-            this.startActivityForResult(intent, 0);
+            this.startActivityForResult(intent,0);
         }
     }
 
