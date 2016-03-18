@@ -54,6 +54,10 @@
             android:name=".ItemModifierRemarkActivity"
             android:label="@string/title_activity_item_modifier_remark"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".DetailActivity"
+            android:label="@string/title_detail"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

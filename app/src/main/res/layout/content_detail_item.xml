@@ -9,49 +9,59 @@
     <ImageView
         android:id="@+id/ivItemImage"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter" />
 
-    <TextView
-        android:id="@+id/tvItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvShortDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tvItemRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvShortDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvItemRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvSuggestedItem"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_weight="0.3" />
 
     <LinearLayout
-        android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/control_SpecingTiny"
-        android:layout_marginEnd="@dimen/control_SpecingSmall"
-        android:layout_marginStart="@dimen/control_SpecingSmall"
-        android:layout_marginTop="@dimen/control_SpecingTiny"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Cancel" />
 
         <Button
             android:id="@+id/btnAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Add"
             android:textAlignment="center" />
-
     </LinearLayout>
 </LinearLayout>

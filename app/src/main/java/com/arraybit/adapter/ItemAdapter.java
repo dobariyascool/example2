@@ -2,6 +2,7 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.arraybit.abposw.ItemModifierRemarkActivity;
 import com.arraybit.abposw.MenuActivity;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
@@ -129,6 +131,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ItemModifierRemarkActivity.class);
+                    intent.putExtra("ItemMaster",alItemMaster.get(getAdapterPosition()));
+                    context.startActivity(intent);
+                }
+            });
 
             cvItem.setOnClickListener(new View.OnClickListener() {
                 @Override

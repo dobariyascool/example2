@@ -24,10 +24,13 @@ import java.util.Locale;
 
 public class ItemJSONParser {
     public String SelectAllItemMaster = "SelectAllItemMasterByCategoryMasterId";
+    public String SelectAllItemModifier = "SelectAllItemModifier";
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     ItemMasterRequestListener objItemMasterRequestListener;
+
+    public String SelectAllItemSuggested = "SelectAllItemSuggested";
 
     //region Class Methods
     private ItemMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
@@ -306,6 +309,65 @@ public class ItemJSONParser {
                 objItemMasterRequestListener.ItemMasterResponse(null);
             }
 
+        });
+        queue.add(jsonObjectRequest);
+    }
+
+    public void SelectAllItemModifier(final Fragment targetFragment, Context context, String linktoItemMasterId) {
+        String url = Service.Url + this.SelectAllItemModifier + "/" + linktoItemMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllItemModifier + "Result");
+                    if (jsonArray != null) {
+                        ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
+                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                    }
+                } catch (Exception e) {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                    objItemMasterRequestListener.ItemMasterResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                objItemMasterRequestListener.ItemMasterResponse(null);
+            }
+
+        });
+        queue.add(jsonObjectRequest);
+    }
+
+    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId, String linktoBusinessMasterId){
+        String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId + "/" + linktoBusinessMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllItemSuggested + "Result");
+                    if (jsonArray != null) {
+                        ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
+                        objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                    }
+                } catch (Exception e) {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                    objItemMasterRequestListener.ItemMasterResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                objItemMasterRequestListener.ItemMasterResponse(null);
+            }
         });
         queue.add(jsonObjectRequest);
     }
