@@ -18,12 +18,12 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
     View view;
     Context context;
     ArrayList<ItemMaster> alItemMaster;
-    private LayoutInflater inflater;
+    ImageViewClickListener objImageViewClickListener;
 
-    public ItemSuggestedAdapter(Context context, ArrayList<ItemMaster> alItemMaster) {
+    public ItemSuggestedAdapter(Context context, ArrayList<ItemMaster> alItemMaster, ImageViewClickListener objImageViewClickListener) {
         this.context = context;
         this.alItemMaster = alItemMaster;
-        inflater = LayoutInflater.from(context);
+        this.objImageViewClickListener = objImageViewClickListener;
     }
 
     @Override
@@ -48,6 +48,10 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
         return alItemMaster.size();
     }
 
+    public interface ImageViewClickListener {
+        void ImageOnClick(ItemMaster objItemMaster, View view, String transitionName);
+    }
+
     class ItemSuggestdViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSuggestedItem;
@@ -56,6 +60,17 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
             super(itemView);
 
             ivSuggestedItem = (ImageView) itemView.findViewById(R.id.ivSuggestedItem);
+
+            ivSuggestedItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        objImageViewClickListener.ImageOnClick(alItemMaster.get(getAdapterPosition()), v, v.getTransitionName());
+//                    } else {
+                    objImageViewClickListener.ImageOnClick(alItemMaster.get(getAdapterPosition()), null, null);
+                    //}
+                }
+            });
         }
     }
 }

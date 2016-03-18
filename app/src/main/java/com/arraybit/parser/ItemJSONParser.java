@@ -342,8 +342,8 @@ public class ItemJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId, String linktoBusinessMasterId){
-        String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId + "/" + linktoBusinessMasterId;
+    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId){
+        String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
