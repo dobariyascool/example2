@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     Toolbar app_bar;
-
+//test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
