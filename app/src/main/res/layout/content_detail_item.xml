@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="0.2"
         android:orientation="vertical">
 
         <TextView
@@ -40,7 +40,6 @@
         android:id="@+id/rvSuggestedItem"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
         android:layout_weight="0.3" />
 
     <LinearLayout
