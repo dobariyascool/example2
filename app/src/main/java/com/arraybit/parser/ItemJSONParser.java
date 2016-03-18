@@ -25,12 +25,11 @@ import java.util.Locale;
 public class ItemJSONParser {
     public String SelectAllItemMaster = "SelectAllItemMasterByCategoryMasterId";
     public String SelectAllItemModifier = "SelectAllItemModifier";
+    public String SelectAllItemSuggested = "SelectAllItemSuggested";
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     ItemMasterRequestListener objItemMasterRequestListener;
-
-    public String SelectAllItemSuggested = "SelectAllItemSuggested";
 
     //region Class Methods
     private ItemMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
