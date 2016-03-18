@@ -35,11 +35,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     public static short i = 0;
     public static boolean isViewChange = false;
+    ProgressDialog progressDialog = new ProgressDialog();
     boolean isForceToChange = false;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
-    ProgressDialog progressDialog;
     PageAdapter itemPagerAdapter;
     ArrayList<CategoryMaster> alCategoryMaster;
     LinearLayout errorLayout;
@@ -242,7 +242,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     //region Private Methods
     private void RequestCategoryMaster() {
-        progressDialog = new ProgressDialog();
         progressDialog.show(MenuActivity.this.getSupportFragmentManager(), "");
         CategoryJSONParser objCategoryJSONParser = new CategoryJSONParser();
 

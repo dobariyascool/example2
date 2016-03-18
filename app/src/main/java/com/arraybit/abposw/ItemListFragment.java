@@ -28,10 +28,10 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     public final static String ITEMS_COUNT_KEY = "ItemTabFragment";
     static int cnt = 0;
+    ProgressDialog progressDialog = new ProgressDialog();
     LinearLayout errorLayout;
     CategoryMaster objCategoryMaster;
     RecyclerView rvItemMaster;
-    ProgressDialog progressDialog;
     ItemAdapter itemAdapter;
     LinearLayoutManager linearLayoutManager;
     GridLayoutManager gridLayoutManager;
@@ -124,9 +124,8 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
-        if ((progressDialog != null && progressDialog.isVisible())) {
+        if(progressDialog!=null && progressDialog.isAdded()) {
             progressDialog.dismiss();
-            cnt = 1;
         }
         this.alItemMaster = alItemMaster;
         SetRecyclerView(false);
@@ -142,7 +141,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     //region Private Methods
     private void RequestItemMaster() {
         if (cnt == 0) {
-            progressDialog = new ProgressDialog();
+            if(progressDialog.getDialog()!=null && progressDialog.getDialog().isShowing()) {
+                progressDialog.dismiss();
+            }
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
             cnt = 1;
         }

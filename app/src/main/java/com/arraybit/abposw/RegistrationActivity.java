@@ -41,7 +41,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     Date birthDate;
     View view;
     RadioButton rbMale, rbFemale;
-    com.arraybit.abposw.ProgressDialog progressDialog;
+    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,21 +188,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     //region Private Methods
     private void RequestCityMaster() {
-        progressDialog = new com.arraybit.abposw.ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
         CityJSONParser objCityJSONParser = new CityJSONParser();
         objCityJSONParser.SelectAllCityMasterByState(RegistrationActivity.this, String.valueOf(Globals.linktoStateMasterId));
     }
 
     private void RequestAreaMaster() {
-        progressDialog = new com.arraybit.abposw.ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
         AreaJSONParser objAreaJSONParser = new AreaJSONParser();
         objAreaJSONParser.SelectAllAreaMasterAreaByCity(RegistrationActivity.this, String.valueOf(cityMasterId));
     }
 
     private void RegistrationRequest() {
-        progressDialog = new com.arraybit.abposw.ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
         RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
@@ -388,119 +385,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         etEmail.setText("");
         etPhone.setText("");
     }
-
-//    private void RequestCityMaster() {
-//        final com.arraybit.webpos.ProgressDialog progressDialog = new com.arraybit.webpos.ProgressDialog();
-//        progressDialog.show(getSupportFragmentManager(), "");
-//        final CityJSONParser objCityJSONParser = new CityJSONParser();
-//        String url = Service.Url + objCityJSONParser.SelectAllCityMasterByState + "/" + Globals.linktoStateMasterId;
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//                alCityMaster = objCityJSONParser.SelectAllCityMasterByState(jsonObject);
-//                FillCity();
-//                progressDialog.dismiss();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                progressDialog.dismiss();
-//            }
-//        });
-//        queue.add(jsonObjectRequest);
-//    }
-
-//    private void RequestAreaMaster() {
-//        final com.arraybit.webpos.ProgressDialog progressDialog = new com.arraybit.webpos.ProgressDialog();
-//        progressDialog.show(getSupportFragmentManager(), "");
-//        final AreaJSONParser objAreaJSONParser = new AreaJSONParser();
-//        String url = Service.Url + objAreaJSONParser.SelectAllAreaMasterByCity + "/" + cityMasterId;
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//                alAreaMaster = objAreaJSONParser.SelectAllAreaMasterAreaByCity(jsonObject);
-//                FillArea();
-//                progressDialog.dismiss();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                progressDialog.dismiss();
-//            }
-//        });
-//        queue.add(jsonObjectRequest);
-//    }
-
-//    private void RegistrationRequest() {
-//        final com.arraybit.webpos.ProgressDialog progressDialog = new com.arraybit.webpos.ProgressDialog();
-//        progressDialog.show(getSupportFragmentManager(), "");
-//
-//        final RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
-//        String url = Service.Url + objRegisteredUserJSONParser.InsertRegisteredUserMaster;
-//
-//        RegisteredUserMaster objRegisteredUserMaster = new RegisteredUserMaster();
-//        objRegisteredUserMaster.setFirstName(etFirstName.getText().toString());
-//        objRegisteredUserMaster.setLastName(etLastName.getText().toString());
-//        objRegisteredUserMaster.setEmail(etEmail.getText().toString());
-//        objRegisteredUserMaster.setPassword(etPassword.getText().toString());
-//        objRegisteredUserMaster.setPhone(etPhone.getText().toString());
-//        if (rbMale.isChecked()) {
-//            objRegisteredUserMaster.setGender(rbMale.getText().toString());
-//        }
-//        if (rbFemale.isChecked()) {
-//            objRegisteredUserMaster.setGender(rbFemale.getText().toString());
-//        }
-//        if (!etDateOfBirth.getText().toString().isEmpty()) {
-//            try {
-//                birthDate = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etDateOfBirth.getText().toString());
-//                objRegisteredUserMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(areaMasterId!=0){
-//            objRegisteredUserMaster.setlinktoAreaMasterId(areaMasterId);
-//        }
-//        if(cityMasterId!=0){
-//            objRegisteredUserMaster.setlinktoCityMasterId(cityMasterId);
-//        }
-//        objRegisteredUserMaster.setIsEnabled(true);
-//        objRegisteredUserMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
-//        objRegisteredUserMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
-//
-//        JSONStringer stringer = objRegisteredUserJSONParser.InsertRegisteredUserMaster(objRegisteredUserMaster);
-//
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        JsonObjectRequest jsonObjectRequest = null;
-//        try {
-//            jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject jsonObject) {
-//                    try {
-//                        JSONObject jsonResponse = jsonObject.getJSONObject(objRegisteredUserJSONParser.InsertRegisteredUserMaster + "Result");
-//                        errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
-//                        SetError(errorCode);
-//                    } catch (JSONException e) {
-//                        errorCode = "-1";
-//                    }
-//                    progressDialog.dismiss();
-//                }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError volleyError) {
-//                    progressDialog.dismiss();
-//                    errorCode = "-1";
-//                    SetError(errorCode);
-//                }
-//            });
-//        } catch (JSONException e) {
-//            errorCode = "-1";
-//            SetError(errorCode);
-//        }
-//        queue.add(jsonObjectRequest);
-//    }
 
     //endregion
 }

@@ -23,12 +23,12 @@ import java.util.ArrayList;
 @SuppressWarnings("ConstantConditions")
 public class OfferActivity extends AppCompatActivity implements OfferJSONParser.OfferRequestListener {
 
+    ProgressDialog progressDialog = new ProgressDialog();
     LinearLayout errorLayout;
     RecyclerView rvOffer;
     int currentPage = 1;
     OfferAdapter offerAdapter;
     LinearLayoutManager linearLayoutManager;
-    com.arraybit.abposw.ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +100,10 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
     //region Private Methods
 
     private void RequestOfferMaster() {
-        progressDialog = new com.arraybit.abposw.ProgressDialog();
+        if (progressDialog.isAdded()) {
+            progressDialog.dismiss();
+        }
         progressDialog.show(getSupportFragmentManager(), "");
-
         OfferJSONParser objOfferJSONParser = new OfferJSONParser();
         objOfferJSONParser.SelectAllOfferMasterByFromDate(String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), OfferActivity.this);
     }

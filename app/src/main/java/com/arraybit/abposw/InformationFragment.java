@@ -28,13 +28,13 @@ import java.util.ArrayList;
 public class InformationFragment extends Fragment implements BusinessHoursJSONParser.BusinessHoursRequestListener{
 
     static ArrayList<BusinessHoursTran> lstBusinessHoursTran;
+    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
     RecyclerView rvWorkingHours;
     TextView txtAddress, txtPhone1,txtPhone2, txtEmail, txtWebSite,txtFax;
     LinearLayoutManager linearLayoutManager;
     WorkingHoursAdapter adapter;
     BusinessMaster objBusinessMaster;
     LinearLayout callLayout, emailLayout, siteLayout,faxLayout,emailDivider,webSiteDivider,faxDivider;
-    ProgressDialog progressDialog;
     ImageView ivCall;
 
     public InformationFragment(BusinessMaster objBusinessMaster) {
@@ -100,9 +100,7 @@ public class InformationFragment extends Fragment implements BusinessHoursJSONPa
 
     //region Private Methods
     private void RequestBusinessHours(){
-        progressDialog = new ProgressDialog();
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
         BusinessHoursJSONParser objBusinessHoursJSONParser = new BusinessHoursJSONParser();
         objBusinessHoursJSONParser.SelectAllBusinessHours(this,getActivity(),String.valueOf(Globals.linktoBusinessMasterId));
     }

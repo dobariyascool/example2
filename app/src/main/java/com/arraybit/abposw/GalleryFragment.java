@@ -26,11 +26,11 @@ import java.util.ArrayList;
 public class GalleryFragment extends Fragment implements BusinessGalleryJSONParser.BusinessGalleryRequestListener, GalleryAdapter.ImageViewClickListener {
 
     static ArrayList<BusinessGalleryTran> lstBusinessGalleryTran;
+    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
     RecyclerView rvGallery;
     TextView txtMsg;
     GalleryAdapter adapter;
     GridLayoutManager gridLayoutManager;
-    ProgressDialog progressDialog;
     int currentPage = 1;
 
     public GalleryFragment() {
@@ -133,9 +133,10 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
     //region Private Methods
     private void RequestBusinessGallery() {
-        progressDialog = new ProgressDialog();
+        if(progressDialog.isAdded()){
+            progressDialog.dismiss();
+        }
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
         BusinessGalleryJSONParser objBusinessGalleryJSONParser = new BusinessGalleryJSONParser();
         objBusinessGalleryJSONParser.SelectAllBusinessGalleryTran(this, getActivity(), String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId));
     }

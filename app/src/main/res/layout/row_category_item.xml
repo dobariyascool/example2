@@ -57,6 +57,7 @@
                 android:textSize="@dimen/control_TextMedium"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
+
         <com.rey.material.widget.Button
             android:id="@+id/btnAdd"
             style="@style/AddButton"

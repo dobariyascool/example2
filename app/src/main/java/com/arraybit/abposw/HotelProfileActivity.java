@@ -31,13 +31,12 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     BusinessMaster objBusinessMaster;
     PageAdapter pageAdapter;
     CoordinatorLayout hotelProfileFragment;
-    ProgressDialog progressDialog;
-
+    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT >= 21){
+        if (Build.VERSION.SDK_INT >= 21) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         }
         setContentView(R.layout.activity_hotel_profile);
@@ -72,7 +71,6 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
     //region Private Methods
     private void RequestBusinessMaster() {
-        progressDialog = new ProgressDialog();
         progressDialog.show(HotelProfileActivity.this.getSupportFragmentManager(), "");
 
         BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
@@ -84,18 +82,14 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
             Globals.ShowSnackBar(hotelProfileFragment, getResources().getString(R.string.MsgSelectFail), HotelProfileActivity.this, 1000);
         } else {
 
-            Picasso.with(ivLogo.getContext()).load(objBusinessMaster.getMDImagePhysicalName()).into(ivLogo);
+            Picasso.with(HotelProfileActivity.this).load(objBusinessMaster.getMDImagePhysicalName()).into(ivLogo);
 
-            //GalleryFragment galleryFragment = new GalleryFragment();
-//            if(Build.VERSION.SDK_INT >= 21) {
-//                galleryFragment.setExitTransition(TransitionInflater.from(HotelProfileActivity.this).inflateTransition(R.transition.tran_move));
-//            }
-
-            pageAdapter.addFragment(new InformationFragment(objBusinessMaster), "Information");
-            pageAdapter.addFragment(new GalleryFragment(), "Gallery");
+            pageAdapter.AddFragment(new InformationFragment(objBusinessMaster), "Information");
+            pageAdapter.AddFragment(new GalleryFragment(), "Gallery");
 
             viewPager.setAdapter(pageAdapter);
             tabLayout.setupWithViewPager(viewPager);
+
         }
     }
 
@@ -110,7 +104,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
             super(fragmentManager);
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        public void AddFragment(Fragment fragment, String title) {
             fragmentList.add(fragment);
             fragmentTitleList.add(title);
         }

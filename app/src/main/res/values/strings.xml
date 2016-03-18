@@ -93,8 +93,14 @@
     <string name="cifAddMore">Add More</string>
     <string name="cifConfirmOrder">Confirm Order</string>
     <string name="title_activity_cart_item">CartItemActivity</string>
+    <string name="title_activity_item_modifier_remark">ItemModifierRemarkActivity</string>
     <!--end -->
 
     <!-- DetailActivity -->
     <string name="title_detail">Detail</string>
+
+    <!-- modifier selection dialog -->
+    <string name="msdDone">Done</string>
+    <string name="msdCancel">Cancel</string>
+    <!-- end -->
 </resources>
