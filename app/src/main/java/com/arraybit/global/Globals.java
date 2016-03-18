@@ -6,6 +6,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -134,6 +137,13 @@ public class Globals {
                 recyclerView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public static void ReplaceFragment(Fragment fragment, FragmentManager fragmentManager, String fragmentName,int layoutId) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(layoutId, fragment, fragmentName);
+        fragmentTransaction.addToBackStack(fragmentName);
+        fragmentTransaction.commit();
     }
 
     //region Enum
