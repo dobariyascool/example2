@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener {
 
     ImageView ivItemImage;
-    TextView tvItemName, tvItemRate, tvShortDescription;
+    TextView tvItemRate, tvShortDescription;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
     ItemMaster objItemMaster;
@@ -35,11 +35,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         setContentView(R.layout.activity_detail);
         objItemMaster = getIntent().getParcelableExtra("ItemMaster");
         rvSuggestedItem = (RecyclerView) findViewById(R.id.rvSuggestedItem);
-        rvSuggestedItem.setVisibility(View.GONE);
+        rvSuggestedItem.setVisibility(View.INVISIBLE);
 
         app_bar = (Toolbar) findViewById(R.id.app_bar);
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
-        tvItemName = (TextView) findViewById(R.id.tvItemName);
         tvItemRate = (TextView) findViewById(R.id.tvItemRate);
         tvShortDescription = (TextView) findViewById(R.id.tvShortDescription);
 
@@ -85,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             if (objItemMaster.getItemName() != null) {
                 getSupportActionBar().setTitle(objItemMaster.getItemName());
             } else {
-                app_bar.setTitle(this.getResources().getString(R.string.title_detail));
+                getSupportActionBar().setTitle(this.getResources().getString(R.string.title_detail));
             }
             if (Build.VERSION.SDK_INT >= 21) {
                 app_bar.setElevation(this.getResources().getDimension(R.dimen.app_bar_elevation));
