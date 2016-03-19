@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/control_SpecingSmall"
+    android:orientation="vertical">
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/txtOptionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/control_SpecingTiny"
+        android:text="@string/clear_text" />
+
+    <LinearLayout
+        android:id="@+id/layoutChild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/control_SpecingSmall"
+        android:layout_marginStart="@dimen/control_SpecingSmall"
+        android:orientation="vertical" />
+    
+</LinearLayout>

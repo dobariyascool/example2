@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.arraybit.global.Globals;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
@@ -48,8 +49,14 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     public void onClick(View v) {
         if (v.getId() == R.id.btnOk) {
             dismiss();
+            Globals.counter = Globals.counter + 1;
+            MenuActivity menuActivity = (MenuActivity)getActivity();
+            menuActivity.CartItemChangeResponse();
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
+            Globals.counter = 0;
+            MenuActivity menuActivity = (MenuActivity)getActivity();
+            menuActivity.CartItemChangeResponse();
         } else if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
                 etQuantity.setText("1");

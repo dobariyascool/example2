@@ -129,7 +129,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -227,6 +226,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void CartItemChangeResponse() {
+        SetCartNumber();
+    }
+
+    public void SetUI(){
         SetCartNumber();
     }
 
