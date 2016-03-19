@@ -20,15 +20,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="RadioButton" parent="Material.Drawable.RadioButton">
-        <item name="rbd_width">32dp</item>
-        <item name="rbd_height">32dp</item>
-        <item name="rbd_strokeSize">2dp</item>
-        <item name="rbd_radius">10dp</item>
-        <item name="rbd_innerRadius">5dp</item>
-        <item name="rbd_strokeColor">@color/colorAccent</item>
-        <!--<item name="rbd_animDuration">@android:integer/config_mediumAnimTime</item>-->
-    </style>
+    <!--<style name="RadioButton" parent="Material.Drawable.RadioButton">-->
+        <!--<item name="rbd_width">32dp</item>-->
+        <!--<item name="rbd_height">32dp</item>-->
+        <!--<item name="rbd_strokeSize">2dp</item>-->
+        <!--<item name="rbd_radius">10dp</item>-->
+        <!--<item name="rbd_innerRadius">5dp</item>-->
+        <!--<item name="rbd_strokeColor">@color/colorAccent</item>-->
+        <!--&lt;!&ndash;<item name="rbd_animDuration">@android:integer/config_mediumAnimTime</item>&ndash;&gt;-->
+    <!--</style>-->
 
     <style name="ToolBar" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -236,6 +236,19 @@
         <item name="android:paddingEnd">@dimen/dialog_button_padding_end</item>
         <item name="android:paddingBottom">@dimen/dialog_button_padding_bottom</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+    </style>
+
+    <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="cbd_boxSize">14dp</item>
+        <item name="cbd_width">25dp</item>
+        <item name="cbd_height">25dp</item>
+    </style>
+
+    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="rbd_radius">7dp</item>
+        <item name="rbd_width">25dp</item>
+        <item name="rbd_height">25dp</item>
+        <item name="android:textColor">@color/secondary_text</item>
     </style>
 
     <style name="MaterialButton">com.rey.material.widget.Button</style>

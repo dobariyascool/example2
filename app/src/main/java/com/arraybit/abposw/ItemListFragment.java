@@ -141,7 +141,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     @Override
     public void AddItemOnClick(ItemMaster objItemMaster) {
         AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment();
-        objAddQtyRemarkDialogFragment.show(getActivity().getFragmentManager(),"");
+        objAddQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(),"");
     }
 
     //region Private Methods

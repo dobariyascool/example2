@@ -1,8 +1,8 @@
 package com.arraybit.abposw;
 
 
-import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +25,13 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.fragment_add_qty_remark_dialog, container, false);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        btnOk = (Button) view.findViewById(R.id.btnAdd);
+        btnOk = (Button) view.findViewById(R.id.btnOk);
 
         btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
@@ -44,9 +44,9 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnOk) {
-
+            dismiss();
         } else if (v.getId() == R.id.btnCancel) {
-
+            dismiss();
         } else if (v.getId() == R.id.ibMinus) {
 
         } else if (v.getId() == R.id.ibPlus) {
