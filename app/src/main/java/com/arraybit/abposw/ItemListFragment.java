@@ -124,7 +124,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
-        if(progressDialog!=null && progressDialog.isAdded()) {
+        if (progressDialog != null && progressDialog.isAdded()) {
             progressDialog.dismiss();
         }
         this.alItemMaster = alItemMaster;
@@ -138,10 +138,16 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         startActivity(i);
     }
 
+    @Override
+    public void AddItemOnClick(ItemMaster objItemMaster) {
+        AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment();
+        objAddQtyRemarkDialogFragment.show(getActivity().getFragmentManager(),"");
+    }
+
     //region Private Methods
     private void RequestItemMaster() {
         if (cnt == 0) {
-            if(progressDialog.getDialog()!=null && progressDialog.getDialog().isShowing()) {
+            if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
             }
             progressDialog.show(getActivity().getSupportFragmentManager(), "");

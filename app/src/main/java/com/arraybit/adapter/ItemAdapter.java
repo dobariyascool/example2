@@ -2,7 +2,6 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.arraybit.abposw.ItemModifierRemarkActivity;
 import com.arraybit.abposw.MenuActivity;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
@@ -100,6 +98,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public interface ItemClickListener {
         void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName);
+        void AddItemOnClick(ItemMaster objItemMaster);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -134,9 +133,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ItemModifierRemarkActivity.class);
-                    intent.putExtra("ItemMaster",alItemMaster.get(getAdapterPosition()));
-                    context.startActivity(intent);
+                    //Intent intent = new Intent(context, ItemModifierRemarkActivity.class);
+                    //intent.putExtra("ItemMaster",alItemMaster.get(getAdapterPosition()));
+                    //context.startActivity(intent);
+                    objItemClickListener.AddItemOnClick(alItemMaster.get(getAdapterPosition()));
                 }
             });
 

@@ -44,7 +44,9 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         if (app_bar != null) {
             setSupportActionBar(app_bar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            if (Build.VERSION.SDK_INT >= 21) {
+                app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
+            }
         }
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemRate = (TextView) findViewById(R.id.tvItemRate);
@@ -113,15 +115,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
     private void GetItemDetail(ItemMaster objItemMaster) {
         if (app_bar != null) {
-            setSupportActionBar(app_bar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             if (objItemMaster.getItemName() != null) {
                 getSupportActionBar().setTitle(objItemMaster.getItemName());
             } else {
                 getSupportActionBar().setTitle(this.getResources().getString(R.string.title_detail));
-            }
-            if (Build.VERSION.SDK_INT >= 21) {
-                app_bar.setElevation(this.getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
 

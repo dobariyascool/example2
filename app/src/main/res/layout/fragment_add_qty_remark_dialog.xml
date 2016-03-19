@@ -7,13 +7,14 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginTop="@dimen/control_SpecingSmall"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/control_SpecingSmall"
@@ -63,10 +64,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:hint="@string/aiqRemark"
-                android:minHeight="50dp"
                 android:paddingEnd="@dimen/control_SpecingSmall"
                 android:paddingStart="@dimen/control_SpecingSmall"
-                android:singleLine="false"
+                android:singleLine="true"
                 app:et_inputId="@+id/remarkInput" />
 
         </LinearLayout>
