@@ -14,17 +14,19 @@ import android.widget.TextView;
 import com.arraybit.adapter.ItemSuggestedAdapter;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.ItemJSONParser;
+import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener {
+public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener {
 
     ImageView ivItemImage;
     TextView tvItemRate, tvShortDescription;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
+    Button btnCancel, btnAdd;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -47,10 +49,16 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
         tvItemRate = (TextView) findViewById(R.id.tvItemRate);
         tvShortDescription = (TextView) findViewById(R.id.tvShortDescription);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+        btnAdd = (Button) findViewById(R.id.btnAdd);
 
-        GetItemDetail(objItemMaster);
+        btnCancel.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
 
-        RequestItem();
+        if (objItemMaster != null) {
+            GetItemDetail(objItemMaster);
+            RequestItem();
+        }
     }
 
     @Override
@@ -61,6 +69,15 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnCancel) {
+            onBackPressed();
+        } else if (v.getId() == R.id.btnAdd) {
+            onBackPressed();
         }
     }
 

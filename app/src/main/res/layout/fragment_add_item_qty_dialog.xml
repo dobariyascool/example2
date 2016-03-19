@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/control_SpecingSmall"
+            android:paddingStart="@dimen/control_SpecingSmall">
+
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/ibMinus"
+                style="@style/NumberButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_selector"
+                android:src="@drawable/minus" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text="1"
+                tools:ignore="HardcodedText" />
+
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/ibPlus"
+                style="@style/NumberButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_selector"
+                android:src="@drawable/plus" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/control_SpecingTiny">
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etRemark"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:hint="@string/aiqRemark"
+                android:minHeight="50dp"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:singleLine="false"
+                app:et_inputId="@+id/remarkInput" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_button_layout_height"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnCancel"
+                style="@style/DialogButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dialog_button_height"
+                android:layout_weight="1"
+                android:text="@string/aiqCancel"
+                tools:ignore="HardcodedText" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnOk"
+                style="@style/DialogButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dialog_button_height"
+                android:layout_weight="1"
+                android:text="@string/aiqDone"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

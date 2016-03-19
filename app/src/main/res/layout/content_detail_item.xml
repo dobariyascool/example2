@@ -17,16 +17,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
         android:layout_weight="0.2"
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp">
+        android:orientation="vertical">
 
-        <TextView
+        <com.rey.material.widget.TextView
             android:id="@+id/tvShortDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <com.rey.material.widget.TextView
             android:id="@+id/tvItemRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -44,14 +44,14 @@
         android:layout_weight="0.1"
         android:orientation="horizontal">
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Cancel" />
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/btnAdd"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -99,6 +99,12 @@
     <!-- DetailActivity -->
     <string name="title_detail">Detail</string>
 
+    <!-- Add Item Quantity Dialog -->
+    <string name="aiqRemark">Remark</string>
+    <string name="aiqCancel">Cancel</string>
+    <string name="aiqDone">Done</string>
+    <!-- end -->
+
     <!-- modifier selection dialog -->
     <string name="msdDone">Done</string>
     <string name="msdCancel">Cancel</string>
