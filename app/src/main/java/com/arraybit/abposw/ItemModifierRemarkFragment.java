@@ -53,7 +53,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         this.objItemMaster = objItemMaster;
     }
 
-//test
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
