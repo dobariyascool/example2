@@ -12,5 +12,36 @@
         android:id="@+id/webview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:visibility="gone"/>
+
+    <CheckBox
+        android:id="@+id/chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp" />
+
+    <com.rey.material.widget.CheckBox
+        android:id="@+id/chk1"
+        style="@style/CheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chk"
+        android:layout_margin="8dp" />
+
+    <com.rey.material.widget.RadioButton
+        android:id="@+id/chk2"
+        style="@style/RadioButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chk1"
+        android:layout_margin="8dp" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chk2"
+        android:layout_margin="8dp" />
+
 </RelativeLayout>
