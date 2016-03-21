@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener {
 
     ImageView ivItemImage;
-    TextView tvItemRate, tvShortDescription;
+    TextView txtItemRate, txtShortDescription, txtHeader;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
     Button btnCancel, btnAdd;
@@ -34,17 +35,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
-    LinearLayout detailLinearLayout;
-    //test
+    LinearLayout detailLinearLayout, itemSuggestionLayout, dividerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        objItemMaster = getIntent().getParcelableExtra("ItemMaster");
-        detailLinearLayout = (LinearLayout) findViewById(R.id.detailLinearLayout);
-        rvSuggestedItem = (RecyclerView) findViewById(R.id.rvSuggestedItem);
-        rvSuggestedItem.setVisibility(View.INVISIBLE);
 
         app_bar = (Toolbar) findViewById(R.id.app_bar);
         if (app_bar != null) {
@@ -54,14 +50,28 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
+
+        objItemMaster = getIntent().getParcelableExtra("ItemMaster");
+
+        detailLinearLayout = (LinearLayout) findViewById(R.id.detailLinearLayout);
+        itemSuggestionLayout = (LinearLayout) findViewById(R.id.itemSuggestionLayout);
+        dividerLayout = (LinearLayout) findViewById(R.id.dividerLayout);
+
+        rvSuggestedItem = (RecyclerView) findViewById(R.id.rvSuggestedItem);
+
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
-        tvItemRate = (TextView) findViewById(R.id.tvItemRate);
-        tvShortDescription = (TextView) findViewById(R.id.tvShortDescription);
+
+        txtItemRate = (TextView) findViewById(R.id.txtItemRate);
+        txtShortDescription = (TextView) findViewById(R.id.txtShortDescription);
+        txtHeader = (TextView) findViewById(R.id.txtHeader);
+
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnAdd = (Button) findViewById(R.id.btnAdd);
 
         btnCancel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
+
+        SetVisibility(false);
 
         if (objItemMaster != null) {
             GetItemDetail(objItemMaster);
@@ -101,15 +111,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         SetRecyclerView();
     }
 
-    public void SetRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
-        rvSuggestedItem.setVisibility(View.VISIBLE);
-        rvSuggestedItem.setLayoutManager(layoutManager);
-        itemSuggestedAdapter = new ItemSuggestedAdapter(this, alItemMaster, this);
-        rvSuggestedItem.setAdapter(itemSuggestedAdapter);
-    }
-
     @Override
     public void ImageOnClick(ItemMaster objItemMaster, View view, String transitionName) {
         this.objItemMaster = objItemMaster;
@@ -124,6 +125,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         objItemJSONParser.SelectAllItemSuggested(this, String.valueOf(objItemMaster.getItemMasterId()));
     }
 
+    @SuppressLint("SetTextI18n")
     private void GetItemDetail(ItemMaster objItemMaster) {
         if (app_bar != null) {
             if (objItemMaster.getItemName() != null) {
@@ -138,8 +140,41 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         } else {
             Picasso.with(ivItemImage.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItemImage);
         }
-        tvShortDescription.setText(objItemMaster.getShortDescription());
-        tvItemRate.setText(String.valueOf(objItemMaster.getRate()));
+        if (objItemMaster.getShortDescription().equals("")) {
+            txtShortDescription.setVisibility(View.GONE);
+        } else {
+            txtShortDescription.setVisibility(View.VISIBLE);
+            txtShortDescription.setText(objItemMaster.getShortDescription());
+        }
+        txtShortDescription.setText(objItemMaster.getShortDescription());
+        txtItemRate.setText("Rs. " + objItemMaster.getRate());
+    }
+
+    private void SetRecyclerView() {
+        if (alItemMaster == null || alItemMaster.size() == 0) {
+            SetVisibility(false);
+        } else {
+            SetVisibility(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            layoutManager.setAutoMeasureEnabled(true);
+            rvSuggestedItem.setLayoutManager(layoutManager);
+            itemSuggestedAdapter = new ItemSuggestedAdapter(this, alItemMaster, this);
+            rvSuggestedItem.setAdapter(itemSuggestedAdapter);
+        }
+    }
+
+    private void SetVisibility(boolean isShow) {
+        if (isShow) {
+            txtHeader.setVisibility(View.VISIBLE);
+            dividerLayout.setVisibility(View.VISIBLE);
+            itemSuggestionLayout.setVisibility(View.VISIBLE);
+            rvSuggestedItem.setVisibility(View.VISIBLE);
+        } else {
+            txtHeader.setVisibility(View.GONE);
+            dividerLayout.setVisibility(View.GONE);
+            itemSuggestionLayout.setVisibility(View.INVISIBLE);
+            rvSuggestedItem.setVisibility(View.GONE);
+        }
     }
     //endregion
 }

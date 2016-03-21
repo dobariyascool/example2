@@ -126,23 +126,6 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     public void onClick(View v) {
     }
 
-//    @Override
-//    public void ModifierResponse(boolean isChange) {
-//         sbModifierName = new StringBuilder();
-//            if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() > 0) {
-//                for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
-//                    sbModifierName.append(ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemName()).append(", ");
-//                }
-//            }
-//        if (!sbModifierName.toString().equals("")) {
-//            txtModifier.setVisibility(View.VISIBLE);
-//            txtModifier.setText(sbModifierName.toString());
-//        } else {
-//            txtModifier.setVisibility(View.GONE);
-//            txtModifier.setText("");
-//        }
-//    }
-
     private void RequestOptionValue() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
@@ -159,12 +142,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     private void SetRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
-        if (lstOptionValue == null) {
-        } else if (lstOptionValue.size() == 0) {
-
+        if (lstOptionValue == null || lstOptionValue.size() == 0) {
+            rvOptionValue.setVisibility(View.GONE);
         } else {
             SetOptionMasterList(lstOptionValue);
-            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(),alOptionMaster));
+            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(), alOptionMaster));
             rvOptionValue.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
     }
@@ -218,6 +200,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void SetDetail(){
         if (objItemMaster.getSm_ImagePhysicalName().equals("null")) {
             Picasso.with(ivItem.getContext()).load(R.drawable.default_image).into(ivItem);

@@ -19,11 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.arraybit.abposw.R;
+import com.arraybit.modal.ItemMaster;
 import com.rey.material.widget.EditText;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -40,6 +42,7 @@ public class Globals {
     public static short linktoSourceMasterId = 2;
     public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
     public static int counter = 0;
+    public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
 
     public static void ShowDatePickerDialog(final EditText txtView, Context context) {
