@@ -52,23 +52,23 @@ public class ItemMaster implements Parcelable {
             objItemMaster.ItemCode = source.readString();
             objItemMaster.BarCode = source.readString();
             objItemMaster.ShortDescription = source.readString();
-            objItemMaster.linktoUnitMasterId = (short)source.readInt();
-            objItemMaster.linktoCategoryMasterId = (short)source.readInt();
+            objItemMaster.linktoUnitMasterId = (short) source.readInt();
+            objItemMaster.linktoCategoryMasterId = (short) source.readInt();
             objItemMaster.IsFavourite = source.readByte() != 0;
-            objItemMaster.linktoItemStatusMasterId = (short)source.readInt();
-            objItemMaster.ItemPoint = (short)source.readInt();
-            objItemMaster.PriceByPoint = (short)source.readInt();
+            objItemMaster.linktoItemStatusMasterId = (short) source.readInt();
+            objItemMaster.ItemPoint = (short) source.readInt();
+            objItemMaster.PriceByPoint = (short) source.readInt();
             objItemMaster.SearchWords = source.readString();
-            objItemMaster.linktoBusinessMasterId = (short)source.readInt();
+            objItemMaster.linktoBusinessMasterId = (short) source.readInt();
             objItemMaster.SortOrder = source.readInt();
             objItemMaster.IsEnabled = source.readByte() != 0;
             objItemMaster.IsDeleted = source.readByte() != 0;
             objItemMaster.IsDineInOnly = source.readByte() != 0;
-            objItemMaster.ItemType = (short)source.readInt();
+            objItemMaster.ItemType = (short) source.readInt();
             objItemMaster.CreateDateTime = source.readString();
-            objItemMaster.linktoUserMasterIdCreatedBy = (short)source.readInt();
+            objItemMaster.linktoUserMasterIdCreatedBy = (short) source.readInt();
             objItemMaster.UpdateDateTime = source.readString();
-            objItemMaster.linktoUserMasterIdUpdatedBy = (short)source.readInt();
+            objItemMaster.linktoUserMasterIdUpdatedBy = (short) source.readInt();
             objItemMaster.Rate = source.readDouble();
             objItemMaster.MRP = source.readDouble();
             objItemMaster.xs_ImagePhysicalName = source.readString();
@@ -90,118 +90,232 @@ public class ItemMaster implements Parcelable {
             return new ItemMaster[size];
         }
     };
+    String linktoItemMasterIdModifiers;
+    String linktoOptionMasterIds;
 
-    public int getItemMasterId() { return this.ItemMasterId; }
+    public int getItemMasterId() {
+        return this.ItemMasterId;
+    }
 
-    public void setItemMasterId(int itemMasterId) { this.ItemMasterId = itemMasterId; }
+    public void setItemMasterId(int itemMasterId) {
+        this.ItemMasterId = itemMasterId;
+    }
 
-    public String getShortName() { return this.ShortName; }
+    public String getShortName() {
+        return this.ShortName;
+    }
 
-    public void setShortName(String shortName) { this.ShortName = shortName; }
+    public void setShortName(String shortName) {
+        this.ShortName = shortName;
+    }
 
-    public String getItemName() { return this.ItemName; }
+    public String getItemName() {
+        return this.ItemName;
+    }
 
-    public void setItemName(String itemName) { this.ItemName = itemName; }
+    public void setItemName(String itemName) {
+        this.ItemName = itemName;
+    }
 
-    public String getItemCode() { return this.ItemCode; }
+    public String getItemCode() {
+        return this.ItemCode;
+    }
 
-    public void setItemCode(String itemCode) { this.ItemCode = itemCode; }
+    public void setItemCode(String itemCode) {
+        this.ItemCode = itemCode;
+    }
 
-    public String getBarCode() { return this.BarCode; }
+    public String getBarCode() {
+        return this.BarCode;
+    }
 
-    public void setBarCode(String barCode) { this.BarCode = barCode; }
+    public void setBarCode(String barCode) {
+        this.BarCode = barCode;
+    }
 
-    public String getShortDescription() { return this.ShortDescription; }
+    public String getShortDescription() {
+        return this.ShortDescription;
+    }
 
-    public void setShortDescription(String shortDescription) { this.ShortDescription = shortDescription; }
+    public void setShortDescription(String shortDescription) {
+        this.ShortDescription = shortDescription;
+    }
 
-    public short getlinktoUnitMasterId() { return this.linktoUnitMasterId; }
+    public short getlinktoUnitMasterId() {
+        return this.linktoUnitMasterId;
+    }
 
-    public void setlinktoUnitMasterId(short linktoUnitMasterId) { this.linktoUnitMasterId = linktoUnitMasterId; }
+    public void setlinktoUnitMasterId(short linktoUnitMasterId) {
+        this.linktoUnitMasterId = linktoUnitMasterId;
+    }
 
-    public short getlinktoCategoryMasterId() { return this.linktoCategoryMasterId; }
+    public short getlinktoCategoryMasterId() {
+        return this.linktoCategoryMasterId;
+    }
 
-    public void setlinktoCategoryMasterId(short linktoCategoryMasterId) { this.linktoCategoryMasterId = linktoCategoryMasterId; }
+    public void setlinktoCategoryMasterId(short linktoCategoryMasterId) {
+        this.linktoCategoryMasterId = linktoCategoryMasterId;
+    }
 
-    public boolean getIsFavourite() { return this.IsFavourite; }
+    public boolean getIsFavourite() {
+        return this.IsFavourite;
+    }
 
-    public void setIsFavourite(boolean isFavourite) { this.IsFavourite = isFavourite; }
+    public void setIsFavourite(boolean isFavourite) {
+        this.IsFavourite = isFavourite;
+    }
 
-    public short getlinktoItemStatusMasterId() { return this.linktoItemStatusMasterId; }
+    public short getlinktoItemStatusMasterId() {
+        return this.linktoItemStatusMasterId;
+    }
 
-    public void setlinktoItemStatusMasterId(short linktoItemStatusMasterId) { this.linktoItemStatusMasterId = linktoItemStatusMasterId; }
+    public void setlinktoItemStatusMasterId(short linktoItemStatusMasterId) {
+        this.linktoItemStatusMasterId = linktoItemStatusMasterId;
+    }
 
-    public short getItemPoint() { return this.ItemPoint; }
+    public short getItemPoint() {
+        return this.ItemPoint;
+    }
 
-    public void setItemPoint(short itemPoint) { this.ItemPoint = itemPoint; }
+    public void setItemPoint(short itemPoint) {
+        this.ItemPoint = itemPoint;
+    }
 
-    public short getPriceByPoint() { return this.PriceByPoint; }
+    public short getPriceByPoint() {
+        return this.PriceByPoint;
+    }
 
-    public void setPriceByPoint(short priceByPoint) { this.PriceByPoint = priceByPoint; }
+    public void setPriceByPoint(short priceByPoint) {
+        this.PriceByPoint = priceByPoint;
+    }
 
-    public String getSearchWords() { return this.SearchWords; }
+    public String getSearchWords() {
+        return this.SearchWords;
+    }
 
-    public void setSearchWords(String searchWords) { this.SearchWords = searchWords; }
+    public void setSearchWords(String searchWords) {
+        this.SearchWords = searchWords;
+    }
 
-    public short getlinktoBusinessMasterId() { return this.linktoBusinessMasterId; }
+    public short getlinktoBusinessMasterId() {
+        return this.linktoBusinessMasterId;
+    }
 
-    public void setlinktoBusinessMasterId(short linktoBusinessMasterId) { this.linktoBusinessMasterId = linktoBusinessMasterId; }
+    public void setlinktoBusinessMasterId(short linktoBusinessMasterId) {
+        this.linktoBusinessMasterId = linktoBusinessMasterId;
+    }
 
-    public int getSortOrder() { return this.SortOrder; }
+    public int getSortOrder() {
+        return this.SortOrder;
+    }
 
-    public void setSortOrder(int sortOrder) { this.SortOrder = sortOrder; }
+    public void setSortOrder(int sortOrder) {
+        this.SortOrder = sortOrder;
+    }
 
-    public boolean getIsEnabled() { return this.IsEnabled; }
+    public boolean getIsEnabled() {
+        return this.IsEnabled;
+    }
 
-    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
+    public void setIsEnabled(boolean isEnabled) {
+        this.IsEnabled = isEnabled;
+    }
 
-    public boolean getIsDeleted() { return this.IsDeleted; }
+    public boolean getIsDeleted() {
+        return this.IsDeleted;
+    }
 
-    public void setIsDeleted(boolean isDeleted) { this.IsDeleted = isDeleted; }
+    public void setIsDeleted(boolean isDeleted) {
+        this.IsDeleted = isDeleted;
+    }
 
-    public boolean getIsDineInOnly() { return this.IsDineInOnly; }
+    public boolean getIsDineInOnly() {
+        return this.IsDineInOnly;
+    }
 
-    public void setIsDineInOnly(boolean isDineInOnly) { this.IsDineInOnly = isDineInOnly; }
+    public void setIsDineInOnly(boolean isDineInOnly) {
+        this.IsDineInOnly = isDineInOnly;
+    }
 
-    public short getItemType() { return this.ItemType; }
+    public short getItemType() {
+        return this.ItemType;
+    }
 
-    public void setItemType(short itemType) { this.ItemType = itemType; }
+    public void setItemType(short itemType) {
+        this.ItemType = itemType;
+    }
 
-    public String getCreateDateTime() { return this.CreateDateTime; }
+    public String getCreateDateTime() {
+        return this.CreateDateTime;
+    }
 
-    public void setCreateDateTime(String createDateTime) { this.CreateDateTime = createDateTime; }
+    public void setCreateDateTime(String createDateTime) {
+        this.CreateDateTime = createDateTime;
+    }
 
-    public short getlinktoUserMasterIdCreatedBy() { return this.linktoUserMasterIdCreatedBy; }
+    public short getlinktoUserMasterIdCreatedBy() {
+        return this.linktoUserMasterIdCreatedBy;
+    }
 
-    public void setlinktoUserMasterIdCreatedBy(short linktoUserMasterIdCreatedBy) { this.linktoUserMasterIdCreatedBy = linktoUserMasterIdCreatedBy; }
+    public void setlinktoUserMasterIdCreatedBy(short linktoUserMasterIdCreatedBy) {
+        this.linktoUserMasterIdCreatedBy = linktoUserMasterIdCreatedBy;
+    }
 
-    public String getUpdateDateTime() { return this.UpdateDateTime; }
+    public String getUpdateDateTime() {
+        return this.UpdateDateTime;
+    }
 
-    public void setUpdateDateTime(String updateDateTime) { this.UpdateDateTime = updateDateTime; }
+    public void setUpdateDateTime(String updateDateTime) {
+        this.UpdateDateTime = updateDateTime;
+    }
 
-    public short getlinktoUserMasterIdUpdatedBy() { return this.linktoUserMasterIdUpdatedBy; }
+    public short getlinktoUserMasterIdUpdatedBy() {
+        return this.linktoUserMasterIdUpdatedBy;
+    }
 
-    public void setlinktoUserMasterIdUpdatedBy(short linktoUserMasterIdUpdatedBy) { this.linktoUserMasterIdUpdatedBy = linktoUserMasterIdUpdatedBy; }
+    public void setlinktoUserMasterIdUpdatedBy(short linktoUserMasterIdUpdatedBy) {
+        this.linktoUserMasterIdUpdatedBy = linktoUserMasterIdUpdatedBy;
+    }
 
-    public String getUnit() { return this.Unit; }
+    public String getUnit() {
+        return this.Unit;
+    }
 
-    public void setUnit(String unit) { this.Unit = unit; }
+    public void setUnit(String unit) {
+        this.Unit = unit;
+    }
 
-    public String getCategory() { return this.Category; }
+    public String getCategory() {
+        return this.Category;
+    }
 
-    public void setCategory(String category) { this.Category = category; }
+    public void setCategory(String category) {
+        this.Category = category;
+    }
 
-    public String getBusiness() { return this.Business; }
+    public String getBusiness() {
+        return this.Business;
+    }
 
-    public void setBusiness(String business) { this.Business = business; }
+    public void setBusiness(String business) {
+        this.Business = business;
+    }
 
-    public String getUserCreatedBy() { return this.UserCreatedBy; }
+    public String getUserCreatedBy() {
+        return this.UserCreatedBy;
+    }
 
-    public void setUserCreatedBy(String userCreatedBy) { this.UserCreatedBy = userCreatedBy; }
+    public void setUserCreatedBy(String userCreatedBy) {
+        this.UserCreatedBy = userCreatedBy;
+    }
 
-    public String getUserUpdatedBy() { return this.UserUpdatedBy; }
+    public String getUserUpdatedBy() {
+        return this.UserUpdatedBy;
+    }
 
-    public void setUserUpdatedBy(String userUpdatedBy) { this.UserUpdatedBy = userUpdatedBy; }
+    public void setUserUpdatedBy(String userUpdatedBy) {
+        this.UserUpdatedBy = userUpdatedBy;
+    }
 
     public double getRate() {
         return Rate;
@@ -255,10 +369,26 @@ public class ItemMaster implements Parcelable {
         return MRP;
     }
 
-    //endregion
-
     public void setMRP(double MRP) {
         this.MRP = MRP;
+    }
+
+    public String getLinktoItemMasterIdModifiers() {
+        return linktoItemMasterIdModifiers;
+    }
+
+    public void setLinktoItemMasterIdModifiers(String linktoItemMasterIdModifiers) {
+        this.linktoItemMasterIdModifiers = linktoItemMasterIdModifiers;
+    }
+
+    public String getLinktoOptionMasterIds() {
+        return linktoOptionMasterIds;
+    }
+
+    //endregion
+
+    public void setLinktoOptionMasterIds(String linktoOptionMasterIds) {
+        this.linktoOptionMasterIds = linktoOptionMasterIds;
     }
 
     public int describeContents() {

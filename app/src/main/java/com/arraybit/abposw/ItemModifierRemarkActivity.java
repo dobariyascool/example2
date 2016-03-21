@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.ItemMaster;
 
-import java.util.ArrayList;
-
 public class ItemModifierRemarkActivity extends AppCompatActivity {
 
 
@@ -26,6 +24,6 @@ public class ItemModifierRemarkActivity extends AppCompatActivity {
     public void onBackPressed() {
        // super.onBackPressed();
         finish();
-        ModifierSelectionFragmentDialog.alFinalCheckedModifier=new ArrayList<>();
+        //ModifierSelectionFragmentDialog.alFinalCheckedModifier=new ArrayList<>();
     }
 }

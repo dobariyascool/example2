@@ -84,6 +84,8 @@ public class ItemJSONParser {
                 objItemMaster.setBusiness(jsonObject.getString("Business"));
                 objItemMaster.setUserCreatedBy(jsonObject.getString("UserCreatedBy"));
                 objItemMaster.setUserUpdatedBy(jsonObject.getString("UserUpdatedBy"));
+                objItemMaster.setLinktoItemMasterIdModifiers(jsonObject.getString("linktoItemMasterIdModifiers"));
+                objItemMaster.setLinktoOptionMasterIds(jsonObject.getString("linktoOptionMasterIds"));
             }
             return objItemMaster;
         } catch (JSONException e) {
@@ -146,6 +148,8 @@ public class ItemJSONParser {
                 objItemMaster.setBusiness(jsonArray.getJSONObject(i).getString("Business"));
                 objItemMaster.setUserCreatedBy(jsonArray.getJSONObject(i).getString("UserCreatedBy"));
                 objItemMaster.setUserUpdatedBy(jsonArray.getJSONObject(i).getString("UserUpdatedBy"));
+                objItemMaster.setLinktoItemMasterIdModifiers(jsonArray.getJSONObject(i).getString("linktoItemMasterIdModifiers"));
+                objItemMaster.setLinktoOptionMasterIds(jsonArray.getJSONObject(i).getString("linktoOptionMasterIds"));
                 lstItemMaster.add(objItemMaster);
             }
             return lstItemMaster;
@@ -282,8 +286,8 @@ public class ItemJSONParser {
 //    }
     //endregion
 
-    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage,String categoryMasterId,String optionMasterId) {
-        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" +optionMasterId;
+    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage, String categoryMasterId, String optionMasterId) {
+        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -342,7 +346,7 @@ public class ItemJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId){
+    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId) {
         String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {

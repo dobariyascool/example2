@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.arraybit.abposw.ModifierSelectionFragmentDialog;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.ItemMaster;
@@ -60,12 +59,12 @@ public class ModifierAdapter extends RecyclerView.Adapter<ModifierAdapter.Modifi
     }
 
     private void CheckedModifier(ItemMaster objItemMaster, ModifierViewHolder holder) {
-        for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
-            if (objItemMaster.getItemMasterId() == ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemMasterId()) {
-                holder.chkModifier.setChecked(true);
-                break;
-            }
-        }
+//        for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
+//            if (objItemMaster.getItemMasterId() == ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemMasterId()) {
+//                holder.chkModifier.setChecked(true);
+//                break;
+//            }
+//        }
     }
 
     public interface ModifierCheckedChangeListener {
