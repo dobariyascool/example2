@@ -70,7 +70,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 app_bar.setElevation(getActivity().getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-        app_bar.setTitle(getResources().getString(R.string.title_item_modifier_remark));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(objItemMaster.getItemName());
 
         setHasOptionsMenu(true);
 
