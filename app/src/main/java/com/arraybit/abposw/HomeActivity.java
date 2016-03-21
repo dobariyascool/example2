@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
@@ -24,12 +26,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     RegisteredUserMaster objRegisteredUserMaster;
+    LinearLayout homeLinearLayoput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        homeLinearLayoput = (LinearLayout) findViewById(R.id.homeLinearLayoput);
         objRegisteredUserMaster = getIntent().getParcelableExtra("RegisteredUserMaster");
 
         Toolbar app_bar = (Toolbar) findViewById(R.id.app_bar);
@@ -79,5 +83,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+
+        //MenuItem menuItem = menu.findItem(R.id.cart_layout);
+
+        //homeLinearLayoput = (LinearLayout) MenuItemCompat.getActionView(menuItem);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", "", this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
+            Intent i = new Intent(this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
