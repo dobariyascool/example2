@@ -37,7 +37,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ItemSuggestedAdapter itemSuggestedAdapter;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
     LinearLayout detailLinearLayout, itemSuggestionLayout, dividerLayout;
-    //test
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
