@@ -229,7 +229,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         SetCartNumber();
     }
 
-    public void SetUI(){
+    public void SetCartItemResponse(){
         SetCartNumber();
     }
 

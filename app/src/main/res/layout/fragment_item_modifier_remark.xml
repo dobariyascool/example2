@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/offwhite"
     android:orientation="vertical"
     tools:context=".ItemModifierRemarkFragment">
 
@@ -68,6 +69,7 @@
                 android:layout_marginStart="@dimen/control_SpecingSmall" />
 
             <com.rey.material.widget.EditText
+                android:id="@+id/etRemark"
                 style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

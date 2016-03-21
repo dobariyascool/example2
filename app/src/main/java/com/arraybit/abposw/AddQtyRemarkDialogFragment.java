@@ -1,6 +1,8 @@
 package com.arraybit.abposw;
 
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,18 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.arraybit.global.Globals;
+import com.arraybit.modal.ItemMaster;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
 
+@SuppressLint("ValidFragment")
 public class AddQtyRemarkDialogFragment extends DialogFragment implements View.OnClickListener {
 
     ImageButton ibMinus, ibPlus;
     Button btnCancel, btnOk;
-    EditText etQuantity;
+    EditText etQuantity, etRemark;
+    ItemMaster objItemMaster;
+    double totalAmount;
+    boolean isDuplicate;
 
-    public AddQtyRemarkDialogFragment() {
+    public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
+        this.objItemMaster = objItemMaster;
     }
 
 
@@ -32,7 +41,10 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
 
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
+
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
+        etRemark = (EditText) view.findViewById(R.id.etRemark);
+
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnOk = (Button) view.findViewById(R.id.btnOk);
 
@@ -48,14 +60,16 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     public void onClick(View v) {
         if (v.getId() == R.id.btnOk) {
             dismiss();
-//            Globals.counter = Globals.counter + 1;
-//            MenuActivity menuActivity = (MenuActivity)getActivity();
-//            menuActivity.CartItemChangeResponse();
+            SetOrderItem();
+            if(getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))){
+                MenuActivity menuActivity = (MenuActivity) getActivity();
+                menuActivity.CartItemChangeResponse();
+            }else{
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+            }
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
-//            Globals.counter = 0;
-//            MenuActivity menuActivity = (MenuActivity)getActivity();
-//            menuActivity.CartItemChangeResponse();
         } else if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
                 etQuantity.setText("1");
@@ -85,6 +99,51 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             etQuantity.setText(String.valueOf(value));
         }
         return value;
+    }
+
+    private void SetOrderItem() {
+        if (Globals.alOrderItemTran.size() == 0) {
+            ItemMaster objOrderItemTran = new ItemMaster();
+            objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
+            objOrderItemTran.setItemName(objItemMaster.getItemName());
+            objOrderItemTran.setRate(objItemMaster.getRate());
+            objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+            objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
+            if (!etRemark.getText().toString().isEmpty()) {
+                objOrderItemTran.setRemark(etRemark.getText().toString());
+            }
+            totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
+            objOrderItemTran.setTotalAmount(totalAmount);
+            Globals.counter = Globals.counter + 1;
+            Globals.alOrderItemTran.add(objOrderItemTran);
+        } else {
+            for (int i = 0; i < Globals.alOrderItemTran.size(); i++) {
+                if (Globals.alOrderItemTran.get(i).getItemMasterId() == objItemMaster.getItemMasterId() &&
+                        (Globals.alOrderItemTran.get(i).getRemark() != null && Globals.alOrderItemTran.get(i).getRemark().equals(etRemark.getText().toString()))
+                        || (Globals.alOrderItemTran.get(i).getRemark() == null && etRemark.getText().toString().isEmpty())) {
+                    isDuplicate = true;
+                    Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+                    Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
+                    Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
+                    break;
+                }
+            }
+            if (!isDuplicate) {
+                ItemMaster objOrderItemTran = new ItemMaster();
+                objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
+                objOrderItemTran.setItemName(objItemMaster.getItemName());
+                objOrderItemTran.setRate(objItemMaster.getRate());
+                objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+                objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
+                if (!etRemark.getText().toString().isEmpty()) {
+                    objOrderItemTran.setRemark(etRemark.getText().toString());
+                }
+                totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
+                objOrderItemTran.setTotalAmount(totalAmount);
+                Globals.counter = Globals.counter + 1;
+                Globals.alOrderItemTran.add(objOrderItemTran);
+            }
+        }
     }
     //endregion
 }

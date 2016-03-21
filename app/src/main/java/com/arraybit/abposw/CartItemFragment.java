@@ -63,7 +63,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener {
            // getActivity().setResult(Activity.RESULT_OK);
             getActivity().getSupportFragmentManager().popBackStack();
             MenuActivity menuActivity = (MenuActivity)getActivity();
-            menuActivity.SetUI();
+            menuActivity.SetCartItemResponse();
             //getActivity().finish();
         }
     }

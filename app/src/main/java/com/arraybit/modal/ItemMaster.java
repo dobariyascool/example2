@@ -3,6 +3,8 @@ package com.arraybit.modal;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class ItemMaster implements Parcelable {
     //region Properties
 
@@ -31,6 +33,7 @@ public class ItemMaster implements Parcelable {
     short linktoUserMasterIdUpdatedBy;
     double Rate;
     double MRP;
+    double SellPrice;
     String xs_ImagePhysicalName;
     String sm_ImagePhysicalName;
     String md_ImagePhysicalName;
@@ -87,6 +90,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.UserUpdatedBy = source.readString();
             objItemMaster.linktoItemMasterIdModifiers = source.readString();
             objItemMaster.linktoOptionMasterIds = source.readString();
+            objItemMaster.SellPrice = source.readDouble();
             return objItemMaster;
         }
 
@@ -94,6 +98,11 @@ public class ItemMaster implements Parcelable {
             return new ItemMaster[size];
         }
     };
+    int Quantity;
+    String Remark;
+    double TotalAmount;
+    double ExtraAmount;
+    ArrayList<ItemMaster> alOrderItemModifierTran;
 
     public int getItemMasterId() {
         return this.ItemMasterId;
@@ -390,6 +399,53 @@ public class ItemMaster implements Parcelable {
     public void setLinktoOptionMasterIds(String linktoOptionMasterIds) {
         this.linktoOptionMasterIds = linktoOptionMasterIds;
     }
+
+    public double getSellPrice() {
+        return SellPrice;
+    }
+
+    public void setSellPrice(double sellPrice) {
+        SellPrice = sellPrice;
+    }
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+    public String getRemark() {
+        return Remark;
+    }
+
+    public void setRemark(String remark) {
+        Remark = remark;
+    }
+    public double getTotalAmount() {
+        return TotalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        TotalAmount = totalAmount;
+    }
+
+    public double getExtraAmount() {
+        return ExtraAmount;
+    }
+
+    public void setExtraAmount(double extraAmount) {
+        ExtraAmount = extraAmount;
+    }
+
+    public ArrayList<ItemMaster> getAlOrderItemModifierTran() {
+        return alOrderItemModifierTran;
+    }
+
+    public void setAlOrderItemModifierTran(ArrayList<ItemMaster> alOrderItemModifierTran) {
+        this.alOrderItemModifierTran = alOrderItemModifierTran;
+    }
     //endregion
 
     public int describeContents() {
@@ -436,5 +492,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(UserUpdatedBy);
         parcel.writeString(linktoItemMasterIdModifiers);
         parcel.writeString(linktoOptionMasterIds);
+        parcel.writeDouble(SellPrice);
     }
 }

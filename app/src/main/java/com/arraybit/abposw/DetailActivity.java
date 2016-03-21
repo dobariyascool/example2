@@ -1,7 +1,6 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +36,8 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
-    LinearLayout detailLinearLayout, itemSuggestionLayout, dividerLayout;
+    LinearLayout itemSuggestionLayout, dividerLayout;
+    FrameLayout detailLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
         objItemMaster = getIntent().getParcelableExtra("ItemMaster");
 
-        detailLinearLayout = (LinearLayout) findViewById(R.id.detailLinearLayout);
+        detailLayout = (FrameLayout) findViewById(R.id.detailLayout);
         itemSuggestionLayout = (LinearLayout) findViewById(R.id.itemSuggestionLayout);
         dividerLayout = (LinearLayout) findViewById(R.id.dividerLayout);
 
@@ -78,7 +79,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             if (Service.CheckNet(this)) {
                 RequestItem();
             } else {
-                Globals.ShowSnackBar(detailLinearLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
 
         }
@@ -88,8 +89,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
-                return true;
+                 finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -101,12 +101,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             onBackPressed();
         } else if (v.getId() == R.id.btnAdd) {
             if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
-                AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment();
+                AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
                 objAddQtyRemarkDialogFragment.show(this.getSupportFragmentManager(), "");
             } else {
-                Intent i = new Intent(this, ItemModifierRemarkActivity.class);
-                i.putExtra("ItemMaster", objItemMaster);
-                startActivity(i);
+                Globals.ReplaceFragment(new ItemModifierRemarkFragment(objItemMaster),getSupportFragmentManager(),getResources().getString(R.string.title_item_modifier_remark),R.id.detailLayout);
             }
         }
     }
@@ -118,7 +116,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         SetRecyclerView();
     }
 
-    
+
     @Override
     public void ImageOnClick(ItemMaster objItemMaster, View view, String transitionName) {
         this.objItemMaster = objItemMaster;
