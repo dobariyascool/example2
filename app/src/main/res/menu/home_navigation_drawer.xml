@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/hHotelProfile"
+        android:icon="@mipmap/profile"
+        android:title="@string/navProfile" />
+
+    <item
+        android:id="@+id/hOffers"
+
+        android:title="@string/navOffers" />
+
+    <item
+        android:id="@+id/hNotification"
+
+        android:title="@string/navNotification" />
+
+    <item
+        android:id="@+id/hFeedback"
+
+        android:title="@string/navFeedback" />
+
+    <item
+        android:id="@+id/hShare"
+
+        android:title="@string/navShare" />
+
+    <item
+        android:id="@+id/hRate"
+
+        android:title="@string/navRate" />
+
+    <item
+        android:id="@+id/hAboutUs"
+
+        android:title="@string/navAboutUs" />
+
+    <item
+        android:id="@+id/hContactUs"
+
+        android:title="@string/navContactUs" />
+
+    <item
+        android:id="@+id/hExit"
+
+        android:title="@string/navExit" />
+</menu>

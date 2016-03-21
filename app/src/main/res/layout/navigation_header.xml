@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_margin="@dimen/control_SpecingSmall"
+        android:gravity="center|start"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/control_SpecingSmall">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/myaccount_selector"
+                tools:ignore="ContentDescription,HardcodedText" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtLetter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/control_SpecingSmall"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/control_TextLarge"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingEnd="@dimen/control_SpecingSmall"
+            android:paddingStart="@dimen/control_SpecingSmall"
+            android:textColor="@android:color/white" />
+
+        <!--<com.rey.material.widget.TextView-->
+            <!--android:id="@+id/tvSignIn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:text="Sign In"-->
+            <!--android:textColor="@color/accent" />-->
+
+    </LinearLayout>
+</LinearLayout>

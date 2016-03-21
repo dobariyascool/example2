@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">WebPOS</string>
     <string name="action_settings">Settings</string>
+    <string name="action_my_account">My Account</string>
+    <string name="action_my_orders">My Orders</string>
+    <string name="action_my_bookings">My Bookings</string>
+    <string name="action_wishlist">Wishlist</string>
+    <string name="action_checkin">Check In</string>
+    <string name="action_logout">Logout</string>
     <string name="title_activity_login">Sign In</string>
     <string name="title_activity_registration">Sign Up</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
@@ -113,5 +119,19 @@
     <string name="msdDone">Done</string>
     <string name="msdCancel">Cancel</string>
     <string name="modifier">Modifier</string>
+    <!-- end -->
+
+    <!-- Home Navigation Drawer-->
+    <string name="navProfile">Our Profile</string>
+    <string name="navOffers">Offers</string>
+    <string name="navNotification">Notification</string>
+    <string name="navFeedback">Feedback</string>
+    <string name="navShare">Share</string>
+    <string name="navRate">Rate</string>
+    <string name="navAboutUs">About Us</string>
+    <string name="navContactUs">Contact US</string>
+    <string name="navExit">Exit</string>
+    <string name="navOpen">Open</string>
+    <string name="navClose">Close</string>
     <!-- end -->
 </resources>

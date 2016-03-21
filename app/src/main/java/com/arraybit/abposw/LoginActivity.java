@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.RegisteredUserMaster;
 import com.arraybit.parser.RegisteredUserJSONParser;
 import com.rey.material.widget.Button;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ImageView ibClear;
     ToggleButton tbPasswordShow;
     com.arraybit.abposw.ProgressDialog progressDialog;
+    SharePreferenceManage objSharePreferenceManage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.dismiss();
         this.objRegisteredUserMaster = objRegisteredUserMaster;
         SetError();
+        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
+        startActivity(i);
     }
 
     //region Private Methods
@@ -184,6 +190,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (objRegisteredUserMaster == null) {
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
         } else {
+            objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this).equals("")) {
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etUserName.getText().toString(), this);
+            }
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this).equals("")) {
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etPassword.getText().toString(), this);
+            }
             ClearControls();
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
         }
