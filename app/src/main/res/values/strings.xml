@@ -98,6 +98,10 @@
 
     <!-- DetailActivity -->
     <string name="title_detail">Detail</string>
+    <string name="daAdd">Add</string>
+    <string name="daCancel">Cancel</string>
+    <string name="daItemSuggestion">Item Suggestion</string>
+    <!-- end -->
 
     <!-- Add Item Quantity Dialog -->
     <string name="aiqRemark">Remark</string>
