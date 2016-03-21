@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CategoryMaster;
 import com.arraybit.parser.CategoryJSONParser;
 import com.github.clans.fab.FloatingActionButton;
@@ -100,9 +101,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.viewChange) {
+        if (id == R.id.viewChange) {
             if (!errorLayout.isShown()) {
                 ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
                 i = (short) (i + 1);
@@ -124,6 +123,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     itemListFragment.SetRecyclerView(true);
                 }
             }
+        } else if (id == R.id.logout) {
+            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", "", this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
+            Intent i = new Intent(this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

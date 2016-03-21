@@ -27,4 +27,7 @@
     <color name="accent_secondary">#FFBB00</color>
     <color name="brown">#795548</color>
     <color name="brown_light">#8D6E63</color>
+
+    <color name="rippleColor">#66999999</color>
+    <color name="navigationdrawerText">#616161</color>
 </resources>

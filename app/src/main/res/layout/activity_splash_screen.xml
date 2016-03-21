@@ -4,25 +4,8 @@
     android:id="@+id/splashScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_screen_background"
-    android:gravity="center"
+    android:background="@drawable/spash_delicious"
     tools:context="com.arraybit.pos.SplashScreenActivity">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/app_name"
-            android:padding="50dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/splash_screen_image" />
-    </RelativeLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +23,6 @@
             android:contentDescription="@string/app_name"
             android:scaleType="fitEnd"
             android:src="@drawable/cmp_logo" />
-
         <ImageView
             android:id="@+id/ivCompanyLogo"
             android:layout_width="120dp"
