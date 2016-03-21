@@ -152,13 +152,13 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     //region Private Methods
     private void RequestItemMaster() {
-       // if (cnt == 0) {
+        if (cnt == 0) {
             if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
             }
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
             cnt = 1;
-        //}
+        }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds);
