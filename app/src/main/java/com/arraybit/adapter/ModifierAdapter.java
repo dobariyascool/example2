@@ -49,9 +49,9 @@ public class ModifierAdapter extends RecyclerView.Adapter<ModifierAdapter.Modifi
         }
         holder.chkModifier.setText(objItemModifier.getItemName());
         holder.txtRate.setText(Globals.dfWithPrecision.format(objItemModifier.getMRP()));
-        if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() != 0) {
-            CheckedModifier(objItemModifier, holder);
-        }
+//        if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() != 0) {
+//            CheckedModifier(objItemModifier, holder);
+//        }
     }
 
     @Override
