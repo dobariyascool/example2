@@ -9,9 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.arraybit.adapter.ItemSuggestedAdapter;
+import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.ItemJSONParser;
 import com.rey.material.widget.Button;
@@ -31,12 +34,15 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    LinearLayout detailLinearLayout;
+    //test
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         objItemMaster = getIntent().getParcelableExtra("ItemMaster");
+        detailLinearLayout = (LinearLayout) findViewById(R.id.detailLinearLayout);
         rvSuggestedItem = (RecyclerView) findViewById(R.id.rvSuggestedItem);
         rvSuggestedItem.setVisibility(View.INVISIBLE);
 
@@ -59,7 +65,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
         if (objItemMaster != null) {
             GetItemDetail(objItemMaster);
-            RequestItem();
+            if (Service.CheckNet(this)) {
+                RequestItem();
+            } else {
+                Globals.ShowSnackBar(detailLinearLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            }
+
         }
     }
 

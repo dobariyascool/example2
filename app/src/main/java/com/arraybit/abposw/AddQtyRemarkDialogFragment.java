@@ -10,12 +10,14 @@ import android.view.Window;
 
 import com.arraybit.global.Globals;
 import com.rey.material.widget.Button;
+import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
 
 public class AddQtyRemarkDialogFragment extends DialogFragment implements View.OnClickListener {
 
     ImageButton ibMinus, ibPlus;
     Button btnCancel, btnOk;
+    EditText etQuantity;
 
     public AddQtyRemarkDialogFragment() {
         // Required empty public constructor
@@ -31,6 +33,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
 
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
+        etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnOk = (Button) view.findViewById(R.id.btnOk);
 
@@ -55,9 +58,34 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             MenuActivity menuActivity = (MenuActivity)getActivity();
             menuActivity.CartItemChangeResponse();
         } else if (v.getId() == R.id.ibMinus) {
-
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            } else {
+                IncrementDecrementValue(v.getId(), Integer.valueOf(etQuantity.getText().toString()));
+            }
+            etQuantity.requestFocus();
         } else if (v.getId() == R.id.ibPlus) {
-
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            } else {
+                IncrementDecrementValue(v.getId(), Integer.valueOf(etQuantity.getText().toString()));
+            }
+            etQuantity.requestFocus();
         }
     }
+
+    //region Private methods
+    private int IncrementDecrementValue(int id, int value) {
+        if (id == R.id.ibPlus) {
+            value++;
+            etQuantity.setText(String.valueOf(value));
+        } else {
+            if (value > 1) {
+                value--;
+            }
+            etQuantity.setText(String.valueOf(value));
+        }
+        return value;
+    }
+    //endregion
 }
