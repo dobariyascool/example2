@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -90,7 +91,14 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         if (v.getId() == R.id.btnCancel) {
             onBackPressed();
         } else if (v.getId() == R.id.btnAdd) {
-            onBackPressed();
+            if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
+                AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment();
+                objAddQtyRemarkDialogFragment.show(this.getSupportFragmentManager(), "");
+            } else {
+                Intent i = new Intent(this, ItemModifierRemarkActivity.class);
+                i.putExtra("ItemMaster", objItemMaster);
+                startActivity(i);
+            }
         }
     }
 

@@ -43,6 +43,8 @@ public class ItemMaster implements Parcelable {
     String Business;
     String UserCreatedBy;
     String UserUpdatedBy;
+    String linktoItemMasterIdModifiers;
+    String linktoOptionMasterIds;
     public static final Parcelable.Creator<ItemMaster> CREATOR = new Creator<ItemMaster>() {
         public ItemMaster createFromParcel(Parcel source) {
             ItemMaster objItemMaster = new ItemMaster();
@@ -83,6 +85,8 @@ public class ItemMaster implements Parcelable {
             objItemMaster.Business = source.readString();
             objItemMaster.UserCreatedBy = source.readString();
             objItemMaster.UserUpdatedBy = source.readString();
+            objItemMaster.linktoItemMasterIdModifiers = source.readString();
+            objItemMaster.linktoOptionMasterIds = source.readString();
             return objItemMaster;
         }
 
@@ -90,8 +94,6 @@ public class ItemMaster implements Parcelable {
             return new ItemMaster[size];
         }
     };
-    String linktoItemMasterIdModifiers;
-    String linktoOptionMasterIds;
 
     public int getItemMasterId() {
         return this.ItemMasterId;
@@ -385,11 +387,10 @@ public class ItemMaster implements Parcelable {
         return linktoOptionMasterIds;
     }
 
-    //endregion
-
     public void setLinktoOptionMasterIds(String linktoOptionMasterIds) {
         this.linktoOptionMasterIds = linktoOptionMasterIds;
     }
+    //endregion
 
     public int describeContents() {
         return 0;
@@ -433,5 +434,7 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(Business);
         parcel.writeString(UserCreatedBy);
         parcel.writeString(UserUpdatedBy);
+        parcel.writeString(linktoItemMasterIdModifiers);
+        parcel.writeString(linktoOptionMasterIds);
     }
 }

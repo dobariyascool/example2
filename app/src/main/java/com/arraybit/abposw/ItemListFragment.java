@@ -133,7 +133,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName) {
-        Intent i = new Intent(getActivity(), DetailActivity.class);
+        Intent i = new Intent(this.getActivity(), DetailActivity.class);
         i.putExtra("ItemMaster", objItemMaster);
         startActivity(i);
     }

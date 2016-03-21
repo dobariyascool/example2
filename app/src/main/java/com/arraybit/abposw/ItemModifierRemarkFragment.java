@@ -1,6 +1,5 @@
 package com.arraybit.abposw;
 
-
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +24,8 @@ import com.arraybit.modal.OptionValueTran;
 import com.arraybit.parser.ItemJSONParser;
 import com.arraybit.parser.OptionValueJSONParser;
 import com.rey.material.widget.Button;
+import com.rey.material.widget.EditText;
+import com.rey.material.widget.ImageButton;
 import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -32,19 +33,21 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
-public class ItemModifierRemarkFragment extends Fragment implements OptionValueJSONParser.OptionValueRequestListener,View.OnClickListener,ItemJSONParser.ItemMasterRequestListener,ModifierAdapter.ModifierCheckedChangeListener {
+public class ItemModifierRemarkFragment extends Fragment implements OptionValueJSONParser.OptionValueRequestListener, View.OnClickListener, ItemJSONParser.ItemMasterRequestListener, ModifierAdapter.ModifierCheckedChangeListener {
 
     public static ArrayList<OptionMaster> alOptionValue;
-    RecyclerView rvOptionValue,rvModifier;
+    RecyclerView rvOptionValue, rvModifier;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
     ItemMaster objItemMaster;
     ArrayList<OptionMaster> alOptionMaster;
     String strOptionName;
     ArrayList<OptionValueTran> lstOptionValueTran;
     Button btnAdd;
-    StringBuilder sbOptionValue,sbModifierName;
-    TextView txtItemDescription,txtItemRate;
+    StringBuilder sbOptionValue, sbModifierName;
+    TextView txtItemDescription, txtItemRate;
     ImageView ivItem;
+    ImageButton ibMinus, ibPlus;
+    EditText etQuantity;
     ArrayList<ItemMaster> alItemMasterModifier;
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
     boolean isDuplicate = false;
@@ -60,7 +63,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_modifier_remark, container, false);
 
-        ivItem = (ImageView)view.findViewById(R.id.ivItem);
+        ivItem = (ImageView) view.findViewById(R.id.ivItem);
 
         Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         if (app_bar != null) {
@@ -70,18 +73,23 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 app_bar.setElevation(getActivity().getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(objItemMaster.getItemName());
+        app_bar.setTitle(getResources().getString(R.string.title_item_modifier_remark));
 
         setHasOptionsMenu(true);
 
-        txtItemDescription = (TextView)view.findViewById(R.id.txtItemDescription);
-        txtItemRate = (TextView)view.findViewById(R.id.txtItemRate);
+        txtItemDescription = (TextView) view.findViewById(R.id.txtItemDescription);
+        txtItemRate = (TextView) view.findViewById(R.id.txtItemRate);
 
-        rvModifier = (RecyclerView)view.findViewById(R.id.rvModifier);
-        rvOptionValue = (RecyclerView)view.findViewById(R.id.rvOptionValue);
+        rvModifier = (RecyclerView) view.findViewById(R.id.rvModifier);
+        rvOptionValue = (RecyclerView) view.findViewById(R.id.rvOptionValue);
 
-        btnAdd = (Button)view.findViewById(R.id.btnAdd);
+        etQuantity = (EditText) view.findViewById(R.id.etQuantity);
+        ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
+        ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
+        btnAdd = (Button) view.findViewById(R.id.btnAdd);
 
+        ibMinus.setOnClickListener(this);
+        ibPlus.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
 
         SetDetail();
@@ -106,11 +114,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
         progressDialog.dismiss();
         alItemMasterModifier = alItemMaster;
-        if(alItemMaster==null){
+        if (alItemMaster == null) {
             rvModifier.setVisibility(View.GONE);
-        }else if(alItemMaster.size()==0){
+        } else if (alItemMaster.size() == 0) {
             rvModifier.setVisibility(View.GONE);
-        }else{
+        } else {
             rvModifier.setVisibility(View.VISIBLE);
             rvModifier.setAdapter(new ModifierAdapter(getActivity(), alItemMaster, this));
             rvModifier.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -124,120 +132,22 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @Override
     public void onClick(View v) {
-    }
-
-//    @Override
-//    public void ModifierResponse(boolean isChange) {
-//         sbModifierName = new StringBuilder();
-//            if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() > 0) {
-//                for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
-//                    sbModifierName.append(ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemName()).append(", ");
-//                }
-//            }
-//        if (!sbModifierName.toString().equals("")) {
-//            txtModifier.setVisibility(View.VISIBLE);
-//            txtModifier.setText(sbModifierName.toString());
-//        } else {
-//            txtModifier.setVisibility(View.GONE);
-//            txtModifier.setText("");
-//        }
-//    }
-
-    private void RequestOptionValue() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
-        OptionValueJSONParser objOptionValueJSONParser = new OptionValueJSONParser();
-        objOptionValueJSONParser.SelectAllItemOptionValue(String.valueOf(objItemMaster.getItemMasterId()), getActivity(), this);
-    }
-
-    private void RequestItemModifier() {
-        progressDialog.dismiss();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
-        ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        objItemJSONParser.SelectAllItemModifier(this,getActivity(), String.valueOf(objItemMaster.getItemMasterId()));
-    }
-
-    private void SetRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
-        if (lstOptionValue == null) {
-        } else if (lstOptionValue.size() == 0) {
-
-        } else {
-            SetOptionMasterList(lstOptionValue);
-            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(),alOptionMaster));
-            rvOptionValue.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-    }
-
-    private void SetOptionMasterList(ArrayList<OptionValueTran> lstOptionValue){
-        alOptionMaster = new ArrayList<>();
-        lstOptionValueTran = new ArrayList<>();
-        OptionMaster objOptionMaster = new OptionMaster();
-        for(int i=0;i<lstOptionValue.size();i++){
-            if(strOptionName==null){
-                strOptionName = lstOptionValue.get(i).getOptionName();
-                objOptionMaster = new OptionMaster();
-                objOptionMaster.setOptionRowId(-1);
-                objOptionMaster.setOptionName(lstOptionValue.get(i).getOptionName());
-                objOptionMaster.setOptionMasterId(lstOptionValue.get(i).getlinktoOptionMasterId());
-                lstOptionValueTran.add(lstOptionValue.get(i));
-            }else{
-                if(strOptionName.equals(lstOptionValue.get(i).getOptionName())){
-                    lstOptionValueTran.add(lstOptionValue.get(i));
-                    if(i==lstOptionValue.size()-1){
-                        objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
-                        alOptionMaster.add(objOptionMaster);
-                    }
-                }else{
-                    objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
-                    alOptionMaster.add(objOptionMaster);
-                    strOptionName = lstOptionValue.get(i).getOptionName();
-                    objOptionMaster = new OptionMaster();
-                    lstOptionValueTran = new ArrayList<>();
-                    lstOptionValueTran.add(lstOptionValue.get(i));
-                    objOptionMaster.setOptionRowId(-1);
-                    objOptionMaster.setOptionName(lstOptionValue.get(i).getOptionName());
-                    objOptionMaster.setOptionMasterId(lstOptionValue.get(i).getlinktoOptionMasterId());
-                    if(i==lstOptionValue.size()-1){
-                        objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
-                        alOptionMaster.add(objOptionMaster);
-                    }
-                }
+        if (v.getId() == R.id.ibMinus) {
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            } else {
+                IncrementDecrementValue(v.getId(), Integer.valueOf(etQuantity.getText().toString()));
             }
-        }
-
-        alOptionValue =  new ArrayList<>();
-        if(alOptionMaster.size()>0) {
-            for (int j = 0; j < alOptionMaster.size(); j++) {
-                objOptionMaster = new OptionMaster();
-                objOptionMaster.setOptionRowId(-1);
-                objOptionMaster.setOptionName(null);
-                objOptionMaster.setOptionMasterId(alOptionMaster.get(j).getOptionMasterId());
-                alOptionValue.add(objOptionMaster);
+            etQuantity.requestFocus();
+        } else if (v.getId() == R.id.ibPlus) {
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            } else {
+                IncrementDecrementValue(v.getId(), Integer.valueOf(etQuantity.getText().toString()));
             }
-        }
-    }
+            etQuantity.requestFocus();
+        } else if (v.getId() == R.id.btnAdd) {
 
-    private void SetDetail(){
-        if (objItemMaster.getSm_ImagePhysicalName().equals("null")) {
-            Picasso.with(ivItem.getContext()).load(R.drawable.default_image).into(ivItem);
-        } else {
-            Picasso.with(ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItem);
-        }
-        if(objItemMaster.getShortDescription().equals("")) {
-            txtItemDescription.setText(objItemMaster.getItemName());
-        }else{
-            txtItemDescription.setText(objItemMaster.getShortDescription());
-        }
-        txtItemRate.setText("Rs "+objItemMaster.getRate());
-    }
-
-    private void SetItemRemark(){
-        sbOptionValue = new StringBuilder();
-        for(int i=0;i<alOptionValue.size();i++){
-            if(alOptionValue.get(i).getOptionName()!=null){
-                sbOptionValue.append(alOptionValue.get(i).getOptionName()).append(",");
-            }
         }
     }
 
@@ -268,4 +178,134 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             }
         }
     }
+
+    //    @Override
+//    public void ModifierResponse(boolean isChange) {
+//         sbModifierName = new StringBuilder();
+//            if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() > 0) {
+//                for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
+//                    sbModifierName.append(ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemName()).append(", ");
+//                }
+//            }
+//        if (!sbModifierName.toString().equals("")) {
+//            txtModifier.setVisibility(View.VISIBLE);
+//            txtModifier.setText(sbModifierName.toString());
+//        } else {
+//            txtModifier.setVisibility(View.GONE);
+//            txtModifier.setText("");
+//        }
+//    }
+
+    //region Private Methods
+    private int IncrementDecrementValue(int id, int value) {
+        if (id == R.id.ibPlus) {
+            value++;
+            etQuantity.setText(String.valueOf(value));
+        } else {
+            if (value > 1) {
+                value--;
+            }
+            etQuantity.setText(String.valueOf(value));
+        }
+        return value;
+    }
+
+    private void RequestOptionValue() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+
+        OptionValueJSONParser objOptionValueJSONParser = new OptionValueJSONParser();
+        objOptionValueJSONParser.SelectAllItemOptionValue(String.valueOf(objItemMaster.getItemMasterId()), getActivity(), this);
+    }
+
+    private void RequestItemModifier() {
+        progressDialog.dismiss();
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+
+        ItemJSONParser objItemJSONParser = new ItemJSONParser();
+        objItemJSONParser.SelectAllItemModifier(this, getActivity(), String.valueOf(objItemMaster.getItemMasterId()));
+    }
+
+    private void SetRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
+        if (lstOptionValue == null) {
+        } else if (lstOptionValue.size() == 0) {
+
+        } else {
+            SetOptionMasterList(lstOptionValue);
+            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(), alOptionMaster));
+            rvOptionValue.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+    }
+
+    private void SetOptionMasterList(ArrayList<OptionValueTran> lstOptionValue) {
+        alOptionMaster = new ArrayList<>();
+        lstOptionValueTran = new ArrayList<>();
+        OptionMaster objOptionMaster = new OptionMaster();
+        for (int i = 0; i < lstOptionValue.size(); i++) {
+            if (strOptionName == null) {
+                strOptionName = lstOptionValue.get(i).getOptionName();
+                objOptionMaster = new OptionMaster();
+                objOptionMaster.setOptionRowId(-1);
+                objOptionMaster.setOptionName(lstOptionValue.get(i).getOptionName());
+                objOptionMaster.setOptionMasterId(lstOptionValue.get(i).getlinktoOptionMasterId());
+                lstOptionValueTran.add(lstOptionValue.get(i));
+            } else {
+                if (strOptionName.equals(lstOptionValue.get(i).getOptionName())) {
+                    lstOptionValueTran.add(lstOptionValue.get(i));
+                    if (i == lstOptionValue.size() - 1) {
+                        objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
+                        alOptionMaster.add(objOptionMaster);
+                    }
+                } else {
+                    objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
+                    alOptionMaster.add(objOptionMaster);
+                    strOptionName = lstOptionValue.get(i).getOptionName();
+                    objOptionMaster = new OptionMaster();
+                    lstOptionValueTran = new ArrayList<>();
+                    lstOptionValueTran.add(lstOptionValue.get(i));
+                    objOptionMaster.setOptionRowId(-1);
+                    objOptionMaster.setOptionName(lstOptionValue.get(i).getOptionName());
+                    objOptionMaster.setOptionMasterId(lstOptionValue.get(i).getlinktoOptionMasterId());
+                    if (i == lstOptionValue.size() - 1) {
+                        objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
+                        alOptionMaster.add(objOptionMaster);
+                    }
+                }
+            }
+        }
+
+        alOptionValue = new ArrayList<>();
+        if (alOptionMaster.size() > 0) {
+            for (int j = 0; j < alOptionMaster.size(); j++) {
+                objOptionMaster = new OptionMaster();
+                objOptionMaster.setOptionRowId(-1);
+                objOptionMaster.setOptionName(null);
+                objOptionMaster.setOptionMasterId(alOptionMaster.get(j).getOptionMasterId());
+                alOptionValue.add(objOptionMaster);
+            }
+        }
+    }
+
+    private void SetDetail() {
+        if (objItemMaster.getSm_ImagePhysicalName().equals("null")) {
+            Picasso.with(ivItem.getContext()).load(R.drawable.default_image).into(ivItem);
+        } else {
+            Picasso.with(ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItem);
+        }
+        if (objItemMaster.getShortDescription().equals("")) {
+            txtItemDescription.setText(objItemMaster.getItemName());
+        } else {
+            txtItemDescription.setText(objItemMaster.getShortDescription());
+        }
+        txtItemRate.setText("Rs " + objItemMaster.getRate());
+    }
+
+    private void SetItemRemark() {
+        sbOptionValue = new StringBuilder();
+        for (int i = 0; i < alOptionValue.size(); i++) {
+            if (alOptionValue.get(i).getOptionName() != null) {
+                sbOptionValue.append(alOptionValue.get(i).getOptionName()).append(",");
+            }
+        }
+    }
+    //endregion
 }
