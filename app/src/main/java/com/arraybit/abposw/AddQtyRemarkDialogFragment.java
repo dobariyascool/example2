@@ -63,7 +63,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             SetOrderItem();
             if(getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))){
                 MenuActivity menuActivity = (MenuActivity) getActivity();
-                menuActivity.CartItemChangeResponse();
+                menuActivity.SetCartItemResponse();
             }else{
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();

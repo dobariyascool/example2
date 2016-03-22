@@ -118,6 +118,12 @@
     <!-- cartItemFragment -->
     <string name="cifAddMore">Add More</string>
     <string name="cifConfirmOrder">Confirm Order</string>
+    <string name="cifQty">Qty</string>
+    <string name="cifItem">Item</string>
+    <string name="cifAmount">Amount</string>
+    <string name="cifRate">Rate</string>
+    <string name="cifConfirmClear">Are you sure to clear Order?</string>
+    <string name="cifMsg">Go to Menu</string>
     <!--end -->
 
     <!-- DetailActivity -->
@@ -138,4 +144,5 @@
     <string name="msdCancel">Cancel</string>
     <string name="modifier">Modifier</string>
     <!-- end -->
+
 </resources>
