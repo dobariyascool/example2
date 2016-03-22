@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/control_SpecingTiny"
+    android:orientation="vertical"
+    android:padding="@dimen/control_SpecingTiny">
+
+    <LinearLayout
+        android:id="@+id/childLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:ignore="DisableBaselineAlignment">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:layout_weight="0.4"
+            android:gravity="start|center"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:id="@+id/modifierLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+        <com.rey.material.widget.TextView
+                android:id="@+id/txtQty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.22"
+            android:gravity="end|center"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:id="@+id/modifierRateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="end|center"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textColor="@android:color/black" />
+
+            <LinearLayout
+                android:id="@+id/modifierAmountLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/control_SpecingSmall"
+            android:layout_weight="0.14"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:paddingEnd="@dimen/control_SpecingTiny"
+                android:paddingStart="@dimen/control_SpecingTiny"
+                android:src="@drawable/remove_accent_vector_drawable"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/remarkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/control_SpecingTiny"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtRemark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start|center"
+            android:maxLines="2"
+            android:textColor="#FF7043"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.14"
+            android:gravity="center"
+            android:visibility="invisible" />
+    </LinearLayout>
+</LinearLayout>
