@@ -34,7 +34,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/control_SpecingSmall"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/control_TextLarge"
                 tools:ignore="HardcodedText" />
         </RelativeLayout>
