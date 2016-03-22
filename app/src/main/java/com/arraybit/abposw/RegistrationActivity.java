@@ -281,6 +281,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), RegistrationActivity.this, 1000);
                 ClearControls();
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
                 break;

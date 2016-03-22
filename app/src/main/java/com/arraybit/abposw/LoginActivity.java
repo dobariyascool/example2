@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (Service.CheckNet(this)) {
                     LoginRequest();
                 } else {
-                    Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                    Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
                 }
             }
         } else if (v.getId() == R.id.cbSignUp) {
@@ -143,10 +143,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.dismiss();
         this.objRegisteredUserMaster = objRegisteredUserMaster;
         SetError();
-        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
-        startActivity(i);
     }
 
     //region Private Methods
@@ -189,16 +185,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void SetError() {
         if (objRegisteredUserMaster == null) {
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
-        } else {
-            objSharePreferenceManage = new SharePreferenceManage();
-            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this).equals("")) {
-                objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etUserName.getText().toString(), this);
-            }
-            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this).equals("")) {
-                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etPassword.getText().toString(), this);
-            }
             ClearControls();
+        } else {
+
+            objSharePreferenceManage = new SharePreferenceManage();
+
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objRegisteredUserMaster.getEmail(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objRegisteredUserMaster.getPassword(), this);
+
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
+            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
+            startActivity(i);
         }
     }
     //endregion
