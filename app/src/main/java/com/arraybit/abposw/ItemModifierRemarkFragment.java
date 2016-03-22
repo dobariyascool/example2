@@ -52,7 +52,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ArrayList<ItemMaster> alItemMasterModifier;
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
     boolean isDuplicate = false;
-    double totalAmount, totalModifierAmount;
+    double totalAmount, totalModifierAmount, totalTax;
 
     public ItemModifierRemarkFragment(ItemMaster objItemMaster) {
         this.objItemMaster = objItemMaster;
@@ -131,7 +131,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
@@ -309,11 +309,14 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             objOrderItemTran.setRate(objItemMaster.getRate());
             objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
             objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
+            objOrderItemTran.setTax(objItemMaster.getTax());
+            CountTax(objOrderItemTran, isDuplicate);
+            objOrderItemTran.setTotalTax(totalTax);
             SetItemRemark();
             if (etRemark.getText().toString().isEmpty()) {
-                if (!sbOptionValue.toString().equals("")) {
+                //if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(sbOptionValue.toString());
-                }
+                //}
             } else {
                 if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(etRemark.getText().toString() + "," + sbOptionValue.toString());
@@ -334,6 +337,9 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 objOrderItemTran.setRate(objItemMaster.getRate());
                 objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                 objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
+                objOrderItemTran.setTax(objItemMaster.getTax());
+                CountTax(objOrderItemTran, isDuplicate);
+                objOrderItemTran.setTotalTax(totalTax);
                 if (etRemark.getText().toString().isEmpty()) {
                     if (!sbOptionValue.toString().equals("")) {
                         objOrderItemTran.setRemark(sbOptionValue.toString());
@@ -405,52 +411,110 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         }
                     }
                 }
-                if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran() != null && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() != 0) {
-                    if (objItemMaster.getItemMasterId() == Globals.alOrderItemTran.get(i).getItemMasterId() && alCheckedModifier.size() != 0) {
-                        ArrayList<ItemMaster> alOldOrderItemTran = Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran();
-                        if (alCheckedModifier.size() != 0) {
-                            if (alCheckedModifier.size() == alOldOrderItemTran.size()) {
-                                for (int j = 0; j < alCheckedModifier.size(); j++) {
-                                    for (int k = 0; k < alOldOrderItemTran.size(); k++) {
-                                        if (alCheckedModifier.get(j).getItemMasterId() == alOldOrderItemTran.get(k).getItemMasterId()) {
-                                            cntModifier = cntModifier + 1;
-                                        }
+            }
+            if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran() != null && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() != 0) {
+                if (objItemMaster.getItemMasterId() == Globals.alOrderItemTran.get(i).getItemMasterId() && alCheckedModifier.size() != 0) {
+                    ArrayList<ItemMaster> alOldOrderItemTran = Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran();
+                    if (alCheckedModifier.size() != 0) {
+                        if (alCheckedModifier.size() == alOldOrderItemTran.size()) {
+                            for (int j = 0; j < alCheckedModifier.size(); j++) {
+                                for (int k = 0; k < alOldOrderItemTran.size(); k++) {
+                                    if (alCheckedModifier.get(j).getItemMasterId() == alOldOrderItemTran.get(k).getItemMasterId()) {
+                                        cntModifier = cntModifier + 1;
                                     }
                                 }
                             }
                         }
-                        if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (strOptionName.isEmpty() && Globals.alOrderItemTran.get(i).getRemark().isEmpty()))) {
-                            isDuplicate = true;
-                            Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
-                            if (alCheckedModifier.size() > 0) {
-                                Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
-                            }
-                            Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
-                            if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() > 0) {
-                                SetOrderItemModifierQty(Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran(), Globals.alOrderItemTran.get(i).getQuantity());
-                            }
-                            break;
-                        } else if (sbOptionValue.toString().isEmpty() && Globals.alOrderItemTran.get(i).getRemark().isEmpty() && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0) {
-                            isDuplicate = true;
-                            Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
-                            if (alCheckedModifier.size() > 0) {
-                                Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
-                            }
-                            Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
-                            if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() > 0) {
-                                SetOrderItemModifierQty(Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran(), Globals.alOrderItemTran.get(i).getQuantity());
-                            }
-                            break;
-                        }
                     }
+                    if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (strOptionName.isEmpty() && Globals.alOrderItemTran.get(i).getRemark().isEmpty()))) {
+                        isDuplicate = true;
+                        Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+                        if (alCheckedModifier.size() > 0) {
+                            Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
+                        }
+                        Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
+                        if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() > 0) {
+                            SetOrderItemModifierQty(Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran(), Globals.alOrderItemTran.get(i).getQuantity());
+                        }
+                        CountTax(Globals.alOrderItemTran.get(i), isDuplicate);
+                        Globals.alOrderItemTran.get(i).setTotalTax(Globals.alOrderItemTran.get(i).getTotalTax() + totalTax);
+                        break;
+                    } else if (sbOptionValue.toString().isEmpty() && (Globals.alOrderItemTran.get(i).getRemark()==null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0) {
+                        isDuplicate = true;
+                        Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+                        if (alCheckedModifier.size() > 0) {
+                            Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
+                        }
+                        Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
+                        if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() > 0) {
+                            SetOrderItemModifierQty(Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran(), Globals.alOrderItemTran.get(i).getQuantity());
+                        }
+                        CountTax(Globals.alOrderItemTran.get(i), isDuplicate);
+                        Globals.alOrderItemTran.get(i).setTotalTax(Globals.alOrderItemTran.get(i).getTotalTax() + totalTax);
+                        break;
+                    }
+                }
+            } else {
+                if ((objItemMaster.getItemMasterId() == Globals.alOrderItemTran.get(i).getItemMasterId())
+                        && (((strOptionValue == null || strOptionValue.isEmpty()) && (Globals.alOrderItemTran.get(i).getRemark()==null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && alCheckedModifier.size() == 0 && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0)
+                        || (strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt && alCheckedModifier.size() == 0 && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0))) {
+                    isDuplicate = true;
+                    Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
+                    if (alCheckedModifier.size() > 0) {
+                        Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
+                    }
+                    Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
+                    if (Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() > 0) {
+                        SetOrderItemModifierQty(Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran(), Globals.alOrderItemTran.get(i).getQuantity());
+                    }
+                    CountTax(Globals.alOrderItemTran.get(i), isDuplicate);
+                    Globals.alOrderItemTran.get(i).setTotalTax(Globals.alOrderItemTran.get(i).getTotalTax() + totalTax);
+                    break;
                 }
             }
         }
+
     }
 
     private void SetOrderItemModifierQty(ArrayList<ItemMaster> alItemMasterModifier, int Quantity) {
         for (int j = 0; j < alItemMasterModifier.size(); j++) {
             alItemMasterModifier.get(j).setSellPrice(alItemMasterModifier.get(j).getSellPrice() * Quantity);
+        }
+    }
+
+    private void CountTax(ItemMaster objOrderItemMaster, boolean isDuplicate) {
+        totalTax = 0;
+        if (objItemMaster.getTax() != null && !objItemMaster.getTax().equals("")) {
+            String[] strTax = objItemMaster.getTax().split(",");
+            for (int i = 0; i < strTax.length; i++) {
+                if (isDuplicate) {
+                    totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    if (i == 0) {
+                        objOrderItemMaster.setTax1(objOrderItemMaster.getTax1() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 1) {
+                        objOrderItemMaster.setTax2(objOrderItemMaster.getTax2() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 2) {
+                        objOrderItemMaster.setTax3(objOrderItemMaster.getTax3() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 3) {
+                        objOrderItemMaster.setTax4(objOrderItemMaster.getTax4() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else {
+                        objOrderItemMaster.setTax5(objOrderItemMaster.getTax5() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    }
+                } else {
+                    totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100;
+                    if (i == 0) {
+                        objOrderItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 1) {
+                        objOrderItemMaster.setTax2((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 2) {
+                        objOrderItemMaster.setTax3((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else if (i == 3) {
+                        objOrderItemMaster.setTax4((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    } else {
+                        objOrderItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    }
+                }
+            }
         }
     }
     //endregion

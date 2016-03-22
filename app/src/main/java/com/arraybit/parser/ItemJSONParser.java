@@ -141,6 +141,7 @@ public class ItemJSONParser {
                 }
                 objItemMaster.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
                 objItemMaster.setMRP(jsonArray.getJSONObject(i).getDouble("MRP"));
+                objItemMaster.setTax(jsonArray.getJSONObject(i).getString("Tax"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonArray.getJSONObject(i).getString("Unit"));

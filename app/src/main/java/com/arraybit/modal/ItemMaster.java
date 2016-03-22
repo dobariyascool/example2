@@ -39,7 +39,13 @@ public class ItemMaster implements Parcelable {
     String md_ImagePhysicalName;
     String lg_ImagePhysicalName;
     String xl_ImagePhysicalName;
-
+    String Tax;
+    double TotalTax;
+    double Tax1;
+    double Tax2;
+    double Tax3;
+    double Tax4;
+    double Tax5;
     /// Extra
     String Unit;
     String Category;
@@ -91,6 +97,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoItemMasterIdModifiers = source.readString();
             objItemMaster.linktoOptionMasterIds = source.readString();
             objItemMaster.SellPrice = source.readDouble();
+            objItemMaster.Tax = source.readString();
             return objItemMaster;
         }
 
@@ -423,6 +430,7 @@ public class ItemMaster implements Parcelable {
     public void setRemark(String remark) {
         Remark = remark;
     }
+
     public double getTotalAmount() {
         return TotalAmount;
     }
@@ -445,6 +453,62 @@ public class ItemMaster implements Parcelable {
 
     public void setAlOrderItemModifierTran(ArrayList<ItemMaster> alOrderItemModifierTran) {
         this.alOrderItemModifierTran = alOrderItemModifierTran;
+    }
+
+    public String getTax() {
+        return Tax;
+    }
+
+    public void setTax(String tax) {
+        this.Tax = tax;
+    }
+
+    public double getTotalTax() {
+        return TotalTax;
+    }
+
+    public void setTotalTax(double totalTax) {
+        this.TotalTax = totalTax;
+    }
+
+    public double getTax5() {
+        return Tax5;
+    }
+
+    public void setTax5(double tax5) {
+        Tax5 = tax5;
+    }
+
+    public double getTax4() {
+        return Tax4;
+    }
+
+    public void setTax4(double tax4) {
+        Tax4 = tax4;
+    }
+
+    public double getTax3() {
+        return Tax3;
+    }
+
+    public void setTax3(double tax3) {
+        Tax3 = tax3;
+    }
+
+    public double getTax2() {
+        return Tax2;
+    }
+
+    public void setTax2(double tax2) {
+        Tax2 = tax2;
+    }
+
+    public double getTax1() {
+        return Tax1;
+    }
+
+    public void setTax1(double tax1) {
+        Tax1 = tax1;
     }
     //endregion
 
@@ -493,5 +557,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(linktoItemMasterIdModifiers);
         parcel.writeString(linktoOptionMasterIds);
         parcel.writeDouble(SellPrice);
+        parcel.writeString(Tax);
     }
 }
