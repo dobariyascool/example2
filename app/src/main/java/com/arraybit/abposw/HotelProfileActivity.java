@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -67,6 +68,14 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
         progressDialog.dismiss();
         this.objBusinessMaster = objBusinessMaster;
         SetTabLayout();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //region Private Methods
