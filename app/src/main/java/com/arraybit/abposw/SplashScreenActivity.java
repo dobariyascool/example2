@@ -42,5 +42,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
         startActivity(i);
+        finish();
     }
 }
