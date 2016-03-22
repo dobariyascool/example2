@@ -48,7 +48,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CartItemActivity"
-            android:label="@string/title_activity_cart_item"
+            android:label="@string/title_cart_item_fragment"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ItemModifierRemarkActivity"

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener, CartItemFragment.CartItemChangeListener {
+public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener{
 
     public static short i = 0;
     public static boolean isViewChange = false;
@@ -132,6 +132,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
+        }else if(id==android.R.id.home){
+            finish();
+            Globals.alOrderItemTran = new ArrayList<>();
         }
 
         return super.onOptionsItemSelected(item);
@@ -230,11 +233,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             Intent intent = new Intent(this, CartItemActivity.class);
             this.startActivityForResult(intent, 0);
         }
-    }
-
-    @Override
-    public void CartItemChangeResponse() {
-        SetCartNumber();
     }
 
     public void SetCartItemResponse(){
@@ -349,13 +347,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     private void CheckSelected() {
         sbItemTypeMasterId = new StringBuilder();
         if (fabVeg.isSelected()) {
-            sbItemTypeMasterId.append(Globals.OptionValue.Veg.getValue() + ",");
+            sbItemTypeMasterId.append(Globals.OptionValue.Veg.getValue()).append(",");
         }
         if (fabNonVeg.isSelected()) {
-            sbItemTypeMasterId.append(Globals.OptionValue.NonVeg.getValue() + ",");
+            sbItemTypeMasterId.append(Globals.OptionValue.NonVeg.getValue()).append(",");
         }
         if (fabJain.isSelected()) {
-            sbItemTypeMasterId.append(Globals.OptionValue.Jain.getValue() + ",");
+            sbItemTypeMasterId.append(Globals.OptionValue.Jain.getValue()).append(",");
         }
     }
 
