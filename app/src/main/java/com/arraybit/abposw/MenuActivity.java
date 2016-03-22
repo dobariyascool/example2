@@ -125,8 +125,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
         } else if (id == R.id.logout) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", "", this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
+            objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", this);
+            objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", this);
+            objSharePreferenceManage.ClearPreference("LoginPreference", this);
             Intent i = new Intent(this, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);

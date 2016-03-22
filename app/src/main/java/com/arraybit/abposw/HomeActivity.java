@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ImageView ivLogo = (ImageView) headerView.findViewById(R.id.ivLogo);
         //ivLogo.setVisibility(View.GONE);
         TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
-        txtLetter.setText(objRegisteredUserMaster.getFirstName().substring(0,1));
+        txtLetter.setText(objRegisteredUserMaster.getFirstName().substring(0, 1));
         TextView txtName = (TextView) headerView.findViewById(R.id.txtName);
         txtName.setText(objRegisteredUserMaster.getEmail());
 
@@ -71,13 +71,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             Intent i = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(i);
-        }
-        else if(item.getItemId() == R.id.hNotification){
+        } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
             Intent i = new Intent(HomeActivity.this, MenuActivity.class);
             startActivity(i);
-        }
-        else if (item.getItemId() == R.id.hExit) {
+        } else if (item.getItemId() == R.id.hExit) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", "", this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
@@ -102,8 +100,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.logout) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", "", this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", "", this);
+            objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", this);
+            objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", this);
+            objSharePreferenceManage.ClearPreference("LoginPreference", this);
             Intent i = new Intent(this, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
