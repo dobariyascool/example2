@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     View view;
     ImageView ibClear;
     ToggleButton tbPasswordShow;
-    com.arraybit.abposw.ProgressDialog progressDialog;
+    com.arraybit.abposw.ProgressDialog progressDialog;//
     SharePreferenceManage objSharePreferenceManage;
 
     @Override
