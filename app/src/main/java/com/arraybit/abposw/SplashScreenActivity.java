@@ -20,8 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
         setContentView(R.layout.activity_splash_screen);
 
         objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this) != "" && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this) != ""
-                ) {
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this) != null) {
             RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
             objRegisteredUserJSONParser.SelectRegisteredUserMasterUserName(SplashScreenActivity.this, objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this), objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this));
         } else {
