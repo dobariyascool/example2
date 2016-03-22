@@ -133,20 +133,24 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName) {
-        Intent i = new Intent(getActivity(), DetailActivity.class);
-        i.putExtra("ItemMaster", objItemMaster);
-        getActivity().startActivityForResult(i, 0);
+        if (!objItemMaster.getIsDineInOnly()) {
+            Intent i = new Intent(getActivity(), DetailActivity.class);
+            i.putExtra("ItemMaster", objItemMaster);
+            getActivity().startActivityForResult(i, 0);
+        }
     }
 
     @Override
     public void AddItemOnClick(ItemMaster objItemMaster) {
-        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
-            AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
-            objAddQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
-        } else {
-            Intent i = new Intent(getActivity(), ItemModifierRemarkActivity.class);
-            i.putExtra("ItemMaster", objItemMaster);
-            getActivity().startActivityForResult(i, 0);
+        if (!objItemMaster.getIsDineInOnly()) {
+            if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
+                AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
+                objAddQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+            } else {
+                Intent i = new Intent(getActivity(), ItemModifierRemarkActivity.class);
+                i.putExtra("ItemMaster", objItemMaster);
+                getActivity().startActivityForResult(i, 0);
+            }
         }
     }
 

@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClick(View v) {
         view = v;
@@ -123,7 +122,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
                 }
             }
+            Globals.HideKeyBoard(this, view);
         } else if (v.getId() == R.id.cbSignUp) {
+            Globals.HideKeyBoard(this, view);
             Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.ibClear) {

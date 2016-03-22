@@ -84,6 +84,24 @@
     <string name="clear_text">Clear Text</string>
     <!-- end -->
 
+    <!-- HomeActivity -->
+    <string name="title_home">Home</string>
+    <!-- end -->
+
+    <!-- Home Navigation Drawer-->
+    <string name="navProfile">Our Profile</string>
+    <string name="navOffers">Offers</string>
+    <string name="navNotification">Notification</string>
+    <string name="navFeedback">Feedback</string>
+    <string name="navShare">Share</string>
+    <string name="navRate">Rate</string>
+    <string name="navAboutUs">About Us</string>
+    <string name="navContactUs">Contact US</string>
+    <string name="navExit">Exit</string>
+    <string name="navOpen">Open</string>
+    <string name="navClose">Close</string>
+    <!-- end -->
+
     <!-- row_workinghours-->
     <string name="rTimings">Timings</string>
     <string name="rTo">To</string>
@@ -119,19 +137,5 @@
     <string name="msdDone">Done</string>
     <string name="msdCancel">Cancel</string>
     <string name="modifier">Modifier</string>
-    <!-- end -->
-
-    <!-- Home Navigation Drawer-->
-    <string name="navProfile">Our Profile</string>
-    <string name="navOffers">Offers</string>
-    <string name="navNotification">Notification</string>
-    <string name="navFeedback">Feedback</string>
-    <string name="navShare">Share</string>
-    <string name="navRate">Rate</string>
-    <string name="navAboutUs">About Us</string>
-    <string name="navContactUs">Contact US</string>
-    <string name="navExit">Exit</string>
-    <string name="navOpen">Open</string>
-    <string name="navClose">Close</string>
     <!-- end -->
 </resources>

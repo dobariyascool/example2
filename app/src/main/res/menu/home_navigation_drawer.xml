@@ -3,46 +3,46 @@
 
     <item
         android:id="@+id/hHotelProfile"
-        android:icon="@mipmap/profile"
+        android:icon="@drawable/certificate_drawable"
         android:title="@string/navProfile" />
 
     <item
         android:id="@+id/hOffers"
-
+        android:icon="@drawable/tag_multiple_drawable"
         android:title="@string/navOffers" />
 
     <item
         android:id="@+id/hNotification"
-
+        android:icon="@drawable/notification_drawable"
         android:title="@string/navNotification" />
 
     <item
         android:id="@+id/hFeedback"
-
+        android:icon="@drawable/feedback_drawable"
         android:title="@string/navFeedback" />
 
     <item
         android:id="@+id/hShare"
-
+        android:icon="@drawable/share_drawable"
         android:title="@string/navShare" />
 
     <item
         android:id="@+id/hRate"
-
+        android:icon="@drawable/rate_drawable"
         android:title="@string/navRate" />
 
     <item
         android:id="@+id/hAboutUs"
-
+        android:icon="@drawable/aboutus_drawable"
         android:title="@string/navAboutUs" />
 
     <item
         android:id="@+id/hContactUs"
-
+        android:icon="@drawable/contactus_drawable"
         android:title="@string/navContactUs" />
 
     <item
         android:id="@+id/hExit"
-
+        android:icon="@drawable/exit_drawable"
         android:title="@string/navExit" />
 </menu>
