@@ -62,7 +62,7 @@
                 android:id="@+id/btnAdd"
                 style="@style/AddButton"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
                 android:padding="@dimen/control_SpecingTiny"
                 android:text="Add"

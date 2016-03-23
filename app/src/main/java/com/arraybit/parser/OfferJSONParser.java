@@ -176,6 +176,7 @@ public class OfferJSONParser{
                         objOfferRequestListener.OfferResponse(offerMasters);
                     }
                 } catch (Exception e) {
+                    objOfferRequestListener = (OfferRequestListener)context;
                     objOfferRequestListener.OfferResponse(null);
                 }
             }

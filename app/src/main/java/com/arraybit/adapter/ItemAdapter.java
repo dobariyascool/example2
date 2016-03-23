@@ -78,11 +78,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.txtItemPrice.setText("Rs. " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
         if(objItemMaster.getIsDineInOnly()){
-            //holder.btnAdd.applyStyle(R.style.DisableButton);
-            holder.cvItem.setEnabled(false);
-            holder.btnAdd.setEnabled(false);
+            holder.cvItem.setClickable(false);
+            holder.btnAdd.setClickable(false);
         }else{
-            //holder.btnAdd.applyStyle(R.style.AddButton);
+            holder.cvItem.setClickable(true);
+            holder.btnAdd.setClickable(true);
         }
 
         if (isItemAnimate) {
@@ -127,6 +127,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemDescription);
             txtItemPrice = (TextView) itemView.findViewById(R.id.txtItemPrice);
 
+            btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
+
             if (!isTileGrid && MenuActivity.isViewChange) {
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
@@ -137,7 +139,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 ivItem.setLayoutParams(layoutParams);
             }
 
-            btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
+
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

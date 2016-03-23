@@ -17,12 +17,18 @@ import android.widget.LinearLayout;
 
 import com.arraybit.adapter.CartItemAdapter;
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
+import com.arraybit.modal.OrderMaster;
+import com.arraybit.modal.TaxMaster;
+import com.arraybit.parser.TaxJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.TextView;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("ConstantConditions")
-public class CartItemFragment extends Fragment implements View.OnClickListener,CartItemAdapter.CartItemOnClickListener{
+public class CartItemFragment extends Fragment implements View.OnClickListener,CartItemAdapter.CartItemOnClickListener,TaxJSONParser.TaxMasterRequestListener{
 
 
     CartItemChangeListener objCartItemChangeListener;
@@ -32,6 +38,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
     TextView txtMsg;
     CompoundButton cbMenu;
     LinearLayout headerLayout;
+    double totalAmount,totalTax;
+    ArrayList<TaxMaster> alTaxMaster;
+    ProgressDialog progressDialog = new ProgressDialog();
 
     public CartItemFragment() {
         // Required empty public constructor
@@ -70,6 +79,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
 
         SetRecyclerView();
 
+        if (Service.CheckNet(getActivity())) {
+            RequestTaxMaster();
+        } else {
+            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+        }
+
+
         cbMenu.setOnClickListener(this);
         btnAddMore.setOnClickListener(this);
         btnConfirmOrder.setOnClickListener(this);
@@ -91,7 +107,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
             //menuActivity.SetCartItemResponse();
             //getActivity().finish();
         }else if(v.getId()==R.id.btnConfirmOrder){
-
+            RequestOrderMaster();
         }else if(v.getId()==R.id.cbMenu){
             getActivity().setResult(Activity.RESULT_OK);
             getActivity().finish();
@@ -124,6 +140,19 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
         if (Globals.alOrderItemTran.size() == 0) {
             SetRecyclerView();
         }
+    }
+
+    @Override
+    public void TaxMasterResponse(ArrayList<TaxMaster> alTaxMaster) {
+        progressDialog.dismiss();
+        this.alTaxMaster = alTaxMaster;
+    }
+
+
+    private void RequestTaxMaster(){
+        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+        TaxJSONParser objTaxJSONParser = new TaxJSONParser();
+        objTaxJSONParser.SelectAllTaxMaster(String.valueOf(Globals.linktoBusinessMasterId),getActivity(),this);
     }
 
     private void SetRecyclerView(){
@@ -168,6 +197,28 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
             btnConfirmOrder.setVisibility(View.VISIBLE);
         }
     }
+
+    private void RequestOrderMaster(){
+        if (Globals.alOrderItemTran.size() != 0) {
+            for (int i = 0; i < Globals.alOrderItemTran.size(); i++) {
+                totalAmount = totalAmount + Globals.alOrderItemTran.get(i).getTotalAmount();
+                totalTax = totalTax + Globals.alOrderItemTran.get(i).getTotalTax();
+            }
+        }
+
+        OrderMaster objOrderMaster = new OrderMaster();
+        objOrderMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.TakeAway.getValue());
+        objOrderMaster.setTotalAmount(totalAmount);
+        objOrderMaster.setTotalTax(totalTax);
+        objOrderMaster.setNetAmount(totalAmount + totalTax);
+        objOrderMaster.setPaidAmount(totalAmount + totalTax);
+        objOrderMaster.setDiscount(0.00);
+        objOrderMaster.setExtraAmount(0.00);
+        objOrderMaster.setTotalItemPoint((short) 0);
+        objOrderMaster.setTotalDeductedPoint((short) 0);
+        objOrderMaster.setIsPreOrder(true);
+    }
+
 
     interface CartItemChangeListener {
         void CartItemChangeResponse();

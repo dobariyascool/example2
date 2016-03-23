@@ -219,6 +219,22 @@ public class Globals {
             return intValue;
         }
     }
+
+    public enum OrderType {
+        DineIn(1),
+        TakeAway(2),
+        HomeDelivery(3);
+
+        private int intValue;
+
+        OrderType(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
     //endregion
 
     //region Commented Code
