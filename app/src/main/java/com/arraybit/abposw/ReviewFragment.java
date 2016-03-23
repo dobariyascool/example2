@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.arraybit.parser.ReviewJSONParser;
 
 import java.util.ArrayList;
 
+@SuppressLint("ValidFragment")
 public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewMasterRequestListener, ReviewAdapter.WriteReviewListener {
 
     static ArrayList<ReviewMaster> lstReviewMaster;
@@ -42,14 +44,11 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
-        if (lstReviewMaster == null) {
-            if (Service.CheckNet(getActivity())) {
-                RequestReviews();
-            } else {
-                Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
-            }
+        if (Service.CheckNet(getActivity())) {
+            currentPage = 1;
+            RequestReviews();
         } else {
-            SetRecyclerView(lstReviewMaster);
+            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
 
         rvReview.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -77,7 +76,9 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     @Override
     public void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster) {
-        progressDialog.dismiss();
+        if(currentPage > 1) {
+            progressDialog.dismiss();
+        }
         lstReviewMaster = alReviewMaster;
         SetRecyclerView(lstReviewMaster);
     }
@@ -90,7 +91,9 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     //region Private Methods
     private void RequestReviews() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        if(currentPage > 1) {
+            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        }
         ReviewJSONParser objReviewJSONParser = new ReviewJSONParser();
         objReviewJSONParser.SelectAllReviewMasterPageWise(this, getActivity(), String.valueOf(currentPage), String.valueOf(objBusinessMaster.getBusinessMasterId()));
     }
