@@ -22,10 +22,6 @@ public class AreaJSONParser {
     public String SelectAllAreaMasterByCity = "SelectAllAreaMasterByCity";
     AreaRequestListener objAreaRequestListener;
 
-    public interface AreaRequestListener {
-        void AreaResponse(ArrayList<SpinnerItem> alCityMaster);
-    }
-
     //region Class Methods
     private AreaMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         AreaMaster objAreaMaster = null;
@@ -68,7 +64,6 @@ public class AreaJSONParser {
             return null;
         }
     }
-    //endregion
 
     //region SelectAll
     public void SelectAllAreaMasterAreaByCity(final Context context,String linktoCityMasterId) {
@@ -107,6 +102,11 @@ public class AreaJSONParser {
             }
         });
         queue.add(jsonObjectRequest);
+    }
+    //endregion
+
+    public interface AreaRequestListener {
+        void AreaResponse(ArrayList<SpinnerItem> alCityMaster);
     }
 
 //    public ArrayList<SpinnerItem> SelectAllAreaMasterAreaByCity(JSONObject jsonResponse) {

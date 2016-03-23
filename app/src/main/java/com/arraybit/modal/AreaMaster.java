@@ -8,33 +8,12 @@ public class AreaMaster implements Parcelable {
     //region Properties
 
     short AreaMasterId;
-    public short getAreaMasterId() { return this.AreaMasterId; }
-    public void setAreaMasterId(short areaMasterId) { this.AreaMasterId = areaMasterId; }
-
     String AreaName;
-    public String getAreaName() { return this.AreaName; }
-    public void setAreaName(String areaName) { this.AreaName = areaName; }
-
     String ZipCode;
-    public String getZipCode() { return this.ZipCode; }
-    public void setZipCode(String zipCode) { this.ZipCode = zipCode; }
-
     short linktoCityMasterId;
-    public short getlinktoCityMasterId() { return this.linktoCityMasterId; }
-    public void setlinktoCityMasterId(short linktoCityMasterId) { this.linktoCityMasterId = linktoCityMasterId; }
-
     boolean IsEnabled;
-    public boolean getIsEnabled() { return this.IsEnabled; }
-    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
-
-
     /// Extra
     String City;
-    public String getCity() { return this.City; }
-    public void setCity(String city) { this.City = city; }
-
-    //endregion
-
     public static final Parcelable.Creator<AreaMaster> CREATOR = new Parcelable.Creator<AreaMaster>() {
         public AreaMaster createFromParcel(Parcel source) {
             AreaMaster objAreaMaster = new AreaMaster();
@@ -53,6 +32,32 @@ public class AreaMaster implements Parcelable {
             return new AreaMaster[size];
         }
     };
+
+    public short getAreaMasterId() { return this.AreaMasterId; }
+
+    public void setAreaMasterId(short areaMasterId) { this.AreaMasterId = areaMasterId; }
+
+    public String getAreaName() { return this.AreaName; }
+
+    public void setAreaName(String areaName) { this.AreaName = areaName; }
+
+    public String getZipCode() { return this.ZipCode; }
+
+    public void setZipCode(String zipCode) { this.ZipCode = zipCode; }
+
+    public short getlinktoCityMasterId() { return this.linktoCityMasterId; }
+
+    public void setlinktoCityMasterId(short linktoCityMasterId) { this.linktoCityMasterId = linktoCityMasterId; }
+
+    public boolean getIsEnabled() { return this.IsEnabled; }
+
+    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
+
+    public String getCity() { return this.City; }
+
+    //endregion
+
+    public void setCity(String city) { this.City = city; }
 
     public int describeContents() {
         return 0;

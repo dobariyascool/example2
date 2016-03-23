@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.BusinessHoursTran;
-import com.arraybit.abposw.R;
 import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
@@ -100,6 +100,18 @@ public class WorkingHoursAdapter extends RecyclerView.Adapter<WorkingHoursAdapte
         return alBusinessHoursTran.size();
     }
 
+    private void TextColorChange(WorkingHoursViewHolder holder,boolean isMatch){
+        if(isMatch){
+            holder.txtStartTime.setSelected(true);
+            holder.txtEndTime.setSelected(true);
+            holder.txtDayOfWeek.setSelected(true);
+        }else{
+            holder.txtStartTime.setSelected(false);
+            holder.txtEndTime.setSelected(false);
+            holder.txtDayOfWeek.setSelected(false);
+        }
+    }
+
     class WorkingHoursViewHolder extends RecyclerView.ViewHolder {
         TextView txtDayOfWeek, txtStartTime, txtEndTime, txtHeader;
         LinearLayout layoutChild;
@@ -116,18 +128,6 @@ public class WorkingHoursAdapter extends RecyclerView.Adapter<WorkingHoursAdapte
             txtEndTime = (TextView) itemView.findViewById(R.id.txtEndTime);
             txtHeader = (TextView) itemView.findViewById(R.id.txtHeader);
 
-        }
-    }
-
-    private void TextColorChange(WorkingHoursViewHolder holder,boolean isMatch){
-        if(isMatch){
-            holder.txtStartTime.setSelected(true);
-            holder.txtEndTime.setSelected(true);
-            holder.txtDayOfWeek.setSelected(true);
-        }else{
-            holder.txtStartTime.setSelected(false);
-            holder.txtEndTime.setSelected(false);
-            holder.txtDayOfWeek.setSelected(false);
         }
     }
 }

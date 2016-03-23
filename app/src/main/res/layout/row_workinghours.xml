@@ -8,9 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/control_SpecingTiny"
-        android:layout_marginStart="@dimen/control_SpecingTiny"
         android:layout_marginEnd="@dimen/control_SpecingTiny"
+        android:layout_marginStart="@dimen/control_SpecingTiny"
+        android:layout_marginTop="@dimen/control_SpecingTiny"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -25,10 +25,10 @@
             android:id="@+id/txtHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="0dp"
             android:layout_marginStart="17dp"
-            android:textColor="@color/colorAccent"
+            android:paddingTop="0dp"
             android:text ="@string/rTimings"
+            android:textColor="@color/colorAccent"
             android:visibility="visible" />
     </LinearLayout>
 
@@ -36,16 +36,16 @@
             android:id="@+id/layoutChild"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/control_SpecingSmall"
-            android:layout_marginStart="47dp">
+            android:layout_marginStart="47dp"
+            android:layout_marginTop="@dimen/control_SpecingSmall">
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtDayOfWeek"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@drawable/textcolor_selector"
+                android:layout_weight="0.2"
                 android:gravity="start"
-                android:layout_weight="0.2" />
+                android:textColor="@drawable/textcolor_selector" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -58,8 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/control_SpecingSmall"
-                    android:textColor="@drawable/textcolor_selector"
-                    android:paddingStart="0dp" />
+                    android:paddingStart="0dp"
+                    android:textColor="@drawable/textcolor_selector" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtEndTime"

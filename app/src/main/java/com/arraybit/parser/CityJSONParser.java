@@ -1,18 +1,15 @@
 package com.arraybit.parser;
 
 import android.content.Context;
-import android.widget.Spinner;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.CityMaster;
-import com.arraybit.modal.OfferMaster;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,10 +21,6 @@ public class CityJSONParser {
 
     public String SelectAllCityMasterByState = "SelectAllCityMasterByState";
     CityRequestListener objCityRequestListener;
-
-    public interface CityRequestListener {
-        void CityResponse(ArrayList<SpinnerItem> alCityMaster);
-    }
 
     //region Class Methods
     private CityMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
@@ -71,7 +64,6 @@ public class CityJSONParser {
             return null;
         }
     }
-    //endregion
 
     //region SelectAll
     public void SelectAllCityMasterByState(final Context context,String linktoStateMasterId) {
@@ -111,6 +103,11 @@ public class CityJSONParser {
             }
         });
         queue.add(jsonObjectRequest);
+    }
+    //endregion
+
+    public interface CityRequestListener {
+        void CityResponse(ArrayList<SpinnerItem> alCityMaster);
     }
 //    public ArrayList<SpinnerItem> SelectAllCityMasterByState(JSONObject jsonResponse) {
 //        ArrayList<SpinnerItem> lstSpinnerItem = null;

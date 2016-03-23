@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.OfferMaster;
-import com.arraybit.abposw.R;
 import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 

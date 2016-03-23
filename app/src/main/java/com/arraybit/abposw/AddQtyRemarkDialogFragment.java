@@ -28,6 +28,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
 
     public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
+
         this.objItemMaster = objItemMaster;
     }
 

@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.arraybit.global.SpinnerItem;
 import com.arraybit.abposw.R;
+import com.arraybit.global.SpinnerItem;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;

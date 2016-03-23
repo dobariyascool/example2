@@ -1,9 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 
-import com.android.volley.Cache;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,15 +28,11 @@ public class OfferJSONParser{
 
     public SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     public Date dt = null;
+    public OfferRequestListener objOfferRequestListener;
     SimpleDateFormat sdfControlTimeFormat = new SimpleDateFormat(Globals.TimeFormat, Locale.US);
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-    public OfferRequestListener objOfferRequestListener;
-
-    public interface OfferRequestListener {
-        void OfferResponse(ArrayList<OfferMaster> alOfferMasters);
-    }
 
     //region Class Methods
     private OfferMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
@@ -164,7 +158,6 @@ public class OfferJSONParser{
             return null;
         }
     }
-    //endregion
 
     //region SelectAll
     public void SelectAllOfferMasterByFromDate(String currentPage, String linktoBusinessMasterId, final Context context) {
@@ -195,6 +188,11 @@ public class OfferJSONParser{
 
         });
         queue.add(jsonObjectRequest);
+    }
+    //endregion
+
+    public interface OfferRequestListener {
+        void OfferResponse(ArrayList<OfferMaster> alOfferMasters);
     }
 //    public ArrayList<OfferMaster> SelectAllOfferMasterByFromDate(JSONObject jsonResponse) {
 //        ArrayList<OfferMaster> lstOfferMaster = null;

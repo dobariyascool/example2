@@ -34,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/control_SpecingSmall"
-                android:src="@drawable/close_drawer"
                 android:contentDescription="@string/clear_text"
+                android:src="@drawable/close_drawer"
                 android:visibility="gone"/>
 
         </RelativeLayout>

@@ -10,7 +10,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
-import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.RegisteredUserMaster;
 
 import org.json.JSONArray;
@@ -18,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,12 +39,6 @@ public class RegisteredUserJSONParser {
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     RegisteredUserRequestListener objRegisteredUserRequestListener;
-
-    public interface RegisteredUserRequestListener {
-        void RegisteredUserResponse(String errorCode,RegisteredUserMaster objRegisteredUserMaster);
-    }
-
-    //region Class Methods
 
     private RegisteredUserMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         RegisteredUserMaster objRegisteredUserMaster = null;
@@ -92,6 +84,8 @@ public class RegisteredUserJSONParser {
         }
     }
 
+    //region Class Methods
+
     private ArrayList<RegisteredUserMaster> SetListPropertiesFromJSONArray(JSONArray jsonArray) {
         ArrayList<RegisteredUserMaster> lstRegisteredUserMaster = new ArrayList<>();
         RegisteredUserMaster objRegisteredUserMaster;
@@ -133,48 +127,6 @@ public class RegisteredUserJSONParser {
             return null;
         }
     }
-
-    //endregion
-
-    //region Insert
-
-//    public JSONStringer InsertRegisteredUserMaster(RegisteredUserMaster objRegisteredUserMaster) {
-//        dt = new Date();
-//        try {
-//            JSONStringer stringer = new JSONStringer();
-//            stringer.object();
-//
-//            stringer.key("registeredUserMaster");
-//            stringer.object();
-//
-//            stringer.key("Email").value(objRegisteredUserMaster.getEmail());
-//            stringer.key("Phone").value(objRegisteredUserMaster.getPhone());
-//            stringer.key("Password").value(objRegisteredUserMaster.getPassword());
-//            stringer.key("FirstName").value(objRegisteredUserMaster.getFirstName());
-//            stringer.key("LastName").value(objRegisteredUserMaster.getLastName());
-//            stringer.key("Gender").value(objRegisteredUserMaster.getGender());
-//            if (objRegisteredUserMaster.getBirthDate() != null) {
-//                stringer.key("BirthDate").value(objRegisteredUserMaster.getBirthDate());
-//            }
-//            stringer.key("linktoCityMasterId").value(objRegisteredUserMaster.getlinktoCityMasterId());
-//            stringer.key("linktoAreaMasterId").value(objRegisteredUserMaster.getlinktoAreaMasterId());
-//            stringer.key("linktoBusinessMasterId").value(objRegisteredUserMaster.getlinktoBusinessMasterId());
-//            stringer.key("CreateDateTime").value(sdfDateTimeFormat.format(dt));
-//            stringer.key("linktoSourceMasterId").value(objRegisteredUserMaster.getlinktoSourceMasterId());
-//            stringer.key("Comment").value(objRegisteredUserMaster.getComment());
-//            stringer.key("IsEnabled").value(objRegisteredUserMaster.getIsEnabled());
-//
-//            stringer.endObject();
-//
-//            stringer.endObject();
-//
-////            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.InsertRegisteredUserMaster, stringer);
-////            JSONObject jsonObject = jsonResponse.getJSONObject(this.InsertRegisteredUserMaster + "Result");
-//            return stringer;
-//        } catch (Exception ex) {
-//            return null;
-//        }
-//    }
 
     public void InsertRegisteredUserMaster(final RegisteredUserMaster objRegisteredUserMaster, final Context context) {
         dt = new Date();
@@ -246,6 +198,46 @@ public class RegisteredUserJSONParser {
 
     //endregion
 
+    //region Insert
+
+//    public JSONStringer InsertRegisteredUserMaster(RegisteredUserMaster objRegisteredUserMaster) {
+//        dt = new Date();
+//        try {
+//            JSONStringer stringer = new JSONStringer();
+//            stringer.object();
+//
+//            stringer.key("registeredUserMaster");
+//            stringer.object();
+//
+//            stringer.key("Email").value(objRegisteredUserMaster.getEmail());
+//            stringer.key("Phone").value(objRegisteredUserMaster.getPhone());
+//            stringer.key("Password").value(objRegisteredUserMaster.getPassword());
+//            stringer.key("FirstName").value(objRegisteredUserMaster.getFirstName());
+//            stringer.key("LastName").value(objRegisteredUserMaster.getLastName());
+//            stringer.key("Gender").value(objRegisteredUserMaster.getGender());
+//            if (objRegisteredUserMaster.getBirthDate() != null) {
+//                stringer.key("BirthDate").value(objRegisteredUserMaster.getBirthDate());
+//            }
+//            stringer.key("linktoCityMasterId").value(objRegisteredUserMaster.getlinktoCityMasterId());
+//            stringer.key("linktoAreaMasterId").value(objRegisteredUserMaster.getlinktoAreaMasterId());
+//            stringer.key("linktoBusinessMasterId").value(objRegisteredUserMaster.getlinktoBusinessMasterId());
+//            stringer.key("CreateDateTime").value(sdfDateTimeFormat.format(dt));
+//            stringer.key("linktoSourceMasterId").value(objRegisteredUserMaster.getlinktoSourceMasterId());
+//            stringer.key("Comment").value(objRegisteredUserMaster.getComment());
+//            stringer.key("IsEnabled").value(objRegisteredUserMaster.getIsEnabled());
+//
+//            stringer.endObject();
+//
+//            stringer.endObject();
+//
+////            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.InsertRegisteredUserMaster, stringer);
+////            JSONObject jsonObject = jsonResponse.getJSONObject(this.InsertRegisteredUserMaster + "Result");
+//            return stringer;
+//        } catch (Exception ex) {
+//            return null;
+//        }
+//    }
+
     //region Update
     public String UpdateRegisteredUserMaster(RegisteredUserMaster objRegisteredUserMaster) {
         dt = new Date();
@@ -281,6 +273,8 @@ public class RegisteredUserJSONParser {
         }
     }
 
+    //endregion
+
     public String UpdateRegisteredUserMasterPassword(RegisteredUserMaster objRegisteredUserMaster) {
         dt = new Date();
         try {
@@ -307,9 +301,6 @@ public class RegisteredUserJSONParser {
             return "-1";
         }
     }
-    //endregion
-
-    //region Select
 
     public void SelectRegisteredUserMasterUserName(final Context context,String userName,String password) {
         try {
@@ -346,6 +337,24 @@ public class RegisteredUserJSONParser {
             objRegisteredUserRequestListener.RegisteredUserResponse(null,null);
         }
     }
+    //endregion
+
+    //region Select
+
+    public ArrayList<RegisteredUserMaster> SelectAllRegisteredUserMasterPageWise(JSONObject jsonResponse) {
+        ArrayList<RegisteredUserMaster> lstRegisteredUserMaster = null;
+        try {
+            if (jsonResponse != null) {
+                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllRegisteredUserMaster + "Result");
+                if (jsonArray != null) {
+                    lstRegisteredUserMaster = SetListPropertiesFromJSONArray(jsonArray);
+                }
+            }
+            return lstRegisteredUserMaster;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
 //    public RegisteredUserMaster SelectRegisteredUserMasterUserName(JSONObject jsonResponse) {
 //        try {
@@ -365,19 +374,8 @@ public class RegisteredUserJSONParser {
 
     //region SelectAll
 
-    public ArrayList<RegisteredUserMaster> SelectAllRegisteredUserMasterPageWise(JSONObject jsonResponse) {
-        ArrayList<RegisteredUserMaster> lstRegisteredUserMaster = null;
-        try {
-            if (jsonResponse != null) {
-                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllRegisteredUserMaster + "Result");
-                if (jsonArray != null) {
-                    lstRegisteredUserMaster = SetListPropertiesFromJSONArray(jsonArray);
-                }
-            }
-            return lstRegisteredUserMaster;
-        } catch (Exception ex) {
-            return null;
-        }
+    public interface RegisteredUserRequestListener {
+        void RegisteredUserResponse(String errorCode,RegisteredUserMaster objRegisteredUserMaster);
     }
 
 

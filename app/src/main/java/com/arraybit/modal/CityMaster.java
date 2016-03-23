@@ -8,33 +8,12 @@ public class CityMaster implements Parcelable {
     //region Properties
 
     short CityMasterId;
-    public short getCityMasterId() { return this.CityMasterId; }
-    public void setCityMasterId(short cityMasterId) { this.CityMasterId = cityMasterId; }
-
     String CityName;
-    public String getCityName() { return this.CityName; }
-    public void setCityName(String cityName) { this.CityName = cityName; }
-
     String CityCode;
-    public String getCityCode() { return this.CityCode; }
-    public void setCityCode(String cityCode) { this.CityCode = cityCode; }
-
     short linktoStateMasterId;
-    public short getlinktoStateMasterId() { return this.linktoStateMasterId; }
-    public void setlinktoStateMasterId(short linktoStateMasterId) { this.linktoStateMasterId = linktoStateMasterId; }
-
     boolean IsEnabled;
-    public boolean getIsEnabled() { return this.IsEnabled; }
-    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
-
-
     /// Extra
     String State;
-    public String getState() { return this.State; }
-    public void setState(String state) { this.State = state; }
-
-    //endregion
-
     public static final Parcelable.Creator<CityMaster> CREATOR = new Parcelable.Creator<CityMaster>() {
         public CityMaster createFromParcel(Parcel source) {
             CityMaster objCityMaster = new CityMaster();
@@ -53,6 +32,32 @@ public class CityMaster implements Parcelable {
             return new CityMaster[size];
         }
     };
+
+    public short getCityMasterId() { return this.CityMasterId; }
+
+    public void setCityMasterId(short cityMasterId) { this.CityMasterId = cityMasterId; }
+
+    public String getCityName() { return this.CityName; }
+
+    public void setCityName(String cityName) { this.CityName = cityName; }
+
+    public String getCityCode() { return this.CityCode; }
+
+    public void setCityCode(String cityCode) { this.CityCode = cityCode; }
+
+    public short getlinktoStateMasterId() { return this.linktoStateMasterId; }
+
+    public void setlinktoStateMasterId(short linktoStateMasterId) { this.linktoStateMasterId = linktoStateMasterId; }
+
+    public boolean getIsEnabled() { return this.IsEnabled; }
+
+    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
+
+    public String getState() { return this.State; }
+
+    //endregion
+
+    public void setState(String state) { this.State = state; }
 
     public int describeContents() {
         return 0;
