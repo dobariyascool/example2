@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
 
             objSharePreferenceManage = new SharePreferenceManage();
-
+            objSharePreferenceManage.CreatePreference("LoginPreference", "RegisteredUserMasterId", String.valueOf(objRegisteredUserMaster.getRegisteredUserMasterId()), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objRegisteredUserMaster.getEmail(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objRegisteredUserMaster.getPassword(), this);
 
