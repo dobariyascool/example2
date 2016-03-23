@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.arraybit.abposw.WriteReviewFragment">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <RatingBar
+            android:id="@+id/rtbReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="5" />
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etReview"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/control_SpecingTiny"
+            android:layout_marginRight="@dimen/control_SpecingTiny"
+            android:hint="@string/rfReview"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnReviewClose"
+                style="@style/DialogButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/rfClose" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnReviewSubmit"
+                style="@style/DialogButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/rfSubmit" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

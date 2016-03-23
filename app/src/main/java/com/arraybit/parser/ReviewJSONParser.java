@@ -3,6 +3,7 @@ package com.arraybit.parser;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -37,6 +38,7 @@ public class ReviewJSONParser {
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 
     ReviewMasterRequestListener objReviewMasterRequestListener;
+    InsertReviewMasterRequestListener objInsertReviewMasterRequestListener;
 
     private ReviewMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         ReviewMaster objReviewMaster = null;
@@ -108,7 +110,8 @@ public class ReviewJSONParser {
         }
     }
 
-    public String InsertReviewMaster(ReviewMaster objReviewMaster) {
+    public void InsertReviewMaster(final ReviewMaster objReviewMaster, final Context context,final Fragment targetFragment) {
+        dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
@@ -119,7 +122,6 @@ public class ReviewJSONParser {
             stringer.key("StarRating").value(objReviewMaster.getStarRating());
             stringer.key("Review").value(objReviewMaster.getReview());
             stringer.key("IsShow").value(objReviewMaster.getIsShow());
-            dt = sdfControlDateFormat.parse(objReviewMaster.getReviewDateTime());
             stringer.key("ReviewDateTime").value(sdfDateTimeFormat.format(dt));
             stringer.key("linktoRegisteredUserMasterId").value(objReviewMaster.getlinktoRegisteredUserMasterId());
             stringer.key("linktoBusinessMasterId").value(objReviewMaster.getlinktoBusinessMasterId());
@@ -128,11 +130,40 @@ public class ReviewJSONParser {
 
             stringer.endObject();
 
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.InsertReviewMaster, stringer);
-            JSONObject jsonObject = jsonResponse.getJSONObject(this.InsertReviewMaster + "Result");
-            return String.valueOf(jsonObject.getInt("ErrorCode"));
+            String url = Service.Url + this.InsertReviewMaster;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertReviewMaster + "Result");
+
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                            objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
+                            objInsertReviewMasterRequestListener.InsertReviewMasterResponse(errorCode, null);
+                        } else {
+                            objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
+                            objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
+                        }
+                    } catch (JSONException e) {
+                        objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
+                        objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
+                    objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
         } catch (Exception ex) {
-            return "-1";
+            objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
+            objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
         }
     }
 
@@ -201,7 +232,7 @@ public class ReviewJSONParser {
     }*/
 
     public void SelectAllReviewMasterPageWise(final Fragment targetFragment, Context context, String currentPage, String linktoBusinessMasterId) {
-        String url = Service.Url + this.SelectAllReviewMaster+ "/" + currentPage +"/" + linktoBusinessMasterId;
+        String url = Service.Url + this.SelectAllReviewMaster + "/" + currentPage + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -212,24 +243,28 @@ public class ReviewJSONParser {
                     if (jsonArray != null) {
                         ArrayList<ReviewMaster> alReviewMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objReviewMasterRequestListener = (ReviewMasterRequestListener) targetFragment;
-                        objReviewMasterRequestListener.RequestMasterResponse(alReviewMaster);
+                        objReviewMasterRequestListener.ReviewMasterResponse(alReviewMaster);
                     }
                 } catch (Exception e) {
                     objReviewMasterRequestListener = (ReviewMasterRequestListener) targetFragment;
-                    objReviewMasterRequestListener.RequestMasterResponse(null);
+                    objReviewMasterRequestListener.ReviewMasterResponse(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 objReviewMasterRequestListener = (ReviewMasterRequestListener) targetFragment;
-                objReviewMasterRequestListener.RequestMasterResponse(null);
+                objReviewMasterRequestListener.ReviewMasterResponse(null);
             }
         });
         queue.add(jsonObjectRequest);
     }
 
     public interface ReviewMasterRequestListener {
-        void RequestMasterResponse(ArrayList<ReviewMaster> alReviewMaster);
+        void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster);
+    }
+
+    public interface InsertReviewMasterRequestListener {
+        void InsertReviewMasterResponse(String errorCode, ReviewMaster objReviewMaster);
     }
 }

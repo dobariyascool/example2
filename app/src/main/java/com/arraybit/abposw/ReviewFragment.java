@@ -18,7 +18,7 @@ import com.arraybit.parser.ReviewJSONParser;
 
 import java.util.ArrayList;
 
-public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewMasterRequestListener {
+public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewMasterRequestListener, ReviewAdapter.WriteReviewListener {
 
     static ArrayList<ReviewMaster> lstReviewMaster;
     RecyclerView rvReview;
@@ -76,10 +76,16 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     }
 
     @Override
-    public void RequestMasterResponse(ArrayList<ReviewMaster> alReviewMaster) {
+    public void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster) {
         progressDialog.dismiss();
         lstReviewMaster = alReviewMaster;
         SetRecyclerView(lstReviewMaster);
+    }
+
+    @Override
+    public void AddReview() {
+        WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
+        objWriteReviewFragment.show(getActivity().getSupportFragmentManager(), "");
     }
 
     //region Private Methods
@@ -109,7 +115,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             } else if (alReviewMaster.size() < 10) {
                 currentPage += 1;
             }
-            adapter = new ReviewAdapter(getActivity(), alReviewMaster);
+            adapter = new ReviewAdapter(getActivity(), alReviewMaster, this);
             rvReview.setAdapter(adapter);
             rvReview.setLayoutManager(linearLayoutManager);
         }

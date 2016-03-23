@@ -28,6 +28,7 @@
     <string name="MsgAlreadyExist">Record already exist</string>
     <string name="MsgInsertFail">Failed to insert record</string>
     <string name="MsgInsertSuccess">Record inserted successfully</string>
+    <string name="MsgReviewInsertSuccess">Review inserted successfully</string>
     <string name="MsgDeleteFail">Failed to delete record</string>
     <string name="MsgDeleteSuccess">Record deleted successfully</string>
     <string name="MsgUpdateFail">Failed to update record</string>
@@ -147,6 +148,7 @@
 
     <!-- ReviewFragment -->
     <string name="rfSubmit">Submit</string>
+    <string name="rfClose">Close</string>
     <string name="rfReview">Write Review</string>
     <!-- end -->
 
