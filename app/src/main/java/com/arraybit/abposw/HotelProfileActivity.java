@@ -95,13 +95,12 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
             pageAdapter.AddFragment(new InformationFragment(objBusinessMaster), "Information");
             pageAdapter.AddFragment(new GalleryFragment(), "Gallery");
+            pageAdapter.AddFragment(new ReviewFragment(objBusinessMaster),"Review");
 
             viewPager.setAdapter(pageAdapter);
             tabLayout.setupWithViewPager(viewPager);
-
         }
     }
-
     //endregion
 
     //region Page Adapter

@@ -100,6 +100,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.logout) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.RemovePreference("LoginPreference", "RegisteredUserMasterId", this);
             objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", this);
             objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", this);
             objSharePreferenceManage.ClearPreference("LoginPreference", this);

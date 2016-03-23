@@ -125,6 +125,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
         } else if (id == R.id.logout) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.RemovePreference("LoginPreference", "RegisteredUserMasterId", this);
             objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", this);
             objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", this);
             objSharePreferenceManage.ClearPreference("LoginPreference", this);

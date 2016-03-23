@@ -77,6 +77,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
         holder.txtItemPrice.setText("Rs. " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
+        if(objItemMaster.getIsDineInOnly()){
+            //holder.btnAdd.applyStyle(R.style.DisableButton);
+            holder.cvItem.setEnabled(false);
+            holder.btnAdd.setEnabled(false);
+        }else{
+            //holder.btnAdd.applyStyle(R.style.AddButton);
+        }
+
         if (isItemAnimate) {
             if (position > previousPosition) {
                 Globals.SetItemAnimator(holder);

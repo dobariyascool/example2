@@ -145,4 +145,9 @@
     <string name="modifier">Modifier</string>
     <!-- end -->
 
+    <!-- ReviewFragment -->
+    <string name="rfSubmit">Submit</string>
+    <string name="rfReview">Write Review</string>
+    <!-- end -->
+
 </resources>
