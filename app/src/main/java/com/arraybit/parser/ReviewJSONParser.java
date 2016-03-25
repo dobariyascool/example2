@@ -101,6 +101,7 @@ public class ReviewJSONParser {
                 objReviewMaster.setUserUpdatedBy(jsonArray.getJSONObject(i).getString("UserUpdatedBy"));
                 objReviewMaster.setBusiness(jsonArray.getJSONObject(i).getString("Business"));
                 lstReviewMaster.add(objReviewMaster);
+
             }
             return lstReviewMaster;
         } catch (JSONException e) {
@@ -110,7 +111,7 @@ public class ReviewJSONParser {
         }
     }
 
-    public void InsertReviewMaster(final ReviewMaster objReviewMaster, final Context context,final Fragment targetFragment) {
+    public void InsertReviewMaster(final ReviewMaster objReviewMaster, final Context context, final Fragment targetFragment) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
