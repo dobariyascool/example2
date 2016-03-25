@@ -1,7 +1,12 @@
 package com.arraybit.abposw;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +36,16 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         rtbReview = (RatingBar) view.findViewById(R.id.rtbReview);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        } else {
+            //stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+            Drawable drawable = rtbReview.getProgressDrawable();
+            drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        }
+
         etReview = (EditText) view.findViewById(R.id.etReview);
         btnReviewClose = (Button) view.findViewById(R.id.btnReviewClose);
         btnReviewSubmit = (Button) view.findViewById(R.id.btnReviewSubmit);
@@ -65,7 +80,7 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
         objReviewMaster.setStarRating(rtbReview.getRating());
         objReviewMaster.setReview(etReview.getText().toString());
         objReviewMaster.setIsShow(false);
-        objReviewMaster.setlinktoRegisteredUserMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", this.getActivity())));
+        objReviewMaster.setlinktoRegisteredUserMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity())));
         objReviewMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
 
         objReviewJSONParser.InsertReviewMaster(objReviewMaster, getActivity(), this);

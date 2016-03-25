@@ -7,6 +7,10 @@
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/control_SpecingMedium"
+        android:layout_marginLeft="@dimen/control_SpecingMedium"
+        android:layout_marginRight="@dimen/control_SpecingMedium"
+        android:layout_marginTop="@dimen/control_SpecingMedium"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -38,7 +42,6 @@
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/rfClose" />
 
             <com.rey.material.widget.Button
@@ -46,7 +49,6 @@
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/rfSubmit" />
         </LinearLayout>
     </LinearLayout>

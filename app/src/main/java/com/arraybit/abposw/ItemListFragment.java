@@ -199,7 +199,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 } else if (alItemMaster.size() < 10) {
                     currentPage += 1;
                 }
-                itemAdapter = new ItemAdapter(ItemListFragment.this.getActivity(), alItemMaster, this);
+                itemAdapter = new ItemAdapter(getActivity(), alItemMaster, this);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
