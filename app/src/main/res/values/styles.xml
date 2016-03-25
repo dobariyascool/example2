@@ -241,6 +241,7 @@
         <item name="android:textSize">@dimen/control_TextSmall</item>
         <item name="android:radius">2dp</item>
         <item name="rd_enable">false</item>
+        <item name="rd_cornerRadius">0dp</item>
         <item name="android:background">@color/accent_dark</item>
         <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
         <item name="android:layout_marginBottom">2dp</item>

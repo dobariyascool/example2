@@ -44,7 +44,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     String strOptionName;
     ArrayList<OptionValueTran> lstOptionValueTran;
     Button btnAdd;
-    StringBuilder sbOptionValue, sbModifierName;
+    StringBuilder sbOptionValue;
     TextView txtItemDescription, txtItemRate;
     ImageView ivItem;
     ImageButton ibMinus, ibPlus;
@@ -85,6 +85,9 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         rvModifier = (RecyclerView) view.findViewById(R.id.rvModifier);
         rvOptionValue = (RecyclerView) view.findViewById(R.id.rvOptionValue);
 
+        rvModifier.setVisibility(View.GONE);
+        rvOptionValue.setVisibility(View.GONE);
+
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
 
@@ -110,23 +113,13 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @Override
     public void OptionValueResponse(ArrayList<OptionValueTran> alOptionValueTran) {
-        progressDialog.dismiss();
-        SetRecyclerView(alOptionValueTran);
+        SetOptionValueRecyclerView(alOptionValueTran);
     }
 
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
-        progressDialog.dismiss();
         alItemMasterModifier = alItemMaster;
-        if (alItemMaster == null) {
-            rvModifier.setVisibility(View.GONE);
-        } else if (alItemMaster.size() == 0) {
-            rvModifier.setVisibility(View.GONE);
-        } else {
-            rvModifier.setVisibility(View.VISIBLE);
-            rvModifier.setAdapter(new ModifierAdapter(getActivity(), alItemMaster, this));
-            rvModifier.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+        SetModifierRecyclerView();
     }
 
     @Override
@@ -211,20 +204,31 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     private void RequestItemModifier() {
-        progressDialog.dismiss();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         objItemJSONParser.SelectAllItemModifier(this, getActivity(), String.valueOf(objItemMaster.getItemMasterId()));
     }
 
-    private void SetRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
+    private void SetOptionValueRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
         if (lstOptionValue == null || lstOptionValue.size() == 0) {
+            progressDialog.dismiss();
             rvOptionValue.setVisibility(View.GONE);
         } else {
+            rvOptionValue.setVisibility(View.VISIBLE);
             SetOptionMasterList(lstOptionValue);
             rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(), alOptionMaster));
             rvOptionValue.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+    }
+
+    private void SetModifierRecyclerView() {
+        if (alItemMasterModifier == null || alItemMasterModifier.size() == 0) {
+            progressDialog.dismiss();
+            rvModifier.setVisibility(View.GONE);
+        } else {
+            progressDialog.dismiss();
+            rvModifier.setVisibility(View.VISIBLE);
+            rvModifier.setAdapter(new ModifierAdapter(getActivity(), alItemMasterModifier, this));
+            rvModifier.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
     }
 
@@ -324,7 +328,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             }
             if (alCheckedModifier.size() != 0) {
                 totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate() + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString()));
-            }else{
+            } else {
                 totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
             }
             objOrderItemTran.setTotalAmount(totalAmount);
@@ -360,7 +364,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 }
                 if (alCheckedModifier.size() != 0) {
                     totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate() + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString()));
-                }else{
+                } else {
                     totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
                 }
                 objOrderItemTran.setTotalAmount(totalAmount);
@@ -444,12 +448,12 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                             }
                         }
                     }
-                    if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark()==null || Globals.alOrderItemTran.get(i).getRemark().equals(""))))) {
+                    if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark() == null || Globals.alOrderItemTran.get(i).getRemark().equals(""))))) {
                         isDuplicate = true;
                         Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         if (alCheckedModifier.size() > 0) {
                             Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
-                        }else{
+                        } else {
                             Globals.alOrderItemTran.get(i).setTotalAmount(Globals.alOrderItemTran.get(i).getTotalAmount() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         }
                         Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
@@ -459,12 +463,12 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         CountTax(Globals.alOrderItemTran.get(i), isDuplicate);
                         Globals.alOrderItemTran.get(i).setTotalTax(Globals.alOrderItemTran.get(i).getTotalTax() + totalTax);
                         break;
-                    } else if (sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark()==null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0) {
+                    } else if (sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark() == null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0) {
                         isDuplicate = true;
                         Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         if (alCheckedModifier.size() > 0) {
                             Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
-                        }else{
+                        } else {
                             Globals.alOrderItemTran.get(i).setTotalAmount(Globals.alOrderItemTran.get(i).getTotalAmount() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         }
                         Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
@@ -478,13 +482,13 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 }
             } else {
                 if ((objItemMaster.getItemMasterId() == Globals.alOrderItemTran.get(i).getItemMasterId())
-                        && ((sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark()==null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && alCheckedModifier.size() == 0 && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0)
+                        && ((sbOptionValue.toString().equals("") && (Globals.alOrderItemTran.get(i).getRemark() == null || Globals.alOrderItemTran.get(i).getRemark().equals("")) && alCheckedModifier.size() == 0 && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0)
                         || (strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt && alCheckedModifier.size() == 0 && Globals.alOrderItemTran.get(i).getAlOrderItemModifierTran().size() == 0))) {
                     isDuplicate = true;
                     Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
                     if (alCheckedModifier.size() > 0) {
                         Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
-                    }else{
+                    } else {
                         Globals.alOrderItemTran.get(i).setTotalAmount(Globals.alOrderItemTran.get(i).getTotalAmount() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                     }
                     Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));

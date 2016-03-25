@@ -16,6 +16,9 @@ import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SuppressLint("ValidFragment")
 public class AddQtyRemarkDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -122,17 +125,18 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             Globals.counter = Globals.counter + 1;
             Globals.alOrderItemTran.add(objOrderItemTran);
         } else {
-            for (int i = 0; i < Globals.alOrderItemTran.size(); i++) {
-                if (Globals.alOrderItemTran.get(i).getItemMasterId() == objItemMaster.getItemMasterId() &&
-                        (Globals.alOrderItemTran.get(i).getRemark() != null && Globals.alOrderItemTran.get(i).getRemark().equals(etRemark.getText().toString()))
-                        || (Globals.alOrderItemTran.get(i).getRemark() == null && etRemark.getText().toString().isEmpty())) {
+            for(ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran){
+            //for (int i = 0; i < Globals.alOrderItemTran.size(); i++) {
+                if (objFilterOrderItemTran.getItemMasterId() == objItemMaster.getItemMasterId() &&
+                        (objFilterOrderItemTran.getRemark() != null && objFilterOrderItemTran.getRemark().equals(etRemark.getText().toString()))
+                        || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty())) {
                     isDuplicate = true;
-                    Globals.alOrderItemTran.get(i).setSellPrice(Globals.alOrderItemTran.get(i).getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
-                    Globals.alOrderItemTran.get(i).setTotalAmount((Globals.alOrderItemTran.get(i).getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
-                    Globals.alOrderItemTran.get(i).setQuantity(Globals.alOrderItemTran.get(i).getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
+                    objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
+                    objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
+                    objFilterOrderItemTran.setQuantity(objFilterOrderItemTran.getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
                     //CountTotalTax();
-                    CountTax(Globals.alOrderItemTran.get(i), isDuplicate);
-                    Globals.alOrderItemTran.get(i).setTotalTax(Globals.alOrderItemTran.get(i).getTotalTax() + totalTax);
+                    CountTax(objFilterOrderItemTran, isDuplicate);
+                    objFilterOrderItemTran.setTotalTax(objFilterOrderItemTran.getTotalTax() + totalTax);
                     break;
                 }
             }
@@ -161,36 +165,37 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     private void CountTax(ItemMaster objOrderItemMaster, boolean isDuplicate) {
         totalTax = 0;
         if (objItemMaster.getTax() != null && !objItemMaster.getTax().equals("")) {
-            String[] strTax = objItemMaster.getTax().split(",");
-            for (int i = 0; i < strTax.length; i++) {
+            ArrayList<String> alTax = new ArrayList<>(Arrays.asList(objItemMaster.getTax().split(",")));
+            for(String tax : alTax)
+            //for (int i = 0; i < strTax.length; i++) {
                 if (isDuplicate) {
-                    totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    if (i == 0) {
-                        objOrderItemMaster.setTax1(objOrderItemMaster.getTax1() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 1) {
-                        objOrderItemMaster.setTax2(objOrderItemMaster.getTax2() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 2) {
-                        objOrderItemMaster.setTax3(objOrderItemMaster.getTax3() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 3) {
-                        objOrderItemMaster.setTax4(objOrderItemMaster.getTax4() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    if (alTax.indexOf(tax) == 0) {
+                        objOrderItemMaster.setTax1(objOrderItemMaster.getTax1() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 1) {
+                        objOrderItemMaster.setTax2(objOrderItemMaster.getTax2() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 2) {
+                        objOrderItemMaster.setTax3(objOrderItemMaster.getTax3() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 3) {
+                        objOrderItemMaster.setTax4(objOrderItemMaster.getTax4() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                     } else {
-                        objOrderItemMaster.setTax5(objOrderItemMaster.getTax5() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                        objOrderItemMaster.setTax5(objOrderItemMaster.getTax5() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                     }
                 } else {
-                    totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100;
-                    if (i == 0) {
-                        objOrderItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 1) {
-                        objOrderItemMaster.setTax2((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 2) {
-                        objOrderItemMaster.setTax3((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
-                    } else if (i == 3) {
-                        objOrderItemMaster.setTax4((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                    totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100;
+                    if (alTax.indexOf(tax)== 0) {
+                        objOrderItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 1) {
+                        objOrderItemMaster.setTax2((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 2) {
+                        objOrderItemMaster.setTax3((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                    } else if (alTax.indexOf(tax) == 3) {
+                        objOrderItemMaster.setTax4((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                     } else {
-                        objOrderItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(strTax[i]) / 100);
+                        objOrderItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                     }
                 }
-            }
+            //}
         }
     }
     //endregion

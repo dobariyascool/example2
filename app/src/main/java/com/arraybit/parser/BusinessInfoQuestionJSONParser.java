@@ -91,6 +91,6 @@ public class BusinessInfoQuestionJSONParser {
     }
 
     public interface BusinessInfoMasterRequestListener {
-        void BusinessInfoMasterResponse(ArrayList<BusinessInfoQuestionMaster> alReviewMaster);
+        void BusinessInfoMasterResponse(ArrayList<BusinessInfoQuestionMaster> alBusinessInfoQuestionMaster);
     }
 }

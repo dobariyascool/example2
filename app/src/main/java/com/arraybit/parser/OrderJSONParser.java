@@ -1,10 +1,20 @@
 package com.arraybit.parser;
 
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
+import com.arraybit.modal.TaxMaster;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +35,7 @@ public class OrderJSONParser {
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+    OrderMasterRequestListener objOrderMasterRequestListener;
 
     private OrderMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         OrderMaster objOrderMaster = null;
@@ -158,7 +169,8 @@ public class OrderJSONParser {
         }
     }
 
-    public String InsertOrderMaster(OrderMaster objOrderMaster,ArrayList<ItemMaster> alOrderItemTran) {
+    public void InsertOrderMaster(OrderMaster objOrderMaster,ArrayList<ItemMaster> alOrderItemTran,ArrayList<TaxMaster> alTaxMaster, final Context context, final Fragment targetFragment) {
+        dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
@@ -166,7 +178,6 @@ public class OrderJSONParser {
             stringer.key("orderMaster");
             stringer.object();
 
-            stringer.key("OrderNumber").value(objOrderMaster.getOrderNumber());
             stringer.key("OrderDateTime").value(sdfDateTimeFormat.format(dt));
             //stringer.key("linktoTableMasterIds").value(objOrderMaster.getlinktoTableMasterIds());
             //stringer.key("linktoCustomerMasterId").value(objOrderMaster.getlinktoCustomerMasterId());
@@ -213,14 +224,14 @@ public class OrderJSONParser {
                 stringer.key("Tax3").value(alOrderItemTran.get(i).getTax3());
                 stringer.key("Tax4").value(alOrderItemTran.get(i).getTax4());
                 stringer.key("Tax5").value(alOrderItemTran.get(i).getTax5());
-                stringer.key("ItemRemark").value(alOrderItemTran.get(i).getRemark());
+                stringer.key("Remark").value(alOrderItemTran.get(i).getRemark());
                 stringer.key("ItemPoint").value(0);
                 stringer.key("DeductedPoint").value(0);
                 stringer.key("lstOrderItemModifierTran");
                 stringer.array();
                 for(int j=0;j<alOrderItemTran.get(i).getAlOrderItemModifierTran().size();j++){
                     stringer.object();
-                    stringer.key("ItemModifierMasterIds").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getItemMasterId());
+                    stringer.key("ItemMasterId").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getItemMasterId());
                     stringer.key("Rate").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getRate());
                     stringer.endObject();
                 }
@@ -229,72 +240,62 @@ public class OrderJSONParser {
             }
             stringer.endArray();
 
-            stringer.endObject();
+            stringer.key("lstTaxMaster");
+            stringer.array();
 
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.InsertOrderMaster, stringer);
-            if(jsonResponse!=null) {
-                JSONObject jsonObject = jsonResponse.getJSONObject(this.InsertOrderMaster + "Result");
-                if(jsonObject.getInt("ErrorCode")==0){
-                    return String.valueOf(jsonObject.getLong("ErrorNumber"));
-                }
-                else{
-                    return String.valueOf(jsonObject.getInt("ErrorCode"));
-                }
+            for(int i=0;i<alTaxMaster.size();i++){
+                stringer.object();
+                stringer.key("TaxMasterId").value(alTaxMaster.get(i).getTaxMasterId());
+                stringer.key("TaxName").value(alTaxMaster.get(i).getTaxName());
+                stringer.key("TaxRate").value(alTaxMaster.get(i).getTaxRate());
+                stringer.key("IsPercentage").value(alTaxMaster.get(i).getIsPercentage());
+                stringer.endObject();
             }
-            return "-1";
-        }
-        catch (Exception ex) {
-            return "-1";
-        }
-    }
-
-    public String UpdateOrderMaster(OrderMaster objOrderMaster) {
-        try {
-            JSONStringer stringer = new JSONStringer();
-            stringer.object();
-
-            stringer.key("orderMaster");
-            stringer.object();
-
-            stringer.key("OrderMasterId").value(objOrderMaster.getOrderMasterId());
-            stringer.key("OrderNumber").value(objOrderMaster.getOrderNumber());
-            dt = sdfControlDateFormat.parse(objOrderMaster.getOrderDateTime());
-            stringer.key("OrderDateTime").value(sdfDateTimeFormat.format(dt));
-            stringer.key("linktoTableMasterIds").value(objOrderMaster.getlinktoTableMasterIds());
-            stringer.key("linktoCustomerMasterId").value(objOrderMaster.getlinktoCustomerMasterId());
-            stringer.key("linktoRegisteredUserMasterId").value(objOrderMaster.getlinktoRegisteredUserMasterId());
-            stringer.key("linktoOrderTypeMasterId").value(objOrderMaster.getlinktoOrderTypeMasterId());
-            stringer.key("linktoOrderStatusMasterId").value(objOrderMaster.getlinktoOrderStatusMasterId());
-            stringer.key("linktoBookingMasterId").value(objOrderMaster.getlinktoBookingMasterId());
-            stringer.key("TotalAmount").value(objOrderMaster.getTotalAmount());
-            stringer.key("TotalTax").value(objOrderMaster.getTotalTax());
-            stringer.key("Discount").value(objOrderMaster.getDiscount());
-            stringer.key("ExtraAmount").value(objOrderMaster.getExtraAmount());
-            stringer.key("NetAmount").value(objOrderMaster.getNetAmount());
-            stringer.key("PaidAmount").value(objOrderMaster.getPaidAmount());
-            stringer.key("BalanceAmount").value(objOrderMaster.getBalanceAmount());
-            stringer.key("TotalItemPoint").value(objOrderMaster.getTotalItemPoint());
-            stringer.key("TotalDeductedPoint").value(objOrderMaster.getTotalDeductedPoint());
-            stringer.key("Remark").value(objOrderMaster.getRemark());
-            stringer.key("IsPreOrder").value(objOrderMaster.getIsPreOrder());
-            stringer.key("linktoCustomerAddressTranId").value(objOrderMaster.getlinktoCustomerAddressTranId());
-            stringer.key("linktoSalesMasterId").value(objOrderMaster.getlinktoSalesMasterId());
-            stringer.key("linktoOfferMasterId").value(objOrderMaster.getlinktoOfferMasterId());
-            stringer.key("OfferCode").value(objOrderMaster.getOfferCode());
-            dt = sdfControlDateFormat.parse(objOrderMaster.getUpdateDateTime());
-            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.endArray();
 
             stringer.endObject();
 
-            stringer.endObject();
+            String url = Service.Url + this.InsertOrderMaster;
 
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.UpdateOrderMaster, stringer);
-            JSONObject jsonObject = jsonResponse.getJSONObject(this.UpdateOrderMaster + "Result");
-            return String.valueOf(jsonObject.getInt("ErrorCode"));
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertOrderMaster + "Result");
+
+                        if(jsonResponse!=null){
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                            objOrderMasterRequestListener.OrderMasterResponse(errorCode,null);
+                        }else{
+                            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                            objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                        }
+                    } catch (JSONException e) {
+                        objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                        objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                    objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
         }
         catch (Exception ex) {
-            return "-1";
+            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+            objOrderMasterRequestListener.OrderMasterResponse("-1", null);
         }
     }
+
+    public interface OrderMasterRequestListener {
+        void OrderMasterResponse(String errorCode,OrderMaster objOrderMaster);
+    }
+
 }
 

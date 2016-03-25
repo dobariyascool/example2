@@ -37,7 +37,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     public static short i = 0;
     public static boolean isViewChange = false;
     ProgressDialog progressDialog = new ProgressDialog();
-    boolean isForceToChange = false;
+    boolean isForceToChange = false,isShowMsg=true;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -244,7 +244,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
+                if(data!=null) {
+                    isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                }
                 SetCartNumber();
+                isShowMsg = true;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -364,6 +368,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setSoundEffectsEnabled(true);
             txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
+            if(isShowMsg) {
+                Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgCartItem), MenuActivity.this, 1000);
+            }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));
         }

@@ -77,12 +77,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
         holder.txtItemPrice.setText("Rs. " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
-        if(objItemMaster.getIsDineInOnly()){
+        if (objItemMaster.getIsDineInOnly()) {
             holder.cvItem.setClickable(false);
             holder.btnAdd.setClickable(false);
-        }else{
+            holder.btnAdd.setEnabled(false);
+
+        } else {
             holder.cvItem.setClickable(true);
             holder.btnAdd.setClickable(true);
+            holder.btnAdd.setEnabled(true);
         }
 
         if (isItemAnimate) {
@@ -106,6 +109,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public interface ItemClickListener {
         void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName);
+
         void AddItemOnClick(ItemMaster objItemMaster);
     }
 
@@ -139,7 +143,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 ivItem.setLayoutParams(layoutParams);
             }
 
-
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,6 +152,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     objItemClickListener.AddItemOnClick(alItemMaster.get(getAdapterPosition()));
                 }
             });
+
 
             cvItem.setOnClickListener(new View.OnClickListener() {
                 @Override

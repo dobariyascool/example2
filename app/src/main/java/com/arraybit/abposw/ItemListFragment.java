@@ -133,16 +133,13 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName) {
-        //if (!objItemMaster.getIsDineInOnly()) {
         Intent i = new Intent(getActivity(), DetailActivity.class);
         i.putExtra("ItemMaster", objItemMaster);
         getActivity().startActivityForResult(i, 0);
-        //}
     }
 
     @Override
     public void AddItemOnClick(ItemMaster objItemMaster) {
-        //if (!objItemMaster.getIsDineInOnly()) {
         if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
             AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
             objAddQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
@@ -151,7 +148,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             i.putExtra("ItemMaster", objItemMaster);
             getActivity().startActivityForResult(i, 0);
         }
-        //}
     }
 
     //region Private Methods
@@ -160,7 +156,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
             }
-            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+            progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
             cnt = 1;
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
