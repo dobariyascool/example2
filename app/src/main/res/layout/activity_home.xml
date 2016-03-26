@@ -6,10 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.arraybit.pos.WaiterHomeActivity">
+    tools:context="com.arraybit.abposw.HomeActivity">
 
     <LinearLayout
-        android:id="@+id/homeLinearLayoput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -17,6 +16,81 @@
         <include
             android:id="@+id/app_bar"
             layout="@layout/app_bar_layout" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.liangfeizc.slidepageindicator.CirclePageIndicator
+                android:id="@+id/circlePageIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/control_SpecingMedium" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:text="@string/haGetDelivery"
+                android:textSize="@dimen/control_TextMedium"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvTakeAway"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:text="@string/haTakeAway"
+                android:textSize="@dimen/control_TextMedium"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvBookTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:text="@string/haBookTable"
+                android:textSize="@dimen/control_TextMedium"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvOffer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:text="@string/haOffer"
+                android:textSize="@dimen/control_TextMedium"/>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
     <!-- Navigation Drawer -->
@@ -29,7 +103,7 @@
         app:elevation="16dp"
         app:itemBackground="@drawable/navigation_view_ripple_effect"
         app:itemTextColor="@color/navigationdrawerText"
-        app:menu="@menu/home_navigation_drawer"/>
+        app:menu="@menu/home_navigation_drawer" />
     <!-- end -->
 
 </android.support.v4.widget.DrawerLayout>

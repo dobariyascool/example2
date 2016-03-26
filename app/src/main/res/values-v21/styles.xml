@@ -26,6 +26,7 @@
         <item name="cbd_boxSize">14dp</item>
         <item name="android:buttonTint">#d1d1d0</item>
         <item name="android:buttonTintMode">src_in</item>
+        <item name="android:textColor">@color/secondary_text</item>
         <item name="cbd_width">25dp</item>
         <item name="cbd_height">25dp</item>
     </style>

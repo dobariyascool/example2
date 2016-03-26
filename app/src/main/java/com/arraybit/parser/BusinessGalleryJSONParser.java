@@ -110,6 +110,36 @@ public class BusinessGalleryJSONParser {
         queue.add(jsonObjectRequest);
     }
 
+    public void SelectAllBusinessGalleryTran(final Context context, String currentPage, String linktoBusinessMasterId) {
+        String url = Service.Url + this.SelectAllBusinessGalleryTran + "/" +currentPage+"/"+ linktoBusinessMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllBusinessGalleryTran + "Result");
+                    if (jsonArray != null) {
+                        ArrayList<BusinessGalleryTran> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
+                        objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) context;
+                        objBusinessGalleryRequestListener.BusinessGalleryResponse(alBusinessGalleryTran);
+                    }
+                } catch (Exception e) {
+                    objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) context;
+                    objBusinessGalleryRequestListener.BusinessGalleryResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) context;
+                objBusinessGalleryRequestListener.BusinessGalleryResponse(null);
+            }
+
+        });
+        queue.add(jsonObjectRequest);
+    }
+
 
     public interface BusinessGalleryRequestListener {
         void BusinessGalleryResponse(ArrayList<BusinessGalleryTran> alBusinessGalleryTran);

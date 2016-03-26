@@ -20,6 +20,7 @@
     <string name="title_cart_item_fragment">Orders</string>
     <string name="title_item_modifier_remark">Add Detail</string>
     <string name="title_activity_cart_item">CartItemActivity</string>
+    <string name="title_home">Home</string>
 
 
     <!-- Operation Message -->
@@ -86,7 +87,10 @@
     <!-- end -->
 
     <!-- HomeActivity -->
-    <string name="title_home">Home</string>
+    <string name="haGetDelivery">Get Delivery</string>
+    <string name="haTakeAway">Take Away</string>
+    <string name="haBookTable">Book Table</string>
+    <string name="haOffer">Offers</string>
     <!-- end -->
 
     <!-- Home Navigation Drawer-->

@@ -76,7 +76,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     @Override
     public void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster) {
-        if(currentPage > 1) {
+        if(currentPage > 3) {
             progressDialog.dismiss();
         }
         lstReviewMaster = alReviewMaster;
@@ -91,7 +91,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     //region Private Methods
     private void RequestReviews() {
-        if(currentPage > 1) {
+        if(currentPage > 3) {
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
         }
         ReviewJSONParser objReviewJSONParser = new ReviewJSONParser();

@@ -61,18 +61,12 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
         rvGallery = (RecyclerView) view.findViewById(R.id.rvGallery);
         rvGallery.setVisibility(View.GONE);
 
-        //if (lstBusinessGalleryTran == null) {
-            if (Service.CheckNet(getActivity())) {
-                currentPage = 1;
-                RequestBusinessGallery();
-            } else {
-                Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
-            }
-        //} else if (lstBusinessGalleryTran.size() == 0) {
-        //    txtMsg.setText(getResources().getString(R.string.MsgGallery));
-        //} else {
-       //     SetGalleryRecyclerView(lstBusinessGalleryTran);
-        //}
+        if (Service.CheckNet(getActivity())) {
+            currentPage = 1;
+            RequestBusinessGallery();
+        } else {
+            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+        }
 
         rvGallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -102,7 +96,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
     @Override
     public void BusinessGalleryResponse(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
-        if(currentPage > 1) {
+        if (currentPage > 3) {
             progressDialog.dismiss();
         }
         lstBusinessGalleryTran = alBusinessGalleryTran;
@@ -136,10 +130,10 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
     //region Private Methods
     private void RequestBusinessGallery() {
-        if(progressDialog.isAdded()){
+        if (progressDialog.isAdded()) {
             progressDialog.dismiss();
         }
-        if(currentPage > 1) {
+        if (currentPage > 3) {
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
         }
         BusinessGalleryJSONParser objBusinessGalleryJSONParser = new BusinessGalleryJSONParser();

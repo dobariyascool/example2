@@ -26,6 +26,8 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
     ArrayList<BusinessInfoQuestionMaster> lstBusinessInfoQuestionMaster;
     BusinessInfoQuestionMaster objBusinessInfoQuestionMaster;
     BusinessInfoAnswerMaster objBusinessInfoAnswerMaster;
+    String que;
+    int cnt;
 
     public BusinessInformationFragment() {
     }
@@ -69,45 +71,49 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
     }
 
     private void SetRecyclerView(ArrayList<BusinessInfoQuestionMaster> alBusinessInfoQuestionMaster) {
-        if (alBusinessInfoQuestionMaster == null) {
-
-        } else if (alBusinessInfoQuestionMaster.size() == 0) {
-
-        } else {
+        if (alBusinessInfoQuestionMaster != null && alBusinessInfoQuestionMaster.size() != 0) {
             rvBusinessInfo.setVisibility(View.VISIBLE);
-            String que = "";
             ArrayList<BusinessInfoAnswerMaster> alBusinessInfoAnswerMaster = new ArrayList<>();
             lstBusinessInfoQuestionMaster = new ArrayList<>();
-            for (BusinessInfoQuestionMaster i : alBusinessInfoQuestionMaster) {
+            que = "";
+            cnt = 0;
+            for (BusinessInfoQuestionMaster objQuestionMaster : alBusinessInfoQuestionMaster) {
                 if (que.equals("")) {
-                    que = i.getQuestion();
+                    que = objQuestionMaster.getQuestion();
                     objBusinessInfoQuestionMaster = new BusinessInfoQuestionMaster();
                     objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-                    objBusinessInfoQuestionMaster.setBusinessInfoQuestionMasterId(i.getBusinessInfoQuestionMasterId());
-                    objBusinessInfoQuestionMaster.setQuestion(i.getQuestion());
-                    objBusinessInfoAnswerMaster.setAnswer(i.getAnswer());
-                    objBusinessInfoAnswerMaster.setIsAnswer(i.getIsAnswer());
+                    objBusinessInfoQuestionMaster = objQuestionMaster;
+                    objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
+                    objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
                     alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                 } else {
-                    if (que.equals(i.getQuestion())) {
+                    if (que.equals(objQuestionMaster.getQuestion())) {
                         objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-                        objBusinessInfoAnswerMaster.setAnswer(i.getAnswer());
-                        objBusinessInfoAnswerMaster.setIsAnswer(i.getIsAnswer());
+                        objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
+                        objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
+                        if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
+                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                        }
                     } else {
                         objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                         lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
                         alBusinessInfoAnswerMaster = new ArrayList<>();
-                        que = i.getQuestion();
+                        que = objQuestionMaster.getQuestion();
                         objBusinessInfoQuestionMaster = new BusinessInfoQuestionMaster();
                         objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-                        objBusinessInfoQuestionMaster.setBusinessInfoQuestionMasterId(i.getBusinessInfoQuestionMasterId());
-                        objBusinessInfoQuestionMaster.setQuestion(i.getQuestion());
-                        objBusinessInfoAnswerMaster.setAnswer(i.getAnswer());
-                        objBusinessInfoAnswerMaster.setIsAnswer(i.getIsAnswer());
+                        objBusinessInfoQuestionMaster = objQuestionMaster;
+                        objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
+                        objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
+                        if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
+                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                        }
                     }
                 }
+                cnt++;
             }
             adapter = new BusinessInfoAdapter(getActivity(), lstBusinessInfoQuestionMaster);
             rvBusinessInfo.setAdapter(adapter);

@@ -136,6 +136,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }else if(id==android.R.id.home){
             finish();
             Globals.alOrderItemTran = new ArrayList<>();
+        }else if (id == R.id.logout) {
+            Globals.Logout(MenuActivity.this,MenuActivity.this);
         }
 
         return super.onOptionsItemSelected(item);
@@ -295,8 +297,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
             itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
 
-            for (int i = 0; i < alCategoryMaster.size(); i++) {
-                itemPagerAdapter.AddFragment(ItemListFragment.createInstance(alCategoryMaster.get(i)), alCategoryMaster.get(i));
+            for(CategoryMaster objFilterCategoryMaster : alCategoryMaster){
+                itemPagerAdapter.AddFragment(ItemListFragment.createInstance(objFilterCategoryMaster), objFilterCategoryMaster);
             }
 
             viewPager.setAdapter(itemPagerAdapter);

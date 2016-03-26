@@ -20,16 +20,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     Context context;
     ArrayList<ReviewMaster> alReviewMaster;
     WriteReviewListener objWriteReviewListener;
+    LayoutInflater layoutInflater;
 
     public ReviewAdapter(Context context, ArrayList<ReviewMaster> alReviewMaster, WriteReviewListener objWriteReviewListener) {
         this.context = context;
         this.alReviewMaster = alReviewMaster;
+        this.layoutInflater = LayoutInflater.from(context);
         this.objWriteReviewListener = objWriteReviewListener;
     }
 
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.row_review, parent, false);
+        view = layoutInflater.inflate(R.layout.row_review, parent, false);
         return new ReviewViewHolder(view);
     }
 

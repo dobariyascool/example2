@@ -11,7 +11,6 @@ import com.arraybit.parser.RegisteredUserJSONParser;
 
 public class SplashScreenActivity extends AppCompatActivity implements RegisteredUserJSONParser.RegisteredUserRequestListener {
 
-    RegisteredUserMaster objRegisteredUserMaster;
     SharePreferenceManage objSharePreferenceManage;
 
     @Override
@@ -26,6 +25,10 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
                 RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
                 objRegisteredUserJSONParser.SelectRegisteredUserMasterUserName(SplashScreenActivity.this, userName, userPassword);
+            }else{
+                Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
             }
         } else {
             new Handler().postDelayed(new Runnable() {
@@ -47,7 +50,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
             startActivity(i);
             finish();
         } else {
-            this.objRegisteredUserMaster = objRegisteredUserMaster;
             Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);

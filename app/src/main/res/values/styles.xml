@@ -263,6 +263,7 @@
     <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="cbd_boxSize">14dp</item>
         <item name="cbd_width">25dp</item>
+        <item name="android:textColor">@color/secondary_text</item>
         <item name="cbd_height">25dp</item>
     </style>
 

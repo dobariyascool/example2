@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.arraybit.abposw.LoginActivity;
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
 import com.rey.material.widget.EditText;
@@ -98,6 +100,25 @@ public class Globals {
     public static void HideKeyBoard(Context context, View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static void ClearCartData(){
+        counter = 0;
+        alOrderItemTran = new ArrayList<>();
+    }
+
+    public static void Logout(Context context,Activity activity){
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        objSharePreferenceManage.RemovePreference("LoginPreference", "RegisteredUserMasterId", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", context);
+        objSharePreferenceManage.ClearPreference("LoginPreference", context);
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        activity.startActivity(intent);
+        activity.finish();
+        ClearCartData();
     }
 
 

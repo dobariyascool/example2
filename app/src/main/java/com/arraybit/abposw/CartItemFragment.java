@@ -20,6 +20,7 @@ import com.arraybit.adapter.CartItemAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.OrderJSONParser;
@@ -31,15 +32,15 @@ import com.rey.material.widget.TextView;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class CartItemFragment extends Fragment implements View.OnClickListener,CartItemAdapter.CartItemOnClickListener,TaxJSONParser.TaxMasterRequestListener,OrderJSONParser.OrderMasterRequestListener{
+public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, OrderJSONParser.OrderMasterRequestListener {
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
-    Button btnAddMore,btnConfirmOrder;
+    Button btnAddMore, btnConfirmOrder;
     TextView txtMsg;
     CompoundButton cbMenu;
     LinearLayout headerLayout;
-    double totalAmount,totalTax;
+    double totalAmount, totalTax;
     ArrayList<TaxMaster> alTaxMaster;
     ProgressDialog progressDialog = new ProgressDialog();
     int registeredUserMasterId;
@@ -99,15 +100,15 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
     public void onClick(View v) {
         if (v.getId() == R.id.btnAddMore) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("ShowMessage",false);
-            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra("ShowMessage", false);
+            getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
-        }else if(v.getId()==R.id.btnConfirmOrder){
+        } else if (v.getId() == R.id.btnConfirmOrder) {
             RequestOrderMaster();
-        }else if(v.getId()==R.id.cbMenu){
+        } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("ShowMessage",false);
-            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra("ShowMessage", false);
+            getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         }
     }
@@ -121,8 +122,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("ShowMessage",false);
-            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra("ShowMessage", false);
+            getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
@@ -150,13 +151,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
 
 
     //region Private Methods
-    private void RequestTaxMaster(){
-        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+    private void RequestTaxMaster() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         TaxJSONParser objTaxJSONParser = new TaxJSONParser();
         objTaxJSONParser.SelectAllTaxMaster(String.valueOf(Globals.linktoBusinessMasterId), getActivity(), this);
     }
 
-    private void SetRecyclerView(){
+    private void SetRecyclerView() {
         if (Globals.alOrderItemTran.size() == 0) {
             txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
             SetVisibility();
@@ -164,7 +165,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
         } else {
             SetVisibility();
             rvCartItem.setVisibility(View.VISIBLE);
-            adapter = new CartItemAdapter(getActivity(), Globals.alOrderItemTran,this,false);
+            adapter = new CartItemAdapter(getActivity(), Globals.alOrderItemTran, this, false);
             rvCartItem.setAdapter(adapter);
             rvCartItem.setLayoutManager(new LinearLayoutManager(getActivity()));
             rvCartItem.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -198,17 +199,17 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
             btnConfirmOrder.setVisibility(View.VISIBLE);
         }
         objSharePreferenceManage = new SharePreferenceManage();
-        if(objSharePreferenceManage.GetPreference("LoginPreference","RegisteredUserMasterId",getActivity())!=null){
-            registeredUserMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference","RegisteredUserMasterId",getActivity()));
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity()) != null) {
+            registeredUserMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity()));
         }
     }
 
-    private void RequestOrderMaster(){
-        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+    private void RequestOrderMaster() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         if (Globals.alOrderItemTran.size() != 0) {
-            for (int i = 0; i < Globals.alOrderItemTran.size(); i++) {
-                totalAmount = totalAmount + Globals.alOrderItemTran.get(i).getTotalAmount();
-                totalTax = totalTax + Globals.alOrderItemTran.get(i).getTotalTax();
+            for (ItemMaster objOrderItemTran : Globals.alOrderItemTran) {
+                totalAmount = totalAmount + objOrderItemTran.getTotalAmount();
+                totalTax = totalTax + objOrderItemTran.getTotalTax();
             }
         }
 
@@ -226,7 +227,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
         objOrderMaster.setIsPreOrder(true);
 
         OrderJSONParser orderJSONParser = new OrderJSONParser();
-        orderJSONParser.InsertOrderMaster(objOrderMaster,Globals.alOrderItemTran,alTaxMaster,getActivity(),this);
+        orderJSONParser.InsertOrderMaster(objOrderMaster, Globals.alOrderItemTran, alTaxMaster, getActivity(), this);
     }
 
     private void SetError(String errorCode) {
@@ -234,12 +235,12 @@ public class CartItemFragment extends Fragment implements View.OnClickListener,C
             case "-1":
                 Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;
-            default:
+            case "0":
                 Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgConfirmOrder), getActivity(), 1000);
-                Globals.alOrderItemTran = new ArrayList<>();
+                Globals.ClearCartData();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("ShowMessage", false);
-                getActivity().setResult(Activity.RESULT_OK,returnIntent);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
                 break;
         }
