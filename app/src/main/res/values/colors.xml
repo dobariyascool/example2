@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorAccentDark">#FF0066</color>
+    <color name="colorPrimary">#FF2B1510</color>
+    <color name="colorPrimaryDark">#FF120907</color>
+    <color name="colorAccent">#FF6E6A2E</color>
+    <color name="colorAccentDark">#FF5C5927</color>
     <color name="primary_light">#E1BEE7</color>
 
     <array name="colorArray">
-        <item name="first">#FFBB00</item>
-        <item name="second">#FF9800</item>
-        <item name="third">#FF6F00</item>
+        <!--<item name="first">#FFBB00</item>-->
+        <item name="first">#FFA7A14A</item>
+        <!--<item name="second">#FF9800</item>-->
+        <item name="second">#AFA725</item>
+        <!--<item name="third">#FF6F00</item>-->
+        <item name="third">#BFB725</item>
     </array>
     <color name="error_text">#FF5252</color>
     <color name="blue_grey">#263238</color>
@@ -21,9 +24,9 @@
     <color name="orange_light">#F17826</color>
     <color name="transparent_orange">#30FFA726</color>
     <color name="transparent_white">#60FFFFFF</color>
-    <color name="primary">#3f0b4b</color>
-    <color name="accent">#FFC400</color>
-    <color name="accent_dark">#FFAB00</color>
+    <!--<color name="primary">#3f0b4b</color>-->
+    <!--<color name="accent">#FFC400</color>-->
+    <!--<color name="accent_dark">#FFAB00</color>-->
     <color name="darkgoldenrod">#AF7817</color>
     <color name="accent_secondary">#FFBB00</color>
     <color name="brown">#795548</color>
