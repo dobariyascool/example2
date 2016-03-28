@@ -245,6 +245,10 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 objOptionMaster.setOptionName(objOptionValueTran.getOptionName());
                 objOptionMaster.setOptionMasterId(objOptionValueTran.getlinktoOptionMasterId());
                 lstOptionValueTran.add(objOptionValueTran);
+                if (lstOptionValue.indexOf(objOptionValueTran) == lstOptionValue.size() - 1) {
+                    objOptionMaster.setAlOptionValueTran(lstOptionValueTran);
+                    alOptionMaster.add(objOptionMaster);
+                }
             } else {
                 if (strOptionName.equals(objOptionValueTran.getOptionName())) {
                     lstOptionValueTran.add(objOptionValueTran);

@@ -86,6 +86,10 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                     objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                     objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
                     alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
+                    if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
+                        objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                        lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                    }
                 } else {
                     if (que.equals(objQuestionMaster.getQuestion())) {
                         objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
