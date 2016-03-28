@@ -18,6 +18,7 @@ import com.arraybit.adapter.SpinnerAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SpinnerItem;
+import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.RegisteredUserMaster;
 import com.arraybit.parser.AreaJSONParser;
 import com.arraybit.parser.CityJSONParser;
@@ -149,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 } else if (spArea.getSelectedItemId() == 0 && !etFirstName.getText().toString().equals("")
                         && !etEmail.getText().toString().equals("") && !etPassword.getText().toString().equals("")) {
                     Globals.ShowSnackBar(view, "Select Area", RegistrationActivity.this, 1000);
-                } else{
+                } else {
                     Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
                 }
             } else {
@@ -204,37 +205,38 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
 
-        RegisteredUserMaster objRegisteredUserMaster = new RegisteredUserMaster();
-        objRegisteredUserMaster.setFirstName(etFirstName.getText().toString());
-        objRegisteredUserMaster.setLastName(etLastName.getText().toString());
-        objRegisteredUserMaster.setEmail(etEmail.getText().toString());
-        objRegisteredUserMaster.setPassword(etPassword.getText().toString());
-        objRegisteredUserMaster.setPhone(etPhone.getText().toString());
+        //RegisteredUserMaster objRegisteredUserMaster = new RegisteredUserMaster();
+        CustomerMaster objCustomerMaster = new CustomerMaster();
+        objCustomerMaster.setCustomerName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
+        objCustomerMaster.setEmail1(etEmail.getText().toString());
+        objCustomerMaster.setPassword(etPassword.getText().toString());
+        objCustomerMaster.setPhone1(etPhone.getText().toString());
         if (rbMale.isChecked()) {
-            objRegisteredUserMaster.setGender(rbMale.getText().toString());
+            objCustomerMaster.setGender(rbMale.getText().toString());
         }
         if (rbFemale.isChecked()) {
-            objRegisteredUserMaster.setGender(rbFemale.getText().toString());
+            objCustomerMaster.setGender(rbFemale.getText().toString());
         }
         if (!etDateOfBirth.getText().toString().isEmpty()) {
             try {
                 birthDate = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etDateOfBirth.getText().toString());
-                objRegisteredUserMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
+                objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         if (areaMasterId != 0) {
-            objRegisteredUserMaster.setlinktoAreaMasterId(areaMasterId);
+            objCustomerMaster.setLinktoAreaMasterId(areaMasterId);
         }
         if (cityMasterId != 0) {
-            objRegisteredUserMaster.setlinktoCityMasterId(cityMasterId);
+            objCustomerMaster.setLinktoCityMasterId(cityMasterId);
         }
-        objRegisteredUserMaster.setIsEnabled(true);
-        objRegisteredUserMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
-        objRegisteredUserMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
+        objCustomerMaster.setIsEnabled(true);
+        objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+        objCustomerMaster.setCustomerType(Globals.CustomerType);
+        objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
 
-        objRegisteredUserJSONParser.InsertRegisteredUserMaster(objRegisteredUserMaster, RegistrationActivity.this);
+        objRegisteredUserJSONParser.InsertRegisteredUserMaster(objCustomerMaster, RegistrationActivity.this);
     }
 
     private void FillCity() {

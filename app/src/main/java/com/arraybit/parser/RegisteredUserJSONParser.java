@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.RegisteredUserMaster;
 
 import org.json.JSONArray;
@@ -26,7 +27,7 @@ import java.util.Locale;
 
 public class RegisteredUserJSONParser {
 
-    public String InsertRegisteredUserMaster = "InsertRegisteredUserMaster";
+    public String InsertRegisteredUserMaster = "InsertCustomerUserMaster";
     public String UpdateRegisteredUserMaster = "UpdateRegisteredUserMaster";
     public String UpdateRegisteredUserMasterPassword = "UpdateRegisteredUserMasterPassword";
     public String SelectRegisteredUserMaster = "SelectRegisteredUserMaster";
@@ -128,31 +129,31 @@ public class RegisteredUserJSONParser {
         }
     }
 
-    public void InsertRegisteredUserMaster(final RegisteredUserMaster objRegisteredUserMaster, final Context context) {
+    public void InsertRegisteredUserMaster(final CustomerMaster objCustomerMaster, final Context context) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
 
-            stringer.key("registeredUserMaster");
+            stringer.key("customerMaster");
             stringer.object();
 
-            stringer.key("Email").value(objRegisteredUserMaster.getEmail());
-            stringer.key("Phone").value(objRegisteredUserMaster.getPhone());
-            stringer.key("Password").value(objRegisteredUserMaster.getPassword());
-            stringer.key("FirstName").value(objRegisteredUserMaster.getFirstName());
-            stringer.key("LastName").value(objRegisteredUserMaster.getLastName());
-            stringer.key("Gender").value(objRegisteredUserMaster.getGender());
-            if(objRegisteredUserMaster.getBirthDate()!=null) {
-                stringer.key("BirthDate").value(objRegisteredUserMaster.getBirthDate());
+            stringer.key("Email1").value(objCustomerMaster.getEmail1());
+            stringer.key("Phone1").value(objCustomerMaster.getPhone1());
+            stringer.key("Password").value(objCustomerMaster.getPassword());
+            stringer.key("CustomerName").value(objCustomerMaster.getCustomerName());
+            stringer.key("Gender").value(objCustomerMaster.getGender());
+            if(objCustomerMaster.getBirthDate()!=null) {
+                stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
-            stringer.key("linktoCityMasterId").value(objRegisteredUserMaster.getlinktoCityMasterId());
-            stringer.key("linktoAreaMasterId").value(objRegisteredUserMaster.getlinktoAreaMasterId());
-            stringer.key("linktoBusinessMasterId").value(objRegisteredUserMaster.getlinktoBusinessMasterId());
+            stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
+            stringer.key("linktoAreaMasterId").value(objCustomerMaster.getLinktoAreaMasterId());
+            stringer.key("linktoBusinessMasterId").value(objCustomerMaster.getlinktoBusinessMasterId());
             stringer.key("CreateDateTime").value(sdfDateTimeFormat.format(dt));
-            stringer.key("linktoSourceMasterId").value(objRegisteredUserMaster.getlinktoSourceMasterId());
-            stringer.key("Comment").value(objRegisteredUserMaster.getComment());
-            stringer.key("IsEnabled").value(objRegisteredUserMaster.getIsEnabled());
+            stringer.key("linktoSourceMasterId").value(objCustomerMaster.getlinktoSourceMasterId());
+            stringer.key("CustomerType").value(objCustomerMaster.getCustomerType());
+            stringer.key("LastLoginDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("IsEnabled").value(objCustomerMaster.getIsEnabled());
 
             stringer.endObject();
 

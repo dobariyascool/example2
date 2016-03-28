@@ -50,7 +50,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
             startActivity(i);
             finish();
         } else {
-            Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
+            Intent i = new Intent(SplashScreenActivity.this, RegistrationActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
             startActivity(i);

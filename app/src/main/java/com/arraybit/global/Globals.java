@@ -47,6 +47,7 @@ public class Globals {
     public static short linktoStateMasterId = 1;
     public static short linktoBusinessMasterId = 1;
     public static short linktoBusinessTypeMasterId = 1;
+    public static short CustomerType = 3;
     public static short linktoSourceMasterId = 2;
     public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
     public static int counter = 0;
