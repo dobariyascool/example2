@@ -28,6 +28,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     ItemMaster objItemMaster;
     double totalAmount, totalTax;
     boolean isDuplicate;
+    //test
 
     public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
