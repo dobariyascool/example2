@@ -80,7 +80,7 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
         objReviewMaster.setStarRating(rtbReview.getRating());
         objReviewMaster.setReview(etReview.getText().toString());
         objReviewMaster.setIsShow(false);
-        objReviewMaster.setlinktoRegisteredUserMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity())));
+        objReviewMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity())));
         objReviewMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
 
         objReviewJSONParser.InsertReviewMaster(objReviewMaster, getActivity(), this);
