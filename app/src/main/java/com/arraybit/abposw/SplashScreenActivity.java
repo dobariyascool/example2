@@ -6,10 +6,10 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.arraybit.global.SharePreferenceManage;
-import com.arraybit.modal.RegisteredUserMaster;
-import com.arraybit.parser.RegisteredUserJSONParser;
+import com.arraybit.modal.CustomerMaster;
+import com.arraybit.parser.CustomerJSONParser;
 
-public class SplashScreenActivity extends AppCompatActivity implements RegisteredUserJSONParser.RegisteredUserRequestListener {
+public class SplashScreenActivity extends AppCompatActivity implements CustomerJSONParser.CustomerRequestListener {
 
     SharePreferenceManage objSharePreferenceManage;
 
@@ -23,9 +23,9 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
             String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", this);
             String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this);
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
-                RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
-                objRegisteredUserJSONParser.SelectRegisteredUserMasterUserName(SplashScreenActivity.this, userName, userPassword);
-            }else{
+                CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword);
+            } else {
                 Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
@@ -43,16 +43,16 @@ public class SplashScreenActivity extends AppCompatActivity implements Registere
     }
 
     @Override
-    public void RegisteredUserResponse(String errorCode, RegisteredUserMaster objRegisteredUserMaster) {
-        if (objRegisteredUserMaster == null) {
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+        if (objCustomerMaster == null) {
             Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
         } else {
-            Intent i = new Intent(SplashScreenActivity.this, RegistrationActivity.class);
+            Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
+            i.putExtra("CustomerMaster", objCustomerMaster);
             startActivity(i);
             finish();
         }

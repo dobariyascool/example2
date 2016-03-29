@@ -24,13 +24,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-/// <summary>
-/// JSONParser for ReviewMaster
-/// </summary>
 public class ReviewJSONParser {
+
     public String InsertReviewMaster = "InsertReviewMaster";
-    public String UpdateReviewMaster = "UpdateReviewMaster";
-    public String DeleteReviewMaster = "DeleteReviewMaster";
     public String SelectAllReviewMaster = "SelectAllReviewMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -40,6 +36,7 @@ public class ReviewJSONParser {
     ReviewMasterRequestListener objReviewMasterRequestListener;
     InsertReviewMasterRequestListener objInsertReviewMasterRequestListener;
 
+    //region Class Method
     private ReviewMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         ReviewMaster objReviewMaster = null;
         try {
@@ -55,7 +52,7 @@ public class ReviewJSONParser {
                 objReviewMaster.setReviewDateTime(sdfControlDateFormat.format(dt));
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("UpdateDateTime"));
                 objReviewMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
-                objReviewMaster.setlinktoRegisteredUserMasterId(jsonObject.getInt("linktoRegisteredUserMasterId"));
+                objReviewMaster.setlinktoCustomerMasterId(jsonObject.getInt("linktoCustomerMasterId"));
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objReviewMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
@@ -88,12 +85,7 @@ public class ReviewJSONParser {
                 }
                 dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("ReviewDateTime"));
                 objReviewMaster.setReviewDateTime(sdfControlDateFormat.format(dt));
-                /*dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
-                objReviewMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));*/
-                objReviewMaster.setlinktoRegisteredUserMasterId(jsonArray.getJSONObject(i).getInt("linktoRegisteredUserMasterId"));
-                /*if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
-                    objReviewMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
-                }*/
+                objReviewMaster.setlinktoCustomerMasterId(jsonArray.getJSONObject(i).getInt("linktoCustomerMasterId"));
                 objReviewMaster.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
 
                 /// Extra
@@ -110,7 +102,9 @@ public class ReviewJSONParser {
             return null;
         }
     }
+    //endregion
 
+    //region Insert
     public void InsertReviewMaster(final ReviewMaster objReviewMaster, final Context context, final Fragment targetFragment) {
         dt = new Date();
         try {
@@ -124,7 +118,7 @@ public class ReviewJSONParser {
             stringer.key("Review").value(objReviewMaster.getReview());
             stringer.key("IsShow").value(objReviewMaster.getIsShow());
             stringer.key("ReviewDateTime").value(sdfDateTimeFormat.format(dt));
-            stringer.key("linktoRegisteredUserMasterId").value(objReviewMaster.getlinktoRegisteredUserMasterId());
+            stringer.key("linktoCustomerMasterId").value(objReviewMaster.getlinktoCustomerMasterId());
             stringer.key("linktoBusinessMasterId").value(objReviewMaster.getlinktoBusinessMasterId());
 
             stringer.endObject();
@@ -167,71 +161,9 @@ public class ReviewJSONParser {
             objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
         }
     }
+    //endregion
 
-    public String UpdateReviewMaster(ReviewMaster objReviewMaster) {
-        try {
-            JSONStringer stringer = new JSONStringer();
-            stringer.object();
-
-            stringer.key("reviewMaster");
-            stringer.object();
-
-            stringer.key("ReviewMasterId").value(objReviewMaster.getReviewMasterId());
-            stringer.key("StarRating").value(objReviewMaster.getStarRating());
-            stringer.key("Review").value(objReviewMaster.getReview());
-            stringer.key("IsShow").value(objReviewMaster.getIsShow());
-            dt = sdfControlDateFormat.parse(objReviewMaster.getReviewDateTime());
-            stringer.key("ReviewDateTime").value(sdfDateTimeFormat.format(dt));
-            dt = sdfControlDateFormat.parse(objReviewMaster.getUpdateDateTime());
-            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
-            stringer.key("linktoRegisteredUserMasterId").value(objReviewMaster.getlinktoRegisteredUserMasterId());
-            stringer.key("linktoUserMasterIdUpdatedBy").value(objReviewMaster.getlinktoUserMasterIdUpdatedBy());
-            stringer.key("linktoBusinessMasterId").value(objReviewMaster.getlinktoBusinessMasterId());
-
-            stringer.endObject();
-
-            stringer.endObject();
-
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.UpdateReviewMaster, stringer);
-            JSONObject jsonObject = jsonResponse.getJSONObject(this.UpdateReviewMaster + "Result");
-            return String.valueOf(jsonObject.getInt("ErrorCode"));
-        } catch (Exception ex) {
-            return "-1";
-        }
-    }
-
-    public String DeleteReviewMaster(long reviewMasterId) {
-        try {
-            JSONStringer stringer = new JSONStringer();
-            stringer.object();
-
-            stringer.key("reviewMasterId").value(reviewMasterId);
-
-            stringer.endObject();
-
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.DeleteReviewMaster, stringer);
-            JSONObject jsonObject = jsonResponse.getJSONObject(this.DeleteReviewMaster + "Result");
-            return String.valueOf(jsonObject.getInt("ErrorCode"));
-        } catch (Exception ex) {
-            return "-1";
-        }
-    }
-
-    /*public ReviewMaster SelectReviewMaster(long reviewMasterId) {
-        try {
-            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectReviewMaster + "/" + reviewMasterId);
-            if (jsonResponse != null) {
-                JSONObject jsonObject = jsonResponse.getJSONObject(this.SelectReviewMaster + "Result");
-                if (jsonObject != null) {
-                    return SetClassPropertiesFromJSONObject(jsonObject);
-                }
-            }
-            return null;
-        } catch (Exception ex) {
-            return null;
-        }
-    }*/
-
+    //region SelectAll
     public void SelectAllReviewMasterPageWise(final Fragment targetFragment, Context context, String currentPage, String linktoBusinessMasterId) {
         String url = Service.Url + this.SelectAllReviewMaster + "/" + currentPage + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -260,6 +192,7 @@ public class ReviewJSONParser {
         });
         queue.add(jsonObjectRequest);
     }
+    //endregion
 
     public interface ReviewMasterRequestListener {
         void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster);

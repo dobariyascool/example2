@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessGalleryTran;
-import com.arraybit.modal.RegisteredUserMaster;
+import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.BusinessGalleryJSONParser;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 import com.rey.material.widget.TextView;
@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    RegisteredUserMaster objRegisteredUserMaster;
+    CustomerMaster objCustomerMaster;
     ProgressDialog progressDialog = new ProgressDialog();
     ViewPager viewPager;
     CirclePageIndicator circlePageIndicator;
@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        objRegisteredUserMaster = getIntent().getParcelableExtra("RegisteredUserMaster");
+        objCustomerMaster = getIntent().getParcelableExtra("CustomerMaster");
 
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
@@ -68,9 +68,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ImageView ivLogo = (ImageView) headerView.findViewById(R.id.ivLogo);
         //ivLogo.setVisibility(View.GONE);
         TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
-        txtLetter.setText(objRegisteredUserMaster.getFirstName().substring(0, 1));
+        txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
         TextView txtName = (TextView) headerView.findViewById(R.id.txtName);
-        txtName.setText(objRegisteredUserMaster.getEmail());
+        txtName.setText(objCustomerMaster.getEmail1());
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);

@@ -10,20 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.arraybit.global.Service;
-import com.arraybit.modal.RegisteredUserMaster;
-import com.arraybit.parser.RegisteredUserJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.RadioButton;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,26 +96,5 @@ public class MainActivity extends AppCompatActivity {
         chk2.setChecked(true);
     }
 
-
-    private void GetResponse(){
-        final com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
-        progressDialog.show(getSupportFragmentManager(),"");
-        final RegisteredUserJSONParser objRegisteredUserJSONParser=new RegisteredUserJSONParser();
-        String url = Service.Url + objRegisteredUserJSONParser.SelectAllRegisteredUserMaster;
-        RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET,url,new JSONObject(),new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                ArrayList<RegisteredUserMaster> arrayList = objRegisteredUserJSONParser.SelectAllRegisteredUserMasterPageWise(jsonObject);
-                progressDialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                progressDialog.dismiss();
-            }
-        });
-        queue.add(jsonObjectRequest);
-    }
 
 }

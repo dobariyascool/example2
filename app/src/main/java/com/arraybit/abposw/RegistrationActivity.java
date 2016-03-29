@@ -19,10 +19,9 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.CustomerMaster;
-import com.arraybit.modal.RegisteredUserMaster;
 import com.arraybit.parser.AreaJSONParser;
 import com.arraybit.parser.CityJSONParser;
-import com.arraybit.parser.RegisteredUserJSONParser;
+import com.arraybit.parser.CustomerJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
@@ -33,7 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, RegisteredUserJSONParser.RegisteredUserRequestListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener {
 
     ArrayList<SpinnerItem> alCityMaster, alAreaMaster;
     EditText etFirstName, etLastName, etEmail, etPassword, etPhone, etDateOfBirth;
@@ -181,8 +180,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         FillArea();
     }
 
+
     @Override
-    public void RegisteredUserResponse(String errorCode, RegisteredUserMaster objRegisteredUserMaster) {
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
         SetError(errorCode);
     }
@@ -203,9 +203,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void RegistrationRequest() {
         progressDialog.show(getSupportFragmentManager(), "");
 
-        RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
-
-        //RegisteredUserMaster objRegisteredUserMaster = new RegisteredUserMaster();
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();
         objCustomerMaster.setCustomerName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         objCustomerMaster.setEmail1(etEmail.getText().toString());
@@ -236,7 +234,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         objCustomerMaster.setCustomerType(Globals.CustomerType);
         objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
 
-        objRegisteredUserJSONParser.InsertRegisteredUserMaster(objCustomerMaster, RegistrationActivity.this);
+        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
     }
 
     private void FillCity() {
@@ -388,6 +386,5 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         etEmail.setText("");
         etPhone.setText("");
     }
-
     //endregion
 }

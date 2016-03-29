@@ -3,9 +3,6 @@ package com.arraybit.modal;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/// <summary>
-/// Model for ReviewMaster
-/// </summary>
 public class ReviewMaster implements Parcelable {
 	//region Properties
 
@@ -15,7 +12,7 @@ public class ReviewMaster implements Parcelable {
 	boolean IsShow;
 	String ReviewDateTime;
 	String UpdateDateTime;
-	int linktoRegisteredUserMasterId;
+	int linktoCustomerMasterId;
 	short linktoUserMasterIdUpdatedBy;
 	short linktoBusinessMasterId;
 	/// Extra
@@ -31,7 +28,7 @@ public class ReviewMaster implements Parcelable {
 			objReviewMaster.IsShow = source.readByte() != 0;
 			objReviewMaster.ReviewDateTime = source.readString();
 			objReviewMaster.UpdateDateTime = source.readString();
-			objReviewMaster.linktoRegisteredUserMasterId = source.readInt();
+			objReviewMaster.linktoCustomerMasterId = source.readInt();
 			objReviewMaster.linktoUserMasterIdUpdatedBy = (short)source.readInt();
 			objReviewMaster.linktoBusinessMasterId = (short)source.readInt();
 
@@ -71,9 +68,9 @@ public class ReviewMaster implements Parcelable {
 
 	public void setUpdateDateTime(String updateDateTime) { this.UpdateDateTime = updateDateTime; }
 
-	public int getlinktoRegisteredUserMasterId() { return this.linktoRegisteredUserMasterId; }
+	public int getlinktoCustomerMasterId() { return this.linktoCustomerMasterId; }
 
-	public void setlinktoRegisteredUserMasterId(int linktoRegisteredUserMasterId) { this.linktoRegisteredUserMasterId = linktoRegisteredUserMasterId; }
+	public void setlinktoCustomerMasterId(int linktoCustomerMasterId) { this.linktoCustomerMasterId = linktoCustomerMasterId; }
 
 	public short getlinktoUserMasterIdUpdatedBy() { return this.linktoUserMasterIdUpdatedBy; }
 
@@ -108,7 +105,7 @@ public class ReviewMaster implements Parcelable {
 		parcel.writeByte((byte)(IsShow ? 1 : 0));
 		parcel.writeString(ReviewDateTime);
 		parcel.writeString(UpdateDateTime);
-		parcel.writeInt(linktoRegisteredUserMasterId);
+		parcel.writeInt(linktoCustomerMasterId);
 		parcel.writeInt(linktoUserMasterIdUpdatedBy);
 		parcel.writeInt(linktoBusinessMasterId);
 

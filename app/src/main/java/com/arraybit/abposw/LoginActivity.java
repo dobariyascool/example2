@@ -17,16 +17,16 @@ import android.widget.ToggleButton;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
-import com.arraybit.modal.RegisteredUserMaster;
-import com.arraybit.parser.RegisteredUserJSONParser;
+import com.arraybit.modal.CustomerMaster;
+import com.arraybit.parser.CustomerJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
 @SuppressWarnings("ConstantConditions")
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, RegisteredUserJSONParser.RegisteredUserRequestListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener ,CustomerJSONParser.CustomerRequestListener{
 
     EditText etUserName, etPassword;
-    RegisteredUserMaster objRegisteredUserMaster;
+    CustomerMaster objCustomerMaster;
     View view;
     ImageView ibClear;
     ToggleButton tbPasswordShow;
@@ -139,10 +139,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
     @Override
-    public void RegisteredUserResponse(String errorCode, RegisteredUserMaster objRegisteredUserMaster) {
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
-        this.objRegisteredUserMaster = objRegisteredUserMaster;
+        this.objCustomerMaster = objCustomerMaster;
         SetError();
     }
 
@@ -151,8 +152,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog = new com.arraybit.abposw.ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
-        RegisteredUserJSONParser objRegisteredUserJSONParser = new RegisteredUserJSONParser();
-        objRegisteredUserJSONParser.SelectRegisteredUserMasterUserName(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString());
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString());
     }
 
     private boolean ValidateControls() {
@@ -184,20 +185,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void SetError() {
-        if (objRegisteredUserMaster == null) {
+        if (objCustomerMaster == null) {
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
-            ClearControls();
         } else {
-
+            ClearControls();
             objSharePreferenceManage = new SharePreferenceManage();
-            objSharePreferenceManage.CreatePreference("LoginPreference", "RegisteredUserMasterId", String.valueOf(objRegisteredUserMaster.getRegisteredUserMasterId()), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objRegisteredUserMaster.getEmail(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objRegisteredUserMaster.getPassword(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword",objCustomerMaster.getPassword(), this);
 
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
             Intent i = new Intent(LoginActivity.this, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra("RegisteredUserMaster", objRegisteredUserMaster);
+            i.putExtra("CustomerMaster", objCustomerMaster);
             startActivity(i);
         }
     }
