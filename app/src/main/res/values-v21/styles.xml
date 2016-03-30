@@ -40,4 +40,12 @@
         <item name="android:textColor">@color/secondary_text</item>
         <item name="rbd_animDuration">200</item>
     </style>
+
+    <style name="BusinessInfoCardView" parent="AppCompactCardView">
+        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
+        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
+        <item name="cardElevation">@dimen/card_Elevation</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="cardBackgroundColor">@color/offwhite</item>
+    </style>
 </resources>
