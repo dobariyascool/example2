@@ -173,7 +173,7 @@
     <style name="MaterialTabLayout">android.support.design.widget.TabLayout</style>
 
     <style name="TabLayout" parent="MaterialTabLayout">
-        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIndicatorColor">@color/colorAccentLight</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
         <item name="tabTextColor">@android:color/white</item>
