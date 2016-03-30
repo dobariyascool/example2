@@ -214,6 +214,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
 
         OrderMaster objOrderMaster = new OrderMaster();
+        objOrderMaster.setLinktoBusinessMasterId((short) Globals.linktoBusinessMasterId);
         objOrderMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.TakeAway.getValue());
         objOrderMaster.setlinktoCustomerMasterId(customerMasterId);
         objOrderMaster.setTotalAmount(totalAmount);
