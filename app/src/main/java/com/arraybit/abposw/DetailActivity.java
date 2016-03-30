@@ -128,7 +128,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     private void RequestItem() {
         progressDialog.show(DetailActivity.this.getSupportFragmentManager(), "");
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        objItemJSONParser.SelectAllItemSuggested(this, String.valueOf(objItemMaster.getItemMasterId()));
+        objItemJSONParser.SelectAllItemSuggested(this, String.valueOf(objItemMaster.getItemMasterId()), String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     @SuppressLint("SetTextI18n")
