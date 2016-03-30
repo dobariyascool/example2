@@ -38,6 +38,9 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
         rtbReview = (RatingBar) view.findViewById(R.id.rtbReview);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Drawable drawable = rtbReview.getProgressDrawable();
+            drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
             LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
             stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         } else {

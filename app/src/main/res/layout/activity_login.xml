@@ -85,6 +85,7 @@
         </LinearLayout>
         <com.rey.material.widget.Button
             android:id="@+id/btnSignIn"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/control_SpecingSmall"

@@ -79,6 +79,14 @@
         <!--<item name="android:layout_marginBottom">@dimen/card_Margin</item>-->
     </style>
 
+    <style name="BusinessInfoCardView" parent="AppCompactCardView">
+        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
+        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
+        <item name="cardElevation">@dimen/card_Elevation</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="cardBackgroundColor">@color/offwhite</item>
+    </style>
+
     <style name="ProgressDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -228,6 +236,27 @@
         <item name="rd_rippleColor">@color/colorAccentDark</item>
         <item name="rd_cornerRadius">2dp</item>
         <item name="android:background">@color/colorAccent</item>
+        <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
+        <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+        <!--<item name="android:fontFamily">Roboto-Regular</item>-->
+    </style>
+
+    <style name="Button" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="rd_padding">@dimen/button_Padding</item>
+        <item name="android:layout_height">@dimen/button_Height</item>
+        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:shadowColor">@color/primary_dark</item>-->
+        <!--<item name="android:shadowDx">0.7</item>-->
+        <!--<item name="android:shadowDy">0.7</item>-->
+        <!--<item name="android:shadowRadius">0.7</item>-->
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+        <item name="android:radius">2dp</item>
+        <item name="rd_rippleColor">@color/colorAccentDark</item>
+        <item name="rd_enable">true</item>
+        <item name="rd_rippleType">wave</item>
         <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
