@@ -19,7 +19,7 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_cart_item_fragment">Orders</string>
     <string name="title_item_modifier_remark">Add Detail</string>
-    <string name="title_activity_cart_item">CartItemActivity</string>
+    <string name="title_order_summary_fragment">Order Summary</string>
     <string name="title_home">Home</string>
 
 
@@ -155,6 +155,11 @@
     <string name="rfSubmit">Submit</string>
     <string name="rfClose">Close</string>
     <string name="rfReview">Write Review</string>
+    <!-- end -->
+
+    <!-- OrderSummaryFragment -->
+    <string name="osfCheckOut">Check Out</string>
+    <string name="osfAddMore">Add More</string>
     <!-- end -->
 
 </resources>

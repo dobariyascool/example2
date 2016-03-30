@@ -55,9 +55,6 @@ public class ItemJSONParser {
                 objItemMaster.setLg_ImagePhysicalName(jsonObject.getString("lg_ImagePhysicalName"));
                 objItemMaster.setXl_ImagePhysicalName(jsonObject.getString("xl_ImagePhysicalName"));
                 objItemMaster.setMd_ImagePhysicalName(jsonObject.getString("md_ImagePhysicalName"));
-                if (!jsonObject.getString("linktoItemStatusMasterId").equals("null")) {
-                    objItemMaster.setlinktoItemStatusMasterId((short) jsonObject.getInt("linktoItemStatusMasterId"));
-                }
                 objItemMaster.setItemPoint((short) jsonObject.getInt("ItemPoint"));
                 objItemMaster.setPriceByPoint((short) jsonObject.getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonObject.getString("SearchWords"));
@@ -119,9 +116,6 @@ public class ItemJSONParser {
                 objItemMaster.setLg_ImagePhysicalName(jsonArray.getJSONObject(i).getString("lg_ImagePhysicalName"));
                 objItemMaster.setXl_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xl_ImagePhysicalName"));
                 objItemMaster.setMd_ImagePhysicalName(jsonArray.getJSONObject(i).getString("md_ImagePhysicalName"));
-                if (!jsonArray.getJSONObject(i).getString("linktoItemStatusMasterId").equals("null")) {
-                    objItemMaster.setlinktoItemStatusMasterId((short) jsonArray.getJSONObject(i).getInt("linktoItemStatusMasterId"));
-                }
                 objItemMaster.setItemPoint((short) jsonArray.getJSONObject(i).getInt("ItemPoint"));
                 objItemMaster.setPriceByPoint((short) jsonArray.getJSONObject(i).getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonArray.getJSONObject(i).getString("SearchWords"));

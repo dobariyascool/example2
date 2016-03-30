@@ -17,7 +17,6 @@ public class ItemMaster implements Parcelable {
     short linktoUnitMasterId;
     short linktoCategoryMasterId;
     boolean IsFavourite;
-    short linktoItemStatusMasterId;
     short ItemPoint;
     short PriceByPoint;
     String SearchWords;
@@ -66,7 +65,6 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoUnitMasterId = (short) source.readInt();
             objItemMaster.linktoCategoryMasterId = (short) source.readInt();
             objItemMaster.IsFavourite = source.readByte() != 0;
-            objItemMaster.linktoItemStatusMasterId = (short) source.readInt();
             objItemMaster.ItemPoint = (short) source.readInt();
             objItemMaster.PriceByPoint = (short) source.readInt();
             objItemMaster.SearchWords = source.readString();
@@ -181,14 +179,6 @@ public class ItemMaster implements Parcelable {
 
     public void setIsFavourite(boolean isFavourite) {
         this.IsFavourite = isFavourite;
-    }
-
-    public short getlinktoItemStatusMasterId() {
-        return this.linktoItemStatusMasterId;
-    }
-
-    public void setlinktoItemStatusMasterId(short linktoItemStatusMasterId) {
-        this.linktoItemStatusMasterId = linktoItemStatusMasterId;
     }
 
     public short getItemPoint() {
@@ -526,7 +516,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoUnitMasterId);
         parcel.writeInt(linktoCategoryMasterId);
         parcel.writeByte((byte) (IsFavourite ? 1 : 0));
-        parcel.writeInt(linktoItemStatusMasterId);
         parcel.writeInt(ItemPoint);
         parcel.writeInt(PriceByPoint);
         parcel.writeString(SearchWords);

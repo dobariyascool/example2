@@ -135,7 +135,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             finish();
         }else if(id==android.R.id.home){
             finish();
-            Globals.alOrderItemTran = new ArrayList<>();
+            ClearData();
+            Globals.ClearCartData();
         }else if (id == R.id.logout) {
             Globals.Logout(MenuActivity.this,MenuActivity.this);
         }
@@ -238,6 +239,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ClearData();
+        Globals.ClearCartData();
+    }
+
     public void SetCartItemResponse(){
         SetCartNumber();
     }
@@ -262,6 +270,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         CategoryJSONParser objCategoryJSONParser = new CategoryJSONParser();
 
         objCategoryJSONParser.SelectAllCategoryMaster(MenuActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
+    }
+
+    private void ClearData(){
+        i = 0;
+        isViewChange = false;
     }
 
     private void SetErrorLayout(boolean isShow, String errorMsg) {
