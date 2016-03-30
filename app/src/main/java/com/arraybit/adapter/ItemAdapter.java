@@ -32,10 +32,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     ItemClickListener objItemClickListener;
     int previousPosition;
     int width, height;
+    private LayoutInflater inflater;
 
     public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster, ItemClickListener objItemClickListener) {
         this.context = context;
         this.alItemMaster = alItemMaster;
+        inflater = LayoutInflater.from(context);
         this.objItemClickListener = objItemClickListener;
     }
 
@@ -44,14 +46,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         if (MenuActivity.isViewChange) {
             if (MenuActivity.i == 1) {
                 isTileGrid = false;
-                view = LayoutInflater.from(context).inflate(R.layout.row_category_item_grid, parent, false);
+                view = inflater.inflate(R.layout.row_category_item_grid, parent, false);
             } else {
                 isTileGrid = true;
-                view = LayoutInflater.from(context).inflate(R.layout.row_category_item_tile, parent, false);
+                view = inflater.inflate(R.layout.row_category_item_tile, parent, false);
             }
         } else {
             isTileGrid = false;
-            view = LayoutInflater.from(context).inflate(R.layout.row_category_item, parent, false);
+            view = inflater.inflate(R.layout.row_category_item, parent, false);
         }
 
         return new ItemViewHolder(view);
@@ -79,14 +81,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         if (objItemMaster.getIsDineInOnly()) {
             holder.cvItem.setClickable(false);
-            holder.btnAdd.setClickable(false);
-            holder.btnAdd.setEnabled(false);
+            //holder.btnAdd.setClickable(false);
+            //holder.btnAdd.setEnabled(false);
+           // holder.btnAdd.applyStyle(R.style.DisableButton);
+            holder.btnAdd.setVisibility(View.GONE);
+            holder.btnAdd1.setVisibility(View.VISIBLE);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
 
         } else {
             holder.cvItem.setClickable(true);
-            holder.btnAdd.setClickable(true);
-            holder.btnAdd.setEnabled(true);
+           // holder.btnAdd.setClickable(true);
+//            holder.btnAdd.setEnabled(true);
+//            holder.btnAdd.applyStyle(R.style.AddButton);
+            holder.btnAdd.setVisibility(View.VISIBLE);
+            holder.btnAdd1.setVisibility(View.GONE);
             holder.txtItemDineOnly.setVisibility(View.INVISIBLE);
         }
 
@@ -120,7 +128,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
         ImageView ivItem;
         CardView cvItem;
-        Button btnAdd;
+        Button btnAdd,btnAdd1;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -132,9 +140,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             txtItemName = (TextView) itemView.findViewById(R.id.txtItemName);
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemDescription);
             txtItemPrice = (TextView) itemView.findViewById(R.id.txtItemPrice);
-            txtItemDineOnly = (TextView)itemView.findViewById(R.id.txtItemDineOnly);
+            txtItemDineOnly = (TextView) itemView.findViewById(R.id.txtItemDineOnly);
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
+            btnAdd1 = (Button) itemView.findViewById(R.id.btnAdd1);
 
             if (!isTileGrid && MenuActivity.isViewChange) {
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

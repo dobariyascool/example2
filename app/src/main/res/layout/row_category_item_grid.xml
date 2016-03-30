@@ -21,6 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/control_SpecingSmall"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -69,11 +70,11 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnAdd"
-                style="@style/AddButton"
                 android:layout_width="60dp"
                 android:layout_height="35dp"
                 android:layout_gravity="end|bottom"
-                android:padding="@dimen/control_SpecingTiny"
+                android:layout_marginBottom="@dimen/control_SpecingSmall"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
                 android:text="Add"
                 tools:ignore="HardcodedText" />
     </LinearLayout>
