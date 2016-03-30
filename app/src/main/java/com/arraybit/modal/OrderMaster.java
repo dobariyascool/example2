@@ -11,7 +11,6 @@ public class OrderMaster implements Parcelable {
     String OrderDateTime;
     String linktoTableMasterIds;
     int linktoCustomerMasterId;
-    int linktoRegisteredUserMasterId;
     short linktoOrderTypeMasterId;
     short linktoOrderStatusMasterId;
     int linktoBookingMasterId;
@@ -47,7 +46,6 @@ public class OrderMaster implements Parcelable {
             objOrderMaster.OrderDateTime = source.readString();
             objOrderMaster.linktoTableMasterIds = source.readString();
             objOrderMaster.linktoCustomerMasterId = source.readInt();
-            objOrderMaster.linktoRegisteredUserMasterId = source.readInt();
             objOrderMaster.linktoOrderTypeMasterId = (short)source.readInt();
             objOrderMaster.linktoOrderStatusMasterId = (short)source.readInt();
             objOrderMaster.linktoBookingMasterId = source.readInt();
@@ -103,10 +101,6 @@ public class OrderMaster implements Parcelable {
     public int getlinktoCustomerMasterId() { return this.linktoCustomerMasterId; }
 
     public void setlinktoCustomerMasterId(int linktoCustomerMasterId) { this.linktoCustomerMasterId = linktoCustomerMasterId; }
-
-    public int getlinktoRegisteredUserMasterId() { return this.linktoRegisteredUserMasterId; }
-
-    public void setlinktoRegisteredUserMasterId(int linktoRegisteredUserMasterId) { this.linktoRegisteredUserMasterId = linktoRegisteredUserMasterId; }
 
     public short getlinktoOrderTypeMasterId() { return this.linktoOrderTypeMasterId; }
 
@@ -224,7 +218,6 @@ public class OrderMaster implements Parcelable {
         parcel.writeString(OrderDateTime);
         parcel.writeString(linktoTableMasterIds);
         parcel.writeInt(linktoCustomerMasterId);
-        parcel.writeInt(linktoRegisteredUserMasterId);
         parcel.writeInt(linktoOrderTypeMasterId);
         parcel.writeInt(linktoOrderStatusMasterId);
         parcel.writeInt(linktoBookingMasterId);

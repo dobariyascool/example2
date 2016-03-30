@@ -43,7 +43,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     double totalAmount, totalTax;
     ArrayList<TaxMaster> alTaxMaster;
     ProgressDialog progressDialog = new ProgressDialog();
-    int registeredUserMasterId;
+    int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
 
     public CartItemFragment() {
@@ -199,8 +199,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnConfirmOrder.setVisibility(View.VISIBLE);
         }
         objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity()) != null) {
-            registeredUserMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "RegisteredUserMasterId", getActivity()));
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
         }
     }
 
@@ -215,7 +215,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
         OrderMaster objOrderMaster = new OrderMaster();
         objOrderMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.TakeAway.getValue());
-        objOrderMaster.setlinktoRegisteredUserMasterId(registeredUserMasterId);
+        objOrderMaster.setlinktoCustomerMasterId(customerMasterId);
         objOrderMaster.setTotalAmount(totalAmount);
         objOrderMaster.setTotalTax(totalTax);
         objOrderMaster.setNetAmount(totalAmount + totalTax);

@@ -50,9 +50,6 @@ public class OrderJSONParser {
                 if (!jsonObject.getString("linktoCustomerMasterId").equals("null")) {
                     objOrderMaster.setlinktoCustomerMasterId(jsonObject.getInt("linktoCustomerMasterId"));
                 }
-                if (!jsonObject.getString("linktoRegisteredUserMasterId").equals("null")) {
-                    objOrderMaster.setlinktoRegisteredUserMasterId(jsonObject.getInt("linktoRegisteredUserMasterId"));
-                }
                 objOrderMaster.setlinktoOrderTypeMasterId((short)jsonObject.getInt("linktoOrderTypeMasterId"));
                 if (!jsonObject.getString("linktoOrderStatusMasterId").equals("null")) {
                     objOrderMaster.setlinktoOrderStatusMasterId((short)jsonObject.getInt("linktoOrderStatusMasterId"));
@@ -116,9 +113,6 @@ public class OrderJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoCustomerMasterId").equals("null")) {
                     objOrderMaster.setlinktoCustomerMasterId(jsonArray.getJSONObject(i).getInt("linktoCustomerMasterId"));
                 }
-                if (!jsonArray.getJSONObject(i).getString("linktoRegisteredUserMasterId").equals("null")) {
-                    objOrderMaster.setlinktoRegisteredUserMasterId(jsonArray.getJSONObject(i).getInt("linktoRegisteredUserMasterId"));
-                }
                 objOrderMaster.setlinktoOrderTypeMasterId((short)jsonArray.getJSONObject(i).getInt("linktoOrderTypeMasterId"));
                 if (!jsonArray.getJSONObject(i).getString("linktoOrderStatusMasterId").equals("null")) {
                     objOrderMaster.setlinktoOrderStatusMasterId((short)jsonArray.getJSONObject(i).getInt("linktoOrderStatusMasterId"));
@@ -180,9 +174,8 @@ public class OrderJSONParser {
 
             stringer.key("OrderDateTime").value(sdfDateTimeFormat.format(dt));
             //stringer.key("linktoTableMasterIds").value(objOrderMaster.getlinktoTableMasterIds());
-            //stringer.key("linktoCustomerMasterId").value(objOrderMaster.getlinktoCustomerMasterId());
+            stringer.key("linktoCustomerMasterId").value(objOrderMaster.getlinktoCustomerMasterId());
             //stringer.key("linktoBookingMasterId").value(objOrderMaster.getlinktoBookingMasterId());
-            stringer.key("linktoRegisteredUserMasterId").value(objOrderMaster.getlinktoRegisteredUserMasterId());
             stringer.key("linktoOrderTypeMasterId").value(objOrderMaster.getlinktoOrderTypeMasterId());
             stringer.key("linktoOrderStatusMasterId").value(null);
             //stringer.key("linktoBookingMasterId").value(objOrderMaster.getlinktoBookingMasterId());

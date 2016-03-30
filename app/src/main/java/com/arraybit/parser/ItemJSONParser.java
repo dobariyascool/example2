@@ -287,8 +287,8 @@ public class ItemJSONParser {
 //    }
     //endregion
 
-    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage, String categoryMasterId, String optionMasterId) {
-        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId;
+    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId) {
+        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -317,8 +317,8 @@ public class ItemJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllItemModifier(final Fragment targetFragment, Context context, String linktoItemMasterId) {
-        String url = Service.Url + this.SelectAllItemModifier + "/" + linktoItemMasterId;
+    public void SelectAllItemModifier(final Fragment targetFragment, Context context, String linktoItemMasterId, String linktoBusinessMasterId) {
+        String url = Service.Url + this.SelectAllItemModifier + "/" + linktoItemMasterId + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -347,8 +347,8 @@ public class ItemJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId) {
-        String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId;
+    public void SelectAllItemSuggested(final Context context, String linktoItemMasterId, String linktoBusinessMasterId) {
+        String url = Service.Url + this.SelectAllItemSuggested + "/" + linktoItemMasterId + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override

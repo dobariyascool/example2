@@ -206,7 +206,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     private void RequestItemModifier() {
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        objItemJSONParser.SelectAllItemModifier(this, getActivity(), String.valueOf(objItemMaster.getItemMasterId()));
+        objItemJSONParser.SelectAllItemModifier(this, getActivity(), String.valueOf(objItemMaster.getItemMasterId()), String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private void SetOptionValueRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
