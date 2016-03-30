@@ -105,7 +105,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             getActivity().finish();
         } else if (v.getId() == R.id.btnConfirmOrder) {
             //RequestOrderMaster();
-            Globals.ReplaceFragment(new OrderSummaryFragment(),getActivity().getSupportFragmentManager(),getActivity().getResources().getString(R.string.title_order_summary_fragment),R.id.fragmentLayout);
+            //Globals.ReplaceFragment(new OrderSummaryFragment(),getActivity().getSupportFragmentManager(),getActivity().getResources().getString(R.string.title_order_summary_fragment),R.id.fragmentLayout);
         } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);
