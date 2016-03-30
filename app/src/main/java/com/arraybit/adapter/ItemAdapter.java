@@ -81,11 +81,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.cvItem.setClickable(false);
             holder.btnAdd.setClickable(false);
             holder.btnAdd.setEnabled(false);
+            holder.txtItemDineOnly.setVisibility(View.VISIBLE);
 
         } else {
             holder.cvItem.setClickable(true);
             holder.btnAdd.setClickable(true);
             holder.btnAdd.setEnabled(true);
+            holder.txtItemDineOnly.setVisibility(View.INVISIBLE);
         }
 
         if (isItemAnimate) {
@@ -115,7 +117,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtItemName, txtItemDescription, txtItemPrice;
+        TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
         ImageView ivItem;
         CardView cvItem;
         Button btnAdd;
@@ -130,6 +132,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             txtItemName = (TextView) itemView.findViewById(R.id.txtItemName);
             txtItemDescription = (TextView) itemView.findViewById(R.id.txtItemDescription);
             txtItemPrice = (TextView) itemView.findViewById(R.id.txtItemPrice);
+            txtItemDineOnly = (TextView)itemView.findViewById(R.id.txtItemDineOnly);
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
 

@@ -58,6 +58,18 @@
                 android:textSize="@dimen/control_TextMedium"
                 tools:ignore="HardcodedText" />
 
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtItemDineOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="@string/MsgDineOnly"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/control_TextTiny"
+                android:visibility="invisible"
+                tools:ignore="HardcodedText" />
+
             <com.rey.material.widget.Button
                 android:id="@+id/btnAdd"
                 style="@style/AddButton"
