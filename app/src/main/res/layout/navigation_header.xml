@@ -18,8 +18,7 @@
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="@dimen/control_SpecingSmall">
+            android:layout_height="65dp">
 
             <ImageView
                 android:id="@+id/imageView"

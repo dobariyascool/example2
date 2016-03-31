@@ -303,9 +303,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     private void SetItemRemark() {
         sbOptionValue = new StringBuilder();
-        for(OptionMaster objOptionMaster : alOptionValue){
-            if (objOptionMaster.getOptionName() != null) {
-                sbOptionValue.append(objOptionMaster.getOptionName()).append(",");
+        if(alOptionValue!=null && alOptionValue.size() > 0) {
+            for (OptionMaster objOptionMaster : alOptionValue) {
+                if (objOptionMaster.getOptionName() != null) {
+                    sbOptionValue.append(objOptionMaster.getOptionName()).append(",");
+                }
             }
         }
     }

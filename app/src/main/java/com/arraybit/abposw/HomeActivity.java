@@ -22,6 +22,7 @@ import android.widget.ImageView;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BusinessGalleryTran;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.BusinessGalleryJSONParser;
@@ -95,6 +96,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
+
+        SetUserName();
     }
 
     @Override
@@ -181,7 +184,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void SetUserName(){
-
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if(objSharePreferenceManage.GetPreference("LoginPreference","UserName",HomeActivity.this)!=null){
+            cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference","UserName",HomeActivity.this));
+        }else{
+            cbName.setText(getResources().getString(R.string.siSignIn));
+        }
     }
     //endregion
 

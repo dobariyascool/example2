@@ -113,6 +113,7 @@ public class Globals {
         objSharePreferenceManage.RemovePreference("LoginPreference", "RegisteredUserMasterId", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerName", context);
         objSharePreferenceManage.ClearPreference("LoginPreference", context);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
