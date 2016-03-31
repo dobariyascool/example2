@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.CartItemAdapter;
@@ -33,15 +34,17 @@ import com.rey.material.widget.TextView;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, OrderJSONParser.OrderMasterRequestListener {
+public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, OrderJSONParser.OrderMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder;
-    TextView txtMsg, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderModifier;
+    ImageView ivRemark;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout;
     double totalAmount, totalTax, netAmount, tax1, tax2, tax3, tax4, tax5;
+    String strNetAmount;
     ArrayList<TaxMaster> alTaxMaster = new ArrayList<>();
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
@@ -70,6 +73,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         //end
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
+        txtHeaderModifier = (TextView) view.findViewById(R.id.txtHeaderModifier);
+        txtRemark = (TextView) view.findViewById(R.id.txtRemark);
+        ivRemark = (ImageView) view.findViewById(R.id.ivRemark);
         txtTotalAmount = (TextView) view.findViewById(R.id.txtTotalAmount);
         txtHeaderTotalAmount = (TextView) view.findViewById(R.id.txtHeaderTotalAmount);
         txtTotalDiscount = (TextView) view.findViewById(R.id.txtTotalDiscount);
@@ -101,6 +107,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         cbMenu.setOnClickListener(this);
         btnAddMore.setOnClickListener(this);
         btnConfirmOrder.setOnClickListener(this);
+        ivRemark.setOnClickListener(this);
         return view;
     }
 
@@ -119,6 +126,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
+        } else if (v.getId() == R.id.ivRemark) {
+            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment();
+            remarkDialogFragment.setTargetFragment(this, 0);
+            remarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
     }
 
@@ -144,7 +155,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         if (Globals.alOrderItemTran.size() == 0) {
             SetRecyclerView();
         }
-        if(adapter.changeAmount){
+        if (adapter.changeAmount) {
             totalAmount = 0;
             netAmount = 0;
             totalTax = 0;
@@ -171,6 +182,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         SetError(errorCode);
     }
 
+    @Override
+    public void RemarkResponse() {
+        if (RemarkDialogFragment.strRemark != null) {
+            txtRemark.setVisibility(View.VISIBLE);
+            txtRemark.setText(RemarkDialogFragment.strRemark);
+        } else {
+            txtRemark.setVisibility(View.GONE);
+            txtRemark.setText("");
+        }
+    }
 
     //region Private Methods
     private void RequestTaxMaster() {
@@ -211,6 +232,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             cbMenu.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
+            txtHeaderModifier.setVisibility(View.GONE);
+            txtRemark.setVisibility(View.GONE);
+            ivRemark.setVisibility(View.GONE);
             txtHeaderTotalAmount.setVisibility(View.GONE);
             txtTotalAmount.setVisibility(View.GONE);
             txtHeaderDiscount.setVisibility(View.GONE);
@@ -226,6 +250,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
             headerLayout.setVisibility(View.VISIBLE);
+            txtHeaderModifier.setVisibility(View.VISIBLE);
+            txtRemark.setVisibility(View.VISIBLE);
+            ivRemark.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.VISIBLE);
             txtHeaderTotalAmount.setVisibility(View.VISIBLE);
             txtTotalAmount.setVisibility(View.VISIBLE);
@@ -295,8 +322,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 tax4 = tax4 + objOrderItemTran.getTax4();
                 tax5 = tax5 + objOrderItemTran.getTax5();
             }
+            strNetAmount = String.valueOf(netAmount);
             txtTotalAmount.setText(String.valueOf(totalAmount));
-            txtNetAmount.setText(String.valueOf(netAmount));
+            txtNetAmount.setText(Globals.dfWithPrecision.format(Math.round(netAmount)));
+            txtRoundingOff.setText("- 0." + strNetAmount.substring(strNetAmount.lastIndexOf(".") + 1, strNetAmount.length()));
         }
     }
 
@@ -319,14 +348,14 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTaxNameParams.weight = 0.5f;
             txtTaxName[i].setLayoutParams(txtTaxNameParams);
             txtTaxName[i].setGravity(Gravity.START);
-            txtTaxName[i].setTextSize(10f);
+            txtTaxName[i].setTextSize(8f);
 
             txtTaxRate[i] = new TextView(getActivity());
             LinearLayout.LayoutParams txtTaxRateParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             txtTaxRateParams.weight = 0.5f;
             txtTaxName[i].setLayoutParams(txtTaxRateParams);
             txtTaxRate[i].setGravity(Gravity.END);
-            txtTaxRate[i].setTextSize(10f);
+            txtTaxRate[i].setTextSize(8f);
 
 
             if (alTaxMaster.get(i).getIsPercentage()) {

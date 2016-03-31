@@ -122,6 +122,7 @@
     <!-- end -->
 
     <!-- cartItemFragment -->
+    <string name="cifRemark">Remark</string>
     <string name="cifAddMore">Add More</string>
     <string name="cifConfirmOrder">Confirm Order</string>
     <string name="cifQty">Qty</string>

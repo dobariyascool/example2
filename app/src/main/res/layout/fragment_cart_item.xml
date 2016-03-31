@@ -107,7 +107,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="@dimen/control_SpecingSmall"
-            android:layout_weight="0.75" />
+            android:layout_weight="0.65" />
 
         <LinearLayout
             android:id="@+id/amountLayout"
@@ -141,6 +141,42 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/control_SpecingTiny"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtHeaderModifier"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cifRemark"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/control_TextSmall" />
+
+                            <ImageView
+                                android:id="@+id/ivRemark"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/control_SpecingSmall"
+                                android:src="@drawable/edit_drawable"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtRemark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:paddingEnd="@dimen/control_SpecingMedium"
+                            android:paddingStart="@dimen/control_SpecingMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/control_TextSmall"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:paddingEnd="@dimen/control_SpecingTiny"
                             android:paddingStart="@dimen/control_SpecingTiny">
@@ -166,12 +202,6 @@
                                 android:textAllCaps="false" />
 
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/taxLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -201,6 +231,12 @@
                                 android:textAllCaps="false" />
 
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/taxLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
