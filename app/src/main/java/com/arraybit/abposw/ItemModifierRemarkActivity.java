@@ -17,7 +17,7 @@ public class ItemModifierRemarkActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Globals.ReplaceFragment(new ItemModifierRemarkFragment((ItemMaster) intent.getParcelableExtra("ItemMaster")), getSupportFragmentManager(), null, R.id.itemModifierRemarkLayout);
+        Globals.ReplaceFragment(new ItemModifierRemarkFragment((ItemMaster) intent.getParcelableExtra("ItemMaster")), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.itemModifierRemarkLayout);
     }
 
     @Override

@@ -17,15 +17,15 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_marginStart="@dimen/control_SpecingSmall">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/myaccount_selector"
+                android:src="@drawable/account_drawable"
                 tools:ignore="ContentDescription,HardcodedText" />
 
             <com.rey.material.widget.TextView
@@ -37,16 +37,19 @@
                 android:padding="@dimen/control_SpecingSmall"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/control_TextLarge"
-                tools:ignore="HardcodedText" />
+                android:visibility="gone"
+                tools:ignore="HardcodedText"/>
         </RelativeLayout>
 
-        <com.rey.material.widget.TextView
-            android:id="@+id/txtName"
+        <com.rey.material.widget.CompoundButton
+            android:id="@+id/cbName"
+            style="@style/CompoundButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:paddingEnd="@dimen/control_SpecingSmall"
             android:paddingStart="@dimen/control_SpecingSmall"
+            android:text="@string/siSignIn"
             android:textColor="@android:color/white" />
 
         <!--<com.rey.material.widget.TextView-->

@@ -26,7 +26,7 @@ import com.arraybit.modal.BusinessGalleryTran;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.BusinessGalleryJSONParser;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
-import com.rey.material.widget.TextView;
+import com.rey.material.widget.CompoundButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ProgressDialog progressDialog = new ProgressDialog();
     ViewPager viewPager;
     CirclePageIndicator circlePageIndicator;
+    CompoundButton cbName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        objCustomerMaster = getIntent().getParcelableExtra("CustomerMaster");
+        //objCustomerMaster = getIntent().getParcelableExtra("CustomerMaster");
 
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
@@ -67,10 +68,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         ImageView ivLogo = (ImageView) headerView.findViewById(R.id.ivLogo);
         //ivLogo.setVisibility(View.GONE);
-        TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
-        txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
-        TextView txtName = (TextView) headerView.findViewById(R.id.txtName);
-        txtName.setText(objCustomerMaster.getEmail1());
+        //TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
+        //txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
+        cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
+        //cbName.setText(objCustomerMaster.getEmail1());
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -87,6 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cvTakeAway.setOnClickListener(this);
         cvBookTable.setOnClickListener(this);
         cvOffer.setOnClickListener(this);
+        cbName.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
             RequestBusinessGallery();
@@ -154,6 +156,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }else if(v.getId()==R.id.cvOffer){
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
+        }else if(v.getId()==R.id.cbName){
+            if(cbName.getText().equals(getResources().getString(R.string.siSignIn))){
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
@@ -164,7 +171,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         BusinessGalleryJSONParser objBusinessGalleryJSONParser = new BusinessGalleryJSONParser();
         objBusinessGalleryJSONParser.SelectAllBusinessGalleryTran(HomeActivity.this, String.valueOf(1), String.valueOf(Globals.linktoBusinessMasterId));
     }
-    //endregion
 
     private void SetSlider(ArrayList<BusinessGalleryTran> alBusinessGalleryTran){
 
@@ -173,6 +179,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         viewPager.setAdapter(pagerAdapter);
         circlePageIndicator.setViewPager(viewPager);
     }
+
+    private void SetUserName(){
+
+    }
+    //endregion
 
     //region Page Adapter
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {

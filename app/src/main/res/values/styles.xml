@@ -138,7 +138,7 @@
 
     <style name="CompoundButton">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="rd_rippleColor">@color/primary_light</item>
+        <item name="rd_rippleColor">@color/colorPrimaryLight</item>
         <item name="rd_rippleType">touch</item>
         <item name="rd_enable">true</item>
         <item name="rd_inInterpolator">@android:anim/decelerate_interpolator</item>

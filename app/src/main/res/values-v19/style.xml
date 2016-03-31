@@ -22,5 +22,6 @@
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
         <item name="cardElevation">@dimen/card_Elevation</item>
         <item name="cardBackgroundColor">@color/transparent_orange</item>
+        <item name="android:foreground">@drawable/category_item_ripple_effect</item>
     </style>
 </resources>

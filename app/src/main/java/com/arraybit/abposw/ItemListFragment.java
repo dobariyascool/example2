@@ -97,7 +97,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                         cnt = 0;
                         RequestItemMaster();
                     } else {
-                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
                 }
             }
@@ -115,7 +115,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                         cnt = 0;
                         RequestItemMaster();
                     } else {
-                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
                 }
             }
@@ -181,11 +181,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         } else {
             if (alItemMaster == null) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+                    Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvItemMaster);
                 }
             } else if (alItemMaster.size() == 0) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+                    Globals.SetErrorLayout(errorLayout, true,  getActivity().getResources().getString(R.string.MsgNoRecord), rvItemMaster);
                 }
             } else {
                 Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
@@ -223,7 +223,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     if (Service.CheckNet(getActivity())) {
                         RequestItemMaster();
                     } else {
-                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
                 }
             }
@@ -240,7 +240,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     if (Service.CheckNet(getActivity())) {
                         RequestItemMaster();
                     } else {
-                        Globals.ShowSnackBar(rvItemMaster, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
                 }
             }

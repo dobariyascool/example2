@@ -203,8 +203,8 @@
     <dimen name="leftHeight">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="itemListImageWidth">100dp</dimen>
-    <dimen name="itemListImageHeight">100dp</dimen>
+    <dimen name="itemListImageWidth">110dp</dimen>
+    <dimen name="itemListImageHeight">110dp</dimen>
     <dimen name="itemGridImageHeight">130dp</dimen>
 
     <dimen name="swipeImageHeight">100dp</dimen>

@@ -14,8 +14,7 @@
         <ImageView
             android:id="@+id/ivItem"
             android:layout_width="@dimen/itemListImageWidth"
-            android:layout_height="@dimen/itemListImageHeight"
-            android:layout_marginBottom="@dimen/control_SpecingSmall"
+            android:layout_height="@dimen/itemListImageWidth"
             android:scaleType="fitCenter"
             tools:ignore="ContentDescription" />
 
@@ -79,8 +78,9 @@
             android:layout_marginEnd="@dimen/control_SpecingSmall"
             android:text="Add"
             tools:ignore="HardcodedText" />
+
         <com.rey.material.widget.Button
-            android:id="@+id/btnAdd1"
+            android:id="@+id/btnAddDisable"
             style="@style/DisableButton"
             android:layout_width="60dp"
             android:layout_height="40dp"
@@ -90,6 +90,6 @@
             android:enabled="false"
             android:text="Add"
             android:visibility="gone"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

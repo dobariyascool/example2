@@ -30,5 +30,6 @@
         <item name="cardMaxElevation">0dp</item>
         <item name="cardUseCompatPadding">true</item>
         <item name="cardPreventCornerOverlap">false</item>
+        <item name="android:foreground">@drawable/category_item_ripple_effect</item>
     </style>
 </resources>

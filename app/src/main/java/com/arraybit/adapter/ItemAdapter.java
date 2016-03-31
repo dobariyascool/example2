@@ -81,21 +81,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         if (objItemMaster.getIsDineInOnly()) {
             holder.cvItem.setClickable(false);
-            //holder.btnAdd.setClickable(false);
-            //holder.btnAdd.setEnabled(false);
-           // holder.btnAdd.applyStyle(R.style.DisableButton);
-            holder.btnAdd.setVisibility(View.GONE);
-            holder.btnAdd1.setVisibility(View.VISIBLE);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
+            if (!isTileGrid) {
+                holder.btnAdd.setVisibility(View.GONE);
+                holder.btnAddDisable.setVisibility(View.VISIBLE);
+            }
 
         } else {
             holder.cvItem.setClickable(true);
-           // holder.btnAdd.setClickable(true);
-//            holder.btnAdd.setEnabled(true);
-//            holder.btnAdd.applyStyle(R.style.AddButton);
-            holder.btnAdd.setVisibility(View.VISIBLE);
-            holder.btnAdd1.setVisibility(View.GONE);
             holder.txtItemDineOnly.setVisibility(View.INVISIBLE);
+            if (!isTileGrid) {
+                holder.btnAdd.setVisibility(View.VISIBLE);
+                holder.btnAddDisable.setVisibility(View.GONE);
+            }
+
         }
 
         if (isItemAnimate) {
@@ -104,6 +103,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
             previousPosition = position;
         }
+
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
         ImageView ivItem;
         CardView cvItem;
-        Button btnAdd,btnAdd1;
+        Button btnAdd, btnAddDisable;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -143,13 +143,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             txtItemDineOnly = (TextView) itemView.findViewById(R.id.txtItemDineOnly);
 
             btnAdd = (Button) itemView.findViewById(R.id.btnAdd);
-            btnAdd1 = (Button) itemView.findViewById(R.id.btnAdd1);
+            btnAddDisable = (Button) itemView.findViewById(R.id.btnAddDisable);
 
             if (!isTileGrid && MenuActivity.isViewChange) {
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
-                width = displayMetrics.widthPixels / 2 - 32;
-                height = displayMetrics.widthPixels / 2 - 32;
+                width = displayMetrics.widthPixels / 2 - 24;
+                height = displayMetrics.widthPixels / 2 - 24;
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
                 ivItem.setLayoutParams(layoutParams);

@@ -79,7 +79,7 @@
     <!-- loginActivity -->
     <string name="siUserName">User Name</string>
     <string name="siPassword">Password</string>
-    <string name="siSignIn">Login</string>
+    <string name="siSignIn">Sign In</string>
     <string name="siNewUser">New User?</string>
     <string name="siSignupHere">Sign Up</string>
     <string name="siLoginFailedMsg">Username or Password are invalid.</string>
