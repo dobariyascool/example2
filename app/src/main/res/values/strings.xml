@@ -128,6 +128,11 @@
     <string name="cifItem">Item</string>
     <string name="cifAmount">Amount</string>
     <string name="cifRate">Rate</string>
+    <string name="cifTotalAmount">Total Amount</string>
+    <string name="cifNumber">0.00</string>
+    <string name="cifDiscount">Discount</string>
+    <string name="cifRounding">Rounding Off</string>
+    <string name="cifNetAmount">Net Amount</string>
     <string name="cifConfirmClear">Are you sure to clear Order?</string>
     <string name="cifMsg">Go to Menu</string>
     <!--end -->

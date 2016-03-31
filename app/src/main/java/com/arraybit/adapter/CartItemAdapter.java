@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder>{
 
     public boolean isItemAnimate;
-    public boolean isModifierChanged = true;
+    public boolean isModifierChanged = true, changeAmount;
     Context context;
     ArrayList<ItemMaster> alItemMaster;
     LayoutInflater layoutInflater;
@@ -93,6 +93,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             alItemMaster.remove(position);
             notifyItemRemoved(position);
             Globals.counter = Globals.counter - 1;
+            changeAmount = true;
         }
 
     }

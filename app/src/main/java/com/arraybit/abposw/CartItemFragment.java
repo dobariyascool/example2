@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,11 +38,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder;
-    TextView txtMsg;
+    TextView txtMsg, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount;
     CompoundButton cbMenu;
-    LinearLayout headerLayout;
-    double totalAmount, totalTax;
-    ArrayList<TaxMaster> alTaxMaster;
+    LinearLayout headerLayout, taxLayout;
+    double totalAmount, totalTax, netAmount, tax1, tax2, tax3, tax4, tax5;
+    ArrayList<TaxMaster> alTaxMaster = new ArrayList<>();
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
@@ -69,10 +70,18 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         //end
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
-
+        txtTotalAmount = (TextView) view.findViewById(R.id.txtTotalAmount);
+        txtHeaderTotalAmount = (TextView) view.findViewById(R.id.txtHeaderTotalAmount);
+        txtTotalDiscount = (TextView) view.findViewById(R.id.txtTotalDiscount);
+        txtHeaderDiscount = (TextView) view.findViewById(R.id.txtHeaderDiscount);
+        txtRoundingOff = (TextView) view.findViewById(R.id.txtRoundingOff);
+        txtHeaderRounding = (TextView) view.findViewById(R.id.txtHeaderRounding);
+        txtNetAmount = (TextView) view.findViewById(R.id.txtNetAmount);
+        txtHeaderNetAmount = (TextView) view.findViewById(R.id.txtHeaderNetAmount);
         cbMenu = (CompoundButton) view.findViewById(R.id.cbMenu);
 
         headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);
+        taxLayout = (LinearLayout) view.findViewById(R.id.taxLayout);
 
         rvCartItem = (RecyclerView) view.findViewById(R.id.rvCartItem);
 
@@ -88,7 +97,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         } else {
             Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
-
 
         cbMenu.setOnClickListener(this);
         btnAddMore.setOnClickListener(this);
@@ -136,12 +144,25 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         if (Globals.alOrderItemTran.size() == 0) {
             SetRecyclerView();
         }
+        if(adapter.changeAmount){
+            totalAmount = 0;
+            netAmount = 0;
+            totalTax = 0;
+            tax1 = 0;
+            tax2 = 0;
+            tax3 = 0;
+            tax4 = 0;
+            tax5 = 0;
+            SetRecyclerView();
+            SetTextLayout();
+        }
     }
 
     @Override
     public void TaxMasterResponse(ArrayList<TaxMaster> alTaxMaster) {
         progressDialog.dismiss();
         this.alTaxMaster = alTaxMaster;
+        SetTextLayout();
     }
 
     @Override
@@ -165,6 +186,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
         } else {
             SetVisibility();
+            CountAmount();
             rvCartItem.setVisibility(View.VISIBLE);
             adapter = new CartItemAdapter(getActivity(), Globals.alOrderItemTran, this, false);
             rvCartItem.setAdapter(adapter);
@@ -189,15 +211,33 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             cbMenu.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
+            txtHeaderTotalAmount.setVisibility(View.GONE);
+            txtTotalAmount.setVisibility(View.GONE);
+            txtHeaderDiscount.setVisibility(View.GONE);
+            txtTotalDiscount.setVisibility(View.GONE);
+            txtHeaderRounding.setVisibility(View.GONE);
+            txtRoundingOff.setVisibility(View.GONE);
+            txtHeaderNetAmount.setVisibility(View.GONE);
+            txtNetAmount.setVisibility(View.GONE);
             btnAddMore.setVisibility(View.GONE);
             btnConfirmOrder.setVisibility(View.GONE);
+            taxLayout.setVisibility(View.GONE);
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
             headerLayout.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.VISIBLE);
+            txtHeaderTotalAmount.setVisibility(View.VISIBLE);
+            txtTotalAmount.setVisibility(View.VISIBLE);
+            txtHeaderDiscount.setVisibility(View.VISIBLE);
+            txtTotalDiscount.setVisibility(View.VISIBLE);
+            txtHeaderRounding.setVisibility(View.VISIBLE);
+            txtRoundingOff.setVisibility(View.VISIBLE);
+            txtHeaderNetAmount.setVisibility(View.VISIBLE);
+            txtNetAmount.setVisibility(View.VISIBLE);
             btnAddMore.setVisibility(View.VISIBLE);
             btnConfirmOrder.setVisibility(View.VISIBLE);
+            taxLayout.setVisibility(View.VISIBLE);
         }
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
@@ -207,12 +247,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void RequestOrderMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-        if (Globals.alOrderItemTran.size() != 0) {
-            for (ItemMaster objOrderItemTran : Globals.alOrderItemTran) {
-                totalAmount = totalAmount + objOrderItemTran.getTotalAmount();
-                totalTax = totalTax + objOrderItemTran.getTotalTax();
-            }
-        }
+        CountAmount();
 
         OrderMaster objOrderMaster = new OrderMaster();
         objOrderMaster.setLinktoBusinessMasterId((short) Globals.linktoBusinessMasterId);
@@ -246,8 +281,87 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 getActivity().finish();
                 break;
         }
+    }
 
+    private void CountAmount() {
+        if (Globals.alOrderItemTran.size() != 0) {
+            for (ItemMaster objOrderItemTran : Globals.alOrderItemTran) {
+                totalAmount = totalAmount + objOrderItemTran.getTotalAmount();
+                totalTax = totalTax + objOrderItemTran.getTotalTax();
+                netAmount = totalAmount + totalTax;
+                tax1 = tax1 + objOrderItemTran.getTax1();
+                tax2 = tax2 + objOrderItemTran.getTax2();
+                tax3 = tax3 + objOrderItemTran.getTax3();
+                tax4 = tax4 + objOrderItemTran.getTax4();
+                tax5 = tax5 + objOrderItemTran.getTax5();
+            }
+            txtTotalAmount.setText(String.valueOf(totalAmount));
+            txtNetAmount.setText(String.valueOf(netAmount));
+        }
+    }
+
+    private void SetTextLayout() {
+        taxLayout.removeAllViewsInLayout();
+        LinearLayout[] linearLayout = new LinearLayout[alTaxMaster.size()];
+        TextView[] txtTaxName = new TextView[alTaxMaster.size()];
+        TextView[] txtTaxRate = new TextView[alTaxMaster.size()];
+
+        for (int i = 0; i < alTaxMaster.size(); i++) {
+
+            linearLayout[i] = new LinearLayout(getActivity());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            linearLayout[i].setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout[i].setLayoutParams(layoutParams);
+            linearLayout[i].setPadding(8, 0, 8, 0);
+
+            txtTaxName[i] = new TextView(getActivity());
+            LinearLayout.LayoutParams txtTaxNameParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            txtTaxNameParams.weight = 0.5f;
+            txtTaxName[i].setLayoutParams(txtTaxNameParams);
+            txtTaxName[i].setGravity(Gravity.START);
+            txtTaxName[i].setTextSize(10f);
+
+            txtTaxRate[i] = new TextView(getActivity());
+            LinearLayout.LayoutParams txtTaxRateParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            txtTaxRateParams.weight = 0.5f;
+            txtTaxName[i].setLayoutParams(txtTaxRateParams);
+            txtTaxRate[i].setGravity(Gravity.END);
+            txtTaxRate[i].setTextSize(10f);
+
+
+            if (alTaxMaster.get(i).getIsPercentage()) {
+                String str = String.valueOf(alTaxMaster.get(i).getTaxRate());
+                String precision = str.substring(str.lastIndexOf(".") + 1);
+
+                if (Integer.valueOf(precision) > 0) {
+                    txtTaxName[i].setText(alTaxMaster.get(i).getTaxCaption() + "  [" + " " + str + " % ]");
+                } else {
+                    txtTaxName[i].setText(alTaxMaster.get(i).getTaxCaption() + "  [" + " " + str.substring(0, str.lastIndexOf(".")) + " % ]");
+                }
+                if (i == 0) {
+
+                    txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax1));
+                } else if (i == 1) {
+                    txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax2));
+                } else if (i == 2) {
+                    txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax3));
+                } else if (i == 3) {
+                    txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax4));
+                } else if (i == 4) {
+                    txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax5));
+                }
+                //txtTaxRate[i].setText(Globals.dfWithPrecision.format((totalAmount * alTaxMaster.get(i).getTaxRate()) / 100));
+                //totalTaxPercentage = totalTaxPercentage + alTaxMaster.get(i).getTaxRate();
+            } else {
+                txtTaxName[i].setText(alTaxMaster.get(i).getTaxCaption());
+                txtTaxRate[i].setText(Globals.dfWithPrecision.format(alTaxMaster.get(i).getTaxRate()));
+                //totalTaxAmount = totalTaxAmount + alTaxMaster.get(i).getTaxRate();
+            }
+
+            linearLayout[i].addView(txtTaxName[i]);
+            linearLayout[i].addView(txtTaxRate[i]);
+            taxLayout.addView(linearLayout[i]);
+        }
     }
     //endregion
-
 }
