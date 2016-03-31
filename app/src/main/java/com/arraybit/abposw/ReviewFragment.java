@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.arraybit.adapter.ReviewAdapter;
 import com.arraybit.global.EndlessRecyclerOnScrollListener;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.ReviewMaster;
 import com.arraybit.parser.ReviewJSONParser;
@@ -29,6 +31,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     BusinessMaster objBusinessMaster;
     ReviewAdapter adapter;
     int currentPage = 1;
+    boolean isPause;
 
     public ReviewFragment(BusinessMaster objBusinessMaster) {
         this.objBusinessMaster = objBusinessMaster;
@@ -85,8 +88,33 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     @Override
     public void AddReview() {
-        WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
-        objWriteReviewFragment.show(getActivity().getSupportFragmentManager(), "");
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) == null){
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }else{
+            WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
+            objWriteReviewFragment.show(getActivity().getSupportFragmentManager(), "");
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isPause) {
+            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) != null) {
+                WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
+                objWriteReviewFragment.show(getActivity().getSupportFragmentManager(), "");
+            }
+        }
     }
 
     //region Private Methods

@@ -3,31 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.arraybit.abposw.HomeActivity">
     <item
-        android:id="@+id/MyAccount"
+        android:id="@+id/myAccount"
         android:orderInCategory="100"
         android:title="@string/action_my_account"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/MyOrders"
+        android:id="@+id/myOrders"
         android:orderInCategory="100"
         android:title="@string/action_my_orders"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/MyBookings"
+        android:id="@+id/myBookings"
         android:orderInCategory="100"
         android:title="@string/action_my_bookings"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/wishlist"
+        android:id="@+id/wishList"
         android:orderInCategory="100"
         android:title="@string/action_wishlist"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/checkin"
+        android:id="@+id/checkIn"
         android:orderInCategory="100"
         android:title="@string/action_checkin"
         app:showAsAction="never" />
@@ -36,5 +37,6 @@
         android:id="@+id/logout"
         android:orderInCategory="100"
         android:title="@string/action_logout"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>

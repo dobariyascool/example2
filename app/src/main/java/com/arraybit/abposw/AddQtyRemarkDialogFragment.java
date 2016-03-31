@@ -31,7 +31,6 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
 
     public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
-
         this.objItemMaster = objItemMaster;
     }
 
@@ -125,9 +124,9 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             Globals.alOrderItemTran.add(objOrderItemTran);
         } else {
             for(ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran){
-                if (objFilterOrderItemTran.getItemMasterId() == objItemMaster.getItemMasterId() &&
-                        (objFilterOrderItemTran.getRemark() != null && objFilterOrderItemTran.getRemark().equals(etRemark.getText().toString()))
-                        || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty())) {
+                if ((objFilterOrderItemTran.getItemMasterId() == objItemMaster.getItemMasterId()) &&
+                        ((objFilterOrderItemTran.getRemark() != null && objFilterOrderItemTran.getRemark().equals(etRemark.getText().toString()))
+                        || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty()))) {
                     isDuplicate = true;
                     objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                     objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));

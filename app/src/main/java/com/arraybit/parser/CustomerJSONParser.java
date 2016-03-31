@@ -209,7 +209,7 @@ public class CustomerJSONParser {
                             JSONObject jsonResponse = jsonObject.getJSONObject(InsertCustomerMaster + "Result");
 
                             if(jsonResponse!=null){
-                                String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                                String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
                                 objCustomerRequestListener = (CustomerRequestListener)context;
                                 objCustomerRequestListener.CustomerResponse(errorCode, null);
                             }else{

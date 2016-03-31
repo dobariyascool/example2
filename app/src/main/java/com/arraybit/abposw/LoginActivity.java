@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -126,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (v.getId() == R.id.cbSignUp) {
             Globals.HideKeyBoard(this, view);
             Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.ibClear) {
             etUserName.setText("");
             ibClear.setVisibility(View.GONE);
@@ -139,6 +140,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0) {
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
@@ -196,10 +208,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName",objCustomerMaster.getCustomerName(), this);
 
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
-            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra("CustomerMaster", objCustomerMaster);
-            startActivity(i);
+            //Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //i.putExtra("CustomerMaster", objCustomerMaster);
+            //startActivity(i);
+            setResult(Activity.RESULT_OK);
+            finish();
         }
     }
     //endregion

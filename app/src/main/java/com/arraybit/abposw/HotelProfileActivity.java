@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -73,9 +74,16 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
+            setResult(Activity.RESULT_OK);
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
     //region Private Methods
