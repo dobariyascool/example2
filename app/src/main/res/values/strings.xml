@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">WebPOS</string>
     <string name="action_settings">Settings</string>
-    <string name="action_my_account">My Account</string>
-    <string name="action_my_orders">My Orders</string>
-    <string name="action_my_bookings">My Bookings</string>
+    <string name="action_my_account">Your Account</string>
+    <string name="action_my_orders">Your Orders</string>
+    <string name="action_my_bookings">Your Bookings</string>
     <string name="action_wishlist">Wishlist</string>
     <string name="action_checkin">Check In</string>
     <string name="action_logout">Logout</string>

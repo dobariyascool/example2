@@ -1,6 +1,6 @@
 package com.arraybit.abposw;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import com.arraybit.adapter.SpinnerAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.AreaJSONParser;
@@ -133,6 +134,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(Activity.RESULT_OK);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -160,9 +162,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
             }
         } else if (v.getId() == R.id.cbSignIn) {
-            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            finish();
         }
     }
 
@@ -185,6 +185,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
         SetError(errorCode);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
     //region Private Methods
@@ -279,10 +285,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 break;
             default:
                 Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), RegistrationActivity.this, 1000);
+
+                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", errorCode, this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etEmail.getText().toString(), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etPassword.getText().toString(), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", etFirstName.getText().toString() + " " + etLastName.getText().toString(), this);
+
                 ClearControls();
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                //Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                //startActivity(intent);
+                setResult(Activity.RESULT_OK);
                 finish();
                 break;
         }
