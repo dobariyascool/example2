@@ -161,9 +161,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
+            Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.cvTakeAway) {
+            Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.cvBookTable) {
