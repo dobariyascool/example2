@@ -163,11 +163,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,0);
         } else if (v.getId() == R.id.cvBookTable) {
 
         } else if (v.getId() == R.id.cvOffer) {
