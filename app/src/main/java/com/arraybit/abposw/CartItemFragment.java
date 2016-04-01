@@ -184,16 +184,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void RemarkResponse() {
-        if (RemarkDialogFragment.strRemark != null) {
+        if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
             txtRemark.setVisibility(View.VISIBLE);
             txtRemark.setText(RemarkDialogFragment.strRemark);
         } else {
             txtRemark.setVisibility(View.GONE);
-            txtRemark.setText("");
         }
     }
 
     //region Private Methods
+
     private void RequestTaxMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         TaxJSONParser objTaxJSONParser = new TaxJSONParser();
@@ -233,7 +233,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
             txtHeaderModifier.setVisibility(View.GONE);
-            txtRemark.setVisibility(View.GONE);
             ivRemark.setVisibility(View.GONE);
             txtHeaderTotalAmount.setVisibility(View.GONE);
             txtTotalAmount.setVisibility(View.GONE);
@@ -246,12 +245,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnAddMore.setVisibility(View.GONE);
             btnConfirmOrder.setVisibility(View.GONE);
             taxLayout.setVisibility(View.GONE);
+            if (RemarkDialogFragment.strRemark != null) {
+                if (RemarkDialogFragment.strRemark.equals("")) {
+                    txtRemark.setVisibility(View.GONE);
+                }
+            }
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
             headerLayout.setVisibility(View.VISIBLE);
             txtHeaderModifier.setVisibility(View.VISIBLE);
-            txtRemark.setVisibility(View.VISIBLE);
             ivRemark.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.VISIBLE);
             txtHeaderTotalAmount.setVisibility(View.VISIBLE);
@@ -265,6 +268,12 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnAddMore.setVisibility(View.VISIBLE);
             btnConfirmOrder.setVisibility(View.VISIBLE);
             taxLayout.setVisibility(View.VISIBLE);
+            if (RemarkDialogFragment.strRemark != null) {
+                if (!RemarkDialogFragment.strRemark.equals("")) {
+                    txtRemark.setVisibility(View.VISIBLE);
+                    txtRemark.setText(RemarkDialogFragment.strRemark);
+                }
+            }
         }
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
@@ -322,8 +331,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 tax4 = tax4 + objOrderItemTran.getTax4();
                 tax5 = tax5 + objOrderItemTran.getTax5();
             }
-            strNetAmount = String.valueOf(netAmount);
-            txtTotalAmount.setText(String.valueOf(totalAmount));
+            strNetAmount = Globals.dfWithPrecision.format(netAmount);
+            txtTotalAmount.setText(Globals.dfWithPrecision.format(totalAmount));
             txtNetAmount.setText(Globals.dfWithPrecision.format(Math.round(netAmount)));
             txtRoundingOff.setText("- 0." + strNetAmount.substring(strNetAmount.lastIndexOf(".") + 1, strNetAmount.length()));
         }

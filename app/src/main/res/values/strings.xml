@@ -65,10 +65,12 @@
     <string name="suAlreadyRegistered">Already Registered?</string>
     <string name="suFirstName">First Name</string>
     <string name="suValidEmail">Valid Email</string>
+    <string name="suValidConfirmPassword">Confirm Password is not matched</string>
     <string name="suLastName">Last Name</string>
     <string name="suEmail">Email</string>
     <string name="suPhone">Mobile</string>
     <string name="suPassword">Password</string>
+    <string name="suConfirmPassword">Confirm Password</string>
     <string name="suMale">Male</string>
     <string name="suFemale">Female</string>
     <string name="suGender">Gender</string>

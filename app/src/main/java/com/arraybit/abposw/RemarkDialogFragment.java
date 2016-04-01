@@ -51,7 +51,6 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
             dismiss();
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
-            strRemark = etRemark.getText().toString();
             objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
             objRemarkResponseListener.RemarkResponse();
         }

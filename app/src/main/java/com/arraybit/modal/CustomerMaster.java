@@ -39,6 +39,7 @@ public class CustomerMaster implements Parcelable {
     boolean IsDeleted;
     String Gender;
     String Password;
+    String ConfirmPassword;
     short linktoSourceMasterId;
     String Remark;
     String LastLoginDateTime;
@@ -81,6 +82,7 @@ public class CustomerMaster implements Parcelable {
             objCustomerMaster.IsDeleted = source.readByte() != 0;
             objCustomerMaster.Gender = source.readString();
             objCustomerMaster.Password = source.readString();
+            objCustomerMaster.ConfirmPassword = source.readString();
             objCustomerMaster.linktoSourceMasterId = (short) source.readInt();
             objCustomerMaster.Remark = source.readString();
             objCustomerMaster.LastLoginDateTime = source.readString();
@@ -360,6 +362,14 @@ public class CustomerMaster implements Parcelable {
         this.Password = password;
     }
 
+    public String getConfirmPassword() {
+        return ConfirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        ConfirmPassword = confirmPassword;
+    }
+
     public short getlinktoSourceMasterId() {
         return this.linktoSourceMasterId;
     }
@@ -443,6 +453,7 @@ public class CustomerMaster implements Parcelable {
         parcel.writeByte((byte) (IsDeleted ? 1 : 0));
         parcel.writeString(Gender);
         parcel.writeString(Password);
+        parcel.writeString(ConfirmPassword);
         parcel.writeInt(linktoSourceMasterId);
         parcel.writeString(Remark);
         parcel.writeString(LastLoginDateTime);
