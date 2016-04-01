@@ -1,6 +1,5 @@
 package com.arraybit.parser;
 
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
@@ -50,9 +49,9 @@ public class OrderJSONParser {
                 if (!jsonObject.getString("linktoCustomerMasterId").equals("null")) {
                     objOrderMaster.setlinktoCustomerMasterId(jsonObject.getInt("linktoCustomerMasterId"));
                 }
-                objOrderMaster.setlinktoOrderTypeMasterId((short)jsonObject.getInt("linktoOrderTypeMasterId"));
+                objOrderMaster.setlinktoOrderTypeMasterId((short) jsonObject.getInt("linktoOrderTypeMasterId"));
                 if (!jsonObject.getString("linktoOrderStatusMasterId").equals("null")) {
-                    objOrderMaster.setlinktoOrderStatusMasterId((short)jsonObject.getInt("linktoOrderStatusMasterId"));
+                    objOrderMaster.setlinktoOrderStatusMasterId((short) jsonObject.getInt("linktoOrderStatusMasterId"));
                 }
                 if (!jsonObject.getString("linktoBookingMasterId").equals("null")) {
                     objOrderMaster.setlinktoBookingMasterId(jsonObject.getInt("linktoBookingMasterId"));
@@ -64,8 +63,8 @@ public class OrderJSONParser {
                 objOrderMaster.setNetAmount(jsonObject.getDouble("NetAmount"));
                 objOrderMaster.setPaidAmount(jsonObject.getDouble("PaidAmount"));
                 objOrderMaster.setBalanceAmount(jsonObject.getDouble("BalanceAmount"));
-                objOrderMaster.setTotalItemPoint((short)jsonObject.getInt("TotalItemPoint"));
-                objOrderMaster.setTotalDeductedPoint((short)jsonObject.getInt("TotalDeductedPoint"));
+                objOrderMaster.setTotalItemPoint((short) jsonObject.getInt("TotalItemPoint"));
+                objOrderMaster.setTotalDeductedPoint((short) jsonObject.getInt("TotalDeductedPoint"));
                 objOrderMaster.setRemark(jsonObject.getString("Remark"));
                 objOrderMaster.setIsPreOrder(jsonObject.getBoolean("IsPreOrder"));
                 if (!jsonObject.getString("linktoCustomerAddressTranId").equals("null")) {
@@ -113,9 +112,9 @@ public class OrderJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoCustomerMasterId").equals("null")) {
                     objOrderMaster.setlinktoCustomerMasterId(jsonArray.getJSONObject(i).getInt("linktoCustomerMasterId"));
                 }
-                objOrderMaster.setlinktoOrderTypeMasterId((short)jsonArray.getJSONObject(i).getInt("linktoOrderTypeMasterId"));
+                objOrderMaster.setlinktoOrderTypeMasterId((short) jsonArray.getJSONObject(i).getInt("linktoOrderTypeMasterId"));
                 if (!jsonArray.getJSONObject(i).getString("linktoOrderStatusMasterId").equals("null")) {
-                    objOrderMaster.setlinktoOrderStatusMasterId((short)jsonArray.getJSONObject(i).getInt("linktoOrderStatusMasterId"));
+                    objOrderMaster.setlinktoOrderStatusMasterId((short) jsonArray.getJSONObject(i).getInt("linktoOrderStatusMasterId"));
                 }
                 if (!jsonArray.getJSONObject(i).getString("linktoBookingMasterId").equals("null")) {
                     objOrderMaster.setlinktoBookingMasterId(jsonArray.getJSONObject(i).getInt("linktoBookingMasterId"));
@@ -127,8 +126,8 @@ public class OrderJSONParser {
                 objOrderMaster.setNetAmount(jsonArray.getJSONObject(i).getDouble("NetAmount"));
                 objOrderMaster.setPaidAmount(jsonArray.getJSONObject(i).getDouble("PaidAmount"));
                 objOrderMaster.setBalanceAmount(jsonArray.getJSONObject(i).getDouble("BalanceAmount"));
-                objOrderMaster.setTotalItemPoint((short)jsonArray.getJSONObject(i).getInt("TotalItemPoint"));
-                objOrderMaster.setTotalDeductedPoint((short)jsonArray.getJSONObject(i).getInt("TotalDeductedPoint"));
+                objOrderMaster.setTotalItemPoint((short) jsonArray.getJSONObject(i).getInt("TotalItemPoint"));
+                objOrderMaster.setTotalDeductedPoint((short) jsonArray.getJSONObject(i).getInt("TotalDeductedPoint"));
                 objOrderMaster.setRemark(jsonArray.getJSONObject(i).getString("Remark"));
                 objOrderMaster.setIsPreOrder(jsonArray.getJSONObject(i).getBoolean("IsPreOrder"));
                 if (!jsonArray.getJSONObject(i).getString("linktoCustomerAddressTranId").equals("null")) {
@@ -163,7 +162,7 @@ public class OrderJSONParser {
         }
     }
 
-    public void InsertOrderMaster(OrderMaster objOrderMaster,ArrayList<ItemMaster> alOrderItemTran,ArrayList<TaxMaster> alTaxMaster, final Context context, final Fragment targetFragment) {
+    public void InsertOrderMaster(OrderMaster objOrderMaster, ArrayList<ItemMaster> alOrderItemTran, ArrayList<TaxMaster> alTaxMaster, final Context context, final Fragment targetFragment) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
@@ -203,7 +202,7 @@ public class OrderJSONParser {
             stringer.key("lstOrderItemTran");
             stringer.array();
 
-            for(int i=0;i<alOrderItemTran.size();i++) {
+            for (int i = 0; i < alOrderItemTran.size(); i++) {
                 stringer.object();
                 stringer.key("ItemMasterId").value(alOrderItemTran.get(i).getItemMasterId());
                 stringer.key("ItemName").value(alOrderItemTran.get(i).getItemName());
@@ -223,11 +222,13 @@ public class OrderJSONParser {
                 stringer.key("DeductedPoint").value(0);
                 stringer.key("lstOrderItemModifierTran");
                 stringer.array();
-                for(int j=0;j<alOrderItemTran.get(i).getAlOrderItemModifierTran().size();j++){
-                    stringer.object();
-                    stringer.key("ItemMasterId").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getItemMasterId());
-                    stringer.key("Rate").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getRate());
-                    stringer.endObject();
+                if (alOrderItemTran.get(i).getAlOrderItemModifierTran() != null) {
+                    for (int j = 0; j < alOrderItemTran.get(i).getAlOrderItemModifierTran().size(); j++) {
+                        stringer.object();
+                        stringer.key("ItemMasterId").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getItemMasterId());
+                        stringer.key("Rate").value(alOrderItemTran.get(i).getAlOrderItemModifierTran().get(j).getRate());
+                        stringer.endObject();
+                    }
                 }
                 stringer.endArray();
                 stringer.endObject();
@@ -237,7 +238,7 @@ public class OrderJSONParser {
             stringer.key("lstTaxMaster");
             stringer.array();
 
-            for(int i=0;i<alTaxMaster.size();i++){
+            for (int i = 0; i < alTaxMaster.size(); i++) {
                 stringer.object();
                 stringer.key("TaxMasterId").value(alTaxMaster.get(i).getTaxMasterId());
                 stringer.key("TaxName").value(alTaxMaster.get(i).getTaxName());
@@ -259,36 +260,35 @@ public class OrderJSONParser {
                     try {
                         JSONObject jsonResponse = jsonObject.getJSONObject(InsertOrderMaster + "Result");
 
-                        if(jsonResponse!=null){
+                        if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
-                            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
-                            objOrderMasterRequestListener.OrderMasterResponse(errorCode,null);
-                        }else{
-                            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                            objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
+                            objOrderMasterRequestListener.OrderMasterResponse(errorCode, null);
+                        } else {
+                            objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
                             objOrderMasterRequestListener.OrderMasterResponse("-1", null);
                         }
                     } catch (JSONException e) {
-                        objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                        objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
                         objOrderMasterRequestListener.OrderMasterResponse("-1", null);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+                    objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
                     objOrderMasterRequestListener.OrderMasterResponse("-1", null);
                 }
             });
             queue.add(jsonObjectRequest);
-        }
-        catch (Exception ex) {
-            objOrderMasterRequestListener = (OrderMasterRequestListener)targetFragment;
+        } catch (Exception ex) {
+            objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
             objOrderMasterRequestListener.OrderMasterResponse("-1", null);
         }
     }
 
     public interface OrderMasterRequestListener {
-        void OrderMasterResponse(String errorCode,OrderMaster objOrderMaster);
+        void OrderMasterResponse(String errorCode, OrderMaster objOrderMaster);
     }
 
 }
