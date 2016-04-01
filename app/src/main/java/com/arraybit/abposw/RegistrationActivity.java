@@ -305,6 +305,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+
     private boolean ValidateControls() {
         boolean IsValid = true;
         if (spCity.getSelectedItemId() == 0) {
