@@ -36,10 +36,10 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
     public void onBindViewHolder(ItemSuggestdViewHolder holder, int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
 
-        if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
+        if (objItemMaster.getXs_ImagePhysicalName().equals("null")) {
             Picasso.with(holder.ivSuggestedItem.getContext()).load(R.drawable.default_image).into(holder.ivSuggestedItem);
         } else {
-            Picasso.with(holder.ivSuggestedItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(holder.ivSuggestedItem);
+            Picasso.with(holder.ivSuggestedItem.getContext()).load(objItemMaster.getXs_ImagePhysicalName()).into(holder.ivSuggestedItem);
         }
     }
 

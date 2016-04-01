@@ -90,6 +90,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     public void AddReview() {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         if(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) == null){
+            isPause = true;
             Intent intent = new Intent(getActivity(),LoginActivity.class);
             startActivity(intent);
         }else{
@@ -100,15 +101,10 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        isPause = true;
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if(isPause) {
+            isPause = false;
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) != null) {
                 WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
