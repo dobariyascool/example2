@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -134,6 +135,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             startActivity(i);
             finish();
         }else if(id==android.R.id.home){
+            setResult(Activity.RESULT_OK);
             finish();
             ClearData();
             Globals.ClearCartData();
@@ -241,7 +243,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        setResult(Activity.RESULT_OK);
+        finish();
         ClearData();
         Globals.ClearCartData();
     }

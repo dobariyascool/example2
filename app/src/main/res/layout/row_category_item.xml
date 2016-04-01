@@ -74,9 +74,9 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/control_SpecingTiny"
             android:layout_marginEnd="@dimen/control_SpecingSmall"
             android:text="Add"
+            android:visibility="visible"
             tools:ignore="HardcodedText" />
 
         <com.rey.material.widget.Button

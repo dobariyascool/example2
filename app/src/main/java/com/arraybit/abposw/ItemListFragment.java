@@ -150,24 +150,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
     }
 
-    //region Private Methods
-    private void RequestItemMaster() {
-        if (cnt == 0) {
-            if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
-                progressDialog.dismiss();
-            }
-            progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
-            cnt = 1;
-        }
-        ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
-        } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
-        }
-    }
-    //endregion
-
     public void SetRecyclerView(boolean isCurrentPageChange) {
         if (isCurrentPageChange) {
             itemAdapter.isItemAnimate = false;
@@ -246,4 +228,22 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             }
         });
     }
+
+    //region Private Methods
+    private void RequestItemMaster() {
+        if (cnt == 0) {
+            if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
+                progressDialog.dismiss();
+            }
+            progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+            cnt = 1;
+        }
+        ItemJSONParser objItemJSONParser = new ItemJSONParser();
+        if (objCategoryMaster.getCategoryMasterId() == 0) {
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
+        } else {
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
+        }
+    }
+    //endregion
 }
