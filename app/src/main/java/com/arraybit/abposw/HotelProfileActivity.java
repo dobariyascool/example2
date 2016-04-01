@@ -82,8 +82,12 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
     @Override
     public void onBackPressed() {
-        setResult(Activity.RESULT_OK);
-        finish();
+        super.onBackPressed();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+//        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+//            setResult(Activity.RESULT_OK);
+//            finish();
+//        }
     }
 
     //region Private Methods

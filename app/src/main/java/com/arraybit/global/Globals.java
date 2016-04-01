@@ -238,6 +238,23 @@ public class Globals {
         }
     }
 
+    public enum QuestionType {
+        Input(1),
+        Rating(2),
+        SingleSelect(3),
+        MultiSelect(4);
+
+        private int intValue;
+
+        QuestionType(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
+
     public enum OrderType {
         DineIn(1),
         TakeAway(2),

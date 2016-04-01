@@ -59,7 +59,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        //objCustomerMaster = getIntent().getParcelableExtra("CustomerMaster");
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);

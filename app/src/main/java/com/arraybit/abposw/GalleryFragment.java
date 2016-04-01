@@ -122,7 +122,8 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
             //fragmentTransaction.commit();
             //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         }
-        fragmentTransaction.replace(android.R.id.content, fullViewDialogFragment, "fullViewDialogFragment");
+        //fragmentTransaction.replace(android.R.id.content, fullViewDialogFragment, "fullViewDialogFragment");
+        fragmentTransaction.replace(R.id.hotelProfileFragment, fullViewDialogFragment, "fullViewDialogFragment");
         fragmentTransaction.addToBackStack("fullViewDialogFragment");
         fragmentTransaction.addSharedElement(view, transitionName);
         fragmentTransaction.commit();

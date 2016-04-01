@@ -77,6 +77,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
             lstBusinessInfoQuestionMaster = new ArrayList<>();
             que = "";
             cnt = 0;
+            boolean isAnswer = false;
             for (BusinessInfoQuestionMaster objQuestionMaster : alBusinessInfoQuestionMaster) {
                 if (que.equals("")) {
                     que = objQuestionMaster.getQuestion();
@@ -85,24 +86,43 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                     objBusinessInfoQuestionMaster = objQuestionMaster;
                     objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                     objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
+                    if(objQuestionMaster.getIsAnswer() && objQuestionMaster.getQuestionType()!= Globals.QuestionType.Input.getValue()){
+                        isAnswer = true;
+                    }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                        isAnswer = true;
+                    }
                     alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                     if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-                        objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-                        lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                        if(isAnswer) {
+                            isAnswer = false;
+                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                        }
                     }
                 } else {
                     if (que.equals(objQuestionMaster.getQuestion())) {
                         objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
                         objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                         objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
+                        if(objQuestionMaster.getIsAnswer()){
+                            isAnswer = true;
+                        }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                            isAnswer = true;
+                        }
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                         if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
+                            if(isAnswer) {
+                                isAnswer = false;
+                                objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                                lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                            }
+                        }
+                    } else {
+                        if(isAnswer) {
+                            isAnswer = false;
                             objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                             lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
                         }
-                    } else {
-                        objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-                        lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
                         alBusinessInfoAnswerMaster = new ArrayList<>();
                         que = objQuestionMaster.getQuestion();
                         objBusinessInfoQuestionMaster = new BusinessInfoQuestionMaster();
@@ -110,10 +130,18 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                         objBusinessInfoQuestionMaster = objQuestionMaster;
                         objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                         objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
+                        if(objQuestionMaster.getIsAnswer()){
+                            isAnswer = true;
+                        }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                            isAnswer = true;
+                        }
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                         if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                            if(isAnswer){
+                                isAnswer = false;
+                                objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
+                                lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
+                            }
                         }
                     }
                 }
