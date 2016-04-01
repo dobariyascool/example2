@@ -146,12 +146,12 @@
                             android:orientation="horizontal">
 
                             <com.rey.material.widget.TextView
-                                android:id="@+id/txtHeaderModifier"
+                                android:id="@+id/txtHeaderRemark"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/cifRemark"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/control_TextSmall" />
+                                android:textSize="@dimen/control_TextMedium" />
 
                             <ImageView
                                 android:id="@+id/ivRemark"
@@ -167,7 +167,7 @@
                             android:id="@+id/txtRemark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
+                            android:maxLines="1"
                             android:paddingEnd="@dimen/control_SpecingMedium"
                             android:paddingStart="@dimen/control_SpecingMedium"
                             android:textColor="@color/colorAccent"
@@ -254,7 +254,8 @@
                                 android:maxLines="1"
                                 android:text="@string/cifRounding"
                                 android:textAllCaps="false"
-                                android:textSize="@dimen/control_TextTiny" />
+                                android:textSize="9sp"
+                                tools:ignore="SmallSp" />
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtRoundingOff"
@@ -265,7 +266,8 @@
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
                                 android:textAllCaps="false"
-                                android:textSize="@dimen/control_TextTiny" />
+                                android:textSize="9sp"
+                                tools:ignore="SmallSp"/>
 
                         </LinearLayout>
 

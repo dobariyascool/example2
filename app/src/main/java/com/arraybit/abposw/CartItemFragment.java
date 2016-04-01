@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -39,7 +40,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder;
-    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderModifier;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark;
     ImageView ivRemark;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout;
@@ -73,7 +74,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         //end
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
-        txtHeaderModifier = (TextView) view.findViewById(R.id.txtHeaderModifier);
+        txtHeaderRemark = (TextView) view.findViewById(R.id.txtHeaderRemark);
         txtRemark = (TextView) view.findViewById(R.id.txtRemark);
         ivRemark = (ImageView) view.findViewById(R.id.ivRemark);
         txtTotalAmount = (TextView) view.findViewById(R.id.txtTotalAmount);
@@ -232,7 +233,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             cbMenu.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
-            txtHeaderModifier.setVisibility(View.GONE);
+            txtHeaderRemark.setVisibility(View.GONE);
             txtRemark.setVisibility(View.GONE);
             ivRemark.setVisibility(View.GONE);
             txtHeaderTotalAmount.setVisibility(View.GONE);
@@ -250,7 +251,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
             headerLayout.setVisibility(View.VISIBLE);
-            txtHeaderModifier.setVisibility(View.VISIBLE);
+            txtHeaderRemark.setVisibility(View.VISIBLE);
             txtRemark.setVisibility(View.VISIBLE);
             ivRemark.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.VISIBLE);
@@ -310,6 +311,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void CountAmount() {
         if (Globals.alOrderItemTran.size() != 0) {
             for (ItemMaster objOrderItemTran : Globals.alOrderItemTran) {
@@ -329,6 +331,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void SetTextLayout() {
         taxLayout.removeAllViewsInLayout();
         LinearLayout[] linearLayout = new LinearLayout[alTaxMaster.size()];
@@ -348,14 +351,14 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTaxNameParams.weight = 0.5f;
             txtTaxName[i].setLayoutParams(txtTaxNameParams);
             txtTaxName[i].setGravity(Gravity.START);
-            txtTaxName[i].setTextSize(8f);
+            txtTaxName[i].setTextSize(9f);
 
             txtTaxRate[i] = new TextView(getActivity());
             LinearLayout.LayoutParams txtTaxRateParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             txtTaxRateParams.weight = 0.5f;
             txtTaxName[i].setLayoutParams(txtTaxRateParams);
             txtTaxRate[i].setGravity(Gravity.END);
-            txtTaxRate[i].setTextSize(8f);
+            txtTaxRate[i].setTextSize(9f);
 
 
             if (alTaxMaster.get(i).getIsPercentage()) {

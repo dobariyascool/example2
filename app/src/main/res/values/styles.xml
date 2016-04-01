@@ -273,11 +273,6 @@
         <item name="rd_cornerRadius">0dp</item>
         <item name="android:background">#FFACAA8A</item>
         <item name="rd_rippleColor">#FFACAA8A</item>
-        <!--<item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>-->
-        <!--<item name="android:layout_marginBottom">2dp</item>-->
-        <!--<item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>-->
-        <!--<item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>-->
-        <!--<item name="android:fontFamily">Roboto-Regular</item>-->
     </style>
 
     <style name="DialogButton" parent="@style/Widget.AppCompat.Button.Borderless">
