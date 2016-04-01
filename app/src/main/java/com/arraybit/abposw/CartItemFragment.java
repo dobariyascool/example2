@@ -50,6 +50,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
+    boolean isPause;
 
     public CartItemFragment() {
         // Required empty public constructor
@@ -120,6 +121,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         } else if (v.getId() == R.id.btnConfirmOrder) {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+            } else {
+                RequestOrderMaster();
+            }
+
             //RequestOrderMaster();
             //Globals.ReplaceFragment(new OrderSummaryFragment(),getActivity().getSupportFragmentManager(),getActivity().getResources().getString(R.string.title_order_summary_fragment),R.id.fragmentLayout);
         } else if (v.getId() == R.id.cbMenu) {
@@ -140,6 +148,24 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        isPause = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isPause) {
+            objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+                RequestOrderMaster();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent returnIntent = new Intent();
@@ -154,6 +180,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     public void ImageViewOnClick(int position) {
         adapter.RemoveData(position);
         if (Globals.alOrderItemTran.size() == 0) {
+            RemarkDialogFragment.strRemark = "";
             SetRecyclerView();
         }
         if (adapter.changeAmount) {
@@ -190,6 +217,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtRemark.setText(RemarkDialogFragment.strRemark);
         } else {
             txtRemark.setVisibility(View.GONE);
+            txtRemark.setText("");
         }
     }
 
@@ -246,11 +274,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnAddMore.setVisibility(View.GONE);
             btnConfirmOrder.setVisibility(View.GONE);
             taxLayout.setVisibility(View.GONE);
-            if (RemarkDialogFragment.strRemark != null) {
-                if (RemarkDialogFragment.strRemark.equals("")) {
-                    txtRemark.setVisibility(View.GONE);
-                }
-            }
+            //if (RemarkDialogFragment.strRemark != null) {
+            //if (RemarkDialogFragment.strRemark.equals("")) {
+            txtRemark.setVisibility(View.GONE);
+            //}
+            //}
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
@@ -284,16 +312,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void RequestOrderMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-        CountAmount();
+        //CountAmount();
 
         OrderMaster objOrderMaster = new OrderMaster();
-        objOrderMaster.setLinktoBusinessMasterId((short) Globals.linktoBusinessMasterId);
+        objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objOrderMaster.setlinktoOrderTypeMasterId(Globals.linktoOrderTypeMasterId);
         objOrderMaster.setlinktoCustomerMasterId(customerMasterId);
         objOrderMaster.setTotalAmount(totalAmount);
         objOrderMaster.setTotalTax(totalTax);
-        objOrderMaster.setNetAmount(totalAmount + totalTax);
-        objOrderMaster.setPaidAmount(totalAmount + totalTax);
+        objOrderMaster.setNetAmount(netAmount);
+        objOrderMaster.setPaidAmount(netAmount);
         objOrderMaster.setDiscount(0.00);
         objOrderMaster.setExtraAmount(0.00);
         objOrderMaster.setTotalItemPoint((short) 0);
