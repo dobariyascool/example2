@@ -44,7 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
 
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
-        Intent i = new Intent(SplashScreenActivity.this, RegistrationActivity.class);
+        Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
