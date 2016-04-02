@@ -5,7 +5,7 @@
     android:orientation="vertical"
     tools:context=".ItemListFragment">
 
-    <include android:id="@+id/error_layout"
+    <include android:id="@+id/errorLayout"
         layout="@layout/error_layout"
         android:visibility="gone"/>
 

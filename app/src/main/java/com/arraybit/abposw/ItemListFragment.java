@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     String OptionIds;
     int currentPage = 1;
     boolean isLayoutChange;
+    Context context;
 
     public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
         ItemListFragment itemTabFragment = new ItemListFragment();
@@ -53,9 +55,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
         View view = inflater.inflate(R.layout.fragment_itemlist, container, false);
 
-        errorLayout = (LinearLayout) view.findViewById(R.id.error_layout);
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
+
         rvItemMaster = (RecyclerView) view.findViewById(R.id.rvItemMaster);
         rvItemMaster.setVisibility(View.GONE);
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -75,6 +79,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        context = getActivity();
         rvItemMaster.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -151,41 +156,49 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     public void SetRecyclerView(boolean isCurrentPageChange) {
-        if (isCurrentPageChange) {
-            itemAdapter.isItemAnimate = false;
-            isLayoutChange = true;
-            rvItemMaster.setAdapter(rvItemMaster.getAdapter());
-            if (MenuActivity.isViewChange) {
-                rvItemMaster.setLayoutManager(gridLayoutManager);
-            } else {
-                rvItemMaster.setLayoutManager(linearLayoutManager);
-            }
-        } else {
-            if (alItemMaster == null) {
-                if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvItemMaster);
-                }
-            } else if (alItemMaster.size() == 0) {
-                if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true,  getActivity().getResources().getString(R.string.MsgNoRecord), rvItemMaster);
-                }
-            } else {
-                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
-                if (currentPage > 1) {
-                    itemAdapter.ItemDataChanged(alItemMaster);
-                    return;
-                } else if (alItemMaster.size() < 10) {
-                    currentPage += 1;
-                }
-                itemAdapter = new ItemAdapter(getActivity(), alItemMaster, this);
-                rvItemMaster.setAdapter(itemAdapter);
+//        try {
+            if (isCurrentPageChange) {
+                itemAdapter.isItemAnimate = false;
+                isLayoutChange = true;
+                rvItemMaster.setAdapter(rvItemMaster.getAdapter());
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
                 } else {
                     rvItemMaster.setLayoutManager(linearLayoutManager);
                 }
+            } else {
+                if (alItemMaster == null) {
+                    if (currentPage == 1) {
+                        Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+
+                    }
+                } else if (alItemMaster.size() == 0) {
+                    if (currentPage == 1) {
+                        Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+
+                    }
+                } else {
+                    Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
+                    if (currentPage > 1) {
+                        itemAdapter.ItemDataChanged(alItemMaster);
+                        return;
+                    } else if (alItemMaster.size() < 10) {
+                        currentPage += 1;
+                    }
+                    itemAdapter = new ItemAdapter(context, alItemMaster, this);
+                    rvItemMaster.setAdapter(itemAdapter);
+                    if (MenuActivity.isViewChange) {
+                        rvItemMaster.setLayoutManager(gridLayoutManager);
+                    } else {
+                        rvItemMaster.setLayoutManager(linearLayoutManager);
+                    }
+                }
             }
-        }
+//        }
+//        catch (Exception e) {
+//            System.out.println("Exception"+e.toString());
+//            throw e;
+//        }
     }
 
     public void ItemByOptionName(String OptionIds) {

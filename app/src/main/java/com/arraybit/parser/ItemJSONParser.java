@@ -127,8 +127,8 @@ public class ItemJSONParser {
                 objItemMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
                 objItemMaster.setIsDineInOnly(jsonArray.getJSONObject(i).getBoolean("IsDineInOnly"));
                 objItemMaster.setItemType((short) jsonArray.getJSONObject(i).getInt("ItemType"));
-                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
-                objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
+//                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
+//                objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objItemMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objItemMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
@@ -149,8 +149,6 @@ public class ItemJSONParser {
             }
             return lstItemMaster;
         } catch (JSONException e) {
-            return null;
-        } catch (ParseException e) {
             return null;
         }
     }
