@@ -29,6 +29,7 @@
     <!--<color name="accent">#FFC400</color>-->
     <!--<color name="accent_dark">#FFAB00</color>-->
     <color name="darkgoldenrod">#AF7817</color>
+    <color name="primary_text">#000000</color>
     <color name="accent_secondary">#FFBB00</color>
     <color name="brown">#795548</color>
     <color name="brown_light">#8D6E63</color>

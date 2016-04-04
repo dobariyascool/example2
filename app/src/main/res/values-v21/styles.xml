@@ -48,4 +48,20 @@
         <item name="android:layout_marginBottom">1dp</item>
         <item name="cardBackgroundColor">@color/offwhite</item>
     </style>
+
+    <style name="FloatingMiniButton" parent="FloatingActionButton">
+        <item name="fab_colorNormal">@color/orange</item>
+        <item name="rd_rippleColor">@color/orange_light</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorPressed">@color/orange</item>
+        <item name="android:src">@drawable/edit</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:layout_marginTop">170dp</item>
+        <item name="fab_showShadow">true</item>
+        <item name="android:layout_marginEnd">@dimen/control_SpecingMedium</item>
+        <!--<item name="fab_shadowColor">#66000000</item>-->
+        <!--<item name="fab_shadowRadius">4dp</item>-->
+        <!--<item name="fab_shadowXOffset">1dp</item>-->
+        <!--<item name="fab_shadowYOffset">3dp</item>-->
+    </style>
 </resources>

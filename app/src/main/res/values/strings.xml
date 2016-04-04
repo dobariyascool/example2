@@ -182,6 +182,32 @@
     <string name="fbBug">Bug Report</string>
     <string name="fbSuggestion">Suggestion</string>
     <string name="fbFeedbackGroup">Give Suggestion</string>
+    <string name="title_activity_my_account">MyAccount</string>
     <!-- end -->
+
+    <!--MyAccountActivity array-->
+    <string-array name="Option">
+        <item>Your Orders</item>
+        <item>Your Bookings</item>
+        <item>Change Password</item>
+        <item>Logout</item>
+    </string-array>
+    <!--end-->
+
+    <!--ChangePassword-->
+    <string name="cpOldPassword">Old Password</string>
+    <string name="cpNewPasssword">New Password</string>
+    <string name="cpConfirmPassword">Confirm Password</string>
+    <string name="cpChangePassword">Change Password</string>
+    <string name="title_fragment_change_password">Change Password</string>
+    <!--end-->
+
+    <!--Your Order-->
+    <string name="title_fragment_your_order">Your Orders</string>
+    <!--end-->
+
+    <!--Your Booking-->
+    <string name="title_fragment_your_booking">Your Bookings</string>
+    <!--end-->
 
 </resources>
