@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myAccountFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offwhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <RelativeLayout
+            android:id="@+id/topPanel"
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:background="@color/colorPrimary">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtLoginChar"
+                style="@style/PrimaryTextView"
+                android:layout_width="@dimen/ct_width"
+                android:layout_height="@dimen/ct_height"
+                android:layout_centerInParent="true"
+                android:background="@drawable/myaccount_selector"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/control_TextLarge" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLoginChar"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFullName"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topPanel"
+            android:layout_margin="@dimen/control_SpecingMedium" />
+
+       <!-- <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabEdit"
+            style="@style/FloatingMiniButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            tools:ignore="RelativeOverlap" />-->
+
+    </RelativeLayout>
+</LinearLayout>

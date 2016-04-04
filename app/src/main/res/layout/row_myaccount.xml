@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cvOptions"
+    style="@style/DefaultCardView"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/button_TouchableHeight"
+    android:layout_margin="@dimen/control_SpecingTiny"
+    android:foreground="@drawable/navigation_view_ripple_effect">
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|center"
+            android:padding="@dimen/control_SpecingSmall"
+            android:textColor="@color/blue_grey" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
