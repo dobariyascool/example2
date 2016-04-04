@@ -44,6 +44,7 @@
     <string name="MsgFeedback">Thank you for your feedback, your response will help us to improve the quality of service.</string>
     <string name="MsgVerification">Your Phone Number is Verified.</string>
     <string name="MsgDineOnly">Available for Dine-In only</string>
+    <string name="MsgFeedbackSubmit">Feedback is submitted</string>
     <string name="MsgCart">Cart is empty.</string>
     <string name="MsgCartItem">Item is added into dish</string>
     <string name="MsgConfirmOrder">Items are place into order</string>

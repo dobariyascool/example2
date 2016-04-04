@@ -2,19 +2,26 @@ package com.arraybit.parser;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Service;
+import com.arraybit.modal.FeedbackAnswerMaster;
+import com.arraybit.modal.FeedbackMaster;
 import com.arraybit.modal.FeedbackQuestionMaster;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class FeedbackQuestionJSONParser {
     public String InsertFeedbackQuestionMaster = "InsertFeedbackQuestionMaster";
@@ -23,7 +30,10 @@ public class FeedbackQuestionJSONParser {
     public String SelectFeedbackQuestionMaster = "SelectFeedbackQuestionMaster";
     public String SelectAllQuestionAnswer = "SelectAllQuestionAnswer";
     public String SelectAllFeedbackQuestionMasterFeedbackQuestion = "SelectAllFeedbackQuestionMasterFeedbackQuestion";
+    SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+    Date dt = null;
     FeedbackQuestionRequestListener objFeedbackQuestionRequestListener;
+    FeedbackSubmitRequestListener objFeedbackSubmitRequestListener;
 
     private FeedbackQuestionMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
         FeedbackQuestionMaster objFeedbackQuestionMaster = null;
@@ -92,7 +102,7 @@ public class FeedbackQuestionJSONParser {
                     objFeedbackQuestionMaster.setlinktoFeedbackAnswerMasterId(jsonArray.getJSONObject(i).getInt("linktoFeedbackAnswerMasterId"));
                 }
                 objFeedbackQuestionMaster.setFeedbackAnswer(jsonArray.getJSONObject(i).getString("FeedbackAnswer"));
-                if(!jsonArray.getJSONObject(i).getString("FeedbackQuestionMasterId").equals("null")) {
+                if (!jsonArray.getJSONObject(i).getString("FeedbackQuestionMasterId").equals("null")) {
                     lstFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
                 }
             }
@@ -102,21 +112,78 @@ public class FeedbackQuestionJSONParser {
         }
     }
 
-//    public ArrayList<FeedbackQuestionMaster> SelectAllFeedbackQuestionMasterPageWise(int currentPage) {
-//        ArrayList<FeedbackQuestionMaster> lstFeedbackQuestionMaster = null;
-//        try {
-//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllFeedbackQuestionMasterPageWise);
-//            if (jsonResponse != null) {
-//                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllFeedbackQuestionMaster + "PageWiseResult");
-//                if (jsonArray != null) {
-//                    lstFeedbackQuestionMaster = SetListPropertiesFromJSONArray(jsonArray);
-//                }
-//            }
-//            return lstFeedbackQuestionMaster;
-//        } catch (Exception ex) {
-//            return null;
-//        }
-//    }
+    //region Insert
+    public void InsertFeedbackMaster(final FeedbackMaster objFeedbackMaster, ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster, final Context context) {
+        dt = new Date();
+        try {
+            JSONStringer stringer = new JSONStringer();
+            stringer.object();
+
+            stringer.key("feedbackMaster");
+            stringer.object();
+
+            stringer.key("Name").value(objFeedbackMaster.getName());
+            stringer.key("Email").value(objFeedbackMaster.getEmail());
+            stringer.key("Phone").value(objFeedbackMaster.getPhone());
+            stringer.key("Feedback").value(objFeedbackMaster.getFeedback());
+            stringer.key("FeedbackDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("FeedbackType").value(objFeedbackMaster.getFeedbackType());
+            stringer.key("linktoCustomerMasterId").value(objFeedbackMaster.getlinktoCustomerMasterId());
+            stringer.key("linktoBusinessMasterId").value(objFeedbackMaster.getlinktoBusinessMasterId());
+
+            stringer.endObject();
+
+            stringer.key("lstFeedbackTran");
+            stringer.array();
+
+            for (int i = 0; i < alFeedbackAnswerMaster.size(); i++) {
+                stringer.object();
+                stringer.key("linktoFeedbackQuestionMasterId").value(alFeedbackAnswerMaster.get(i).getlinktoFeedbackQuestionMasterId());
+                stringer.key("linktoFeedbackAnswerMasterId").value(alFeedbackAnswerMaster.get(i).getFeedbackAnswerMasterId());
+                stringer.key("Answer").value(alFeedbackAnswerMaster.get(i).getAnswer());
+                stringer.endObject();
+            }
+
+            stringer.endArray();
+            stringer.endObject();
+
+            String url = Service.Url + this.InsertFeedbackQuestionMaster;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertFeedbackQuestionMaster + "Result");
+
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                            objFeedbackSubmitRequestListener.FeedbackSubmitResponse(errorCode, null);
+                        } else {
+                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                            objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
+                        }
+                    } catch (JSONException e) {
+                        objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                        objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                    objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception ex) {
+            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+            objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
+        }
+    }
+    //endregion
 
     //region SelectAll
     public void SelectAllFeedbackQuestionAnswer(final Context context, String linktoBusinessMasterId) {
@@ -153,4 +220,23 @@ public class FeedbackQuestionJSONParser {
         void FeedbackQuestionResponse(ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster);
     }
 
+    public interface FeedbackSubmitRequestListener {
+        void FeedbackSubmitResponse(String errorCode, FeedbackMaster objCustomerMaster);
+    }
+
+    //    public ArrayList<FeedbackQuestionMaster> SelectAllFeedbackQuestionMasterPageWise(int currentPage) {
+//        ArrayList<FeedbackQuestionMaster> lstFeedbackQuestionMaster = null;
+//        try {
+//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllFeedbackQuestionMasterPageWise);
+//            if (jsonResponse != null) {
+//                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllFeedbackQuestionMaster + "PageWiseResult");
+//                if (jsonArray != null) {
+//                    lstFeedbackQuestionMaster = SetListPropertiesFromJSONArray(jsonArray);
+//                }
+//            }
+//            return lstFeedbackQuestionMaster;
+//        } catch (Exception ex) {
+//            return null;
+//        }
+//    }
 }
