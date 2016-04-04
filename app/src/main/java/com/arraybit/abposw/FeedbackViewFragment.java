@@ -24,6 +24,7 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.FeedbackAnswerMaster;
 import com.arraybit.modal.FeedbackMaster;
 import com.arraybit.modal.FeedbackQuestionMaster;
+import com.arraybit.parser.FeedbackQuestionJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CheckBox;
 import com.rey.material.widget.CompoundButton;
@@ -33,7 +34,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FeedbackViewFragment extends Fragment {
+public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJSONParser.FeedbackSubmitRequestListener{
 
 
     public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
@@ -45,6 +46,7 @@ public class FeedbackViewFragment extends Fragment {
     FeedbackAnswerMaster objFeedbackAnswerMaster;
     SharePreferenceManage objSharePreferenceManage;
     View focusView;
+    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
 
     public FeedbackViewFragment() {
         // Required empty public constructor
@@ -80,6 +82,11 @@ public class FeedbackViewFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void FeedbackSubmitResponse(String errorCode, FeedbackMaster objCustomerMaster) {
+        progressDialog.dismiss();
+        SetError(errorCode);
+    }
 
     private void SetLayout() {
         CreateAnswerList();
@@ -208,9 +215,9 @@ public class FeedbackViewFragment extends Fragment {
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
                         } else {
+                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setAnswer(null);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setFeedbackAnswerMasterId(0);
-                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             rowPosition = buttonView.getId();
                             alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
@@ -220,9 +227,9 @@ public class FeedbackViewFragment extends Fragment {
                         rowPosition = buttonView.getId();
                         rowNumber = linearLayout.getId();
                         if (alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition() != -1) {
+                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setAnswer(null);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setFeedbackAnswerMasterId(0);
-                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             rowPosition = buttonView.getId();
                             alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
@@ -470,7 +477,7 @@ public class FeedbackViewFragment extends Fragment {
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        RadioGroup radioGroup = new RadioGroup(getActivity());
+        final RadioGroup radioGroup = new RadioGroup(getActivity());
         LinearLayout.LayoutParams radioGroupLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         radioGroup.setLayoutParams(radioGroupLayoutParams);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
@@ -499,6 +506,7 @@ public class FeedbackViewFragment extends Fragment {
                     if (rowPosition == -1) {
                         rowPosition = buttonView.getId();
                         buttonView.setChecked(true);
+
                     } else {
                         radioButton[rowPosition].setChecked(false);
                         rowPosition = buttonView.getId();
@@ -547,6 +555,7 @@ public class FeedbackViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Globals.HideKeyBoard(getActivity(), v);
+                progressDialog.show(getFragmentManager(), "");
                 focusView = v;
                 if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
                     Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
@@ -563,32 +572,35 @@ public class FeedbackViewFragment extends Fragment {
                             objFeedbackMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
                         }
                         lstAnswerMaster = new ArrayList<>();
-                        for (ArrayList<FeedbackQuestionMaster> objFeedbackQuestionMaster : FeedbackActivity.alFinalFeedbackAnswer) {
-                            if (objFeedbackQuestionMaster.size() > 0) {
+                        for (ArrayList<FeedbackQuestionMaster> lstFeedbackQuestionMaster : FeedbackActivity.alFinalFeedbackAnswer) {
+                            if (lstFeedbackQuestionMaster.size() > 0) {
                                 int current = 0;
-                                for (FeedbackQuestionMaster objFeedbackQuestionMasters : objFeedbackQuestionMaster) {
-                                    if (objFeedbackQuestionMasters.getFeedbackAnswer() != null) {
+                                for (FeedbackQuestionMaster objFeedbackQuestionMaster : lstFeedbackQuestionMaster) {
+                                    if (objFeedbackQuestionMaster.getFeedbackAnswer() != null) {
                                         objFeedbackAnswerMaster = new FeedbackAnswerMaster();
-                                        objFeedbackAnswerMaster.setAnswer(objFeedbackQuestionMasters.getFeedbackAnswer());
+                                        objFeedbackAnswerMaster.setFeedbackAnswerMasterId(objFeedbackQuestionMaster.getlinktoFeedbackAnswerMasterId());
+                                        objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(objFeedbackQuestionMaster.getFeedbackQuestionMasterId());
+                                        objFeedbackAnswerMaster.setAnswer(objFeedbackQuestionMaster.getFeedbackAnswer());
                                         lstAnswerMaster.add(objFeedbackAnswerMaster);
                                     } else {
-                                        if (objFeedbackQuestionMaster.get(current).getAlFeedbackAnswerMaster() != null) {
-                                            int counter = 0;
-                                            for (FeedbackAnswerMaster lstAnswerMasters : objFeedbackQuestionMasters.getAlFeedbackAnswerMaster()) {
-                                                if (lstAnswerMasters.getAnswer() != null) {
+                                        if (lstFeedbackQuestionMaster.get(current).getAlFeedbackAnswerMaster() != null) {
+                                            for (FeedbackAnswerMaster listAnswerMaster : objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()) {
+                                                if (listAnswerMaster.getAnswer() != null) {
                                                     objFeedbackAnswerMaster = new FeedbackAnswerMaster();
-                                                    objFeedbackAnswerMaster.setAnswer(lstAnswerMasters.getAnswer());
+                                                    objFeedbackAnswerMaster.setFeedbackAnswerMasterId(listAnswerMaster.getFeedbackAnswerMasterId());
+                                                    objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(listAnswerMaster.getlinktoFeedbackQuestionMasterId());
+                                                    objFeedbackAnswerMaster.setAnswer(listAnswerMaster.getAnswer());
                                                     lstAnswerMaster.add(objFeedbackAnswerMaster);
                                                 }
                                             }
-                                            counter++;
                                         }
                                     }
                                     current++;
                                 }
                             }
-                            //Request
                         }
+                        FeedbackQuestionJSONParser objFeedbackQuestionJSONParser = new FeedbackQuestionJSONParser();
+                        objFeedbackQuestionJSONParser.InsertFeedbackMaster(objFeedbackMaster, lstAnswerMaster, getActivity());
                     } else {
                         Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -604,6 +616,17 @@ public class FeedbackViewFragment extends Fragment {
         linearLayout.addView(btnSubmit);
         scrollview.addView(linearLayout);
         feedbackViewFragment.addView(scrollview);
+    }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+                break;
+            default:
+                Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgFeedbackSubmit), getActivity(), 1000);
+                break;
+        }
     }
 
     private boolean ValidateControls(EditText etEmail, EditText etFeedback, EditText etMobileNo) {
