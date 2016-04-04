@@ -107,7 +107,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
-        } else if (item.getItemId() == R.id.hNotification) {
+        }else if (item.getItemId() == R.id.hFeedback) {
+            drawerLayout.closeDrawer(navigationView);
+            Intent intent = new Intent(HomeActivity.this,FeedbackActivity.class);
+            startActivity(intent);
+        }
+        else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
         } else if (item.getItemId() == R.id.hExit) {
             System.exit(0);

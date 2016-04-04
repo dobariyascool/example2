@@ -21,6 +21,7 @@
     <string name="title_item_modifier_remark">Add Detail</string>
     <string name="title_order_summary_fragment">Order Summary</string>
     <string name="title_home">Home</string>
+    <string name="title_activity_feedback">Feedback</string>
 
 
     <!-- Operation Message -->
@@ -168,6 +169,18 @@
     <!-- OrderSummaryFragment -->
     <string name="osfCheckOut">Check Out</string>
     <string name="osfAddMore">Add More</string>
+    <!-- end -->
+
+    <!-- feedbackActivity-->
+    <string name="fbName">Name</string>
+    <string name="fbEmail">Email</string>
+    <string name="fbMobileNo">Mobile</string>
+    <string name="fbFeedback">Feedback</string>
+    <string name="fbSubmit">Submit</string>
+    <string name="fbOther">Other Query</string>
+    <string name="fbBug">Bug Report</string>
+    <string name="fbSuggestion">Suggestion</string>
+    <string name="fbFeedbackGroup">Give Suggestion</string>
     <!-- end -->
 
 </resources>

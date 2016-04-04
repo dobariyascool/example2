@@ -242,7 +242,9 @@ public class Globals {
         Input(1),
         Rating(2),
         SingleSelect(3),
-        MultiSelect(4);
+        MultiSelect(4),
+        Simple_Feedback(5),
+        Null_Group(6);
 
         private int intValue;
 
@@ -253,6 +255,24 @@ public class Globals {
         public int getValue() {
             return intValue;
         }
+    }
+
+    public enum FeedbackType {
+        OtherQuery(1),
+        BugReport(2),
+        Suggestion(3);
+
+        private int intValue;
+
+        FeedbackType(int value) {
+            intValue = value;
+
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+
     }
 
     public enum OrderType {

@@ -1,0 +1,572 @@
+package com.arraybit.abposw;
+
+
+import android.graphics.PorterDuff;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.ScrollView;
+
+import com.arraybit.global.Globals;
+import com.arraybit.modal.FeedbackAnswerMaster;
+import com.arraybit.modal.FeedbackQuestionMaster;
+import com.rey.material.widget.Button;
+import com.rey.material.widget.CheckBox;
+import com.rey.material.widget.CompoundButton;
+import com.rey.material.widget.EditText;
+import com.rey.material.widget.RadioButton;
+import com.rey.material.widget.TextView;
+
+import java.util.ArrayList;
+
+public class FeedbackViewFragment extends Fragment {
+
+
+    public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
+    LinearLayout feedbackViewFragment;
+    ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster,alFeedbackAnswer;
+    ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster;
+    int rowPosition = -1,currentView,rowNumber = -1;
+
+    public FeedbackViewFragment() {
+        // Required empty public constructor
+    }
+
+    public static FeedbackViewFragment createInstance(ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster, int position) {
+        FeedbackViewFragment feedbackViewFragment = new FeedbackViewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(ITEMS_COUNT_KEY, alFeedbackQuestionMaster);
+        bundle.putInt("Position", position);
+        feedbackViewFragment.setArguments(bundle);
+        return feedbackViewFragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_feedback_view, container, false);
+
+        feedbackViewFragment = (LinearLayout)view.findViewById(R.id.feedbackViewFragment);
+
+        Bundle bundle = getArguments();
+        alFeedbackQuestionMaster = bundle.getParcelableArrayList(ITEMS_COUNT_KEY);
+        currentView = bundle.getInt("Position");
+
+        SetLayout();
+
+        if (currentView != FeedbackActivity.alFinalFeedbackAnswer.size()) {
+            FeedbackActivity.alFinalFeedbackAnswer.get(currentView).addAll(alFeedbackAnswer);
+        }
+
+        return view;
+    }
+
+
+    private void SetLayout() {
+        CreateAnswerList();
+        for (int i = 0; i < alFeedbackQuestionMaster.size(); i++) {
+            if (Globals.QuestionType.Input.getValue() == alFeedbackQuestionMaster.get(i).getQuestionType()) {
+                SetInputLayout(alFeedbackQuestionMaster.get(i), i);
+            } else if (Globals.QuestionType.SingleSelect.getValue() == alFeedbackQuestionMaster.get(i).getQuestionType()) {
+                SetSingleChoiceLayout(alFeedbackQuestionMaster.get(i), i);
+            } else if (Globals.QuestionType.MultiSelect.getValue() == alFeedbackQuestionMaster.get(i).getQuestionType()) {
+                SetMultiChoiceLayout(alFeedbackQuestionMaster.get(i), i);
+            } else if (Globals.QuestionType.Rating.getValue() == alFeedbackQuestionMaster.get(i).getQuestionType()) {
+                SetRatingLayout(alFeedbackQuestionMaster.get(i), i);
+            } else if (Globals.QuestionType.Simple_Feedback.getValue() == alFeedbackQuestionMaster.get(i).getQuestionType()) {
+                SetSimpleFeedbackLayout();
+            }
+        }
+    }
+
+    private void CreateAnswerList() {
+        alFeedbackAnswer = new ArrayList<>();
+        ArrayList<FeedbackAnswerMaster> lstFeedbackAnswerMaster;
+        for (FeedbackQuestionMaster objFeedbackAnswerMaster : alFeedbackQuestionMaster) {
+            FeedbackQuestionMaster objFeedbackQuestion = new FeedbackQuestionMaster();
+            objFeedbackQuestion.setFeedbackRowPosition(-1);
+            objFeedbackQuestion.setFeedbackQuestionMasterId(objFeedbackAnswerMaster.getFeedbackQuestionMasterId());
+            objFeedbackQuestion.setQuestionType(objFeedbackAnswerMaster.getQuestionType());
+            if(objFeedbackAnswerMaster.getQuestionType()!=Globals.QuestionType.Simple_Feedback.getValue()){
+                lstFeedbackAnswerMaster = new ArrayList<>();
+                if(objFeedbackAnswerMaster.getAlFeedbackAnswerMaster()!= null && objFeedbackAnswerMaster.getAlFeedbackAnswerMaster().size()!=0){
+                    for(FeedbackAnswerMaster objAnswerMaster : objFeedbackAnswerMaster.getAlFeedbackAnswerMaster()){
+                        FeedbackAnswerMaster objFeedbackAnswer = new FeedbackAnswerMaster();
+                        lstFeedbackAnswerMaster.add(objFeedbackAnswer);
+                    }
+                    objFeedbackQuestion.setAlFeedbackAnswerMaster(lstFeedbackAnswerMaster);
+                    alFeedbackAnswer.add(objFeedbackQuestion);
+                }
+                else{
+                    alFeedbackAnswer.add(objFeedbackQuestion);
+                }
+            }
+        }
+    }
+
+    private void SetSingleChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        final LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayoutParams.setMargins(16, 8, 16, 8);
+        linearLayout.setLayoutParams(linearLayoutParams);
+        linearLayout.setPadding(16, 4, 16, 4);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setId(position);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
+
+        LinearLayout headerLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        headerLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(linearLayoutParams);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txtNumber = new TextView(getActivity());
+        LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtNumberLayoutParams.gravity = Gravity.TOP;
+        txtNumber.setLayoutParams(txtNumberLayoutParams);
+        txtNumber.setText(position + 1 + ".");
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextSize(18f);
+
+        TextView txtQuestion = new TextView(getActivity());
+        LinearLayout.LayoutParams txtQuestionLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtQuestionLayoutParams.weight = 1f;
+        txtQuestionLayoutParams.gravity = Gravity.TOP;
+        txtQuestion.setLayoutParams(txtQuestionLayoutParams);
+        txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextSize(18f);
+
+        LinearLayout childLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams childLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        childLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(childLayoutParams);
+        headerLayout.setGravity(Gravity.CENTER);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txt = new TextView(getActivity());
+        LinearLayout.LayoutParams txtLayoutParams = new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txt.setLayoutParams(txtLayoutParams);
+        txt.setVisibility(View.INVISIBLE);
+
+        RadioGroup radioGroup = new RadioGroup(getActivity());
+        LinearLayout.LayoutParams radioGroupLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        radioGroupLayoutParams.weight = 1f;
+        radioGroup.setLayoutParams(radioGroupLayoutParams);
+        radioGroup.setOrientation(LinearLayout.VERTICAL);
+        if (Build.VERSION.SDK_INT >= 21) {
+            radioGroup.setBackgroundTintMode(PorterDuff.Mode.DARKEN);
+        }
+
+        if(objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()!=null) {
+            alFeedbackAnswerMaster = objFeedbackQuestionMaster.getAlFeedbackAnswerMaster();
+        }
+
+        final RadioButton[] rbAnswer = new RadioButton[alFeedbackAnswerMaster.size()];
+
+        for (int j = 0; j < alFeedbackAnswerMaster.size(); j++) {
+            rbAnswer[j] = new RadioButton(getActivity());
+            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            rbAnswer[j].setId(j);
+            rbAnswer[j].setTag(alFeedbackAnswerMaster.get(j).getFeedbackAnswerMasterId());
+            rbAnswer[j].setLayoutParams(rbAnswerLayoutParams);
+            rbAnswer[j].setText(alFeedbackAnswerMaster.get(j).getAnswer());
+            rbAnswer[j].setTextColor(ContextCompat.getColor(getActivity(), R.color.secondary_text));
+            rbAnswer[j].setGravity(Gravity.START | Gravity.CENTER);
+            rbAnswer[j].setTextSize(14f);
+            rbAnswer[j].applyStyle(R.style.RadioButton);
+
+            rbAnswer[j].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                    if (rowNumber == -1) {
+                        rowNumber = linearLayout.getId();
+                    }
+                    if (linearLayout.getId() == rowNumber) {
+                        if (rowPosition == -1) {
+                            rowPosition = buttonView.getId();
+                            alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
+                        } else {
+                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
+                            rowPosition = buttonView.getId();
+                            alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
+                        }
+                    } else {
+                        rowPosition = buttonView.getId();
+                        rowNumber = linearLayout.getId();
+                        if (alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition() != -1) {
+                            rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
+                            rowPosition = buttonView.getId();
+                            alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
+                        } else {
+                            alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
+                        }
+                    }
+                }
+            });
+            radioGroup.addView(rbAnswer[j]);
+        }
+
+        headerLayout.addView(txtNumber);
+        headerLayout.addView(txtQuestion);
+        childLayout.addView(txt);
+        childLayout.addView(radioGroup);
+        linearLayout.addView(headerLayout);
+        linearLayout.addView(childLayout);
+        feedbackViewFragment.addView(linearLayout);
+    }
+
+    private void SetMultiChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        StringBuilder sbAnswerId = new StringBuilder();
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayoutParams.setMargins(16, 8, 16, 8);
+        linearLayout.setLayoutParams(linearLayoutParams);
+        linearLayout.setPadding(16, 4, 16, 4);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
+
+        LinearLayout headerLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        headerLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(linearLayoutParams);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txtNumber = new TextView(getActivity());
+        LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtNumberLayoutParams.gravity = Gravity.TOP;
+        txtNumber.setLayoutParams(txtNumberLayoutParams);
+        txtNumber.setText(position + 1 + ".");
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextSize(18f);
+
+        TextView txtQuestion = new TextView(getActivity());
+        LinearLayout.LayoutParams txtQuestionLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtQuestionLayoutParams.gravity = Gravity.TOP;
+        txtQuestionLayoutParams.weight = 1f;
+        txtQuestion.setLayoutParams(txtQuestionLayoutParams);
+        txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextSize(18f);
+
+        LinearLayout childLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams childLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        childLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(childLayoutParams);
+        headerLayout.setGravity(Gravity.CENTER);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txt = new TextView(getActivity());
+        LinearLayout.LayoutParams txtLayoutParams = new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txt.setLayoutParams(txtLayoutParams);
+        txt.setVisibility(View.INVISIBLE);
+
+        LinearLayout answerLinearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams answerLinearLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        answerLinearLayoutParams.weight = 1f;
+        answerLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        answerLinearLayout.setGravity(Gravity.START | Gravity.CENTER);
+        answerLinearLayout.setLayoutParams(answerLinearLayoutParams);
+
+        if(objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()!=null) {
+            alFeedbackAnswerMaster = objFeedbackQuestionMaster.getAlFeedbackAnswerMaster();
+        }
+        final CheckBox[] cbAnswer = new CheckBox[alFeedbackAnswerMaster.size()];
+
+        for (int j = 0; j < alFeedbackAnswerMaster.size(); j++) {
+            cbAnswer[j] = new CheckBox(getActivity());
+            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            cbAnswer[j].setId(j);
+            cbAnswer[j].setTag(alFeedbackAnswerMaster.get(j).getFeedbackAnswerMasterId());
+            cbAnswer[j].setLayoutParams(rbAnswerLayoutParams);
+            cbAnswer[j].setText(alFeedbackAnswerMaster.get(j).getAnswer());
+            cbAnswer[j].setTextColor(ContextCompat.getColor(getActivity(), R.color.secondary_text));
+            cbAnswer[j].setGravity(Gravity.START | Gravity.CENTER);
+            cbAnswer[j].setTextSize(14f);
+            cbAnswer[j].applyStyle(R.style.CheckBox);
+            cbAnswer[j].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                    Globals.HideKeyBoard(getActivity(), buttonView);
+                    if (isChecked) {
+                        alFeedbackAnswer.get(position).getAlFeedbackAnswerMaster().get(buttonView.getId()).setAnswer(buttonView.getText().toString());
+                        alFeedbackAnswer.get(position).getAlFeedbackAnswerMaster().get(buttonView.getId()).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
+                    } else {
+                        alFeedbackAnswer.get(position).getAlFeedbackAnswerMaster().get(buttonView.getId()).setAnswer(null);
+                        alFeedbackAnswer.get(position).getAlFeedbackAnswerMaster().get(buttonView.getId()).setFeedbackAnswerMasterId(0);
+                    }
+                }
+            });
+
+            answerLinearLayout.addView(cbAnswer[j]);
+        }
+
+        headerLayout.addView(txtNumber);
+        headerLayout.addView(txtQuestion);
+        childLayout.addView(txt);
+        childLayout.addView(answerLinearLayout);
+        linearLayout.addView(headerLayout);
+        linearLayout.addView(childLayout);
+        feedbackViewFragment.addView(linearLayout);
+    }
+
+    private void SetInputLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayoutParams.setMargins(16, 8, 16, 8);
+        linearLayout.setLayoutParams(linearLayoutParams);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(4, 4, 4, 4);
+        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
+
+
+        LinearLayout headerLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        headerLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(linearLayoutParams);
+        headerLayout.setGravity(Gravity.CENTER);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txtNumber = new TextView(getActivity());
+        LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtNumber.setLayoutParams(txtNumberLayoutParams);
+        txtNumber.setText(position + 1 + ".");
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextSize(18f);
+
+        TextView txtQuestion = new TextView(getActivity());
+        LinearLayout.LayoutParams txtQuestionLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtQuestionLayoutParams.weight = 1f;
+        txtQuestion.setLayoutParams(txtQuestionLayoutParams);
+        txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextSize(18f);
+
+        final EditText editText = new EditText(getActivity());
+        LinearLayout.LayoutParams editTextLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        editText.setLayoutParams(editTextLayoutParams);
+        editText.setPadding(30, 0, 0, 0);
+        editText.applyStyle(R.style.EditText);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                alFeedbackAnswer.get(position).setFeedbackAnswer(editText.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        headerLayout.addView(txtNumber);
+        headerLayout.addView(txtQuestion);
+        linearLayout.addView(headerLayout);
+        linearLayout.addView(editText);
+        feedbackViewFragment.addView(linearLayout);
+    }
+
+    private void SetRatingLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayoutParams.setMargins(16, 8, 16, 8);
+        linearLayout.setLayoutParams(linearLayoutParams);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setPadding(4, 4, 4, 4);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
+
+        LinearLayout headerLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        headerLayoutParams.setMargins(0, 0, 0, 0);
+        headerLayout.setLayoutParams(linearLayoutParams);
+        headerLayout.setGravity(Gravity.CENTER);
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        TextView txtNumber = new TextView(getActivity());
+        LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtNumber.setLayoutParams(txtNumberLayoutParams);
+        txtNumber.setText(position + 1 + ".");
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextSize(18f);
+
+        TextView txtQuestion = new TextView(getActivity());
+        LinearLayout.LayoutParams txtQuestionLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        txtQuestionLayoutParams.weight = 1f;
+        txtQuestion.setLayoutParams(txtQuestionLayoutParams);
+        txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextSize(18f);
+
+        RatingBar ratingBar = new RatingBar(getActivity());
+        LinearLayout.LayoutParams ratingBarLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ratingBar.setLayoutParams(ratingBarLayoutParams);
+        ratingBar.setNumStars(5);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                Globals.HideKeyBoard(getActivity(), ratingBar);
+                alFeedbackAnswer.get(position).setFeedbackAnswer(String.valueOf(ratingBar.getRating()));
+            }
+        });
+
+        headerLayout.addView(txtNumber);
+        headerLayout.addView(txtQuestion);
+        linearLayout.addView(headerLayout);
+        linearLayout.addView(ratingBar);
+        feedbackViewFragment.addView(linearLayout);
+    }
+
+    public void SetSimpleFeedbackLayout() {
+        feedbackViewFragment.removeAllViews();
+        ScrollView scrollview = new ScrollView(getActivity());
+        LinearLayout.LayoutParams scLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        scLayoutParams.setMargins(16, 64, 16, 64);
+        scrollview.setLayoutParams(scLayoutParams);
+
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        linearLayoutParams.setMargins(16, 16, 16, 16);
+        linearLayout.setLayoutParams(linearLayoutParams);
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        RadioGroup radioGroup = new RadioGroup(getActivity());
+        LinearLayout.LayoutParams radioGroupLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        radioGroup.setLayoutParams(radioGroupLayoutParams);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+
+        final RadioButton[] radioButton = new RadioButton[3];
+
+        for(int i=0;i<3;i++){
+            radioButton[i] = new RadioButton(getActivity());
+            LinearLayout.LayoutParams rbLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            radioButton[i].setLayoutParams(rbLayoutParams);
+            radioButton[i].setId(i);
+            radioButton[i].setTextColor(ContextCompat.getColor(getActivity(), R.color.secondary_text));
+            radioButton[i].applyStyle(R.style.RadioButton);
+
+            if(i==0){
+                radioButton[i].setText(Globals.FeedbackType.Suggestion.toString());
+            }else if(i==1){
+                radioButton[i].setText(Globals.FeedbackType.BugReport.toString());
+            }else{
+                radioButton[i].setText(Globals.FeedbackType.OtherQuery.toString());
+            }
+
+            radioButton[i].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                    if(rowPosition==-1){
+                        rowPosition = buttonView.getId();
+                        buttonView.setChecked(true);
+                    }else{
+                        radioButton[rowPosition].setChecked(false);
+                        rowPosition = buttonView.getId();
+                    }
+                }
+            });
+
+            radioGroup.addView(radioButton[i]);
+        }
+
+        final EditText etUserName = new EditText(getActivity());
+        LinearLayout.LayoutParams etUserNameLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        etUserName.setLayoutParams(etUserNameLayoutParams);
+        etUserName.applyStyle(R.style.EditText);
+        etUserName.setHint(getActivity().getResources().getString(R.string.fbName));
+        etUserName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+        final EditText etEmail = new EditText(getActivity());
+        LinearLayout.LayoutParams etEmailLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        etEmail.setLayoutParams(etEmailLayoutParams);
+        etEmail.applyStyle(R.style.EditText);
+        etEmail.setHint(getActivity().getResources().getString(R.string.fbEmail));
+        etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        final EditText etMobileNo = new EditText(getActivity());
+        LinearLayout.LayoutParams etMobileNoLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        etMobileNo.setLayoutParams(etMobileNoLayoutParams);
+        etMobileNo.applyStyle(R.style.EditText);
+        etMobileNo.setHint(getActivity().getResources().getString(R.string.fbMobileNo));
+        etMobileNo.setInputType(InputType.TYPE_CLASS_PHONE);
+
+        final EditText etFeedback = new EditText(getActivity());
+        LinearLayout.LayoutParams etFeedbackLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        etFeedback.setLayoutParams(etFeedbackLayoutParams);
+        etFeedback.applyStyle(R.style.EditText);
+        etFeedback.setHint(getActivity().getResources().getString(R.string.fbFeedback));
+        etFeedback.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+
+        //SetUser(etEmail, etUserName);
+        Button btnSubmit = new Button(getActivity());
+        LinearLayout.LayoutParams btnSubmitLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        btnSubmit.setLayoutParams(btnSubmitLayoutParams);
+        btnSubmit.applyStyle(R.style.Button);
+        btnSubmit.setText(getActivity().getResources().getString(R.string.fbSubmit));
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.HideKeyBoard(getActivity(), v);
+//                //focusView = v;
+//                if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
+//                    Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
+//                } else {
+//                    if (Service.CheckNet(getActivity())) {
+//                        objFeedbackMaster = new FeedbackMaster();
+//                        objFeedbackMaster.setName(etUserName.getText().toString());
+//                        objFeedbackMaster.setEmail(etEmail.getText().toString());
+//                        objFeedbackMaster.setPhone(etMobileNo.getText().toString());
+//                        objFeedbackMaster.setFeedback(etFeedback.getText().toString());
+//                        objFeedbackMaster.setlinktoFeedbackTypeMasterId((short) Globals.FeedbackType.valueOf(checkedString).getValue());
+//                        objFeedbackMaster.setlinktoBusinessMasterId(Globals.businessMasterId);
+//                        if (userMasterId != 0) {
+//                            objFeedbackMaster.setlinktoCustomerMasterId(userMasterId);
+//                        }
+//                        new FeedbackLodingTask().execute();
+//                    } else {
+//                        Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+//                    }
+//                }
+            }
+        });
+
+        linearLayout.addView(radioGroup);
+        linearLayout.addView(etUserName);
+        linearLayout.addView(etEmail);
+        linearLayout.addView(etMobileNo);
+        linearLayout.addView(etFeedback);
+        linearLayout.addView(btnSubmit);
+        scrollview.addView(linearLayout);
+        feedbackViewFragment.addView(scrollview);
+    }
+}
