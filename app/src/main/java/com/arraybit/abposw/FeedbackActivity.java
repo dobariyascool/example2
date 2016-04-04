@@ -69,6 +69,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                alFinalFeedbackAnswer = new ArrayList<>();
             default:
                 return super.onOptionsItemSelected(item);
         }

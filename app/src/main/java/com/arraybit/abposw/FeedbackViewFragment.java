@@ -19,7 +19,10 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.FeedbackAnswerMaster;
+import com.arraybit.modal.FeedbackMaster;
 import com.arraybit.modal.FeedbackQuestionMaster;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CheckBox;
@@ -35,9 +38,13 @@ public class FeedbackViewFragment extends Fragment {
 
     public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
     LinearLayout feedbackViewFragment;
-    ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster,alFeedbackAnswer;
+    ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster, alFeedbackAnswer;
     ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster;
-    int rowPosition = -1,currentView,rowNumber = -1;
+    int rowPosition = -1, currentView, rowNumber = -1;
+    FeedbackMaster objFeedbackMaster;
+    FeedbackAnswerMaster objFeedbackAnswerMaster;
+    SharePreferenceManage objSharePreferenceManage;
+    View focusView;
 
     public FeedbackViewFragment() {
         // Required empty public constructor
@@ -58,7 +65,7 @@ public class FeedbackViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feedback_view, container, false);
 
-        feedbackViewFragment = (LinearLayout)view.findViewById(R.id.feedbackViewFragment);
+        feedbackViewFragment = (LinearLayout) view.findViewById(R.id.feedbackViewFragment);
 
         Bundle bundle = getArguments();
         alFeedbackQuestionMaster = bundle.getParcelableArrayList(ITEMS_COUNT_KEY);
@@ -99,17 +106,16 @@ public class FeedbackViewFragment extends Fragment {
             objFeedbackQuestion.setFeedbackRowPosition(-1);
             objFeedbackQuestion.setFeedbackQuestionMasterId(objFeedbackAnswerMaster.getFeedbackQuestionMasterId());
             objFeedbackQuestion.setQuestionType(objFeedbackAnswerMaster.getQuestionType());
-            if(objFeedbackAnswerMaster.getQuestionType()!=Globals.QuestionType.Simple_Feedback.getValue()){
+            if (objFeedbackAnswerMaster.getQuestionType() != Globals.QuestionType.Simple_Feedback.getValue()) {
                 lstFeedbackAnswerMaster = new ArrayList<>();
-                if(objFeedbackAnswerMaster.getAlFeedbackAnswerMaster()!= null && objFeedbackAnswerMaster.getAlFeedbackAnswerMaster().size()!=0){
-                    for(FeedbackAnswerMaster objAnswerMaster : objFeedbackAnswerMaster.getAlFeedbackAnswerMaster()){
+                if (objFeedbackAnswerMaster.getAlFeedbackAnswerMaster() != null && objFeedbackAnswerMaster.getAlFeedbackAnswerMaster().size() != 0) {
+                    for (FeedbackAnswerMaster objAnswerMaster : objFeedbackAnswerMaster.getAlFeedbackAnswerMaster()) {
                         FeedbackAnswerMaster objFeedbackAnswer = new FeedbackAnswerMaster();
                         lstFeedbackAnswerMaster.add(objFeedbackAnswer);
                     }
                     objFeedbackQuestion.setAlFeedbackAnswerMaster(lstFeedbackAnswerMaster);
                     alFeedbackAnswer.add(objFeedbackQuestion);
-                }
-                else{
+                } else {
                     alFeedbackAnswer.add(objFeedbackQuestion);
                 }
             }
@@ -171,7 +177,7 @@ public class FeedbackViewFragment extends Fragment {
             radioGroup.setBackgroundTintMode(PorterDuff.Mode.DARKEN);
         }
 
-        if(objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()!=null) {
+        if (objFeedbackQuestionMaster.getAlFeedbackAnswerMaster() != null) {
             alFeedbackAnswerMaster = objFeedbackQuestionMaster.getAlFeedbackAnswerMaster();
         }
 
@@ -290,7 +296,7 @@ public class FeedbackViewFragment extends Fragment {
         answerLinearLayout.setGravity(Gravity.START | Gravity.CENTER);
         answerLinearLayout.setLayoutParams(answerLinearLayoutParams);
 
-        if(objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()!=null) {
+        if (objFeedbackQuestionMaster.getAlFeedbackAnswerMaster() != null) {
             alFeedbackAnswerMaster = objFeedbackQuestionMaster.getAlFeedbackAnswerMaster();
         }
         final CheckBox[] cbAnswer = new CheckBox[alFeedbackAnswerMaster.size()];
@@ -467,7 +473,7 @@ public class FeedbackViewFragment extends Fragment {
 
         final RadioButton[] radioButton = new RadioButton[3];
 
-        for(int i=0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             radioButton[i] = new RadioButton(getActivity());
             LinearLayout.LayoutParams rbLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             radioButton[i].setLayoutParams(rbLayoutParams);
@@ -475,21 +481,21 @@ public class FeedbackViewFragment extends Fragment {
             radioButton[i].setTextColor(ContextCompat.getColor(getActivity(), R.color.secondary_text));
             radioButton[i].applyStyle(R.style.RadioButton);
 
-            if(i==0){
+            if (i == 0) {
                 radioButton[i].setText(Globals.FeedbackType.Suggestion.toString());
-            }else if(i==1){
+            } else if (i == 1) {
                 radioButton[i].setText(Globals.FeedbackType.BugReport.toString());
-            }else{
+            } else {
                 radioButton[i].setText(Globals.FeedbackType.OtherQuery.toString());
             }
 
             radioButton[i].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                    if(rowPosition==-1){
+                    if (rowPosition == -1) {
                         rowPosition = buttonView.getId();
                         buttonView.setChecked(true);
-                    }else{
+                    } else {
                         radioButton[rowPosition].setChecked(false);
                         rowPosition = buttonView.getId();
                     }
@@ -537,26 +543,42 @@ public class FeedbackViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Globals.HideKeyBoard(getActivity(), v);
-//                //focusView = v;
-//                if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
-//                    Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
-//                } else {
-//                    if (Service.CheckNet(getActivity())) {
-//                        objFeedbackMaster = new FeedbackMaster();
-//                        objFeedbackMaster.setName(etUserName.getText().toString());
-//                        objFeedbackMaster.setEmail(etEmail.getText().toString());
-//                        objFeedbackMaster.setPhone(etMobileNo.getText().toString());
-//                        objFeedbackMaster.setFeedback(etFeedback.getText().toString());
-//                        objFeedbackMaster.setlinktoFeedbackTypeMasterId((short) Globals.FeedbackType.valueOf(checkedString).getValue());
-//                        objFeedbackMaster.setlinktoBusinessMasterId(Globals.businessMasterId);
-//                        if (userMasterId != 0) {
-//                            objFeedbackMaster.setlinktoCustomerMasterId(userMasterId);
-//                        }
-//                        new FeedbackLodingTask().execute();
-//                    } else {
-//                        Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
-//                    }
-//                }
+                focusView = v;
+                if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
+                    Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
+                } else {
+                    if (Service.CheckNet(getActivity())) {
+                        objFeedbackMaster = new FeedbackMaster();
+                        objFeedbackMaster.setName(etUserName.getText().toString());
+                        objFeedbackMaster.setEmail(etEmail.getText().toString());
+                        objFeedbackMaster.setPhone(etMobileNo.getText().toString());
+                        objFeedbackMaster.setFeedback(etFeedback.getText().toString());
+                        objFeedbackMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+                        objSharePreferenceManage = new SharePreferenceManage();
+                        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                            objFeedbackMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+                        }
+                        objFeedbackAnswerMaster = new FeedbackAnswerMaster();
+                        for (ArrayList<FeedbackQuestionMaster> objFeedbackQuestionMaster : FeedbackActivity.alFinalFeedbackAnswer) {
+                            if(objFeedbackQuestionMaster.size() > 0) {
+                                int current = 0;
+                                for (FeedbackQuestionMaster objFeedbackQuestionMasters : objFeedbackQuestionMaster) {
+//                                    alFeedbackAnswerMaster = new ArrayList<>();
+//                                    objFeedbackAnswerMaster.setFeedbackAnswerMasterId(objFeedbackQuestionMasters.getFeedbackQuestionMasterId());
+//                                    objFeedbackAnswerMaster.setFeedbackQuestion(objFeedbackQuestionMasters.getFeedbackQuestion());
+//                                    objFeedbackAnswerMaster.setAnswer(objFeedbackQuestionMasters.getFeedbackAnswer());
+//                                    objFeedbackAnswerMaster.setIsDeleted(false);
+//                                    alFeedbackAnswerMaster.add(objFeedbackAnswerMaster);
+//                                    objFeedbackQuestionMaster.get(current).setAlFeedbackAnswerMaster(alFeedbackAnswerMaster);
+//                                    current++;
+                                }
+                            }
+                        }
+                        //Request
+                    } else {
+                        Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
             }
         });
 
@@ -568,5 +590,35 @@ public class FeedbackViewFragment extends Fragment {
         linearLayout.addView(btnSubmit);
         scrollview.addView(linearLayout);
         feedbackViewFragment.addView(scrollview);
+    }
+
+    private boolean ValidateControls(EditText etEmail, EditText etFeedback, EditText etMobileNo) {
+        boolean IsValid = true;
+
+        if (etEmail.getText().toString().equals("") && !etFeedback.getText().toString().equals("")) {
+            etEmail.setError("Enter " + getResources().getString(R.string.fbEmail));
+            etFeedback.clearError();
+            IsValid = false;
+        } else if (!etEmail.getText().toString().equals("") && etFeedback.getText().toString().equals("")) {
+
+            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            } else {
+                etEmail.clearError();
+            }
+            etFeedback.setError("Enter " + getResources().getString(R.string.fbFeedback));
+            IsValid = false;
+        } else if (etEmail.getText().toString().equals("") && etFeedback.getText().toString().equals("")) {
+            etFeedback.setError("Enter " + getResources().getString(R.string.fbFeedback));
+            etEmail.setError("Enter " + getResources().getString(R.string.fbEmail));
+            IsValid = false;
+        }
+        if (!etMobileNo.getText().toString().equals("") && etMobileNo.getText().length() != 10) {
+            etMobileNo.setError("Enter 10 digit " + getResources().getString(R.string.fbMobileNo));
+            IsValid = false;
+        } else {
+            etMobileNo.clearError();
+        }
+        return IsValid;
     }
 }
