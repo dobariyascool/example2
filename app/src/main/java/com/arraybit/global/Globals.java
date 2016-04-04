@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
@@ -92,6 +94,50 @@ public class Globals {
                     }
 
                 }, y, M, d);
+
+        dp.hide();
+        dp.show();
+    }
+
+
+    public static void ShowTimePickerDialog(final TextView txtView, final Context context) {
+        final Calendar c = Calendar.getInstance();
+
+        if (!txtView.getText().toString().equals("")) {
+            SimpleDateFormat sdfControl = new SimpleDateFormat(TimeFormat, Locale.US);
+            try {
+                Date dt = sdfControl.parse(String.valueOf(txtView.getText()));
+                c.setTime(dt);
+            } catch (ParseException ignored) {
+            }
+        }
+
+        H = c.get(Calendar.HOUR_OF_DAY);
+        m = c.get(Calendar.MINUTE);
+
+        TimePickerDialog dp = new TimePickerDialog(context,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        H = hourOfDay;
+                        m = minute;
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.YEAR, 0);
+                        cal.set(Calendar.MONTH, 0);
+                        cal.set(Calendar.DAY_OF_MONTH, 0);
+                        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        cal.set(Calendar.MINUTE, minute);
+                        cal.set(Calendar.SECOND, 0);
+                        cal.set(Calendar.MILLISECOND, 0);
+
+                        SimpleDateFormat sdfControl = new SimpleDateFormat(TimeFormat, Locale.US);
+                        txtView.setText(sdfControl.format(cal.getTime()));
+
+                    }
+
+                }, H, m, true);
 
         dp.hide();
         dp.show();

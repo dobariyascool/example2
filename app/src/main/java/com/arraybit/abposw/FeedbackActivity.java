@@ -119,11 +119,11 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         int current = 0;
         for (FeedbackQuestionMaster objFeedbackQuestionMaster : alFeedbackQuestionMaster) {
             if (objFeedbackQuestionMaster.getFeedbackQuestionGroup().equals(groupName)) {
-                if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
+                if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue() || objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Rating.getValue()) {
                     alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
                 } else {
                     if (strQuestionName == null) {
-                        if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
+                        if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue() || objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Rating.getValue()) {
                             alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
                         } else {
                             strQuestionName = objFeedbackQuestionMaster.getFeedbackQuestion();
@@ -150,7 +150,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
                             objQuestionMaster = objFeedbackQuestionMaster;
                             alFeedbackAnswerMaster = new ArrayList<>();
                             strQuestionName = objFeedbackQuestionMaster.getFeedbackQuestion();
-                            if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
+                            if (objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue() || objFeedbackQuestionMaster.getQuestionType() == Globals.QuestionType.Rating.getValue()) {
                                 alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
                             } else {
                                 objQuestionMaster = objFeedbackQuestionMaster;
