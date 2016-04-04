@@ -39,7 +39,7 @@ public class FeedbackViewFragment extends Fragment {
     public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
     LinearLayout feedbackViewFragment;
     ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster, alFeedbackAnswer;
-    ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster;
+    ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster, lstAnswerMaster;
     int rowPosition = -1, currentView, rowNumber = -1;
     FeedbackMaster objFeedbackMaster;
     FeedbackAnswerMaster objFeedbackAnswerMaster;
@@ -208,6 +208,8 @@ public class FeedbackViewFragment extends Fragment {
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setAnswer(buttonView.getText().toString());
                             alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(rowPosition).setFeedbackAnswerMasterId((Integer) buttonView.getTag());
                         } else {
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setAnswer(null);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setFeedbackAnswerMasterId(0);
                             rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             rowPosition = buttonView.getId();
                             alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
@@ -218,6 +220,8 @@ public class FeedbackViewFragment extends Fragment {
                         rowPosition = buttonView.getId();
                         rowNumber = linearLayout.getId();
                         if (alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition() != -1) {
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setAnswer(null);
+                            alFeedbackAnswer.get(rowNumber).getAlFeedbackAnswerMaster().get(alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()).setFeedbackAnswerMasterId(0);
                             rbAnswer[alFeedbackAnswer.get(rowNumber).getFeedbackRowPosition()].setChecked(false);
                             rowPosition = buttonView.getId();
                             alFeedbackAnswer.get(rowNumber).setFeedbackRowPosition(rowPosition);
@@ -558,23 +562,33 @@ public class FeedbackViewFragment extends Fragment {
                         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
                             objFeedbackMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
                         }
-                        objFeedbackAnswerMaster = new FeedbackAnswerMaster();
+                        lstAnswerMaster = new ArrayList<>();
                         for (ArrayList<FeedbackQuestionMaster> objFeedbackQuestionMaster : FeedbackActivity.alFinalFeedbackAnswer) {
-                            if(objFeedbackQuestionMaster.size() > 0) {
+                            if (objFeedbackQuestionMaster.size() > 0) {
                                 int current = 0;
                                 for (FeedbackQuestionMaster objFeedbackQuestionMasters : objFeedbackQuestionMaster) {
-//                                    alFeedbackAnswerMaster = new ArrayList<>();
-//                                    objFeedbackAnswerMaster.setFeedbackAnswerMasterId(objFeedbackQuestionMasters.getFeedbackQuestionMasterId());
-//                                    objFeedbackAnswerMaster.setFeedbackQuestion(objFeedbackQuestionMasters.getFeedbackQuestion());
-//                                    objFeedbackAnswerMaster.setAnswer(objFeedbackQuestionMasters.getFeedbackAnswer());
-//                                    objFeedbackAnswerMaster.setIsDeleted(false);
-//                                    alFeedbackAnswerMaster.add(objFeedbackAnswerMaster);
-//                                    objFeedbackQuestionMaster.get(current).setAlFeedbackAnswerMaster(alFeedbackAnswerMaster);
-//                                    current++;
+                                    if (objFeedbackQuestionMasters.getFeedbackAnswer() != null) {
+                                        objFeedbackAnswerMaster = new FeedbackAnswerMaster();
+                                        objFeedbackAnswerMaster.setAnswer(objFeedbackQuestionMasters.getFeedbackAnswer());
+                                        lstAnswerMaster.add(objFeedbackAnswerMaster);
+                                    } else {
+                                        if (objFeedbackQuestionMaster.get(current).getAlFeedbackAnswerMaster() != null) {
+                                            int counter = 0;
+                                            for (FeedbackAnswerMaster lstAnswerMasters : objFeedbackQuestionMasters.getAlFeedbackAnswerMaster()) {
+                                                if (lstAnswerMasters.getAnswer() != null) {
+                                                    objFeedbackAnswerMaster = new FeedbackAnswerMaster();
+                                                    objFeedbackAnswerMaster.setAnswer(lstAnswerMasters.getAnswer());
+                                                    lstAnswerMaster.add(objFeedbackAnswerMaster);
+                                                }
+                                            }
+                                            counter++;
+                                        }
+                                    }
+                                    current++;
                                 }
                             }
+                            //Request
                         }
-                        //Request
                     } else {
                         Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
