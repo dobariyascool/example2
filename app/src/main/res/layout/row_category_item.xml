@@ -16,7 +16,6 @@
             android:layout_width="@dimen/itemListImageWidth"
             android:layout_height="@dimen/itemListImageWidth"
             android:scaleType="fitCenter"
-            android:src="@drawable/sm_roti_quqobc"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
