@@ -27,6 +27,19 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="PrimaryTextView">
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <style name="FloatingMiniButton" parent="FloatingActionButton">
+        <item name="fab_colorNormal">@color/orange</item>
+        <item name="rd_rippleColor">@color/orange_light</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorPressed">@color/orange</item>
+        <item name="android:src">@drawable/edit_drawable</item>
+    </style>
+
+
     <!--<style name="RadioButton" parent="Material.Drawable.RadioButton">-->
     <!--<item name="rbd_width">32dp</item>-->
     <!--<item name="rbd_height">32dp</item>-->

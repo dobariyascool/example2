@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="DefaultCardView" parent="AppCompactCardView">
         <item name="android:layout_height">@dimen/card_MinimumHeight</item>
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
@@ -32,4 +33,15 @@
         <item name="cardPreventCornerOverlap">false</item>
         <item name="android:foreground">@drawable/category_item_ripple_effect</item>
     </style>
+
+    <style name="FloatingMiniButton" parent="FloatingActionButton">
+        <item name="fab_colorNormal">@color/orange</item>
+        <item name="rd_rippleColor">@color/orange_light</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorPressed">@color/orange</item>
+        <item name="android:src">@drawable/edit_drawable</item>
+        <item name="android:layout_marginTop">162dp</item>
+        <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
+    </style>
+
 </resources>

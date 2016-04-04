@@ -107,12 +107,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
-        }else if (item.getItemId() == R.id.hFeedback) {
+        } else if (item.getItemId() == R.id.hFeedback) {
             drawerLayout.closeDrawer(navigationView);
-            Intent intent = new Intent(HomeActivity.this,FeedbackActivity.class);
+            Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
             startActivity(intent);
-        }
-        else if (item.getItemId() == R.id.hNotification) {
+        } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
         } else if (item.getItemId() == R.id.hExit) {
             System.exit(0);
@@ -137,7 +136,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
             menu.findItem(R.id.myAccount).setVisible(true);
             menu.findItem(R.id.logout).setVisible(true);
-        }else{
+        } else {
             menu.findItem(R.id.myAccount).setVisible(false);
             menu.findItem(R.id.logout).setVisible(false);
         }
@@ -151,6 +150,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             Globals.Logout(HomeActivity.this, HomeActivity.this);
             SetUserName();
+        }
+        if (id == R.id.myAccount) {
+            Intent i = new Intent(HomeActivity.this, MyAccountActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -171,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-            startActivityForResult(intent,0);
+            startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvBookTable) {
 
         } else if (v.getId() == R.id.cvOffer) {
