@@ -125,9 +125,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
             } else {
+                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
                 RequestOrderMaster();
             }
-
             //RequestOrderMaster();
             //Globals.ReplaceFragment(new OrderSummaryFragment(),getActivity().getSupportFragmentManager(),getActivity().getResources().getString(R.string.title_order_summary_fragment),R.id.fragmentLayout);
         } else if (v.getId() == R.id.cbMenu) {
@@ -150,19 +150,19 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onPause() {
         super.onPause();
-        isPause = true;
+        //isPause = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (isPause) {
-            objSharePreferenceManage = new SharePreferenceManage();
-            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
-                RequestOrderMaster();
-            }
-        }
+//        if (isPause) {
+//            objSharePreferenceManage = new SharePreferenceManage();
+//            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+//                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+//                RequestOrderMaster();
+//            }
+//        }
     }
 
     @Override

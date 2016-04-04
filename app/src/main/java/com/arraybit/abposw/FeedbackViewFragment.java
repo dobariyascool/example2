@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -130,6 +132,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     }
 
     private void SetSingleChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(),R.style.BusinessInfoCardView));
+        LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        cardView.setLayoutParams(cardViewLayoutParams);
+
         final LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayoutParams.setMargins(16, 8, 16, 8);
@@ -251,11 +257,15 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         childLayout.addView(radioGroup);
         linearLayout.addView(headerLayout);
         linearLayout.addView(childLayout);
-        feedbackViewFragment.addView(linearLayout);
+        cardView.addView(linearLayout);
+        feedbackViewFragment.addView(cardView);
     }
 
     private void SetMultiChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
-        StringBuilder sbAnswerId = new StringBuilder();
+        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(),R.style.BusinessInfoCardView));
+        LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        cardView.setLayoutParams(cardViewLayoutParams);
+
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayoutParams.setMargins(16, 8, 16, 8);
@@ -346,7 +356,8 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         childLayout.addView(answerLinearLayout);
         linearLayout.addView(headerLayout);
         linearLayout.addView(childLayout);
-        feedbackViewFragment.addView(linearLayout);
+        cardView.addView(linearLayout);
+        feedbackViewFragment.addView(cardView);
     }
 
     private void SetInputLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
@@ -588,7 +599,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                                                 if (listAnswerMaster.getAnswer() != null) {
                                                     objFeedbackAnswerMaster = new FeedbackAnswerMaster();
                                                     objFeedbackAnswerMaster.setFeedbackAnswerMasterId(listAnswerMaster.getFeedbackAnswerMasterId());
-                                                    objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(listAnswerMaster.getlinktoFeedbackQuestionMasterId());
+                                                    objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(objFeedbackQuestionMaster.getFeedbackQuestionMasterId());
                                                     objFeedbackAnswerMaster.setAnswer(listAnswerMaster.getAnswer());
                                                     lstAnswerMaster.add(objFeedbackAnswerMaster);
                                                 }
