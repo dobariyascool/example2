@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,8 +37,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJSONParser.FeedbackSubmitRequestListener{
-
+public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJSONParser.FeedbackSubmitRequestListener {
 
     public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
     LinearLayout feedbackViewFragment;
@@ -132,7 +132,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     }
 
     private void SetSingleChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
-        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(),R.style.BusinessInfoCardView));
+        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(), R.style.BusinessInfoCardView));
         LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         cardView.setLayoutParams(cardViewLayoutParams);
 
@@ -262,7 +262,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     }
 
     private void SetMultiChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
-        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(),R.style.BusinessInfoCardView));
+        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(), R.style.BusinessInfoCardView));
         LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         cardView.setLayoutParams(cardViewLayoutParams);
 
@@ -517,7 +517,14 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                     if (rowPosition == -1) {
                         rowPosition = buttonView.getId();
                         buttonView.setChecked(true);
-
+                        objFeedbackMaster = new FeedbackMaster();
+                        if (buttonView.getId() == 0) {
+                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.OtherQuery.getValue());
+                        } else if (buttonView.getId() == 1) {
+                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.BugReport.getValue());
+                        } else if (buttonView.getId() == 2) {
+                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.Suggestion.getValue());
+                        }
                     } else {
                         radioButton[rowPosition].setChecked(false);
                         rowPosition = buttonView.getId();
@@ -527,6 +534,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
 
             radioGroup.addView(radioButton[i]);
         }
+        radioButton[0].setChecked(true);
 
         final EditText etUserName = new EditText(getActivity());
         LinearLayout.LayoutParams etUserNameLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -556,7 +564,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         etFeedback.setHint(getActivity().getResources().getString(R.string.fbFeedback));
         etFeedback.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
-        //SetUser(etEmail, etUserName);
+        SetUser(etEmail, etUserName);
         Button btnSubmit = new Button(getActivity());
         LinearLayout.LayoutParams btnSubmitLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
         btnSubmit.setLayoutParams(btnSubmitLayoutParams);
@@ -570,10 +578,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                 focusView = v;
                 if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
                     progressDialog.dismiss();
-                    Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
+                    Globals.ShowSnackBar(focusView, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
                 } else {
                     if (Service.CheckNet(getActivity())) {
-                        objFeedbackMaster = new FeedbackMaster();
+
                         objFeedbackMaster.setName(etUserName.getText().toString());
                         objFeedbackMaster.setEmail(etEmail.getText().toString());
                         objFeedbackMaster.setPhone(etMobileNo.getText().toString());
@@ -601,7 +609,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                                                     objFeedbackAnswerMaster = new FeedbackAnswerMaster();
                                                     objFeedbackAnswerMaster.setFeedbackAnswerMasterId(listAnswerMaster.getFeedbackAnswerMasterId());
                                                     objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(objFeedbackQuestionMaster.getFeedbackQuestionMasterId());
-                                                    objFeedbackAnswerMaster.setAnswer(listAnswerMaster.getAnswer());
                                                     lstAnswerMaster.add(objFeedbackAnswerMaster);
                                                 }
                                             }
@@ -612,7 +619,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                             }
                         }
                         FeedbackQuestionJSONParser objFeedbackQuestionJSONParser = new FeedbackQuestionJSONParser();
-                        objFeedbackQuestionJSONParser.InsertFeedbackMaster(objFeedbackMaster, lstAnswerMaster, getActivity());
+                        objFeedbackQuestionJSONParser.InsertFeedbackMaster(FeedbackViewFragment.this, getActivity(), objFeedbackMaster, lstAnswerMaster);
+                        radioGroup.clearCheck();
+                        etMobileNo.setText("");
+                        etFeedback.setText("");
                     } else {
                         Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -637,7 +647,28 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                 break;
             default:
                 Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgFeedbackSubmit), getActivity(), 1000);
+                Intent i = new Intent(getActivity(), HomeActivity.class);
+                startActivity(i);
                 break;
+        }
+    }
+
+    private void SetUser(EditText etEmail, EditText etName) {
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            etEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()));
+            etEmail.setEnabled(false);
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()) != null) {
+                etName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()));
+                etName.setEnabled(false);
+            } else {
+                etName.setEnabled(true);
+            }
+        } else {
+            etEmail.setText("");
+            etName.setText("");
+            etName.setEnabled(true);
+            etEmail.setEnabled(true);
         }
     }
 

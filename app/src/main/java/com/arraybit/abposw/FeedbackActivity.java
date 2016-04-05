@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class FeedbackActivity extends AppCompatActivity implements FeedbackQuestionJSONParser.FeedbackQuestionRequestListener {
+public class FeedbackActivity extends AppCompatActivity implements FeedbackQuestionJSONParser.FeedbackQuestionRequestListener, View.OnClickListener {
 
     public static ArrayList<ArrayList<FeedbackQuestionMaster>> alFinalFeedbackAnswer = new ArrayList<>();
     Toolbar app_bar;
@@ -31,7 +31,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     ViewPager viewPager;
     FrameLayout feedbackLayout;
     LinearLayout errorLayout;
-    TextView txtFeedbackGroup;
+    TextView txtFeedbackGroup, txtPrevious, txtNext;
     ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster, alFilterFeedbackQuestionMaster;
     ArrayList<String> alQuestionGroup;
     String strGroupName, strQuestionName;
@@ -54,8 +54,13 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         txtFeedbackGroup = (TextView) findViewById(R.id.txtFeedbackGroup);
+        txtPrevious = (TextView) findViewById(R.id.txtPrevious);
+        txtNext = (TextView) findViewById(R.id.txtNext);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        txtPrevious.setOnClickListener(this);
+        txtNext.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
             RequestFeedbackQuestion();
@@ -88,7 +93,29 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         alFinalFeedbackAnswer = new ArrayList<>();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.txtPrevious) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        } else if (v.getId() == R.id.txtNext) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        }
+    }
+
     //region Private Method
+    private void SetVisibility(int position) {
+        if (position == 0) {
+            txtNext.setEnabled(true);
+            txtPrevious.setEnabled(false);
+        } else if (position == viewPager.getOffscreenPageLimit() - 1) {
+            txtNext.setEnabled(false);
+            txtPrevious.setEnabled(true);
+        } else {
+            txtNext.setEnabled(true);
+            txtPrevious.setEnabled(true);
+        }
+    }
+
     private void SetErrorLayout(boolean isShow, String errorMsg) {
         TextView txtMsg = (TextView) errorLayout.findViewById(R.id.txtMsg);
         if (isShow) {
@@ -201,7 +228,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         for (String strGroup : alQuestionGroup) {
             if (!strGroup.equals(Globals.QuestionType.Simple_Feedback.toString())) {
                 SetFilterQuestionAnswerByGroup(strGroup);
-            }else {
+            } else {
                 FeedbackQuestionMaster objFeedbackQuestionMaster = new FeedbackQuestionMaster();
                 objFeedbackQuestionMaster.setQuestionType((short) Globals.QuestionType.Simple_Feedback.getValue());
                 alFilterFeedbackQuestionMaster = new ArrayList<>();
@@ -216,6 +243,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         viewPager.setAdapter(feedbackPagerAdapter);
         viewPager.setOffscreenPageLimit(alQuestionGroup.size());
         txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(0));
+        SetVisibility(0);
 
         viewPager.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +261,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
             public void onPageSelected(int position) {
                 //Globals.HideKeyBoard(FeedbackActivity.this, getCurrentFocus());
                 txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(position));
-                //SetVisibility(position, adapter.GetFeedbackQuestionGroup(position));
+                SetVisibility(position);
             }
 
             @Override

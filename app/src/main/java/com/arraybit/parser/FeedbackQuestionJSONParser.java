@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -113,7 +114,7 @@ public class FeedbackQuestionJSONParser {
     }
 
     //region Insert
-    public void InsertFeedbackMaster(final FeedbackMaster objFeedbackMaster, ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster, final Context context) {
+    public void InsertFeedbackMaster(final Fragment targetFragment, Context context, final FeedbackMaster objFeedbackMaster, ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
@@ -159,27 +160,27 @@ public class FeedbackQuestionJSONParser {
 
                         if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
-                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) targetFragment;
                             objFeedbackSubmitRequestListener.FeedbackSubmitResponse(errorCode, null);
                         } else {
-                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) targetFragment;
                             objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
                         }
                     } catch (JSONException e) {
-                        objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                        objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) targetFragment;
                         objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+                    objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) targetFragment;
                     objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
-            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) context;
+            objFeedbackSubmitRequestListener = (FeedbackSubmitRequestListener) targetFragment;
             objFeedbackSubmitRequestListener.FeedbackSubmitResponse("-1", null);
         }
     }
