@@ -73,6 +73,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Globals.HideKeyBoard(getActivity(), getView());
                 if (!Validation()) {
                     Globals.ShowSnackBar(v, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 2000);
                     return;
@@ -132,6 +133,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
             default:
                 Globals.ShowSnackBar(view, getResources().getString(R.string.MsgUpdatePassword), getActivity(), 1000);
                 ClearControls();
+                getActivity().getSupportFragmentManager().popBackStack();
                 break;
         }
 
