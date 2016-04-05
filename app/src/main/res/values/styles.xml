@@ -92,6 +92,7 @@
         <!--<item name="android:layout_marginBottom">@dimen/card_Margin</item>-->
     </style>
 
+
     <style name="BusinessInfoCardView" parent="AppCompactCardView">
         <item name="android:layout_height">@dimen/card_MinimumHeight</item>
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>

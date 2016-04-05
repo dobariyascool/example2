@@ -1,13 +1,13 @@
 package com.arraybit.abposw;
 
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputType;
@@ -37,13 +37,14 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
+@SuppressLint("SetTextI18n")
 public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJSONParser.FeedbackSubmitRequestListener {
 
     public final static String ITEMS_COUNT_KEY = "TableTabFragment$ItemsCount";
     LinearLayout feedbackViewFragment;
     ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster, alFeedbackAnswer;
     ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster, lstAnswerMaster;
-    int rowPosition = -1, currentView, rowNumber = -1;
+    int rowPosition = -1, currentView, rowNumber = -1, feedbackType;
     FeedbackMaster objFeedbackMaster;
     FeedbackAnswerMaster objFeedbackAnswerMaster;
     SharePreferenceManage objSharePreferenceManage;
@@ -84,11 +85,14 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         return view;
     }
 
+
     @Override
     public void FeedbackSubmitResponse(String errorCode, FeedbackMaster objCustomerMaster) {
         progressDialog.dismiss();
         SetError(errorCode);
     }
+
+    //region Private Method
 
     private void SetLayout() {
         CreateAnswerList();
@@ -132,10 +136,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     }
 
     private void SetSingleChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
-        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(), R.style.BusinessInfoCardView));
-        LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        cardView.setLayoutParams(cardViewLayoutParams);
-
+        CardView cardView = (CardView) LayoutInflater.from(getActivity()).inflate(R.layout.cardview_layout, feedbackViewFragment, false);
         final LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayoutParams.setMargins(16, 8, 16, 8);
@@ -144,7 +145,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setId(position);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
 
         LinearLayout headerLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -157,7 +157,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtNumberLayoutParams.gravity = Gravity.TOP;
         txtNumber.setLayoutParams(txtNumberLayoutParams);
         txtNumber.setText(position + 1 + ".");
-        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtNumber.setTextSize(18f);
 
         TextView txtQuestion = new TextView(getActivity());
@@ -166,7 +166,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtQuestionLayoutParams.gravity = Gravity.TOP;
         txtQuestion.setLayoutParams(txtQuestionLayoutParams);
         txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
-        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtQuestion.setTextSize(18f);
 
         LinearLayout childLayout = new LinearLayout(getActivity());
@@ -198,7 +198,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
 
         for (int j = 0; j < alFeedbackAnswerMaster.size(); j++) {
             rbAnswer[j] = new RadioButton(getActivity());
-            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             rbAnswer[j].setId(j);
             rbAnswer[j].setTag(alFeedbackAnswerMaster.get(j).getFeedbackAnswerMasterId());
             rbAnswer[j].setLayoutParams(rbAnswerLayoutParams);
@@ -262,9 +262,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     }
 
     private void SetMultiChoiceLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
-        CardView cardView = new CardView(new ContextThemeWrapper(getActivity(), R.style.BusinessInfoCardView));
-        LinearLayout.LayoutParams cardViewLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        cardView.setLayoutParams(cardViewLayoutParams);
+        CardView cardView = (CardView) LayoutInflater.from(getActivity()).inflate(R.layout.cardview_layout, feedbackViewFragment, false);
 
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -273,7 +271,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         linearLayout.setPadding(16, 4, 16, 4);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
 
         LinearLayout headerLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -286,7 +283,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtNumberLayoutParams.gravity = Gravity.TOP;
         txtNumber.setLayoutParams(txtNumberLayoutParams);
         txtNumber.setText(position + 1 + ".");
-        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtNumber.setTextSize(18f);
 
         TextView txtQuestion = new TextView(getActivity());
@@ -295,7 +292,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtQuestionLayoutParams.weight = 1f;
         txtQuestion.setLayoutParams(txtQuestionLayoutParams);
         txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
-        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtQuestion.setTextSize(18f);
 
         LinearLayout childLayout = new LinearLayout(getActivity());
@@ -324,7 +321,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
 
         for (int j = 0; j < alFeedbackAnswerMaster.size(); j++) {
             cbAnswer[j] = new CheckBox(getActivity());
-            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams rbAnswerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             cbAnswer[j].setId(j);
             cbAnswer[j].setTag(alFeedbackAnswerMaster.get(j).getFeedbackAnswerMasterId());
             cbAnswer[j].setLayoutParams(rbAnswerLayoutParams);
@@ -360,7 +357,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         feedbackViewFragment.addView(cardView);
     }
 
+
     private void SetInputLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        CardView cardView = (CardView) LayoutInflater.from(getActivity()).inflate(R.layout.cardview_layout, feedbackViewFragment, false);
+
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayoutParams.setMargins(16, 8, 16, 8);
@@ -368,8 +368,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setPadding(4, 4, 4, 4);
-        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
-
 
         LinearLayout headerLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -382,7 +380,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
         txtNumber.setLayoutParams(txtNumberLayoutParams);
         txtNumber.setText(position + 1 + ".");
-        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtNumber.setTextSize(18f);
 
         TextView txtQuestion = new TextView(getActivity());
@@ -390,7 +388,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtQuestionLayoutParams.weight = 1f;
         txtQuestion.setLayoutParams(txtQuestionLayoutParams);
         txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
-        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtQuestion.setTextSize(18f);
 
         final EditText editText = new EditText(getActivity());
@@ -420,10 +418,14 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         headerLayout.addView(txtQuestion);
         linearLayout.addView(headerLayout);
         linearLayout.addView(editText);
-        feedbackViewFragment.addView(linearLayout);
+        cardView.addView(linearLayout);
+        feedbackViewFragment.addView(cardView);
     }
 
+
     private void SetRatingLayout(final FeedbackQuestionMaster objFeedbackQuestionMaster, final int position) {
+        CardView cardView = (CardView) LayoutInflater.from(getActivity()).inflate(R.layout.cardview_layout, feedbackViewFragment, false);
+
         LinearLayout linearLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         linearLayoutParams.setMargins(16, 8, 16, 8);
@@ -431,7 +433,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setPadding(4, 4, 4, 4);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.divider));
 
         LinearLayout headerLayout = new LinearLayout(getActivity());
         LinearLayout.LayoutParams headerLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -444,7 +445,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         LinearLayout.LayoutParams txtNumberLayoutParams = new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.WRAP_CONTENT);
         txtNumber.setLayoutParams(txtNumberLayoutParams);
         txtNumber.setText(position + 1 + ".");
-        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtNumber.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtNumber.setTextSize(18f);
 
         TextView txtQuestion = new TextView(getActivity());
@@ -452,13 +453,16 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtQuestionLayoutParams.weight = 1f;
         txtQuestion.setLayoutParams(txtQuestionLayoutParams);
         txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
-        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), R.color.brown));
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(),android.R.color.black));
         txtQuestion.setTextSize(18f);
 
         RatingBar ratingBar = new RatingBar(getActivity());
         LinearLayout.LayoutParams ratingBarLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ratingBar.setLayoutParams(ratingBarLayoutParams);
         ratingBar.setNumStars(5);
+        Drawable drawable = ratingBar.getProgressDrawable();
+        drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -471,10 +475,11 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         headerLayout.addView(txtQuestion);
         linearLayout.addView(headerLayout);
         linearLayout.addView(ratingBar);
-        feedbackViewFragment.addView(linearLayout);
+        cardView.addView(linearLayout);
+        feedbackViewFragment.addView(cardView);
     }
 
-    public void SetSimpleFeedbackLayout() {
+    private void SetSimpleFeedbackLayout() {
         feedbackViewFragment.removeAllViews();
         ScrollView scrollview = new ScrollView(getActivity());
         LinearLayout.LayoutParams scLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -505,36 +510,29 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
 
             if (i == 0) {
                 radioButton[i].setText(Globals.FeedbackType.Suggestion.toString());
+                radioButton[i].setTag(Globals.FeedbackType.Suggestion.getValue());
+                rowPosition = i;
+                feedbackType = Globals.FeedbackType.Suggestion.getValue();
+                radioButton[i].setChecked(true);
             } else if (i == 1) {
                 radioButton[i].setText(Globals.FeedbackType.BugReport.toString());
+                radioButton[i].setTag(Globals.FeedbackType.BugReport.getValue());
             } else {
                 radioButton[i].setText(Globals.FeedbackType.OtherQuery.toString());
+                radioButton[i].setTag(Globals.FeedbackType.OtherQuery.getValue());
             }
 
             radioButton[i].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                    if (rowPosition == -1) {
-                        rowPosition = buttonView.getId();
-                        buttonView.setChecked(true);
-                        objFeedbackMaster = new FeedbackMaster();
-                        if (buttonView.getId() == 0) {
-                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.OtherQuery.getValue());
-                        } else if (buttonView.getId() == 1) {
-                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.BugReport.getValue());
-                        } else if (buttonView.getId() == 2) {
-                            objFeedbackMaster.setFeedbackType((short) Globals.FeedbackType.Suggestion.getValue());
-                        }
-                    } else {
-                        radioButton[rowPosition].setChecked(false);
-                        rowPosition = buttonView.getId();
-                    }
+                    radioButton[rowPosition].setChecked(false);
+                    rowPosition = buttonView.getId();
+                    feedbackType = (int) buttonView.getTag();
                 }
             });
 
             radioGroup.addView(radioButton[i]);
         }
-        radioButton[0].setChecked(true);
 
         final EditText etUserName = new EditText(getActivity());
         LinearLayout.LayoutParams etUserNameLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -581,11 +579,12 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                     Globals.ShowSnackBar(focusView, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
                 } else {
                     if (Service.CheckNet(getActivity())) {
-
+                        objFeedbackMaster = new FeedbackMaster();
                         objFeedbackMaster.setName(etUserName.getText().toString());
                         objFeedbackMaster.setEmail(etEmail.getText().toString());
                         objFeedbackMaster.setPhone(etMobileNo.getText().toString());
                         objFeedbackMaster.setFeedback(etFeedback.getText().toString());
+                        objFeedbackMaster.setFeedbackType((short) feedbackType);
                         objFeedbackMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
                         objSharePreferenceManage = new SharePreferenceManage();
                         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
@@ -604,10 +603,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                                         lstAnswerMaster.add(objFeedbackAnswerMaster);
                                     } else {
                                         if (lstFeedbackQuestionMaster.get(current).getAlFeedbackAnswerMaster() != null) {
-                                            for (FeedbackAnswerMaster listAnswerMaster : objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()) {
-                                                if (listAnswerMaster.getAnswer() != null) {
+                                            for (FeedbackAnswerMaster objFilterAnswerMaster : objFeedbackQuestionMaster.getAlFeedbackAnswerMaster()) {
+                                                if (objFilterAnswerMaster.getAnswer() != null) {
                                                     objFeedbackAnswerMaster = new FeedbackAnswerMaster();
-                                                    objFeedbackAnswerMaster.setFeedbackAnswerMasterId(listAnswerMaster.getFeedbackAnswerMasterId());
+                                                    objFeedbackAnswerMaster.setFeedbackAnswerMasterId(objFilterAnswerMaster.getFeedbackAnswerMasterId());
                                                     objFeedbackAnswerMaster.setlinktoFeedbackQuestionMasterId(objFeedbackQuestionMaster.getFeedbackQuestionMasterId());
                                                     lstAnswerMaster.add(objFeedbackAnswerMaster);
                                                 }
@@ -620,9 +619,6 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                         }
                         FeedbackQuestionJSONParser objFeedbackQuestionJSONParser = new FeedbackQuestionJSONParser();
                         objFeedbackQuestionJSONParser.InsertFeedbackMaster(FeedbackViewFragment.this, getActivity(), objFeedbackMaster, lstAnswerMaster);
-                        radioGroup.clearCheck();
-                        etMobileNo.setText("");
-                        etFeedback.setText("");
                     } else {
                         Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -647,8 +643,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                 break;
             default:
                 Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgFeedbackSubmit), getActivity(), 1000);
-                Intent i = new Intent(getActivity(), HomeActivity.class);
-                startActivity(i);
+                getActivity().finish();
                 break;
         }
     }
@@ -701,4 +696,5 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         }
         return IsValid;
     }
+    //endregion
 }

@@ -1,15 +1,19 @@
 package com.arraybit.abposw;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
@@ -38,6 +42,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     int cnt;
     FeedbackPagerAdapter feedbackPagerAdapter;
     ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster;
+    ImageView ivNext,ivPrevious;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +63,15 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         txtNext = (TextView) findViewById(R.id.txtNext);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        SetViewPagerElevation();
+
+        ivNext = (ImageView)findViewById(R.id.ivNext);
+        ivPrevious = (ImageView) findViewById(R.id.ivPrevious);
 
         txtPrevious.setOnClickListener(this);
         txtNext.setOnClickListener(this);
+        ivNext.setOnClickListener(this);
+        ivPrevious.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
             RequestFeedbackQuestion();
@@ -95,10 +106,14 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.txtPrevious) {
+        if (v.getId() == R.id.ivNext) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        } else if (v.getId() == R.id.ivPrevious) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         } else if (v.getId() == R.id.txtNext) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        } else if (v.getId() == R.id.txtPrevious) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
     }
 
@@ -106,13 +121,31 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     private void SetVisibility(int position) {
         if (position == 0) {
             txtNext.setEnabled(true);
+            ivNext.setEnabled(true);
             txtPrevious.setEnabled(false);
+            ivPrevious.setEnabled(false);
         } else if (position == viewPager.getOffscreenPageLimit() - 1) {
             txtNext.setEnabled(false);
+            ivNext.setEnabled(false);
             txtPrevious.setEnabled(true);
+            ivPrevious.setEnabled(true);
         } else {
             txtNext.setEnabled(true);
+            ivNext.setEnabled(true);
             txtPrevious.setEnabled(true);
+            ivPrevious.setEnabled(true);
+        }
+    }
+
+    private void SetViewPagerElevation() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            viewPager.setPadding(0, 0, 0, 8);
+            viewPager.setBackgroundColor(ContextCompat.getColor(FeedbackActivity.this, R.color.offwhite));
+            viewPager.setElevation(8f);
+            viewPager.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        } else {
+            viewPager.setBackground(ContextCompat.getDrawable(FeedbackActivity.this, R.drawable.bottom_border));
+            viewPager.setPadding(0, 0, 0, 16);
         }
     }
 
