@@ -206,6 +206,8 @@
 
     <style name="FloatingActionMenu">com.github.clans.fab.FloatingActionMenu</style>
 
+    <style name="FloatingButtonDesignSupport">android.support.design.widget.FloatingActionButton</style>
+
     <style name="FloatingMenu" parent="FloatingActionMenu">
         <item name="menu_backgroundColor">@color/transparentBackground</item>
         <item name="menu_colorNormal">@color/orange</item>
@@ -216,6 +218,13 @@
         <item name="menu_labels_position">left</item>
         <item name="menu_labels_showAnimation">@anim/jump_from_down</item>
         <item name="menu_labels_singleLine">true</item>
+    </style>
+
+    <style name="FloatingButton" parent="FloatingButtonDesignSupport">
+        <item name="rd_rippleColor">@color/colorPrimaryLight</item>
+        <item name="fab_size">mini</item>
+        <item name="fab_colorPressed">@color/colorPrimaryDark</item>
+        <item name="fab_colorRipple">@color/colorPrimaryLight</item>
     </style>
 
     <style name="FloatingButtonWithTextStyle" parent="FloatingActionButton">
