@@ -1,6 +1,5 @@
 package com.arraybit.abposw;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,13 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
+import com.arraybit.global.SharePreferenceManage;
+import com.github.clans.fab.FloatingActionButton;
+import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,8 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     ArrayList<String> alString;
     RecyclerView rvOptions;
+    FloatingActionButton fabEdit;
+    TextView txtLoginChar, txtFullName, txtEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +38,60 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Your Account");
+            getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_your_account));
         }
 
+        //Text View start
+        txtLoginChar = (TextView) findViewById(R.id.txtLoginChar);
+        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtFullName = (TextView) findViewById(R.id.txtFullName);
+        //end
+
+        SetUserName();
+
+        //RecyclerView start
         GetData();
         rvOptions = (RecyclerView) findViewById(R.id.rvOptions);
         MyAccountAdapter accountAdapter = new MyAccountAdapter(alString, MyAccountActivity.this, this);
         rvOptions.setAdapter(accountAdapter);
         rvOptions.setLayoutManager(new LinearLayoutManager(MyAccountActivity.this));
+        //end
+
+        //FloatingActionButton start
+        fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
+
+        fabEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReplaceFragment(new UserProfileFragment(), getResources().getString(R.string.title_fragment_your_profile));
+            }
+        });
+        //end
 
     }
 
+    //region Private Methods
     private void GetData() {
         alString = new ArrayList<>();
         for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
             alString.add(getResources().getStringArray(R.array.Option)[i]);
         }
     }
+
+    private void SetUserName() {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this) != null) {
+            txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this));
+            txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this).substring(0, 1).toUpperCase());
+        }
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this) != null) {
+            txtFullName.setVisibility(View.VISIBLE);
+            txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this));
+        } else {
+            txtFullName.setVisibility(View.GONE);
+        }
+    }
+    //end
 
     private void ReplaceFragment(Fragment fragment, String fragmentName) {
         FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
@@ -74,24 +116,25 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.home) {
-            Intent i = new Intent(MyAccountActivity.this, HomeActivity.class);
-            startActivity(i);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void OptionClick(int id) {
         if (id == 0) {
-            ReplaceFragment(new YourOrderFragment(), MyAccountActivity.this.getResources().getString(R.string.title_fragment_your_order));
+            ReplaceFragment(new YourOrderFragment(), getResources().getString(R.string.title_fragment_your_order));
         } else if (id == 1) {
-            ReplaceFragment(new YourBookingFragment(), MyAccountActivity.this.getResources().getString(R.string.title_fragment_your_booking));
+            ReplaceFragment(new YourBookingFragment(), getResources().getString(R.string.title_fragment_your_booking));
         } else if (id == 2) {
-            ReplaceFragment(new ChangePasswordFragment(), MyAccountActivity.this.getResources().getString(R.string.title_fragment_change_password));
+            ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
         } else if (id == 3) {
             Globals.Logout(MyAccountActivity.this, this);
-            MyAccountActivity.this.getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
         }
 
     }

@@ -13,16 +13,24 @@ import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.CustomerMaster;
+import com.arraybit.parser.CustomerJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
 
-public class ChangePasswordFragment extends Fragment {
+@SuppressWarnings("ConstantConditions")
+public class ChangePasswordFragment extends Fragment implements CustomerJSONParser.CustomerRequestListener {
 
     EditText etOldPassword, etNewPassword, etConfirmPassword;
     Button btnChangePassword;
     ToggleButton tbPasswordShowOld, tbPasswordShowNew, tbPasswordShowConfirm;
     View view;
+    ProgressDialog progressDialog;
+    SharePreferenceManage objSharePreferenceManage;
+    int currentPage = 1;
 
     public ChangePasswordFragment() {
         // Required empty public constructor
@@ -62,6 +70,17 @@ public class ChangePasswordFragment extends Fragment {
         tbPasswordShowConfirm = (ToggleButton) view.findViewById(R.id.tbPasswordShowConfirm);
         //end
 
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Service.CheckNet(getActivity())) {
+                    RequestCustomerMaster();
+                } else {
+                    Globals.ShowSnackBar(btnChangePassword, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -72,6 +91,53 @@ public class ChangePasswordFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void RequestCustomerMaster() {
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        CustomerMaster objCustomerMaster = new CustomerMaster();
+        objSharePreferenceManage = new SharePreferenceManage();
+
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            objCustomerMaster.setCustomerMasterId(Short.parseShort(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+        } else {
+            objCustomerMaster.setCustomerMasterId(0);
+        }
+        objCustomerMaster.setPassword(etNewPassword.getText().toString());
+
+        objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
+    }
+
+
+    @Override
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+        if (currentPage > 3) {
+            progressDialog.dismiss();
+        }
+        SetError(errorCode);
+    }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(view, getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+                break;
+            case "-2":
+                Globals.ShowSnackBar(view, getResources().getString(R.string.MsgUpdateFail), getActivity(), 1000);
+                ClearControls();
+                break;
+            default:
+                Globals.ShowSnackBar(view, getResources().getString(R.string.MsgUpdatePassword), getActivity(), 1000);
+                ClearControls();
+                break;
+        }
+
+    }
+
+    private void ClearControls() {
+        etOldPassword.setText("");
+        etConfirmPassword.setText("");
+        etNewPassword.setText("");
     }
 
 }

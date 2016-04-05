@@ -80,6 +80,10 @@
     <string name="suUpdate">Update Profile</string>
     <!-- end -->
 
+    <!--User Profile fragment-->
+    <string name="upUpdateprofile">Update Profile</string>
+    <!--end-->
+
     <!-- loginActivity -->
     <string name="siUserName">User Name</string>
     <string name="siPassword">Password</string>
@@ -182,7 +186,6 @@
     <string name="fbBug">Bug Report</string>
     <string name="fbSuggestion">Suggestion</string>
     <string name="fbFeedbackGroup">Give Suggestion</string>
-    <string name="title_activity_my_account">MyAccount</string>
     <!-- end -->
 
     <!--MyAccountActivity array-->
@@ -192,6 +195,11 @@
         <item>Change Password</item>
         <item>Logout</item>
     </string-array>
+    <!--end-->
+
+    <!--MyAccount Title-->
+    <string name="title_activity_my_account">My Account</string>
+    <string name="title_activity_your_account">Your Account</string>
     <!--end-->
 
     <!--ChangePassword-->
@@ -208,6 +216,10 @@
 
     <!--Your Booking-->
     <string name="title_fragment_your_booking">Your Bookings</string>
+    <!--end-->
+
+    <!--Your profile-->
+    <string name="title_fragment_your_profile">Your Profile</string>
     <!--end-->
 
 </resources>

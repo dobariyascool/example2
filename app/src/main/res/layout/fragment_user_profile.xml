@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myprofile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offwhite"
+    android:orientation="vertical"
+    tools:context="com.arraybit.abposw.UserProfileFragment">
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:background="@color/colorPrimary">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar_layout" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtLoginChar"
+            style="@style/PrimaryTextView"
+            android:layout_width="@dimen/ct_width"
+            android:layout_height="@dimen/ct_height"
+            android:layout_centerInParent="true"
+            android:background="@drawable/myaccount_selector"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/control_TextLarge" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLoginChar"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFullName"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/control_SpecingMedium">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etFirstName"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suFirstName"
+                android:inputType="textPersonName" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etMobile"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suPhone"
+                android:inputType="phone"
+                android:maxLength="10" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etDateOfBirth"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suBirthDate"
+                android:onClick="EditTextOnClick" />
+
+            <RadioGroup
+                android:id="@+id/rgMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/suMale" />
+
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/control_SpecingMedium"
+                    android:gravity="center"
+                    android:text="@string/suFemale" />
+            </RadioGroup>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spCity"
+                style="@style/Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_SpecingSmall" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spArea"
+                style="@style/Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_SpecingSmall" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnUpdate"
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/control_SpecingSmall"
+                android:text="@string/upUpdateprofile" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

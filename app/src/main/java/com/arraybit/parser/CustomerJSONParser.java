@@ -1,6 +1,8 @@
 package com.arraybit.parser;
 
+
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +30,7 @@ public class CustomerJSONParser {
 
 
     public String InsertCustomerMaster = "InsertCustomerMaster";
-    public String UpdateRegisteredUserMaster = "UpdateRegisteredUserMaster";
+    public String UpdateCustomerMasterPassword = "UpdateCustomerMasterPassword";
     public String SelectCustomerMaster = "SelectCustomerMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -68,7 +70,7 @@ public class CustomerJSONParser {
                     dt = sdfDateFormat.parse(jsonObject.getString("AnniversaryDate"));
                     objCustomerMaster.setAnniversaryDate(sdfControlDateFormat.format(dt));
                 }
-                objCustomerMaster.setCustomerType((short)jsonObject.getInt("CustomerType"));
+                objCustomerMaster.setCustomerType((short) jsonObject.getInt("CustomerType"));
                 if (!jsonObject.getString("IsFavourite").equals("null")) {
                     objCustomerMaster.setIsFavourite(jsonObject.getBoolean("IsFavourite"));
                 }
@@ -84,13 +86,13 @@ public class CustomerJSONParser {
                 objCustomerMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objCustomerMaster.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
-                    objCustomerMaster.setlinktoUserMasterIdUpdatedBy((short)jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
+                    objCustomerMaster.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
                 }
                 objCustomerMaster.setIsEnabled(jsonObject.getBoolean("IsEnabled"));
                 objCustomerMaster.setIsDeleted(jsonObject.getBoolean("IsDeleted"));
                 objCustomerMaster.setGender(jsonObject.getString("Gender"));
                 objCustomerMaster.setPassword(jsonObject.getString("Password"));
-                objCustomerMaster.setlinktoSourceMasterId((short)jsonObject.getInt("linktoSourceMasterId"));
+                objCustomerMaster.setlinktoSourceMasterId((short) jsonObject.getInt("linktoSourceMasterId"));
             }
             return objCustomerMaster;
         } catch (JSONException e) {
@@ -130,7 +132,7 @@ public class CustomerJSONParser {
                     dt = sdfDateFormat.parse(jsonArray.getJSONObject(i).getString("AnniversaryDate"));
                     objCustomerMaster.setAnniversaryDate(sdfControlDateFormat.format(dt));
                 }
-                objCustomerMaster.setCustomerType((short)jsonArray.getJSONObject(i).getInt("CustomerType"));
+                objCustomerMaster.setCustomerType((short) jsonArray.getJSONObject(i).getInt("CustomerType"));
                 if (!jsonArray.getJSONObject(i).getString("IsFavourite").equals("null")) {
                     objCustomerMaster.setIsFavourite(jsonArray.getJSONObject(i).getBoolean("IsFavourite"));
                 }
@@ -146,7 +148,7 @@ public class CustomerJSONParser {
                 objCustomerMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objCustomerMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
-                    objCustomerMaster.setlinktoUserMasterIdUpdatedBy((short)jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
+                    objCustomerMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
                 objCustomerMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
                 objCustomerMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
@@ -183,7 +185,7 @@ public class CustomerJSONParser {
             stringer.key("ShortName").value(objCustomerMaster.getCustomerName());
             stringer.key("CustomerName").value(objCustomerMaster.getCustomerName());
             stringer.key("Gender").value(objCustomerMaster.getGender());
-            if(objCustomerMaster.getBirthDate()!=null) {
+            if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
             stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
@@ -203,117 +205,135 @@ public class CustomerJSONParser {
             RequestQueue queue = Volley.newRequestQueue(context);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            JSONObject jsonResponse = jsonObject.getJSONObject(InsertCustomerMaster + "Result");
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertCustomerMaster + "Result");
 
-                            if(jsonResponse!=null){
-                                String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
-                                objCustomerRequestListener = (CustomerRequestListener)context;
-                                objCustomerRequestListener.CustomerResponse(errorCode, null);
-                            }else{
-                                objCustomerRequestListener = (CustomerRequestListener)context;
-                                objCustomerRequestListener.CustomerResponse("-1", null);
-                            }
-                        } catch (JSONException e) {
-                            objCustomerRequestListener = (CustomerRequestListener)context;
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
+                            objCustomerRequestListener = (CustomerRequestListener) context;
+                            objCustomerRequestListener.CustomerResponse(errorCode, null);
+                        } else {
+                            objCustomerRequestListener = (CustomerRequestListener) context;
                             objCustomerRequestListener.CustomerResponse("-1", null);
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        objCustomerRequestListener = (CustomerRequestListener)context;
+                    } catch (JSONException e) {
+                        objCustomerRequestListener = (CustomerRequestListener) context;
                         objCustomerRequestListener.CustomerResponse("-1", null);
                     }
-                });
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCustomerRequestListener = (CustomerRequestListener) context;
+                    objCustomerRequestListener.CustomerResponse("-1", null);
+                }
+            });
             queue.add(jsonObjectRequest);
-        }
-        catch (Exception ex) {
-            objCustomerRequestListener = (CustomerRequestListener)context;
+        } catch (Exception ex) {
+            objCustomerRequestListener = (CustomerRequestListener) context;
             objCustomerRequestListener.CustomerResponse("-1", null);
         }
     }
     //endregion
 
     //region Update
-    public String UpdateRegisteredUserMaster(CustomerMaster objCustomerMaster) {
-        dt = new Date();
+    public void UpdateCustomerMasterPassword(CustomerMaster objCustomerMaster, final Context context, final Fragment targetFragment) {
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
 
-//            stringer.key("registeredUserMaster");
-//            stringer.object();
-//
-//            stringer.key("RegisteredUserMasterId").value(objRegisteredUserMaster.getRegisteredUserMasterId());
-//            stringer.key("Phone").value(objRegisteredUserMaster.getPhone());
-//            stringer.key("FirstName").value(objRegisteredUserMaster.getFirstName());
-//            stringer.key("LastName").value(objRegisteredUserMaster.getLastName());
-//            stringer.key("Gender").value(objRegisteredUserMaster.getGender());
-//            if(objRegisteredUserMaster.getBirthDate()!=null) {
-//                stringer.key("BirthDate").value(objRegisteredUserMaster.getBirthDate());
-//            }
-//            stringer.key("linktoAreaMasterId").value(objRegisteredUserMaster.getlinktoAreaMasterId());
-//            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
-//            stringer.key("Comment").value(objRegisteredUserMaster.getComment());
-//            stringer.key("linktoUserMasterIdUpdatedBy").value(objRegisteredUserMaster.getlinktoUserMasterIdUpdatedBy());
-//
-//            stringer.endObject();
-//
-//            stringer.endObject();
-//
-            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.UpdateRegisteredUserMaster, stringer);
-            JSONObject jsonObject = jsonResponse.getJSONObject(this.UpdateRegisteredUserMaster + "Result");
-            return String.valueOf(jsonObject.getInt("ErrorCode"));
+            stringer.key("customerMaster");
+            stringer.object();
+
+            stringer.key("CustomerMasterId").value(objCustomerMaster.getCustomerMasterId());
+            stringer.key("Password").value(objCustomerMaster.getPassword());
+
+            stringer.endObject();
+
+            stringer.endObject();
+
+            String url = Service.Url + this.UpdateCustomerMasterPassword;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(UpdateCustomerMasterPassword + "Result");
+
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
+                            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                            objCustomerRequestListener.CustomerResponse(errorCode, null);
+                        } else {
+                            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                            objCustomerRequestListener.CustomerResponse("-1", null);
+                        }
+                    } catch (JSONException e) {
+                        objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                        objCustomerRequestListener.CustomerResponse("-1", null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                    objCustomerRequestListener.CustomerResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
+
         } catch (Exception ex) {
-            return "-1";
+            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+            objCustomerRequestListener.CustomerResponse("-1", null);
         }
     }
+
 
     //endregion
 
     //region Select
-    public void SelectCustomerMaster(final Context context,String userName,String password) {
+    public void SelectCustomerMaster(final Context context, String userName, String password) {
         try {
-            String url  = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + null;
+            String url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + null;
 
             RequestQueue queue = Volley.newRequestQueue(context);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    if (jsonObject != null) {
-                        JSONObject jsonResponse = jsonObject.getJSONObject(SelectCustomerMaster + "Result");
-                        if (jsonResponse != null) {
-                            objCustomerRequestListener = (CustomerRequestListener)context;
-                            objCustomerRequestListener.CustomerResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        if (jsonObject != null) {
+                            JSONObject jsonResponse = jsonObject.getJSONObject(SelectCustomerMaster + "Result");
+                            if (jsonResponse != null) {
+                                objCustomerRequestListener = (CustomerRequestListener) context;
+                                objCustomerRequestListener.CustomerResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                            }
                         }
+                    } catch (Exception e) {
+                        objCustomerRequestListener = (CustomerRequestListener) context;
+                        objCustomerRequestListener.CustomerResponse(null, null);
                     }
                 }
-                catch (Exception e) {
-                    objCustomerRequestListener = (CustomerRequestListener)context;
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCustomerRequestListener = (CustomerRequestListener) context;
                     objCustomerRequestListener.CustomerResponse(null, null);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                objCustomerRequestListener = (CustomerRequestListener)context;
-                objCustomerRequestListener.CustomerResponse(null, null);
-            }
-        });
-        queue.add(jsonObjectRequest);
+            });
+            queue.add(jsonObjectRequest);
         } catch (Exception e) {
-            objCustomerRequestListener = (CustomerRequestListener)context;
+            objCustomerRequestListener = (CustomerRequestListener) context;
             objCustomerRequestListener.CustomerResponse(null, null);
         }
     }
     //endregion
 
     public interface CustomerRequestListener {
-        void CustomerResponse(String errorCode,CustomerMaster objCustomerMaster);
+        void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster);
     }
 }
 
