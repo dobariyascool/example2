@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:ignore="HardcodedText,UselessParent">
+        tools:ignore="HardcodedText,UselessParent,ContentDescription">
 
         <include
             android:id="@+id/app_bar"
@@ -20,7 +20,7 @@
         <include
             android:id="@+id/errorLayout"
             layout="@layout/error_layout"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,8 +62,8 @@
             <ImageView
                 android:id="@+id/ivPrevious"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <!--android:src="@drawable/previous_selector" />-->
+                android:layout_height="match_parent"
+                android:src="@drawable/previous_selector" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtPrevious"
@@ -74,9 +74,8 @@
                 android:paddingEnd="0dp"
                 android:paddingStart="@dimen/control_SpecingTiny"
                 android:text="Previous"
+                android:textColor="@drawable/text_selector"
                 android:textSize="16sp" />
-
-            <!--android:textColor="@drawable/text_selector"-->
 
             <com.rey.material.widget.TextView
                 android:layout_width="0dp"
@@ -98,14 +97,14 @@
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="0dp"
                 android:text="Next"
+                android:textColor="@drawable/text_selector"
                 android:textSize="16sp" />
-            <!--android:textColor="@drawable/text_selector"-->
 
             <ImageView
                 android:id="@+id/ivNext"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <!--android:src="@drawable/next_selector" />-->
+                android:layout_height="match_parent"
+                android:src="@drawable/next_selector" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
