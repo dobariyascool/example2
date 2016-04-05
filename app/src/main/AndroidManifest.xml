@@ -69,7 +69,11 @@
         <activity
             android:name=".MyAccountActivity"
             android:label="@string/title_activity_my_account"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".BookingActivity"
+            android:label="@string/title_activity_booking"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

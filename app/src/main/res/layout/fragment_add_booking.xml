@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.arraybit.abposw.AddBookingFragment">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etCustomerName"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ybCustomerName"
+            app:et_inputId="@+id/etCustomerName"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etAdults"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ybAdults" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etChildren"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ybChildren" />
+        </LinearLayout>
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etBirthdate"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ybBirthdate" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etFromTime"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ybFromTime" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etToTime"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ybToTime" />
+        </LinearLayout>
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etEmail"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ybEmail" />
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etRemark"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ybRemark"
+            android:minHeight="140px" />
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btnBookTable"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/ybBook" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
