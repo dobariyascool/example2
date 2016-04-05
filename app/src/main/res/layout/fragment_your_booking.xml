@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/yourBookingFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/offwhite"
-    android:orientation="vertical"
     tools:context="com.arraybit.abposw.YourBookingFragment">
 
     <LinearLayout
@@ -18,7 +18,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvBooking"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
+
+        
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

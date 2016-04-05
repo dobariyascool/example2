@@ -216,6 +216,17 @@
 
     <!--Your Booking-->
     <string name="title_fragment_your_booking">Your Bookings</string>
+    <string name="title_activity_booking">BookingActivity</string>
+    <string name="ybCustomerName">Customer Name</string>
+    <string name="ybAdults">Adults</string>
+    <string name="ybChildren">Children</string>
+    <string name="ybBirthdate">Birth Date</string>
+    <string name="ybFromTime">From Time</string>
+    <string name="ybToTime">To Time</string>
+    <string name="ybPhone">Phone</string>
+    <string name="ybEmail">Email</string>
+    <string name="ybRemark">Remark</string>
+    <string name="ybBook">Book Table</string>
     <!--end-->
 
     <!--Your profile-->
