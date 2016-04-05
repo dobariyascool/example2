@@ -156,7 +156,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     public void SetRecyclerView(boolean isCurrentPageChange) {
-//        try {
             if (isCurrentPageChange) {
                 itemAdapter.isItemAnimate = false;
                 isLayoutChange = true;
@@ -194,11 +193,6 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     }
                 }
             }
-//        }
-//        catch (Exception e) {
-//            System.out.println("Exception"+e.toString());
-//            throw e;
-//        }
     }
 
     public void ItemByOptionName(String OptionIds) {

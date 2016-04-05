@@ -15,7 +15,6 @@
             android:id="@+id/feedbackViewFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/control_SpecingTiny"
             android:animateLayoutChanges="true"
             android:orientation="vertical" />
     </android.support.v4.widget.NestedScrollView>

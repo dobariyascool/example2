@@ -41,6 +41,8 @@
         <item name="rbd_animDuration">200</item>
     </style>
 
+    <style name="AppCompactCardView">android.support.v7.CardView</style>
+
     <style name="BusinessInfoCardView" parent="AppCompactCardView">
         <item name="android:layout_height">@dimen/card_MinimumHeight</item>
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
@@ -48,6 +50,17 @@
         <item name="android:layout_marginBottom">1dp</item>
         <item name="cardBackgroundColor">@color/offwhite</item>
     </style>
+
+
+    <style name="BusinessInfoCardView1" parent="CardView">
+        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
+        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
+        <item name="cardElevation">@dimen/card_Elevation</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="cardBackgroundColor">@color/colorAccentDark</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Button"/>
 
     <style name="FloatingMiniButton" parent="FloatingActionButton">
         <item name="fab_colorNormal">@color/orange</item>
