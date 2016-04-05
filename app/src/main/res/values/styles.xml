@@ -222,10 +222,9 @@
     </style>
 
     <style name="FloatingButton" parent="FloatingButtonDesignSupport">
-        <item name="rd_rippleColor">@color/colorPrimaryLight</item>
-        <item name="fab_size">mini</item>
-        <item name="fab_colorPressed">@color/colorPrimaryDark</item>
-        <item name="fab_colorRipple">@color/colorPrimaryLight</item>
+        <item name="rippleColor">@color/colorAccentDark</item>
+        <item name="fabSize">normal</item>
+        <item name="android:background">@color/colorAccent</item>
     </style>
 
     <style name="FloatingButtonWithTextStyle" parent="FloatingActionButton">
