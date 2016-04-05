@@ -73,6 +73,10 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Validation()) {
+                    Globals.ShowSnackBar(v, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 2000);
+                    return;
+                }
                 if (Service.CheckNet(getActivity())) {
                     RequestCustomerMaster();
                 } else {
@@ -108,7 +112,6 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
     }
 
-
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         if (currentPage > 3) {
@@ -132,6 +135,64 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
                 break;
         }
 
+    }
+
+    private boolean Validation() {
+        boolean IsValid = true;
+        if (etOldPassword.getText().toString().equals("") && etNewPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+            etOldPassword.setError("Enter " + getResources().getString(R.string.cpOldPassword));
+            etNewPassword.setError("Enter " + getResources().getString(R.string.cpNewPasssword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.cpConfirmPassword));
+            IsValid = false;
+        } else if (!etOldPassword.getText().toString().equals("") &&
+                etNewPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+            etOldPassword.clearError();
+            etNewPassword.setError("Enter " + getResources().getString(R.string.cpNewPasssword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.cpConfirmPassword));
+            IsValid = false;
+        } else if (!etOldPassword.getText().toString().equals("") &&
+                !etNewPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+            etOldPassword.clearError();
+            etNewPassword.clearError();
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.cpConfirmPassword));
+            IsValid = false;
+        } else if (!etNewPassword.getText().toString().equals("") &&
+                etOldPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+            etNewPassword.clearError();
+            etOldPassword.setError("Enter " + getResources().getString(R.string.cpOldPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.cpConfirmPassword));
+            IsValid = false;
+        } else if (!etNewPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")
+                && etOldPassword.getText().toString().equals("")) {
+            etNewPassword.clearError();
+            etConfirmPassword.clearError();
+            etOldPassword.setError("Enter " + getResources().getString(R.string.cpOldPassword));
+            if (!etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError("New and Confirm Password are not match");
+            } else {
+                etConfirmPassword.clearError();
+            }
+            IsValid = false;
+        } else if (!etConfirmPassword.getText().toString().equals("")
+                && etOldPassword.getText().toString().equals("") && etNewPassword.getText().toString().equals("")) {
+            etConfirmPassword.clearError();
+            etOldPassword.setError("Enter " + getResources().getString(R.string.cpOldPassword));
+            etNewPassword.setError("Enter " + getResources().getString(R.string.cpNewPasssword));
+            IsValid = false;
+        } else if (!etNewPassword.getText().toString().equals("") &&
+                !etConfirmPassword.getText().toString().equals("") &&
+                !etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+            etNewPassword.clearError();
+            etOldPassword.clearError();
+            etConfirmPassword.setError("New and Confirm Password are not match");
+            IsValid = false;
+        }
+        if (IsValid) {
+            etConfirmPassword.clearError();
+            etOldPassword.clearError();
+            etNewPassword.clearError();
+        }
+        return IsValid;
     }
 
     private void ClearControls() {
