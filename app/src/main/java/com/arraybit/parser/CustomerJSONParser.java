@@ -240,6 +240,7 @@ public class CustomerJSONParser {
 
     //region Update
     public void UpdateCustomerMasterPassword(CustomerMaster objCustomerMaster, final Context context, final Fragment targetFragment) {
+        dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
@@ -249,6 +250,7 @@ public class CustomerJSONParser {
 
             stringer.key("CustomerMasterId").value(objCustomerMaster.getCustomerMasterId());
             stringer.key("Password").value(objCustomerMaster.getPassword());
+//            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
 
             stringer.endObject();
 
