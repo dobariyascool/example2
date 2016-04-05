@@ -569,6 +569,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                 progressDialog.show(getFragmentManager(), "");
                 focusView = v;
                 if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
+                    progressDialog.dismiss();
                     Globals.ShowSnackBar(focusView, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
                 } else {
                     if (Service.CheckNet(getActivity())) {
