@@ -118,7 +118,10 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                if(getSupportFragmentManager().getBackStackEntryCount()==0){
+                    finish();
+                }
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 
+import com.arraybit.global.Globals;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
@@ -67,8 +69,21 @@ public class UserProfileFragment extends Fragment {
         btnUpdateProfile = (Button) view.findViewById(R.id.btnUpdate);
         //end
 
+        setHasOptionsMenu(true);
+
         return view;
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Globals.HideKeyBoard(getActivity(), getView());
+                getActivity().getSupportFragmentManager().popBackStack();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
