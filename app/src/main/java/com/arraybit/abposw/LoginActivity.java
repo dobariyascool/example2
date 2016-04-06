@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString());
+        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString(),null,null);
     }
 
     private boolean ValidateControls() {

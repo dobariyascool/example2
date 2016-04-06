@@ -293,44 +293,68 @@ public class CustomerJSONParser {
             objCustomerRequestListener.CustomerResponse("-1", null);
         }
     }
-
-
     //endregion
 
     //region Select
-    public void SelectCustomerMaster(final Context context, String userName, String password) {
+    public void SelectCustomerMaster(final Context context, String userName, String password, String customerMasterId, final Fragment targetFragment) {
+        String url;
         try {
-            String url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + null;
-
-            RequestQueue queue = Volley.newRequestQueue(context);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            if (userName != null && password != null) {
+                url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId;
+            } else {
+                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId;
+            }
+            final RequestQueue queue = Volley.newRequestQueue(context);
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         if (jsonObject != null) {
                             JSONObject jsonResponse = jsonObject.getJSONObject(SelectCustomerMaster + "Result");
                             if (jsonResponse != null) {
-                                objCustomerRequestListener = (CustomerRequestListener) context;
-                                objCustomerRequestListener.CustomerResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                                if (targetFragment == null) {
+                                    objCustomerRequestListener = (CustomerRequestListener) context;
+                                    objCustomerRequestListener.CustomerResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                                } else {
+                                    objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                                    objCustomerRequestListener.CustomerResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                                }
                             }
                         }
                     } catch (Exception e) {
-                        objCustomerRequestListener = (CustomerRequestListener) context;
-                        objCustomerRequestListener.CustomerResponse(null, null);
+                        if (targetFragment == null) {
+                            objCustomerRequestListener = (CustomerRequestListener) context;
+                            objCustomerRequestListener.CustomerResponse(null, null);
+                        } else {
+                            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                            objCustomerRequestListener.CustomerResponse(null, null);
+                        }
+
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objCustomerRequestListener = (CustomerRequestListener) context;
-                    objCustomerRequestListener.CustomerResponse(null, null);
+                    if (targetFragment == null) {
+                        objCustomerRequestListener = (CustomerRequestListener) context;
+                        objCustomerRequestListener.CustomerResponse(null, null);
+                    } else {
+                        objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                        objCustomerRequestListener.CustomerResponse(null, null);
+                    }
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception e) {
-            objCustomerRequestListener = (CustomerRequestListener) context;
-            objCustomerRequestListener.CustomerResponse(null, null);
+            if (targetFragment == null) {
+                objCustomerRequestListener = (CustomerRequestListener) context;
+                objCustomerRequestListener.CustomerResponse(null, null);
+            } else {
+                objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                objCustomerRequestListener.CustomerResponse(null, null);
+            }
         }
+
     }
     //endregion
 
