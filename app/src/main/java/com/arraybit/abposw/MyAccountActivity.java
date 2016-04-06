@@ -97,7 +97,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
         if (Build.VERSION.SDK_INT >= 21) {
             Slide slideTransition = new Slide();
-            slideTransition.setSlideEdge(Gravity.END);
+            slideTransition.setSlideEdge(Gravity.RIGHT);
             slideTransition.setDuration(350);
             fragment.setEnterTransition(slideTransition);
         } else {
