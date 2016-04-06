@@ -154,7 +154,13 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getActivity().finish();
+            if(getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()!=null
+                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()
+                    .equals(getActivity().getResources().getString(R.string.title_add_booking_fragment))){
+                getActivity().getSupportFragmentManager().popBackStack();
+            }else{
+                getActivity().finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -171,14 +177,15 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
             SetUser(etEmail, etCustomerName, etMobile);
-        } else {
-            etCustomerName.setText("");
-            etEmail.setText("");
-            etMobile.setText("");
-            etCustomerName.setEnabled(true);
-            etEmail.setEnabled(true);
-            etMobile.setEnabled(true);
         }
+//        else {
+//            etCustomerName.setText("");
+//            etEmail.setText("");
+//            etMobile.setText("");
+//            etCustomerName.setEnabled(true);
+//            etEmail.setEnabled(true);
+//            etMobile.setEnabled(true);
+//        }
     }
 
     //region Private Methods
