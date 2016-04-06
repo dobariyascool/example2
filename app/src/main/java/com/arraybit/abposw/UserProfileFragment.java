@@ -126,19 +126,10 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
 
     // region Private Methods
     private void SetUserName() {
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) != null) {
-            txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()));
-            txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()).substring(0, 1).toUpperCase());
-        }
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()) != null) {
-            txtFullName.setVisibility(View.VISIBLE);
-            txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()));
-        } else {
-            txtFullName.setVisibility(View.GONE);
-        }
-
         if (objCustomerMaster != null) {
+            txtEmail.setText(objCustomerMaster.getEmail1());
+            txtLoginChar.setText(objCustomerMaster.getEmail1().substring(0, 1).toUpperCase());
+            txtFullName.setText(objCustomerMaster.getCustomerName());
             etFirstName.setText(objCustomerMaster.getCustomerName());
             etMobile.setText(objCustomerMaster.getPhone1());
             if (objCustomerMaster.getGender().equals(rbFemale.getText().toString())) {
