@@ -1,6 +1,5 @@
 package com.arraybit.abposw;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     EditText etCustomerName, etAdults, etChildren, etBirthdate, etFromTime, etToTime, etEmail, etRemark;
     Button btnBookTable;
-
-    private AddBookingListener objAddBookingListener;
 
     public AddBookingFragment() {
     }
@@ -41,9 +38,5 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-    }
-
-    public interface AddBookingListener {
-        void onFragmentInteraction(Uri uri);
     }
 }

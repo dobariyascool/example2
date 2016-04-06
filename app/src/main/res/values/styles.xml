@@ -221,11 +221,12 @@
         <item name="menu_labels_singleLine">true</item>
     </style>
 
-    <style name="FloatingButton" parent="FloatingButtonDesignSupport">
-        <item name="rippleColor">@color/colorAccentDark</item>
-        <item name="fabSize">normal</item>
-        <item name="android:background">@color/colorAccent</item>
-    </style>
+    <!--<style name="FloatingButton" parent="FloatingButtonDesignSupport">-->
+        <!--<item name="rippleColor">@color/colorAccentDark</item>-->
+        <!--<item name="fabSize">normal</item>-->
+        <!--<item name="android:background">@color/colorAccent</item>-->
+        <!--<item name="android:layout_margin">@dimen/control_SpecingSmall</item>-->
+    <!--</style>-->
 
     <style name="FloatingButtonWithTextStyle" parent="FloatingActionButton">
         <item name="fab_colorNormal">@android:color/white</item>

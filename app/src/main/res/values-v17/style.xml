@@ -44,4 +44,12 @@
         <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
     </style>
 
+
+    <style name="FloatingButton" parent="FloatingButtonDesignSupport">
+        <item name="rippleColor">@color/colorAccentDark</item>
+        <item name="fabSize">normal</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:padding">@dimen/control_SpecingSmall</item>
+    </style>
+
 </resources>

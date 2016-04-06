@@ -35,13 +35,17 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fabBooking) {
+        if(getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()!=null
+                && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()
+                .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
+              if (v.getId() == R.id.fabBooking) {
 //            AddBookingFragment fragment2 = new AddBookingFragment();
 //            FragmentManager fragmentManager = getFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.linearlayoutAddBooking, fragment2);
 //            fragmentTransaction.commit();
-//            Globals.ReplaceFragment(new AddBookingFragment(), getActivity().getSupportFragmentManager(), "AddBookingFramgment", R.id.yourBookingFragment);
+                Globals.ReplaceFragment(new AddBookingFragment(), getActivity().getSupportFragmentManager(), "AddBookingFramgment", R.id.yourBookingFragment);
+            }
         }
     }
 

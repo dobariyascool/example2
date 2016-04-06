@@ -4,34 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/offwhite"
-    tools:context="com.arraybit.abposw.YourBookingFragment">
+    tools:context="com.arraybit.abposw.YourBookingFragment"
+    tools:ignore="UselessParent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/app_bar"
-            layout="@layout/app_bar_layout" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvBooking"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        
-    </LinearLayout>
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/app_bar_layout" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabBooking"
-        style="@style/FloatingButtonDesignSupport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/add_drawable" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvBooking"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabBooking"
+            style="@style/FloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/add_drawable" />
+    </RelativeLayout>
 </FrameLayout>
 
