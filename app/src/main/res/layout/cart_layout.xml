@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/control_SpecingMedium"
+    android:paddingStart="@dimen/control_SpecingMedium">
 
     <ImageView
         android:id="@+id/ivCart"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginEnd="@dimen/control_SpecingMedium"
-        android:layout_marginStart="@dimen/control_SpecingMedium"
         android:background="@drawable/cart_layout"
         tools:ignore="ContentDescription" />
 

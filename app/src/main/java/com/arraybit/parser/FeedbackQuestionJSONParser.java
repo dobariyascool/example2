@@ -225,19 +225,4 @@ public class FeedbackQuestionJSONParser {
         void FeedbackSubmitResponse(String errorCode, FeedbackMaster objCustomerMaster);
     }
 
-    //    public ArrayList<FeedbackQuestionMaster> SelectAllFeedbackQuestionMasterPageWise(int currentPage) {
-//        ArrayList<FeedbackQuestionMaster> lstFeedbackQuestionMaster = null;
-//        try {
-//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllFeedbackQuestionMasterPageWise);
-//            if (jsonResponse != null) {
-//                JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllFeedbackQuestionMaster + "PageWiseResult");
-//                if (jsonArray != null) {
-//                    lstFeedbackQuestionMaster = SetListPropertiesFromJSONArray(jsonArray);
-//                }
-//            }
-//            return lstFeedbackQuestionMaster;
-//        } catch (Exception ex) {
-//            return null;
-//        }
-//    }
 }

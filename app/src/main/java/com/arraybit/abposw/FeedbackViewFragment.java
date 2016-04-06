@@ -453,16 +453,17 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         txtQuestionLayoutParams.weight = 1f;
         txtQuestion.setLayoutParams(txtQuestionLayoutParams);
         txtQuestion.setText(objFeedbackQuestionMaster.getFeedbackQuestion());
-        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(),android.R.color.black));
+        txtQuestion.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.black));
         txtQuestion.setTextSize(18f);
 
         RatingBar ratingBar = new RatingBar(getActivity());
         LinearLayout.LayoutParams ratingBarLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ratingBar.setLayoutParams(ratingBarLayoutParams);
         ratingBar.setNumStars(5);
-        Drawable drawable = ratingBar.getProgressDrawable();
-        drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-
+        if (Build.VERSION.SDK_INT > 17) {
+            Drawable drawable = ratingBar.getProgressDrawable();
+            drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        }
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {

@@ -74,7 +74,7 @@
                 android:paddingEnd="0dp"
                 android:paddingStart="@dimen/control_SpecingTiny"
                 android:text="Previous"
-
+                android:textColor="@drawable/text_selector"
                 android:textSize="16sp" />
 
             <com.rey.material.widget.TextView
@@ -97,7 +97,7 @@
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="0dp"
                 android:text="Next"
-
+                android:textColor="@drawable/text_selector"
                 android:textSize="16sp" />
 
             <ImageView

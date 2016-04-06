@@ -42,7 +42,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     int cnt;
     FeedbackPagerAdapter feedbackPagerAdapter;
     ArrayList<FeedbackAnswerMaster> alFeedbackAnswerMaster;
-    ImageView ivNext,ivPrevious;
+    ImageView ivNext, ivPrevious;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         SetViewPagerElevation();
 
-        ivNext = (ImageView)findViewById(R.id.ivNext);
+        ivNext = (ImageView) findViewById(R.id.ivNext);
         ivPrevious = (ImageView) findViewById(R.id.ivPrevious);
 
         txtPrevious.setOnClickListener(this);
@@ -95,7 +95,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     public void FeedbackQuestionResponse(ArrayList<FeedbackQuestionMaster> alFeedbackQuestionMaster) {
         progressDialog.dismiss();
         this.alFeedbackQuestionMaster = alFeedbackQuestionMaster;
-        SetList();
+        SetViewPage();
     }
 
     @Override
@@ -129,6 +129,11 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
             ivNext.setEnabled(false);
             txtPrevious.setEnabled(true);
             ivPrevious.setEnabled(true);
+        } else if (position == -1) {
+            txtNext.setEnabled(false);
+            ivNext.setEnabled(false);
+            txtPrevious.setEnabled(false);
+            ivPrevious.setEnabled(false);
         } else {
             txtNext.setEnabled(true);
             ivNext.setEnabled(true);
@@ -233,50 +238,64 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         }
     }
 
-    private void SetList() {
+    private void SetViewPage() {
         feedbackPagerAdapter = new FeedbackPagerAdapter(getSupportFragmentManager());
-        alQuestionGroup = new ArrayList<>();
-        cnt = 0;
-        for (FeedbackQuestionMaster objFeedbackQuestionMaster : alFeedbackQuestionMaster) {
-            if (strGroupName == null) {
-                strGroupName = objFeedbackQuestionMaster.getFeedbackQuestionGroup();
-            } else {
-                if (strGroupName.equals(objFeedbackQuestionMaster.getFeedbackQuestionGroup())) {
+        ArrayList<FeedbackQuestionMaster> arrayList = new ArrayList<>();
+        if (alFeedbackQuestionMaster == null || alFeedbackQuestionMaster.size() == 0) {
+            FeedbackQuestionMaster objFeedbackQuestionMaster = new FeedbackQuestionMaster();
+            objFeedbackQuestionMaster.setQuestionType((short) Globals.QuestionType.Simple_Feedback.getValue());
+            alFilterFeedbackQuestionMaster = new ArrayList<>();
+            alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
+            alFinalFeedbackAnswer.add(arrayList);
+            feedbackPagerAdapter.AddFragment(FeedbackViewFragment.createInstance(alFilterFeedbackQuestionMaster, cnt), getResources().getString(R.string.fbFeedbackGroup));
+
+            viewPager.setAdapter(feedbackPagerAdapter);
+            viewPager.setOffscreenPageLimit(0);
+            SetVisibility(-1);
+        } else {
+            alQuestionGroup = new ArrayList<>();
+            cnt = 0;
+            for (FeedbackQuestionMaster objFeedbackQuestionMaster : alFeedbackQuestionMaster) {
+                if (strGroupName == null) {
                     strGroupName = objFeedbackQuestionMaster.getFeedbackQuestionGroup();
-                    if (cnt == alFeedbackQuestionMaster.size() - 1) {
-                        alQuestionGroup.add(strGroupName);
-                    }
                 } else {
-                    alQuestionGroup.add(strGroupName);
-                    strGroupName = objFeedbackQuestionMaster.getFeedbackQuestionGroup();
-                    if (cnt == alFeedbackQuestionMaster.size() - 1) {
+                    if (strGroupName.equals(objFeedbackQuestionMaster.getFeedbackQuestionGroup())) {
+                        strGroupName = objFeedbackQuestionMaster.getFeedbackQuestionGroup();
+                        if (cnt == alFeedbackQuestionMaster.size() - 1) {
+                            alQuestionGroup.add(strGroupName);
+                        }
+                    } else {
                         alQuestionGroup.add(strGroupName);
+                        strGroupName = objFeedbackQuestionMaster.getFeedbackQuestionGroup();
+                        if (cnt == alFeedbackQuestionMaster.size() - 1) {
+                            alQuestionGroup.add(strGroupName);
+                        }
                     }
                 }
+                cnt++;
             }
-            cnt++;
-        }
-        alQuestionGroup.add(Globals.QuestionType.Simple_Feedback.toString());
-        cnt = 0;
-        for (String strGroup : alQuestionGroup) {
-            if (!strGroup.equals(Globals.QuestionType.Simple_Feedback.toString())) {
-                SetFilterQuestionAnswerByGroup(strGroup);
-            } else {
-                FeedbackQuestionMaster objFeedbackQuestionMaster = new FeedbackQuestionMaster();
-                objFeedbackQuestionMaster.setQuestionType((short) Globals.QuestionType.Simple_Feedback.getValue());
-                alFilterFeedbackQuestionMaster = new ArrayList<>();
-                alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
-            }
-            ArrayList<FeedbackQuestionMaster> arrayList = new ArrayList<>();
-            alFinalFeedbackAnswer.add(arrayList);
-            feedbackPagerAdapter.AddFragment(FeedbackViewFragment.createInstance(alFilterFeedbackQuestionMaster, cnt), strGroup);
+            alQuestionGroup.add(Globals.QuestionType.Simple_Feedback.toString());
+            cnt = 0;
+            for (String strGroup : alQuestionGroup) {
+                if (!strGroup.equals(Globals.QuestionType.Simple_Feedback.toString())) {
+                    SetFilterQuestionAnswerByGroup(strGroup);
+                } else {
+                    FeedbackQuestionMaster objFeedbackQuestionMaster = new FeedbackQuestionMaster();
+                    objFeedbackQuestionMaster.setQuestionType((short) Globals.QuestionType.Simple_Feedback.getValue());
+                    alFilterFeedbackQuestionMaster = new ArrayList<>();
+                    alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
+                }
+                alFinalFeedbackAnswer.add(arrayList);
+                feedbackPagerAdapter.AddFragment(FeedbackViewFragment.createInstance(alFilterFeedbackQuestionMaster, cnt), strGroup);
 
-            cnt++;
+                cnt++;
+            }
+
+            viewPager.setAdapter(feedbackPagerAdapter);
+            viewPager.setOffscreenPageLimit(alQuestionGroup.size());
+            txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(0));
+            SetVisibility(0);
         }
-        viewPager.setAdapter(feedbackPagerAdapter);
-        viewPager.setOffscreenPageLimit(alQuestionGroup.size());
-        txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(0));
-        SetVisibility(0);
 
         viewPager.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,8 +311,12 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
 
             @Override
             public void onPageSelected(int position) {
-                //Globals.HideKeyBoard(FeedbackActivity.this, getCurrentFocus());
-                txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(position));
+                Globals.HideKeyBoard(FeedbackActivity.this,viewPager);
+                if (feedbackPagerAdapter.GetFeedbackQuestionGroup(position).equals(Globals.QuestionType.Simple_Feedback.toString())) {
+                    txtFeedbackGroup.setText(getResources().getString(R.string.fbFeedbackGroup));
+                } else {
+                    txtFeedbackGroup.setText(feedbackPagerAdapter.GetFeedbackQuestionGroup(position));
+                }
                 SetVisibility(position);
             }
 
