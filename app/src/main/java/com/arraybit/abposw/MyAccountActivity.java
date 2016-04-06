@@ -97,7 +97,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
         if (Build.VERSION.SDK_INT >= 21) {
             Slide slideTransition = new Slide();
-            slideTransition.setSlideEdge(Gravity.RIGHT);
+            slideTransition.setSlideEdge(Gravity.END);
             slideTransition.setDuration(350);
             fragment.setEnterTransition(slideTransition);
         } else {
@@ -139,6 +139,5 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             Globals.Logout(MyAccountActivity.this, this);
             getSupportFragmentManager().popBackStack();
         }
-
     }
 }
