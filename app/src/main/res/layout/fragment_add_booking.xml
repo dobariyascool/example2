@@ -46,11 +46,11 @@
         </LinearLayout>
 
         <com.rey.material.widget.EditText
-            android:id="@+id/etBirthdate"
+            android:id="@+id/etBookingdate"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ybBirthdate" />
+            android:hint="@string/ybBookingdate" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,6 +72,13 @@
                 android:layout_weight="1"
                 android:hint="@string/ybToTime" />
         </LinearLayout>
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/etMobile"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ybPhone" />
 
         <com.rey.material.widget.EditText
             android:id="@+id/etEmail"

@@ -17,6 +17,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_fragment_profile">Hotel Profile</string>
     <string name="title_activity_menu">Menu</string>
+    <string name="title_add_booking_fragment">Add Booking</string>
     <string name="title_cart_item_fragment">Orders</string>
     <string name="title_item_modifier_remark">Add Detail</string>
     <string name="title_order_summary_fragment">Order Summary</string>
@@ -220,13 +221,13 @@
     <string name="ybCustomerName">Customer Name</string>
     <string name="ybAdults">Adults</string>
     <string name="ybChildren">Children</string>
-    <string name="ybBirthdate">Birth Date</string>
+    <string name="ybBookingdate">Booking Date</string>
     <string name="ybFromTime">From Time</string>
     <string name="ybToTime">To Time</string>
-    <string name="ybPhone">Phone</string>
+    <string name="ybPhone">Mobile Number</string>
     <string name="ybEmail">Email</string>
     <string name="ybRemark">Remark</string>
-    <string name="ybBook">Book Table</string>
+    <string name="ybBook">Booking</string>
     <!--end-->
 
     <!--Your profile-->

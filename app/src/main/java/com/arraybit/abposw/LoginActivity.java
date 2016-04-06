@@ -24,7 +24,7 @@ import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
 @SuppressWarnings("ConstantConditions")
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener ,CustomerJSONParser.CustomerRequestListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CustomerJSONParser.CustomerRequestListener {
 
     EditText etUserName, etPassword;
     CustomerMaster objCustomerMaster;
@@ -204,8 +204,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             objSharePreferenceManage = new SharePreferenceManage();
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword",objCustomerMaster.getPassword(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName",objCustomerMaster.getCustomerName(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
+            objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
 
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
             //Intent i = new Intent(LoginActivity.this, HomeActivity.class);
