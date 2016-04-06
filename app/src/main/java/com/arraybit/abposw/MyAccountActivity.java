@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -93,6 +94,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     }
     //end
 
+    @SuppressLint("RtlHardcoded")
     private void ReplaceFragment(Fragment fragment, String fragmentName) {
         FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
         if (Build.VERSION.SDK_INT >= 21) {
