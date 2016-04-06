@@ -176,8 +176,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvBookTable) {
-//            Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
-//            startActivityForResult(intent, 0);
+            Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
+            startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvOffer) {
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
