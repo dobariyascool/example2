@@ -100,7 +100,7 @@ public class Globals {
     }
 
 
-    public static void ShowTimePickerDialog(final TextView txtView, final Context context) {
+    public static void ShowTimePickerDialog(final EditText txtView, final Context context) {
         final Calendar c = Calendar.getInstance();
 
         if (!txtView.getText().toString().equals("")) {
@@ -148,12 +148,12 @@ public class Globals {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void ClearCartData(){
+    public static void ClearCartData() {
         counter = 0;
         alOrderItemTran = new ArrayList<>();
     }
 
-    public static void Logout(Context context,Activity activity){
+    public static void Logout(Context context, Activity activity) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerMasterId", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
@@ -216,7 +216,7 @@ public class Globals {
         }
     }
 
-    public static void ReplaceFragment(Fragment fragment, FragmentManager fragmentManager, String fragmentName,int layoutId) {
+    public static void ReplaceFragment(Fragment fragment, FragmentManager fragmentManager, String fragmentName, int layoutId) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(layoutId, fragment, fragmentName);
         fragmentTransaction.addToBackStack(fragmentName);
@@ -329,6 +329,23 @@ public class Globals {
         private int intValue;
 
         OrderType(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
+
+    public enum BookingStatus {
+        New (1),
+        Modified (2),
+        Confirmed (3),
+        Canceled (4);
+
+        private int intValue;
+
+        BookingStatus(int value) {
             intValue = value;
         }
 

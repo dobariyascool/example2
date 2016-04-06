@@ -44,8 +44,10 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(R.id.linearlayoutAddBooking, fragment2);
 //            fragmentTransaction.commit();
-                Globals.ReplaceFragment(new AddBookingFragment(), getActivity().getSupportFragmentManager(), "AddBookingFramgment", R.id.yourBookingFragment);
+                
             }
+
+            Globals.ReplaceFragment(new AddBookingFragment(), getActivity().getSupportFragmentManager(), "AddBookingFramgment", R.id.yourBookingFragment);
         }
     }
 
