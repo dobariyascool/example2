@@ -24,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this);
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
                 CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword);
+                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword,null,null);
             } else {
                 Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
                 startActivity(i);

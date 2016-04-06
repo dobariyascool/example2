@@ -14,17 +14,32 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.CustomerMaster;
+import com.arraybit.parser.CustomerJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 @SuppressWarnings("ConstantConditions")
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements CustomerJSONParser.CustomerRequestListener {
 
+    CustomerMaster objCustomerMaster;
     EditText etFirstName, etMobile, etBirthDate;
     RadioButton rbMale, rbFemale;
     AppCompatSpinner spArea, spCity;
     Button btnUpdateProfile;
+    TextView txtLoginChar, txtFullName, txtEmail;
+    int customerMasterId;
+    Date birthDate;
+    View view;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -55,6 +70,12 @@ public class UserProfileFragment extends Fragment {
         etBirthDate = (EditText) view.findViewById(R.id.etDateOfBirth);
         //end
 
+        //Text View start
+        txtLoginChar = (TextView) view.findViewById(R.id.txtLoginChar);
+        txtEmail = (TextView) view.findViewById(R.id.txtEmail);
+        txtFullName = (TextView) view.findViewById(R.id.txtFullName);
+        //end
+
         //RadioButton start
         rbMale = (RadioButton) view.findViewById(R.id.rbMale);
         rbFemale = (RadioButton) view.findViewById(R.id.rbFemale);
@@ -71,6 +92,17 @@ public class UserProfileFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            customerMasterId = Integer.valueOf(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+        }
+
+        if (Service.CheckNet(getActivity())) {
+            UserRequest();
+        } else {
+            Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+        }
+
         return view;
 
     }
@@ -86,4 +118,48 @@ public class UserProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+        this.objCustomerMaster = objCustomerMaster;
+        SetUserName();
+    }
+
+    // region Private Methods
+    private void SetUserName() {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) != null) {
+            txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()));
+            txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()).substring(0, 1).toUpperCase());
+        }
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()) != null) {
+            txtFullName.setVisibility(View.VISIBLE);
+            txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", getActivity()));
+        } else {
+            txtFullName.setVisibility(View.GONE);
+        }
+
+        if (objCustomerMaster != null) {
+            etFirstName.setText(objCustomerMaster.getCustomerName());
+            etMobile.setText(objCustomerMaster.getPhone1());
+            if (objCustomerMaster.getGender().equals(rbFemale.getText().toString())) {
+                rbFemale.setChecked(true);
+            } else {
+                rbMale.setChecked(true);
+            }
+            if (objCustomerMaster.getBirthDate() != null) {
+                try {
+                    birthDate = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(objCustomerMaster.getBirthDate());
+                    etBirthDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(birthDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void UserRequest() {
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        objCustomerJSONParser.SelectCustomerMaster(getActivity(), null, null, String.valueOf(customerMasterId), this);
+    }
+    //endregion
 }
