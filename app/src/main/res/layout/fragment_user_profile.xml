@@ -106,7 +106,7 @@
                     android:text="@string/suFemale" />
             </RadioGroup>
 
-            <android.support.v7.widget.AppCompatSpinner
+          <!--  <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spCity"
                 style="@style/Spinner"
                 android:layout_width="match_parent"
@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/control_SpecingSmall" />
-
+-->
             <com.rey.material.widget.Button
                 android:id="@+id/btnUpdate"
                 style="@style/Button"

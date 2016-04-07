@@ -83,10 +83,10 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         rbFemale = (RadioButton) view.findViewById(R.id.rbFemale);
         //end
 
-        //Spinner start
+       /* //Spinner start
         spCity = (AppCompatSpinner) view.findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
-        //end
+        //end*/
 
         //Button start
         btnUpdateProfile = (Button) view.findViewById(R.id.btnUpdate);
