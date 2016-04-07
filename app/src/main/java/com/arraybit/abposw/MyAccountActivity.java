@@ -142,4 +142,14 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    public void EditTextOnClick(View view) {
+        UserProfileFragment userProfileFragment = (UserProfileFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
+        userProfileFragment.EditTextOnClick();
+    }
+
+    public void BookingDateOnClick(View view) {
+        AddBookingFragment addBookingFragment = (AddBookingFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
+        addBookingFragment.ShowDateTimePicker(view.getId());
+    }
 }

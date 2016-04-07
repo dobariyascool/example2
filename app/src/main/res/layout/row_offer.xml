@@ -56,6 +56,18 @@
                     android:textSize="@dimen/control_TextSmall"
                     tools:ignore="HardcodedText" />
 
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOfferExpiredDate"
+                    style="@style/Base.TextAppearance.AppCompat.Body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="Expired On"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/control_TextMedium" />
+
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
