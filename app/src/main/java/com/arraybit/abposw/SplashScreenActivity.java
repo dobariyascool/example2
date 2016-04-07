@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.CustomerJSONParser;
@@ -45,23 +44,10 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
 
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
-        SetUserPreference(objCustomerMaster);
         Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
 
-    }
-
-    private void SetUserPreference(CustomerMaster objCustomerMaster){
-        if(objCustomerMaster!=null){
-            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
-        }else{
-            Globals.ClearUserPreference(SplashScreenActivity.this, SplashScreenActivity.this);
-        }
     }
 }
