@@ -148,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.logout) {
-            Globals.Logout(HomeActivity.this, HomeActivity.this);
+            Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SetUserName();
         }
         if (id == R.id.myAccount) {
@@ -209,11 +209,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void SetSlider(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
-
-        SlidePagerAdapter pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
-        pagerAdapter.addAll(alBusinessGalleryTran);
-        viewPager.setAdapter(pagerAdapter);
-        circlePageIndicator.setViewPager(viewPager);
+        if(alBusinessGalleryTran!=null && alBusinessGalleryTran.size()!=0) {
+            SlidePagerAdapter pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
+            pagerAdapter.addAll(alBusinessGalleryTran);
+            viewPager.setAdapter(pagerAdapter);
+            circlePageIndicator.setViewPager(viewPager);
+        }
     }
 
     private void SetUserName() {

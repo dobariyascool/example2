@@ -138,7 +138,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 2) {
             ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
         } else if (id == 3) {
-            Globals.Logout(MyAccountActivity.this, this);
+            Globals.ClearUserPreference(MyAccountActivity.this, this);
             getSupportFragmentManager().popBackStack();
         }
     }

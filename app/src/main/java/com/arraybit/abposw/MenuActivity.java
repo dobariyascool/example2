@@ -140,7 +140,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             ClearData();
             Globals.ClearCartData();
         }else if (id == R.id.logout) {
-            Globals.Logout(MenuActivity.this,MenuActivity.this);
+            Globals.ClearUserPreference(MenuActivity.this, MenuActivity.this);
         }
 
         return super.onOptionsItemSelected(item);

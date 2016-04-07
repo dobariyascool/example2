@@ -153,7 +153,7 @@ public class Globals {
         alOrderItemTran = new ArrayList<>();
     }
 
-    public static void Logout(Context context, Activity activity) {
+    public static void ClearUserPreference(Context context, Activity activity) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerMasterId", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
