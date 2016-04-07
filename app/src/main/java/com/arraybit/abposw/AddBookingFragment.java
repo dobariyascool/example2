@@ -154,11 +154,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()!=null
-                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()
-                    .equals(getActivity().getResources().getString(R.string.title_add_booking_fragment))){
+            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getActivity().getResources().getString(R.string.title_add_booking_fragment))) {
                 getActivity().getSupportFragmentManager().popBackStack();
-            }else{
+            } else {
                 getActivity().finish();
             }
         }
@@ -225,42 +225,352 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     private boolean ValidateControls() {//EditText etCustomerName, EditText etAdults, EditText etChildren, EditText etBookingdate, EditText etFromTime, EditText etToTime, EditText etPhone, EditText etEmail) {
         boolean IsValid = true;
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-            if (!etAdults.getText().toString().equals("") && etChildren.getText().toString().equals("") && etBookingdate.getText().toString().equals("") && etFromTime.getText().toString().equals("") && etToTime.getText().toString().equals("")) {
+            if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
                 etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
                 etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
                 etAdults.clearError();
                 IsValid = false;
-            } else if (etAdults.getText().toString().equals("") && !etChildren.getText().toString().equals("") && etBookingdate.getText().toString().equals("") && etFromTime.getText().toString().equals("") && etToTime.getText().toString().equals("")) {
-                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
                 etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etAdults.clearError();
                 etChildren.clearError();
                 IsValid = false;
-            } else if (etAdults.getText().toString().equals("") && etChildren.getText().toString().equals("") && !etBookingdate.getText().toString().equals("") && etFromTime.getText().toString().equals("") && etToTime.getText().toString().equals("")) {
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etAdults.clearError();
+                etBookingdate.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etAdults.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etAdults.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etAdults.clearError();
+                etBookingdate.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
                 etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
                 etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etAdults.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etAdults.clearError();
+                etBookingdate.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etAdults.clearError();
+                etBookingdate.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etAdults.clearError();
+                etChildren.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etChildren.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etAdults.clearError();
+                etChildren.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etAdults.clearError();
+                etChildren.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etToTime.clearError();
+                etBookingdate.clearError();
+                etAdults.clearError();
+                etChildren.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etChildren.clearError();
+                etBookingdate.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
                 etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
                 etBookingdate.clearError();
+                etAdults.clearError();
+                etChildren.clearError();
                 IsValid = false;
-            } else if (etAdults.getText().toString().equals("") && etChildren.getText().toString().equals("") && etBookingdate.getText().toString().equals("") && !etFromTime.getText().toString().equals("") && etToTime.getText().toString().equals("")) {
+            } else if (!etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etFromTime.clearError();
+                etBookingdate.clearError();
+                etAdults.clearError();
+                etChildren.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etBookingdate.clearError();
+                etChildren.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etBookingdate.clearError();
+                etFromTime.clearError();
+                etToTime.clearError();
+                etChildren.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
                 etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
                 etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
-                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
                 etFromTime.clearError();
+                etToTime.clearError();
                 IsValid = false;
-            } else if (etAdults.getText().toString().equals("") && etChildren.getText().toString().equals("") && etBookingdate.getText().toString().equals("") && etFromTime.getText().toString().equals("") && !etToTime.getText().toString().equals("")) {
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
                 etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
                 etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
                 etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 etToTime.clearError();
                 IsValid = false;
-            } else if (etAdults.getText().toString().equals("") && etChildren.getText().toString().equals("") && etBookingdate.getText().toString().equals("") && etFromTime.getText().toString().equals("") && etToTime.getText().toString().equals("")) {
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etChildren.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etChildren.clearError();
+                etBookingdate.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etChildren.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && !etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etChildren.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etBookingdate.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etBookingdate.clearError();
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && !etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
+                etBookingdate.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                etFromTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && !etFromTime.getText().toString().equals("")
+                    && !etToTime.getText().toString().equals("")) {
+                etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
+                etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
+                etFromTime.clearError();
+                etToTime.clearError();
+                IsValid = false;
+            } else if (etAdults.getText().toString().equals("")
+                    && etChildren.getText().toString().equals("")
+                    && etBookingdate.getText().toString().equals("")
+                    && etFromTime.getText().toString().equals("")
+                    && etToTime.getText().toString().equals("")) {
                 etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
                 etChildren.setError("Enter " + getResources().getString(R.string.ybChildren));
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
@@ -283,7 +593,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         return IsValid;
     }
     //endregion
-    
+
 }
 
 
