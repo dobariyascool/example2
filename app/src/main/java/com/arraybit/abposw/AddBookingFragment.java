@@ -154,11 +154,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()!=null
-                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount()-1).getName()
-                    .equals(getActivity().getResources().getString(R.string.title_add_booking_fragment))){
+            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getActivity().getResources().getString(R.string.title_add_booking_fragment))) {
                 getActivity().getSupportFragmentManager().popBackStack();
-            }else{
+            } else {
                 getActivity().finish();
             }
         }
