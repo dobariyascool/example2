@@ -26,6 +26,7 @@ import java.util.Locale;
 
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.AddBooingRequestListener {
 
+
     EditText etCustomerName, etAdults, etChildren, etBookingdate, etFromTime, etToTime, etMobile, etEmail, etRemark;
     Button btnBookTable;
     Date time, date;
