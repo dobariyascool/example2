@@ -47,7 +47,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 
             }
 
-            Globals.ReplaceFragment(new AddBookingFragment(), getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
+            Globals.ReplaceFragment(new AddBookingFragment(getActivity()), getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
         }
     }
 
