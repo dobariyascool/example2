@@ -355,25 +355,6 @@ public class Globals {
     }
     //endregion
 
-    //region Rating
-    //    Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-//    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-//    try {
-//        context.startActivity(goToMarket);
-//    } catch (ActivityNotFoundException e) {
-//        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
-    //endregion
-
-    //region Share
-    //    Uri imageUri = Uri.parse("android.resource://com.arraybit.abposw/drawable/" + R.mipmap.app_logo);
-//    Intent i = new Intent(Intent.ACTION_SEND);
-//    i.setType("image/*");
-//    i.putExtra(Intent.EXTRA_STREAM, imageUri);
-//    i.putExtra(Intent.EXTRA_TEXT, "This is the very good app");
-//    Intent chooser = Intent.createChooser(i, "Tell a Friend");
-//    startActivity(chooser);
-    //endregion
-
     //region Commented Code
     //    Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getImagePhysicalName()).into(new Target() {
 //        @Override
