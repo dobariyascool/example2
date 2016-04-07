@@ -45,6 +45,7 @@ public class ItemMaster implements Parcelable {
     double Tax3;
     double Tax4;
     double Tax5;
+    short IsChecked;
     /// Extra
     String Unit;
     String Category;
@@ -499,6 +500,14 @@ public class ItemMaster implements Parcelable {
 
     public void setTax1(double tax1) {
         Tax1 = tax1;
+    }
+
+    public short getIsChecked() {
+        return IsChecked;
+    }
+
+    public void setIsChecked(short isChecked) {
+        IsChecked = isChecked;
     }
     //endregion
 

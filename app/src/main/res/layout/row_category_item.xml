@@ -19,6 +19,7 @@
             tools:ignore="ContentDescription" />
 
         <LinearLayout
+            android:id="@+id/textLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -68,28 +69,48 @@
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
-        <com.rey.material.widget.Button
-            android:id="@+id/btnAdd"
-            style="@style/AddButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="@dimen/control_SpecingSmall"
-            android:text="Add"
-            android:visibility="visible"
-            tools:ignore="HardcodedText" />
-
-        <com.rey.material.widget.Button
-            android:id="@+id/btnAddDisable"
-            style="@style/DisableButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/control_SpecingTiny"
             android:layout_marginEnd="@dimen/control_SpecingSmall"
-            android:enabled="false"
-            android:text="Add"
-            android:visibility="gone"
-            tools:ignore="HardcodedText" />
+            android:layout_marginTop="@dimen/control_SpecingTiny"
+            android:orientation="vertical">
+
+            <ToggleButton
+                android:id="@+id/ibLike"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end"
+                android:background="@drawable/wishlist_drawable"
+                android:padding="@dimen/control_SpecingSmall"
+                android:textOff=""
+                android:textOn=""/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnAdd"
+                style="@style/AddButton"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:text="Add"
+                android:visibility="visible"
+                tools:ignore="HardcodedText" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnAddDisable"
+                style="@style/DisableButton"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:enabled="false"
+                android:text="Add"
+                android:visibility="gone"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

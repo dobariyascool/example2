@@ -38,6 +38,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         return new OfferViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final OfferViewHolder holder, int position) {
         OfferMaster objOfferMaster = alOfferMaster.get(position);
@@ -48,7 +49,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             holder.txtOfferContent.setVisibility(View.VISIBLE);
             holder.txtOfferContent.setText(objOfferMaster.getOfferContent());
         }
-        holder.txtOfferExpiredDate.setText(objOfferMaster.getToDate());
+        holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
         if (!objOfferMaster.getImagePhysicalName().equals("")) {
             Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getImagePhysicalName()).into(holder.ivOffer);
         }

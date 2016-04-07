@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.arraybit.global.SharePreferenceManage;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.RadioButton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,9 +34,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(null);
-                addQtyRemarkDialogFragment.show(getSupportFragmentManager(),"");
+                addQtyRemarkDialogFragment.show(getSupportFragmentManager(), "");
             }
         });
+
+        ArrayList<String> alString = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            alString.add("str "+i);
+        }
+
+//        SharedPreferences prefs=this.getSharedPreferences("yourPrefsKey", Context.MODE_PRIVATE);
+//        if(prefs.getStringSet("yourKey", null)==null) {
+//            SharedPreferences.Editor edit = prefs.edit();
+//
+//            Set<String> set = new HashSet<String>();
+//            set.addAll(alString);
+//            edit.putStringSet("yourKey", set);
+//            edit.commit();
+//        }else{
+//            Set<String> set = prefs.getStringSet("yourKey", null);
+//            ArrayList<String> sample=new ArrayList<String>(set);
+//        }
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+          if(objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this)==null){
+              objSharePreferenceManage.CreateStringListPreference("Preference","yourPrefsKey",alString,this);
+          }else{
+             ArrayList<String> sample = objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this);
+          }
+
+
+
 
        // GetResponse();
 

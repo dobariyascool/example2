@@ -128,8 +128,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
                 RequestOrderMaster();
             }
-            //RequestOrderMaster();
-            //Globals.ReplaceFragment(new OrderSummaryFragment(),getActivity().getSupportFragmentManager(),getActivity().getResources().getString(R.string.title_order_summary_fragment),R.id.fragmentLayout);
         } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);
@@ -274,11 +272,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnAddMore.setVisibility(View.GONE);
             btnConfirmOrder.setVisibility(View.GONE);
             taxLayout.setVisibility(View.GONE);
-            //if (RemarkDialogFragment.strRemark != null) {
-            //if (RemarkDialogFragment.strRemark.equals("")) {
             txtRemark.setVisibility(View.GONE);
-            //}
-            //}
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
@@ -312,7 +306,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void RequestOrderMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-        //CountAmount();
 
         OrderMaster objOrderMaster = new OrderMaster();
         objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
@@ -408,7 +401,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                     txtTaxName[i].setText(alTaxMaster.get(i).getTaxCaption() + "  [" + " " + str.substring(0, str.lastIndexOf(".")) + " % ]");
                 }
                 if (i == 0) {
-
                     txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax1));
                 } else if (i == 1) {
                     txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax2));
@@ -419,12 +411,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 } else if (i == 4) {
                     txtTaxRate[i].setText(Globals.dfWithPrecision.format(tax5));
                 }
-                //txtTaxRate[i].setText(Globals.dfWithPrecision.format((totalAmount * alTaxMaster.get(i).getTaxRate()) / 100));
-                //totalTaxPercentage = totalTaxPercentage + alTaxMaster.get(i).getTaxRate();
             } else {
                 txtTaxName[i].setText(alTaxMaster.get(i).getTaxCaption());
                 txtTaxRate[i].setText(Globals.dfWithPrecision.format(alTaxMaster.get(i).getTaxRate()));
-                //totalTaxAmount = totalTaxAmount + alTaxMaster.get(i).getTaxRate();
             }
 
             linearLayout[i].addView(txtTaxName[i]);

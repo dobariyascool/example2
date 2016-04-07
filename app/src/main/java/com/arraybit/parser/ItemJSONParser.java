@@ -83,6 +83,7 @@ public class ItemJSONParser {
                 objItemMaster.setUserUpdatedBy(jsonObject.getString("UserUpdatedBy"));
                 objItemMaster.setLinktoItemMasterIdModifiers(jsonObject.getString("linktoItemMasterIdModifiers"));
                 objItemMaster.setLinktoOptionMasterIds(jsonObject.getString("linktoOptionMasterIds"));
+                objItemMaster.setIsChecked((short)-1);
             }
             return objItemMaster;
         } catch (JSONException e) {
@@ -145,6 +146,7 @@ public class ItemJSONParser {
                 objItemMaster.setUserUpdatedBy(jsonArray.getJSONObject(i).getString("UserUpdatedBy"));
                 objItemMaster.setLinktoItemMasterIdModifiers(jsonArray.getJSONObject(i).getString("linktoItemMasterIdModifiers"));
                 objItemMaster.setLinktoOptionMasterIds(jsonArray.getJSONObject(i).getString("linktoOptionMasterIds"));
+                objItemMaster.setIsChecked((short) -1);
                 lstItemMaster.add(objItemMaster);
             }
             return lstItemMaster;

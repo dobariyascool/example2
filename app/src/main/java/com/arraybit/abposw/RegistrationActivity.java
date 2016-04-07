@@ -199,7 +199,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        setResult(Activity.RESULT_OK);
         finish();
     }
 
