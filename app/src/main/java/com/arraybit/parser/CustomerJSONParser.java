@@ -257,9 +257,7 @@ public class CustomerJSONParser {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
             stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
-            stringer.key("linktoUserMasterIdUpdatedBy").value(objCustomerMaster.getlinktoUserMasterIdUpdatedBy());
-            stringer.key("ShortName").value(objCustomerMaster.getCustomerName());
-            stringer.key("CustomerType").value(objCustomerMaster.getCustomerType());
+            //stringer.key("linktoUserMasterIdUpdatedBy").value(sdfDateTimeFormat.format(dt));
             stringer.endObject();
 
             stringer.endObject();
@@ -422,6 +420,7 @@ public class CustomerJSONParser {
 
     public interface CustomerRequestListener {
         void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster);
+
     }
 }
 

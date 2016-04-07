@@ -142,4 +142,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    public void EditTextOnClick(View view) {
+        UserProfileFragment userProfileFragment = (UserProfileFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
+        userProfileFragment.EditTextOnClick();
+    }
 }
