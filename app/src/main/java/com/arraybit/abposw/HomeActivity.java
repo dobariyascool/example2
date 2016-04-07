@@ -1,7 +1,9 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -111,8 +113,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.hShare) {
+            drawerLayout.closeDrawer(navigationView);
+            Uri imageUri = Uri.parse("android.resource://com.arraybit.abposw/drawable/" + R.mipmap.app_logo);
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("image/*");
+            i.putExtra(Intent.EXTRA_STREAM, imageUri);
+            i.putExtra(Intent.EXTRA_TEXT, "This is the very good app");
+            Intent chooser = Intent.createChooser(i, "Tell a Friend");
+            startActivity(chooser);
+        } else if (item.getItemId() == R.id.hRate) {
+            drawerLayout.closeDrawer(navigationView);
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+
+            }
         } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
+        } else if (item.getItemId() == R.id.hAboutUs) {
+            drawerLayout.closeDrawer(navigationView);
+            Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+            startActivity(intent);
         } else if (item.getItemId() == R.id.hExit) {
             System.exit(0);
         }
@@ -160,7 +185,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public void BusinessGalleryResponse(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
+    public void BusinessGalleryResponse
+            (ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
         progressDialog.dismiss();
         SetSlider(alBusinessGalleryTran);
     }
@@ -201,6 +227,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //region Private Methods
+
     private void RequestBusinessGallery() {
         progressDialog.show(getSupportFragmentManager(), "");
 
@@ -209,7 +236,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void SetSlider(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
-        if(alBusinessGalleryTran!=null && alBusinessGalleryTran.size()!=0) {
+        if (alBusinessGalleryTran != null && alBusinessGalleryTran.size() != 0) {
             SlidePagerAdapter pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
             pagerAdapter.addAll(alBusinessGalleryTran);
             viewPager.setAdapter(pagerAdapter);

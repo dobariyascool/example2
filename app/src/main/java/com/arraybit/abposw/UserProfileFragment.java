@@ -37,6 +37,8 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
     AppCompatSpinner spArea, spCity;
     Button btnUpdateProfile;
     TextView txtLoginChar, txtFullName, txtEmail;
+    SharePreferenceManage objSharePreferenceManage;
+    ProgressDialog progressDialog;
     int customerMasterId;
     Date birthDate;
     View view;
@@ -81,10 +83,10 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         rbFemale = (RadioButton) view.findViewById(R.id.rbFemale);
         //end
 
-        //Spinner start
+       /* //Spinner start
         spCity = (AppCompatSpinner) view.findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
-        //end
+        //end*/
 
         //Button start
         btnUpdateProfile = (Button) view.findViewById(R.id.btnUpdate);
@@ -100,11 +102,34 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         if (Service.CheckNet(getActivity())) {
             UserRequest();
         } else {
-            Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
 
-        return view;
+        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!ValidateControls()) {
+                    Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
+                    return;
+                }
+                if (Service.CheckNet(getActivity())) {
+                    UpdateUserProfileRequest();
+                } else {
+                    Globals.ShowSnackBar(btnUpdateProfile, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                }
+            }
+        });
 
+        etBirthDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Globals.ShowDatePickerDialog(etBirthDate, getActivity());
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -120,9 +145,20 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
 
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
-        this.objCustomerMaster = objCustomerMaster;
-        SetUserName();
+        progressDialog.dismiss();
+        if (objCustomerMaster != null) {
+            this.objCustomerMaster = objCustomerMaster;
+            SetUserName();
+        } else {
+            SetError(errorCode);
+        }
+
     }
+
+    public void EditTextOnClick() {
+        Globals.ShowDatePickerDialog(etBirthDate, getActivity());
+    }
+
 
     // region Private Methods
     private void SetUserName() {
@@ -148,9 +184,86 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         }
     }
 
+    private void CreateMyAccountPreference() {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", etFirstName.getText().toString(), getActivity());
+        objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", etMobile.getText().toString(), getActivity());
+    }
+
     private void UserRequest() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.SelectCustomerMaster(getActivity(), null, null, String.valueOf(customerMasterId), this);
     }
+
+    private void UpdateUserProfileRequest() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        CustomerMaster objCustomerMaster = new CustomerMaster();
+        objSharePreferenceManage = new SharePreferenceManage();
+
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            objCustomerMaster.setCustomerMasterId(Short.parseShort(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+        } else {
+            objCustomerMaster.setCustomerMasterId(0);
+        }
+        objCustomerMaster.setCustomerName(etFirstName.getText().toString());
+        objCustomerMaster.setPhone1(etMobile.getText().toString());
+        if (rbMale.isChecked()) {
+            objCustomerMaster.setGender(rbMale.getText().toString());
+        }
+        if (rbFemale.isChecked()) {
+            objCustomerMaster.setGender(rbFemale.getText().toString());
+        }
+        if (!etBirthDate.getText().toString().isEmpty()) {
+            try {
+                birthDate = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etBirthDate.getText().toString());
+                objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        objCustomerJSONParser.UpdateCustomerMaster(objCustomerMaster, getActivity(), this);
+    }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(btnUpdateProfile, getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+                break;
+            case "-2":
+                Globals.ShowSnackBar(btnUpdateProfile, getResources().getString(R.string.MsgUpdateprofileFail), getActivity(), 1000);
+                break;
+            default:
+                Globals.ShowSnackBar(btnUpdateProfile, getResources().getString(R.string.MsgUpdateProfile), getActivity(), 1000);
+                CreateMyAccountPreference();
+                ClearControls();
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+        }
+
+    }
+
+    private boolean ValidateControls() {
+        boolean IsValid = true;
+        if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+            etMobile.setError("Enter 10 digit " + getResources().getString(R.string.suPhone));
+            IsValid = false;
+        } else {
+            etMobile.clearError();
+        }
+        return IsValid;
+    }
+
+    private void ClearControls() {
+        etFirstName.setText("");
+        etMobile.setText("");
+        etBirthDate.setText("");
+    }
+
     //endregion
 }
