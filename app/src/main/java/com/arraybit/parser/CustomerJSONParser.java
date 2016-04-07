@@ -310,7 +310,7 @@ public class CustomerJSONParser {
 
             stringer.key("CustomerMasterId").value(objCustomerMaster.getCustomerMasterId());
             stringer.key("Password").value(objCustomerMaster.getPassword());
-//            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
 
             stringer.endObject();
 

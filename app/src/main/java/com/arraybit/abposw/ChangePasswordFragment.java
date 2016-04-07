@@ -98,7 +98,16 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+        progressDialog.dismiss();
+        SetError(errorCode);
+    }
+
     private void RequestCustomerMaster() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();
         objSharePreferenceManage = new SharePreferenceManage();
@@ -111,14 +120,6 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         objCustomerMaster.setPassword(etNewPassword.getText().toString());
 
         objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
-    }
-
-    @Override
-    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
-        if (currentPage > 3) {
-            progressDialog.dismiss();
-        }
-        SetError(errorCode);
     }
 
     private void SetError(String errorCode) {
