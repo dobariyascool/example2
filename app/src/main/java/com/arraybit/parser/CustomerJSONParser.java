@@ -31,6 +31,7 @@ public class CustomerJSONParser {
 
     public String InsertCustomerMaster = "InsertCustomerMaster";
     public String UpdateCustomerMasterPassword = "UpdateCustomerMasterPassword";
+    public String UpdateCustomerMaster = "UpdateCustomerMaster";
     public String SelectCustomerMaster = "SelectCustomerMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -66,7 +67,7 @@ public class CustomerJSONParser {
                     dt = sdfDateFormat.parse(jsonObject.getString("BirthDate"));
                     objCustomerMaster.setBirthDate(sdfControlDateFormat.format(dt));
                 }
-                if (!jsonObject.getString("BirthDate").equals("null")) {
+                if (!jsonObject.getString("AnniversaryDate").equals("null")) {
                     dt = sdfDateFormat.parse(jsonObject.getString("AnniversaryDate"));
                     objCustomerMaster.setAnniversaryDate(sdfControlDateFormat.format(dt));
                 }
@@ -128,7 +129,7 @@ public class CustomerJSONParser {
                     dt = sdfDateFormat.parse(jsonArray.getJSONObject(i).getString("BirthDate"));
                     objCustomerMaster.setBirthDate(sdfControlDateFormat.format(dt));
                 }
-                if (!jsonArray.getJSONObject(i).getString("BirthDate").equals("null")) {
+                if (!jsonArray.getJSONObject(i).getString("AnniversaryDate").equals("null")) {
                     dt = sdfDateFormat.parse(jsonArray.getJSONObject(i).getString("AnniversaryDate"));
                     objCustomerMaster.setAnniversaryDate(sdfControlDateFormat.format(dt));
                 }
@@ -239,6 +240,67 @@ public class CustomerJSONParser {
     //endregion
 
     //region Update
+    public void UpdateCustomerMaster(CustomerMaster objCustomerMaster, final Context context, final Fragment targetFragment) {
+        dt = new Date();
+        try {
+            JSONStringer stringer = new JSONStringer();
+            stringer.object();
+
+            stringer.key("customerMaster");
+            stringer.object();
+
+            stringer.key("CustomerMasterId").value(objCustomerMaster.getCustomerMasterId());
+            stringer.key("Phone1").value(objCustomerMaster.getPhone1());
+            stringer.key("CustomerName").value(objCustomerMaster.getCustomerName());
+            stringer.key("Gender").value(objCustomerMaster.getGender());
+            if (objCustomerMaster.getBirthDate() != null) {
+                stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
+            }
+            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("linktoUserMasterIdUpdatedBy").value(objCustomerMaster.getlinktoUserMasterIdUpdatedBy());
+            stringer.key("ShortName").value(objCustomerMaster.getCustomerName());
+            stringer.key("CustomerType").value(objCustomerMaster.getCustomerType());
+            stringer.endObject();
+
+            stringer.endObject();
+
+            String url = Service.Url + this.UpdateCustomerMaster;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(UpdateCustomerMaster + "Result");
+
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
+                            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                            objCustomerRequestListener.CustomerResponse(errorCode, null);
+                        } else {
+                            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                            objCustomerRequestListener.CustomerResponse("-1", null);
+                        }
+                    } catch (JSONException e) {
+                        objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                        objCustomerRequestListener.CustomerResponse("-1", null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+                    objCustomerRequestListener.CustomerResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception ex) {
+            objCustomerRequestListener = (CustomerRequestListener) targetFragment;
+            objCustomerRequestListener.CustomerResponse("-1", null);
+        }
+    }
+
     public void UpdateCustomerMasterPassword(CustomerMaster objCustomerMaster, final Context context, final Fragment targetFragment) {
         dt = new Date();
         try {
