@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
+import com.arraybit.global.Globals;
 import com.rey.material.widget.TextView;
 
 public class AboutUsActivity extends AppCompatActivity {
@@ -47,6 +49,20 @@ public class AboutUsActivity extends AppCompatActivity {
         }
 
         txtVersionCode.setText(getResources().getString(R.string.abVersionCode) + " " + BuildConfig.VERSION_CODE + "\n" + getResources().getString(R.string.abVersionName) + " " + BuildConfig.VERSION_NAME);
+
+        txtCardPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.ReplaceFragment(new PolicyFragment((short)1),getSupportFragmentManager(),getResources().getString(R.string.title_fragment_policy),R.id.aboutFragment);
+            }
+        });
+
+        txtCardTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.aboutFragment);
+            }
+        });
     }
 
     @Override

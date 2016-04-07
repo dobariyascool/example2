@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
 import com.arraybit.adapter.SpinnerAdapter;
@@ -58,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
-        LinearLayout registrationLayout = (LinearLayout) findViewById(R.id.registrationLayout);
+        FrameLayout registrationLayout = (FrameLayout) findViewById(R.id.registrationLayout);
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
@@ -78,6 +78,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
         CompoundButton cbSignIn = (CompoundButton) findViewById(R.id.cbSignIn);
+
+        CompoundButton cbPrivacyPolicy = (CompoundButton) findViewById(R.id.cbPrivacyPolicy);
+        CompoundButton cbTermsofService = (CompoundButton) findViewById(R.id.cbTermsofService);
+
+        cbPrivacyPolicy.setOnClickListener(this);
+        cbTermsofService.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
             RequestCityMaster();
@@ -135,8 +141,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            setResult(Activity.RESULT_OK);
-            finish();
+            getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -164,6 +169,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
         } else if (v.getId() == R.id.cbSignIn) {
             finish();
+        } else if (v.getId() == R.id.cbPrivacyPolicy) {
+            Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
+        } else if (v.getId() == R.id.cbTermsofService) {
+            Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
         }
     }
 
