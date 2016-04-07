@@ -12,6 +12,8 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="title_activity_offer">Top Offers</string>
     <string name="title_activity_hotel_profile">Profile</string>
+    <string name="title_fragment_your_profile">Your Profile</string>
+    <string name="title_activity_about_us">About Us</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -23,6 +25,7 @@
     <string name="title_order_summary_fragment">Order Summary</string>
     <string name="title_home">Home</string>
     <string name="title_activity_feedback">Feedback</string>
+    <string name="title_fragment_change_password">Change Password</string>
 
 
     <!-- Operation Message -->
@@ -79,6 +82,16 @@
     <string name="suGender">Gender</string>
     <string name="suBirthDate">Birth Date</string>
     <string name="suUpdate">Update Profile</string>
+    <!-- end -->
+
+    <!--About Us Activity-->
+        <string name="abLegal">Legal</string>
+        <string name="abApp">About This</string>
+        <string name="abPolicy">Privacy Policy</string>
+        <string name="abTerms">Terms Of Service</string>
+        <string name="abBuildVersion">Build Version</string>
+        <string name="abVersionCode">Version Code</string>
+        <string name="abVersionName">Version Name</string>
     <!-- end -->
 
     <!--User Profile fragment-->
@@ -208,7 +221,7 @@
     <string name="cpNewPasssword">New Password</string>
     <string name="cpConfirmPassword">Confirm Password</string>
     <string name="cpChangePassword">Change Password</string>
-    <string name="title_fragment_change_password">Change Password</string>
+
     <!--end-->
 
     <!--Your Order-->
@@ -231,7 +244,7 @@
     <!--end-->
 
     <!--Your profile-->
-    <string name="title_fragment_your_profile">Your Profile</string>
+
     <!--end-->
 
 </resources>

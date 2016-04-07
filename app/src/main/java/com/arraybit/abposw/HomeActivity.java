@@ -113,6 +113,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
+        } else if (item.getItemId() == R.id.hAboutUs) {
+            drawerLayout.closeDrawer(navigationView);
+            Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+            startActivity(intent);
         } else if (item.getItemId() == R.id.hExit) {
             System.exit(0);
         }
@@ -209,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void SetSlider(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
-        if(alBusinessGalleryTran!=null && alBusinessGalleryTran.size()!=0) {
+        if (alBusinessGalleryTran != null && alBusinessGalleryTran.size() != 0) {
             SlidePagerAdapter pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
             pagerAdapter.addAll(alBusinessGalleryTran);
             viewPager.setAdapter(pagerAdapter);

@@ -73,6 +73,10 @@
         <activity
             android:name=".BookingActivity"
             android:label="@string/title_activity_booking"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AboutUsActivity"
+            android:label="@string/title_activity_about_us"
             android:theme="@style/AppTheme"></activity>
     </application>
 

@@ -60,7 +60,7 @@
         <item name="cardBackgroundColor">@color/colorAccentDark</item>
     </style>
 
-    <style name="ButtonStyle" parent="Button"/>
+    <style name="ButtonStyle" parent="Button" />
 
     <style name="FloatingButton" parent="FloatingButtonDesignSupport">
         <item name="rippleColor">@color/colorAccentDark</item>
