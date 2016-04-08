@@ -46,6 +46,7 @@ public class ItemMaster implements Parcelable {
     double Tax4;
     double Tax5;
     short IsChecked;
+
     /// Extra
     String Unit;
     String Category;
