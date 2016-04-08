@@ -2,6 +2,7 @@ package com.arraybit.parser;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import java.util.Locale;
 /// JSONParser for BusinessDescription
 /// </summary>
 public class BusinessDescriptionJSONParser {
-    public String SelectAllBusinessDescription = "SelectAllBusinessDescriptionByBusinessMasterId";
+    public String SelectBusinessDescription = "SelectBusinessDescription";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
@@ -42,22 +44,11 @@ public class BusinessDescriptionJSONParser {
                 objBusinessDescription.setDescription(jsonObject.getString("Description"));
                 objBusinessDescription.setlinktoBusinessMasterId((short) jsonObject.getInt("linktoBusinessMasterId"));
                 objBusinessDescription.setIsDefault(jsonObject.getBoolean("IsDefault"));
-                objBusinessDescription.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonObject.getString("CreateDateTime"));
-                objBusinessDescription.setCreateDateTime(sdfControlDateFormat.format(dt));
-                if (!jsonObject.getString("linktoUserMasterIdUpdatedBy").equals("null")) {
-                    objBusinessDescription.setlinktoUserMasterIdUpdatedBy((short) jsonObject.getInt("linktoUserMasterIdUpdatedBy"));
-                }
-                dt = sdfDateTimeFormat.parse(jsonObject.getString("UpdateDateTime"));
-                objBusinessDescription.setUpdateDateTime(sdfControlDateFormat.format(dt));
-
                 /// Extra
                 //objBusinessDescription.setBusiness(jsonObject.getString("Business"));
             }
             return objBusinessDescription;
         } catch (JSONException e) {
-            return null;
-        } catch (ParseException e) {
             return null;
         }
     }
@@ -97,38 +88,46 @@ public class BusinessDescriptionJSONParser {
         }
     }
 
-    public void SelectAllBusinessDescription(final Context context, String linktoBusinessMasterId) {
-        String url = Service.Url + this.SelectAllBusinessDescription + "/" + linktoBusinessMasterId;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
-                try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBusinessDescription + "Result");
-                    if (jsonArray != null) {
-                        ArrayList<BusinessDescription> alBusinessDescription = SetListPropertiesFromJSONArray(jsonArray);
+    public void SelectBusinessDescription(final Context context, String businessMasterId, String keyword) {
+        String url;
+        try {
+
+            url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "utf-8");
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        if (jsonObject != null) {
+                            JSONObject jsonResponse = jsonObject.getJSONObject(SelectBusinessDescription + "Result");
+                            if (jsonResponse != null) {
+                                objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+                                objBusinessDescriptionRequestListener.BusinessDescriptionResponse(SetClassPropertiesFromJSONObject(jsonResponse));
+                            }
+                        }
+                    } catch (Exception e) {
                         objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-                        objBusinessDescriptionRequestListener.BusinessDescriptionResponse(alBusinessDescription);
+                        objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
                     }
-                } catch (Exception e) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
                     objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
                     objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-                objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
-            }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+            objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+        }
 
-        });
-        queue.add(jsonObjectRequest);
     }
 
     public interface BusinessDescriptionRequestListener {
-        void BusinessDescriptionResponse(ArrayList<BusinessDescription> alBusinessDescription);
+        void BusinessDescriptionResponse(BusinessDescription objBusinessDescription);
     }
 
 }

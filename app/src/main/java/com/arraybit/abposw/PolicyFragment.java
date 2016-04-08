@@ -21,10 +21,10 @@ import android.webkit.WebView;
 @SuppressLint("ValidFragment")
 public class PolicyFragment extends Fragment {
 
-    short value;
+    String keyword;
 
-    public PolicyFragment(short value) {
-        this.value = value;
+    public PolicyFragment(String keyword) {
+        this.keyword = keyword;
     }
 
 
@@ -43,7 +43,7 @@ public class PolicyFragment extends Fragment {
             }
         }
 
-        if (value == 1) {
+        if (keyword == null) {
             app_bar.setTitle(getResources().getString(R.string.title_fragment_policy));
         } else {
             app_bar.setTitle(getResources().getString(R.string.title_fragment_policy));

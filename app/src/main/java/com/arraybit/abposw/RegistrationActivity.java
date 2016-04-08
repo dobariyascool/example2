@@ -170,9 +170,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         } else if (v.getId() == R.id.cbSignIn) {
             finish();
         } else if (v.getId() == R.id.cbPrivacyPolicy) {
-            Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
+            Globals.ReplaceFragment(new PolicyFragment(null), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
         } else if (v.getId() == R.id.cbTermsofService) {
-            Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
+            Globals.ReplaceFragment(new PolicyFragment(null), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
         }
     }
 
