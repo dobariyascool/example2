@@ -49,7 +49,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             holder.txtOfferContent.setVisibility(View.VISIBLE);
             holder.txtOfferContent.setText(objOfferMaster.getOfferContent());
         }
-        holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
+        if (objOfferMaster.getToDate() == null || objOfferMaster.getToDate().equals("")) {
+            holder.txtOfferExpiredDate.setVisibility(View.GONE);
+        } else {
+            holder.txtOfferExpiredDate.setVisibility(View.VISIBLE);
+            holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
+        }
         if (!objOfferMaster.getImagePhysicalName().equals("")) {
             Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getImagePhysicalName()).into(holder.ivOffer);
         }
@@ -76,7 +81,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
     class OfferViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtOfferTitle, txtOfferContent,txtOfferExpiredDate;
+        TextView txtOfferTitle, txtOfferContent, txtOfferExpiredDate;
         ImageView ivOffer;
         CardView cvOffer;
         LinearLayout titleLayout;
@@ -92,7 +97,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
             txtOfferTitle = (TextView) itemView.findViewById(R.id.txtOfferTitle);
             txtOfferContent = (TextView) itemView.findViewById(R.id.txtOfferContent);
-            txtOfferExpiredDate=(TextView)itemView.findViewById(R.id.txtOfferExpiredDate);
+            txtOfferExpiredDate = (TextView) itemView.findViewById(R.id.txtOfferExpiredDate);
 
             cvOffer.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("RtlHardcoded")

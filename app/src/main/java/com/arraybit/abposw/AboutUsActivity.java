@@ -3,7 +3,6 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -12,11 +11,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
+import com.arraybit.modal.BusinessDescription;
+import com.arraybit.parser.BusinessDescriptionJSONParser;
 import com.rey.material.widget.TextView;
 
-public class AboutUsActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    CardView cardPolicy, cardTerms;
+@SuppressWarnings("ConstantConditions")
+public class AboutUsActivity extends AppCompatActivity implements BusinessDescriptionJSONParser.BusinessDescriptionRequestListener {
+    CardView cardPolicy,cardTerms;
+    LinearLayout versionLayout;
+    ArrayList<BusinessDescription> alBusinessDescription;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -32,9 +37,6 @@ public class AboutUsActivity extends AppCompatActivity {
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-
-        LinearLayout versionLayout = (LinearLayout) findViewById(R.id.versionLayout);
-
         cardTerms = (CardView) findViewById(R.id.cardTerms);
         cardPolicy = (CardView) findViewById(R.id.cardPolicy);
 
@@ -42,11 +44,11 @@ public class AboutUsActivity extends AppCompatActivity {
         TextView txtCardTerms = (TextView) findViewById(R.id.txtCardTerms);
         TextView txtVersionCode = (TextView) findViewById(R.id.txtVersionCode);
 
-        if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
-            versionLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-            txtCardPolicy.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-            txtCardTerms.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-        }
+//        if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
+//            versionLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//            txtCardPolicy.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//            txtCardTerms.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//        }
 
         txtVersionCode.setText(getResources().getString(R.string.abVersionCode) + " " + BuildConfig.VERSION_CODE + "\n" + getResources().getString(R.string.abVersionName) + " " + BuildConfig.VERSION_NAME);
 
@@ -78,6 +80,17 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void BusinessDescriptionResponse(ArrayList<BusinessDescription> alBusinessDescription) {
+        this.alBusinessDescription = alBusinessDescription;
+    }
+
+    //region Private Methods
+    private void RequestBusinessInfo() {
+        BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
+        objBusinessDescriptionJSONParser.SelectAllBusinessDescription(AboutUsActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
 }
