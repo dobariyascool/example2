@@ -137,6 +137,10 @@
     <string name="rTo">To</string>
     <!-- End -->
 
+    <!--row offers-->
+    <string name="rExpiresOn">ExpiresOn</string>
+    <!--End-->
+
     <!-- menuActivity -->
     <string name="mAVeg">Veg</string>
     <string name="mANonVeg">Non Veg</string>
