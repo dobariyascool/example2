@@ -1,6 +1,14 @@
 package com.arraybit.parser;
 
+import android.content.Context;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessDescription;
 
 import org.json.JSONArray;
@@ -23,6 +31,7 @@ public class BusinessDescriptionJSONParser
 	SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
 	Date dt = null;
 	SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+	BusinessDescriptionRequestListener objBusinessDescriptionRequestListener;
 
 	private BusinessDescription SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
 		BusinessDescription objBusinessDescription = null;
@@ -86,21 +95,38 @@ public class BusinessDescriptionJSONParser
 		}
 	}
 
-/*	public ArrayList<BusinessDescription> SelectAllBusinessDescription(String ) {
-		ArrayList<BusinessDescription> lstBusinessDescription = null;
-		try {
-			JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectAllBusinessDescription);
-			if (jsonResponse != null) {
-				JSONArray jsonArray = jsonResponse.getJSONArray(this.SelectAllBusinessDescription + "Result");
-				if (jsonArray != null) {
-					lstBusinessDescription = SetListPropertiesFromJSONArray(jsonArray);
+	public void SelectAllBusinessDescription(final Context context, String linktoBusinessMasterId) {
+		String url = Service.Url + this.SelectAllBusinessDescription + "/" + linktoBusinessMasterId;
+		RequestQueue queue = Volley.newRequestQueue(context);
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject jsonObject) {
+				JSONArray jsonArray = null;
+				try {
+					jsonArray = jsonObject.getJSONArray(SelectAllBusinessDescription + "Result");
+					if (jsonArray != null) {
+						ArrayList<BusinessDescription> alBusinessDescription = SetListPropertiesFromJSONArray(jsonArray);
+						objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+						objBusinessDescriptionRequestListener.BusinessDescriptionResponse(alBusinessDescription);
+					}
+				} catch (Exception e) {
+					objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+					objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
 				}
 			}
-			return lstBusinessDescription;
-		}
-		catch (Exception ex) {
-			return null;
-		}
-	}*/
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+				objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+			}
+
+		});
+		queue.add(jsonObjectRequest);
+	}
+
+	public interface BusinessDescriptionRequestListener {
+		void BusinessDescriptionResponse(ArrayList<BusinessDescription> alBusinessDescription);
+	}
 
 }

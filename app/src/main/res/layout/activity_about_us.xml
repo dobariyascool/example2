@@ -1,141 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/aboutFragment"
+    android:id="@+id/AboutUs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/offwhite"
+    android:orientation="vertical"
     tools:context=".AboutUsActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
-
-        <include
-            android:id="@+id/app_bar"
-            layout="@layout/app_bar_layout" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/control_SpecingMedium">
 
         <LinearLayout
-            android:id="@+id/aboutLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/control_SpecingMedium"
-            android:paddingEnd="@dimen/control_SpecingSmall"
-            android:paddingStart="@dimen/control_SpecingSmall"
-            android:paddingTop="@dimen/control_SpecingMedium">
+            android:orientation="vertical">
 
-            <com.rey.material.widget.TextView
-                style="@style/PrimaryTextView"
+            <include android:id="@+id/error_layout"
+                layout="@layout/error_layout"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvBusinessDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtLegal"
-                style="@style/PrimaryTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:layout_marginStart="@dimen/control_SpecingSmall"
-                android:layout_marginTop="@dimen/control_SpecingSmall"
-                android:text="@string/abLegal" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardPolicy"
-                style="@style/DefaultCardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginEnd="@dimen/control_SpecingSmall"
-                android:layout_marginStart="@dimen/control_SpecingSmall"
-                android:layout_marginTop="@dimen/control_SpecingSmall">
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCardPolicy"
-                    style="@style/CompoundButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start|center"
-                    android:padding="@dimen/card_TextPadding"
-                    android:text="@string/abPolicy" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardTerms"
-                style="@style/DefaultCardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_marginEnd="@dimen/control_SpecingSmall"
-                android:layout_marginStart="@dimen/control_SpecingSmall"
-                android:layout_marginTop="@dimen/control_SpecingSmall">
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCardTerms"
-                    style="@style/CompoundButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start|center"
-                    android:padding="@dimen/card_TextPadding"
-                    android:text="@string/abTerms" />
-            </android.support.v7.widget.CardView>
-
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtAboutThis"
-                style="@style/PrimaryTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/control_SpecingSmall"
-                android:layout_marginStart="@dimen/control_SpecingSmall"
-                android:layout_marginTop="@dimen/control_SpecingSmall"
-                android:text="@string/abApp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardVersion"
-                style="@style/DefaultCardView"
-                android:layout_width="match_parent"
-                android:layout_height="88dp"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="@dimen/control_SpecingSmall"
-                android:layout_marginStart="@dimen/control_SpecingSmall"
-                android:layout_marginTop="@dimen/control_SpecingSmall"
-                android:background="@drawable/bottom_border">
-
-                <LinearLayout
-                    android:id="@+id/versionLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.rey.material.widget.TextView
-                        android:id="@+id/txtCardVersion"
-                        style="@style/PrimaryTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|top"
-                        android:paddingBottom="0dp"
-                        android:paddingEnd="@dimen/control_SpecingMedium"
-                        android:paddingStart="@dimen/control_SpecingMedium"
-                        android:paddingTop="@dimen/control_SpecingMedium"
-                        android:text="@string/abBuildVersion" />
-
-                    <com.rey.material.widget.TextView
-                        android:id="@+id/txtVersionCode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|top"
-                        android:paddingEnd="@dimen/control_SpecingMedium"
-                        android:paddingStart="@dimen/control_SpecingMedium"
-                        android:paddingTop="@dimen/control_SpecingSmall"
-                        android:text="@string/abBuildVersion" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
         </LinearLayout>
-    </LinearLayout>
-
-</FrameLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>
