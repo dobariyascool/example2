@@ -3,30 +3,25 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
-import com.arraybit.adapter.BusinessDescriptionAdapter;
 import com.arraybit.global.Globals;
-import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessDescription;
 import com.arraybit.parser.BusinessDescriptionJSONParser;
+import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
 public class AboutUsActivity extends AppCompatActivity implements BusinessDescriptionJSONParser.BusinessDescriptionRequestListener {
-    RecyclerView rvBusinessDescription;
-    ArrayList<BusinessDescription> lstBusinessDescription;
-    LinearLayout errorLayout;
-    BusinessDescription objBusinessDescription;
-    BusinessDescriptionAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
+    CardView cardPolicy,cardTerms;
+    LinearLayout versionLayout;
+    ArrayList<BusinessDescription> alBusinessDescription;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -42,16 +37,34 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-        rvBusinessDescription = (RecyclerView) findViewById(R.id.rvBusinessDescription);
-        errorLayout = (LinearLayout) findViewById(R.id.error_layout);
-        CoordinatorLayout AboutUsLayout = (CoordinatorLayout) findViewById(R.id.offerLayout);
-        linearLayoutManager = new LinearLayoutManager(this);
+        cardTerms = (CardView) findViewById(R.id.cardTerms);
+        cardPolicy = (CardView) findViewById(R.id.cardPolicy);
 
-        if (Service.CheckNet(this)) {
-            RequestBusinessInfo();
-        } else {
-            Globals.ShowSnackBar(AboutUsLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-        }
+        TextView txtCardPolicy = (TextView) findViewById(R.id.txtCardPolicy);
+        TextView txtCardTerms = (TextView) findViewById(R.id.txtCardTerms);
+        TextView txtVersionCode = (TextView) findViewById(R.id.txtVersionCode);
+
+//        if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
+//            versionLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//            txtCardPolicy.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//            txtCardTerms.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
+//        }
+
+        txtVersionCode.setText(getResources().getString(R.string.abVersionCode) + " " + BuildConfig.VERSION_CODE + "\n" + getResources().getString(R.string.abVersionName) + " " + BuildConfig.VERSION_NAME);
+
+        txtCardPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.ReplaceFragment(new PolicyFragment((short)1),getSupportFragmentManager(),getResources().getString(R.string.title_fragment_policy),R.id.aboutFragment);
+            }
+        });
+
+        txtCardTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.ReplaceFragment(new PolicyFragment((short) 1), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.aboutFragment);
+            }
+        });
     }
 
     @Override
@@ -71,29 +84,13 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
 
     @Override
     public void BusinessDescriptionResponse(ArrayList<BusinessDescription> alBusinessDescription) {
-        SetRecyclerView(lstBusinessDescription);
+        this.alBusinessDescription = alBusinessDescription;
     }
 
     //region Private Methods
     private void RequestBusinessInfo() {
         BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
         objBusinessDescriptionJSONParser.SelectAllBusinessDescription(AboutUsActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
-    }
-
-    private void SetRecyclerView(ArrayList<BusinessDescription> lstBusinessDescription) {
-        if (lstBusinessDescription == null) {
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvBusinessDescription);
-        } else if (lstBusinessDescription.size() == 0) {
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvBusinessDescription);
-        } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvBusinessDescription);
-            adapter.notifyDataChanged(lstBusinessDescription);
-            adapter = new BusinessDescriptionAdapter(AboutUsActivity.this, lstBusinessDescription);
-            rvBusinessDescription.setAdapter(adapter);
-            rvBusinessDescription.setLayoutManager(linearLayoutManager);
-            return;
-
-        }
     }
 
 }

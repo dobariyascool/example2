@@ -37,7 +37,6 @@ public class BusinessDescriptionAdapter extends RecyclerView.Adapter<BusinessDes
 	@Override
 	public void onBindViewHolder(BusinessDescriptionViewHolder holder, int position) {
 		BusinessDescription objBusinessDescription = alBusinessDescription.get(position);
-
 		holder.txtKeyword.setText(objBusinessDescription.getKeyword());
 
 	}
@@ -47,10 +46,6 @@ public class BusinessDescriptionAdapter extends RecyclerView.Adapter<BusinessDes
 		return this.alBusinessDescription.size();
 	}
 
-	public void notifyDataChanged(ArrayList<BusinessDescription> result) {
-		alBusinessDescription.addAll(result);
-		notifyDataSetChanged();
-	}
 
 	class BusinessDescriptionViewHolder extends RecyclerView.ViewHolder {
 		TextView txtKeyword;
