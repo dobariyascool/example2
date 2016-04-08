@@ -179,6 +179,7 @@ public class ReviewJSONParser {
                         objReviewMasterRequestListener.ReviewMasterResponse(alReviewMaster);
                     }
                 } catch (Exception e) {
+
                     objReviewMasterRequestListener = (ReviewMasterRequestListener) targetFragment;
                     objReviewMasterRequestListener.ReviewMasterResponse(null);
                 }
