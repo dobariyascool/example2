@@ -21,7 +21,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
     CardView cardPolicy, cardTerms;
     BusinessDescription objBusinessDescription = new BusinessDescription();
     WebView wvAbout;
-    String keyword;
+    ProgressDialog progressDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,19 +53,6 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         wvAbout.getSettings().setAppCacheEnabled(true);
         wvAbout.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvAbout.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-//        wvAbout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                RequestBusinessDescription();
-//            }
-//        });
-
-
-//        if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
-//            versionLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-//            txtCardPolicy.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-//            txtCardTerms.setBackground(ContextCompat.getDrawable(this, R.drawable.card_view_with_border));
-//        }
 
         txtVersionCode.setText(getResources().getString(R.string.abVersionCode) + " " + BuildConfig.VERSION_CODE + "\n" + getResources().getString(R.string.abVersionName) + " " + BuildConfig.VERSION_NAME);
 
@@ -80,7 +67,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         txtCardTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Globals.ReplaceFragment(new PolicyFragment(txtCardTerms.getText().toString()), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.aboutFragment);
+                Globals.ReplaceFragment(new PolicyFragment(txtCardTerms.getText().toString()), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_terms_of_service), R.id.aboutFragment);
             }
         });
     }
@@ -102,22 +89,24 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
 
     @Override
     public void BusinessDescriptionResponse(BusinessDescription objBusinessDescription) {
+        progressDialog.dismiss();
         this.objBusinessDescription = objBusinessDescription;
 
-       if (objBusinessDescription == null) {
+        if (objBusinessDescription == null) {
             wvAbout.setVisibility(View.GONE);
         } else {
-           wvAbout.setVisibility(View.VISIBLE);
+            wvAbout.setVisibility(View.VISIBLE);
             String customHtml = objBusinessDescription.getDescription();
             wvAbout.loadData(customHtml, "text/html; charset=UTF-8", null);
-
-       }
+        }
     }
 
     //region Private Methods
     private void RequestBusinessDescription() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getSupportFragmentManager(), "");
         BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
-        objBusinessDescriptionJSONParser.SelectBusinessDescription(AboutUsActivity.this, String.valueOf(Globals.linktoBusinessMasterId), "About Us");
+        objBusinessDescriptionJSONParser.SelectBusinessDescription(AboutUsActivity.this, null, String.valueOf(Globals.linktoBusinessMasterId), "About Us");
     }
     //end region
 

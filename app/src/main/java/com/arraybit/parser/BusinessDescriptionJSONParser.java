@@ -1,6 +1,8 @@
 package com.arraybit.parser;
 
+
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -88,40 +90,59 @@ public class BusinessDescriptionJSONParser {
         }
     }
 
-    public void SelectBusinessDescription(final Context context, String businessMasterId, String keyword) {
+    public void SelectBusinessDescription(final Context context, final Fragment targetFragment, String businessMasterId, String keyword) {
         String url;
         try {
-
             url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "utf-8");
-
-            RequestQueue queue = Volley.newRequestQueue(context);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            final RequestQueue queue = Volley.newRequestQueue(context);
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         if (jsonObject != null) {
                             JSONObject jsonResponse = jsonObject.getJSONObject(SelectBusinessDescription + "Result");
                             if (jsonResponse != null) {
-                                objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-                                objBusinessDescriptionRequestListener.BusinessDescriptionResponse(SetClassPropertiesFromJSONObject(jsonResponse));
+                                if (targetFragment == null) {
+                                    objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+                                    objBusinessDescriptionRequestListener.BusinessDescriptionResponse(SetClassPropertiesFromJSONObject(jsonResponse));
+                                } else {
+                                    objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) targetFragment;
+                                    objBusinessDescriptionRequestListener.BusinessDescriptionResponse(SetClassPropertiesFromJSONObject(jsonResponse));
+                                }
                             }
                         }
                     } catch (Exception e) {
-                        objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-                        objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                        if (targetFragment == null) {
+                            objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+                            objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                        } else {
+                            objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) targetFragment;
+                            objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                        }
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-                    objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                    if (targetFragment == null) {
+                        objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+                        objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                    } else {
+                        objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) targetFragment;
+                        objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+                    }
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception e) {
-            objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
-            objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+            if (targetFragment == null) {
+                objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) context;
+                objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+            } else {
+                objBusinessDescriptionRequestListener = (BusinessDescriptionRequestListener) targetFragment;
+                objBusinessDescriptionRequestListener.BusinessDescriptionResponse(null);
+            }
+
         }
 
     }

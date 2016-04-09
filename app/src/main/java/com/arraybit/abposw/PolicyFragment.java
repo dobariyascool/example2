@@ -14,19 +14,25 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.arraybit.global.Globals;
+import com.arraybit.modal.BusinessDescription;
+import com.arraybit.parser.BusinessDescriptionJSONParser;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
-public class PolicyFragment extends Fragment {
+public class PolicyFragment extends Fragment implements BusinessDescriptionJSONParser.BusinessDescriptionRequestListener {
 
     String keyword;
+    BusinessDescription objBusinessDescription;
+    WebView wvPolicy;
+    ProgressDialog progressDialog;
 
     public PolicyFragment(String keyword) {
         this.keyword = keyword;
     }
-
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -44,21 +50,21 @@ public class PolicyFragment extends Fragment {
         }
 
         if (keyword == null) {
-            app_bar.setTitle(getResources().getString(R.string.title_fragment_policy));
+            app_bar.setTitle(keyword);
         } else {
-            app_bar.setTitle(getResources().getString(R.string.title_fragment_policy));
+            app_bar.setTitle(keyword);
         }
         setHasOptionsMenu(true);
 
-        WebView wvPolicy = (WebView) view.findViewById(R.id.wvPolicy);
-        wvPolicy.getSettings().setJavaScriptEnabled(true);
+        RequestKeyword();
+
+        wvPolicy = (WebView) view.findViewById(R.id.wvPolicy);
         wvPolicy.getSettings().setDatabaseEnabled(true);
         wvPolicy.getSettings().setDomStorageEnabled(true);
         wvPolicy.getSettings().setAppCacheEnabled(true);
         wvPolicy.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvPolicy.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-        //wvPolicy.loadData("");
         return view;
     }
 
@@ -69,4 +75,28 @@ public class PolicyFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void BusinessDescriptionResponse(BusinessDescription objBusinessDescription) {
+        progressDialog.dismiss();
+        this.objBusinessDescription = objBusinessDescription;
+
+        if (objBusinessDescription == null) {
+            wvPolicy.setVisibility(View.GONE);
+        } else {
+            wvPolicy.setVisibility(View.VISIBLE);
+            String customHtml = objBusinessDescription.getDescription();
+            wvPolicy.loadData(customHtml, "text/html; charset=UTF-8", null);
+        }
+    }
+
+    // region Private Method
+    private void RequestKeyword() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+        BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
+        objBusinessDescriptionJSONParser.SelectBusinessDescription(getActivity(), this, String.valueOf(Globals.linktoBusinessMasterId), keyword);
+    }
+    //endregion
+
 }
