@@ -15,6 +15,7 @@ import com.rey.material.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -61,16 +62,34 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
         if (objBookingMaster.getToDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(Globals.DateFormat, Locale.US);
-            Date strDate;
+            Calendar calendar = Calendar.getInstance();
+//            SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
+            Date strDate, strTime;
             try {
                 strDate = sdf.parse(objBookingMaster.getToDate());
+//                strTime = sdfTimeFormat.parse(objBookingMaster.getToTime());
+                strTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US).parse(objBookingMaster.getToTime());
                 if (new Date().after(strDate)) {
                     holder.btnCancelBooking.setVisibility(View.GONE);
+                }
+                else {
+                    if (System.currentTimeMillis() > strTime.getTime()) {
+                        holder.btnCancelBooking.setVisibility(View.GONE);
+                    } else {
+                        holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                    }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+
+//        try {
+//
+//            objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
 //        if (position > previousPosition) {
 //            AnimationUtils.animate(holder, true);
