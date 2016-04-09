@@ -341,7 +341,7 @@ public class Globals {
         New (1),
         Modified (2),
         Confirmed (3),
-        Canceled (4);
+        Cancelled (4);
 
         private int intValue;
 

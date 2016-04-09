@@ -26,14 +26,15 @@ import java.util.Locale;
 
 public class BookingJSONParser {
     public String InsertBookingMaster = "InsertBookingMaster";
-    public String UpdateBookingMaster = "UpdateBookingMaster";
+    public String UpdateBookingMaster = "UpdateBookingMasterStatus";
     public String DeleteBookingMaster = "DeleteBookingMaster";
     public String SelectBookingMaster = "SelectBookingMaster";
     public String SelectAllBookingMaster = "SelectAllBookingMasterPageWise";
 
-    AddBooingRequestListener objAddBooingRequestListener;
+    BookingRequestListener objBookingRequestListener;
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+    SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -49,10 +50,10 @@ public class BookingJSONParser {
                 objBookingMaster.setFromDate(sdfControlDateFormat.format(dt));
                 dt = sdfDateFormat.parse(jsonObject.getString("ToDate"));
                 objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonObject.getString("FromTime"));
-                objBookingMaster.setFromTime(sdfTimeFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonObject.getString("ToTime"));
-                objBookingMaster.setToTime(sdfTimeFormat.format(dt));
+                dt = DisplayTimeFormat.parse(jsonObject.getString("FromTime"));
+                objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
+                dt = DisplayTimeFormat.parse(jsonObject.getString("ToTime"));
+                objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
                 if (!jsonObject.getString("IsHourly").equals("null")) {
                     objBookingMaster.setIsHourly(jsonObject.getBoolean("IsHourly"));
                 }
@@ -114,9 +115,9 @@ public class BookingJSONParser {
                 dt = sdfDateFormat.parse(jsonArray.getJSONObject(i).getString("ToDate"));
                 objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
                 dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("FromTime"));
-                objBookingMaster.setFromTime(sdfTimeFormat.format(dt));
+                objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
                 dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("ToTime"));
-                objBookingMaster.setToTime(sdfTimeFormat.format(dt));
+                objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
                 if (!jsonArray.getJSONObject(i).getString("IsHourly").equals("null")) {
                     objBookingMaster.setIsHourly(jsonArray.getJSONObject(i).getBoolean("IsHourly"));
                 }
@@ -142,8 +143,10 @@ public class BookingJSONParser {
                 dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreateDateTime"));
                 objBookingMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objBookingMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
-                objBookingMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                if (!jsonArray.getJSONObject(i).getString("UpdateDateTime").equals("null")) {
+                    dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
+                    objBookingMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                }
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objBookingMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
@@ -167,6 +170,7 @@ public class BookingJSONParser {
         }
     }
 
+    //region Insert
     public void InsertBookingMaster(final Context context, final Fragment targetFragment, BookingMaster objBookingMaster) {
         dt = new Date();
         try {
@@ -217,91 +221,129 @@ public class BookingJSONParser {
                         JSONObject jsonResponse = jsonObject.getJSONObject(InsertBookingMaster + "Result");
 
                         if (jsonResponse != null) {
-                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
-                            objAddBooingRequestListener = (AddBooingRequestListener) targetFragment;
-                            objAddBooingRequestListener.AddBookingResponse(errorCode);
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                            objBookingRequestListener = (BookingRequestListener) targetFragment;
+                            objBookingRequestListener.AddBookingResponse(errorCode);
                         } else {
-                            objAddBooingRequestListener = (AddBooingRequestListener) targetFragment;
-                            objAddBooingRequestListener.AddBookingResponse("-1");
+                            objBookingRequestListener = (BookingRequestListener) targetFragment;
+                            objBookingRequestListener.AddBookingResponse("-1");
                         }
                     } catch (JSONException e) {
-                        objAddBooingRequestListener = (AddBooingRequestListener) targetFragment;
-                        objAddBooingRequestListener.AddBookingResponse("-1");
+                        objBookingRequestListener = (BookingRequestListener) targetFragment;
+                        objBookingRequestListener.AddBookingResponse("-1");
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objAddBooingRequestListener = (AddBooingRequestListener) targetFragment;
-                    objAddBooingRequestListener.AddBookingResponse("-1");
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.AddBookingResponse("-1");
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
-            objAddBooingRequestListener = (AddBooingRequestListener) targetFragment;
-            objAddBooingRequestListener.AddBookingResponse("-1");
+            objBookingRequestListener = (BookingRequestListener) targetFragment;
+            objBookingRequestListener.AddBookingResponse("-1");
         }
     }
+    //endregion
 
-    public interface AddBooingRequestListener{
+    //region Update
+    public void UpdateBookingMaster(BookingMaster objBookingMaster, final Context context, final Fragment targetFragment) {
+            dt = new Date();
+            try {
+                JSONStringer stringer = new JSONStringer();
+                stringer.object();
+
+                stringer.key("bookingMaster");
+                stringer.object();
+
+                stringer.key("BookingMasterId").value(objBookingMaster.getBookingMasterId());
+
+                stringer.endObject();
+
+                stringer.endObject();
+
+                String url = Service.Url + this.UpdateBookingMaster;
+
+                RequestQueue queue = Volley.newRequestQueue(context);
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            JSONObject jsonResponse = jsonObject.getJSONObject(UpdateBookingMaster+ "Result");
+
+                            if (jsonResponse != null) {
+                                String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
+                                objBookingRequestListener = (BookingRequestListener) targetFragment;
+                                objBookingRequestListener.UpdateBookingStatusResponse(errorCode);
+                            } else {
+                                objBookingRequestListener = (BookingRequestListener) targetFragment;
+                                objBookingRequestListener.UpdateBookingStatusResponse("-1");
+                            }
+                        } catch (JSONException e) {
+                            objBookingRequestListener = (BookingRequestListener) targetFragment;
+                            objBookingRequestListener.UpdateBookingStatusResponse("-1");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        objBookingRequestListener = (BookingRequestListener) targetFragment;
+                        objBookingRequestListener.UpdateBookingStatusResponse("-1");
+                    }
+                });
+                queue.add(jsonObjectRequest);
+
+            } catch (Exception ex) {
+                objBookingRequestListener = (BookingRequestListener) targetFragment;
+                objBookingRequestListener.UpdateBookingStatusResponse("-1");
+            }
+    }
+    //endregion
+
+    //region SelectAll
+    public void SelectAllBookingMaster(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
+        String url = Service.Url + this.SelectAllBookingMaster + "/" + currentPage + "/" + linktoBusinessMasterId + "/" + customerMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllBookingMaster + "Result");
+                    if (jsonArray != null) {
+                        ArrayList<BookingMaster> alBookingMaster = SetListPropertiesFromJSONArray(jsonArray);
+                        objBookingRequestListener = (BookingRequestListener) targetFragment;
+                        objBookingRequestListener.SelectBookingResponse(alBookingMaster);
+                    }
+                } catch (Exception e) {
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.SelectBookingResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objBookingRequestListener = (BookingRequestListener) targetFragment;
+                objBookingRequestListener.SelectBookingResponse(null);
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+    //endregion
+
+    public interface BookingRequestListener {
         void AddBookingResponse(String errorCode);
+
+        void UpdateBookingStatusResponse(String errorCode);
+
+        void SelectBookingResponse(ArrayList<BookingMaster> alBookingMaster);
     }
 }
 
 //region Commented Code
-//    public String UpdateBookingMaster(BookingMaster objBookingMaster) {
-//        try {
-//            JSONStringer stringer = new JSONStringer();
-//            stringer.object();
-//
-//            stringer.key("bookingMaster");
-//            stringer.object();
-//
-//            stringer.key("BookingMasterId").value(objBookingMaster.getBookingMasterId());
-//            dt = sdfControlDateFormat.parse(objBookingMaster.getFromDate());
-//            stringer.key("FromDate").value(sdfDateFormat.format(dt));
-//            dt = sdfControlDateFormat.parse(objBookingMaster.getToDate());
-//            stringer.key("ToDate").value(sdfDateFormat.format(dt));
-//            dt = sdfControlDateFormat.parse(objBookingMaster.getFromTime());
-//            stringer.key("FromTime").value(sdfTimeFormat.format(dt));
-//            dt = sdfControlDateFormat.parse(objBookingMaster.getToTime());
-//            stringer.key("ToTime").value(sdfTimeFormat.format(dt));
-//            stringer.key("IsHourly").value(objBookingMaster.getIsHourly());
-//            stringer.key("linktoCustomerMasterId").value(objBookingMaster.getlinktoCustomerMasterId());
-//            stringer.key("BookingPersonName").value(objBookingMaster.getBookingPersonName());
-//            stringer.key("Email").value(objBookingMaster.getEmail());
-//            stringer.key("Phone").value(objBookingMaster.getPhone());
-//            stringer.key("NoOfAdults").value(objBookingMaster.getNoOfAdults());
-//            stringer.key("NoOfChildren").value(objBookingMaster.getNoOfChildren());
-//            stringer.key("TotalAmount").value(objBookingMaster.getTotalAmount());
-//            stringer.key("DiscountPercentage").value(objBookingMaster.getDiscountPercentage());
-//            stringer.key("DiscountAmount").value(objBookingMaster.getDiscountAmount());
-//            stringer.key("ExtraAmount").value(objBookingMaster.getExtraAmount());
-//            stringer.key("NetAmount").value(objBookingMaster.getNetAmount());
-//            stringer.key("PaidAmount").value(objBookingMaster.getPaidAmount());
-//            stringer.key("BalanceAmount").value(objBookingMaster.getBalanceAmount());
-//            stringer.key("Remark").value(objBookingMaster.getRemark());
-//            stringer.key("IsPreOrder").value(objBookingMaster.getIsPreOrder());
-//            dt = sdfControlDateFormat.parse(objBookingMaster.getUpdateDateTime());
-//            stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
-//            stringer.key("linktoUserMasterIdUpdatedBy").value(objBookingMaster.getlinktoUserMasterIdUpdatedBy());
-//            stringer.key("linktoBusinessMasterId").value(objBookingMaster.getlinktoBusinessMasterId());
-//            stringer.key("IsDeleted").value(objBookingMaster.getIsDeleted());
-//            stringer.key("BookingStatus").value(objBookingMaster.getBookingStatus());
-//
-//            stringer.endObject();
-//
-//            stringer.endObject();
-//
-//            JSONObject jsonResponse = Service.HttpPostService(Service.Url + this.UpdateBookingMaster, stringer);
-//            JSONObject jsonObject = jsonResponse.getJSONObject(this.UpdateBookingMaster + "Result");
-//            return String.valueOf(jsonObject.getInt("ErrorCode"));
-//        }
-//        catch (Exception ex) {
-//            return "-1";
-//        }
-//    }
-//
 //    public String DeleteBookingMaster(int bookingMasterId) {
 //        try {
 //            JSONStringer stringer = new JSONStringer();
@@ -317,22 +359,6 @@ public class BookingJSONParser {
 //        }
 //        catch (Exception ex) {
 //            return "-1";
-//        }
-//    }
-//
-//    public BookingMaster SelectBookingMaster(int bookingMasterId) {
-//        try {
-//            JSONObject jsonResponse = Service.HttpGetService(Service.Url + this.SelectBookingMaster + "/" + bookingMasterId);
-//            if (jsonResponse != null) {
-//                JSONObject jsonObject = jsonResponse.getJSONObject(this.SelectBookingMaster + "Result");
-//                if (jsonObject != null) {
-//                    return SetClassPropertiesFromJSONObject(jsonObject);
-//                }
-//            }
-//            return null;
-//        }
-//        catch (Exception ex) {
-//            return null;
 //        }
 //    }
 //

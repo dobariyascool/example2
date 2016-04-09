@@ -20,6 +20,60 @@
                 android:id="@+id/app_bar"
                 layout="@layout/app_bar_layout" />
 
+            <LinearLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/control_SpecingTiny">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtHeaderName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:gravity="start|center"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:text="@string/ybCustomerName"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtHeaderDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:gravity="start|center"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:text="@string/ybDate"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtHeaderTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.13"
+                    android:gravity="start|center"
+                    android:text="@string/ybTime"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtHeaderStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.15"
+                    android:gravity="start|center"
+                    android:text="@string/ybStatus"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvBooking"
                 android:layout_width="match_parent"

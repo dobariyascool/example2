@@ -232,7 +232,7 @@
     <!--Your Booking-->
     <string name="title_fragment_your_booking">Your Bookings</string>
     <string name="title_activity_booking">BookingActivity</string>
-    <string name="ybCustomerName">Customer Name</string>
+    <string name="ybCustomerName">Person Name</string>
     <string name="ybAdults">Adults</string>
     <string name="ybChildren">Children</string>
     <string name="ybBookingdate">Booking Date</string>
@@ -242,6 +242,11 @@
     <string name="ybEmail">Email</string>
     <string name="ybRemark">Remark</string>
     <string name="ybBook">Booking</string>
+    <string name="ybDate">Date</string>
+    <string name="ybTime">Time</string>
+    <string name="ybStatus">Status</string>
+    <string name="ybCancel">Cancel</string>
+    <string name="ybAddBookingSuccessMsg">Booking is added</string>
     <!--end-->
 
     <!--Your profile-->
