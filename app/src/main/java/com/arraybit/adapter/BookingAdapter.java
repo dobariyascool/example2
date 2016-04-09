@@ -20,16 +20,15 @@ import java.util.Date;
 import java.util.Locale;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingMasterViewHolder> {
-    private static final int ADDEDIT = 0;
+    public boolean isItemAnimate = false;
     Context context;
     LayoutInflater inflater;
     View ConvertView;
     ArrayList<BookingMaster> alBookingMaster;
     BookingOnClickListener objBookingOnClickListener;
-    int previousPosition = 0;
     int position;
-    Date toDate,toTime,currentTime,currentDate;
-    String today,strCurrentTime;
+    Date toDate, toTime, currentTime, currentDate;
+    String today, strCurrentTime;
 
     public BookingAdapter(Context context, ArrayList<BookingMaster> result, BookingOnClickListener objBookingOnClickListener) {
         this.context = context;
@@ -52,13 +51,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         holder.txtTime.setText(String.valueOf(objBookingMaster.getFromTime()) + " To " + String.valueOf(objBookingMaster.getToTime()));
         holder.txtPersonName.setText(objBookingMaster.getBookingPersonName());
         if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.New.getValue()) {
-            holder.txtBookingStatus.setText("(New)");
+            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.New.toString() + ")");
         } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Modified.getValue()) {
-            holder.txtBookingStatus.setText("(Modified)");
+            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Modified.toString() + ")");
         } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Confirmed.getValue()) {
-            holder.txtBookingStatus.setText("(Confirmed)");
+            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Confirmed.toString() + ")");
         } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Cancelled.getValue()) {
-            holder.txtBookingStatus.setText("(Cancelled)");
+            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Cancelled.toString() + ")");
             holder.btnCancelBooking.setVisibility(View.GONE);
         }
 
@@ -67,21 +66,22 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US);
             Calendar calendar = Calendar.getInstance();
             try {
-
                 toDate = sdfDate.parse(objBookingMaster.getToDate());
                 toTime = sdfTime.parse(objBookingMaster.getToTime());
                 today = sdfDate.format(new Date());
                 currentDate = sdfDate.parse(today);
 
-                if (toDate.compareTo(currentDate) < 0) {
-                    holder.btnCancelBooking.setVisibility(View.GONE);
-                } else {
-                    strCurrentTime = sdfTime.format(calendar.getTime());
-                    currentTime = sdfTime.parse(strCurrentTime);
-                    if (toTime.getTime() > currentTime.getTime()) {
-                        holder.btnCancelBooking.setVisibility(View.VISIBLE);
-                    } else {
+                if(objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
+                    if (toDate.compareTo(currentDate) < 0) {
                         holder.btnCancelBooking.setVisibility(View.GONE);
+                    } else {
+                        strCurrentTime = sdfTime.format(calendar.getTime());
+                        currentTime = sdfTime.parse(strCurrentTime);
+                        if (toTime.getTime() > currentTime.getTime()) {
+                            holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.btnCancelBooking.setVisibility(View.GONE);
+                        }
                     }
                 }
             } catch (ParseException e) {
@@ -107,6 +107,12 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     @Override
     public int getItemCount() {
         return this.alBookingMaster.size();
+    }
+
+    public void BookingDataChanged(ArrayList<BookingMaster> result) {
+        alBookingMaster.addAll(result);
+        isItemAnimate = false;
+        notifyDataSetChanged();
     }
 
     public void UpdateBookingStatus(int position) {

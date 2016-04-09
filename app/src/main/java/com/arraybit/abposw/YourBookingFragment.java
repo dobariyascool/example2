@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.BookingAdapter;
+import com.arraybit.global.EndlessRecyclerOnScrollListener;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
@@ -23,15 +25,17 @@ import com.arraybit.parser.BookingJSONParser;
 
 import java.util.ArrayList;
 
-public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener {
+public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener {
 
     RecyclerView rvBooking;
     FloatingActionButton fabBooking;
-    LinearLayout headerLayout;
+    LinearLayout headerLayout, errorLayout;
     LinearLayoutManager linearLayoutManager;
     BookingAdapter adapter;
+    ArrayList<BookingMaster> alBookingMaster = new ArrayList<>();
     View view;
-    int currentPage = 1, position;
+    Context context;
+    int currentPage = 1, position, cnt;
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
     com.arraybit.abposw.ProgressDialog progressDialog = new ProgressDialog();
 
@@ -59,6 +63,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         rvBooking = (RecyclerView) view.findViewById(R.id.rvBooking);
         fabBooking = (FloatingActionButton) view.findViewById(R.id.fabBooking);
         headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         headerLayout.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -78,23 +83,65 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                 .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
             if (v.getId() == R.id.fabBooking) {
-//            AddBookingFragment fragment2 = new AddBookingFragment();
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.replace(R.id.linearlayoutAddBooking, fragment2);
-//            fragmentTransaction.commit();
-                Globals.ReplaceFragment(new AddBookingFragment(getActivity()), getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
+                AddBookingFragment addBookingFragment = new AddBookingFragment(getActivity());
+                addBookingFragment.setTargetFragment(this, 0);
+                Globals.ReplaceFragment(addBookingFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getTargetFragment() != null) {
+
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Globals.HideKeyBoard(getActivity(), getView());
-            getActivity().getSupportFragmentManager().popBackStack();
+            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
+                Globals.HideKeyBoard(getActivity(), getView());
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        context = getActivity();
+        rvBooking.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
+            }
+        });
+
+        rvBooking.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
+                if (current_page > currentPage) {
+                    currentPage = current_page;
+                    if (Service.CheckNet(getActivity())) {
+                        cnt = 0;
+                        RequestBookingMaster();
+                    } else {
+                        Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -110,7 +157,8 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void SelectBookingResponse(ArrayList<BookingMaster> alBookingMaster) {
         progressDialog.dismiss();
-        SetRecyclerView(alBookingMaster);
+        this.alBookingMaster = alBookingMaster;
+        SetRecyclerView();
     }
 
     @Override
@@ -121,6 +169,21 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         objBookingJSONParser.UpdateBookingMaster(objBookingMaster, getActivity(), this);
     }
 
+    @Override
+    public void AddNewBooking(BookingMaster objBookingMaster) {
+        if(objBookingMaster!=null){
+            currentPage = 1;
+            if(alBookingMaster==null){
+                alBookingMaster = new ArrayList<>();
+                alBookingMaster.add(0,objBookingMaster);
+                SetRecyclerView();
+            }else {
+                alBookingMaster.add(0, objBookingMaster);
+                SetRecyclerView();
+            }
+        }
+    }
+
     //region Private Method
     private void RequestBookingMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
@@ -129,10 +192,25 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         objBookingJSONParser.SelectAllBookingMaster(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
     }
 
-    private void SetRecyclerView(ArrayList<BookingMaster> alBookingMaster) {
-        if (alBookingMaster != null && alBookingMaster.size() > 0) {
-            rvBooking.setVisibility(View.VISIBLE);
+    private void SetRecyclerView() {
+        rvBooking.setVisibility(View.VISIBLE);
 
+        if (alBookingMaster == null) {
+            if (currentPage == 1) {
+                Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvBooking);
+            }
+        } else if (alBookingMaster.size() == 0) {
+            if (currentPage == 1) {
+                Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvBooking);
+            }
+        } else {
+            Globals.SetErrorLayout(errorLayout, false, null, rvBooking);
+            if (currentPage > 1) {
+                adapter.BookingDataChanged(alBookingMaster);
+                return;
+            } else if (alBookingMaster.size() < 10) {
+                currentPage += 1;
+            }
             adapter = new BookingAdapter(getActivity(), alBookingMaster, this);
             rvBooking.setAdapter(adapter);
             rvBooking.setLayoutManager(linearLayoutManager);
