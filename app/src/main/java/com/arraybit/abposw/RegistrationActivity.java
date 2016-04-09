@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -310,7 +311,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 //Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 //startActivity(intent);
-                // setResult(Activity.RESULT_OK);
+                setResult(Activity.RESULT_OK);
                 finish();
                 break;
         }

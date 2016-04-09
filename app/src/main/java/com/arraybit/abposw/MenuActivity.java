@@ -26,6 +26,7 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CategoryMaster;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.CategoryJSONParser;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -34,12 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener{
+public class MenuActivity extends AppCompatActivity implements CategoryJSONParser.CategoryRequestListener, View.OnClickListener {
 
     public static short i = 0;
     public static boolean isViewChange = false;
     ProgressDialog progressDialog = new ProgressDialog();
-    boolean isForceToChange = false,isShowMsg=true;
+    boolean isForceToChange = false, isShowMsg = true;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -85,6 +86,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         } else {
             SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection));
         }
+
+        SaveWishListInSharePreference(false);
     }
 
     @Override
@@ -111,18 +114,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     item.setIcon(R.drawable.view_grid);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true);
+                    itemListFragment.SetRecyclerView(true, false);
                 } else if (i == 2) {
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true);
+                    itemListFragment.SetRecyclerView(true, false);
                 } else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
                     isViewChange = false;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true);
+                    itemListFragment.SetRecyclerView(true, false);
                 }
             }
         } else if (id == R.id.logout) {
@@ -135,12 +138,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
-        }else if(id==android.R.id.home){
+        } else if (id == android.R.id.home) {
+            SaveWishListInSharePreference(true);
             setResult(Activity.RESULT_OK);
             finish();
             ClearData();
             Globals.ClearCartData();
-        }else if (id == R.id.logout) {
+        } else if (id == R.id.logout) {
             Globals.ClearUserPreference(MenuActivity.this, MenuActivity.this);
         }
 
@@ -175,7 +179,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void onClick(View v) {
-        if(alCategoryMaster!=null && alCategoryMaster.size()!=0) {
+        if (alCategoryMaster != null && alCategoryMaster.size() != 0) {
             ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
             if (v.getId() == R.id.fabVeg) {
                 if (isVegCheck == 0) {
@@ -247,13 +251,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void onBackPressed() {
+        SaveWishListInSharePreference(true);
         setResult(Activity.RESULT_OK);
         finish();
         ClearData();
         Globals.ClearCartData();
     }
 
-    public void SetCartItemResponse(){
+    public void SetCartItemResponse() {
         SetCartNumber();
     }
 
@@ -261,7 +266,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                if(data!=null) {
+                if (data != null) {
                     isShowMsg = data.getBooleanExtra("ShowMessage", false);
                 }
                 SetCartNumber();
@@ -279,9 +284,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         objCategoryJSONParser.SelectAllCategoryMaster(MenuActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
-    private void ClearData(){
+    private void ClearData() {
         i = 0;
         isViewChange = false;
+        ItemAdapter.alWishItemMaster = new ArrayList<>();
     }
 
     private void SetErrorLayout(boolean isShow, String errorMsg) {
@@ -317,7 +323,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
             itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
 
-            for(CategoryMaster objFilterCategoryMaster : alCategoryMaster){
+            for (CategoryMaster objFilterCategoryMaster : alCategoryMaster) {
                 itemPagerAdapter.AddFragment(ItemListFragment.createInstance(objFilterCategoryMaster), objFilterCategoryMaster);
             }
 
@@ -342,7 +348,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             isForceToChange = false;
                         } else {
                             if (sbItemTypeMasterId == null) {
-                                itemListFragment.SetRecyclerView(true);
+                                itemListFragment.SetRecyclerView(true, false);
                                 isForceToChange = false;
                             } else {
                                 itemListFragment.ItemByOptionName(null);
@@ -351,12 +357,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     } else {
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                        } else if((!fabVeg.isSelected()) && (!fabNonVeg.isSelected()) || (!fabJain.isSelected())){
+                        } else if ((!fabVeg.isSelected()) && (!fabNonVeg.isSelected()) || (!fabJain.isSelected())) {
                             if (sbItemTypeMasterId != null) {
                                 itemListFragment.ItemByOptionName(null);
-                            }else{
-                                if(ItemAdapter.alWishItemMaster.size() > 0) {
-                                    itemListFragment.SetRecyclerView(true);
+                            } else {
+                                if (ItemAdapter.alWishItemMaster.size() > 0) {
+                                    itemListFragment.SetRecyclerView(true, true);
                                 }
                             }
                         }
@@ -395,12 +401,90 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setSoundEffectsEnabled(true);
             txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
-            if(isShowMsg) {
+            if (isShowMsg) {
                 Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgCartItem), MenuActivity.this, 1000);
             }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));
         }
+    }
+
+    private void SaveWishListInSharePreference(boolean isBackPressed) {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        ArrayList<String> alString;
+        if (isBackPressed) {
+            if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this) != null) {
+                alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this);
+                if(alString.size() > 0) {
+                    if (ItemAdapter.alWishItemMaster.size() > 0) {
+                        for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                            if (objWishItemMaster.getIsChecked() != -1) {
+                                if (!CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) 1)) {
+                                    alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                                }
+                            }else{
+                                CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) -1);
+                            }
+                        }
+                        objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, MenuActivity.this);
+                    }
+                }
+                else {
+                    if (ItemAdapter.alWishItemMaster.size() > 0) {
+                        alString = new ArrayList<>();
+                        for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                            if (objWishItemMaster.getIsChecked() != -1) {
+                                alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                            }
+                        }
+                        objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, MenuActivity.this);
+                    }
+                }
+            } else {
+                if (ItemAdapter.alWishItemMaster.size() > 0) {
+                    alString = new ArrayList<>();
+                    for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                        if (objWishItemMaster.getIsChecked() != -1) {
+                            alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                        }
+                    }
+                    objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, MenuActivity.this);
+                }
+            }
+        } else {
+            if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this) != null) {
+                alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this);
+                if (alString.size() > 0) {
+                    for (String itemMasterId : alString) {
+                        ItemMaster objItemMaster = new ItemMaster();
+                        objItemMaster.setItemMasterId(Integer.parseInt(itemMasterId));
+                        objItemMaster.setIsChecked((short) 1);
+                        ItemAdapter.alWishItemMaster.add(objItemMaster);
+                    }
+                }
+            } else {
+                ItemAdapter.alWishItemMaster = new ArrayList<>();
+            }
+        }
+    }
+
+    private boolean CheckDuplicateId(ArrayList<String> arrayList, String id,short isCheck) {
+        boolean isDuplicate = false;
+        int cnt=0;
+        for (String strId : arrayList) {
+            if (strId.equals(id)) {
+                isDuplicate = true;
+                if(isCheck==-1){
+                    arrayList.remove(cnt);
+                    break;
+                }
+            }
+            cnt++;
+        }
+        if (isDuplicate) {
+            return isDuplicate;
+        }
+        return isDuplicate;
     }
     //endregion
 

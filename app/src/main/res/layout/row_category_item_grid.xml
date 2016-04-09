@@ -26,14 +26,32 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtItemName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/control_TextMedium" />
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/control_TextMedium" />
+
+                <ToggleButton
+                    android:id="@+id/ibLike"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/control_SpecingSmall"
+                    android:background="@drawable/wishlist_drawable"
+                    android:padding="@dimen/control_SpecingSmall"
+                    android:textOff=""
+                    android:textOn="" />
+            </LinearLayout>
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtItemDescription"

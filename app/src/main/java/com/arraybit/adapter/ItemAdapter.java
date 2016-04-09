@@ -153,48 +153,39 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 }
                 alWishItemMaster.add(objWishItemMaster);
             } else {
+                isDuplicate = false;
                 for (ItemMaster objItem : alWishItemMaster) {
-                    if(isChecked.equals("0")){
-                        if(objItem.getItemMasterId() == objItemMaster.getItemMasterId()){
+                    if (objItem.getItemMasterId() == objItemMaster.getItemMasterId()) {
+                        if (isChecked.equals("0")) {
                             if (objItemMaster.getIsChecked() == 1) {
                                 alWishItemMaster.get(cnt).setItemMasterId(objItemMaster.getItemMasterId());
                                 alWishItemMaster.get(cnt).setIsChecked((short) -1);
-                                alWishItemMaster.get(cnt).setIsDeleted(true);
+                                isDuplicate = true;
+                                break;
                             }
-//                            else {
-//                                ItemMaster objWishItemMaster = new ItemMaster();
-//                                objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
-//                                objWishItemMaster.setIsChecked((short) 1);
-//                                objWishItemMaster.setIsDeleted(false);
-//                                alWishItemMaster.add(objWishItemMaster);
-//                                break;
-//                            }
-                        }
-                    }
-                    else if(isChecked.equals("1")) {
-                        if (objItem.getItemMasterId() == objItemMaster.getItemMasterId()) {
+                        } else if (isChecked.equals("1")) {
                             alWishItemMaster.get(cnt).setItemMasterId(objItemMaster.getItemMasterId());
                             alWishItemMaster.get(cnt).setIsChecked((short) 1);
-                            alWishItemMaster.get(cnt).setIsDeleted(true);
-                        }else{
-                            ItemMaster objWishItemMaster = new ItemMaster();
-                            objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
-                            objWishItemMaster.setIsChecked((short) 1);
-                            objWishItemMaster.setIsDeleted(false);
-                            alWishItemMaster.add(objWishItemMaster);
+                            isDuplicate = true;
                             break;
                         }
                     }
                     cnt++;
+                }
+                if(!isDuplicate) {
+                    ItemMaster objWishItemMaster = new ItemMaster();
+                    objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
+                    objWishItemMaster.setIsChecked((short) 1);
+                    alWishItemMaster.add(objWishItemMaster);
                 }
             }
         } else {
             if (alWishItemMaster.size() > 0) {
                 for (ItemMaster objItem : alWishItemMaster) {
                     if (String.valueOf(objItem.getItemMasterId()).equals(String.valueOf(objItemMaster.getItemMasterId()))) {
-                        if (objItem.getIsChecked() == 1 && (!objItem.getIsDeleted())) {
+                        if (objItem.getIsChecked() == 1) {
                             objItemMaster.setIsChecked((short) 1);
-                        } else if (objItem.getIsChecked() == -1 && objItem.getIsDeleted()) {
+                        } else if (objItem.getIsChecked() == -1) {
                             objItemMaster.setIsChecked((short) -1);
                         }
                     }
@@ -202,6 +193,72 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
         }
     }
+
+
+//    private void CheckDuplicate(String isChecked, ItemMaster objItemMaster) {
+//        cnt = 0;
+//        if (isChecked != null) {
+//            if (alWishItemMaster.size() == 0) {
+//                ItemMaster objWishItemMaster = new ItemMaster();
+//                objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
+//                if (isChecked.equals("1")) {
+//                    objWishItemMaster.setIsChecked((short) 1);
+//                } else {
+//                    objWishItemMaster.setIsChecked((short) -1);
+//                }
+//                alWishItemMaster.add(objWishItemMaster);
+//            } else {
+//                for (ItemMaster objItem : alWishItemMaster) {
+//                    if(isChecked.equals("0")){
+//                        if(objItem.getItemMasterId() == objItemMaster.getItemMasterId()){
+//                            if (objItemMaster.getIsChecked() == 1) {
+//                                alWishItemMaster.get(cnt).setItemMasterId(objItemMaster.getItemMasterId());
+//                                alWishItemMaster.get(cnt).setIsChecked((short) -1);
+//                                alWishItemMaster.get(cnt).setIsDeleted(true);
+//                                break;
+//                            }
+////                            else {
+////                                ItemMaster objWishItemMaster = new ItemMaster();
+////                                objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
+////                                objWishItemMaster.setIsChecked((short) 1);
+////                                objWishItemMaster.setIsDeleted(false);
+////                                alWishItemMaster.add(objWishItemMaster);
+////                                break;
+////                            }
+//                        }
+//                    }
+//                    else if(isChecked.equals("1")) {
+//                        if (objItem.getItemMasterId() == objItemMaster.getItemMasterId()) {
+//                            alWishItemMaster.get(cnt).setItemMasterId(objItemMaster.getItemMasterId());
+//                            alWishItemMaster.get(cnt).setIsChecked((short) 1);
+//                            alWishItemMaster.get(cnt).setIsDeleted(false);
+//                            break;
+//                        }else{
+//                            ItemMaster objWishItemMaster = new ItemMaster();
+//                            objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
+//                            objWishItemMaster.setIsChecked((short) 1);
+//                            objWishItemMaster.setIsDeleted(false);
+//                            alWishItemMaster.add(objWishItemMaster);
+//                            break;
+//                        }
+//                    }
+//                    cnt++;
+//                }
+//            }
+//        } else {
+//            if (alWishItemMaster.size() > 0) {
+//                for (ItemMaster objItem : alWishItemMaster) {
+//                    if (String.valueOf(objItem.getItemMasterId()).equals(String.valueOf(objItemMaster.getItemMasterId()))) {
+//                        if (objItem.getIsChecked() == 1 && (!objItem.getIsDeleted())) {
+//                            objItemMaster.setIsChecked((short) 1);
+//                        } else if (objItem.getIsChecked() == -1 && objItem.getIsDeleted()) {
+//                            objItemMaster.setIsChecked((short) -1);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 //    private void CheckDuplicate(String isChecked, ItemMaster objItemMaster) {
 //        cnt = 0;
