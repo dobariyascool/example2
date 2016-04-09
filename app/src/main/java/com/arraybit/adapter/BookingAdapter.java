@@ -28,6 +28,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     BookingOnClickListener objBookingOnClickListener;
     int previousPosition = 0;
     int position;
+    Date toDate,toTime,currentTime,currentDate;
+    String today,strCurrentTime;
 
     public BookingAdapter(Context context, ArrayList<BookingMaster> result, BookingOnClickListener objBookingOnClickListener) {
         this.context = context;
@@ -61,22 +63,25 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         }
 
         if (objBookingMaster.getToDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+            SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+            SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US);
             Calendar calendar = Calendar.getInstance();
-//            SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-            Date strDate, strTime;
             try {
-                strDate = sdf.parse(objBookingMaster.getToDate());
-//                strTime = sdfTimeFormat.parse(objBookingMaster.getToTime());
-                strTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US).parse(objBookingMaster.getToTime());
-                if (new Date().after(strDate)) {
+
+                toDate = sdfDate.parse(objBookingMaster.getToDate());
+                toTime = sdfTime.parse(objBookingMaster.getToTime());
+                today = sdfDate.format(new Date());
+                currentDate = sdfDate.parse(today);
+
+                if (toDate.compareTo(currentDate) < 0) {
                     holder.btnCancelBooking.setVisibility(View.GONE);
-                }
-                else {
-                    if (System.currentTimeMillis() > strTime.getTime()) {
-                        holder.btnCancelBooking.setVisibility(View.GONE);
-                    } else {
+                } else {
+                    strCurrentTime = sdfTime.format(calendar.getTime());
+                    currentTime = sdfTime.parse(strCurrentTime);
+                    if (toTime.getTime() > currentTime.getTime()) {
                         holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.btnCancelBooking.setVisibility(View.GONE);
                     }
                 }
             } catch (ParseException e) {
