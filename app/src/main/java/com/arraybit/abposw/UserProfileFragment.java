@@ -42,11 +42,11 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
     int customerMasterId;
     Date birthDate;
     View view;
+    UpdateResponseListener objUpdateResponseListener;
 
     public UserProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,7 +159,6 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         Globals.ShowDatePickerDialog(etBirthDate, getActivity());
     }
 
-
     // region Private Methods
     private void SetUserName() {
         if (objCustomerMaster != null) {
@@ -243,6 +242,8 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
                 CreateMyAccountPreference();
                 ClearControls();
                 getActivity().getSupportFragmentManager().popBackStack();
+                objUpdateResponseListener = (UpdateResponseListener)getActivity();
+                objUpdateResponseListener.UpdateResponse();
                 break;
         }
 
@@ -263,6 +264,10 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         etFirstName.setText("");
         etMobile.setText("");
         etBirthDate.setText("");
+    }
+
+    interface UpdateResponseListener{
+        void UpdateResponse();
     }
 
     //endregion

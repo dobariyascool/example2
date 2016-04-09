@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
@@ -174,71 +175,73 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void onClick(View v) {
-        ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
-        if (v.getId() == R.id.fabVeg) {
-            if (isVegCheck == 0) {
-                fabVeg.setSelected(true);
-                fabVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
-                isVegCheck += 1;
-            } else {
-                fabVeg.setSelected(false);
-                fabVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
-                isVegCheck = 0;
-            }
-            CheckSelected();
+        if(alCategoryMaster!=null && alCategoryMaster.size()!=0) {
+            ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+            if (v.getId() == R.id.fabVeg) {
+                if (isVegCheck == 0) {
+                    fabVeg.setSelected(true);
+                    fabVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                    isVegCheck += 1;
+                } else {
+                    fabVeg.setSelected(false);
+                    fabVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                    isVegCheck = 0;
+                }
+                CheckSelected();
 
-            if (sbItemTypeMasterId.toString().equals("")) {
-                itemListFragment.ItemByOptionName(null);
-                famRoot.close(true);
-            } else {
-                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                famRoot.close(true);
-            }
-        } else if (v.getId() == R.id.fabNonVeg) {
-            if (isNonVegCheck == 0) {
-                fabNonVeg.setSelected(true);
-                fabNonVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
-                isNonVegCheck += 1;
-            } else {
-                fabNonVeg.setSelected(false);
-                fabNonVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
-                isNonVegCheck = 0;
-            }
-            CheckSelected();
+                if (sbItemTypeMasterId.toString().equals("")) {
+                    itemListFragment.ItemByOptionName(null);
+                    famRoot.close(true);
+                } else {
+                    itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                    famRoot.close(true);
+                }
+            } else if (v.getId() == R.id.fabNonVeg) {
+                if (isNonVegCheck == 0) {
+                    fabNonVeg.setSelected(true);
+                    fabNonVeg.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                    isNonVegCheck += 1;
+                } else {
+                    fabNonVeg.setSelected(false);
+                    fabNonVeg.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                    isNonVegCheck = 0;
+                }
+                CheckSelected();
 
-            if (sbItemTypeMasterId.toString().equals("")) {
-                itemListFragment.ItemByOptionName(null);
-                famRoot.close(true);
-            } else {
-                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                famRoot.close(true);
-            }
-        } else if (v.getId() == R.id.fabJain) {
-            if (isJainCheck == 0) {
-                fabJain.setSelected(true);
-                fabJain.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
-                isJainCheck += 1;
-            } else {
-                fabJain.setSelected(false);
-                fabJain.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
-                isJainCheck = 0;
-            }
-            CheckSelected();
+                if (sbItemTypeMasterId.toString().equals("")) {
+                    itemListFragment.ItemByOptionName(null);
+                    famRoot.close(true);
+                } else {
+                    itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                    famRoot.close(true);
+                }
+            } else if (v.getId() == R.id.fabJain) {
+                if (isJainCheck == 0) {
+                    fabJain.setSelected(true);
+                    fabJain.setColorNormal(ContextCompat.getColor(this, R.color.accent_secondary));
+                    isJainCheck += 1;
+                } else {
+                    fabJain.setSelected(false);
+                    fabJain.setColorNormal(ContextCompat.getColor(this, android.R.color.white));
+                    isJainCheck = 0;
+                }
+                CheckSelected();
 
-            if (sbItemTypeMasterId.toString().equals("")) {
-                itemListFragment.ItemByOptionName(null);
-                famRoot.close(true);
-            } else {
-                itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                famRoot.close(true);
-            }
-        } else if (v.getId() == R.id.ivCart) {
+                if (sbItemTypeMasterId.toString().equals("")) {
+                    itemListFragment.ItemByOptionName(null);
+                    famRoot.close(true);
+                } else {
+                    itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
+                    famRoot.close(true);
+                }
+            } else if (v.getId() == R.id.ivCart) {
 //            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
 //            fragmentTransaction.addToBackStack(null);
 //            fragmentTransaction.commit();
-            Intent intent = new Intent(this, CartItemActivity.class);
-            this.startActivityForResult(intent, 0);
+                Intent intent = new Intent(this, CartItemActivity.class);
+                this.startActivityForResult(intent, 0);
+            }
         }
     }
 
@@ -319,6 +322,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
 
             viewPager.setAdapter(itemPagerAdapter);
+            viewPager.setOffscreenPageLimit(1);
             tabLayout.setupWithViewPager(viewPager);
 
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -347,9 +351,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     } else {
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
-                        } else {
+                        } else if((!fabVeg.isSelected()) && (!fabNonVeg.isSelected()) || (!fabJain.isSelected())){
                             if (sbItemTypeMasterId != null) {
                                 itemListFragment.ItemByOptionName(null);
+                            }else{
+                                if(ItemAdapter.alWishItemMaster.size() > 0) {
+                                    itemListFragment.SetRecyclerView(true);
+                                }
                             }
                         }
                     }

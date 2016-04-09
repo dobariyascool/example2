@@ -14,6 +14,7 @@
     <string name="title_activity_hotel_profile">Profile</string>
     <string name="title_fragment_your_profile">Your Profile</string>
     <string name="title_activity_about_us">About Us</string>
+    <string name="title_fragment_policy">Privacy Policy</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -86,13 +87,13 @@
     <!-- end -->
 
     <!--About Us Activity-->
-        <string name="abLegal">Legal</string>
-        <string name="abApp">About This</string>
-        <string name="abPolicy">Privacy Policy</string>
-        <string name="abTerms">Terms Of Service</string>
-        <string name="abBuildVersion">Build Version</string>
-        <string name="abVersionCode">Version Code</string>
-        <string name="abVersionName">Version Name</string>
+    <string name="abLegal">Legal</string>
+    <string name="abApp">About This</string>
+    <string name="abPolicy">Privacy Policy</string>
+    <string name="abTerms">Terms Of Service</string>
+    <string name="abBuildVersion">Build Version</string>
+    <string name="abVersionCode">Version Code</string>
+    <string name="abVersionName">Version Name</string>
     <!-- end -->
 
     <!--User Profile fragment-->
@@ -135,6 +136,10 @@
     <string name="rTimings">Timings</string>
     <string name="rTo">To</string>
     <!-- End -->
+
+    <!--row offers-->
+    <string name="rExpiresOn">ExpiresOn</string>
+    <!--End-->
 
     <!-- menuActivity -->
     <string name="mAVeg">Veg</string>

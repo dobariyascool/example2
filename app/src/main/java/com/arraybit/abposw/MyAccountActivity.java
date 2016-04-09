@@ -23,7 +23,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener {
+public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener,UserProfileFragment.UpdateResponseListener {
 
     ArrayList<String> alString;
     RecyclerView rvOptions;
@@ -110,7 +110,6 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         fragmentTransaction.commit();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
@@ -146,6 +145,11 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     public void EditTextOnClick(View view) {
         UserProfileFragment userProfileFragment = (UserProfileFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
         userProfileFragment.EditTextOnClick();
+    }
+
+    @Override
+    public void UpdateResponse() {
+        SetUserName();
     }
 
     public void BookingDateOnClick(View view) {

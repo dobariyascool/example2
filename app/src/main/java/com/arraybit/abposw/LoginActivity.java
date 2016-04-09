@@ -104,10 +104,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
             finish();
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

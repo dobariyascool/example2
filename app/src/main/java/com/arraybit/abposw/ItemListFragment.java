@@ -39,7 +39,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     ArrayList<ItemMaster> alItemMaster;
     String OptionIds;
     int currentPage = 1;
-    boolean isLayoutChange;
+    boolean isLayoutChange, isDuplicate = false;
     Context context;
 
     public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
@@ -156,44 +156,140 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     public void SetRecyclerView(boolean isCurrentPageChange) {
-            if (isCurrentPageChange) {
+        if (isCurrentPageChange) {
+            if (alItemMaster!=null && alItemMaster.size() != 0) {
                 itemAdapter.isItemAnimate = false;
                 isLayoutChange = true;
-                rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+                //check duplicate id in wishList
+                if (rvItemMaster.getAdapter() != null) {
+                    if (ItemAdapter.alWishItemMaster.size() > 0) {
+                        for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                            if (rvItemMaster.getAdapter().getItemCount() > 0) {
+                                for (int i = 0; i < rvItemMaster.getAdapter().getItemCount(); i++) {
+                                    if (String.valueOf(objWishItemMaster.getItemMasterId()).equals(String.valueOf(rvItemMaster.getAdapter().getItemId(i)))) {
+                                        isDuplicate = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (isDuplicate) {
+                            rvItemMaster.getAdapter().notifyDataSetChanged();
+                        } else {
+                            rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+                            if (MenuActivity.isViewChange) {
+                                rvItemMaster.setLayoutManager(gridLayoutManager);
+                            } else {
+                                rvItemMaster.setLayoutManager(linearLayoutManager);
+                            }
+                        }
+                    } else {
+                        rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+                        if (MenuActivity.isViewChange) {
+                            rvItemMaster.setLayoutManager(gridLayoutManager);
+                        } else {
+                            rvItemMaster.setLayoutManager(linearLayoutManager);
+                        }
+                    }
+                }
+            }
+        } else {
+            if (alItemMaster == null) {
+                if (currentPage == 1) {
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+
+                }
+            } else if (alItemMaster.size() == 0) {
+                if (currentPage == 1) {
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+
+                }
+            } else {
+                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
+                if (currentPage > 1) {
+                    itemAdapter.ItemDataChanged(alItemMaster);
+                    return;
+                } else if (alItemMaster.size() < 10) {
+                    currentPage += 1;
+                }
+                itemAdapter = new ItemAdapter(context, alItemMaster, this);
+                rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
                 } else {
                     rvItemMaster.setLayoutManager(linearLayoutManager);
                 }
-            } else {
-                if (alItemMaster == null) {
-                    if (currentPage == 1) {
-                        Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
-
-                    }
-                } else if (alItemMaster.size() == 0) {
-                    if (currentPage == 1) {
-                        Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
-
-                    }
-                } else {
-                    Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
-                    if (currentPage > 1) {
-                        itemAdapter.ItemDataChanged(alItemMaster);
-                        return;
-                    } else if (alItemMaster.size() < 10) {
-                        currentPage += 1;
-                    }
-                    itemAdapter = new ItemAdapter(context, alItemMaster, this);
-                    rvItemMaster.setAdapter(itemAdapter);
-                    if (MenuActivity.isViewChange) {
-                        rvItemMaster.setLayoutManager(gridLayoutManager);
-                    } else {
-                        rvItemMaster.setLayoutManager(linearLayoutManager);
-                    }
-                }
             }
+        }
     }
+
+//    public void SetRecyclerView(boolean isCurrentPageChange) {
+//        if (isCurrentPageChange) {
+//            if (alItemMaster != null && alItemMaster.size() != 0) {
+//                itemAdapter.isItemAnimate = false;
+//                isLayoutChange = true;
+//                //check duplicate id in wishList
+//                if (rvItemMaster.getAdapter() != null) {
+//                    if (ItemAdapter.alString.size() > 0) {
+//                        for (String itemId : ItemAdapter.alString) {
+//                            if (rvItemMaster.getAdapter().getItemCount() > 0) {
+//                                for (int i = 0; i < rvItemMaster.getAdapter().getItemCount(); i++) {
+//                                    if (itemId.equals(String.valueOf(rvItemMaster.getAdapter().getItemId(i)))) {
+//                                        isDuplicate = true;
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        if ((isDuplicate) || ((!isDuplicate) && ItemAdapter.isRemove)) {
+//                            rvItemMaster.getAdapter().notifyDataSetChanged();
+//                        } else {
+//                            rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+//                            if (MenuActivity.isViewChange) {
+//                                rvItemMaster.setLayoutManager(gridLayoutManager);
+//                            } else {
+//                                rvItemMaster.setLayoutManager(linearLayoutManager);
+//                            }
+//                        }
+//                    } else {
+//                        rvItemMaster.setAdapter(rvItemMaster.getAdapter());
+//                        if (MenuActivity.isViewChange) {
+//                            rvItemMaster.setLayoutManager(gridLayoutManager);
+//                        } else {
+//                            rvItemMaster.setLayoutManager(linearLayoutManager);
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//            if (alItemMaster == null) {
+//                if (currentPage == 1) {
+//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+//
+//                }
+//            } else if (alItemMaster.size() == 0) {
+//                if (currentPage == 1) {
+//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+//
+//                }
+//            } else {
+//                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
+//                if (currentPage > 1) {
+//                    itemAdapter.ItemDataChanged(alItemMaster);
+//                    return;
+//                } else if (alItemMaster.size() < 10) {
+//                    currentPage += 1;
+//                }
+//                itemAdapter = new ItemAdapter(context, alItemMaster, this);
+//                rvItemMaster.setAdapter(itemAdapter);
+//                if (MenuActivity.isViewChange) {
+//                    rvItemMaster.setLayoutManager(gridLayoutManager);
+//                } else {
+//                    rvItemMaster.setLayoutManager(linearLayoutManager);
+//                }
+//            }
+//        }
+//    }
 
     public void ItemByOptionName(String OptionIds) {
         this.OptionIds = OptionIds;
