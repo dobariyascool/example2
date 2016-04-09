@@ -32,9 +32,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     Button btnBookTable;
     Date time, date;
     View view;
+    BookingMaster objBookingMaster;
     SharePreferenceManage objSharePreferenceManage;
     Activity activity;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    AddNewBookingListener objAddNewBookingListener;
 
     public AddBookingFragment(Activity activity) {
         this.activity = activity;
@@ -112,7 +114,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == R.id.btnBookTable) {
             view = v;
-            BookingMaster objBookingMaster = new BookingMaster();
+            objBookingMaster = new BookingMaster();
             progressDialog.show(getFragmentManager(), "");
             if (!ValidateControls()) {
                 progressDialog.dismiss();
@@ -174,7 +176,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
                 getActivity().finish();
             } else {
+
                 getActivity().getSupportFragmentManager().popBackStack();
+
             }
         }
         return super.onOptionsItemSelected(item);
@@ -212,11 +216,15 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 break;
             default:
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
-                (getActivity()).setResult(Activity.RESULT_OK);
-                (getActivity()).finish();
+                if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
+                    getActivity().finish();
+                } else {
+                    objAddNewBookingListener = (AddNewBookingListener)getTargetFragment();
+                    objAddNewBookingListener.AddNewBooking(objBookingMaster);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
                 break;
         }
-
     }
 
     private void SetUser(EditText etEmail, EditText etName, EditText etMobile) {
@@ -1343,6 +1351,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             IsValid = false;
         }
         return IsValid;
+    }
+
+    public interface AddNewBookingListener{
+        void AddNewBooking(BookingMaster objBookingMaster);
     }
     //endregion
 }
