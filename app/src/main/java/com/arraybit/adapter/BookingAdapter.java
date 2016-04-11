@@ -71,7 +71,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                 today = sdfDate.format(new Date());
                 currentDate = sdfDate.parse(today);
 
-                if(objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
+                if (objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
                     if (toDate.compareTo(currentDate) < 0) {
                         holder.btnCancelBooking.setVisibility(View.GONE);
                     } else {

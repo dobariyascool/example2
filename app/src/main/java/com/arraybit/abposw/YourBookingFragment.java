@@ -23,7 +23,11 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BookingMaster;
 import com.arraybit.parser.BookingJSONParser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener {
 
@@ -171,6 +175,21 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void AddNewBooking(BookingMaster objBookingMaster) {
+        Date dt;
+        SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
+        SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US);
+        try {
+            dt = sdfTimeFormat.parse(objBookingMaster.getFromTime());
+            objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            dt = sdfTimeFormat.parse(objBookingMaster.getToTime());
+            objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(objBookingMaster!=null){
             currentPage = 1;
             if(alBookingMaster==null){

@@ -181,7 +181,7 @@ public class BookingJSONParser {
             stringer.object();
 
             stringer.key("FromDate").value(objBookingMaster.getFromDate());
-            stringer.key("ToDate").value(objBookingMaster.getFromDate());
+            stringer.key("ToDate").value(objBookingMaster.getToDate());
             stringer.key("FromTime").value(objBookingMaster.getFromTime());
             stringer.key("ToTime").value(objBookingMaster.getToTime());
             stringer.key("IsHourly").value(objBookingMaster.getIsHourly());

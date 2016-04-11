@@ -137,6 +137,12 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     e.printStackTrace();
                 }
                 try {
+                    date = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etBookingdate.getText().toString());
+                    objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
                     time = new SimpleDateFormat("HH:mm", Locale.US).parse(etFromTime.getText().toString());
                     objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
                 } catch (ParseException e) {
