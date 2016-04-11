@@ -63,27 +63,45 @@
             android:onClick="BookingDateOnClick" />
 
         <LinearLayout
+            android:id="@+id/timeLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.rey.material.widget.EditText
-                android:id="@+id/etFromTime"
-                style="@style/EditText"
+            <!--<com.rey.material.widget.EditText-->
+            <!--android:id="@+id/etFromTime"-->
+            <!--style="@style/EditText"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="@dimen/control_SpecingMedium"-->
+            <!--android:layout_weight="1"-->
+            <!--android:hint="@string/ybFromTime"-->
+            <!--android:onClick="BookingDateOnClick" />-->
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spFromTime"
+                style="@style/Spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:layout_weight="1"
-                android:hint="@string/ybFromTime"
-                android:onClick="BookingDateOnClick" />
+                android:text="@string/ybFromTime" />
 
-            <com.rey.material.widget.EditText
-                android:id="@+id/etToTime"
-                style="@style/EditText"
+            <!--<com.rey.material.widget.EditText-->
+                <!--android:id="@+id/etToTime"-->
+                <!--style="@style/EditText"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:hint="@string/ybToTime"-->
+                <!--android:onClick="BookingDateOnClick" />-->
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spToTime"
+                style="@style/Spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/ybToTime"
-                android:onClick="BookingDateOnClick" />
+                android:hint="@string/ybToTime" />
         </LinearLayout>
 
         <com.rey.material.widget.EditText

@@ -20,6 +20,7 @@ import com.arraybit.global.EndlessRecyclerOnScrollListener;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BookingMaster;
 import com.arraybit.parser.BookingJSONParser;
 
@@ -150,6 +151,11 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
             this.alBookingMaster = alBookingMaster;
             SetRecyclerView();
         }
+    }
+
+    @Override
+    public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {
+
     }
 
     @Override
