@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BookingMaster;
 
 import org.json.JSONArray;
@@ -30,6 +31,7 @@ public class BookingJSONParser {
     public String DeleteBookingMaster = "DeleteBookingMaster";
     public String SelectBookingMaster = "SelectBookingMaster";
     public String SelectAllBookingMaster = "SelectAllBookingMasterPageWise";
+    public String SelectAllTimeSlots = "SelectAllTimeSlots";
 
     BookingRequestListener objBookingRequestListener;
 
@@ -332,10 +334,50 @@ public class BookingJSONParser {
         });
         queue.add(jsonObjectRequest);
     }
+
+    public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, String bookingDate) {
+        String url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + bookingDate;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONArray jsonArray = null;
+                ArrayList<SpinnerItem> lstSpinnerItem = null;
+                try {
+                    jsonArray = jsonObject.getJSONArray(SelectAllTimeSlots + "Result");
+                    if (jsonArray != null) {
+                        lstSpinnerItem = new ArrayList<>();
+                        SpinnerItem objSpinnerItem;
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            objSpinnerItem = new SpinnerItem();
+                            objSpinnerItem.setValue(i);
+                            dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("TimeSlot"));
+                            objSpinnerItem.setText(DisplayTimeFormat.format(dt));
+                            lstSpinnerItem.add(objSpinnerItem);
+                        }
+                    }
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.TimeSlotsResponse(lstSpinnerItem);
+                } catch (Exception e) {
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.TimeSlotsResponse(null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objBookingRequestListener = (BookingRequestListener) targetFragment;
+                objBookingRequestListener.TimeSlotsResponse(null);
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
     //endregion
 
     public interface BookingRequestListener {
         void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster);
+
+        void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot);
     }
 }
 
