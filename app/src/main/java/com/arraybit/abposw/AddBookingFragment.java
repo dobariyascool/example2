@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+@SuppressWarnings("ConstantConditions")
+@SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {
 
 
@@ -1357,7 +1360,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 }
 
 
-//region Commented validation
+    //region Commented validation
 //{//EditText etCustomerName, EditText etAdults, EditText etChildren, EditText etBookingdate, EditText etFromTime, EditText etToTime, EditText etPhone, EditText etEmail) {
 //        boolean IsValid = true;
 //        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
