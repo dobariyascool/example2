@@ -55,7 +55,7 @@ public class Globals {
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
 
-    public static void ShowDatePickerDialog(final EditText txtView, Context context) {
+    public static void ShowDatePickerDialog(final EditText txtView, Context context, final boolean IsPreventPreviousDateRequest) {
         final Calendar c = Calendar.getInstance();
 
         if (!txtView.getText().toString().equals("")) {
@@ -76,7 +76,6 @@ public class Globals {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
                         y = year;
                         M = monthOfYear;
                         d = dayOfMonth;
@@ -91,16 +90,17 @@ public class Globals {
                         cal.set(Calendar.MILLISECOND, 0);
 
                         SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
-                        txtView.setText(sdfControl.format(cal.getTime()));
-
+                        if (IsPreventPreviousDateRequest) {
+                            txtView.setText(sdfControl.format(new Date()));
+                        } else {
+                            txtView.setText(sdfControl.format(cal.getTime()));
+                        }
                     }
 
                 }, y, M, d);
-        dp.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
-//        Calendar c1 = Calendar.getInstance();
-//        c1.add(Calendar.DATE,1);
-//        Date newDate2 = c1.getTime();
-//        dp.getDatePicker().setMinDate(newDate2.getTime());
+        if (IsPreventPreviousDateRequest) {
+            dp.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
+        }
         dp.hide();
         dp.show();
     }
@@ -277,8 +277,7 @@ public class Globals {
     public enum OptionValue {
         Veg(7),
         NonVeg(6),
-        Jain(5),
-        Spice(3);
+        Jain(5);
 
         private int intValue;
 
