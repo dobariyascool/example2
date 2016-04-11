@@ -95,14 +95,6 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (getTargetFragment() != null) {
-
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
