@@ -141,20 +141,15 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void AddBookingResponse(String errorCode) {
-    }
-
-    @Override
-    public void UpdateBookingStatusResponse(String errorCode) {
+    public void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster) {
         progressDialog.dismiss();
-        SetError(errorCode);
-    }
-
-    @Override
-    public void SelectBookingResponse(ArrayList<BookingMaster> alBookingMaster) {
-        progressDialog.dismiss();
-        this.alBookingMaster = alBookingMaster;
-        SetRecyclerView();
+        if(errorCode != null){
+            SetError(errorCode);
+        }
+        else if(alBookingMaster != null) {
+            this.alBookingMaster = alBookingMaster;
+            SetRecyclerView();
+        }
     }
 
     @Override
@@ -168,8 +163,17 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void AddNewBooking(BookingMaster objBookingMaster) {
         Date dt;
+        SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
         SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-        SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US);
+        SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
+
+        try {
+            dt = sdfDateFormat.parse(objBookingMaster.getToDate());
+            objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         try {
             dt = sdfTimeFormat.parse(objBookingMaster.getFromTime());
             objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
@@ -182,13 +186,13 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(objBookingMaster!=null){
+        if (objBookingMaster != null) {
             currentPage = 1;
-            if(alBookingMaster==null){
+            if (alBookingMaster == null) {
                 alBookingMaster = new ArrayList<>();
-                alBookingMaster.add(0,objBookingMaster);
+                alBookingMaster.add(0, objBookingMaster);
                 SetRecyclerView();
-            }else {
+            } else {
                 alBookingMaster.add(0, objBookingMaster);
                 SetRecyclerView();
             }

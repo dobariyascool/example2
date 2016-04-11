@@ -34,7 +34,7 @@ public class BookingJSONParser {
     BookingRequestListener objBookingRequestListener;
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
-    SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US);
+    SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -223,83 +223,83 @@ public class BookingJSONParser {
                         if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
                             objBookingRequestListener = (BookingRequestListener) targetFragment;
-                            objBookingRequestListener.AddBookingResponse(errorCode);
+                            objBookingRequestListener.BookingResponse(errorCode, null);
                         } else {
                             objBookingRequestListener = (BookingRequestListener) targetFragment;
-                            objBookingRequestListener.AddBookingResponse("-1");
+                            objBookingRequestListener.BookingResponse("-1", null);
                         }
                     } catch (JSONException e) {
                         objBookingRequestListener = (BookingRequestListener) targetFragment;
-                        objBookingRequestListener.AddBookingResponse("-1");
+                        objBookingRequestListener.BookingResponse("-1", null);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     objBookingRequestListener = (BookingRequestListener) targetFragment;
-                    objBookingRequestListener.AddBookingResponse("-1");
+                    objBookingRequestListener.BookingResponse("-1", null);
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
             objBookingRequestListener = (BookingRequestListener) targetFragment;
-            objBookingRequestListener.AddBookingResponse("-1");
+            objBookingRequestListener.BookingResponse("-1", null);
         }
     }
     //endregion
 
     //region Update
     public void UpdateBookingMaster(BookingMaster objBookingMaster, final Context context, final Fragment targetFragment) {
-            dt = new Date();
-            try {
-                JSONStringer stringer = new JSONStringer();
-                stringer.object();
+        dt = new Date();
+        try {
+            JSONStringer stringer = new JSONStringer();
+            stringer.object();
 
-                stringer.key("bookingMaster");
-                stringer.object();
+            stringer.key("bookingMaster");
+            stringer.object();
 
-                stringer.key("BookingMasterId").value(objBookingMaster.getBookingMasterId());
+            stringer.key("BookingMasterId").value(objBookingMaster.getBookingMasterId());
 
-                stringer.endObject();
+            stringer.endObject();
 
-                stringer.endObject();
+            stringer.endObject();
 
-                String url = Service.Url + this.UpdateBookingMaster;
+            String url = Service.Url + this.UpdateBookingMaster;
 
-                RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = Volley.newRequestQueue(context);
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            JSONObject jsonResponse = jsonObject.getJSONObject(UpdateBookingMaster+ "Result");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(UpdateBookingMaster + "Result");
 
-                            if (jsonResponse != null) {
-                                String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
-                                objBookingRequestListener = (BookingRequestListener) targetFragment;
-                                objBookingRequestListener.UpdateBookingStatusResponse(errorCode);
-                            } else {
-                                objBookingRequestListener = (BookingRequestListener) targetFragment;
-                                objBookingRequestListener.UpdateBookingStatusResponse("-1");
-                            }
-                        } catch (JSONException e) {
+                        if (jsonResponse != null) {
+                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
                             objBookingRequestListener = (BookingRequestListener) targetFragment;
-                            objBookingRequestListener.UpdateBookingStatusResponse("-1");
+                            objBookingRequestListener.BookingResponse(errorCode, null);
+                        } else {
+                            objBookingRequestListener = (BookingRequestListener) targetFragment;
+                            objBookingRequestListener.BookingResponse("-1", null);
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+                    } catch (JSONException e) {
                         objBookingRequestListener = (BookingRequestListener) targetFragment;
-                        objBookingRequestListener.UpdateBookingStatusResponse("-1");
+                        objBookingRequestListener.BookingResponse("-1", null);
                     }
-                });
-                queue.add(jsonObjectRequest);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.BookingResponse("-1", null);
+                }
+            });
+            queue.add(jsonObjectRequest);
 
-            } catch (Exception ex) {
-                objBookingRequestListener = (BookingRequestListener) targetFragment;
-                objBookingRequestListener.UpdateBookingStatusResponse("-1");
-            }
+        } catch (Exception ex) {
+            objBookingRequestListener = (BookingRequestListener) targetFragment;
+            objBookingRequestListener.BookingResponse("-1", null);
+        }
     }
     //endregion
 
@@ -316,18 +316,18 @@ public class BookingJSONParser {
                     if (jsonArray != null) {
                         ArrayList<BookingMaster> alBookingMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objBookingRequestListener = (BookingRequestListener) targetFragment;
-                        objBookingRequestListener.SelectBookingResponse(alBookingMaster);
+                        objBookingRequestListener.BookingResponse(null, alBookingMaster);
                     }
                 } catch (Exception e) {
                     objBookingRequestListener = (BookingRequestListener) targetFragment;
-                    objBookingRequestListener.SelectBookingResponse(null);
+                    objBookingRequestListener.BookingResponse(null, null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 objBookingRequestListener = (BookingRequestListener) targetFragment;
-                objBookingRequestListener.SelectBookingResponse(null);
+                objBookingRequestListener.BookingResponse(null, null);
             }
         });
         queue.add(jsonObjectRequest);
@@ -335,11 +335,7 @@ public class BookingJSONParser {
     //endregion
 
     public interface BookingRequestListener {
-        void AddBookingResponse(String errorCode);
-
-        void UpdateBookingStatusResponse(String errorCode);
-
-        void SelectBookingResponse(ArrayList<BookingMaster> alBookingMaster);
+        void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster);
     }
 }
 

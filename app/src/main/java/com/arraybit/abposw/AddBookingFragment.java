@@ -191,18 +191,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void AddBookingResponse(String errorCode) {
+    public void BookingResponse(String errorCode,ArrayList<BookingMaster> alBookingMaster) {
         progressDialog.dismiss();
         SetError(errorCode);
-    }
-
-    @Override
-    public void SelectBookingResponse(ArrayList<BookingMaster> alBookingMaster) {
-
-    }
-
-    @Override
-    public void UpdateBookingStatusResponse(String errorCode) {
     }
 
     @Override
