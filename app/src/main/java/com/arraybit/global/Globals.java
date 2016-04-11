@@ -54,7 +54,6 @@ public class Globals {
     public static int counter = 0;
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
-    //
 
     public static void ShowDatePickerDialog(final EditText txtView, Context context, final boolean IsPreventPreviousDateRequest) {
         final Calendar c = Calendar.getInstance();
