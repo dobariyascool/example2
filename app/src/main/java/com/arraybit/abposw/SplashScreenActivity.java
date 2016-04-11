@@ -26,8 +26,8 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                 CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
                 objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword,null,null);
             } else {
-                Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                startActivity(intent);
                 finish();
             }
         } else {
@@ -44,10 +44,14 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
 
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
-        Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+        Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+        if(objCustomerMaster==null){
+            intent.putExtra("IsLogin",false);
+        }else{
+            intent.putExtra("IsLogin",true);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
-
     }
 }

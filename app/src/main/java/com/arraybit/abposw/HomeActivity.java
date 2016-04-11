@@ -227,7 +227,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //region Private Methods
-
     private void RequestBusinessGallery() {
         progressDialog.show(getSupportFragmentManager(), "");
 
@@ -245,11 +244,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void SetUserName() {
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
-            cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this));
-        } else {
-            cbName.setText(getResources().getString(R.string.siSignIn));
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra("IsLogin",false)){
+            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
+                cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this));
+            } else {
+                cbName.setText(getResources().getString(R.string.siSignIn));
+            }
         }
     }
     //endregion
