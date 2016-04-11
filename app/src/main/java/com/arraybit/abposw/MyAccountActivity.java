@@ -39,7 +39,6 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_your_account));
         }
 
         //Text View start

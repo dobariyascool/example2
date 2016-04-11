@@ -57,7 +57,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setLogo(R.mipmap.app_logo);
-            getSupportActionBar().setTitle("Home");
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -175,9 +174,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SetUserName();
-        }
-        if (id == R.id.myAccount) {
+        }else if (id == R.id.myAccount) {
             Intent i = new Intent(HomeActivity.this, MyAccountActivity.class);
+            startActivity(i);
+        }else if(id == R.id.wishList){
+            Intent i = new Intent(HomeActivity.this, WishListActivity.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
@@ -185,8 +186,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public void BusinessGalleryResponse
-            (ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
+    public void BusinessGalleryResponse(ArrayList<BusinessGalleryTran> alBusinessGalleryTran) {
         progressDialog.dismiss();
         SetSlider(alBusinessGalleryTran);
     }

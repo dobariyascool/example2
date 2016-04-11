@@ -28,6 +28,8 @@
     <string name="title_home">Home</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="title_fragment_change_password">Change Password</string>
+    <string name="title_activity_wish_list">Wish List</string>
+    <string name="title_activity_my_account">Your Account</string>
 
 
     <!-- Operation Message -->
@@ -218,10 +220,6 @@
     </string-array>
     <!--end-->
 
-    <!--MyAccount Title-->
-    <string name="title_activity_my_account">My Account</string>
-    <string name="title_activity_your_account">Your Account</string>
-    <!--end-->
 
     <!--ChangePassword-->
     <string name="cpOldPassword">Old Password</string>
@@ -254,9 +252,4 @@
     <string name="ybCancel">Cancel</string>
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
     <!--end-->
-
-    <!--Your profile-->
-
-    <!--end-->
-
 </resources>

@@ -76,6 +76,7 @@ public class Globals {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
                         y = year;
                         M = monthOfYear;
                         d = dayOfMonth;
@@ -91,10 +92,15 @@ public class Globals {
 
                         SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
                         txtView.setText(sdfControl.format(cal.getTime()));
+
                     }
 
                 }, y, M, d);
-
+        dp.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
+//        Calendar c1 = Calendar.getInstance();
+//        c1.add(Calendar.DATE,1);
+//        Date newDate2 = c1.getTime();
+//        dp.getDatePicker().setMinDate(newDate2.getTime());
         dp.hide();
         dp.show();
     }
@@ -271,7 +277,8 @@ public class Globals {
     public enum OptionValue {
         Veg(7),
         NonVeg(6),
-        Jain(5);
+        Jain(5),
+        Spice(3);
 
         private int intValue;
 

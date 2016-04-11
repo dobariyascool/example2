@@ -71,7 +71,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
         if (currentPage >= 1 && linearLayoutManager.canScrollVertically()) {
             currentPage = 1;
-            RequestItemMaster(currentPage);
+            RequestItemMaster();
         }
         return view;
     }
@@ -100,7 +100,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
                         cnt = 0;
-                        RequestItemMaster(currentPage);
+                        RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -118,7 +118,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
                         cnt = 0;
-                        RequestItemMaster(currentPage);
+                        RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -155,10 +155,14 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
     }
 
+    @Override
+    public void LikeOnClick(int position) {
+
+    }
+
     public void SetRecyclerView(boolean isCurrentPageChange, boolean isWishListCheck) {
         if (isCurrentPageChange) {
             //check duplicate id in wishList
-            //isLayoutChange = true;
             if (rvItemMaster.getAdapter() != null) {
                 itemAdapter.isItemAnimate = false;
                 if (isWishListCheck) {
@@ -221,7 +225,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 } else if (alItemMaster.size() < 10) {
                     currentPage += 1;
                 }
-                itemAdapter = new ItemAdapter(context, alItemMaster, this);
+                itemAdapter = new ItemAdapter(context, alItemMaster, this,false);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
@@ -232,147 +236,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
     }
 
-//    public void SetRecyclerView(boolean isCurrentPageChange) {
-//        if (isCurrentPageChange) {
-//            //check duplicate id in wishList
-//            //isLayoutChange = true;
-//            if (rvItemMaster.getAdapter() != null) {
-//                itemAdapter.isItemAnimate = false;
-//                if (ItemAdapter.alWishItemMaster.size() > 0) {
-//                    for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
-//                        if (rvItemMaster.getAdapter().getItemCount() > 0) {
-//                            for (int i = 0; i < rvItemMaster.getAdapter().getItemCount(); i++) {
-//                                if (String.valueOf(objWishItemMaster.getItemMasterId()).equals(String.valueOf(rvItemMaster.getAdapter().getItemId(i)))) {
-//                                    isDuplicate = true;
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (isDuplicate) {
-//                        rvItemMaster.getAdapter().notifyDataSetChanged();
-//                    } else {
-//                        rvItemMaster.setAdapter(rvItemMaster.getAdapter());
-//                        if (MenuActivity.isViewChange) {
-//                            rvItemMaster.setLayoutManager(gridLayoutManager);
-//                        } else {
-//                            rvItemMaster.setLayoutManager(linearLayoutManager);
-//                        }
-//                    }
-//                } else {
-//                    rvItemMaster.setAdapter(rvItemMaster.getAdapter());
-//                    if (MenuActivity.isViewChange) {
-//                        rvItemMaster.setLayoutManager(gridLayoutManager);
-//                    } else {
-//                        rvItemMaster.setLayoutManager(linearLayoutManager);
-//                    }
-//                }
-//            }
-//        } else {
-//            if (alItemMaster == null) {
-//                if (currentPage == 1) {
-//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
-//
-//                }
-//            } else if (alItemMaster.size() == 0) {
-//                if (currentPage == 1) {
-//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
-//
-//                }
-//            } else {
-//                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
-//                if (currentPage > 1) {
-//                    if(rvItemMaster.getAdapter()!=null && rvItemMaster.getAdapter().getItemCount() > 9) {
-//                        itemAdapter.ItemDataChanged(alItemMaster);
-//                    }
-//                    return;
-//                } else if (alItemMaster.size() < 10) {
-//                    currentPage += 1;
-//                }
-//                itemAdapter = new ItemAdapter(context, alItemMaster, this);
-//                rvItemMaster.setAdapter(itemAdapter);
-//                if (MenuActivity.isViewChange) {
-//                    rvItemMaster.setLayoutManager(gridLayoutManager);
-//                } else {
-//                    rvItemMaster.setLayoutManager(linearLayoutManager);
-//                }
-//            }
-//        }
-//    }
-
-//    public void SetRecyclerView(boolean isCurrentPageChange) {
-//        if (isCurrentPageChange) {
-//            if (alItemMaster != null && alItemMaster.size() != 0) {
-//                itemAdapter.isItemAnimate = false;
-//                isLayoutChange = true;
-//                //check duplicate id in wishList
-//                if (rvItemMaster.getAdapter() != null) {
-//                    if (ItemAdapter.alString.size() > 0) {
-//                        for (String itemId : ItemAdapter.alString) {
-//                            if (rvItemMaster.getAdapter().getItemCount() > 0) {
-//                                for (int i = 0; i < rvItemMaster.getAdapter().getItemCount(); i++) {
-//                                    if (itemId.equals(String.valueOf(rvItemMaster.getAdapter().getItemId(i)))) {
-//                                        isDuplicate = true;
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        if ((isDuplicate) || ((!isDuplicate) && ItemAdapter.isRemove)) {
-//                            rvItemMaster.getAdapter().notifyDataSetChanged();
-//                        } else {
-//                            rvItemMaster.setAdapter(rvItemMaster.getAdapter());
-//                            if (MenuActivity.isViewChange) {
-//                                rvItemMaster.setLayoutManager(gridLayoutManager);
-//                            } else {
-//                                rvItemMaster.setLayoutManager(linearLayoutManager);
-//                            }
-//                        }
-//                    } else {
-//                        rvItemMaster.setAdapter(rvItemMaster.getAdapter());
-//                        if (MenuActivity.isViewChange) {
-//                            rvItemMaster.setLayoutManager(gridLayoutManager);
-//                        } else {
-//                            rvItemMaster.setLayoutManager(linearLayoutManager);
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            if (alItemMaster == null) {
-//                if (currentPage == 1) {
-//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
-//
-//                }
-//            } else if (alItemMaster.size() == 0) {
-//                if (currentPage == 1) {
-//                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
-//
-//                }
-//            } else {
-//                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
-//                if (currentPage > 1) {
-//                    itemAdapter.ItemDataChanged(alItemMaster);
-//                    return;
-//                } else if (alItemMaster.size() < 10) {
-//                    currentPage += 1;
-//                }
-//                itemAdapter = new ItemAdapter(context, alItemMaster, this);
-//                rvItemMaster.setAdapter(itemAdapter);
-//                if (MenuActivity.isViewChange) {
-//                    rvItemMaster.setLayoutManager(gridLayoutManager);
-//                } else {
-//                    rvItemMaster.setLayoutManager(linearLayoutManager);
-//                }
-//            }
-//        }
-//    }
-
     public void ItemByOptionName(String OptionIds) {
         this.OptionIds = OptionIds;
         currentPage = 1;
 
-        RequestItemMaster(currentPage);
+        RequestItemMaster();
 
         rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
@@ -383,7 +251,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        RequestItemMaster(currentPage);
+                        RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -400,7 +268,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        RequestItemMaster(currentPage);
+                        RequestItemMaster();
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -410,7 +278,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     //region Private Methods
-    private void RequestItemMaster(int pageIndex) {
+    private void RequestItemMaster() {
         if (cnt == 0) {
             if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
@@ -420,9 +288,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(pageIndex), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId),null);
         } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(pageIndex), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId));
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId),null);
         }
     }
     //endregion

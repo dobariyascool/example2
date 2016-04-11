@@ -415,21 +415,20 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if (isBackPressed) {
             if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this) != null) {
                 alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this);
-                if(alString.size() > 0) {
+                if (alString.size() > 0) {
                     if (ItemAdapter.alWishItemMaster.size() > 0) {
                         for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
                             if (objWishItemMaster.getIsChecked() != -1) {
                                 if (!CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) 1)) {
                                     alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
                                 }
-                            }else{
+                            } else {
                                 CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) -1);
                             }
                         }
                         objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, MenuActivity.this);
                     }
-                }
-                else {
+                } else {
                     if (ItemAdapter.alWishItemMaster.size() > 0) {
                         alString = new ArrayList<>();
                         for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
@@ -454,6 +453,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         } else {
             if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this) != null) {
                 alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", MenuActivity.this);
+                ItemAdapter.alWishItemMaster = new ArrayList<>();
                 if (alString.size() > 0) {
                     for (String itemMasterId : alString) {
                         ItemMaster objItemMaster = new ItemMaster();
@@ -468,13 +468,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
     }
 
-    private boolean CheckDuplicateId(ArrayList<String> arrayList, String id,short isCheck) {
+    private boolean CheckDuplicateId(ArrayList<String> arrayList, String id, short isCheck) {
         boolean isDuplicate = false;
-        int cnt=0;
+        int cnt = 0;
         for (String strId : arrayList) {
             if (strId.equals(id)) {
                 isDuplicate = true;
-                if(isCheck==-1){
+                if (isCheck == -1) {
                     arrayList.remove(cnt);
                     break;
                 }
@@ -506,9 +506,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             return fragmentList.get(position);
         }
 
-        public CategoryMaster GetCategoryMaster(int position) {
-            return fragmentTitleList.get(position);
-        }
+//        public CategoryMaster GetCategoryMaster(int position) {
+//            return fragmentTitleList.get(position);
+//        }
 
         @Override
         public Fragment getItem(int position) {

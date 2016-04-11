@@ -263,9 +263,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         objSpinnerItem.setText("--------SELECT CITY--------");
         objSpinnerItem.setValue(0);
 
-        ArrayList<SpinnerItem> alSpinnerItem = new ArrayList<>();
-        alSpinnerItem.add(objSpinnerItem);
-        alCityMaster.addAll(0, alSpinnerItem);
+        alCityMaster.add(0, objSpinnerItem);
 
         SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCityMaster, true);
         spCity.setAdapter(adapter);
@@ -277,9 +275,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             objSpinnerItem.setText("--------SELECT AREA--------");
             objSpinnerItem.setValue(0);
 
-            ArrayList<SpinnerItem> alSpinnerItem = new ArrayList<>();
-            alSpinnerItem.add(objSpinnerItem);
-            alAreaMaster.addAll(0, alSpinnerItem);
+            alAreaMaster.add(0, objSpinnerItem);
 
             SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alAreaMaster, true);
             spArea.setVisibility(View.VISIBLE);

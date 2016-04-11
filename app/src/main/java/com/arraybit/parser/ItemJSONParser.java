@@ -283,8 +283,8 @@ public class ItemJSONParser {
 //    }
     //endregion
 
-    public void SelectAllItemMaster(final Fragment targetFragment, Context context, String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId) {
-        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId;
+    public void SelectAllItemMaster(final Fragment targetFragment, final Context context, String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId,String itemMasterIds) {
+        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId + "/" + itemMasterIds;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -294,19 +294,34 @@ public class ItemJSONParser {
                     jsonArray = jsonObject.getJSONArray(SelectAllItemMaster + "Result");
                     if (jsonArray != null) {
                         ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
-                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        if(targetFragment==null){
+                            objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        }else {
+                            objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        }
                     }
                 } catch (Exception e) {
-                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    if(targetFragment==null){
+                        objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                        objItemMasterRequestListener.ItemMasterResponse(null);
+                    }else {
+                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                        objItemMasterRequestListener.ItemMasterResponse(null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                objItemMasterRequestListener.ItemMasterResponse(null);
+                if(targetFragment==null){
+                    objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                    objItemMasterRequestListener.ItemMasterResponse(null);
+                }else {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                    objItemMasterRequestListener.ItemMasterResponse(null);
+                }
             }
 
         });
