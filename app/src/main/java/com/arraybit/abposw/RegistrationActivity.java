@@ -128,14 +128,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this);
+                    Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this,false);
                 }
             }
         });
     }
 
     public void EditTextOnClick(View view) {
-        Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this);
+        Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this,false);
     }
 
     @Override

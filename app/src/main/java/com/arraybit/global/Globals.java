@@ -55,7 +55,7 @@ public class Globals {
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
 
-    public static void ShowDatePickerDialog(final EditText txtView, Context context) {
+    public static void ShowDatePickerDialog(final EditText txtView, Context context, final boolean IsPreventPreviousDateRequest) {
         final Calendar c = Calendar.getInstance();
 
         if (!txtView.getText().toString().equals("")) {
@@ -90,11 +90,17 @@ public class Globals {
                         cal.set(Calendar.MILLISECOND, 0);
 
                         SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
-                        txtView.setText(sdfControl.format(cal.getTime()));
+                        if (IsPreventPreviousDateRequest) {
+                            txtView.setText(sdfControl.format(new Date()));
+                        } else {
+                            txtView.setText(sdfControl.format(cal.getTime()));
+                        }
                     }
 
                 }, y, M, d);
-
+        if (IsPreventPreviousDateRequest) {
+            dp.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
+        }
         dp.hide();
         dp.show();
     }
@@ -338,10 +344,10 @@ public class Globals {
     }
 
     public enum BookingStatus {
-        New (1),
-        Modified (2),
-        Confirmed (3),
-        Cancelled (4);
+        New(1),
+        Modified(2),
+        Confirmed(3),
+        Cancelled(4);
 
         private int intValue;
 

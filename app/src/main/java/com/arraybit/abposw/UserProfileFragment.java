@@ -124,7 +124,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.ShowDatePickerDialog(etBirthDate, getActivity());
+                    Globals.ShowDatePickerDialog(etBirthDate, getActivity(),false);
                 }
             }
         });
@@ -156,7 +156,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
     }
 
     public void EditTextOnClick() {
-        Globals.ShowDatePickerDialog(etBirthDate, getActivity());
+        Globals.ShowDatePickerDialog(etBirthDate, getActivity(),false);
     }
 
     // region Private Methods

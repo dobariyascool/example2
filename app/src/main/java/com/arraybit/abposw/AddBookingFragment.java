@@ -78,7 +78,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.ShowDatePickerDialog(etBookingdate, getActivity());
+                    Globals.ShowDatePickerDialog(etBookingdate, getActivity(),true);
                 }
             }
         });
@@ -105,7 +105,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     public void ShowDateTimePicker(int id) {
         if (id == R.id.etBookingdate) {
-            Globals.ShowDatePickerDialog(etBookingdate, getActivity());
+            Globals.ShowDatePickerDialog(etBookingdate, getActivity(),true);
         } else if (id == R.id.etFromTime) {
             Globals.ShowTimePickerDialog(etFromTime, getActivity());
         } else if (id == R.id.etToTime) {
