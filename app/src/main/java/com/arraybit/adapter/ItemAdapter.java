@@ -22,6 +22,8 @@ import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
@@ -36,11 +38,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     ItemClickListener objItemClickListener;
     int previousPosition;
     int width, height, cnt = 0;
-    boolean isDuplicate = false,isLikeClick;
+    boolean isDuplicate = false, isLikeClick;
     private LayoutInflater inflater;
 
 
-    public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster, ItemClickListener objItemClickListener,boolean isLikeClick) {
+    public ItemAdapter(Context context, ArrayList<ItemMaster> alItemMaster, ItemClickListener objItemClickListener, boolean isLikeClick) {
         this.context = context;
         this.alItemMaster = alItemMaster;
         inflater = LayoutInflater.from(context);
@@ -109,10 +111,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         //holder.ibLike.setId(position);
         //holder.ibLike.setTag(alItemMaster.get(position));
 
+        if (alItemMaster.size() > 0) {
+            if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
+                if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
+                    holder.ivJain.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivJain.setVisibility(View.GONE);
+                }
+
+                if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
+                    holder.ivSpicy.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivSpicy.setVisibility(View.GONE);
+                }
+            }
+        }
+
         CheckDuplicate(null, objItemMaster);
 
         if (objItemMaster.getIsChecked() == -1) {
             holder.ibLike.setChecked(false);
+
         } else {
             holder.ibLike.setChecked(true);
         }
@@ -141,9 +160,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         notifyDataSetChanged();
     }
 
-    public void RemoveData(int position){
+    public void RemoveData(int position) {
         alItemMaster.remove(position);
         notifyItemRemoved(position);
+    }
+
+    private boolean CheckOptionValue(String optionValueIds, String optionValue) {
+        List<String> items = Arrays.asList(optionValueIds.split(","));
+        boolean isMatch = false;
+        for (String str : items) {
+            if (str.equals(optionValue)) {
+                isMatch = true;
+                break;
+            }
+        }
+        return isMatch;
     }
 
     private void CheckDuplicate(String isChecked, ItemMaster objItemMaster) {
@@ -178,7 +209,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     }
                     cnt++;
                 }
-                if(!isDuplicate) {
+                if (!isDuplicate) {
                     ItemMaster objWishItemMaster = new ItemMaster();
                     objWishItemMaster.setItemMasterId(objItemMaster.getItemMasterId());
                     objWishItemMaster.setIsChecked((short) 1);
@@ -202,14 +233,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public interface ItemClickListener {
         void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName);
+
         void AddItemOnClick(ItemMaster objItemMaster);
+
         void LikeOnClick(int position);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
-        ImageView ivItem;
+        ImageView ivItem, ivJain, ivSpicy;
         CardView cvItem;
         Button btnAdd, btnAddDisable;
         ToggleButton ibLike;
@@ -220,6 +253,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             cvItem = (CardView) itemView.findViewById(R.id.cvItem);
 
             ivItem = (ImageView) itemView.findViewById(R.id.ivItem);
+            ivJain = (ImageView) itemView.findViewById(R.id.ivJain);
+            ivSpicy = (ImageView) itemView.findViewById(R.id.ivSpicy);
 
             ibLike = (ToggleButton) itemView.findViewById(R.id.ibLike);
 
@@ -266,11 +301,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                         alItemMaster.get(getAdapterPosition()).setIsChecked((short) 1);
                         CheckDuplicate("1", alItemMaster.get(getAdapterPosition()));
                     } else {
-                        if(isLikeClick){
+                        if (isLikeClick) {
                             CheckDuplicate("0", alItemMaster.get(getAdapterPosition()));
                             alItemMaster.get(getAdapterPosition()).setIsChecked((short) -1);
                             objItemClickListener.LikeOnClick(getAdapterPosition());
-                        }else {
+                        } else {
                             CheckDuplicate("0", alItemMaster.get(getAdapterPosition()));
                             alItemMaster.get(getAdapterPosition()).setIsChecked((short) -1);
                         }
