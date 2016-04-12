@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class BookingJSONParser {
     public String InsertBookingMaster = "InsertBookingMaster";
-    public String InsertBookingMasterTest = "InsertBookingMasterDetail";
+    //public String InsertBookingMasterTest = "InsertBookingMasterDetail";
     public String UpdateBookingMaster = "UpdateBookingMasterStatus";
     public String DeleteBookingMaster = "DeleteBookingMaster";
     public String SelectBookingMaster = "SelectBookingMaster";
@@ -216,7 +216,7 @@ public class BookingJSONParser {
 
             stringer.endObject();
 
-            String url = Service.Url + this.InsertBookingMasterTest;
+            String url = Service.Url + this.InsertBookingMaster;
 
             RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -224,7 +224,7 @@ public class BookingJSONParser {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
-                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertBookingMasterTest + "Result");
+                        JSONObject jsonResponse = jsonObject.getJSONObject(InsertBookingMaster + "Result");
 
                         if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
