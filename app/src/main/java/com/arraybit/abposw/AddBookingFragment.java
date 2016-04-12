@@ -27,6 +27,7 @@ import com.arraybit.modal.BookingMaster;
 import com.arraybit.parser.BookingJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +54,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     Activity activity;
     com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
     AddNewBookingListener objAddNewBookingListener;
+    TextView txtFromError,txtToTimeError;
 
     public AddBookingFragment(Activity activity) {
         this.activity = activity;
@@ -77,6 +79,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         setHasOptionsMenu(true);
         timeLinearLayout = (LinearLayout) view.findViewById(R.id.timeLinearLayout);
         timeLinearLayout.setVisibility(View.GONE);
+
+        txtFromError = (TextView)view.findViewById(R.id.txtFromError);
+        txtToTimeError = (TextView)view.findViewById(R.id.txtToTimeError);
 
         etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
         etAdults = (EditText) view.findViewById(R.id.etAdults);
@@ -371,6 +376,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
                 //etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 //etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                txtFromError.setVisibility(View.VISIBLE);
+                txtToTimeError.setVisibility(View.VISIBLE);
                 etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
                 etCustomerName.clearError();
                 IsValid = false;
@@ -383,6 +390,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 etBookingdate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
                 //etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 //etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
+                txtFromError.setVisibility(View.VISIBLE);
+                txtToTimeError.setVisibility(View.VISIBLE);
                 etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
                 etCustomerName.clearError();
                 if (etAdults.getText().toString().charAt(0) != '0') {
@@ -398,6 +407,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     && spToTime.getSelectedItem() == 0
                     && etEmail.getText().toString().equals("")) {
                 etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
+                txtFromError.setVisibility(View.VISIBLE);
+                txtToTimeError.setVisibility(View.VISIBLE);
                 //etFromTime.setError("Enter " + getResources().getString(R.string.ybFromTime));
                 //etToTime.setError("Enter " + getResources().getString(R.string.ybToTime));
                 etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
@@ -416,6 +427,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
                 etCustomerName.clearError();
                 //etFromTime.clearError();
+                txtFromError.setVisibility(View.INVISIBLE);
                 IsValid = false;
             } else if (!etCustomerName.getText().toString().equals("")
                     && etAdults.getText().toString().equals("")
