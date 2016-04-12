@@ -83,17 +83,21 @@
                 android:gravity="end"
                 android:orientation="horizontal">
 
-                <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/wishlist_drawable"-->
-                <!--tools:ignore="ContentDescription" />-->
+                <ImageView
+                    android:id="@+id/ivJain"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/jain_icon"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
 
-                <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/wishlist_drawable"-->
-                <!--tools:ignore="ContentDescription" />-->
+                <ImageView
+                    android:id="@+id/ivSpicy"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/spicy"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
 
                 <ToggleButton
                     android:id="@+id/ibLike"

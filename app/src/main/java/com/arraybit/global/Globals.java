@@ -286,7 +286,9 @@ public class Globals {
     public enum OptionValue {
         Veg(7),
         NonVeg(6),
+        Spice(3),
         Jain(5);
+
 
         private int intValue;
 
