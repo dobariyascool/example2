@@ -111,20 +111,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         //holder.ibLike.setId(position);
         //holder.ibLike.setTag(alItemMaster.get(position));
 
-        if (alItemMaster.size() > 0) {
-            if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
-                if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
-                    holder.ivJain.setVisibility(View.VISIBLE);
-                } else {
-                    holder.ivJain.setVisibility(View.GONE);
-                }
-
-                if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
-                    holder.ivSpicy.setVisibility(View.VISIBLE);
-                } else {
-                    holder.ivSpicy.setVisibility(View.GONE);
-                }
+        if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
+            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
+                holder.ivJain.setVisibility(View.VISIBLE);
+            } else {
+                holder.ivJain.setVisibility(View.GONE);
             }
+
+            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
+                holder.ivSpicy.setVisibility(View.VISIBLE);
+            } else {
+                holder.ivSpicy.setVisibility(View.GONE);
+            }
+        }else{
+            holder.ivJain.setVisibility(View.GONE);
+            holder.ivSpicy.setVisibility(View.GONE);
         }
 
         CheckDuplicate(null, objItemMaster);
