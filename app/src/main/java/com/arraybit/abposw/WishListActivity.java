@@ -211,9 +211,6 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             }
             cnt++;
         }
-        if (isDuplicate) {
-            return isDuplicate;
-        }
         return isDuplicate;
     }
 
