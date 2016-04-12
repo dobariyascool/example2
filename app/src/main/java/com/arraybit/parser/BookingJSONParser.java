@@ -28,12 +28,10 @@ import java.util.Locale;
 
 public class BookingJSONParser {
     public String InsertBookingMaster = "InsertBookingMaster";
-    //public String InsertBookingMasterTest = "InsertBookingMasterDetail";
     public String UpdateBookingMaster = "UpdateBookingMasterStatus";
     public String DeleteBookingMaster = "DeleteBookingMaster";
     public String SelectBookingMaster = "SelectBookingMaster";
-    public String SelectAllBookingMasterTest = "SelectAllBookingMaster";
-    public String SelectAllBookingMasterPageWise = "SelectAllBookingMasterPageWise";
+    public String SelectAllBookingMaster = "SelectAllBookingMaster";
     public String SelectAllTimeSlots = "SelectAllTimeSlots";
 
     BookingRequestListener objBookingRequestListener;
@@ -310,15 +308,15 @@ public class BookingJSONParser {
     //endregion
 
     //region SelectAll
-    public void SelectAllBookingMaster(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
-        String url = Service.Url + this.SelectAllBookingMasterPageWise + "/" + currentPage + "/" + linktoBusinessMasterId + "/" + customerMasterId;
+    public void SelectAllBookingMasterTest(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
+        String url = Service.Url + this.SelectAllBookingMaster + "/" + currentPage + "/" + linktoBusinessMasterId + "/" + customerMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBookingMasterPageWise + "Result");
+                    jsonArray = jsonObject.getJSONArray(SelectAllBookingMaster + "Result");
                     if (jsonArray != null) {
                         ArrayList<BookingMaster> alBookingMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objBookingRequestListener = (BookingRequestListener) targetFragment;
@@ -395,35 +393,6 @@ public class BookingJSONParser {
         queue.add(jsonObjectRequest);
     }
     //endregion
-
-    public void SelectAllBookingMasterTest(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
-        String url = Service.Url + this.SelectAllBookingMasterTest + "/" + currentPage + "/" + linktoBusinessMasterId + "/" + customerMasterId;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
-                try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBookingMasterTest + "Result");
-                    if (jsonArray != null) {
-                        ArrayList<BookingMaster> alBookingMaster = SetListPropertiesFromJSONArray(jsonArray);
-                        objBookingRequestListener = (BookingRequestListener) targetFragment;
-                        objBookingRequestListener.BookingResponse(null, alBookingMaster);
-                    }
-                } catch (Exception e) {
-                    objBookingRequestListener = (BookingRequestListener) targetFragment;
-                    objBookingRequestListener.BookingResponse(null, null);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                objBookingRequestListener = (BookingRequestListener) targetFragment;
-                objBookingRequestListener.BookingResponse(null, null);
-            }
-        });
-        queue.add(jsonObjectRequest);
-    }
 
     public interface BookingRequestListener {
         void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster);
