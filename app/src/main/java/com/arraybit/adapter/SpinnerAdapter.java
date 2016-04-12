@@ -35,7 +35,7 @@ public class SpinnerAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return lstSpinnerItem.get(position);
+        return lstSpinnerItem.get(position).getText();
     }
 
     @Override

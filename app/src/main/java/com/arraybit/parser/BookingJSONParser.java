@@ -22,6 +22,7 @@ import org.json.JSONStringer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -36,6 +37,7 @@ public class BookingJSONParser {
     BookingRequestListener objBookingRequestListener;
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+    SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US);
     SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
@@ -335,8 +337,8 @@ public class BookingJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, String bookingDate) {
-        String url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + bookingDate;
+    public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, final String strBookingDate) {
+        String url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -348,12 +350,25 @@ public class BookingJSONParser {
                     if (jsonArray != null) {
                         lstSpinnerItem = new ArrayList<>();
                         SpinnerItem objSpinnerItem;
+                        Calendar calendar = Calendar.getInstance();
+                        String strCurrentDate, strCurrentTime;
+                        Date currentTime;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             objSpinnerItem = new SpinnerItem();
                             objSpinnerItem.setValue(i);
-                            dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("TimeSlot"));
-                            objSpinnerItem.setText(DisplayTimeFormat.format(dt));
-                            lstSpinnerItem.add(objSpinnerItem);
+
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy", Locale.US);
+                            strCurrentDate = dateFormat.format(new Date());
+                            strCurrentTime = sdfTimeFormat.format(calendar.getTime());
+                            currentTime = sdfTimeFormat.parse(strCurrentTime);
+
+                            if(strBookingDate.equals(strCurrentDate)) {
+                                dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("TimeSlot"));
+                                if (dt.getTime() > currentTime.getTime()) {
+                                    objSpinnerItem.setText(DisplayTimeFormat.format(dt));
+                                    lstSpinnerItem.add(objSpinnerItem);
+                                }
+                            }
                         }
                     }
                     objBookingRequestListener = (BookingRequestListener) targetFragment;

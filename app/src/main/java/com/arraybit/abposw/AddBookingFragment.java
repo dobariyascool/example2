@@ -43,6 +43,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     Button btnBookTable;
     AppCompatSpinner spFromTime, spToTime;
     Date time, date;
+    String fromTime, toTime;
     int selected = -1;
     ArrayList<SpinnerItem> alFromTime, alToTime;
     LinearLayout timeLinearLayout;
@@ -95,7 +96,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.ShowDatePickerDialog(etBookingdate, getActivity(),true);
+                    Globals.ShowDatePickerDialog(etBookingdate, getActivity(), false);
                 }
             }
         });
@@ -148,6 +149,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     selected = parent.getSelectedItemPosition();
                     if (Service.CheckNet(getActivity())) {
                         spToTime.setVisibility(View.VISIBLE);
+                        fromTime = (String) parent.getAdapter().getItem(position);
                         FillToTime();
                     } else {
                         Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
@@ -160,13 +162,25 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
             }
         });
+        spToTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                toTime = (String) parent.getAdapter().getItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btnBookTable.setOnClickListener(this);
         return view;
     }
 
     public void ShowDateTimePicker(int id) {
         if (id == R.id.etBookingdate) {
-            Globals.ShowDatePickerDialog(etBookingdate, getActivity(),true);
+            Globals.ShowDatePickerDialog(etBookingdate, getActivity(), false);
         } //else if (id == R.id.etFromTime) {
         //Globals.ShowTimePickerDialog(etFromTime, getActivity());
         //} else if (id == R.id.etToTime) {
@@ -195,26 +209,26 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 }
                 objBookingMaster.setIsHourly(true);
                 try {
-                    date = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etBookingdate.getText().toString());
+                    date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingdate.getText().toString());
                     objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 try {
-                    date = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etBookingdate.getText().toString());
+                    date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingdate.getText().toString());
                     objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 try {
-                    time = new SimpleDateFormat("HH:mm", Locale.US).parse(etFromTime.getText().toString());
+                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
                     objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    time = new SimpleDateFormat("HH:mm", Locale.US).parse(etToTime.getText().toString());
+                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
                     objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -1430,8 +1444,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     etAdults.setError("Zero is not valid");
                     IsValid = false;
                 }
-                etFromTime.clearError();
-                etToTime.clearError();
+                //etFromTime.clearError();
+                //etToTime.clearError();
                 etBookingdate.clearError();
                 etEmail.clearError();
             }

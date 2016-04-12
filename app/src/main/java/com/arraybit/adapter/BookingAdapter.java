@@ -77,10 +77,14 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                     } else {
                         strCurrentTime = sdfTime.format(calendar.getTime());
                         currentTime = sdfTime.parse(strCurrentTime);
-                        if (toTime.getTime() > currentTime.getTime()) {
+                        if (toDate.compareTo(currentDate) > 0) {
                             holder.btnCancelBooking.setVisibility(View.VISIBLE);
-                        } else {
-                            holder.btnCancelBooking.setVisibility(View.GONE);
+                        }else {
+                            if (toTime.getTime() > currentTime.getTime()) {
+                                holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                            } else {
+                                holder.btnCancelBooking.setVisibility(View.GONE);
+                            }
                         }
                     }
                 }
