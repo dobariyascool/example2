@@ -210,7 +210,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-        objBookingJSONParser.SelectAllBookingMaster(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+        objBookingJSONParser.SelectAllBookingMasterTest(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
     }
 
     private void SetRecyclerView() {
