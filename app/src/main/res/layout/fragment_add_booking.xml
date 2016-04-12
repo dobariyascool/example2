@@ -82,9 +82,22 @@
                 style="@style/Spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:layout_weight="1"
                 android:text="@string/ybFromTime" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtFromError"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/control_SpecingMedium"
+                android:gravity="center"
+                android:paddingEnd="@dimen/control_SpecingTiny"
+                android:paddingStart="@dimen/control_SpecingTiny"
+                android:text="*"
+                android:textColor="@color/error_text"
+                android:textSize="@dimen/control_TextLarge"
+                android:visibility="invisible"
+                tools:ignore="HardcodedText"/>
 
             <!--<com.rey.material.widget.EditText-->
                 <!--android:id="@+id/etToTime"-->
@@ -102,6 +115,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/ybToTime" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtToTimeError"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/control_SpecingMedium"
+                android:gravity="center"
+                android:paddingEnd="@dimen/control_SpecingTiny"
+                android:paddingStart="@dimen/control_SpecingTiny"
+                android:text="*"
+                android:textColor="@color/error_text"
+                android:textSize="@dimen/control_TextLarge"
+                android:visibility="invisible"
+                tools:ignore="HardcodedText"/>
+
         </LinearLayout>
 
         <com.rey.material.widget.EditText

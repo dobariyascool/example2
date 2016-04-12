@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
 import com.rey.material.widget.Button;
+import com.rey.material.widget.EditText;
 import com.rey.material.widget.RadioButton;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RadioButton chk2;
+    EditText etBookingdate;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(null);
-                addQtyRemarkDialogFragment.show(getSupportFragmentManager(), "");
+                ///AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(null);
+               // addQtyRemarkDialogFragment.show(getSupportFragmentManager(), "");
             }
         });
 
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<5;i++){
             alString.add("str "+i);
         }
+
+        etBookingdate = (EditText)findViewById(R.id.etBookingdate);
 
 //        SharedPreferences prefs=this.getSharedPreferences("yourPrefsKey", Context.MODE_PRIVATE);
 //        if(prefs.getStringSet("yourKey", null)==null) {
@@ -127,4 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void EditTextOnClick(View view) {
+        Globals.ShowDatePickerDialog(etBookingdate,this,true);
+    }
 }
