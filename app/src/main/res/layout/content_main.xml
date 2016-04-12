@@ -44,4 +44,10 @@
         android:layout_below="@+id/chk2"
         android:layout_margin="8dp" />
 
+    <com.rey.material.widget.EditText
+        android:id="@+id/etBookingdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="EditTextOnClick"/>
+
 </RelativeLayout>

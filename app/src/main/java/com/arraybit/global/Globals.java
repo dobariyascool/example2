@@ -76,6 +76,12 @@ public class Globals {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        Calendar calendar = Calendar.getInstance();
+
+                        Date date = new Date(view.getMinDate());
+                        calendar.setTime(date);
+
                         y = year;
                         M = monthOfYear;
                         d = dayOfMonth;
@@ -91,7 +97,11 @@ public class Globals {
 
                         SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
                         if (IsPreventPreviousDateRequest) {
-                            txtView.setText(sdfControl.format(new Date()));
+                            if (d >= calendar.get(Calendar.DAY_OF_MONTH)) {
+                                txtView.setText(sdfControl.format(cal.getTime()));
+                            } else {
+                                txtView.setText(sdfControl.format(new Date()));
+                            }
                         } else {
                             txtView.setText(sdfControl.format(cal.getTime()));
                         }
@@ -104,7 +114,6 @@ public class Globals {
         dp.hide();
         dp.show();
     }
-
 
     public static void ShowTimePickerDialog(final EditText txtView, final Context context) {
         final Calendar c = Calendar.getInstance();
@@ -344,10 +353,10 @@ public class Globals {
     }
 
     public enum BookingStatus {
-        New (1),
-        Modified (2),
-        Confirmed (3),
-        Cancelled (4);
+        New(1),
+        Modified(2),
+        Confirmed(3),
+        Cancelled(4);
 
         private int intValue;
 
@@ -410,5 +419,102 @@ public class Globals {
 //                loading = true;
 //            }
 //        }
+
+    //    public static void ShowDatePickerDialog(final EditText txtView, Context context, final boolean IsPreventPreviousDateRequest) {
+//        final Calendar c = Calendar.getInstance();
+//
+//        if (!txtView.getText().toString().equals("")) {
+//            SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
+//            try {
+//                Date dt = sdfControl.parse(String.valueOf(txtView.getText()));
+//                c.setTime(dt);
+//            } catch (ParseException ignored) {
+//            }
+//        }
+//
+//        y = c.get(Calendar.YEAR);
+//        M = c.get(Calendar.MONTH);
+//        d = c.get(Calendar.DAY_OF_MONTH);
+//
+//        DatePickerDialog dp = new DatePickerDialog(context,
+//                new DatePickerDialog.OnDateSetListener() {
+//
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//
+//                        Calendar calendar = Calendar.getInstance();
+//
+//                        Date date = new Date(view.getMinDate());
+//                        calendar.setTime(date);
+//
+//                        if (dayOfMonth >= calendar.get(Calendar.DAY_OF_MONTH)) {
+//
+//                            y = year;
+//                            M = monthOfYear;
+//                            d = dayOfMonth;
+//
+//                            System.out.println("view.getDayOfMonth();" + d);
+//                            System.out.println("view.getDayOfMonth();" + calendar.get(Calendar.DAY_OF_MONTH));
+//
+//                            Calendar cal = Calendar.getInstance();
+//                            cal.set(Calendar.YEAR, year);
+//                            cal.set(Calendar.MONTH, monthOfYear);
+//                            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                            cal.set(Calendar.HOUR_OF_DAY, 0);
+//                            cal.set(Calendar.MINUTE, 0);
+//                            cal.set(Calendar.SECOND, 0);
+//                            cal.set(Calendar.MILLISECOND, 0);
+//
+//                            SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
+//                            if (IsPreventPreviousDateRequest) {
+//                                if (d >= calendar.get(Calendar.DAY_OF_MONTH)) {
+//                                    txtView.setText(sdfControl.format(cal.getTime()));
+//                                } else {
+//                                    txtView.setText(sdfControl.format(new Date()));
+//                                }
+////                            if(calendar.get(Calendar.DAY_OF_MONTH) >= d){
+////                                txtView.setText(sdfControl.format(new Date()));
+////                            }else{
+////                                txtView.setText(sdfControl.format(cal.getTime()));
+////                            }
+//                            } else {
+//                                txtView.setText(sdfControl.format(cal.getTime()));
+//                            }
+//                        } else {
+//
+//
+//                            //view.setCalendarViewShown(false);
+//
+//
+//                            Calendar cal1 = Calendar.getInstance();
+//
+//                            Date date1 = new Date(view.getMinDate());
+//                            cal1.setTime(date1);
+//
+//                            view.updateDate(cal1.get(Calendar.YEAR),cal1.get(Calendar.MONTH),cal1.get(Calendar.DAY_OF_MONTH));
+////
+////
+////                            cal1.set(Calendar.YEAR, 0);
+////                            cal1.set(Calendar.MONTH, 0);
+////                            cal1.set(Calendar.DAY_OF_MONTH, 0);
+////                            cal1.set(Calendar.HOUR_OF_DAY, 0);
+////                            cal1.set(Calendar.MINUTE, 0);
+////                            cal1.set(Calendar.SECOND, 0);
+////                            cal1.set(Calendar.MILLISECOND, 0);
+////
+////                            cal1.setTime(date1);
+////
+//                            txtView.setText(new SimpleDateFormat(DateFormat, Locale.US).format(new Date()));
+//                        }
+//                    }
+//
+//                }, y, M, d);
+//        if (IsPreventPreviousDateRequest) {
+//            dp.getDatePicker().setMinDate(c.getTimeInMillis() - 10000);
+//        }
+//        dp.hide();
+//        dp.show();
+//    }
+
     //endregion
 }

@@ -63,7 +63,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
         if (objBookingMaster.getToDate() != null) {
             SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
-            SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.TimeFormat, Locale.US);
+            SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
             Calendar calendar = Calendar.getInstance();
             try {
                 toDate = sdfDate.parse(objBookingMaster.getToDate());
@@ -93,19 +93,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             }
         }
 
-//        try {
-//
-//            objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-
-//        if (position > previousPosition) {
-//            AnimationUtils.animate(holder, true);
-//        } else {
-//            AnimationUtils.animate(holder, false);
-//        }
-//        previousPosition = position;
     }
 
     @Override
