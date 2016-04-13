@@ -231,6 +231,10 @@
 
     <!--Your Order-->
     <string name="title_fragment_your_order">Your Orders</string>
+    <string name="yoOrderNo">Order No</string>
+    <string name="yoOrderDate">Order Date</string>
+    <string name="yoOrderTime">Order Time</string>
+    <string name="yoStatus">Status</string>
     <!--end-->
 
     <!--Your Booking-->
