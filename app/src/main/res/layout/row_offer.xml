@@ -56,26 +56,15 @@
                     android:textSize="@dimen/control_TextSmall"
                     tools:ignore="HardcodedText" />
 
-                <LinearLayout
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOfferExpiredDate"
+                    style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/control_SpecingTiny"
-                    android:layout_marginStart="@dimen/control_SpecingTiny"
-                    android:layout_marginTop="@dimen/control_SpecingTiny"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.rey.material.widget.TextView
-                        android:id="@+id/txtOfferExpiredDate"
-                        style="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="17dp"
-                        android:paddingTop="0dp"
-                        android:text ="@string/rExpiresOn"
-                        android:textColor="@android:color/white"
-                        android:visibility="visible" />
-                </LinearLayout>
+                    android:paddingTop="0dp"
+                    android:text="@string/rExpiresOn"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible" />
 
             </LinearLayout>
         </RelativeLayout>

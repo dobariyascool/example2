@@ -51,7 +51,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         }
         if (objOfferMaster.getToDate() == null || objOfferMaster.getToDate().equals("")) {
             holder.txtOfferExpiredDate.setVisibility(View.GONE);
-           /* holder.ivTimings.setVisibility(View.GONE);*/
         } else {
             holder.txtOfferExpiredDate.setVisibility(View.VISIBLE);
             holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
@@ -95,7 +94,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             cvOffer = (CardView) itemView.findViewById(R.id.cvOffer);
 
             ivOffer = (ImageView) itemView.findViewById(R.id.ivOffer);
-         /*   ivTimings=(ImageView)itemView.findViewById(R.id.ivTimings);*/
 
             txtOfferTitle = (TextView) itemView.findViewById(R.id.txtOfferTitle);
             txtOfferContent = (TextView) itemView.findViewById(R.id.txtOfferContent);
