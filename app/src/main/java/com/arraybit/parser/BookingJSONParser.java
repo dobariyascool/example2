@@ -308,7 +308,7 @@ public class BookingJSONParser {
     //endregion
 
     //region SelectAll
-    public void SelectAllBookingMasterTest(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
+    public void SelectAllBookingMaster(final Context context, final Fragment targetFragment, String currentPage, String linktoBusinessMasterId, String customerMasterId) {
         String url = Service.Url + this.SelectAllBookingMaster + "/" + currentPage + "/" + linktoBusinessMasterId + "/" + customerMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
