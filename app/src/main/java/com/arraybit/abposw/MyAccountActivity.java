@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +24,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener,UserProfileFragment.UpdateResponseListener {
+public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener, UserProfileFragment.UpdateResponseListener {
 
     ArrayList<String> alString;
     RecyclerView rvOptions;
@@ -70,45 +71,6 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     }
 
-    //region Private Methods
-    private void GetData() {
-        alString = new ArrayList<>();
-        for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
-            alString.add(getResources().getStringArray(R.array.Option)[i]);
-        }
-    }
-
-    private void SetUserName() {
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this) != null) {
-            txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this));
-            txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this).substring(0, 1).toUpperCase());
-        }
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this) != null) {
-            txtFullName.setVisibility(View.VISIBLE);
-            txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this));
-        } else {
-            txtFullName.setVisibility(View.GONE);
-        }
-    }
-    //end
-
-    @SuppressLint("RtlHardcoded")
-    private void ReplaceFragment(Fragment fragment, String fragmentName) {
-        FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
-        if (Build.VERSION.SDK_INT >= 21) {
-            Slide slideTransition = new Slide();
-            slideTransition.setSlideEdge(Gravity.RIGHT);
-            slideTransition.setDuration(350);
-            fragment.setEnterTransition(slideTransition);
-        } else {
-            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, 0, R.anim.right_exit);
-        }
-        fragmentTransaction.replace(R.id.myaccount, fragment, fragmentName);
-        fragmentTransaction.addToBackStack(fragmentName);
-        fragmentTransaction.commit();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
@@ -118,7 +80,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(getSupportFragmentManager().getBackStackEntryCount()==0){
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     finish();
                 }
 
@@ -142,7 +104,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     }
 
     public void EditTextOnClick(View view) {
-        UserProfileFragment userProfileFragment = (UserProfileFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
+        UserProfileFragment userProfileFragment = (UserProfileFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
         userProfileFragment.EditTextOnClick();
     }
 
@@ -152,7 +114,68 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     }
 
     public void BookingDateOnClick(View view) {
-        AddBookingFragment addBookingFragment = (AddBookingFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
+        AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
         addBookingFragment.ShowDateTimePicker(view.getId());
     }
+
+    @Override
+    public void onBackPressed() {
+       if(getSupportFragmentManager().getBackStackEntryCount() > 0 ){
+           if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                   && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                   .equals(getResources().getString(R.string.title_fragment_your_booking))) {
+               getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_booking), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+           }else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                       && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                       .equals(getResources().getString(R.string.title_add_booking_fragment))) {
+                    AddBookingFragment addBookingFragment = (AddBookingFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
+                    addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener)addBookingFragment.getTargetFragment();
+                    addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
+                    getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+           }
+       }
+       else{
+           super.onBackPressed();
+       }
+    }
+
+    //region Private Method
+    private void GetData() {
+        alString = new ArrayList<>();
+        for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
+            alString.add(getResources().getStringArray(R.array.Option)[i]);
+        }
+    }
+
+    private void SetUserName() {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this) != null) {
+            txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this));
+            txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this).substring(0, 1).toUpperCase());
+        }
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this) != null) {
+            txtFullName.setVisibility(View.VISIBLE);
+            txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this));
+        } else {
+            txtFullName.setVisibility(View.GONE);
+        }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private void ReplaceFragment(Fragment fragment, String fragmentName) {
+        FragmentTransaction fragmentTransaction = MyAccountActivity.this.getSupportFragmentManager().beginTransaction();
+        if (Build.VERSION.SDK_INT >= 21) {
+            Slide slideTransition = new Slide();
+            slideTransition.setSlideEdge(Gravity.RIGHT);
+            slideTransition.setDuration(350);
+            fragment.setEnterTransition(slideTransition);
+        } else {
+            fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, 0, R.anim.right_exit);
+        }
+        fragmentTransaction.replace(R.id.myaccount, fragment, fragmentName);
+        fragmentTransaction.addToBackStack(fragmentName);
+        fragmentTransaction.commit();
+    }
+    //endregion
+
 }

@@ -1,5 +1,6 @@
 package com.arraybit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,7 @@ import android.view.ViewGroup;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.BookingMaster;
-import com.rey.material.widget.Button;
+import com.rey.material.widget.ImageButton;
 import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
@@ -43,6 +44,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         return new BookingMasterViewHolder(ConvertView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(BookingMasterViewHolder holder, int position) {
         BookingMaster objBookingMaster = alBookingMaster.get(position);
@@ -58,7 +60,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Confirmed.toString() + ")");
         } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Cancelled.getValue()) {
             holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Cancelled.toString() + ")");
-            holder.btnCancelBooking.setVisibility(View.GONE);
+            holder.btnCancelBooking.setVisibility(View.INVISIBLE);
         }
 
         if (objBookingMaster.getToDate() != null) {
@@ -73,7 +75,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
                 if (objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
                     if (toDate.compareTo(currentDate) < 0) {
-                        holder.btnCancelBooking.setVisibility(View.GONE);
+                        holder.btnCancelBooking.setVisibility(View.INVISIBLE);
                     } else {
                         strCurrentTime = sdfTime.format(calendar.getTime());
                         currentTime = sdfTime.parse(strCurrentTime);
@@ -83,7 +85,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                             if (toTime.getTime() > currentTime.getTime()) {
                                 holder.btnCancelBooking.setVisibility(View.VISIBLE);
                             } else {
-                                holder.btnCancelBooking.setVisibility(View.GONE);
+                                holder.btnCancelBooking.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
@@ -106,6 +108,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         notifyDataSetChanged();
     }
 
+    public void BookingDataChanged(BookingMaster objBookingMaster) {
+        alBookingMaster.add(0,objBookingMaster);
+        notifyDataSetChanged();
+    }
+
     public void UpdateBookingStatus(int position) {
         alBookingMaster.get(position).setBookingStatus((short) Globals.BookingStatus.Cancelled.getValue());
         notifyDataSetChanged();
@@ -120,7 +127,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         TextView txtTime;
         TextView txtPersonName;
         TextView txtBookingStatus;
-        Button btnCancelBooking;
+        ImageButton btnCancelBooking;
 
         public BookingMasterViewHolder(View view) {
             super(view);
@@ -129,25 +136,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             txtTime = (TextView) view.findViewById(R.id.txtTime);
             txtPersonName = (TextView) view.findViewById(R.id.txtPersonName);
             txtBookingStatus = (TextView) view.findViewById(R.id.txtStatus);
-            btnCancelBooking = (Button) view.findViewById(R.id.btnCancelBooking);
-//            ConvertView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(context.getApplicationContext(), BookingActivity.class);
-//                    intent.putExtra("BookingMasterId", txtBookingMasterId.getText().toString());
-//                    ((Activity) context).startActivityForResult(intent, ADDEDIT);
-//                }
-//            });
+            btnCancelBooking = (ImageButton) view.findViewById(R.id.btnCancelBooking);
 
-            //btnDelete = (ImageButton)view.findViewById(R.id.btnDelete);
-
-//            btnDelete.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    position = (int)btnDelete.getTag();
-//                    ConfirmDeleteBookingMaster();
-//                }
-//            });
             btnCancelBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -155,65 +145,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                 }
             });
         }
-
-//        public void ConfirmDeleteBookingMaster()
-//        {
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//            alertDialogBuilder
-//                    .setMessage(context.getResources().getString(R.string.MsgConfirmDelete))
-//                    .setCancelable(false)
-//                    .setPositiveButton("Yes",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    if (Service.CheckNet(context.getApplicationContext())) {
-//                                        new DeleteBookingMasterAsyncTask().execute();
-//                                    } else {
-//                                        Toast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.MsgCheckConnection), Toast.LENGTH_LONG).show();
-//                                    }
-//                                }
-//                            })
-//                    .setNegativeButton("No",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    dialog.cancel();
-//                                }
-//                            });
-//
-//            AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//            alertDialog.show();
-//        }
-
-//        private class DeleteBookingMasterAsyncTask extends AsyncTask<String, Integer, String> {
-//            ProgressDialog pDialog;
-//
-//            @Override
-//            protected void onPreExecute() {
-//                pDialog = new ProgressDialog(context);
-//                pDialog.setMessage(context.getResources().getString(R.string.MsgLoading));
-//                pDialog.setIndeterminate(false);
-//                pDialog.setCancelable(false);
-//                pDialog.show();
-//            }
-//
-//            @Override
-//            protected String doInBackground(String...arg) {
-//                BookingJSONParser jsonParser = new BookingJSONParser();
-//                //return jsonParser.DeleteBookingMaster(btnDelete.getId());
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String result) {
-//                if (result != null && result.equals("0")) {
-//                    Toast.makeText(context, context.getResources().getString(R.string.MsgDeleteSuccess), Toast.LENGTH_LONG).show();
-//                    lstBookingMaster.remove(position);
-//                    notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(context, context.getResources().getString(R.string.MsgDeleteFail), Toast.LENGTH_LONG).show();
-//                }
-//                pDialog.dismiss();
-//            }
-//        }
     }
 }
 

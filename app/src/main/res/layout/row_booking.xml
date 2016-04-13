@@ -59,18 +59,13 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/btnCancelBooking"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <com.rey.material.widget.Button
-                android:id="@+id/btnCancelBooking"
-                style="@style/AddButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ybCancel" />
-        </LinearLayout>
+            android:background="@color/offwhite"
+            android:padding="@dimen/control_SpecingSmall"
+            android:src="@drawable/cancel_drawable" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

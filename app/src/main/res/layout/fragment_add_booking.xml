@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <com.rey.material.widget.EditText
-            android:id="@+id/etBookingdate"
+            android:id="@+id/etBookingDate"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,16 +66,6 @@
             android:id="@+id/timeLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <!--<com.rey.material.widget.EditText-->
-            <!--android:id="@+id/etFromTime"-->
-            <!--style="@style/EditText"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/control_SpecingMedium"-->
-            <!--android:layout_weight="1"-->
-            <!--android:hint="@string/ybFromTime"-->
-            <!--android:onClick="BookingDateOnClick" />-->
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spFromTime"
@@ -97,16 +87,7 @@
                 android:textColor="@color/error_text"
                 android:textSize="@dimen/control_TextLarge"
                 android:visibility="invisible"
-                tools:ignore="HardcodedText"/>
-
-            <!--<com.rey.material.widget.EditText-->
-                <!--android:id="@+id/etToTime"-->
-                <!--style="@style/EditText"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:hint="@string/ybToTime"-->
-                <!--android:onClick="BookingDateOnClick" />-->
+                tools:ignore="HardcodedText" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spToTime"
@@ -114,13 +95,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/ybToTime" />
+                android:hint="@string/ybToTime"
+                android:visibility="invisible" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtToTimeError"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:gravity="center"
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="@dimen/control_SpecingTiny"
@@ -128,7 +109,7 @@
                 android:textColor="@color/error_text"
                 android:textSize="@dimen/control_TextLarge"
                 android:visibility="invisible"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 

@@ -1,15 +1,12 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/yourBookingFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/offwhite"
-    tools:context="com.arraybit.abposw.YourBookingFragment"
-    tools:ignore="UselessParent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:fitsSystemWindows="true"
+    tools:context="com.arraybit.abposw.YourBookingFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +24,8 @@
                 android:background="@color/colorAccent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/control_SpecingTiny">
+                android:padding="@dimen/control_SpecingTiny"
+                android:visibility="gone">
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtHeaderName"
@@ -74,9 +72,10 @@
                     android:textColor="@android:color/white" />
             </LinearLayout>
 
-            <include android:id="@+id/errorLayout"
+            <include
+                android:id="@+id/errorLayout"
                 layout="@layout/error_layout"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvBooking"
@@ -90,10 +89,10 @@
             style="@style/FloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/add_drawable" />
-    </RelativeLayout>
-</FrameLayout>
+            android:src="@drawable/add_drawable"
+            app:layout_behavior="com.arraybit.global.FloatingActionMenuBehavior" />
+
+
+</android.support.design.widget.CoordinatorLayout>
 

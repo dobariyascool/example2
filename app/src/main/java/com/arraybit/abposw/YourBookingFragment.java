@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+@SuppressWarnings("ConstantConditions")
 public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener {
 
     RecyclerView rvBooking;
@@ -66,10 +67,14 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(true);
 
         rvBooking = (RecyclerView) view.findViewById(R.id.rvBooking);
+        rvBooking.setVisibility(View.GONE);
+
         fabBooking = (FloatingActionButton) view.findViewById(R.id.fabBooking);
+
         headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);
+
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
-        headerLayout.setVisibility(View.GONE);
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         if (Service.CheckNet(getActivity())) {
@@ -90,6 +95,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
             if (v.getId() == R.id.fabBooking) {
                 AddBookingFragment addBookingFragment = new AddBookingFragment(getActivity());
                 addBookingFragment.setTargetFragment(this, 0);
+                fabBooking.hide();
                 Globals.ReplaceFragment(addBookingFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
             }
         }
@@ -144,10 +150,9 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster) {
         progressDialog.dismiss();
-        if(errorCode != null){
+        if (errorCode != null) {
             SetError(errorCode);
-        }
-        else if(alBookingMaster != null) {
+        } else if (alBookingMaster != null) {
             this.alBookingMaster = alBookingMaster;
             SetRecyclerView();
         }
@@ -168,39 +173,46 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void AddNewBooking(BookingMaster objBookingMaster) {
-        Date dt;
-        SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
-        SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-        SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
+        if (objBookingMaster == null) {
+            fabBooking.show();
+        } else {
+            fabBooking.show();
+            Date dt;
+            SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+            SimpleDateFormat sdfTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
+            SimpleDateFormat DisplayTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
 
-        try {
-            dt = sdfDateFormat.parse(objBookingMaster.getToDate());
-            objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            dt = sdfTimeFormat.parse(objBookingMaster.getFromTime());
-            objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            dt = sdfTimeFormat.parse(objBookingMaster.getToTime());
-            objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if (objBookingMaster != null) {
+            try {
+                dt = sdfDateFormat.parse(objBookingMaster.getToDate());
+                objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                dt = sdfTimeFormat.parse(objBookingMaster.getFromTime());
+                objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                dt = sdfTimeFormat.parse(objBookingMaster.getToTime());
+                objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             currentPage = 1;
-            if (alBookingMaster == null) {
+            if (adapter == null || adapter.getItemCount() == 0) {
                 alBookingMaster = new ArrayList<>();
                 alBookingMaster.add(0, objBookingMaster);
                 SetRecyclerView();
             } else {
-                alBookingMaster.add(0, objBookingMaster);
-                SetRecyclerView();
+                adapter.BookingDataChanged(objBookingMaster);
+                rvBooking.setAdapter(adapter);
+                rvBooking.setLayoutManager(linearLayoutManager);
+            }
+            if(!fabBooking.isShown()) {
+                Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
             }
         }
     }
@@ -214,8 +226,6 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     }
 
     private void SetRecyclerView() {
-        rvBooking.setVisibility(View.VISIBLE);
-
         if (alBookingMaster == null) {
             if (currentPage == 1) {
                 Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvBooking);

@@ -27,6 +27,9 @@ public class FloatingActionMenuBehavior extends CoordinatorLayout.Behavior {
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+        if(child instanceof android.support.design.widget.FloatingActionButton && dependency instanceof Snackbar.SnackbarLayout){
+            this.updateTranslation(parent, child, dependency);
+        }
         if (child instanceof FloatingActionButton && dependency instanceof Snackbar.SnackbarLayout) {
             this.updateTranslation(parent, child, dependency);
         }
@@ -94,7 +97,15 @@ public class FloatingActionMenuBehavior extends CoordinatorLayout.Behavior {
             } else if (dyConsumed < 0 && fab.isHidden()) {
                 fab.show(true);
             }
-        } else {
+        }else if(child instanceof android.support.design.widget.FloatingActionButton){
+            android.support.design.widget.FloatingActionButton  fab = (android.support.design.widget.FloatingActionButton) child;
+            if (dyConsumed > 0 && fab.isShown()) {
+                fab.hide();
+            } else if (dyConsumed < 0 && !fab.isShown()) {
+                fab.show();
+            }
+        }
+        else {
             FloatingActionMenu fabMenu = (FloatingActionMenu) child;
             if (dyConsumed > 0 && !fabMenu.isMenuButtonHidden()) {
                 fabMenu.hideMenuButton(true);
