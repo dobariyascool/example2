@@ -257,7 +257,7 @@
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
     <!--end-->
-    
+
     <!--Contact Us-->
     <string name="title_activity_contactus">Contact Us</string>
     <string name="cuName">Name</string>

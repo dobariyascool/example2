@@ -17,11 +17,17 @@ import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.ContactUsMaster;
 import com.arraybit.parser.BusinessJSONParser;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
-public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener {
+public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
     TextView txtCountry, txtAddress, txtWebSite, txtPhone1, txtPhone2;
@@ -31,6 +37,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
     View view;
+
+    private SupportMapFragment mapFragment;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +69,15 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
         btnSend = (Button) findViewById(R.id.btnSend);
         linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
+        mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    loadMap(map);
+                }
+            });
+        }
 
         if (Service.CheckNet(this)) {
             RequestBusinessInfoMaster();
@@ -105,20 +124,14 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             Uri uri = Uri.parse(objBusinessMaster.getWebsite());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-            this.overridePendingTransition(R.anim.right_in, R.anim.left_out);
-            finish();
         } else if (v.getId() == R.id.txtPhone1) {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone1()));
             startActivity(intent);
-            this.overridePendingTransition(R.anim.right_in, R.anim.left_out);
-            finish();
         } else if (v.getId() == R.id.txtPhone2) {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone2()));
             startActivity(intent);
-            this.overridePendingTransition(R.anim.right_in, R.anim.left_out);
-            finish();
         }
     }
 
@@ -128,6 +141,49 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    void getMyLocation() {
+        if (map != null) {
+            // Now that map has loaded, let's get our location!
+            map.setMyLocationEnabled(true);
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this).build();
+            connectClient();
+        }
+    }
+
+    protected void loadMap(GoogleMap googleMap) {
+        map = googleMap;
+    }
+
+    protected void connectClient() {
+        // Connect the client.
+        //if (isGooglePlayServicesAvailable() && mGoogleApiClient != null) {
+        //    mGoogleApiClient.connect();
+        //}
     }
 
     //region Private Methods
