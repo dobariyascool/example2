@@ -175,11 +175,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SetUserName();
         }else if (id == R.id.myAccount) {
-            Intent i = new Intent(HomeActivity.this, MyAccountActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
+            startActivity(intent);
         }else if(id == R.id.wishList){
-            Intent i = new Intent(HomeActivity.this, WishListActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(HomeActivity.this, WishListActivity.class);
+            startActivityForResult(intent, 0);
         }
         return super.onOptionsItemSelected(item);
     }

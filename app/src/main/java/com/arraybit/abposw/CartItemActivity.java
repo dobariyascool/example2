@@ -10,6 +10,7 @@ import com.arraybit.global.Globals;
 
 public class CartItemActivity extends AppCompatActivity {
 
+    String activityName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,8 +18,11 @@ public class CartItemActivity extends AppCompatActivity {
 
         FrameLayout fragmentLayout = (FrameLayout)findViewById(R.id.fragmentLayout);
 
-        Globals.ReplaceFragment(new CartItemFragment(), getSupportFragmentManager(), null, R.id.fragmentLayout);
-
+        Intent intent = getIntent();
+        if(intent.getStringExtra("ActivityName")!=null){
+            activityName = intent.getStringExtra("ActivityName");
+        }
+        Globals.ReplaceFragment(new CartItemFragment(activityName), getSupportFragmentManager(), null, R.id.fragmentLayout);
     }
 
     @Override
