@@ -26,6 +26,8 @@
     <color name="orange_light">#F17826</color>
     <color name="transparent_orange">#30FFA726</color>
     <color name="transparent_white">#60FFFFFF</color>
+    <color name="transparent_brown">#903e2723</color>
+
     <!--<color name="primary">#3f0b4b</color>-->
     <!--<color name="accent">#FFC400</color>-->
     <!--<color name="accent_dark">#FFAB00</color>-->
