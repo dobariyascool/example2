@@ -1,15 +1,21 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
@@ -20,7 +26,7 @@ import com.arraybit.parser.ItemJSONParser;
 
 import java.util.ArrayList;
 
-public class WishListActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener {
+public class WishListActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener,View.OnClickListener {
 
     LinearLayout errorLayout;
     RecyclerView rvWishItemMaster;
@@ -28,6 +34,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     ArrayList<ItemMaster> alItemMaster;
     boolean isShowMsg = true;
     ItemAdapter itemAdapter;
+    RelativeLayout relativeLayout;
+    com.rey.material.widget.TextView txtCartNumber;
+    ProgressDialog progressDialog = new ProgressDialog();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +65,32 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_item, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.cart_layout);
+
+        relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
+        final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
+
+        SetCartNumber();
+
+        ivCart.setOnClickListener(this);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.viewChange).setVisible(false);
+        menu.findItem(R.id.cart_layout).setVisible(true);
+        menu.findItem(R.id.logout).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -74,6 +109,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+        progressDialog.dismiss();
         this.alItemMaster = alItemMaster;
         SetRecyclerView();
     }
@@ -84,8 +120,12 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             if (requestCode == 0) {
                 if (data != null) {
                     isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                    if(data.getBooleanExtra("IsRefreshList",false)){
+                        setResult(Activity.RESULT_OK);
+                        finish();
+                    }
                 }
-                //SetCartNumber();
+                SetCartNumber();
                 isShowMsg = true;
             }
         }
@@ -119,10 +159,25 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.ivCart){
+            if(!errorLayout.isShown()) {
+                Intent intent = new Intent(this, CartItemActivity.class);
+                intent.putExtra("ActivityName",getResources().getString(R.string.title_activity_wish_list));
+                this.startActivityForResult(intent, 0);
+            }
+        }
+    }
+
+    public void SetCartItemResponse() {
+        SetCartNumber();
+    }
+
     //region Private Methods
     private void RequestItemMaster() {
+        progressDialog.show(getSupportFragmentManager(),"");
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
-
         SaveWishListInSharePreference(false);
         StringBuilder sbItemMasterIds = new StringBuilder();
         if (alString != null && alString.size() != 0) {
@@ -131,11 +186,13 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                 sbItemMasterIds.append(",");
             }
         } else {
+            progressDialog.dismiss();
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster);
         }
         if (!sbItemMasterIds.toString().equals("")) {
             objItemJSONParser.SelectAllItemMaster(null, this, String.valueOf(1), null, null, String.valueOf(Globals.linktoBusinessMasterId), sbItemMasterIds.toString());
         } else {
+            progressDialog.dismiss();
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster);
         }
     }
@@ -214,7 +271,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         return isDuplicate;
     }
 
-    public void SetRecyclerView() {
+    private void SetRecyclerView() {
         if (alItemMaster == null) {
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvWishItemMaster);
         } else if (alItemMaster.size() == 0) {
@@ -224,6 +281,20 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             itemAdapter = new ItemAdapter(WishListActivity.this, alItemMaster, this, true);
             rvWishItemMaster.setAdapter(itemAdapter);
             rvWishItemMaster.setLayoutManager(new LinearLayoutManager(this));
+        }
+    }
+
+    private void SetCartNumber() {
+        if (Globals.counter > 0) {
+            txtCartNumber.setText(String.valueOf(Globals.counter));
+            txtCartNumber.setSoundEffectsEnabled(true);
+            txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
+//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
+            if (isShowMsg) {
+                Globals.ShowSnackBar(rvWishItemMaster, getResources().getString(R.string.MsgCartItem), WishListActivity.this, 1000);
+            }
+        } else {
+            txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));
         }
     }
     //endregion

@@ -67,7 +67,10 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
                 MenuActivity menuActivity = (MenuActivity) getActivity();
                 menuActivity.SetCartItemResponse();
-            } else {
+            } else if(getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))){
+                WishListActivity wishListActivity = (WishListActivity) getActivity();
+                wishListActivity.SetCartItemResponse();
+            }else{
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }

@@ -239,10 +239,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     famRoot.close(true);
                 }
             } else if (v.getId() == R.id.ivCart) {
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(android.R.id.content, new CartItemFragment());
-//            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.commit();
                 Intent intent = new Intent(this, CartItemActivity.class);
                 this.startActivityForResult(intent, 0);
             }
@@ -258,10 +254,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         Globals.ClearCartData();
     }
 
-    public void SetCartItemResponse() {
-        SetCartNumber();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -274,6 +266,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void SetCartItemResponse() {
+        SetCartNumber();
     }
 
     //region Private Methods

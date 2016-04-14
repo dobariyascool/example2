@@ -166,6 +166,7 @@ public class Globals {
     public static void ClearCartData() {
         counter = 0;
         alOrderItemTran = new ArrayList<>();
+        Globals.linktoOrderTypeMasterId = 0;
     }
 
     public static void ClearUserPreference(Context context, Activity activity) {

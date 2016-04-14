@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.arraybit.global.Globals;
 import com.arraybit.modal.ItemMaster;
@@ -15,8 +16,10 @@ public class ItemModifierRemarkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_modifier_remark);
 
-        Intent intent = getIntent();
+        //hide keyboard focus when activity open
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        Intent intent = getIntent();
         Globals.ReplaceFragment(new ItemModifierRemarkFragment((ItemMaster) intent.getParcelableExtra("ItemMaster")), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.itemModifierRemarkLayout);
     }
 
@@ -24,6 +27,5 @@ public class ItemModifierRemarkActivity extends AppCompatActivity {
     public void onBackPressed() {
        // super.onBackPressed();
         finish();
-        //ModifierSelectionFragmentDialog.alFinalCheckedModifier=new ArrayList<>();
     }
 }
