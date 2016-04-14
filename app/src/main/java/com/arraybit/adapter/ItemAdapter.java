@@ -111,7 +111,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
                 holder.ivJain.setVisibility(View.VISIBLE);
-                if(objItemMaster.getIsDineInOnly()){
+                if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
             } else {
@@ -120,31 +120,52 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
                 holder.ivSpicy.setVisibility(View.VISIBLE);
-                if(objItemMaster.getIsDineInOnly()){
+                if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
             } else {
                 holder.ivSpicy.setVisibility(View.GONE);
             }
-        }else{
-            holder.ivJain.setVisibility(View.GONE);
-            holder.ivSpicy.setVisibility(View.GONE);
-        }
 
-        CheckDuplicate(null, objItemMaster);
+            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Sweet.getValue()))) {
+                holder.ivSweet.setVisibility(View.VISIBLE);
+                if (objItemMaster.getIsDineInOnly()) {
+                    holder.ibLike.setVisibility(View.GONE);
+                }
+            } else {
+                holder.ivSweet.setVisibility(View.GONE);
+            }
 
-        if (objItemMaster.getIsChecked() == -1) {
-            holder.ibLike.setChecked(false);
+            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.DoubleSpicy.getValue()))) {
+                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
+                if (objItemMaster.getIsDineInOnly()) {
+                    holder.ibLike.setVisibility(View.GONE);
+                }
+            } else {
+                holder.ivExtraSpicy.setVisibility(View.GONE);
+            }
 
         } else {
-            holder.ibLike.setChecked(true);
-        }
+            holder.ivJain.setVisibility(View.GONE);
+            holder.ivSpicy.setVisibility(View.GONE);
+            holder.ivSweet.setVisibility(View.GONE);
+            holder.ivExtraSpicy.setVisibility(View.GONE);
 
-        if (isItemAnimate) {
-            if (position > previousPosition) {
-                Globals.SetItemAnimator(holder);
+            CheckDuplicate(null, objItemMaster);
+
+            if (objItemMaster.getIsChecked() == -1) {
+                holder.ibLike.setChecked(false);
+
+            } else {
+                holder.ibLike.setChecked(true);
             }
-            previousPosition = position;
+
+            if (isItemAnimate) {
+                if (position > previousPosition) {
+                    Globals.SetItemAnimator(holder);
+                }
+                previousPosition = position;
+            }
         }
     }
 
@@ -246,7 +267,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
-        ImageView ivItem, ivJain, ivSpicy;
+        ImageView ivItem, ivJain, ivSpicy, ivExtraSpicy, ivSweet;
         CardView cvItem;
         Button btnAdd, btnAddDisable;
         ToggleButton ibLike;
@@ -259,6 +280,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             ivItem = (ImageView) itemView.findViewById(R.id.ivItem);
             ivJain = (ImageView) itemView.findViewById(R.id.ivJain);
             ivSpicy = (ImageView) itemView.findViewById(R.id.ivSpicy);
+            ivExtraSpicy = (ImageView) itemView.findViewById(R.id.ivDoubleSpicy);
+            ivSweet = (ImageView) itemView.findViewById(R.id.ivSweet);
 
             ibLike = (ToggleButton) itemView.findViewById(R.id.ibLike);
 

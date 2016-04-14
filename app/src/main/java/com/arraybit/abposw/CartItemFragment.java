@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.CartItemAdapter;
+import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
@@ -35,6 +36,7 @@ import com.rey.material.widget.TextView;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
+@SuppressLint("ValidFragment")
 public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, OrderJSONParser.OrderMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
 
     RecyclerView rvCartItem;
@@ -50,10 +52,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
-    boolean isPause;
+    String activityName;
 
-    public CartItemFragment() {
-        // Required empty public constructor
+
+    public CartItemFragment(String activityName) {
+        this.activityName = activityName;
     }
 
     @Override
@@ -332,11 +335,21 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 break;
             case "0":
                 Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgConfirmOrder), getActivity(), 1000);
-                Globals.ClearCartData();
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("ShowMessage", false);
-                getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                getActivity().finish();
+                if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_activity_wish_list))) {
+                    RemoveWishListFromSharePreference();
+                    Globals.ClearCartData();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("ShowMessage", false);
+                    returnIntent.putExtra("IsRefreshList", true);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
+                } else {
+                    Globals.ClearCartData();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("ShowMessage", false);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
+                }
                 break;
         }
     }
@@ -419,6 +432,32 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             linearLayout[i].addView(txtTaxName[i]);
             linearLayout[i].addView(txtTaxRate[i]);
             taxLayout.addView(linearLayout[i]);
+        }
+    }
+
+    private void RemoveWishListFromSharePreference() {
+        ArrayList<String> alNewString = new ArrayList<>();
+        boolean isDuplicate;
+        ItemAdapter.alWishItemMaster = new ArrayList<>();
+        if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity()) != null) {
+            ArrayList<String> alOldString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity());
+            for (String strItemMasterId : alOldString) {
+                isDuplicate = false;
+                for (ItemMaster objItemMaster : Globals.alOrderItemTran) {
+                    if (strItemMasterId.equals(String.valueOf(objItemMaster.getItemMasterId()))) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    alNewString.add(strItemMasterId);
+                    ItemMaster objWishItemMaster = new ItemMaster();
+                    objWishItemMaster.setItemMasterId(Integer.parseInt(strItemMasterId));
+                    objWishItemMaster.setIsChecked((short) 1);
+                    ItemAdapter.alWishItemMaster.add(objWishItemMaster);
+                }
+            }
+            objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alNewString, getActivity());
         }
     }
     //endregion

@@ -166,6 +166,7 @@ public class Globals {
     public static void ClearCartData() {
         counter = 0;
         alOrderItemTran = new ArrayList<>();
+        Globals.linktoOrderTypeMasterId = 0;
     }
 
     public static void ClearUserPreference(Context context, Activity activity) {
@@ -287,7 +288,9 @@ public class Globals {
         Veg(7),
         NonVeg(6),
         Spice(3),
-        Jain(5);
+        Jain(5),
+        Sweet(34),
+        DoubleSpicy(43);
 
 
         private int intValue;

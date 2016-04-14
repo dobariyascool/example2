@@ -5,5 +5,5 @@
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:layout_marginEnd="@dimen/control_SpecingTiny"
-    android:scaleType="fitCenter"
+    android:scaleType="centerCrop"
     tools:ignore="ContentDescription"/>
