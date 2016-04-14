@@ -19,9 +19,7 @@ import com.arraybit.modal.OrderMaster;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+@SuppressWarnings("ConstantConditions")
 public class YourOrderFragment extends Fragment {
 
     RecyclerView rvOrder;
@@ -29,6 +27,7 @@ public class YourOrderFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     OrderAdapter OrderAdapter;
     ArrayList<OrderMaster>alOrderMaster;
+    ProgressDialog progressDialog = new ProgressDialog();
 
     public YourOrderFragment() {
         // Required empty public constructor
@@ -74,5 +73,10 @@ public class YourOrderFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void RequestOrderMasterOrderItem(){
+        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+
     }
 }

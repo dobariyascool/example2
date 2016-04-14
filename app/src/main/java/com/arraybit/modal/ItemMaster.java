@@ -46,7 +46,6 @@ public class ItemMaster implements Parcelable {
     double Tax4;
     double Tax5;
     short IsChecked;
-
     /// Extra
     String Unit;
     String Category;
@@ -55,6 +54,13 @@ public class ItemMaster implements Parcelable {
     String UserUpdatedBy;
     String linktoItemMasterIdModifiers;
     String linktoOptionMasterIds;
+    int linktoOrderMasterId;
+    int linktoOrderItemTranId;
+    int Quantity;
+    String Remark;
+    double TotalAmount;
+    double ExtraAmount;
+    String OrderNumber;
     public static final Parcelable.Creator<ItemMaster> CREATOR = new Creator<ItemMaster>() {
         public ItemMaster createFromParcel(Parcel source) {
             ItemMaster objItemMaster = new ItemMaster();
@@ -98,6 +104,9 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoOptionMasterIds = source.readString();
             objItemMaster.SellPrice = source.readDouble();
             objItemMaster.Tax = source.readString();
+            objItemMaster.linktoOrderItemTranId = source.readInt();
+            objItemMaster.linktoOrderMasterId = source.readInt();
+            objItemMaster.OrderNumber = source.readString();
             return objItemMaster;
         }
 
@@ -105,10 +114,6 @@ public class ItemMaster implements Parcelable {
             return new ItemMaster[size];
         }
     };
-    int Quantity;
-    String Remark;
-    double TotalAmount;
-    double ExtraAmount;
     ArrayList<ItemMaster> alOrderItemModifierTran;
 
     public int getItemMasterId() {
@@ -510,6 +515,31 @@ public class ItemMaster implements Parcelable {
     public void setIsChecked(short isChecked) {
         IsChecked = isChecked;
     }
+
+    public int getLinktoOrderItemTranId() {
+        return linktoOrderItemTranId;
+    }
+
+    public void setLinktoOrderItemTranId(int linktoOrderItemTranId) {
+        this.linktoOrderItemTranId = linktoOrderItemTranId;
+    }
+
+    public int getLinktoOrderMasterId() {
+        return linktoOrderMasterId;
+    }
+
+    public void setLinktoOrderMasterId(int linktoOrderMasterId) {
+        this.linktoOrderMasterId = linktoOrderMasterId;
+    }
+
+    public String getOrderNumber() {
+        return OrderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        OrderNumber = orderNumber;
+    }
+
     //endregion
 
     public int describeContents() {
@@ -557,5 +587,8 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(linktoOptionMasterIds);
         parcel.writeDouble(SellPrice);
         parcel.writeString(Tax);
+        parcel.writeInt(linktoOrderMasterId);
+        parcel.writeInt(linktoOrderItemTranId);
+        parcel.writeString(OrderNumber);
     }
 }
