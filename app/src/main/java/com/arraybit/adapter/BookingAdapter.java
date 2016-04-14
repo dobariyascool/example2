@@ -94,7 +94,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override

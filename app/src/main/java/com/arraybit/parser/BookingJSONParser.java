@@ -54,10 +54,14 @@ public class BookingJSONParser {
                 objBookingMaster.setFromDate(sdfControlDateFormat.format(dt));
                 dt = sdfDateFormat.parse(jsonObject.getString("ToDate"));
                 objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
-                dt = DisplayTimeFormat.parse(jsonObject.getString("FromTime"));
-                objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
-                dt = DisplayTimeFormat.parse(jsonObject.getString("ToTime"));
-                objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+                if(!jsonObject.getString("FromTime").equals("null")){
+                    dt = DisplayTimeFormat.parse(jsonObject.getString("FromTime"));
+                    objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
+                }
+                if(!jsonObject.getString("ToTime").equals("null")){
+                    dt = DisplayTimeFormat.parse(jsonObject.getString("ToTime"));
+                    objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+                }
                 if (!jsonObject.getString("IsHourly").equals("null")) {
                     objBookingMaster.setIsHourly(jsonObject.getBoolean("IsHourly"));
                 }
@@ -118,10 +122,14 @@ public class BookingJSONParser {
                 objBookingMaster.setFromDate(sdfControlDateFormat.format(dt));
                 dt = sdfDateFormat.parse(jsonArray.getJSONObject(i).getString("ToDate"));
                 objBookingMaster.setToDate(sdfControlDateFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("FromTime"));
-                objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("ToTime"));
-                objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+                if(!jsonArray.getJSONObject(i).getString("FromTime").equals("null")) {
+                    dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("FromTime"));
+                    objBookingMaster.setFromTime(DisplayTimeFormat.format(dt));
+                }
+                if(!jsonArray.getJSONObject(i).getString("ToTime").equals("null")){
+                    dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("ToTime"));
+                    objBookingMaster.setToTime(DisplayTimeFormat.format(dt));
+                }
                 if (!jsonArray.getJSONObject(i).getString("IsHourly").equals("null")) {
                     objBookingMaster.setIsHourly(jsonArray.getJSONObject(i).getBoolean("IsHourly"));
                 }
