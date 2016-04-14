@@ -150,22 +150,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.ivSpicy.setVisibility(View.GONE);
             holder.ivSweet.setVisibility(View.GONE);
             holder.ivExtraSpicy.setVisibility(View.GONE);
+        }
 
-            CheckDuplicate(null, objItemMaster);
+        CheckDuplicate(null, objItemMaster);
 
-            if (objItemMaster.getIsChecked() == -1) {
-                holder.ibLike.setChecked(false);
+        if (objItemMaster.getIsChecked() == -1) {
+            holder.ibLike.setChecked(false);
 
-            } else {
-                holder.ibLike.setChecked(true);
+        } else {
+            holder.ibLike.setChecked(true);
+        }
+
+        if (isItemAnimate) {
+            if (position > previousPosition) {
+                Globals.SetItemAnimator(holder);
             }
-
-            if (isItemAnimate) {
-                if (position > previousPosition) {
-                    Globals.SetItemAnimator(holder);
-                }
-                previousPosition = position;
-            }
+            previousPosition = position;
         }
     }
 
