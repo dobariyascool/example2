@@ -65,7 +65,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     }
 
     @Override
-    public void BusinessResponse(BusinessMaster objBusinessMaster) {
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster) {
         progressDialog.dismiss();
         this.objBusinessMaster = objBusinessMaster;
         SetTabLayout();
@@ -73,7 +73,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             setResult(Activity.RESULT_OK);
             finish();
         }
@@ -82,10 +82,10 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()==0){
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             setResult(Activity.RESULT_OK);
             finish();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -107,8 +107,8 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
 
             pageAdapter.AddFragment(new InformationFragment(objBusinessMaster), "Information");
             pageAdapter.AddFragment(new GalleryFragment(), "Gallery");
-            pageAdapter.AddFragment(new ReviewFragment(objBusinessMaster),"Review");
-            pageAdapter.AddFragment(new BusinessInformationFragment(),"BusinessInformation");
+            pageAdapter.AddFragment(new ReviewFragment(objBusinessMaster), "Review");
+            pageAdapter.AddFragment(new BusinessInformationFragment(), "BusinessInformation");
 
             viewPager.setAdapter(pageAdapter);
             tabLayout.setupWithViewPager(viewPager);

@@ -108,6 +108,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.hNotification) {
+            drawerLayout.closeDrawer(navigationView);
         } else if (item.getItemId() == R.id.hFeedback) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
@@ -131,11 +133,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
 
             }
-        } else if (item.getItemId() == R.id.hNotification) {
-            drawerLayout.closeDrawer(navigationView);
         } else if (item.getItemId() == R.id.hAboutUs) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.hContactUs) {
+            drawerLayout.closeDrawer(navigationView);
+            Intent intent = new Intent(HomeActivity.this, ContactUsActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.hExit) {
             System.exit(0);

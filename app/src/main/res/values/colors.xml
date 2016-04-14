@@ -15,6 +15,7 @@
         <!--<item name="third">#FF6F00</item>-->
         <item name="third">#BFB725</item>
     </array>
+    <color name="heading">#FF633611</color>
     <color name="error_text">#FF5252</color>
     <color name="blue_grey">#263238</color>
     <color name="offwhite">#F5F5F5</color>

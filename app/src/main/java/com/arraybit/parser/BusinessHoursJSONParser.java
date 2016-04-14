@@ -72,10 +72,14 @@ public class BusinessHoursJSONParser {
                 objBusinessHoursTran.setOpeningTime(sdfControlTimeFormat.format(dt));
                 dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("ClosingTime"));
                 objBusinessHoursTran.setClosingTime(sdfControlTimeFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("BreakStartTime"));
-                objBusinessHoursTran.setBreakStartTime(sdfControlTimeFormat.format(dt));
-                dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("BreakEndTime"));
-                objBusinessHoursTran.setBreakEndTime(sdfControlTimeFormat.format(dt));
+                if(!jsonArray.getJSONObject(i).getString("BreakStartTime").equals("null")) {
+                    dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("BreakStartTime"));
+                    objBusinessHoursTran.setBreakStartTime(sdfControlTimeFormat.format(dt));
+                }
+                if(!jsonArray.getJSONObject(i).getString("BreakEndTime").equals("null")) {
+                    dt = sdfTimeFormat.parse(jsonArray.getJSONObject(i).getString("BreakEndTime"));
+                    objBusinessHoursTran.setBreakEndTime(sdfControlTimeFormat.format(dt));
+                }
                 objBusinessHoursTran.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
 
                 /// Extra
