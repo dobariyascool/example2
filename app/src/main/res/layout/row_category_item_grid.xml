@@ -130,8 +130,8 @@
 
                 <ToggleButton
                     android:id="@+id/ibLike"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="end"
                     android:background="@drawable/wishlist_drawable"
                     android:padding="@dimen/control_SpecingSmall"
