@@ -65,7 +65,9 @@
         <LinearLayout
             android:id="@+id/timeLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/control_SpecingSmall"
+            android:gravity="center">
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spFromTime"
@@ -81,8 +83,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:gravity="center"
+                android:paddingBottom="0dp"
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="@dimen/control_SpecingTiny"
+                android:paddingTop="@dimen/control_SpecingTiny"
                 android:text="*"
                 android:textColor="@color/error_text"
                 android:textSize="@dimen/control_TextLarge"
@@ -103,8 +107,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:paddingBottom="0dp"
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="@dimen/control_SpecingTiny"
+                android:paddingTop="@dimen/control_SpecingTiny"
                 android:text="*"
                 android:textColor="@color/error_text"
                 android:textSize="@dimen/control_TextLarge"
