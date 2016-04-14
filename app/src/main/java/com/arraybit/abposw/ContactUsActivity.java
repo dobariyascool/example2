@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
@@ -26,7 +26,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
     TextView txtCountry, txtAddress, txtWebSite, txtPhone1, txtPhone2;
     Button btnSend;
-    CoordinatorLayout coordinatorLayoutContactUs;
+    LinearLayout linearLayoutContactUs;
     com.arraybit.abposw.ProgressDialog progressDialog = new ProgressDialog();
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
@@ -58,12 +58,12 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtPhone1 = (TextView) findViewById(R.id.txtPhone1);
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
         btnSend = (Button) findViewById(R.id.btnSend);
-        coordinatorLayoutContactUs = (CoordinatorLayout) findViewById(R.id.coordinatorLayoutContactUs);
+        linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
 
         if (Service.CheckNet(this)) {
             RequestBusinessInfoMaster();
         } else {
-            Globals.ShowSnackBar(coordinatorLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
 
         btnSend.setOnClickListener(this);
