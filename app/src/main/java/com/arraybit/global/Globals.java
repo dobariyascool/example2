@@ -287,7 +287,9 @@ public class Globals {
         Veg(7),
         NonVeg(6),
         Spice(3),
-        Jain(5);
+        Jain(5),
+        Sweet(34),
+        DoubleSpicy(43);
 
 
         private int intValue;

@@ -112,6 +112,22 @@
                     android:visibility="gone"
                     tools:ignore="ContentDescription"/>
 
+                <ImageView
+                    android:id="@+id/ivDoubleSpicy"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/extra_spicy"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
+
+                <ImageView
+                    android:id="@+id/ivSweet"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/sweet"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
+
                 <ToggleButton
                     android:id="@+id/ibLike"
                     android:layout_width="24dp"
