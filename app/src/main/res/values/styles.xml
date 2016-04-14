@@ -231,10 +231,10 @@
     </style>
 
     <!--<style name="FloatingButton" parent="FloatingButtonDesignSupport">-->
-        <!--<item name="rippleColor">@color/orange</item>-->
-        <!--<item name="fabSize">normal</item>-->
-        <!--<item name="android:background">@color/orange_light</item>-->
-        <!--<item name="android:layout_margin">@dimen/control_SpecingSmall</item>-->
+    <!--<item name="rippleColor">@color/orange</item>-->
+    <!--<item name="fabSize">normal</item>-->
+    <!--<item name="android:background">@color/orange_light</item>-->
+    <!--<item name="android:layout_margin">@dimen/control_SpecingSmall</item>-->
     <!--</style>-->
 
     <style name="FloatingButtonWithTextStyle" parent="FloatingActionButton">

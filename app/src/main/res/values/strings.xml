@@ -255,5 +255,17 @@
     <string name="ybStatus">Status</string>
     <string name="ybCancel">Cancel</string>
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
+    <string name="title_activity_contact_us">ContactUsActivity</string>
     <!--end-->
+
+    <!--Contact Us-->
+    <string name="title_activity_contactus">Contact Us</string>
+    <string name="cuName">Name</string>
+    <string name="cuEmail">Your Email</string>
+    <string name="cuMobile">Mobile No.</string>
+    <string name="cuMessage">Message</string>
+    <string name="cuSend">Send</string>
+    <string name="cuOffice">Office</string>
+    <string name="cuContactUs">Contact Us</string>
+    <!--End-->
 </resources>
