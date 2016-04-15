@@ -20,29 +20,27 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.arraybit.global.Globals;
-import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.ContactUsMaster;
 import com.arraybit.parser.BusinessJSONParser;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
 public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        GoogleApiClient.OnConnectionFailedListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
@@ -88,21 +86,37 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
         btnSend = (Button) findViewById(R.id.btnSend);
         linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
-        mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    loadMap(map);
-                }
-            });
-        }
+        if(map==null){
+            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+            if(map!=null){
+                loadMap();
+            }
 
-        if (Service.CheckNet(this)) {
-            RequestBusinessInfoMaster();
-        } else {
-            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
+//        if(map==null){
+//            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+//            loadMap();
+//        }
+
+//        if (map == null) {
+//            // loadMap();
+////            mapFragment.getMapAsync(new OnMapReadyCallback() {
+////                @Override
+////                public void onMapReady(GoogleMap map) {
+////                    loadMap(map);
+////                }
+////            });
+////            mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
+////            if(map != null){
+////                loadMap();
+////            }
+//        }
+
+//        if (Service.CheckNet(this)) {
+//            RequestBusinessInfoMaster();
+//        } else {
+//            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+//        }
 
         btnSend.setOnClickListener(this);
         txtWebSite.setOnClickListener(this);
@@ -212,7 +226,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         } else {
             Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
         }
-        startLocationUpdates();
+        //startLocationUpdates();
     }
 
     @Override
@@ -224,10 +238,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
+//    @Override
+//    public void onLocationChanged(Location location) {
+//
+//    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -250,15 +264,44 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         }
     }
 
-    protected void loadMap(GoogleMap googleMap) {
-        map = googleMap;
-        if (map != null) {
-            // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-            //MapDemoActivityPermissionsDispatcher.getMyLocationWithCheck(this);
-        } else {
-            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
-        }
+    protected void loadMap() {
+//        try {
+        final LatLng latLng = new LatLng(21, 57);
+
+        map.setMyLocationEnabled(true);
+        // For dropping a marker at a point on the Map
+        map.addMarker(new MarkerOptions().position(new LatLng(21, 57)).title("My Home").snippet("Home Address"));
+        // For zooming automatically to the Dropped PIN Location
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(21,57), 12.0f));
+//            if (map == null) {
+//                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+//                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//                map.getUiSettings().setMyLocationButtonEnabled(true);
+//                map.getUiSettings().setZoomControlsEnabled(true);
+//                map.getUiSettings().setZoomGesturesEnabled(true);
+//
+//            }
+//            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//            Marker TP = map.addMarker(new MarkerOptions().position(latLng).title("TutorialsPoint"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+//         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+//
+//        Marker marker = map.addMarker(new MarkerOptions()
+//                .position(latLng)
+//                .title("Have a nice day!"));
+//
+//        map = googleMap;
+//        if (map != null) {
+//            // Map is ready
+//            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+//            //ContactUsActivityPermissionsDispatcher.getMyLocationWithCheck(this);
+//        } else {
+//            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     protected void connectClient() {
@@ -267,13 +310,13 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         }
     }
 
-    protected void startLocationUpdates() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-    }
+//    protected void startLocationUpdates() {
+//        mLocationRequest = new LocationRequest();
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//        mLocationRequest.setInterval(UPDATE_INTERVAL);
+//        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+//        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+//    }
 
     //region Private Methods
     private void RequestBusinessInfoMaster() {
