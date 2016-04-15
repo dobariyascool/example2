@@ -45,7 +45,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     CirclePageIndicator circlePageIndicator;
     CompoundButton cbName;
     TextView txtFullName;
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
