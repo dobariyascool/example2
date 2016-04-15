@@ -53,7 +53,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        //Toolbar start
+        //region Toolbar
         Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         if (app_bar != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(app_bar);
@@ -64,33 +64,35 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         }
         app_bar.setTitle(getActivity().getResources().getString(R.string.title_fragment_your_profile));
         setHasOptionsMenu(true);
-        //end
+        //endregion
 
-        //EditText start
+        //region EditText
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etBirthDate = (EditText) view.findViewById(R.id.etDateOfBirth);
-        //end
+        //endregion
 
-        //Text View start
+        //region View
         txtLoginChar = (TextView) view.findViewById(R.id.txtLoginChar);
         txtEmail = (TextView) view.findViewById(R.id.txtEmail);
         txtFullName = (TextView) view.findViewById(R.id.txtFullName);
-        //end
+        //endregion
 
-        //RadioButton start
+        //region RadioButton
         rbMale = (RadioButton) view.findViewById(R.id.rbMale);
         rbFemale = (RadioButton) view.findViewById(R.id.rbFemale);
-        //end
+        //endregion
 
+        //region Comment
        /* //Spinner start
         spCity = (AppCompatSpinner) view.findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
         //end*/
+        //endregion
 
-        //Button start
+        //region Button
         btnUpdateProfile = (Button) view.findViewById(R.id.btnUpdate);
-        //end
+        //endregion
 
         setHasOptionsMenu(true);
 
@@ -156,7 +158,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
     }
 
     public void EditTextOnClick() {
-        Globals.ShowDatePickerDialog(etBirthDate, getActivity(),false);
+        Globals.ShowDatePickerDialog(etBirthDate, getActivity(), false);
     }
 
     // region Private Methods
