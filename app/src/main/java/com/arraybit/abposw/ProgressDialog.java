@@ -37,7 +37,7 @@ public class ProgressDialog extends DialogFragment{
         getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if ((keyCode == android.view.KeyEvent.KEYCODE_BACK)) {
+                if ((keyCode == KeyEvent.KEYCODE_BACK)) {
                     // To dismiss the fragment when the back-button is pressed.
                     return true;
                 } else {

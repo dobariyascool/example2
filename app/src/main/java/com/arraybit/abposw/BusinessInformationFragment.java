@@ -21,7 +21,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
 
     RecyclerView rvBusinessInfo;
     LinearLayoutManager linearLayoutManager;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     BusinessInfoAdapter adapter;
     ArrayList<BusinessInfoQuestionMaster> lstBusinessInfoQuestionMaster;
     BusinessInfoQuestionMaster objBusinessInfoQuestionMaster;

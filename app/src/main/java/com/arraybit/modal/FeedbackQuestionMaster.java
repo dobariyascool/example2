@@ -24,7 +24,7 @@ public class FeedbackQuestionMaster implements Parcelable {
     String FeedbackQuestionGroup;
     String FeedbackAnswer;
     int linktoFeedbackAnswerMasterId;
-    public static final Parcelable.Creator<FeedbackQuestionMaster> CREATOR = new Creator<FeedbackQuestionMaster>() {
+    public static final Creator<FeedbackQuestionMaster> CREATOR = new Creator<FeedbackQuestionMaster>() {
         public FeedbackQuestionMaster createFromParcel(Parcel source) {
             FeedbackQuestionMaster objFeedbackQuestionMaster = new FeedbackQuestionMaster();
             objFeedbackQuestionMaster.FeedbackQuestionMasterId = source.readInt();

@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     View view;
     ImageView ibClear;
     ToggleButton tbPasswordShow;
-    com.arraybit.abposw.ProgressDialog progressDialog;
+    ProgressDialog progressDialog;
     SharePreferenceManage objSharePreferenceManage;
 
     @Override
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //region Private Methods
     private void LoginRequest() {
-        progressDialog = new com.arraybit.abposw.ProgressDialog();
+        progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();

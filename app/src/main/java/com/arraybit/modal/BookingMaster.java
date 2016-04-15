@@ -34,7 +34,7 @@ public class BookingMaster implements Parcelable {
     short linktoBusinessMasterId;
     boolean IsDeleted;
     short BookingStatus;
-    public static final Parcelable.Creator<BookingMaster> CREATOR = new Creator<BookingMaster>() {
+    public static final Creator<BookingMaster> CREATOR = new Creator<BookingMaster>() {
         public BookingMaster createFromParcel(Parcel source) {
             BookingMaster objBookingMaster = new BookingMaster();
             objBookingMaster.BookingMasterId = source.readInt();

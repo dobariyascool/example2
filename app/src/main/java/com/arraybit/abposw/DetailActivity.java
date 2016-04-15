@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     LinearLayout itemSuggestionLayout, dividerLayout;
     FrameLayout detailLayout;
 

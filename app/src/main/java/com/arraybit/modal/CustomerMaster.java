@@ -46,7 +46,7 @@ public class CustomerMaster implements Parcelable {
     short linktoCityMasterId;
     short linktoAreaMasterId;
 
-    public static final Parcelable.Creator<CustomerMaster> CREATOR = new Creator<CustomerMaster>() {
+    public static final Creator<CustomerMaster> CREATOR = new Creator<CustomerMaster>() {
         public CustomerMaster createFromParcel(Parcel source) {
             CustomerMaster objCustomerMaster = new CustomerMaster();
             objCustomerMaster.CustomerMasterId = source.readInt();

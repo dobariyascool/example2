@@ -42,7 +42,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     Date birthDate;
     View view;
     RadioButton rbMale, rbFemale;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

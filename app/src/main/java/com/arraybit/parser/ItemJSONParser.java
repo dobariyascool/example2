@@ -276,7 +276,7 @@ public class ItemJSONParser {
                         ArrayList<ItemMaster> alItemMaster = new ArrayList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             ItemMaster objItemMaster = new ItemMaster();
-                            objItemMaster.setItemMasterId(jsonArray.getJSONObject(i).getInt("ItemMasterId"));
+                            objItemMaster.setItemMasterId(jsonArray.getJSONObject(i).getInt("linktoItemMasterId"));
                             objItemMaster.setItemName(jsonArray.getJSONObject(i).getString("Item"));
                             objItemMaster.setItemCode(jsonArray.getJSONObject(i).getString("ItemCode"));
                             objItemMaster.setItemPoint((short) jsonArray.getJSONObject(i).getInt("ItemPoint"));

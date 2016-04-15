@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class GalleryFragment extends Fragment implements BusinessGalleryJSONParser.BusinessGalleryRequestListener, GalleryAdapter.ImageViewClickListener {
 
     static ArrayList<BusinessGalleryTran> lstBusinessGalleryTran;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     RecyclerView rvGallery;
     TextView txtMsg;
     GalleryAdapter adapter;

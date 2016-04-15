@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,20 +15,31 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.OrderAdapter;
+import com.arraybit.global.EndlessRecyclerOnScrollListener;
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
+import com.arraybit.parser.ItemJSONParser;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class YourOrderFragment extends Fragment {
+public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener {
 
     RecyclerView rvOrder;
-    LinearLayout errorlayout;
+    LinearLayout errorLayout;
     LinearLayoutManager linearLayoutManager;
-    OrderAdapter OrderAdapter;
-    ArrayList<OrderMaster>alOrderMaster;
+    OrderAdapter adapter;
     ProgressDialog progressDialog = new ProgressDialog();
+    int currentPage = 1;
+    ArrayList<ItemMaster> alItemMaster;
+    ArrayList<OrderMaster> alOrderMaster;
+    ArrayList<ItemMaster> alOrderItemTran;
+    int customerMasterId;
+    SharePreferenceManage objSharePreferenceManage;
+
 
     public YourOrderFragment() {
         // Required empty public constructor
@@ -56,14 +68,48 @@ public class YourOrderFragment extends Fragment {
 
         rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
        /* headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);*/
-        errorlayout = (LinearLayout) view.findViewById(R.id.errorLayout);
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
       /*  headerLayout.setVisibility(View.GONE);*/
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
-        OrderAdapter = new OrderAdapter(alOrderMaster,getActivity());
-        rvOrder.setAdapter(OrderAdapter);
-        rvOrder.setLayoutManager(linearLayoutManager);
+        if (Service.CheckNet(getActivity())) {
+            RequestOrderMasterOrderItem();
+        } else {
+            Globals.ShowSnackBar(container, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+        }
+
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        rvOrder.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                if (!adapter.isItemAnimate) {
+//                    adapter.isItemAnimate = true;
+//                }
+            }
+        });
+
+        rvOrder.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+//                if (!adapter.isItemAnimate) {
+//                    adapter.isItemAnimate = true;
+//                }
+                if (current_page > currentPage) {
+                    currentPage = current_page;
+                    if (Service.CheckNet(getActivity())) {
+                        RequestOrderMasterOrderItem();
+                    } else {
+                        Globals.ShowSnackBar(rvOrder, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -75,8 +121,161 @@ public class YourOrderFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void RequestOrderMasterOrderItem(){
-        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+    @Override
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+        progressDialog.dismiss();
+        this.alItemMaster = alItemMaster;
+        SetRecyclerView();
+    }
 
+    private void RequestOrderMasterOrderItem() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+        }
+        if (customerMasterId != 0) {
+            ItemJSONParser objItemJSONParser = new ItemJSONParser();
+            objItemJSONParser.SelectAllOrderMasterOrderItem(this, getActivity(), String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), String.valueOf(customerMasterId));
+        } else {
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder);
+        }
+    }
+
+    private void SetRecyclerView() {
+        SetList();
+        if (alOrderMaster == null) {
+            if (currentPage == 1) {
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvOrder);
+            }
+        } else if (alOrderMaster.size() == 0) {
+            if (currentPage == 1) {
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder);
+            }
+        } else {
+            Globals.SetErrorLayout(errorLayout, false, null, rvOrder);
+            if (currentPage > 1) {
+                adapter.OrderDataChanged(alOrderMaster);
+                return;
+            } else if (alOrderMaster.size() < 10) {
+                currentPage += 1;
+            }
+            adapter = new OrderAdapter(getActivity(), alOrderMaster);
+            rvOrder.setAdapter(adapter);
+            rvOrder.setLayoutManager(linearLayoutManager);
+        }
+    }
+
+    private void SetList() {
+        alOrderMaster = new ArrayList<>();
+        ArrayList<ItemMaster> alOrderItem= new ArrayList<>();
+        OrderMaster objOrderMaster = new OrderMaster();
+        int orderId = -1;
+        int cnt = 0;
+        for (ItemMaster objItemMaster : alItemMaster) {
+            if (orderId == -1) {
+                orderId = objItemMaster.getLinktoOrderMasterId();
+                objOrderMaster.setOrderMasterId(objItemMaster.getLinktoOrderMasterId());
+                objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
+                objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
+                objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
+                alOrderItem.add(objItemMaster);
+                if(cnt==alItemMaster.size()-1){
+                    SetModifierList(alOrderItem);
+                    objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                    alOrderMaster.add(objOrderMaster);
+                }
+            } else {
+                if (orderId == objItemMaster.getLinktoOrderMasterId()) {
+                    orderId = objItemMaster.getLinktoOrderMasterId();
+                    alOrderItem.add(objItemMaster);
+                    if(cnt==alItemMaster.size()-1){
+                        SetModifierList(alOrderItem);
+                        objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                        alOrderMaster.add(objOrderMaster);
+                    }
+                } else {
+                    SetModifierList(alOrderItem);
+                    objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                    alOrderMaster.add(objOrderMaster);
+                    orderId = objItemMaster.getLinktoOrderMasterId();
+                    alOrderItem = new ArrayList<>();
+                    objOrderMaster = new OrderMaster();
+                    objOrderMaster.setOrderMasterId(objItemMaster.getLinktoOrderMasterId());
+                    objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
+                    objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
+                    objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
+                    alOrderItem.add(objItemMaster);
+                }
+            }
+            cnt++;
+        }
+    }
+
+    private void SetModifierList(ArrayList<ItemMaster> alOrderItem){
+        int cnt = 0;
+        ArrayList<ItemMaster> alModifier = new ArrayList<>();
+        alOrderItemTran = new ArrayList<>();
+        ItemMaster objOrderItem = new ItemMaster();
+        for(ItemMaster objItem : alOrderItem){
+            if(objItem.getLinktoItemMasterIdModifiers().equals("0")){
+                if(alModifier.size() > 0){
+                    objOrderItem.setAlOrderItemModifierTran(alModifier);
+                    alOrderItemTran.add(objOrderItem);
+                    alModifier = new ArrayList<>();
+                }
+                objOrderItem = objItem;
+                alOrderItemTran.add(objOrderItem);
+            }else{
+                alModifier.add(objItem);
+                if(cnt==alOrderItem.size()-1){
+                    objOrderItem.setAlOrderItemModifierTran(alModifier);
+                    alOrderItemTran.add(objOrderItem);
+                    alModifier = new ArrayList<>();
+                }
+            }
+        }
     }
 }
+//        for (ItemMaster objItemMaster : alItemMaster) {
+//        if (orderId == -1) {
+//        orderId = objItemMaster.getLinktoOrderMasterId();
+//        objOrderMaster.setOrderMasterId(objItemMaster.getLinktoOrderMasterId());
+//        objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
+//        objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
+//        objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
+//        alOrderItemTran.add(objItemMaster);
+//        //alOrderMaster.add(objOrderMaster);
+//        } else {
+//        if (orderId == objItemMaster.getLinktoOrderMasterId()) {
+//        orderId = objItemMaster.getLinktoOrderMasterId();
+//        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("0")) {
+//        if (alModifier.size() > 0) {
+//        objOrderItem.setAlOrderItemModifierTran(alModifier);
+//        alOrderMaster.add(objOrderItem);
+//        alModifier = new ArrayList<>();
+//        } else {
+//        //objOrderItem = objItemMaster;
+//        alOrderItemTran.add(objItemMaster);
+//        //alOrderMaster.add(objOrderItem);
+//        }
+//        } else {
+//        alOrderMaster.add(objItemMaster);
+//        }
+//        } else {
+//        orderId = objItemMaster.getLinktoOrderMasterId();
+//        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("0")) {
+//        if (alModifier.size() > 0) {
+//        objOrderItem.setAlOrderItemModifierTran(alModifier);
+//        alOrderMaster.add(objOrderItem);
+//        alModifier = new ArrayList<>();
+//        } else {
+//        objOrderItem = objItemMaster;
+//        alOrderMaster.add(objOrderItem);
+//        }
+//        } else {
+//        alOrderMaster.add(objItemMaster);
+//        }
+//        }
+//        }

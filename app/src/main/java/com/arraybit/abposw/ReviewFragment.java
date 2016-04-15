@@ -26,7 +26,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     static ArrayList<ReviewMaster> lstReviewMaster;
     RecyclerView rvReview;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     LinearLayoutManager linearLayoutManager;
     BusinessMaster objBusinessMaster;
     ReviewAdapter adapter;

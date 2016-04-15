@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class InformationFragment extends Fragment implements BusinessHoursJSONParser.BusinessHoursRequestListener{
 
     static ArrayList<BusinessHoursTran> lstBusinessHoursTran;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     RecyclerView rvWorkingHours;
     TextView txtAddress, txtPhone1,txtPhone2, txtEmail, txtWebSite,txtFax;
     LinearLayoutManager linearLayoutManager;

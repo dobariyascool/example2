@@ -190,7 +190,7 @@ public class FeedbackQuestionJSONParser {
     public void SelectAllFeedbackQuestionAnswer(final Context context, String linktoBusinessMasterId) {
         String url = Service.Url + this.SelectAllQuestionAnswer + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 JSONArray jsonArray = null;

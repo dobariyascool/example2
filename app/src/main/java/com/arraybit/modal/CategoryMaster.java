@@ -30,7 +30,7 @@ public class CategoryMaster implements Parcelable {
     /// Extra
     String CategoryParent;
     String Business;
-    public static final Parcelable.Creator<CategoryMaster> CREATOR = new Creator<CategoryMaster>() {
+    public static final Creator<CategoryMaster> CREATOR = new Creator<CategoryMaster>() {
         public CategoryMaster createFromParcel(Parcel source) {
             CategoryMaster objCategoryMaster = new CategoryMaster();
             objCategoryMaster.CategoryMasterId = (short)source.readInt();

@@ -4,4 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
+    <com.rey.material.widget.TextView
+        android:id="@+id/txtOrderMasterId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" />
+
 </android.support.v7.widget.CardView>

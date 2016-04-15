@@ -39,7 +39,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     public static ArrayList<OptionMaster> alOptionValue;
     RecyclerView rvOptionValue, rvModifier;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     ItemMaster objItemMaster;
     ArrayList<OptionMaster> alOptionMaster;
     String strOptionName;

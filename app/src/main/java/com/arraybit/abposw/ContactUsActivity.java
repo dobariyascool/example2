@@ -1,13 +1,16 @@
 package com.arraybit.abposw;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -86,13 +89,27 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
         btnSend = (Button) findViewById(R.id.btnSend);
         linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
-        if(map==null){
-            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
-            if(map!=null){
-                loadMap();
+//        if(map==null){
+//            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+//            if(map!=null){
+//                loadMap();
+//            }
+//
+//        }
+
+        if (map == null) {
+            try {
+                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+                if (map != null) {
+                    loadMap();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
+
+
 //        if(map==null){
 //            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
 //            loadMap();
@@ -217,6 +234,16 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     @Override
     public void onConnected(Bundle dataBundle) {
         // Display the connection status
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
             Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
@@ -268,6 +295,16 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 //        try {
         final LatLng latLng = new LatLng(21, 57);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         map.setMyLocationEnabled(true);
         // For dropping a marker at a point on the Map
         map.addMarker(new MarkerOptions().position(new LatLng(21, 57)).title("My Home").snippet("Home Address"));

@@ -49,7 +49,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
     FeedbackAnswerMaster objFeedbackAnswerMaster;
     SharePreferenceManage objSharePreferenceManage;
     View focusView;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
 
     public FeedbackViewFragment() {
         // Required empty public constructor

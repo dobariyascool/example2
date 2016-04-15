@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.OrderMaster;
+import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -18,9 +19,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
     View view;
     ArrayList<OrderMaster> alOrderMaster;
 
-    public OrderAdapter(ArrayList<OrderMaster> alOrderMaster, Context context) {
-        this.alOrderMaster = alOrderMaster;
+    public OrderAdapter(Context context,ArrayList<OrderMaster> alOrderMaster) {
         this.context = context;
+        this.alOrderMaster = alOrderMaster;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -32,18 +33,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
 
     @Override
     public void onBindViewHolder(OrderMasterViewHolder holder, int position) {
+        OrderMaster objOrderMaster = alOrderMaster.get(position);
 
+        holder.txtOrderMasterId.setText(objOrderMaster.getTotalAmount()+" "+objOrderMaster.getOrderNumber()+" "+objOrderMaster.getOrderMasterId());
+    }
+
+    public void OrderDataChanged(ArrayList<OrderMaster> result) {
+        alOrderMaster.addAll(result);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return alOrderMaster.size();
     }
 
     class OrderMasterViewHolder extends RecyclerView.ViewHolder {
 
+        TextView txtOrderMasterId;
+
         public OrderMasterViewHolder(View itemView) {
             super(itemView);
+
+            txtOrderMasterId = (TextView) itemView.findViewById(R.id.txtOrderMasterId);
 
         }
     }

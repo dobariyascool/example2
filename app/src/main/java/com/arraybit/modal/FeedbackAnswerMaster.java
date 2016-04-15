@@ -12,7 +12,7 @@ public class FeedbackAnswerMaster implements Parcelable {
     boolean IsDeleted;
     /// Extra
     String FeedbackQuestion;
-    public static final Parcelable.Creator<FeedbackAnswerMaster> CREATOR = new Creator<FeedbackAnswerMaster>() {
+    public static final Creator<FeedbackAnswerMaster> CREATOR = new Creator<FeedbackAnswerMaster>() {
         public FeedbackAnswerMaster createFromParcel(Parcel source) {
             FeedbackAnswerMaster objFeedbackAnswerMaster = new FeedbackAnswerMaster();
             objFeedbackAnswerMaster.FeedbackAnswerMasterId = source.readInt();
