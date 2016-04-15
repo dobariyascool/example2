@@ -256,7 +256,14 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
-                getActivity().finish();
+                if (getTargetFragment() != null) {
+                    objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
+                    objAddNewBookingListener.AddNewBooking(null);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }else{
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                }
             } else {
                 if (getTargetFragment() != null) {
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
@@ -324,7 +331,14 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 break;
             default:
                 if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
-                    getActivity().finish();
+                    if(getTargetFragment()!=null){
+                        objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
+                        objAddNewBookingListener.AddNewBooking(objBookingMaster);
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }else{
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
                 } else {
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
                     objAddNewBookingListener.AddNewBooking(objBookingMaster);
