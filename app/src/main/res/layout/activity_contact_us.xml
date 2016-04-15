@@ -15,6 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/control_SpecingSmall"
+        android:layout_marginStart="@dimen/control_SpecingSmall"
         android:orientation="vertical"
         android:paddingBottom="@dimen/control_SpecingSmall"
         android:paddingLeft="@dimen/control_SpecingSmall"
