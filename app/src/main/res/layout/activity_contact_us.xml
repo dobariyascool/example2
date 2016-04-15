@@ -120,12 +120,12 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/control_SpecingTiny" />
 
-                <!--<fragment-->
-                    <!--android:id="@+id/mapFragment"-->
-                    <!--class="com.google.android.gms.maps.SupportMapFragment"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="450dp"-->
-                    <!--android:visibility="gone"/>-->
+                <fragment
+                    android:id="@+id/mapFragment"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
