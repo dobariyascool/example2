@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,13 +41,13 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     BookingAdapter adapter;
     ArrayList<BookingMaster> alBookingMaster = new ArrayList<>();
     View view;
+    Activity activity;
     Context context;
     int currentPage = 1, position, cnt;
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
     com.arraybit.abposw.ProgressDialog progressDialog = new ProgressDialog();
 
     public YourBookingFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -108,7 +109,12 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                     && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
                 Globals.HideKeyBoard(getActivity(), getView());
-                getActivity().getSupportFragmentManager().popBackStack();
+                if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                } else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         }
         return super.onOptionsItemSelected(item);
@@ -211,7 +217,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 rvBooking.setAdapter(adapter);
                 rvBooking.setLayoutManager(linearLayoutManager);
             }
-            if(!fabBooking.isShown()) {
+            if (!fabBooking.isShown()) {
                 Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
             }
         }
@@ -223,7 +229,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
         String customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity());
-        objBookingJSONParser.SelectAllBookingMaster(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId),customerMasterId);
+        objBookingJSONParser.SelectAllBookingMaster(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), customerMasterId);
     }
 
     private void SetRecyclerView() {

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("InflateParams")
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BusinessGalleryJSONParser.BusinessGalleryRequestListener, View.OnClickListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BusinessGalleryJSONParser.BusinessGalleryRequestListener, View.OnClickListener {
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
@@ -184,7 +184,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
-        }else if(id == R.id.wishList){
+        }else if (id == R.id.myBookings) {
+            Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
+            intent.putExtra("YourBookingOption", getResources().getString(R.string.title_fragment_your_booking));
+            startActivity(intent);
+        } else if (id == R.id.wishList) {
             Intent intent = new Intent(HomeActivity.this, WishListActivity.class);
             startActivityForResult(intent, 0);
         }
@@ -252,7 +256,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void SetUserName() {
         Intent intent = getIntent();
-        if(intent.getBooleanExtra("IsLogin",false)){
+        if (intent.getBooleanExtra("IsLogin", false)) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
                 cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this));
