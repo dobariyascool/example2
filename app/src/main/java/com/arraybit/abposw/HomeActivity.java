@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
@@ -43,6 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ViewPager viewPager;
     CirclePageIndicator circlePageIndicator;
     CompoundButton cbName;
+    TextView txtFullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
         //txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
+        txtFullName=(TextView)headerView.findViewById(R.id.txtFullName);
         //cbName.setText(objCustomerMaster.getEmail1());
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -178,10 +181,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SetUserName();
-        } else if (id == R.id.myAccount) {
+        }else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.myBookings) {
+            startActivityForResult(intent, 0);
+        }else if (id == R.id.myBookings) {
             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
             intent.putExtra("YourBookingOption", getResources().getString(R.string.title_fragment_your_booking));
             startActivity(intent);
@@ -259,6 +262,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this));
             } else {
                 cbName.setText(getResources().getString(R.string.siSignIn));
+            }
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", HomeActivity.this) != null) {
+                txtFullName.setVisibility(View.VISIBLE);
+                txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", HomeActivity.this));
+            } else {
+                txtFullName.setVisibility(View.GONE);
             }
         }
     }

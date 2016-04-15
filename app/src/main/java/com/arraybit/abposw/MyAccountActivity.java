@@ -42,23 +42,23 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        //Text View start
+        //region TextView
         txtLoginChar = (TextView) findViewById(R.id.txtLoginChar);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
-        //end
+        //endregion
 
         SetUserName();
 
-        //RecyclerView start
+        //region RecyclerView
         GetData();
         rvOptions = (RecyclerView) findViewById(R.id.rvOptions);
         MyAccountAdapter accountAdapter = new MyAccountAdapter(alString, MyAccountActivity.this, this);
         rvOptions.setAdapter(accountAdapter);
         rvOptions.setLayoutManager(new LinearLayoutManager(MyAccountActivity.this));
-        //end
+        //endregion
 
-        //FloatingActionButton start
+        //region FloatingActionButton click
         fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
 
         fabEdit.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +67,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                 ReplaceFragment(new UserProfileFragment(), getResources().getString(R.string.title_fragment_your_profile));
             }
         });
-        //end
+        //endregion
 
     }
 
@@ -81,6 +81,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                    setResult(RESULT_OK);
                     finish();
                 }
 
@@ -135,7 +136,8 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
            }
        }
        else{
-           super.onBackPressed();
+           setResult(RESULT_OK);
+           finish();
        }
     }
 
