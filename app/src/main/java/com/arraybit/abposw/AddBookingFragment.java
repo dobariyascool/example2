@@ -260,7 +260,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
                     objAddNewBookingListener.AddNewBooking(null);
                     getActivity().getSupportFragmentManager().popBackStack();
-                }else{
+                } else {
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }
@@ -331,11 +331,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 break;
             default:
                 if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
-                    if(getTargetFragment()!=null){
+                    if (getTargetFragment() != null) {
                         objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
                         objAddNewBookingListener.AddNewBooking(objBookingMaster);
                         getActivity().getSupportFragmentManager().popBackStack();
-                    }else{
+                    } else {
                         getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }

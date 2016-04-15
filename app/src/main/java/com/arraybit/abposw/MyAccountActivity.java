@@ -128,10 +128,10 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
            }else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                        && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                        .equals(getResources().getString(R.string.title_add_booking_fragment))) {
-                    AddBookingFragment addBookingFragment = (AddBookingFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
-                    addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener)addBookingFragment.getTargetFragment();
-                    addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
-                    getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+               AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
+               addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener) addBookingFragment.getTargetFragment();
+               addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
+               getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
            }
        }
        else{
