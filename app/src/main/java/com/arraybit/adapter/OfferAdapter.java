@@ -55,7 +55,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         } else {
             holder.txtOfferExpiredDate.setVisibility(View.VISIBLE);
             holder.ivOfferDetail.setVisibility(View.VISIBLE);
-            holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
+            //holder.txtOfferExpiredDate.setText("Expries On " + objOfferMaster.getToDate());
         }
         if (!objOfferMaster.getImagePhysicalName().equals("")) {
             Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getImagePhysicalName()).into(holder.ivOffer);
