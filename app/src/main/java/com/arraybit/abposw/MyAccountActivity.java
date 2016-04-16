@@ -121,24 +121,31 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     @Override
     public void onBackPressed() {
-       if(getSupportFragmentManager().getBackStackEntryCount() > 0 ){
-           if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
-                   && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
-                   .equals(getResources().getString(R.string.title_fragment_your_booking))) {
-               getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_booking), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-           }else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
-                       && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
-                       .equals(getResources().getString(R.string.title_add_booking_fragment))) {
-               AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
-               addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener) addBookingFragment.getTargetFragment();
-               addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
-               getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-           }
-       }
-       else{
-           setResult(RESULT_OK);
-           finish();
-       }
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_fragment_your_booking))) {
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_booking), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_add_booking_fragment))) {
+                AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
+                addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener) addBookingFragment.getTargetFragment();
+                addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_fragment_change_password))) {
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_change_password), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_fragment_your_order))) {
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_order), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        } else {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     //region Private Method

@@ -36,7 +36,6 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     int currentPage = 1;
     ArrayList<ItemMaster> alItemMaster;
     ArrayList<OrderMaster> alOrderMaster;
-    ArrayList<ItemMaster> alOrderItemTran;
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
 
@@ -144,7 +143,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     }
 
     private void SetRecyclerView() {
-        SetList();
+        SetOrderItemList();
         if (alOrderMaster == null) {
             if (currentPage == 1) {
                 Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvOrder);
@@ -167,9 +166,9 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         }
     }
 
-    private void SetList() {
+    private void SetOrderItemList() {
         alOrderMaster = new ArrayList<>();
-        ArrayList<ItemMaster> alOrderItem= new ArrayList<>();
+        ArrayList<ItemMaster> alOrderItem = new ArrayList<>();
         OrderMaster objOrderMaster = new OrderMaster();
         int orderId = -1;
         int cnt = 0;
@@ -180,24 +179,28 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                 objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
                 objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
                 objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
+                objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
+                objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
+                objItemMaster.setType((short) OrderAdapter.CHILD);
                 alOrderItem.add(objItemMaster);
-                if(cnt==alItemMaster.size()-1){
-                    SetModifierList(alOrderItem);
-                    objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                if (cnt == alItemMaster.size() - 1) {
+                    objOrderMaster.setType((short) OrderAdapter.HEADER);
+                    objOrderMaster.setAlOrderItemTran(alOrderItem);
                     alOrderMaster.add(objOrderMaster);
                 }
             } else {
                 if (orderId == objItemMaster.getLinktoOrderMasterId()) {
                     orderId = objItemMaster.getLinktoOrderMasterId();
+                    objItemMaster.setType((short) OrderAdapter.CHILD);
                     alOrderItem.add(objItemMaster);
-                    if(cnt==alItemMaster.size()-1){
-                        SetModifierList(alOrderItem);
-                        objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                    if (cnt == alItemMaster.size() - 1) {
+                        objOrderMaster.setType((short) OrderAdapter.HEADER);
+                        objOrderMaster.setAlOrderItemTran(alOrderItem);
                         alOrderMaster.add(objOrderMaster);
                     }
                 } else {
-                    SetModifierList(alOrderItem);
-                    objOrderMaster.setAlOrderItemTran(alOrderItemTran);
+                    objOrderMaster.setType((short) OrderAdapter.HEADER);
+                    objOrderMaster.setAlOrderItemTran(alOrderItem);
                     alOrderMaster.add(objOrderMaster);
                     orderId = objItemMaster.getLinktoOrderMasterId();
                     alOrderItem = new ArrayList<>();
@@ -206,76 +209,13 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                     objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
                     objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
                     objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
+                    objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
+                    objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
+                    objItemMaster.setType((short) OrderAdapter.CHILD);
                     alOrderItem.add(objItemMaster);
                 }
             }
             cnt++;
         }
     }
-
-    private void SetModifierList(ArrayList<ItemMaster> alOrderItem){
-        int cnt = 0;
-        ArrayList<ItemMaster> alModifier = new ArrayList<>();
-        alOrderItemTran = new ArrayList<>();
-        ItemMaster objOrderItem = new ItemMaster();
-        for(ItemMaster objItem : alOrderItem){
-            if(objItem.getLinktoItemMasterIdModifiers().equals("0")){
-                if(alModifier.size() > 0){
-                    objOrderItem.setAlOrderItemModifierTran(alModifier);
-                    alOrderItemTran.add(objOrderItem);
-                    alModifier = new ArrayList<>();
-                }
-                objOrderItem = objItem;
-                alOrderItemTran.add(objOrderItem);
-            }else{
-                alModifier.add(objItem);
-                if(cnt==alOrderItem.size()-1){
-                    objOrderItem.setAlOrderItemModifierTran(alModifier);
-                    alOrderItemTran.add(objOrderItem);
-                    alModifier = new ArrayList<>();
-                }
-            }
-        }
-    }
 }
-//        for (ItemMaster objItemMaster : alItemMaster) {
-//        if (orderId == -1) {
-//        orderId = objItemMaster.getLinktoOrderMasterId();
-//        objOrderMaster.setOrderMasterId(objItemMaster.getLinktoOrderMasterId());
-//        objOrderMaster.setOrderNumber(objItemMaster.getOrderNumber());
-//        objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
-//        objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
-//        alOrderItemTran.add(objItemMaster);
-//        //alOrderMaster.add(objOrderMaster);
-//        } else {
-//        if (orderId == objItemMaster.getLinktoOrderMasterId()) {
-//        orderId = objItemMaster.getLinktoOrderMasterId();
-//        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("0")) {
-//        if (alModifier.size() > 0) {
-//        objOrderItem.setAlOrderItemModifierTran(alModifier);
-//        alOrderMaster.add(objOrderItem);
-//        alModifier = new ArrayList<>();
-//        } else {
-//        //objOrderItem = objItemMaster;
-//        alOrderItemTran.add(objItemMaster);
-//        //alOrderMaster.add(objOrderItem);
-//        }
-//        } else {
-//        alOrderMaster.add(objItemMaster);
-//        }
-//        } else {
-//        orderId = objItemMaster.getLinktoOrderMasterId();
-//        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("0")) {
-//        if (alModifier.size() > 0) {
-//        objOrderItem.setAlOrderItemModifierTran(alModifier);
-//        alOrderMaster.add(objOrderItem);
-//        alModifier = new ArrayList<>();
-//        } else {
-//        objOrderItem = objItemMaster;
-//        alOrderMaster.add(objOrderItem);
-//        }
-//        } else {
-//        alOrderMaster.add(objItemMaster);
-//        }
-//        }
-//        }

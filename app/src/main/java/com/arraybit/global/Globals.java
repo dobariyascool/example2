@@ -373,6 +373,26 @@ public class Globals {
             return intValue;
         }
     }
+
+    public enum OrderStatus {
+        Cooking(1),
+        Ready(2),
+        Served(3),
+        Cancelled(4),
+        Left(5),
+        Delivered(6);
+
+        private int intValue;
+
+        OrderStatus(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
+
     //endregion
 
     //region Commented Code

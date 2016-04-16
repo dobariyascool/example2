@@ -114,6 +114,9 @@ public class ItemMaster implements Parcelable {
             return new ItemMaster[size];
         }
     };
+    short Type;
+    short linktoOrderStatusMasterId;
+    ArrayList<ItemMaster> alOrderItemTran;
     ArrayList<ItemMaster> alOrderItemModifierTran;
 
     public int getItemMasterId() {
@@ -540,6 +543,27 @@ public class ItemMaster implements Parcelable {
         OrderNumber = orderNumber;
     }
 
+    public short getType() {
+        return Type;
+    }
+
+    public void setType(short type) {
+        Type = type;
+    }
+
+    public ArrayList<ItemMaster> getAlOrderItemTran() {
+        return alOrderItemTran;
+    }
+
+    public void setAlOrderItemTran(ArrayList<ItemMaster> alOrderItemTran) {
+        this.alOrderItemTran = alOrderItemTran;
+    }
+    public short getLinktoOrderStatusMasterId() {
+        return linktoOrderStatusMasterId;
+    }
+    public void setLinktoOrderStatusMasterId(short linktoOrderStatusMasterId) {
+        this.linktoOrderStatusMasterId = linktoOrderStatusMasterId;
+    }
     //endregion
 
     public int describeContents() {

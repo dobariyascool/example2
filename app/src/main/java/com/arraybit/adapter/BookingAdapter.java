@@ -30,6 +30,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     int position;
     Date toDate, toTime, currentTime, currentDate;
     String today, strCurrentTime;
+    SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+    SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
 
     public BookingAdapter(Context context, ArrayList<BookingMaster> result, BookingOnClickListener objBookingOnClickListener) {
         this.context = context;
@@ -60,12 +62,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Confirmed.toString() + ")");
         } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Cancelled.getValue()) {
             holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Cancelled.toString() + ")");
-            holder.btnCancelBooking.setVisibility(View.INVISIBLE);
+            holder.ibCancelBooking.setVisibility(View.INVISIBLE);
         }
 
         if (objBookingMaster.getToDate() != null) {
-            SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
-            SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
             Calendar calendar = Calendar.getInstance();
             try {
                 toDate = sdfDate.parse(objBookingMaster.getToDate());
@@ -75,17 +75,17 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
                 if (objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
                     if (toDate.compareTo(currentDate) < 0) {
-                        holder.btnCancelBooking.setVisibility(View.INVISIBLE);
+                        holder.ibCancelBooking.setVisibility(View.INVISIBLE);
                     } else {
                         strCurrentTime = sdfTime.format(calendar.getTime());
                         currentTime = sdfTime.parse(strCurrentTime);
                         if (toDate.compareTo(currentDate) > 0) {
-                            holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                            holder.ibCancelBooking.setVisibility(View.VISIBLE);
                         }else {
                             if (toTime.getTime() > currentTime.getTime()) {
-                                holder.btnCancelBooking.setVisibility(View.VISIBLE);
+                                holder.ibCancelBooking.setVisibility(View.VISIBLE);
                             } else {
-                                holder.btnCancelBooking.setVisibility(View.INVISIBLE);
+                                holder.ibCancelBooking.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
@@ -126,7 +126,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         TextView txtTime;
         TextView txtPersonName;
         TextView txtBookingStatus;
-        ImageButton btnCancelBooking;
+        ImageButton ibCancelBooking;
 
         public BookingMasterViewHolder(View view) {
             super(view);
@@ -135,9 +135,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             txtTime = (TextView) view.findViewById(R.id.txtTime);
             txtPersonName = (TextView) view.findViewById(R.id.txtPersonName);
             txtBookingStatus = (TextView) view.findViewById(R.id.txtStatus);
-            btnCancelBooking = (ImageButton) view.findViewById(R.id.btnCancelBooking);
+            ibCancelBooking = (ImageButton) view.findViewById(R.id.ibCancelBooking);
 
-            btnCancelBooking.setOnClickListener(new View.OnClickListener() {
+            ibCancelBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     objBookingOnClickListener.CancelClickListener(alBookingMaster.get(getAdapterPosition()), getAdapterPosition());

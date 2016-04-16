@@ -28,6 +28,7 @@ public class ItemJSONParser {
     public String SelectAllItemSuggested = "SelectAllItemSuggested";
     public String SelectAllOrderMasterOrderItem = "SelectAllOrderMasterWithOrderItem";
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
+    SimpleDateFormat sdfControlTimeFormat = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     ItemMasterRequestListener objItemMasterRequestListener;
@@ -270,6 +271,7 @@ public class ItemJSONParser {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 JSONArray jsonArray = null;
+                Date dt;
                 try {
                     jsonArray = jsonObject.getJSONArray(SelectAllOrderMasterOrderItem + "Result");
                     if (jsonArray != null) {
@@ -290,6 +292,11 @@ public class ItemJSONParser {
                             objItemMaster.setLinktoOrderMasterId(jsonArray.getJSONObject(i).getInt("linktoOrderMasterId"));
                             objItemMaster.setLinktoOrderItemTranId(jsonArray.getJSONObject(i).getInt("OrderItemTranId"));
                             objItemMaster.setOrderNumber(jsonArray.getJSONObject(i).getString("OrderNumber"));
+                            dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("OrderDateTime"));
+                            objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt) + "T" + sdfControlTimeFormat.format(dt));
+                            if(!jsonArray.getJSONObject(i).getString("linktoOrderStatusMasterId").equals("null")){
+                                objItemMaster.setLinktoOrderStatusMasterId((short)jsonArray.getJSONObject(i).getInt("linktoOrderStatusMasterId"));
+                            }
                             alItemMaster.add(objItemMaster);
                         }
                         objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;

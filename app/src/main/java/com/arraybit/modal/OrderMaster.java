@@ -85,6 +85,7 @@ public class OrderMaster implements Parcelable {
             return new OrderMaster[size];
         }
     };
+    short Type;
     ArrayList<ItemMaster> alOrderItemTran;
 
     public short getLinktoBusinessMasterId() {
@@ -347,10 +348,17 @@ public class OrderMaster implements Parcelable {
         return alOrderItemTran;
     }
 
-    //endregion
-
     public void setAlOrderItemTran(ArrayList<ItemMaster> alOrderItemTran) {
         this.alOrderItemTran = alOrderItemTran;
+    }
+
+    public short getType() {
+        return Type;
+    }
+    //endregion
+
+    public void setType(short type) {
+        Type = type;
     }
 
     public int describeContents() {
