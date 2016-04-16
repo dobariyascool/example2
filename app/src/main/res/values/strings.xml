@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebPOS</string>
+    <string name="app_name">abPOSW</string>
     <string name="action_settings">Settings</string>
     <string name="action_my_account">Your Account</string>
     <string name="action_my_orders">Your Orders</string>

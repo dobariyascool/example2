@@ -1,49 +1,33 @@
 package com.arraybit.abposw;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.ContactUsMaster;
 import com.arraybit.parser.BusinessJSONParser;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
-public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener{
+//        , GoogleApiClient.ConnectionCallbacks,
+//        GoogleApiClient.OnConnectionFailedListener {
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
@@ -97,17 +81,17 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 //
 //        }
 
-        if (map == null) {
-            try {
-                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
-                if (map != null) {
-                    loadMap();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+//        if (map == null) {
+//            try {
+//                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
+//                if (map != null) {
+//                    loadMap();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
 
 //        if(map==null){
@@ -129,11 +113,11 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 ////            }
 //        }
 
-//        if (Service.CheckNet(this)) {
-//            RequestBusinessInfoMaster();
-//        } else {
-//            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-//        }
+        if (Service.CheckNet(this)) {
+            RequestBusinessInfoMaster();
+        } else {
+            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+        }
 
         btnSend.setOnClickListener(this);
         txtWebSite.setOnClickListener(this);
@@ -193,123 +177,123 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        connectClient();
+        //connectClient();
     }
 
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
-        }
+//        if (mGoogleApiClient != null) {
+//            mGoogleApiClient.disconnect();
+//        }
         super.onStop();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Decide what to do based on the original request code
-        switch (requestCode) {
-
-            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
-            /*
-             * If the result code is Activity.RESULT_OK, try to connect again
-			 */
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        mGoogleApiClient.connect();
-                        break;
-                }
-
-        }
+//        switch (requestCode) {
+//
+//            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
+//            /*
+//             * If the result code is Activity.RESULT_OK, try to connect again
+//			 */
+//                switch (resultCode) {
+//                    case Activity.RESULT_OK:
+//                        mGoogleApiClient.connect();
+//                        break;
+//                }
+//
+//        }
     }
 
-    @Override
-    public void onConnected(Bundle dataBundle) {
-        // Display the connection status
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-            map.animateCamera(cameraUpdate);
-        } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
-        }
-        //startLocationUpdates();
-    }
+//    @Override
+//    public void onConnected(Bundle dataBundle) {
+//        // Display the connection status
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if (location != null) {
+//            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
+//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+//            map.animateCamera(cameraUpdate);
+//        } else {
+//            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+//        }
+//        //startLocationUpdates();
+//    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        if (i == CAUSE_SERVICE_DISCONNECTED) {
-            Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
-        } else if (i == CAUSE_NETWORK_LOST) {
-            Toast.makeText(this, "Network lost. Please re-connect.", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//        if (i == CAUSE_SERVICE_DISCONNECTED) {
+//            Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
+//        } else if (i == CAUSE_NETWORK_LOST) {
+//            Toast.makeText(this, "Network lost. Please re-connect.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 //    @Override
 //    public void onLocationChanged(Location location) {
 //
 //    }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-				 * PendingIntent
-				 */
-            } catch (IntentSender.SendIntentException e) {
-                // Log the error
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry. Location services not available to you", Toast.LENGTH_LONG).show();
-        }
-    }
+//    @Override
+//    public void onConnectionFailed(ConnectionResult connectionResult) {
+//        if (connectionResult.hasResolution()) {
+//            try {
+//                // Start an Activity that tries to resolve the error
+//                connectionResult.startResolutionForResult(this,
+//                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+//                /*
+//                 * Thrown if Google Play services canceled the original
+//				 * PendingIntent
+//				 */
+//            } catch (IntentSender.SendIntentException e) {
+//                // Log the error
+//                e.printStackTrace();
+//            }
+//        } else {
+//            Toast.makeText(getApplicationContext(),
+//                    "Sorry. Location services not available to you", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
-    protected void loadMap() {
-//        try {
-        final LatLng latLng = new LatLng(21, 57);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        map.setMyLocationEnabled(true);
-        // For dropping a marker at a point on the Map
-        map.addMarker(new MarkerOptions().position(new LatLng(21, 57)).title("My Home").snippet("Home Address"));
-        // For zooming automatically to the Dropped PIN Location
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(21,57), 12.0f));
+//    protected void loadMap() {
+////        try {
+//        final LatLng latLng = new LatLng(21, 57);
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        map.setMyLocationEnabled(true);
+//        // For dropping a marker at a point on the Map
+//        map.addMarker(new MarkerOptions().position(new LatLng(21, 57)).title("My Home").snippet("Home Address"));
+//        // For zooming automatically to the Dropped PIN Location
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(21,57), 12.0f));
 //            if (map == null) {
 //                map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment)).getMap();
 //                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -339,13 +323,13 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 //        } else {
 //            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
 //        }
-    }
+//    }
 
-    protected void connectClient() {
-        if (isGooglePlayServicesAvailable() && mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
+//    protected void connectClient() {
+//        if (isGooglePlayServicesAvailable() && mGoogleApiClient != null) {
+//            mGoogleApiClient.connect();
+//        }
+//    }
 
 //    protected void startLocationUpdates() {
 //        mLocationRequest = new LocationRequest();
@@ -427,52 +411,52 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         }
         return IsValid;
     }
-
-    private boolean isGooglePlayServicesAvailable() {
-        // Check that Google Play services is available
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
-            Log.d("Location Updates", "Google Play services is available.");
-            return true;
-        } else {
-            // Get the error dialog from Google Play services
-            Dialog errorDialog = (Dialog) GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                    CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-            // If Google Play services can provide an error dialog
-            if (errorDialog != null) {
-                // Create a new DialogFragment for the error dialog
-                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-                errorFragment.setDialog(errorDialog);
-                errorFragment.show(getSupportFragmentManager(), "Location Updates");
-            }
-            return false;
-        }
-    }
     //endregion
 
-    public static class ErrorDialogFragment extends DialogFragment {
+    //    private boolean isGooglePlayServicesAvailable() {
+//        // Check that Google Play services is available
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        // If Google Play services is available
+//        if (ConnectionResult.SUCCESS == resultCode) {
+//            // In debug mode, log the status
+//            Log.d("Location Updates", "Google Play services is available.");
+//            return true;
+//        } else {
+//            // Get the error dialog from Google Play services
+//            Dialog errorDialog = (Dialog) GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                    CONNECTION_FAILURE_RESOLUTION_REQUEST);
+//
+//            // If Google Play services can provide an error dialog
+//            if (errorDialog != null) {
+//                // Create a new DialogFragment for the error dialog
+//                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+//                errorFragment.setDialog(errorDialog);
+//                errorFragment.show(getSupportFragmentManager(), "Location Updates");
+//            }
+//            return false;
+//        }
+//    }
 
-        // Global field to contain the error dialog
-        private Dialog mDialog;
-
-        // Default constructor. Sets the dialog field to null
-        public ErrorDialogFragment() {
-            super();
-            mDialog = null;
-        }
-
-        // Set the dialog to display
-        public void setDialog(Dialog dialog) {
-            mDialog = dialog;
-        }
-
-        // Return a Dialog to the DialogFragment.
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return mDialog;
-        }
-    }
+//    public static class ErrorDialogFragment extends DialogFragment {
+//
+//        // Global field to contain the error dialog
+//        private Dialog mDialog;
+//
+//        // Default constructor. Sets the dialog field to null
+//        public ErrorDialogFragment() {
+//            super();
+//            mDialog = null;
+//        }
+//
+//        // Set the dialog to display
+//        public void setDialog(Dialog dialog) {
+//            mDialog = dialog;
+//        }
+//
+//        // Return a Dialog to the DialogFragment.
+//        @Override
+//        public Dialog onCreateDialog(Bundle savedInstanceState) {
+//            return mDialog;
+//        }
+//    }
 }
