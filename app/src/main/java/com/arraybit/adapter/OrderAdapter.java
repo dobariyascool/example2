@@ -54,12 +54,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
             holder.childDetailLayout.removeAllViewsInLayout();
             holder.childDetailLayout.setVisibility(View.GONE);
             holder.headerLayout.setVisibility(View.GONE);
-            holder.ibVisible.setImageResource(R.drawable.collapse_drawable);
+            holder.ibVisible.setImageResource(R.drawable.expand_drawable);
         } else {
             holder.childDetailLayout.removeAllViewsInLayout();
             holder.childDetailLayout.setVisibility(View.VISIBLE);
             holder.headerLayout.setVisibility(View.VISIBLE);
-            holder.ibVisible.setImageResource(R.drawable.expand_drawable);
+            holder.ibVisible.setImageResource(R.drawable.collapse_drawable);
             SetDetailLayout(objOrderMaster.getAlOrderItemTran(), holder);
         }
         holder.txtOrderNumber.setText(objOrderMaster.getOrderNumber());

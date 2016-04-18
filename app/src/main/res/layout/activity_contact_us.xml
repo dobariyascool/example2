@@ -125,7 +125,7 @@
                     class="com.google.android.gms.maps.MapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

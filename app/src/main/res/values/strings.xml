@@ -268,6 +268,7 @@
     <string name="cuSend">Send</string>
     <string name="cuOffice">Office</string>
     <string name="cuContactUs">Contact Us</string>
+    <string name="title_activity_maps">Map</string>
 
     <!--End-->
 </resources>
