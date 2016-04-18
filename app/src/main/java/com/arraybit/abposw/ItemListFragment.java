@@ -39,7 +39,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     ArrayList<ItemMaster> alItemMaster;
     String OptionIds;
     int currentPage = 1;
-    boolean isLayoutChange, isDuplicate = false;
+    boolean isDuplicate = false;
     Context context;
 
     public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
@@ -207,16 +207,16 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         } else {
             if (alItemMaster == null) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster);
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster,0);
 
                 }
             } else if (alItemMaster.size() == 0) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgNoRecord), rvItemMaster);
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster,0);
 
                 }
             } else {
-                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster);
+                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster,0);
                 if (currentPage > 1) {
                     if (rvItemMaster.getAdapter() != null && rvItemMaster.getAdapter().getItemCount() > 9) {
                         itemAdapter.ItemDataChanged(alItemMaster);

@@ -16,6 +16,7 @@
     <string name="title_activity_about_us">About Us</string>
     <string name="title_fragment_policy">Privacy Policy</string>
     <string name="title_fragment_terms_of_service">Terms of service</string>
+    <string name="title_detail">Detail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -30,7 +31,9 @@
     <string name="title_fragment_change_password">Change Password</string>
     <string name="title_activity_wish_list">Wish List</string>
     <string name="title_activity_my_account">Your Account</string>
-
+    <string name="title_activity_my_order">YourOrderActivity</string>
+    <string name="title_activity_contactus">Contact Us</string>
+    <string name="title_activity_contact_us">ContactUsActivity</string>
 
     <!-- Operation Message -->
     <string name="MsgValidation">Please correct the errors</string>
@@ -54,7 +57,7 @@
     <string name="MsgDineOnly">Available for Dine-In only</string>
     <string name="MsgFeedbackSubmit">Feedback is submitted</string>
     <string name="MsgCart">Cart is empty.</string>
-    <string name="MsgCartItem">Item is added into dish</string>
+    <string name="MsgCartItem">%s is added into dish</string>
     <string name="MsgConfirmOrder">Items are place into order</string>
     <string name="MsgAddPerson">Person is added successfully</string>
     <string name="MsgUpdateProfile">Profile updated successfully</string>
@@ -170,7 +173,6 @@
     <!--end -->
 
     <!-- DetailActivity -->
-    <string name="title_detail">Detail</string>
     <string name="daAdd">Add</string>
     <string name="daCancel">Cancel</string>
     <string name="daItemSuggestion">Item Suggestion</string>
@@ -255,11 +257,10 @@
     <string name="ybStatus">Status</string>
     <string name="ybCancel">Cancel</string>
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
-    <string name="title_activity_contact_us">ContactUsActivity</string>
     <!--end-->
 
     <!--Contact Us-->
-    <string name="title_activity_contactus">Contact Us</string>
+
     <string name="cuName">Name</string>
     <string name="cuEmail">Your Email</string>
     <string name="cuMobile">Mobile No.</string>
@@ -267,5 +268,6 @@
     <string name="cuSend">Send</string>
     <string name="cuOffice">Office</string>
     <string name="cuContactUs">Contact Us</string>
+
     <!--End-->
 </resources>

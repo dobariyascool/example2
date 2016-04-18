@@ -108,6 +108,5 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
         objBusinessDescriptionJSONParser.SelectBusinessDescription(AboutUsActivity.this, null, String.valueOf(Globals.linktoBusinessMasterId), "About Us");
     }
-    //end region
-
+    //endregion
 }

@@ -186,10 +186,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivityForResult(intent, 0);
         }else if (id == R.id.myBookings) {
             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
-            intent.putExtra("YourBookingOption", getResources().getString(R.string.title_fragment_your_booking));
-            startActivity(intent);
+            intent.putExtra("IsBookingFromMenu", true);
+            startActivityForResult(intent, 0);
         } else if (id == R.id.wishList) {
             Intent intent = new Intent(HomeActivity.this, WishListActivity.class);
+            startActivityForResult(intent, 0);
+        }else if (id == R.id.myOrders) {
+            Intent intent = new Intent(HomeActivity.this, MyOrderActivity.class);
             startActivityForResult(intent, 0);
         }
         return super.onOptionsItemSelected(item);

@@ -56,7 +56,7 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
         if (Service.CheckNet(this)) {
             RequestOfferMaster();
         } else {
-            Globals.ShowSnackBar(offerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvOffer,R.drawable.wifi_drawable);
         }
 
         rvOffer.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -111,14 +111,14 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
     private void SetRecyclerView(ArrayList<OfferMaster> lstOfferMaster) {
         if (lstOfferMaster == null) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvOffer);
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvOffer,0);
             }
         } else if (lstOfferMaster.size() == 0) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvOffer);
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgOffer), rvOffer,R.drawable.offer_error_icon);
             }
         } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvOffer);
+            Globals.SetErrorLayout(errorLayout, false, null, rvOffer,0);
             if (currentPage > 1) {
                 offerAdapter.OffersDataChanged(lstOfferMaster);
                 return;

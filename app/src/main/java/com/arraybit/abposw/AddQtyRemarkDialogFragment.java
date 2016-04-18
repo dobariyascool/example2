@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     ItemMaster objItemMaster;
     double totalAmount, totalTax;
     boolean isDuplicate;
+    String strItemName;
 
     public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
@@ -66,12 +68,15 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             SetOrderItem();
             if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
                 MenuActivity menuActivity = (MenuActivity) getActivity();
-                menuActivity.SetCartItemResponse();
+                menuActivity.SetCartItemResponse(strItemName);
             } else if(getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))){
                 WishListActivity wishListActivity = (WishListActivity) getActivity();
-                wishListActivity.SetCartItemResponse();
+                wishListActivity.SetCartItemResponse(strItemName);
             }else{
-                getActivity().setResult(Activity.RESULT_OK);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("ShowMessage", true);
+                returnIntent.putExtra("ItemName", strItemName);
+                getActivity().setResult(Activity.RESULT_OK,returnIntent);
                 getActivity().finish();
             }
         } else if (v.getId() == R.id.btnCancel) {
@@ -110,6 +115,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     private void SetOrderItem() {
         if (Globals.alOrderItemTran.size() == 0) {
             ItemMaster objOrderItemTran = new ItemMaster();
+            strItemName = objItemMaster.getItemName();
             objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
             objOrderItemTran.setItemName(objItemMaster.getItemName());
             objOrderItemTran.setRate(objItemMaster.getRate());
@@ -131,6 +137,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                         ((objFilterOrderItemTran.getRemark() != null && objFilterOrderItemTran.getRemark().equals(etRemark.getText().toString()))
                         || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty()))) {
                     isDuplicate = true;
+                    strItemName = objItemMaster.getItemName();
                     objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                     objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
                     objFilterOrderItemTran.setQuantity(objFilterOrderItemTran.getQuantity() + Integer.valueOf(etQuantity.getText().toString()));
@@ -141,6 +148,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             }
             if (!isDuplicate) {
                 ItemMaster objOrderItemTran = new ItemMaster();
+                strItemName = objItemMaster.getItemName();
                 objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
                 objOrderItemTran.setItemName(objItemMaster.getItemName());
                 objOrderItemTran.setRate(objItemMaster.getRate());

@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     RadioButton chk2;
     EditText etBookingdate;
+    ProgressDialog progressDialog = new ProgressDialog();
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button)findViewById(R.id.btn);
         chk2 = (RadioButton)findViewById(R.id.chk2);
+
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

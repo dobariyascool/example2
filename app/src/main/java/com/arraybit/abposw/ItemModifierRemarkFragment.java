@@ -2,6 +2,7 @@ package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,7 +43,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ProgressDialog progressDialog = new ProgressDialog();
     ItemMaster objItemMaster;
     ArrayList<OptionMaster> alOptionMaster;
-    String strOptionName;
+    String strOptionName,strItemName;
     ArrayList<OptionValueTran> lstOptionValueTran;
     Button btnAdd;
     StringBuilder sbOptionValue;
@@ -150,7 +151,10 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         } else if (v.getId() == R.id.btnAdd) {
             SetOrderItemModifierTran();
             SetOrderItem();
-            getActivity().setResult(Activity.RESULT_OK);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("ShowMessage", true);
+            returnIntent.putExtra("ItemName", strItemName);
+            getActivity().setResult(Activity.RESULT_OK,returnIntent);
             getActivity().finish();
         }
     }
@@ -315,6 +319,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     private void SetOrderItem() {
         if (Globals.alOrderItemTran.size() == 0) {
             ItemMaster objOrderItemTran = new ItemMaster();
+            strItemName = objItemMaster.getItemName();
             objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
             objOrderItemTran.setItemName(objItemMaster.getItemName());
             objOrderItemTran.setRate(objItemMaster.getRate());
@@ -352,6 +357,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             CheckDuplicateRemarkModifier();
             if (!isDuplicate) {
                 ItemMaster objOrderItemTran = new ItemMaster();
+                strItemName = objItemMaster.getItemName();
                 objOrderItemTran.setItemMasterId(objItemMaster.getItemMasterId());
                 objOrderItemTran.setItemName(objItemMaster.getItemName());
                 objOrderItemTran.setRate(objItemMaster.getRate());
@@ -457,6 +463,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                     }
                     if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals(""))))) {
                         isDuplicate = true;
+                        strItemName = objItemMaster.getItemName();
                         objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         if (alCheckedModifier.size() > 0) {
                             objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
@@ -472,6 +479,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         break;
                     } else if (sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0) {
                         isDuplicate = true;
+                        strItemName = objItemMaster.getItemName();
                         objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                         if (alCheckedModifier.size() > 0) {
                             objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));
@@ -492,6 +500,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         && ((sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && alCheckedModifier.size() == 0 && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0)
                         || (strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt && alCheckedModifier.size() == 0 && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0))) {
                     isDuplicate = true;
+                    strItemName = objItemMaster.getItemName();
                     objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()));
                     if (alCheckedModifier.size() > 0) {
                         objFilterOrderItemTran.setTotalAmount((objFilterOrderItemTran.getTotalAmount()) + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) + (alCheckedModifier.get(alCheckedModifier.size() - 1).getTotalAmount() * Integer.valueOf(etQuantity.getText().toString())));

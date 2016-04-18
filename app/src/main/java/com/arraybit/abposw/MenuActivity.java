@@ -54,6 +54,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     Toolbar app_bar;
+    String itemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if (Service.CheckNet(this)) {
             RequestCategoryMaster();
         } else {
-            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection));
+            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection),R.drawable.wifi_drawable);
         }
 
         SaveWishListInSharePreference(false);
@@ -260,15 +261,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             if (requestCode == 0) {
                 if (data != null) {
                     isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                    this.itemName = data.getStringExtra("ItemName");
+                    SetCartNumber();
+                    isShowMsg = true;
                 }
-                SetCartNumber();
-                isShowMsg = true;
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void SetCartItemResponse() {
+    public void SetCartItemResponse(String itemName) {
+        this.itemName = itemName;
         SetCartNumber();
     }
 
@@ -286,8 +290,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         ItemAdapter.alWishItemMaster = new ArrayList<>();
     }
 
-    private void SetErrorLayout(boolean isShow, String errorMsg) {
+    private void SetErrorLayout(boolean isShow, String errorMsg,int errorIcon) {
         TextView txtMsg = (TextView) errorLayout.findViewById(R.id.txtMsg);
+        ImageView ivErrorIcon = (ImageView) errorLayout.findViewById(R.id.ivErrorIcon);
+        if(errorIcon!=0){
+            ivErrorIcon.setImageResource(R.drawable.wifi_drawable);
+        }
         if (isShow) {
             errorLayout.setVisibility(View.VISIBLE);
             txtMsg.setText(errorMsg);
@@ -305,10 +313,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
-            SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail));
+            SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail),0);
         } else {
 
-            SetErrorLayout(false, null);
+            SetErrorLayout(false, null,0);
 
             CategoryMaster objCategoryMaster = new CategoryMaster();
             objCategoryMaster.setCategoryMasterId((short) 0);
@@ -398,7 +406,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg) {
-                Globals.ShowSnackBar(menuActivity, getResources().getString(R.string.MsgCartItem), MenuActivity.this, 1000);
+                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem),itemName), MenuActivity.this, 1000);
             }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));

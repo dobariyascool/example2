@@ -215,9 +215,12 @@ public class Globals {
         animatorTranslateY.start();
     }
 
-    public static void SetErrorLayout(LinearLayout layout, boolean isShow, String errorMsg, RecyclerView recyclerView) {
+    public static void SetErrorLayout(LinearLayout layout, boolean isShow, String errorMsg, RecyclerView recyclerView,int errorIcon) {
         TextView txtMsg = (TextView) layout.findViewById(R.id.txtMsg);
         ImageView ivErrorIcon = (ImageView) layout.findViewById(R.id.ivErrorIcon);
+        if(errorIcon!=0) {
+            ivErrorIcon.setImageResource(errorIcon);
+        }
         if (isShow) {
             layout.setVisibility(View.VISIBLE);
             txtMsg.setText(errorMsg);

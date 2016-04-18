@@ -25,7 +25,7 @@ public class PolicyFragment extends Fragment implements BusinessDescriptionJSONP
     String keyword;
     BusinessDescription objBusinessDescription;
     WebView wvPolicy;
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog = new ProgressDialog();
 
     public PolicyFragment(String keyword) {
         this.keyword = keyword;

@@ -17,6 +17,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <include android:id="@+id/error_layout"
+        layout="@layout/error_layout"
+        android:visibility="gone"/>
+
     <include layout="@layout/content_offer" />
 
 </android.support.design.widget.CoordinatorLayout>

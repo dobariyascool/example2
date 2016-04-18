@@ -74,7 +74,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         if (Service.CheckNet(getActivity())) {
             RequestOrderMasterOrderItem();
         } else {
-            Globals.ShowSnackBar(container, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCheckConnection), rvOrder, R.drawable.wifi_drawable);
         }
 
         return view;
@@ -113,9 +113,13 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Globals.HideKeyBoard(getActivity(), getView());
         if (item.getItemId() == android.R.id.home) {
-            Globals.HideKeyBoard(getActivity(), getView());
-            getActivity().getSupportFragmentManager().popBackStack();
+            if(getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_my_order))){
+                getActivity().finish();
+            }else {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,7 +133,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     @Override
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
-        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         this.position = position;
         OrderJSONParser orderJSONParser = new OrderJSONParser();
         orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrderMaster.getOrderMasterId()), getActivity(), this);
@@ -153,7 +157,8 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
             ItemJSONParser objItemJSONParser = new ItemJSONParser();
             objItemJSONParser.SelectAllOrderMasterOrderItem(this, getActivity(), String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), String.valueOf(customerMasterId));
         } else {
-            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder);
+            progressDialog.dismiss();
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder,0);
         }
     }
 
@@ -161,14 +166,14 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         SetOrderItemList();
         if (alOrderMaster == null) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvOrder);
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvOrder,0);
             }
         } else if (alOrderMaster.size() == 0) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder);
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvOrder,0);
             }
         } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvOrder);
+            Globals.SetErrorLayout(errorLayout, false, null, rvOrder,0);
             if (currentPage > 1) {
                 adapter.OrderDataChanged(alOrderMaster);
                 return;

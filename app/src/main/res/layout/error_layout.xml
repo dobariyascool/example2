@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/wifi_off" />
 
     <com.rey.material.widget.TextView
         android:id="@+id/txtMsg"
@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/control_SpecingSmall"
         android:text="@string/MsgNoRecord"
-        android:textColor="@android:color/white" />
-
+        android:textColor="@color/errorTextColor"
+        android:textSize="@dimen/control_TextMedium" />
 </LinearLayout>

@@ -28,9 +28,8 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
     Button btnChangePassword;
     ToggleButton tbPasswordShowOld, tbPasswordShowNew, tbPasswordShowConfirm;
     View view;
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog = new ProgressDialog();
     SharePreferenceManage objSharePreferenceManage;
-    int currentPage = 1;
 
     public ChangePasswordFragment() {
         // Required empty public constructor
@@ -104,9 +103,9 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         SetError(errorCode);
     }
 
+    //region Private Method
     private void RequestCustomerMaster() {
-        progressDialog = new ProgressDialog();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+        progressDialog.show(getActivity().getSupportFragmentManager(),"");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();
@@ -203,5 +202,6 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         etConfirmPassword.setText("");
         etNewPassword.setText("");
     }
+    //endregion
 
 }

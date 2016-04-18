@@ -1,6 +1,5 @@
 package com.arraybit.abposw;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ import com.arraybit.parser.ItemJSONParser;
 
 import java.util.ArrayList;
 
-public class WishListActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener,View.OnClickListener {
+public class WishListActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener, View.OnClickListener {
 
     LinearLayout errorLayout;
     RecyclerView rvWishItemMaster;
@@ -37,6 +36,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     ProgressDialog progressDialog = new ProgressDialog();
+    String itemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (Service.CheckNet(this)) {
             RequestItemMaster();
         } else {
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvWishItemMaster,R.drawable.wifi_drawable);
         }
     }
 
@@ -120,13 +120,11 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             if (requestCode == 0) {
                 if (data != null) {
                     isShowMsg = data.getBooleanExtra("ShowMessage", false);
-                    if(data.getBooleanExtra("IsRefreshList",false)){
-                        setResult(Activity.RESULT_OK);
-                        finish();
-                    }
+                    this.itemName = data.getStringExtra("ItemName");
+                    SetCartNumber();
+                    isShowMsg = true;
                 }
-                SetCartNumber();
-                isShowMsg = true;
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -161,22 +159,23 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.ivCart){
-            if(!errorLayout.isShown()) {
+        if (v.getId() == R.id.ivCart) {
+            if (!errorLayout.isShown()) {
                 Intent intent = new Intent(this, CartItemActivity.class);
-                intent.putExtra("ActivityName",getResources().getString(R.string.title_activity_wish_list));
+                intent.putExtra("ActivityName", getResources().getString(R.string.title_activity_wish_list));
                 this.startActivityForResult(intent, 0);
             }
         }
     }
 
-    public void SetCartItemResponse() {
+    public void SetCartItemResponse(String itemName) {
+        this.itemName = itemName;
         SetCartNumber();
     }
 
     //region Private Methods
     private void RequestItemMaster() {
-        progressDialog.show(getSupportFragmentManager(),"");
+        progressDialog.show(getSupportFragmentManager(), "");
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         SaveWishListInSharePreference(false);
         StringBuilder sbItemMasterIds = new StringBuilder();
@@ -187,13 +186,13 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             }
         } else {
             progressDialog.dismiss();
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster,0);
         }
         if (!sbItemMasterIds.toString().equals("")) {
             objItemJSONParser.SelectAllItemMaster(null, this, String.valueOf(1), null, null, String.valueOf(Globals.linktoBusinessMasterId), sbItemMasterIds.toString());
         } else {
             progressDialog.dismiss();
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster,0);
         }
     }
 
@@ -273,11 +272,11 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
     private void SetRecyclerView() {
         if (alItemMaster == null) {
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvWishItemMaster,0);
         } else if (alItemMaster.size() == 0) {
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster,0);
         } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvWishItemMaster);
+            Globals.SetErrorLayout(errorLayout, false, null, rvWishItemMaster,0);
             itemAdapter = new ItemAdapter(WishListActivity.this, alItemMaster, this, true);
             rvWishItemMaster.setAdapter(itemAdapter);
             rvWishItemMaster.setLayoutManager(new LinearLayoutManager(this));
@@ -291,7 +290,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg) {
-                Globals.ShowSnackBar(rvWishItemMaster, getResources().getString(R.string.MsgCartItem), WishListActivity.this, 1000);
+                Globals.ShowSnackBar(rvWishItemMaster,String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
             }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));

@@ -148,7 +148,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         }
     }
 
-    //region Private Method
+    //region Private Methods
     private void GetData() {
         alString = new ArrayList<>();
         for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
