@@ -93,7 +93,8 @@ public class BusinessDescriptionJSONParser {
     public void SelectBusinessDescription(final Context context, final Fragment targetFragment, String businessMasterId, String keyword) {
         String url;
         try {
-            url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "utf-8");
+            //URLEncoder encode spaces are substituted by '+' but not working in url so '+' replace with %20
+            url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "UTF-8").replace("+","%20");
             final RequestQueue queue = Volley.newRequestQueue(context);
             final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override

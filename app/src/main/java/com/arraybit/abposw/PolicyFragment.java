@@ -18,9 +18,6 @@ import com.arraybit.global.Globals;
 import com.arraybit.modal.BusinessDescription;
 import com.arraybit.parser.BusinessDescriptionJSONParser;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
 public class PolicyFragment extends Fragment implements BusinessDescriptionJSONParser.BusinessDescriptionRequestListener {

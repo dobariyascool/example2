@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,18 +23,19 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.parser.ItemJSONParser;
+import com.arraybit.parser.OrderJSONParser;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener {
+public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener,OrderAdapter.OrderOnClickListener,OrderJSONParser.OrderMasterRequestListener {
 
     RecyclerView rvOrder;
     LinearLayout errorLayout;
     LinearLayoutManager linearLayoutManager;
     OrderAdapter adapter;
     ProgressDialog progressDialog = new ProgressDialog();
-    int currentPage = 1;
+    int currentPage = 1,position;
     ArrayList<ItemMaster> alItemMaster;
     ArrayList<OrderMaster> alOrderMaster;
     int customerMasterId;
@@ -51,7 +53,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_your_order, container, false);
 
-        android.support.v7.widget.Toolbar app_bar = (android.support.v7.widget.Toolbar) view.findViewById(R.id.app_bar);
+        Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(app_bar);
 
         if (app_bar != null) {
@@ -66,9 +68,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
 
         rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
-       /* headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);*/
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
-      /*  headerLayout.setVisibility(View.GONE);*/
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         if (Service.CheckNet(getActivity())) {
@@ -127,6 +127,21 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         SetRecyclerView();
     }
 
+    @Override
+    public void CancelOnClick(OrderMaster objOrderMaster, int position) {
+        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+        this.position = position;
+        OrderJSONParser orderJSONParser = new OrderJSONParser();
+        orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrderMaster.getOrderMasterId()), getActivity(), this);
+    }
+
+    @Override
+    public void OrderMasterResponse(String errorCode, OrderMaster objOrderMaster) {
+        progressDialog.dismiss();
+        SetError(errorCode);
+    }
+
+    //region Private Method
     private void RequestOrderMasterOrderItem() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
@@ -160,7 +175,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
             } else if (alOrderMaster.size() < 10) {
                 currentPage += 1;
             }
-            adapter = new OrderAdapter(getActivity(), alOrderMaster);
+            adapter = new OrderAdapter(getActivity(), alOrderMaster,this);
             rvOrder.setAdapter(adapter);
             rvOrder.setLayoutManager(linearLayoutManager);
         }
@@ -181,25 +196,20 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                 objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
                 objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
                 objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
-                objItemMaster.setType((short) OrderAdapter.CHILD);
                 alOrderItem.add(objItemMaster);
                 if (cnt == alItemMaster.size() - 1) {
-                    objOrderMaster.setType((short) OrderAdapter.HEADER);
                     objOrderMaster.setAlOrderItemTran(alOrderItem);
                     alOrderMaster.add(objOrderMaster);
                 }
             } else {
                 if (orderId == objItemMaster.getLinktoOrderMasterId()) {
                     orderId = objItemMaster.getLinktoOrderMasterId();
-                    objItemMaster.setType((short) OrderAdapter.CHILD);
                     alOrderItem.add(objItemMaster);
                     if (cnt == alItemMaster.size() - 1) {
-                        objOrderMaster.setType((short) OrderAdapter.HEADER);
                         objOrderMaster.setAlOrderItemTran(alOrderItem);
                         alOrderMaster.add(objOrderMaster);
                     }
                 } else {
-                    objOrderMaster.setType((short) OrderAdapter.HEADER);
                     objOrderMaster.setAlOrderItemTran(alOrderItem);
                     alOrderMaster.add(objOrderMaster);
                     orderId = objItemMaster.getLinktoOrderMasterId();
@@ -211,11 +221,23 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                     objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
                     objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
                     objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
-                    objItemMaster.setType((short) OrderAdapter.CHILD);
                     alOrderItem.add(objItemMaster);
                 }
             }
             cnt++;
         }
     }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(rvOrder, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+                break;
+            default:
+                adapter.UpdateOrderData(position);
+                break;
+        }
+
+    }
+    //endregion
 }

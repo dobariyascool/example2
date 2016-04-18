@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterViewHolder> {
-    public static final int HEADER = 0;
-    public static final int CHILD = 1;
     Context context;
     LayoutInflater layoutInflater;
     View view;
@@ -33,11 +31,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
     SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     String today;
     Date toDate,currentDate;
+    OrderOnClickListener objOrderOnClickListener;
 
-    public OrderAdapter(Context context, ArrayList<OrderMaster> alOrderMaster) {
+    public OrderAdapter(Context context, ArrayList<OrderMaster> alOrderMaster,OrderOnClickListener objOrderOnClickListener) {
         this.context = context;
         this.alOrderMaster = alOrderMaster;
         layoutInflater = LayoutInflater.from(context);
+        this.objOrderOnClickListener = objOrderOnClickListener;
     }
 
     @Override
@@ -84,8 +84,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                     holder.txtStatus.setVisibility(View.GONE);
                 }
             }else{
-                holder.txtStatus.setVisibility(View.GONE);
-                holder.ibCancelOrder.setVisibility(View.VISIBLE);
+                if(objOrderMaster.getlinktoOrderStatusMasterId() > 0){
+                    holder.ibCancelOrder.setVisibility(View.GONE);
+                    holder.txtStatus.setVisibility(View.VISIBLE);
+                    if(Globals.OrderStatus.Cancelled.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
+                        holder.txtStatus.setText(Globals.OrderStatus.Cancelled.toString());
+                    }else if(Globals.OrderStatus.Delivered.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
+                        holder.txtStatus.setText(Globals.OrderStatus.Delivered.toString());
+                    }
+                }else{
+                    holder.txtStatus.setVisibility(View.GONE);
+                    holder.ibCancelOrder.setVisibility(View.VISIBLE);
+                }
             }
 
         } catch (ParseException e) {
@@ -98,6 +108,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
     public void OrderDataChanged(ArrayList<OrderMaster> result) {
         alOrderMaster.addAll(result);
         notifyDataSetChanged();
+    }
+
+    public void UpdateOrderData(int position) {
+        alOrderMaster.get(position).setlinktoOrderStatusMasterId((short) Globals.OrderStatus.Cancelled.getValue());
+        notifyItemChanged(position);
     }
 
     @Override
@@ -201,6 +216,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
         }
     }
 
+    public interface OrderOnClickListener {
+        void CancelOnClick(OrderMaster objOrderMaster, int position);
+    }
+
     class OrderMasterViewHolder extends RecyclerView.ViewHolder {
         TextView txtOrderNumber, txtOrderDate, txtTotalAmount, txtStatus;
         LinearLayout childDetailLayout, headerLayout;
@@ -230,6 +249,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                         alOrderMaster.get(getAdapterPosition()).setType((short) 0);
                         notifyItemChanged(getAdapterPosition());
                     }
+                }
+            });
+
+
+            ibCancelOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    objOrderOnClickListener.CancelOnClick(alOrderMaster.get(getAdapterPosition()),getAdapterPosition());
                 }
             });
         }
