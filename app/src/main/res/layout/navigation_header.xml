@@ -48,7 +48,8 @@
             android:gravity="start"
             android:paddingEnd="@dimen/control_SpecingSmall"
             android:paddingStart="@dimen/control_SpecingSmall"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
 
         <com.rey.material.widget.CompoundButton
             android:id="@+id/cbName"

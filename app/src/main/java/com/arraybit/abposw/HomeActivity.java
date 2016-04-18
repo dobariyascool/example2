@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     CirclePageIndicator circlePageIndicator;
     CompoundButton cbName;
     TextView txtFullName;
+    boolean isLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +235,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
+                if(data!=null){
+                    isLogin = data.getBooleanExtra("IsLogin", false);
+                }
                 SetUserName();
             }
         }
@@ -259,7 +263,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void SetUserName() {
         Intent intent = getIntent();
-        if (intent.getBooleanExtra("IsLogin", false)) {
+        if(!isLogin){
+            isLogin = intent.getBooleanExtra("IsLogin", false);
+        }
+        if (isLogin) {
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
                 cbName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this));

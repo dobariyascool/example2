@@ -215,7 +215,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             //i.putExtra("CustomerMaster", objCustomerMaster);
             //startActivity(i);
-            setResult(Activity.RESULT_OK);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsLogin", true);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
     }
