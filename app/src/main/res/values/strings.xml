@@ -64,6 +64,7 @@
     <string name="MsgUpdateProfile">Profile updated successfully</string>
     <string name="MsgUpdateprofileFail">Failed to update profile</string>
     <string name="MsgUpdatePassword">Password changed successfully</string>
+    <string name="MsgOldPassword">Old password is not correct</string>
     <string name="MsgOffer">Currently no offers available.</string>
     <string name="MsgGallery">No Images Yet.</string>
     <string name="MsgItem">There is no item.</string>

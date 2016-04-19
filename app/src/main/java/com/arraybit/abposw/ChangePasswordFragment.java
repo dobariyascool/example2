@@ -105,7 +105,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
 
     //region Private Method
     private void RequestCustomerMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(),"");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();
@@ -116,9 +116,15 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
         } else {
             objCustomerMaster.setCustomerMasterId(0);
         }
-        objCustomerMaster.setPassword(etNewPassword.getText().toString());
 
-        objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", getActivity()).equals(etOldPassword.getText().toString())) {
+            objCustomerMaster.setPassword(etNewPassword.getText().toString());
+            objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
+        } else {
+            progressDialog.dismiss();
+            Globals.ShowSnackBar(view, getResources().getString(R.string.MsgOldPassword), getActivity(), 1000);
+        }
+
     }
 
     private void SetError(String errorCode) {
