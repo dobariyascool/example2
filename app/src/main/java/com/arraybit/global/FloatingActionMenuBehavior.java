@@ -13,6 +13,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class FloatingActionMenuBehavior extends CoordinatorLayout.Behavior {
     private float mTranslationY;
 
