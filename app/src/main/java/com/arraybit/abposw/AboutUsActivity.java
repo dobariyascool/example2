@@ -92,7 +92,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         progressDialog.dismiss();
         this.objBusinessDescription = objBusinessDescription;
 
-        if (objBusinessDescription == null) {
+        if (objBusinessDescription.getDescription().equals("") || objBusinessDescription == null) {
             wvAbout.setVisibility(View.GONE);
         } else {
             wvAbout.setVisibility(View.VISIBLE);
