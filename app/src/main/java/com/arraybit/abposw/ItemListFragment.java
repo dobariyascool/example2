@@ -38,14 +38,16 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     GridLayoutManager gridLayoutManager;
     ArrayList<ItemMaster> alItemMaster;
     String OptionIds;
-    int currentPage = 1;
+    int currentPage = 1,currentTab;
     boolean isDuplicate = false;
+    boolean isOptionFilter = false;
     Context context;
 
-    public static ItemListFragment createInstance(CategoryMaster objCategoryMaster) {
+    public static ItemListFragment createInstance(CategoryMaster objCategoryMaster,int currentTab) {
         ItemListFragment itemTabFragment = new ItemListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ITEMS_COUNT_KEY, objCategoryMaster);
+        bundle.putInt("TabPosition", currentTab);
         itemTabFragment.setArguments(bundle);
         return itemTabFragment;
     }
@@ -68,13 +70,15 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
         Bundle bundle = getArguments();
         objCategoryMaster = bundle.getParcelable(ITEMS_COUNT_KEY);
+        currentTab = bundle.getInt("TabPosition",-1);
 
         if (currentPage >= 1 && linearLayoutManager.canScrollVertically()) {
             currentPage = 1;
-            RequestItemMaster();
+            RequestItemMaster(false);
         }
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -100,7 +104,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
                         cnt = 0;
-                        RequestItemMaster();
+                        RequestItemMaster(false);
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -118,7 +122,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
                         cnt = 0;
-                        RequestItemMaster();
+                        RequestItemMaster(false);
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -128,11 +132,14 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
         if (progressDialog != null && progressDialog.isAdded()) {
             progressDialog.dismiss();
         }
         this.alItemMaster = alItemMaster;
+        if(isFilter) {
+            currentPage =1;
+        }
         SetRecyclerView(false, false);
     }
 
@@ -212,8 +219,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 }
             } else if (alItemMaster.size() == 0) {
                 if (currentPage == 1) {
-                    //int imageresource = getResources().getIdentifier("@drawable/no_item_drawable", "drawable", getActivity().getPackageName());
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster, 0);
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster,0);
                 }
             } else {
                 Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster, 0);
@@ -239,8 +245,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     public void ItemByOptionName(String OptionIds) {
         this.OptionIds = OptionIds;
         currentPage = 1;
+        cnt = 0;
 
-        RequestItemMaster();
+        RequestItemMaster(true);
 
         rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
@@ -251,7 +258,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        RequestItemMaster();
+                        RequestItemMaster(false);
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -268,7 +275,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        RequestItemMaster();
+                        RequestItemMaster(false);
                     } else {
                         Globals.ShowSnackBar(rvItemMaster, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
@@ -278,7 +285,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     //region Private Methods
-    private void RequestItemMaster() {
+    private void RequestItemMaster(boolean isOptionFilter) {
         if (cnt == 0) {
             if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
@@ -288,10 +295,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null,isOptionFilter);
         } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null,isOptionFilter);
         }
     }
+
     //endregion
 }

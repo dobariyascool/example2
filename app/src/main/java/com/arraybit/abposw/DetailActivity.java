@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
         progressDialog.dismiss();
         this.alItemMaster = alItemMaster;
         SetRecyclerView();

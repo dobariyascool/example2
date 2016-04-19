@@ -119,7 +119,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
         alItemMasterModifier = alItemMaster;
         SetModifierRecyclerView();
     }

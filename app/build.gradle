@@ -5,7 +5,8 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.arraybit.webpos"
+//        applicationId "com.arraybit.webpos"
+        applicationId "com.arraybit.abposw"
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
@@ -49,7 +50,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.clans:fab:1.5.5'
     compile 'com.liangfeizc:SlidePageIndicator:1.1.0@aar'
-    //compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.google.android.gms:play-services-maps:8.4.0'
     compile 'com.google.android.gms:play-services-location:8.4.0'
+    //compile 'com.google.android.gms:play-services:8.4.0'
 }
