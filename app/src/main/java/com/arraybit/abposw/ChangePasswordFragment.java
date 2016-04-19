@@ -117,20 +117,13 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
             objCustomerMaster.setCustomerMasterId(0);
         }
 
-       /* if (objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", getActivity()) != null) {
-            objCustomerMaster.setPassword((objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", getActivity())));
-        } else {
-            objCustomerMaster.setPassword(etOldPassword.getText().toString());
-        }*/
-
         if (objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", getActivity()).equals(etOldPassword.getText().toString())) {
             objCustomerMaster.setPassword(etNewPassword.getText().toString());
             objCustomerJSONParser.UpdateCustomerMasterPassword(objCustomerMaster, getActivity(), this);
-        }else {
+        } else {
             progressDialog.dismiss();
             Globals.ShowSnackBar(view, getResources().getString(R.string.MsgOldPassword), getActivity(), 1000);
         }
-
 
     }
 
