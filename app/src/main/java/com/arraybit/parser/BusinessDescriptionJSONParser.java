@@ -18,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,7 +93,8 @@ public class BusinessDescriptionJSONParser {
         String url;
         try {
             //URLEncoder encode spaces are substituted by '+' but not working in url so '+' replace with %20
-            url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "UTF-8").replace("+","%20");
+         //  url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + URLEncoder.encode(keyword, "UTF-8").replace("+","_");
+           url = Service.Url + this.SelectBusinessDescription + "/" + businessMasterId + "/" + keyword.replace(" ", "_");
             final RequestQueue queue = Volley.newRequestQueue(context);
             final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
