@@ -19,8 +19,8 @@ import com.arraybit.modal.ContactUsMaster;
 import com.arraybit.parser.BusinessJSONParser;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rey.material.widget.Button;
@@ -38,7 +38,6 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
     View view;
-    private MapFragment mapFragment;
     private GoogleMap map;
 
 
@@ -70,15 +69,15 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         btnSend = (Button) findViewById(R.id.btnSend);
         linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
 
-        mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment));
-        if(mapFragment!=null) {
-            mapFragment.getMapAsync(this);
-        }
-
         if (Service.CheckNet(this)) {
             RequestBusinessInfoMaster();
         } else {
             Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+        }
+
+        SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
+        if(mapFragment!=null) {
+            mapFragment.getMapAsync(this);
         }
 
         btnSend.setOnClickListener(this);

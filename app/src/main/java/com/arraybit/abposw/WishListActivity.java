@@ -108,7 +108,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
         progressDialog.dismiss();
         this.alItemMaster = alItemMaster;
         SetRecyclerView();
@@ -189,7 +189,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster,0);
         }
         if (!sbItemMasterIds.toString().equals("")) {
-            objItemJSONParser.SelectAllItemMaster(null, this, String.valueOf(1), null, null, String.valueOf(Globals.linktoBusinessMasterId), sbItemMasterIds.toString());
+            objItemJSONParser.SelectAllItemMaster(null, this, String.valueOf(1), null, null, String.valueOf(Globals.linktoBusinessMasterId), sbItemMasterIds.toString(),false);
         } else {
             progressDialog.dismiss();
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvWishItemMaster,0);

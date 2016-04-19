@@ -56,6 +56,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     Toolbar app_bar;
     String itemName;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +86,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if (Service.CheckNet(this)) {
             RequestCategoryMaster();
         } else {
-            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection),R.drawable.wifi_drawable);
+            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection), R.drawable.wifi_drawable);
         }
 
         SaveWishListInSharePreference(false);
@@ -290,10 +291,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         ItemAdapter.alWishItemMaster = new ArrayList<>();
     }
 
-    private void SetErrorLayout(boolean isShow, String errorMsg,int errorIcon) {
+    private void SetErrorLayout(boolean isShow, String errorMsg, int errorIcon) {
         TextView txtMsg = (TextView) errorLayout.findViewById(R.id.txtMsg);
         ImageView ivErrorIcon = (ImageView) errorLayout.findViewById(R.id.ivErrorIcon);
-        if(errorIcon!=0){
+        if (errorIcon != 0) {
             ivErrorIcon.setImageResource(R.drawable.wifi_drawable);
         }
         if (isShow) {
@@ -313,10 +314,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
-            SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail),0);
+            SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail), 0);
         } else {
 
-            SetErrorLayout(false, null,0);
+            SetErrorLayout(false, null, 0);
 
             CategoryMaster objCategoryMaster = new CategoryMaster();
             objCategoryMaster.setCategoryMasterId((short) 0);
@@ -326,9 +327,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             alCategoryMaster.addAll(0, alCategory);
 
             itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
-
+            int cnt = 0;
             for (CategoryMaster objFilterCategoryMaster : alCategoryMaster) {
-                itemPagerAdapter.AddFragment(ItemListFragment.createInstance(objFilterCategoryMaster), objFilterCategoryMaster);
+                itemPagerAdapter.AddFragment(ItemListFragment.createInstance(objFilterCategoryMaster, cnt), objFilterCategoryMaster);
+                cnt++;
             }
 
             viewPager.setAdapter(itemPagerAdapter);
@@ -340,13 +342,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 public void onTabSelected(TabLayout.Tab tab) {
                     //set the current view on tab click
                     viewPager.setCurrentItem(tab.getPosition());
-                    ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
 
                     if (famRoot.isMenuButtonHidden()) {
                         famRoot.showMenuButton(true);
                     }
 
                     if (isForceToChange) {
+                        ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tab.getPosition());
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                             isForceToChange = false;
@@ -359,6 +361,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             }
                         }
                     } else {
+                        ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tab.getPosition());
                         if (fabVeg.isSelected() || fabNonVeg.isSelected() || fabJain.isSelected()) {
                             itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                         } else if ((!fabVeg.isSelected()) && (!fabNonVeg.isSelected()) || (!fabJain.isSelected())) {
@@ -371,6 +374,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             }
                         }
                     }
+
                 }
 
                 @Override
@@ -406,7 +410,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg) {
-                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem),itemName), MenuActivity.this, 1000);
+                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), MenuActivity.this, 1000);
             }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));
@@ -518,6 +522,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         public Fragment getItem(int position) {
             return fragmentList.get(position);
         }
+
 
         @Override
         public int getCount() {

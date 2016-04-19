@@ -125,7 +125,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
         progressDialog.dismiss();
         this.alItemMaster = alItemMaster;
         SetRecyclerView();

@@ -160,7 +160,7 @@ public class ItemJSONParser {
     }
     //endregion
 
-    public void SelectAllItemMaster(final Fragment targetFragment, final Context context, String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId,String itemMasterIds) {
+    public void SelectAllItemMaster(final Fragment targetFragment, final Context context, final String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId,String itemMasterIds, final boolean isOptionFilter) {
          String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId + "/" + itemMasterIds;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -173,19 +173,20 @@ public class ItemJSONParser {
                         ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
                         if(targetFragment==null){
                             objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster, isOptionFilter);
+
                         }else {
                             objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster, isOptionFilter);
                         }
                     }
                 } catch (Exception e) {
                     if(targetFragment==null){
                         objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                        objItemMasterRequestListener.ItemMasterResponse(null);
+                        objItemMasterRequestListener.ItemMasterResponse(null,false);
                     }else {
                         objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(null);
+                        objItemMasterRequestListener.ItemMasterResponse(null,false);
                     }
                 }
             }
@@ -194,10 +195,10 @@ public class ItemJSONParser {
             public void onErrorResponse(VolleyError volleyError) {
                 if(targetFragment==null){
                     objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    objItemMasterRequestListener.ItemMasterResponse(null,false);
                 }else {
                     objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    objItemMasterRequestListener.ItemMasterResponse(null,false);
                 }
             }
 
@@ -217,18 +218,18 @@ public class ItemJSONParser {
                     if (jsonArray != null) {
                         ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
                     }
                 } catch (Exception e) {
                     objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    objItemMasterRequestListener.ItemMasterResponse(null,false);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                objItemMasterRequestListener.ItemMasterResponse(null);
+                objItemMasterRequestListener.ItemMasterResponse(null,false);
             }
 
         });
@@ -247,18 +248,18 @@ public class ItemJSONParser {
                     if (jsonArray != null) {
                         ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
                     }
                 } catch (Exception e) {
                     objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    objItemMasterRequestListener.ItemMasterResponse(null,false);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 objItemMasterRequestListener = (ItemMasterRequestListener) context;
-                objItemMasterRequestListener.ItemMasterResponse(null);
+                objItemMasterRequestListener.ItemMasterResponse(null,false);
             }
         });
         queue.add(jsonObjectRequest);
@@ -300,18 +301,18 @@ public class ItemJSONParser {
                             alItemMaster.add(objItemMaster);
                         }
                         objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster);
+                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
                     }
                 } catch (Exception e) {
                     objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                    objItemMasterRequestListener.ItemMasterResponse(null);
+                    objItemMasterRequestListener.ItemMasterResponse(null,false);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                objItemMasterRequestListener.ItemMasterResponse(null);
+                objItemMasterRequestListener.ItemMasterResponse(null,false);
             }
 
         });
@@ -319,6 +320,6 @@ public class ItemJSONParser {
     }
 
     public interface ItemMasterRequestListener {
-        void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster);
+        void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter);
     }
 }
