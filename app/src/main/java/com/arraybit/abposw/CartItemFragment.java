@@ -233,8 +233,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void SetRecyclerView() {
         if (Globals.alOrderItemTran.size() == 0) {
-            //txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
-            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
+            txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
+            //Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
             SetVisibility();
 
         } else {
