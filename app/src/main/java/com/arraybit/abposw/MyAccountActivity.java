@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -99,8 +100,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 2) {
             ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
         } else if (id == 3) {
-            Globals.ClearUserPreference(MyAccountActivity.this, this);
-            getSupportFragmentManager().popBackStack();
+            Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
+            setResult(Activity.RESULT_OK);
+            finish();
         }
     }
 

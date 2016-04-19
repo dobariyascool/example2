@@ -89,7 +89,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                 finish();
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
                 objAddQtyRemarkDialogFragment.show(this.getSupportFragmentManager(), "");
             } else {
-                Globals.ReplaceFragment(new ItemModifierRemarkFragment(objItemMaster),getSupportFragmentManager(),getResources().getString(R.string.title_item_modifier_remark),R.id.detailLayout);
+                Globals.ReplaceFragment(new ItemModifierRemarkFragment(objItemMaster), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
             }
         }
     }
@@ -153,7 +153,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             txtShortDescription.setText(objItemMaster.getShortDescription());
         }
         txtShortDescription.setText(objItemMaster.getShortDescription());
-        txtItemRate.setText("Rs. " + objItemMaster.getRate());
+        txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
     }
 
     private void SetRecyclerView() {

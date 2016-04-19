@@ -45,7 +45,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark;
     ImageView ivRemark;
     CompoundButton cbMenu;
-    LinearLayout headerLayout, taxLayout;
+    LinearLayout headerLayout, taxLayout, errorLayout;
     double totalAmount, totalTax, netAmount, tax1, tax2, tax3, tax4, tax5;
     String strNetAmount;
     ArrayList<TaxMaster> alTaxMaster = new ArrayList<>();
@@ -91,6 +91,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         txtHeaderNetAmount = (TextView) view.findViewById(R.id.txtHeaderNetAmount);
         cbMenu = (CompoundButton) view.findViewById(R.id.cbMenu);
 
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         headerLayout = (LinearLayout) view.findViewById(R.id.headerLayout);
         taxLayout = (LinearLayout) view.findViewById(R.id.taxLayout);
 
@@ -106,7 +107,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         if (Service.CheckNet(getActivity())) {
             RequestTaxMaster();
         } else {
-            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCheckConnection), rvCartItem, R.drawable.wifi_drawable);
         }
 
         cbMenu.setOnClickListener(this);
@@ -232,7 +233,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void SetRecyclerView() {
         if (Globals.alOrderItemTran.size() == 0) {
-            txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
+            //txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
             SetVisibility();
 
         } else {
@@ -259,7 +261,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     private void SetVisibility() {
         if (Globals.alOrderItemTran.size() == 0) {
             txtMsg.setVisibility(View.VISIBLE);
-            cbMenu.setVisibility(View.VISIBLE);
+            cbMenu.setVisibility(View.GONE);
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
             txtHeaderRemark.setVisibility(View.GONE);

@@ -43,7 +43,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ProgressDialog progressDialog = new ProgressDialog();
     ItemMaster objItemMaster;
     ArrayList<OptionMaster> alOptionMaster;
-    String strOptionName,strItemName;
+    String strOptionName, strItemName;
     ArrayList<OptionValueTran> lstOptionValueTran;
     Button btnAdd;
     StringBuilder sbOptionValue;
@@ -154,7 +154,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", true);
             returnIntent.putExtra("ItemName", strItemName);
-            getActivity().setResult(Activity.RESULT_OK,returnIntent);
+            getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         }
     }
@@ -164,7 +164,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         this.isDuplicate = isDuplicate;
         if (isChecked) {
             if (alCheckedModifier.size() > 0) {
-                for(ItemMaster objCheckedItemModifier : alCheckedModifier){
+                for (ItemMaster objCheckedItemModifier : alCheckedModifier) {
                     if (objItemModifier.getItemMasterId() == objCheckedItemModifier.getItemMasterId()) {
                         this.isDuplicate = true;
                         break;
@@ -178,7 +178,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 alCheckedModifier.add(objItemModifier);
             }
         } else {
-            for(ItemMaster objCheckedItemModifier : alCheckedModifier){
+            for (ItemMaster objCheckedItemModifier : alCheckedModifier) {
                 if (objItemModifier.getItemMasterId() == objCheckedItemModifier.getItemMasterId()) {
                     alCheckedModifier.remove(alCheckedModifier.indexOf(objCheckedItemModifier));
                     break;
@@ -241,7 +241,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         alOptionMaster = new ArrayList<>();
         lstOptionValueTran = new ArrayList<>();
         OptionMaster objOptionMaster = new OptionMaster();
-        for(OptionValueTran objOptionValueTran : lstOptionValue){
+        for (OptionValueTran objOptionValueTran : lstOptionValue) {
             if (strOptionName == null) {
                 strOptionName = objOptionValueTran.getOptionName();
                 objOptionMaster = new OptionMaster();
@@ -280,7 +280,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
         alOptionValue = new ArrayList<>();
         if (alOptionMaster.size() > 0) {
-            for(OptionMaster objFilterOptionMaster : alOptionMaster){
+            for (OptionMaster objFilterOptionMaster : alOptionMaster) {
                 objOptionMaster = new OptionMaster();
                 objOptionMaster.setOptionRowId(-1);
                 objOptionMaster.setOptionName(null);
@@ -302,12 +302,12 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         } else {
             txtItemDescription.setText(objItemMaster.getShortDescription());
         }
-        txtItemRate.setText("Rs " + objItemMaster.getRate());
+        txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
     }
 
     private void SetItemRemark() {
         sbOptionValue = new StringBuilder();
-        if(alOptionValue!=null && alOptionValue.size() > 0) {
+        if (alOptionValue != null && alOptionValue.size() > 0) {
             for (OptionMaster objOptionMaster : alOptionValue) {
                 if (objOptionMaster.getOptionName() != null) {
                     sbOptionValue.append(objOptionMaster.getOptionName()).append(",");
@@ -395,7 +395,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     private void SetOrderItemModifierTran() {
         try {
-            for(ItemMaster objCheckedModifier : alCheckedModifier){
+            for (ItemMaster objCheckedModifier : alCheckedModifier) {
                 objCheckedModifier.setRate(objCheckedModifier.getMRP());
                 objCheckedModifier.setSellPrice(objCheckedModifier.getMRP());
                 totalModifierAmount = totalModifierAmount + objCheckedModifier.getMRP();
@@ -410,7 +410,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         String[] strNewRemark = new String[0], strOldRemark;
         String strOptionValue;
         int cnt, cntModifier;
-        for(ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran){
+        for (ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran) {
             cnt = 0;
             cntModifier = 0;
             if (etRemark.getText().toString().isEmpty()) {
@@ -452,8 +452,8 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                     ArrayList<ItemMaster> alOldOrderItemTran = objFilterOrderItemTran.getAlOrderItemModifierTran();
                     if (alCheckedModifier.size() != 0) {
                         if (alCheckedModifier.size() == alOldOrderItemTran.size()) {
-                            for(ItemMaster objCheckedModifier : alCheckedModifier){
-                                for(ItemMaster objOldOrderItemTran : alOldOrderItemTran){
+                            for (ItemMaster objCheckedModifier : alCheckedModifier) {
+                                for (ItemMaster objOldOrderItemTran : alOldOrderItemTran) {
                                     if (objCheckedModifier.getItemMasterId() == objOldOrderItemTran.getItemMasterId()) {
                                         cntModifier = cntModifier + 1;
                                     }
@@ -521,7 +521,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     private void SetOrderItemModifierQty(ArrayList<ItemMaster> alItemMasterModifier, int Quantity) {
-        for(ItemMaster objItemMasterModifier : alItemMasterModifier){
+        for (ItemMaster objItemMasterModifier : alItemMasterModifier) {
             objItemMasterModifier.setSellPrice(objItemMasterModifier.getRate() * Quantity);
         }
     }
@@ -531,7 +531,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         int cnt = 0;
         if (objItemMaster.getTax() != null && !objItemMaster.getTax().equals("")) {
             ArrayList<String> alTax = new ArrayList<>(Arrays.asList(objItemMaster.getTax().split(",")));
-            for(String tax : alTax){
+            for (String tax : alTax) {
                 if (isDuplicate) {
                     totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                     if (cnt == 0) {

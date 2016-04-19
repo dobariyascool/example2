@@ -38,6 +38,7 @@
     <!-- Operation Message -->
     <string name="MsgValidation">Please correct the errors</string>
     <string name="MsgNoRecord">No record found.</string>
+    <string name="MsgNoCartItem">Cart is Empty.</string>
     <string name="MsgAlreadyExist">Record already exist</string>
     <string name="MsgInsertFail">Failed to insert record</string>
     <string name="MsgInsertSuccess">Record inserted successfully</string>
@@ -161,6 +162,7 @@
     <string name="cifConfirmOrder">Confirm Order</string>
     <string name="cifQty">Qty</string>
     <string name="cifItem">Item</string>
+    <string name="cifRupee">\u20B9</string>
     <string name="cifAmount">Amount</string>
     <string name="cifRate">Rate</string>
     <string name="cifTotalAmount">Total Amount</string>

@@ -139,7 +139,6 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

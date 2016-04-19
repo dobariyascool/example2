@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textColor="@android:color/white"
+                android:textColor="@color/heading"
                 android:textSize="@dimen/control_TextMedium" />
 
             <ImageView
@@ -127,8 +127,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="Price"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/control_TextMedium"
             tools:ignore="HardcodedText" />
 

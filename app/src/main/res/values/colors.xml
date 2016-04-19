@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF2B1510</color>
+    <color name="colorPrimary">#FF331B17</color>
     <color name="colorPrimaryDark">#FF120907</color>
     <color name="colorPrimaryLight">#c7b2ad</color>
-    <color name="colorAccent">#FF6E6A2E</color>
+    <color name="colorAccent">#FF66632D</color>
     <color name="colorAccentDark">#FF5C5927</color>
     <color name="colorAccentLight">#8b8632</color>
 
@@ -24,7 +24,11 @@
     <color name="transparentBackground">#B5000000</color>
     <color name="orange">#E65100</color>
     <color name="orange_light">#F17826</color>
-    <color name="transparent_orange">#30FFA726</color>
+    <!--<color name="transparent_orange">#21a39b25</color>-->
+    <!--<color name="transparent_orange">#2ACEC21E</color>-->
+    <!--<color name="transparent_orange">#406E6A2E</color>-->
+    <!--<color name="transparent_orange">#09252303</color>-->
+    <color name="transparent_orange">#37706c36</color>
     <color name="transparent_white">#60FFFFFF</color>
     <color name="transparent_brown">#903e2723</color>
 

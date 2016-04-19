@@ -133,7 +133,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             progressDialog.dismiss();
         }
         this.alItemMaster = alItemMaster;
-        SetRecyclerView(false,false);
+        SetRecyclerView(false, false);
     }
 
     @Override
@@ -207,16 +207,16 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         } else {
             if (alItemMaster == null) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster,0);
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgSelectFail), rvItemMaster, 0);
 
                 }
             } else if (alItemMaster.size() == 0) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster,0);
-
+                    //int imageresource = getResources().getIdentifier("@drawable/no_item_drawable", "drawable", getActivity().getPackageName());
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster, 0);
                 }
             } else {
-                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster,0);
+                Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster, 0);
                 if (currentPage > 1) {
                     if (rvItemMaster.getAdapter() != null && rvItemMaster.getAdapter().getItemCount() > 9) {
                         itemAdapter.ItemDataChanged(alItemMaster);
@@ -225,7 +225,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 } else if (alItemMaster.size() < 10) {
                     currentPage += 1;
                 }
-                itemAdapter = new ItemAdapter(context, alItemMaster, this,false);
+                itemAdapter = new ItemAdapter(context, alItemMaster, this, false);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     rvItemMaster.setLayoutManager(gridLayoutManager);
@@ -288,9 +288,9 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId),null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null);
         } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId),null);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null);
         }
     }
     //endregion

@@ -161,7 +161,7 @@ public class ItemJSONParser {
     //endregion
 
     public void SelectAllItemMaster(final Fragment targetFragment, final Context context, String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId,String itemMasterIds) {
-        String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId + "/" + itemMasterIds;
+         String url = Service.Url + this.SelectAllItemMaster + "/" + currentPage + "/" + categoryMasterId + "/" + optionMasterId + "/" + linktoBusinessMasterId + "/" + itemMasterIds;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
