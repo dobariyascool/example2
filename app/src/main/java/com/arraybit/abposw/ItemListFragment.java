@@ -304,7 +304,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             if (progressDialog.getDialog() != null && progressDialog.getDialog().isShowing()) {
                 progressDialog.dismiss();
             }
-            progressDialog.show(getFragmentManager(), "ProgressDialog");
+            progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
             cnt = 1;
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
