@@ -26,7 +26,7 @@ import com.rey.material.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("ALL")
 public class FeedbackActivity extends AppCompatActivity implements FeedbackQuestionJSONParser.FeedbackQuestionRequestListener, View.OnClickListener {
 
     public static ArrayList<ArrayList<FeedbackQuestionMaster>> alFinalFeedbackAnswer = new ArrayList<>();
@@ -248,7 +248,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
             alFilterFeedbackQuestionMaster.add(objFeedbackQuestionMaster);
             alFinalFeedbackAnswer.add(arrayList);
             feedbackPagerAdapter.AddFragment(FeedbackViewFragment.createInstance(alFilterFeedbackQuestionMaster, cnt), getResources().getString(R.string.fbFeedbackGroup));
-
+            txtFeedbackGroup.setText(getResources().getString(R.string.fbFeedbackGroup));
             viewPager.setAdapter(feedbackPagerAdapter);
             viewPager.setOffscreenPageLimit(0);
             SetVisibility(-1);
