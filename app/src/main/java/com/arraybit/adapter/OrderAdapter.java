@@ -24,9 +24,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterViewHolder> {
+    public boolean isItemAnimate = false;
     Context context;
     LayoutInflater layoutInflater;
     View view;
+    int previousPosition;
     ArrayList<OrderMaster> alOrderMaster;
     SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     String today;
@@ -97,6 +99,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                     holder.ibCancelOrder.setVisibility(View.VISIBLE);
                 }
             }
+            if (isItemAnimate) {
+                if (position > previousPosition) {
+                    Globals.SetItemAnimator(holder);
+                }
+                previousPosition = position;
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -107,6 +115,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
 
     public void OrderDataChanged(ArrayList<OrderMaster> result) {
         alOrderMaster.addAll(result);
+        isItemAnimate = false;
         notifyDataSetChanged();
     }
 

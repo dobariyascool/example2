@@ -87,18 +87,18 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-//                if (!adapter.isItemAnimate) {
-//                    adapter.isItemAnimate = true;
-//                }
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
             }
         });
 
         rvOrder.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-//                if (!adapter.isItemAnimate) {
-//                    adapter.isItemAnimate = true;
-//                }
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
