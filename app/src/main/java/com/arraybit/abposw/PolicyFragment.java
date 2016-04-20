@@ -78,7 +78,7 @@ public class PolicyFragment extends Fragment implements BusinessDescriptionJSONP
         progressDialog.dismiss();
         this.objBusinessDescription = objBusinessDescription;
 
-        if (objBusinessDescription == null) {
+        if (objBusinessDescription == null || objBusinessDescription.getDescription().equals("")) {
             wvPolicy.setVisibility(View.GONE);
         } else {
             wvPolicy.setVisibility(View.VISIBLE);

@@ -60,7 +60,6 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
             @Override
             public void onClick(View v) {
                 Globals.ReplaceFragment(new PolicyFragment(txtCardPolicy.getText().toString()), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.aboutFragment);
-
             }
         });
 
@@ -92,7 +91,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         progressDialog.dismiss();
         this.objBusinessDescription = objBusinessDescription;
 
-        if (objBusinessDescription.getDescription().equals("") || objBusinessDescription == null) {
+        if (objBusinessDescription == null || objBusinessDescription.getDescription().equals("")) {
             wvAbout.setVisibility(View.GONE);
         } else {
             wvAbout.setVisibility(View.VISIBLE);
