@@ -91,15 +91,16 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                         }
                     }
                 }
-                if (isItemAnimate) {
-                    if (position > previousPosition) {
-                        Globals.SetItemAnimator(holder);
-                    }
-                    previousPosition = position;
-                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+        if (isItemAnimate) {
+            if (position > previousPosition) {
+                Globals.SetItemAnimator(holder);
+            }
+            previousPosition = position;
         }
     }
 

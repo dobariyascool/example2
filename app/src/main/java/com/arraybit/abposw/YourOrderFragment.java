@@ -64,7 +64,6 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         app_bar.setTitle(getResources().getString(R.string.title_fragment_your_order));
         setHasOptionsMenu(true);
 
-
         rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         linearLayoutManager = new LinearLayoutManager(getActivity());

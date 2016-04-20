@@ -2,6 +2,7 @@ package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +19,14 @@ import com.rey.material.widget.RadioButton;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     RadioButton chk2;
     EditText etBookingdate;
     ProgressDialog progressDialog = new ProgressDialog();
+    FloatingActionButton fab;
+    CoordinatorLayout coordinatorLayout;
+    Snackbar snackbar;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
 
         Button btn = (Button)findViewById(R.id.btn);
         chk2 = (RadioButton)findViewById(R.id.chk2);
@@ -101,12 +107,15 @@ public class MainActivity extends AppCompatActivity {
 //        webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 //        webview.loadData(str, "text/html; charset=UTF-8", null);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fab.hide();
+
+                //Globals.ShowSnackBar(view,"Replace with your own action",MainActivity.this,1000);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
             }
         });
     }
@@ -136,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void EditTextOnClick(View view) {
-        Globals.ShowDatePickerDialog(etBookingdate,this,true);
+        Globals.ShowDatePickerDialog(etBookingdate, this, true);
     }
+
 }

@@ -99,18 +99,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                     holder.ibCancelOrder.setVisibility(View.VISIBLE);
                 }
             }
-            if (isItemAnimate) {
-                if (position > previousPosition) {
-                    Globals.SetItemAnimator(holder);
-                }
-                previousPosition = position;
-            }
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         holder.txtOrderDate.setText(strDateTime[0] + "\n" + strDateTime[1]);
+
+        if (isItemAnimate) {
+            if (position > previousPosition) {
+                Globals.SetItemAnimator(holder);
+            }
+            previousPosition = position;
+        }
+
     }
 
     public void OrderDataChanged(ArrayList<OrderMaster> result) {
@@ -121,6 +121,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
 
     public void UpdateOrderData(int position) {
         alOrderMaster.get(position).setlinktoOrderStatusMasterId((short) Globals.OrderStatus.Cancelled.getValue());
+        isItemAnimate = false;
         notifyItemChanged(position);
     }
 

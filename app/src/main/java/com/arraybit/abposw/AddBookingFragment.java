@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -61,9 +62,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_add_booking, container, false);
+       View view = inflater.inflate(R.layout.fragment_add_booking, container, false);
 
         Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(app_bar);
@@ -86,7 +87,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
         etAdults = (EditText) view.findViewById(R.id.etAdults);
         etChildren = (EditText) view.findViewById(R.id.etChildren);
+
         etBookingDate = (EditText) view.findViewById(R.id.etBookingDate);
+        etBookingDate.setInputType(InputType.TYPE_NULL);
+
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
@@ -103,11 +107,14 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
+                    Globals.HideKeyBoard(getActivity(),v);
                     Globals.ShowDatePickerDialog(etBookingDate, getActivity(), true);
                 }
             }
         });
+
         etBookingDate.addTextChangedListener(new TextWatcher() {
+            String strDate="";
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -119,13 +126,14 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!etBookingDate.getText().toString().equals("")) {
+                if (!etBookingDate.getText().toString().equals("") && !(strDate.equals(etBookingDate.getText().toString()))) {
+                    strDate = etBookingDate.getText().toString();
                     alFromTime = new ArrayList<>();
                     if (Service.CheckNet(getActivity())) {
                         timeLinearLayout.setVisibility(View.VISIBLE);
                         RequestTimeSlot();
                     } else {
-                        Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                     }
                 }
             }
@@ -181,6 +189,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Globals.HideKeyBoard(getActivity(),v);
         if (v.getId() == R.id.btnBookTable) {
             view = v;
             objBookingMaster = new BookingMaster();

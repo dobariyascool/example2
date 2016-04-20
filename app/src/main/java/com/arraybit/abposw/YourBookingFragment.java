@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressWarnings("ConstantConditions")
 public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener {
@@ -182,7 +184,6 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         if (objBookingMaster == null) {
             fabBooking.show();
         } else {
-            fabBooking.show();
             Date dt;
             SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -215,9 +216,14 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 rvBooking.setAdapter(adapter);
                 rvBooking.setLayoutManager(linearLayoutManager);
             }
-            if (!fabBooking.isShown()) {
-                Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
-            }
+            Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
+            //prevent floating action button animation
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    fabBooking.show();
+                }
+            }, 1600);
         }
     }
 
