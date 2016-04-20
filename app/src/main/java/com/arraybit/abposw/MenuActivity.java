@@ -116,18 +116,18 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     item.setIcon(R.drawable.view_grid);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true, false);
+                    itemListFragment.SetRecyclerView(true, false,false);
                 } else if (i == 2) {
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true, false);
+                    itemListFragment.SetRecyclerView(true, false,false);
                 } else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
                     isViewChange = false;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true, false);
+                    itemListFragment.SetRecyclerView(true, false,false);
                 }
             }
         } else if (id == R.id.logout) {
@@ -354,7 +354,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             isForceToChange = false;
                         } else {
                             if (sbItemTypeMasterId == null) {
-                                itemListFragment.SetRecyclerView(true, false);
+                                itemListFragment.SetRecyclerView(true, false,false);
                                 isForceToChange = false;
                             } else {
                                 itemListFragment.ItemByOptionName(null);
@@ -369,7 +369,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                                 itemListFragment.ItemByOptionName(null);
                             } else {
                                 if (ItemAdapter.alWishItemMaster.size() > 0) {
-                                    itemListFragment.SetRecyclerView(true, true);
+                                    itemListFragment.SetRecyclerView(true, true,false);
                                 }
                             }
                         }

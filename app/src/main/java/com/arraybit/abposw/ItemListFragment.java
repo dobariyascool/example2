@@ -34,16 +34,15 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     CategoryMaster objCategoryMaster;
     RecyclerView rvItemMaster;
     ItemAdapter itemAdapter;
-    LinearLayoutManager linearLayoutManager;
-    GridLayoutManager gridLayoutManager;
+    LinearLayoutManager linearLayoutManager, filterLinearLayoutManager;
+    GridLayoutManager gridLayoutManager, filterGridLayoutManager;
     ArrayList<ItemMaster> alItemMaster;
     String OptionIds;
-    int currentPage = 1,currentTab;
+    int currentPage = 1, currentTab;
     boolean isDuplicate = false;
-    boolean isOptionFilter = false;
     Context context;
 
-    public static ItemListFragment createInstance(CategoryMaster objCategoryMaster,int currentTab) {
+    public static ItemListFragment createInstance(CategoryMaster objCategoryMaster, int currentTab) {
         ItemListFragment itemTabFragment = new ItemListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ITEMS_COUNT_KEY, objCategoryMaster);
@@ -70,7 +69,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
         Bundle bundle = getArguments();
         objCategoryMaster = bundle.getParcelable(ITEMS_COUNT_KEY);
-        currentTab = bundle.getInt("TabPosition",-1);
+        currentTab = bundle.getInt("TabPosition", -1);
 
         if (currentPage >= 1 && linearLayoutManager.canScrollVertically()) {
             currentPage = 1;
@@ -132,15 +131,15 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster, boolean isFilter) {
         if (progressDialog != null && progressDialog.isAdded()) {
             progressDialog.dismiss();
         }
         this.alItemMaster = alItemMaster;
-        if(isFilter) {
-            currentPage =1;
+        if (isFilter) {
+            currentPage = 1;
         }
-        SetRecyclerView(false, false);
+        SetRecyclerView(false, false, isFilter);
     }
 
     @Override
@@ -167,7 +166,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     }
 
-    public void SetRecyclerView(boolean isCurrentPageChange, boolean isWishListCheck) {
+    public void SetRecyclerView(boolean isCurrentPageChange, boolean isWishListCheck, boolean isFilterLayoutManager) {
         if (isCurrentPageChange) {
             //check duplicate id in wishList
             if (rvItemMaster.getAdapter() != null) {
@@ -219,7 +218,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 }
             } else if (alItemMaster.size() == 0) {
                 if (currentPage == 1) {
-                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster,0);
+                    Globals.SetErrorLayout(errorLayout, true, context.getResources().getString(R.string.MsgItem), rvItemMaster, 0);
                 }
             } else {
                 Globals.SetErrorLayout(errorLayout, false, null, rvItemMaster, 0);
@@ -234,9 +233,18 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 itemAdapter = new ItemAdapter(context, alItemMaster, this, false);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
-                    rvItemMaster.setLayoutManager(gridLayoutManager);
+                    if (isFilterLayoutManager) {
+                        rvItemMaster.setLayoutManager(filterGridLayoutManager);
+                    } else {
+                        rvItemMaster.setLayoutManager(gridLayoutManager);
+                    }
                 } else {
-                    rvItemMaster.setLayoutManager(linearLayoutManager);
+                    if (isFilterLayoutManager) {
+                        rvItemMaster.setLayoutManager(filterLinearLayoutManager);
+                    } else {
+                        rvItemMaster.setLayoutManager(linearLayoutManager);
+                    }
+
                 }
             }
         }
@@ -247,9 +255,15 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         currentPage = 1;
         cnt = 0;
 
+        filterLinearLayoutManager = new LinearLayoutManager(getActivity());
+        filterLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        filterGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        filterGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+
         RequestItemMaster(true);
 
-        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(filterLinearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 if (!itemAdapter.isItemAnimate) {
@@ -266,7 +280,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             }
         });
 
-        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+        rvItemMaster.addOnScrollListener(new EndlessRecyclerOnScrollListener(filterGridLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 if (!itemAdapter.isItemAnimate) {
@@ -295,11 +309,10 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null,isOptionFilter);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
         } else {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null,isOptionFilter);
+            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
         }
     }
-
     //endregion
 }
