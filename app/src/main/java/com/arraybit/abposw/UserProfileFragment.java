@@ -193,7 +193,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
 
     private void UserRequest() {
         progressDialog = new ProgressDialog();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+        progressDialog.show(getFragmentManager(), "ProgressDialog");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.SelectCustomerMaster(getActivity(), null, null, String.valueOf(customerMasterId), this);
@@ -201,7 +201,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
 
     private void UpdateUserProfileRequest() {
         progressDialog = new ProgressDialog();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+        progressDialog.show(getFragmentManager(), "ProgressDialog");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();

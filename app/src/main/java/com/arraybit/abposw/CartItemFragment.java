@@ -226,7 +226,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     //region Private Methods
 
     private void RequestTaxMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         TaxJSONParser objTaxJSONParser = new TaxJSONParser();
         objTaxJSONParser.SelectAllTaxMaster(String.valueOf(Globals.linktoBusinessMasterId), getActivity(), this);
     }

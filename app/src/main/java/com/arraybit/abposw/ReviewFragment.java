@@ -116,7 +116,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     //region Private Methods
     private void RequestReviews() {
         if(currentPage > 3) {
-            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+            progressDialog.show(getFragmentManager(), "");
         }
         ReviewJSONParser objReviewJSONParser = new ReviewJSONParser();
         objReviewJSONParser.SelectAllReviewMasterPageWise(this, getActivity(), String.valueOf(currentPage), String.valueOf(objBusinessMaster.getBusinessMasterId()));

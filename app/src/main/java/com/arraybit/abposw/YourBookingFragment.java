@@ -43,7 +43,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     Activity activity;
     int currentPage = 1, position, cnt;
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-    com.arraybit.abposw.ProgressDialog progressDialog = new ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
 
     public YourBookingFragment() {
@@ -173,7 +173,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void CancelClickListener(BookingMaster objBookingMaster, int position) {
         this.position = position;
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
         objBookingJSONParser.UpdateBookingMaster(objBookingMaster, getActivity(), this);
     }
@@ -224,7 +224,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
     //region Private Method
     private void RequestBookingMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
             customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
         }

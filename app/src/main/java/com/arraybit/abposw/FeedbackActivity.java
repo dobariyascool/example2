@@ -170,7 +170,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
     }
 
     private void RequestFeedbackQuestion() {
-        progressDialog.show(FeedbackActivity.this.getSupportFragmentManager(), "");
+        progressDialog.show(getSupportFragmentManager(), "");
         FeedbackQuestionJSONParser objFeedbackQuestionJSONParser = new FeedbackQuestionJSONParser();
 
         objFeedbackQuestionJSONParser.SelectAllFeedbackQuestionAnswer(FeedbackActivity.this, String.valueOf(Globals.linktoBusinessMasterId));

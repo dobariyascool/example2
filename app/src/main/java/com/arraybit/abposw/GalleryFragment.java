@@ -135,7 +135,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
             progressDialog.dismiss();
         }
         if (currentPage > 3) {
-            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+            progressDialog.show(getFragmentManager(), "");
         }
         BusinessGalleryJSONParser objBusinessGalleryJSONParser = new BusinessGalleryJSONParser();
         objBusinessGalleryJSONParser.SelectAllBusinessGalleryTran(this, getActivity(), String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId));

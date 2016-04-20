@@ -28,13 +28,13 @@ import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
 @SuppressWarnings("ConstantConditions")
-public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener,OnMapReadyCallback {
+public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener, OnMapReadyCallback {
 
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
-    TextView txtCountry, txtAddress, txtWebSite, txtPhone1, txtPhone2;
+    TextView txtOffice, txtCountry, txtAddress, txtContactUs, txtWebSite, txtPhone1, txtPhone2;
     Button btnSend;
     LinearLayout linearLayoutContactUs;
-    com.arraybit.abposw.ProgressDialog progressDialog = new ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
     View view;
@@ -61,8 +61,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         etContactUsMobile = (EditText) findViewById(R.id.etContactUsMobile);
         etContactUsMessage = (EditText) findViewById(R.id.etContactUsMessage);
 
+        txtOffice = (TextView) findViewById(R.id.txtOffice);
         txtCountry = (TextView) findViewById(R.id.txtCountry);
         txtAddress = (TextView) findViewById(R.id.txtAddress);
+        txtContactUs = (TextView) findViewById(R.id.txtContactUs);
         txtWebSite = (TextView) findViewById(R.id.txtWebSite);
         txtPhone1 = (TextView) findViewById(R.id.txtPhone1);
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
@@ -76,7 +78,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         }
 
         SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));
-        if(mapFragment!=null) {
+        if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
@@ -89,10 +91,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     @Override
     public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster) {
         progressDialog.dismiss();
-        if (errorCode == null) {
+        if (errorCode == null && objBusinessMaster != null) {
             this.objBusinessMaster = objBusinessMaster;
             SetBusinessDetail();
-        } else {
+        } else if(errorCode!=null){
             SetError(errorCode);
         }
     }
@@ -101,7 +103,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     public void onClick(View v) {
         if (v.getId() == R.id.btnSend) {
             view = v;
-            progressDialog.show(ContactUsActivity.this.getSupportFragmentManager(), "");
+            progressDialog.show(getSupportFragmentManager(), "");
             objContactUsMaster = new ContactUsMaster();
             if (!ValidationControls()) {
                 progressDialog.dismiss();
@@ -150,14 +152,16 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 
     //region Private Methods
     private void RequestBusinessInfoMaster() {
-        progressDialog.show(ContactUsActivity.this.getSupportFragmentManager(), "");
+        progressDialog.show(getSupportFragmentManager(), "");
         BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
         objBusinessJSONParser.SelectBusinessMaster(this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private void SetBusinessDetail() {
+        txtOffice.setText(getResources().getString(R.string.cuOffice));
         txtCountry.setText(objBusinessMaster.getCountry());
         txtAddress.setText(objBusinessMaster.getAddress());
+        txtContactUs.setText(getResources().getString(R.string.cuContactUs));
 
         String webSite = objBusinessMaster.getWebsite();
         SpannableString content = new SpannableString(webSite);

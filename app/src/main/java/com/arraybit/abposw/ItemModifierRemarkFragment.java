@@ -202,7 +202,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     private void RequestOptionValue() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
 
         OptionValueJSONParser objOptionValueJSONParser = new OptionValueJSONParser();
         objOptionValueJSONParser.SelectAllItemOptionValue(String.valueOf(objItemMaster.getItemMasterId()), getActivity(), this);

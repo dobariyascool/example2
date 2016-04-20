@@ -52,7 +52,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     BookingMaster objBookingMaster;
     SharePreferenceManage objSharePreferenceManage;
     Activity activity;
-    com.arraybit.abposw.ProgressDialog progressDialog = new com.arraybit.abposw.ProgressDialog();
+    ProgressDialog progressDialog = new ProgressDialog();
     AddNewBookingListener objAddNewBookingListener;
     TextView txtFromError, txtToTimeError;
 
@@ -293,7 +293,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     //region Private Methods
     private void RequestTimeSlot() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
         objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString());
     }

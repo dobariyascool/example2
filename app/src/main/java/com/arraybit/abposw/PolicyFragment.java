@@ -90,7 +90,7 @@ public class PolicyFragment extends Fragment implements BusinessDescriptionJSONP
     // region Private Method
     private void RequestKeyword() {
         progressDialog = new ProgressDialog();
-        progressDialog.show(getActivity().getSupportFragmentManager(), "ProgressDialog");
+        progressDialog.show(getFragmentManager(), "ProgressDialog");
         BusinessDescriptionJSONParser objBusinessDescriptionJSONParser = new BusinessDescriptionJSONParser();
         objBusinessDescriptionJSONParser.SelectBusinessDescription(getActivity(), this, String.valueOf(Globals.linktoBusinessMasterId), keyword);
     }

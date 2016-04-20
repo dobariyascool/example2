@@ -105,7 +105,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
 
     //region Private Method
     private void RequestCustomerMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         CustomerMaster objCustomerMaster = new CustomerMaster();

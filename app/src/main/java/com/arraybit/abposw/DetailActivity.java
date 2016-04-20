@@ -126,7 +126,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
     //region Private Method
     private void RequestItem() {
-        progressDialog.show(DetailActivity.this.getSupportFragmentManager(), "");
+        progressDialog.show(getSupportFragmentManager(), "");
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
         objItemJSONParser.SelectAllItemSuggested(this, String.valueOf(objItemMaster.getItemMasterId()), String.valueOf(Globals.linktoBusinessMasterId));
     }

@@ -133,7 +133,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     @Override
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         this.position = position;
         OrderJSONParser orderJSONParser = new OrderJSONParser();
         orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrderMaster.getOrderMasterId()), getActivity(), this);
@@ -147,7 +147,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     //region Private Method
     private void RequestOrderMasterOrderItem() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
 
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
