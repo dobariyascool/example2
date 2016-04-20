@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -87,6 +88,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         etAdults = (EditText) view.findViewById(R.id.etAdults);
         etChildren = (EditText) view.findViewById(R.id.etChildren);
         etBookingDate = (EditText) view.findViewById(R.id.etBookingDate);
+        etBookingDate.setInputType(InputType.TYPE_NULL);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
@@ -108,6 +110,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             }
         });
         etBookingDate.addTextChangedListener(new TextWatcher() {
+            boolean mToggle = false;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -119,15 +123,18 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!etBookingDate.getText().toString().equals("")) {
-                    alFromTime = new ArrayList<>();
-                    if (Service.CheckNet(getActivity())) {
-                        timeLinearLayout.setVisibility(View.VISIBLE);
-                        RequestTimeSlot();
-                    } else {
-                        Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                if (mToggle) {
+                    if (!etBookingDate.getText().toString().equals("")) {
+                        alFromTime = new ArrayList<>();
+                        if (Service.CheckNet(getActivity())) {
+                            timeLinearLayout.setVisibility(View.VISIBLE);
+                            RequestTimeSlot();
+                        } else {
+                            Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                        }
                     }
                 }
+                mToggle = !mToggle;  //mToggle used for only one time afterTextChanged event is fire in API 19
             }
         });
         spFromTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -295,7 +302,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     private void RequestTimeSlot() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString());
+        String str = etBookingDate.getText().toString();
+        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), str);
     }
 
     private void FillFromTime() {
