@@ -573,7 +573,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
             @Override
             public void onClick(View v) {
                 Globals.HideKeyBoard(getActivity(), v);
-                progressDialog.show(getFragmentManager(), "");
+                progressDialog.show(getActivity().getSupportFragmentManager(), "");
                 focusView = v;
                 if (!ValidateControls(etEmail, etFeedback, etMobileNo)) {
                     progressDialog.dismiss();

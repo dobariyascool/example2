@@ -64,7 +64,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
 
     //region Private Methods
     private void RequestBusinessInfo() {
-        progressDialog.show(getFragmentManager(), "");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
         BusinessInfoQuestionJSONParser objBusinessInfoQuestionJSONParser = new BusinessInfoQuestionJSONParser();
         objBusinessInfoQuestionJSONParser.SelectAllBusinessInfoQuestionMaster(this, getActivity(), Globals.linktoBusinessTypeMasterId, Globals.linktoBusinessMasterId);
@@ -86,14 +86,14 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                     objBusinessInfoQuestionMaster = objQuestionMaster;
                     objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                     objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-                    if(objQuestionMaster.getIsAnswer() && objQuestionMaster.getQuestionType()!= Globals.QuestionType.Input.getValue()){
+                    if (objQuestionMaster.getIsAnswer() && objQuestionMaster.getQuestionType() != Globals.QuestionType.Input.getValue()) {
                         isAnswer = true;
-                    }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                    } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
                         isAnswer = true;
                     }
                     alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                     if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-                        if(isAnswer) {
+                        if (isAnswer) {
                             isAnswer = false;
                             objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                             lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
@@ -104,21 +104,21 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                         objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
                         objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                         objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-                        if(objQuestionMaster.getIsAnswer()){
+                        if (objQuestionMaster.getIsAnswer()) {
                             isAnswer = true;
-                        }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                        } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
                             isAnswer = true;
                         }
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                         if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-                            if(isAnswer) {
+                            if (isAnswer) {
                                 isAnswer = false;
                                 objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                                 lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
                             }
                         }
                     } else {
-                        if(isAnswer) {
+                        if (isAnswer) {
                             isAnswer = false;
                             objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                             lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
@@ -130,14 +130,14 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                         objBusinessInfoQuestionMaster = objQuestionMaster;
                         objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
                         objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-                        if(objQuestionMaster.getIsAnswer()){
+                        if (objQuestionMaster.getIsAnswer()) {
                             isAnswer = true;
-                        }else if(objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()){
+                        } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
                             isAnswer = true;
                         }
                         alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
                         if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-                            if(isAnswer){
+                            if (isAnswer) {
                                 isAnswer = false;
                                 objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
                                 lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);

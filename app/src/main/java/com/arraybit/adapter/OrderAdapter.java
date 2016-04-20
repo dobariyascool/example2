@@ -32,10 +32,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
     ArrayList<OrderMaster> alOrderMaster;
     SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     String today;
-    Date toDate, currentDate;
+    Date toDate,currentDate;
     OrderOnClickListener objOrderOnClickListener;
 
-    public OrderAdapter(Context context, ArrayList<OrderMaster> alOrderMaster, OrderOnClickListener objOrderOnClickListener) {
+    public OrderAdapter(Context context, ArrayList<OrderMaster> alOrderMaster,OrderOnClickListener objOrderOnClickListener) {
         this.context = context;
         this.alOrderMaster = alOrderMaster;
         layoutInflater = LayoutInflater.from(context);
@@ -73,28 +73,28 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
             currentDate = sdfDate.parse(today);
             toDate = sdfDate.parse(strDateTime[0]);
             if (toDate.compareTo(currentDate) < 0) {
-                if (objOrderMaster.getlinktoOrderStatusMasterId() > 0) {
+                if(objOrderMaster.getlinktoOrderStatusMasterId() > 0){
                     holder.ibCancelOrder.setVisibility(View.GONE);
                     holder.txtStatus.setVisibility(View.VISIBLE);
-                    if (Globals.OrderStatus.Cancelled.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
+                    if(Globals.OrderStatus.Cancelled.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
                         holder.txtStatus.setText(Globals.OrderStatus.Cancelled.toString());
-                    } else if (Globals.OrderStatus.Delivered.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
+                    }else if(Globals.OrderStatus.Delivered.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
                         holder.txtStatus.setText(Globals.OrderStatus.Delivered.toString());
                     }
-                } else {
+                }else{
                     holder.ibCancelOrder.setVisibility(View.INVISIBLE);
                     holder.txtStatus.setVisibility(View.GONE);
                 }
-            } else {
-                if (objOrderMaster.getlinktoOrderStatusMasterId() > 0) {
+            }else{
+                if(objOrderMaster.getlinktoOrderStatusMasterId() > 0){
                     holder.ibCancelOrder.setVisibility(View.GONE);
                     holder.txtStatus.setVisibility(View.VISIBLE);
-                    if (Globals.OrderStatus.Cancelled.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
+                    if(Globals.OrderStatus.Cancelled.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
                         holder.txtStatus.setText(Globals.OrderStatus.Cancelled.toString());
-                    } else if (Globals.OrderStatus.Delivered.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
+                    }else if(Globals.OrderStatus.Delivered.getValue()==objOrderMaster.getlinktoOrderStatusMasterId()){
                         holder.txtStatus.setText(Globals.OrderStatus.Delivered.toString());
                     }
-                } else {
+                }else{
                     holder.txtStatus.setVisibility(View.GONE);
                     holder.ibCancelOrder.setVisibility(View.VISIBLE);
                 }
@@ -253,11 +253,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                 public void onClick(View v) {
                     if (alOrderMaster.get(getAdapterPosition()).getType() == 0) {
                         alOrderMaster.get(getAdapterPosition()).setType((short) 1);
-                        isItemAnimate = false;
                         notifyItemChanged(getAdapterPosition());
                     } else {
                         alOrderMaster.get(getAdapterPosition()).setType((short) 0);
-                        isItemAnimate = false;
                         notifyItemChanged(getAdapterPosition());
                     }
                 }
@@ -267,7 +265,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
             ibCancelOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    objOrderOnClickListener.CancelOnClick(alOrderMaster.get(getAdapterPosition()), getAdapterPosition());
+                    objOrderOnClickListener.CancelOnClick(alOrderMaster.get(getAdapterPosition()),getAdapterPosition());
                 }
             });
         }

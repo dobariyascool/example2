@@ -100,7 +100,7 @@ public class InformationFragment extends Fragment implements BusinessHoursJSONPa
 
     //region Private Methods
     private void RequestBusinessHours(){
-        progressDialog.show(getFragmentManager(), "");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BusinessHoursJSONParser objBusinessHoursJSONParser = new BusinessHoursJSONParser();
         objBusinessHoursJSONParser.SelectAllBusinessHours(this,getActivity(),String.valueOf(Globals.linktoBusinessMasterId));
     }

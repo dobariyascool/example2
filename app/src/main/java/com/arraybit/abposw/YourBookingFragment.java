@@ -41,7 +41,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     ArrayList<BookingMaster> alBookingMaster = new ArrayList<>();
     View view;
     Activity activity;
-    int currentPage = 1, position, cnt;
+    int currentPage = 1, position;
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
@@ -144,7 +144,6 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
-                        cnt = 0;
                         RequestBookingMaster();
                     } else {
                         Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
@@ -173,7 +172,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void CancelClickListener(BookingMaster objBookingMaster, int position) {
         this.position = position;
-        progressDialog.show(getFragmentManager(), "");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
         objBookingJSONParser.UpdateBookingMaster(objBookingMaster, getActivity(), this);
     }
