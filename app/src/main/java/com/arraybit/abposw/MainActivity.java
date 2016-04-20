@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity{
     FloatingActionButton fab;
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
