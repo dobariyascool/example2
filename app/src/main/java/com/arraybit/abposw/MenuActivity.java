@@ -279,7 +279,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     //region Private Methods
     private void RequestCategoryMaster() {
-        progressDialog.show(MenuActivity.this.getSupportFragmentManager(), "");
+        progressDialog.show(getSupportFragmentManager(), "");
         CategoryJSONParser objCategoryJSONParser = new CategoryJSONParser();
 
         objCategoryJSONParser.SelectAllCategoryMaster(MenuActivity.this, String.valueOf(Globals.linktoBusinessMasterId));

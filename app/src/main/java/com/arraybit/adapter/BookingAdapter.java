@@ -25,6 +25,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     Context context;
     LayoutInflater inflater;
     View ConvertView;
+    int previousPosition;
     ArrayList<BookingMaster> alBookingMaster;
     BookingOnClickListener objBookingOnClickListener;
     int position;
@@ -89,6 +90,12 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                             }
                         }
                     }
+                }
+                if (isItemAnimate) {
+                    if (position > previousPosition) {
+                        Globals.SetItemAnimator(holder);
+                    }
+                    previousPosition = position;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

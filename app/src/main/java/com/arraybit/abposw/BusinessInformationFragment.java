@@ -64,7 +64,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
 
     //region Private Methods
     private void RequestBusinessInfo() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
 
         BusinessInfoQuestionJSONParser objBusinessInfoQuestionJSONParser = new BusinessInfoQuestionJSONParser();
         objBusinessInfoQuestionJSONParser.SelectAllBusinessInfoQuestionMaster(this, getActivity(), Globals.linktoBusinessTypeMasterId, Globals.linktoBusinessMasterId);

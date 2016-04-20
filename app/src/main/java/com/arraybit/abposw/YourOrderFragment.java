@@ -87,18 +87,18 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-//                if (!adapter.isItemAnimate) {
-//                    adapter.isItemAnimate = true;
-//                }
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
             }
         });
 
         rvOrder.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-//                if (!adapter.isItemAnimate) {
-//                    adapter.isItemAnimate = true;
-//                }
+                if (!adapter.isItemAnimate) {
+                    adapter.isItemAnimate = true;
+                }
                 if (current_page > currentPage) {
                     currentPage = current_page;
                     if (Service.CheckNet(getActivity())) {
@@ -133,7 +133,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     @Override
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
         this.position = position;
         OrderJSONParser orderJSONParser = new OrderJSONParser();
         orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrderMaster.getOrderMasterId()), getActivity(), this);
@@ -147,7 +147,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     //region Private Method
     private void RequestOrderMasterOrderItem() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        progressDialog.show(getFragmentManager(), "");
 
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
