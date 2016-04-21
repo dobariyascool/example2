@@ -913,11 +913,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 IsValid = true;
             }
         }
-        if (etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
-            etChildren.clearError();
-        } else {
+        if (!etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
             IsValid = true;
             etChildren.setError("Zero is not valid");
+        } else {
+            etChildren.clearError();
         }
         if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
             etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
