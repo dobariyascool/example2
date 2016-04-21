@@ -83,7 +83,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                         if (toDate.compareTo(currentDate) > 0) {
                             holder.ibCancelBooking.setVisibility(View.VISIBLE);
                         }else {
-                            if (toTime.getTime() > currentTime.getTime()) {
+                            if (toTime.getTime() > currentTime.getTime() && !objBookingMaster.getIsPreOrder()) {
                                 holder.ibCancelBooking.setVisibility(View.VISIBLE);
                             } else {
                                 holder.ibCancelBooking.setVisibility(View.INVISIBLE);

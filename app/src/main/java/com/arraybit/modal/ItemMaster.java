@@ -61,6 +61,8 @@ public class ItemMaster implements Parcelable {
     double TotalAmount;
     double ExtraAmount;
     String OrderNumber;
+    boolean PaymentStatus;
+
     public static final Parcelable.Creator<ItemMaster> CREATOR = new Creator<ItemMaster>() {
         public ItemMaster createFromParcel(Parcel source) {
             ItemMaster objItemMaster = new ItemMaster();
@@ -107,6 +109,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoOrderItemTranId = source.readInt();
             objItemMaster.linktoOrderMasterId = source.readInt();
             objItemMaster.OrderNumber = source.readString();
+            objItemMaster.PaymentStatus = source.readByte() != 0;
             return objItemMaster;
         }
 
@@ -558,12 +561,23 @@ public class ItemMaster implements Parcelable {
     public void setAlOrderItemTran(ArrayList<ItemMaster> alOrderItemTran) {
         this.alOrderItemTran = alOrderItemTran;
     }
+
     public short getLinktoOrderStatusMasterId() {
         return linktoOrderStatusMasterId;
     }
+
     public void setLinktoOrderStatusMasterId(short linktoOrderStatusMasterId) {
         this.linktoOrderStatusMasterId = linktoOrderStatusMasterId;
     }
+
+    public boolean getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        PaymentStatus = paymentStatus;
+    }
+
     //endregion
 
     public int describeContents() {
@@ -614,5 +628,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoOrderMasterId);
         parcel.writeInt(linktoOrderItemTranId);
         parcel.writeString(OrderNumber);
+        parcel.writeByte((byte) (PaymentStatus ? 1 : 0));
     }
 }

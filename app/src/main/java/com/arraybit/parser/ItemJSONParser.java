@@ -293,6 +293,7 @@ public class ItemJSONParser {
                             objItemMaster.setLinktoOrderMasterId(jsonArray.getJSONObject(i).getInt("linktoOrderMasterId"));
                             objItemMaster.setLinktoOrderItemTranId(jsonArray.getJSONObject(i).getInt("OrderItemTranId"));
                             objItemMaster.setOrderNumber(jsonArray.getJSONObject(i).getString("OrderNumber"));
+                            objItemMaster.setPaymentStatus(jsonArray.getJSONObject(i).getBoolean("PaymentStatus"));
                             dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("OrderDateTime"));
                             objItemMaster.setCreateDateTime(sdfControlDateFormat.format(dt) + "T" + sdfControlTimeFormat.format(dt));
                             if(!jsonArray.getJSONObject(i).getString("linktoOrderStatusMasterId").equals("null")){

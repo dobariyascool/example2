@@ -268,6 +268,9 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
 
     private void SetError(String errorCode) {
         switch (errorCode) {
+            case "1":
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgCancelBooking), getActivity(), 1000);
+                break;
             case "-1":
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;
