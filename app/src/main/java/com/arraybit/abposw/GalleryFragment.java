@@ -107,21 +107,22 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
     public void ImageOnClick(BusinessGalleryTran objBusinessGalleryTran, View view, String transitionName) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         FullImageViewDialogFragment fullViewDialogFragment = new FullImageViewDialogFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("BusinessGallery", objBusinessGalleryTran);
         if (Build.VERSION.SDK_INT >= 21) {
 
             //fullViewDialogFragment.setSharedElementEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move));
             //fullViewDialogFragment.setEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.explode));
 
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("BusinessGallery", objBusinessGalleryTran);
             bundle.putString("Element", transitionName);
-            fullViewDialogFragment.setArguments(bundle);
 
             //fragmentTransaction.addSharedElement(view,transitionName);
             //fullViewDialogFragment.show(fragmentTransaction, "");
             //fragmentTransaction.commit();
             //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         }
+        fullViewDialogFragment.setArguments(bundle);
         //fragmentTransaction.replace(android.R.id.content, fullViewDialogFragment, "fullViewDialogFragment");
         fragmentTransaction.replace(R.id.hotelProfileFragment, fullViewDialogFragment, "fullViewDialogFragment");
         fragmentTransaction.addToBackStack("fullViewDialogFragment");

@@ -47,9 +47,7 @@ public class FullImageViewDialogFragment extends Fragment {
         if (bundle != null && bundle.getParcelable("BusinessGallery") != null) {
             objBusinessGalleryTran = bundle.getParcelable("BusinessGallery");
             transitionName = bundle.getString("Element");
-
             Picasso.with(getActivity()).load(objBusinessGalleryTran.getXLImagePhysicalName()).into(ivFullGalleryImage);
-
         }
 
         ivFullGalleryImage.setOnClickListener(new View.OnClickListener() {
