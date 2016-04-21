@@ -197,6 +197,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                 objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
                 objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
                 objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
+                objOrderMaster.setIsPreOrder(objItemMaster.getPaymentStatus());
                 objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
                 alOrderItem.add(objItemMaster);
                 if (cnt == alItemMaster.size() - 1) {
@@ -222,6 +223,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                     objOrderMaster.setTotalAmount(objItemMaster.getTotalAmount());
                     objOrderMaster.setTotalTax(objItemMaster.getTotalTax());
                     objOrderMaster.setOrderDateTime(objItemMaster.getCreateDateTime());
+                    objOrderMaster.setIsPreOrder(objItemMaster.getPaymentStatus());
                     objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
                     alOrderItem.add(objItemMaster);
                 }
@@ -232,6 +234,9 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     private void SetError(String errorCode) {
         switch (errorCode) {
+            case "1":
+                Globals.ShowSnackBar(rvOrder, getActivity().getResources().getString(R.string.MsgCancelOrder), getActivity(), 1000);
+                break;
             case "-1":
                 Globals.ShowSnackBar(rvOrder, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;

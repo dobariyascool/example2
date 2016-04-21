@@ -87,10 +87,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
         etAdults = (EditText) view.findViewById(R.id.etAdults);
         etChildren = (EditText) view.findViewById(R.id.etChildren);
-
         etBookingDate = (EditText) view.findViewById(R.id.etBookingDate);
         etBookingDate.setInputType(InputType.TYPE_NULL);
-
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
@@ -915,9 +913,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 IsValid = true;
             }
         }
-        if (!etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
+        if (etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
             etChildren.clearError();
         } else {
+            IsValid = true;
             etChildren.setError("Zero is not valid");
         }
         if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {

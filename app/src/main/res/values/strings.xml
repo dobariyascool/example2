@@ -69,6 +69,8 @@
     <string name="MsgGallery">No Images Yet.</string>
     <string name="MsgItem">There is no item.</string>
     <string name="MsgChangeMode">Switch to waiter mode?</string>
+    <string name="MsgCancelOrder">Order Payment is done</string>
+    <string name="MsgCancelBooking">Booking Payment is done</string>
     <!-- End -->
 
     <!-- signupActivity -->

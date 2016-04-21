@@ -319,8 +319,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objOrderMaster.setTotalAmount(totalAmount);
         objOrderMaster.setTotalTax(totalTax);
         objOrderMaster.setNetAmount(netAmount);
-        objOrderMaster.setPaidAmount(netAmount);
+        objOrderMaster.setPaidAmount(0.00);
         objOrderMaster.setDiscount(0.00);
+        objOrderMaster.setBalanceAmount(netAmount);
         objOrderMaster.setExtraAmount(0.00);
         objOrderMaster.setTotalItemPoint((short) 0);
         objOrderMaster.setTotalDeductedPoint((short) 0);
