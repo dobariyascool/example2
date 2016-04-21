@@ -29,7 +29,7 @@
                     android:id="@+id/ivItem"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/default_image"
                     tools:ignore="ContentDescription" />
 
@@ -86,7 +86,7 @@
 
                 <LinearLayout
                     android:layout_width="150dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginStart="@dimen/control_SpecingSmall"
                     android:orientation="horizontal"
@@ -95,6 +95,7 @@
 
                     <com.rey.material.widget.ImageButton
                         android:id="@+id/ibMinus"
+                        style="@style/NumberButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -116,6 +117,7 @@
 
                     <com.rey.material.widget.ImageButton
                         android:id="@+id/ibPlus"
+                        style="@style/NumberButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvOffer"
-    style="@style/DefaultCardView"
+    style="@style/CardViewTransparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/control_SpecingTiny">
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:background="#703e2723"
+                android:background="#523e2723"
                 android:gravity="center|bottom"
                 android:orientation="vertical"
                 android:padding="@dimen/control_SpecingSmall"
@@ -52,24 +52,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:text="Description"
-                    android:textColor="#cac6c2"
+                    android:textColor="#dedcdc"
                     android:textSize="@dimen/control_TextSmall"
                     tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
-            <!--<ImageView-->
-            <!--android:id="@+id/ivOfferDetail"-->
-            <!--android:layout_width="230dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:background="@drawable/triangle"-->
-            <!--tools:ignore="ContentDescription" />-->
-
             <LinearLayout
                 android:id="@+id/dateLayout"
-                android:layout_width="230dp"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/triangle"
@@ -83,8 +74,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/control_SpecingSmall"
                     android:layout_marginTop="@dimen/control_SpecingSmall"
+                    android:maxLines="1"
                     android:text="@string/rExpiresOn"
-                    android:textColor="#3f0b4b"
+                    android:textColor="@color/purple"
                     android:textSize="@dimen/control_TextMedium" />
 
                 <com.rey.material.widget.TextView
@@ -92,8 +84,11 @@
                     style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/control_SpecingSmall"
-                    android:textColor="#3f0b4b"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/control_SpecingSmall"
+                    android:paddingEnd="@dimen/control_SpecingSmall"
+                    android:paddingStart="@dimen/control_SpecingSmall"
+                    android:textColor="@color/purple"
                     android:textSize="@dimen/control_TextNormal" />
 
             </LinearLayout>

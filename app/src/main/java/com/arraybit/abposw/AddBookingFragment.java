@@ -107,14 +107,15 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.HideKeyBoard(getActivity(),v);
+                    Globals.HideKeyBoard(getActivity(), v);
                     Globals.ShowDatePickerDialog(etBookingDate, getActivity(), true);
                 }
             }
         });
 
         etBookingDate.addTextChangedListener(new TextWatcher() {
-            String strDate="";
+            String strDate = "";
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

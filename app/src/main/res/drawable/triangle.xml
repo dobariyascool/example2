@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item >
         <rotate
-            android:fromDegrees="215"
-            android:pivotX="65%"
+            android:fromDegrees="220"
+            android:pivotX="60%"
             android:pivotY="10%"
             android:toDegrees="180" >
             <shape
