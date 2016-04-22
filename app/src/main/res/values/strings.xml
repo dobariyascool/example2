@@ -270,7 +270,7 @@
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
     <string name="ybStar">\u2605</string>
     <string name="ybFromTimeHeader">\u2013\u2013From Time\u2013\u2013</string>
-    <string name="ybToTimeHeader">\u2013\u2013\u2013To Time\u2013\u2013\u2013</string>
+    <string name="ybToTimeHeader">\u2013\u2013To Time\u2013\u2013</string>
     <!--end-->
 
     <!--Contact Us-->
