@@ -46,6 +46,7 @@ public class BusinessInfoAdapter extends RecyclerView.Adapter<BusinessInfoAdapte
         holder.txtQuestion.setText(objBusinessInfoQuestionMaster.getQuestion());
         holder.txtNumber.setText(position + 1 + ". ");
 
+        holder.businessInfoLayout.removeAllViewsInLayout();
         SetLayout(holder, objBusinessInfoQuestionMaster.getAlBusinessInfoAnswerMaster(), objBusinessInfoQuestionMaster.getQuestionType());
     }
 
@@ -133,76 +134,4 @@ public class BusinessInfoAdapter extends RecyclerView.Adapter<BusinessInfoAdapte
         }
     }
 }
-
-
-//    void SetRadioButton(ArrayList<OptionValueTran> alOptionValueTran, final ItemOptionValueViewHolder holder, final int rowPosition) {
-//        final RadioButton[] radioButton = new RadioButton[alOptionValueTran.size()];
-//        final GridLayout gridLayout = new GridLayout(context);
-//        LinearLayout.LayoutParams gridLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        gridLayoutParams.gravity = Gravity.CENTER;
-//        gridLayout.setId(rowPosition);
-//        gridLayout.setLayoutParams(gridLayoutParams);
-//        gridLayout.setColumnCount(3);
-////        gridLayout.setRowOrderPreserved(true);
-////        gridLayout.setColumnOrderPreserved(false);
-////        gridLayout.setAlignmentMode(GridLayout.VERTICAL);
-//        //linearLayout.setOrientation(GridLayout);
-//        for (int i = 0; i < alOptionValueTran.size(); i++) {
-//            radioButton[i] = new RadioButton(context);
-//            GridLayout.LayoutParams radioButtonParams = new GridLayout.LayoutParams(GridLayout.spec(0), GridLayout.spec(GridLayout.LayoutParams.WRAP_CONTENT));
-//            radioButtonParams.setGravity(Gravity.FILL);
-//            radioButton[i].setLayoutParams(radioButtonParams);
-//            radioButton[i].setId(i);
-//            radioButton[i].setWidth(0);
-//            radioButton[i].setText(alOptionValueTran.get(i).getOptionValue());
-//            ((GridLayout.LayoutParams) radioButton[i].getLayoutParams()).columnSpec =
-//                    GridLayout.spec(GridLayout.UNDEFINED,1f);
-////            radioButton[i].setGravity(Gravity.CENTER_VERTICAL);
-////            radioButton[i].setOnClickListener(new View.OnClickListener() {
-////                @Override
-////                public void onClick(View v) {
-////                    if (position == -1) {
-////                        position = v.getId();
-////                    } else {
-////                        radioButton[position].setChecked(false);
-////                        position = v.getId();
-////                    }
-////                }
-////            });
-//
-//            radioButton[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    if(rowNumber==-1){
-//                        rowNumber = gridLayout.getId();
-//                    }
-//                    if(gridLayout.getId()==rowNumber) {
-//                        if (position == -1) {
-//                            position = buttonView.getId();
-//                            alAnswerMaster.get(rowNumber).setOptionRowId(position);
-//                        } else {
-//                            radioButton[alAnswerMaster.get(rowNumber).getOptionRowId()].setChecked(false);
-//                            position = buttonView.getId();
-//                            alAnswerMaster.get(rowNumber).setOptionRowId(position);
-//                        }
-//                    }else{
-//                        position = buttonView.getId();
-//                        rowNumber = gridLayout.getId();
-//                        if(alAnswerMaster.get(rowNumber).getOptionRowId()!=-1){
-//                            radioButton[alAnswerMaster.get(rowNumber).getOptionRowId()].setChecked(false);
-//                            position = buttonView.getId();
-//                            alAnswerMaster.get(rowNumber).setOptionRowId(position);
-//                        }else{
-//                            alAnswerMaster.get(rowNumber).setOptionRowId(position);
-//                        }
-//                    }
-//                }
-//            });
-//
-//            gridLayout.addView(radioButton[i]);
-//        }
-//
-//        //linearLayout.addView(radioGroup);
-//        holder.layoutChild.addView(gridLayout);
-//    }
 

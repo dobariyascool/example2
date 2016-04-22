@@ -31,9 +31,11 @@
     <!--<color name="transparent_orange">#2ACEC21E</color>-->
     <!--<color name="transparent_orange">#406E6A2E</color>-->
     <!--<color name="transparent_orange">#09252303</color>-->
-    <color name="transparent_orange">#37706c36</color>
+    <!--<color name="transparent_orange">#d6d1bb</color>-->
+    <!--<color name="transparent_orange">#d6ceb8</color>-->
+    <color name="transparent_orange">#d6ceb8</color>
     <color name="transparent_white">#60FFFFFF</color>
-    <color name="transparent_brown">#903e2723</color>
+
 
     <!--<color name="primary">#3f0b4b</color>-->
     <!--<color name="accent">#FFC400</color>-->
@@ -48,5 +50,8 @@
     <color name="navigationdrawerText">#616161</color>
     <color name="errorTextColor">#80180C02</color>
     <color name="errorIconColor">#406E6A2E</color>
+    <color name="transparentBrown">#523e2723</color>
+    <color name="dimWhite">#dedcdc</color>
+    <color name="purple">#FF3F0B4B</color>
 
 </resources>
