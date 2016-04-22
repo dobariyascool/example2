@@ -117,11 +117,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
     public void BookingDataChanged(BookingMaster objBookingMaster) {
         alBookingMaster.add(0,objBookingMaster);
+        isItemAnimate = false;
         notifyDataSetChanged();
     }
 
     public void UpdateBookingStatus(int position) {
         alBookingMaster.get(position).setBookingStatus((short) Globals.BookingStatus.Cancelled.getValue());
+        isItemAnimate = false;
         notifyDataSetChanged();
     }
 

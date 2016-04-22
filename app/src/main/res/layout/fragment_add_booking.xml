@@ -75,21 +75,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:dropDownWidth="match_parent"
                 android:text="@string/ybFromTime" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtFromError"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/control_SpecingMedium"
+                android:layout_weight="0.15"
                 android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingEnd="@dimen/control_SpecingTiny"
-                android:paddingStart="@dimen/control_SpecingTiny"
-                android:paddingTop="@dimen/control_SpecingTiny"
-                android:text="*"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:text="@string/ybStar"
                 android:textColor="@color/error_text"
-                android:textSize="@dimen/control_TextLarge"
+                android:textSize="@dimen/control_TextSmall"
                 android:visibility="invisible"
                 tools:ignore="HardcodedText" />
 
@@ -99,21 +98,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:dropDownWidth="match_parent"
                 android:hint="@string/ybToTime"
                 android:visibility="invisible" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtToTimeError"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.15"
                 android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingEnd="@dimen/control_SpecingTiny"
-                android:paddingStart="@dimen/control_SpecingTiny"
-                android:paddingTop="@dimen/control_SpecingTiny"
-                android:text="*"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:text="@string/ybStar"
                 android:textColor="@color/error_text"
-                android:textSize="@dimen/control_TextLarge"
+                android:textSize="@dimen/control_TextSmall"
                 android:visibility="invisible"
                 tools:ignore="HardcodedText" />
 

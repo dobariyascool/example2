@@ -71,6 +71,7 @@
     <string name="MsgChangeMode">Switch to waiter mode?</string>
     <string name="MsgCancelOrder">Order Payment is done</string>
     <string name="MsgCancelBooking">Booking Payment is done</string>
+    <string name="MsgBookingIsAAvailable">Booking slot is not available</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -262,6 +263,9 @@
     <string name="ybStatus">Status</string>
     <string name="ybCancel">Cancel</string>
     <string name="ybAddBookingSuccessMsg">Booking is added</string>
+    <string name="ybStar">\u2605</string>
+    <string name="ybFromTimeHeader">\u2013\u2013From Time\u2013\u2013</string>
+    <string name="ybToTimeHeader">\u2013\u2013\u2013To Time\u2013\u2013\u2013</string>
     <!--end-->
 
     <!--Contact Us-->

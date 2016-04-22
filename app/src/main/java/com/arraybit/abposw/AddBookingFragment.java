@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {
@@ -64,7 +65,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_add_booking, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_booking, container, false);
 
         Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(app_bar);
@@ -188,7 +189,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        Globals.HideKeyBoard(getActivity(),v);
+        Globals.HideKeyBoard(getActivity(), v);
         if (v.getId() == R.id.btnBookTable) {
             view = v;
             objBookingMaster = new BookingMaster();
@@ -197,65 +198,31 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 progressDialog.dismiss();
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
-                objSharePreferenceManage = new SharePreferenceManage();
-                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
-                    progressDialog.dismiss();
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                } else {
-                    if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-                        objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
-                        objBookingMaster.setlinktoUserMasterIdCreatedBy((short) Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
-                    }
-                    objBookingMaster.setBookingPersonName(etCustomerName.getText().toString());
-                    objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString()));
-                    if (!etChildren.getText().toString().equals("")) {
-                        objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString()));
-                    }
-                    objBookingMaster.setIsHourly(true);
-                    try {
-                        date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
-                        objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
-                        objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
-                        objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    try {
-                        time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
-                        objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    objBookingMaster.setEmail(etEmail.getText().toString());
-                    objBookingMaster.setPhone(etMobile.getText().toString());
-                    objBookingMaster.setTotalAmount(0.0);
-                    objBookingMaster.setDiscountPercentage((short) 0);
-                    objBookingMaster.setDiscountAmount(0.0);
-                    objBookingMaster.setExtraAmount(0.0);
-                    objBookingMaster.setNetAmount(0.0);
-                    objBookingMaster.setPaidAmount(0.0);
-                    objBookingMaster.setBalanceAmount(0.0);
-                    objBookingMaster.setRemark(etRemark.getText().toString());
-                    objBookingMaster.setIsPreOrder(false);
-                    objBookingMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
-                    objBookingMaster.setIsDeleted(false);
-                    objBookingMaster.setBookingStatus((short) Globals.BookingStatus.New.getValue());
-
-                    BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-                    objBookingJSONParser.InsertBookingMaster(getActivity(), this, objBookingMaster);
+                objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString()));
+                if (!etChildren.getText().toString().equals("")) {
+                    objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString()));
                 }
+                try {
+                    date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
+                    objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
+                    objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
+                    objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                BookingJSONParser objBookingJSONParser = new BookingJSONParser();
+                objBookingJSONParser.SelectBookingIsAAvailable(getActivity(), this, objBookingMaster);
             }
         }
     }
@@ -308,7 +275,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     private void FillFromTime() {
         SpinnerItem objSpinnerItem = new SpinnerItem();
-        objSpinnerItem.setText("------From Time------");
+        objSpinnerItem.setText(getActivity().getResources().getString(R.string.ybFromTimeHeader));
         objSpinnerItem.setValue(0);
 
         alFromTime.add(0, objSpinnerItem);
@@ -319,9 +286,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     private void FillToTime() {
         SpinnerItem objSpinnerItem = new SpinnerItem();
-        objSpinnerItem.setText("------To Time------");
+        objSpinnerItem.setText(getActivity().getResources().getString(R.string.ybToTimeHeader));
         objSpinnerItem.setValue(0);
-
         alToTime = new ArrayList<>();
         for (int i = selected + 1; i < alFromTime.size(); i++) {
             alToTime.add(alFromTime.get(i));
@@ -337,7 +303,13 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             case "-1":
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;
-            default:
+            case "-2":
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgBookingIsAAvailable), getActivity(), 1000);
+                break;
+            case "1":
+                SetBookingMasterForInsert();
+                break;
+            case "0":
                 if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
                     if (getTargetFragment() != null) {
                         objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
@@ -364,6 +336,69 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         }
         if (objSharePreferenceManage.GetPreference("LoginPreference", "Phone", getActivity()) != null) {
             etMobile.setText(objSharePreferenceManage.GetPreference("LoginPreference", "Phone", getActivity()));
+        }
+    }
+
+    private void SetBookingMasterForInsert() {
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
+            progressDialog.dismiss();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        } else {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+                objBookingMaster.setlinktoUserMasterIdCreatedBy((short) Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+            }
+
+            objBookingMaster.setBookingPersonName(etCustomerName.getText().toString());
+            objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString()));
+            if (!etChildren.getText().toString().equals("")) {
+                objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString()));
+            }
+            objBookingMaster.setIsHourly(true);
+            try {
+                date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
+                objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
+                objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
+                objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
+                objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            objBookingMaster.setEmail(etEmail.getText().toString());
+            objBookingMaster.setPhone(etMobile.getText().toString());
+            objBookingMaster.setTotalAmount(0.0);
+            objBookingMaster.setDiscountPercentage((short) 0);
+            objBookingMaster.setDiscountAmount(0.0);
+            objBookingMaster.setExtraAmount(0.0);
+            objBookingMaster.setNetAmount(0.0);
+            objBookingMaster.setPaidAmount(0.0);
+            objBookingMaster.setBalanceAmount(0.0);
+            objBookingMaster.setRemark(etRemark.getText().toString());
+            objBookingMaster.setIsPreOrder(false);
+            objBookingMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+            objBookingMaster.setIsDeleted(false);
+            objBookingMaster.setBookingStatus((short) Globals.BookingStatus.New.getValue());
+
+            BookingJSONParser objBookingJSONParser = new BookingJSONParser();
+            objBookingJSONParser.InsertBookingMaster(getActivity(), this, objBookingMaster);
         }
     }
 
@@ -928,11 +963,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
         return IsValid;
     }
-
     public interface AddNewBookingListener {
         void AddNewBooking(BookingMaster objBookingMaster);
     }
-    //endregion
+
+   //endregion
 }
 
 
