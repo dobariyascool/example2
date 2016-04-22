@@ -31,6 +31,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     int previousPosition;
     SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("d MMM", Locale.US);
+    int i = 0;
 
     public OfferAdapter(Context context, ArrayList<OfferMaster> result) {
         this.context = context;
@@ -94,9 +95,9 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     class OfferViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtOfferTitle, txtOfferContent, txtOfferExpiredDate;
-        ImageView ivOffer,ivOfferDetail;
+        ImageView ivOffer, ivOfferDetail;
         CardView cvOffer;
-        LinearLayout titleLayout,dateLayout;
+        LinearLayout titleLayout, dateLayout;
 
         public OfferViewHolder(View itemView) {
             super(itemView);
@@ -112,15 +113,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             txtOfferContent = (TextView) itemView.findViewById(R.id.txtOfferContent);
             txtOfferExpiredDate = (TextView) itemView.findViewById(R.id.txtOfferExpiredDate);
 
-            cvOffer.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("RtlHardcoded")
-                @Override
-                public void onClick(View v) {
-
-
-
-                }
-            });
         }
     }
 }
