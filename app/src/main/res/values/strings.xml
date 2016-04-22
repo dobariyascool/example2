@@ -97,6 +97,11 @@
     <string name="suUpdate">Update Profile</string>
     <!-- end -->
 
+    <!--SignIn Activity-->
+    <string name="siLoginWithFb">Login with Facebook</string>
+    <string name="siLoginWithGplus">Login with Google+</string>
+    <!--end-->
+
     <!--About Us Activity-->
     <string name="abLegal">Legal</string>
     <string name="abApp">About This</string>
