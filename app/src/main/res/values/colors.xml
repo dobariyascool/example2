@@ -6,6 +6,9 @@
     <color name="colorAccent">#FF66632D</color>
     <color name="colorAccentDark">#FF5C5927</color>
     <color name="colorAccentLight">#8b8632</color>
+    <color name="text_icons">#FFFFFF</color>
+    <color name="facebook_button">#3b5998</color>
+    <color name="googleplus_button">#d34836</color>
 
     <array name="colorArray">
         <!--<item name="first">#FFBB00</item>-->
