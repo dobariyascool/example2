@@ -99,6 +99,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         alCountryMaster = new ArrayList<>();
         countryMasterId = 1;
+        FillCountry();
         if (Service.CheckNet(this)) {
             RequestStateMaster();
         } else {
@@ -108,7 +109,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         btnSignUp.setOnClickListener(this);
         cbSignIn.setOnClickListener(this);
 
-        FillCountry();
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -263,19 +263,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void RequestStateMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         StateJSONParser objStateJSONParser = new StateJSONParser();
-        objStateJSONParser.SelectStateMaster(this, String.valueOf(countryMasterId));
+        objStateJSONParser.SelectStateMaster(null, this, String.valueOf(countryMasterId));
     }
 
     private void RequestCityMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         CityJSONParser objCityJSONParser = new CityJSONParser();
-        objCityJSONParser.SelectAllCityMasterByState(RegistrationActivity.this, String.valueOf(stateMasterId));
+        objCityJSONParser.SelectAllCityMasterByState(null, this, String.valueOf(stateMasterId));
     }
 
     private void RequestAreaMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         AreaJSONParser objAreaJSONParser = new AreaJSONParser();
-        objAreaJSONParser.SelectAllAreaMasterAreaByCity(RegistrationActivity.this, String.valueOf(cityMasterId));
+        objAreaJSONParser.SelectAllAreaMasterAreaByCity(null, this, String.valueOf(cityMasterId));
     }
 
     private void RegistrationRequest() {
@@ -1055,7 +1055,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spState.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter" +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter" + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.VISIBLE);
@@ -1507,7 +1507,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.VISIBLE);
@@ -1524,7 +1524,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);

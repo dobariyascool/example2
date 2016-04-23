@@ -19,6 +19,7 @@ public class CustomerAddressTran implements Parcelable {
     String CreateDateTime;
     short linktoUserMasterIdCreatedBy;
     boolean IsDeleted;
+    String MobileNum;
     /// Extra
     String Customer;
     String RegisteredUser;
@@ -39,6 +40,7 @@ public class CustomerAddressTran implements Parcelable {
             objCustomerAddressTran.linktoCityMasterId = (short) source.readInt();
             objCustomerAddressTran.linktoAreaMasterId = (short) source.readInt();
             objCustomerAddressTran.ZipCode = source.readString();
+            objCustomerAddressTran.MobileNum = source.readString();
             objCustomerAddressTran.IsPrimary = source.readByte() != 0;
             objCustomerAddressTran.CreateDateTime = source.readString();
             objCustomerAddressTran.linktoUserMasterIdCreatedBy = (short) source.readInt();
@@ -216,11 +218,19 @@ public class CustomerAddressTran implements Parcelable {
         return this.UserCreatedBy;
     }
 
-    //endregion
-
     public void setUserCreatedBy(String userCreatedBy) {
         this.UserCreatedBy = userCreatedBy;
     }
+
+    public String getMobileNum() {
+        return MobileNum;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        MobileNum = mobileNum;
+    }
+
+    //endregion
 
     public int describeContents() {
         return 0;
@@ -236,6 +246,7 @@ public class CustomerAddressTran implements Parcelable {
         parcel.writeInt(linktoCityMasterId);
         parcel.writeInt(linktoAreaMasterId);
         parcel.writeString(ZipCode);
+        parcel.writeString(MobileNum);
         parcel.writeByte((byte) (IsPrimary ? 1 : 0));
         parcel.writeString(CreateDateTime);
         parcel.writeInt(linktoUserMasterIdCreatedBy);

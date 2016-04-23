@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,10 +29,10 @@ public class AreaJSONParser {
         try {
             if (jsonObject != null) {
                 objAreaMaster = new AreaMaster();
-                objAreaMaster.setAreaMasterId((short)jsonObject.getInt("AreaMasterId"));
+                objAreaMaster.setAreaMasterId((short) jsonObject.getInt("AreaMasterId"));
                 objAreaMaster.setAreaName(jsonObject.getString("AreaName"));
                 objAreaMaster.setZipCode(jsonObject.getString("ZipCode"));
-                objAreaMaster.setlinktoCityMasterId((short)jsonObject.getInt("linktoCityMasterId"));
+                objAreaMaster.setlinktoCityMasterId((short) jsonObject.getInt("linktoCityMasterId"));
                 objAreaMaster.setIsEnabled(jsonObject.getBoolean("IsEnabled"));
 
                 /// Extra
@@ -49,10 +50,10 @@ public class AreaJSONParser {
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 objAreaMaster = new AreaMaster();
-                objAreaMaster.setAreaMasterId((short)jsonArray.getJSONObject(i).getInt("AreaMasterId"));
+                objAreaMaster.setAreaMasterId((short) jsonArray.getJSONObject(i).getInt("AreaMasterId"));
                 objAreaMaster.setAreaName(jsonArray.getJSONObject(i).getString("AreaName"));
                 objAreaMaster.setZipCode(jsonArray.getJSONObject(i).getString("ZipCode"));
-                objAreaMaster.setlinktoCityMasterId((short)jsonArray.getJSONObject(i).getInt("linktoCityMasterId"));
+                objAreaMaster.setlinktoCityMasterId((short) jsonArray.getJSONObject(i).getInt("linktoCityMasterId"));
                 objAreaMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
 
                 /// Extra
@@ -66,7 +67,7 @@ public class AreaJSONParser {
     }
 
     //region SelectAll
-    public void SelectAllAreaMasterAreaByCity(final Context context,String linktoCityMasterId) {
+    public void SelectAllAreaMasterAreaByCity(final Fragment targetFragment, final Context context, String linktoCityMasterId) {
         String url = Service.Url + this.SelectAllAreaMasterByCity + "/" + linktoCityMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -86,18 +87,17 @@ public class AreaJSONParser {
                             lstSpinnerItem.add(objSpinnerItem);
                         }
                     }
-                    objAreaRequestListener = (AreaRequestListener)context;
+                    objAreaRequestListener = (AreaRequestListener) targetFragment;
                     objAreaRequestListener.AreaResponse(lstSpinnerItem);
-                }
-                catch (Exception e) {
-                    objAreaRequestListener = (AreaRequestListener)context;
+                } catch (Exception e) {
+                    objAreaRequestListener = (AreaRequestListener) targetFragment;
                     objAreaRequestListener.AreaResponse(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objAreaRequestListener = (AreaRequestListener)context;
+                objAreaRequestListener = (AreaRequestListener) targetFragment;
                 objAreaRequestListener.AreaResponse(null);
             }
         });

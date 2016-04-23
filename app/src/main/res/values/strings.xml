@@ -23,6 +23,7 @@
     <string name="title_fragment_profile">Hotel Profile</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_add_booking_fragment">Add Booking</string>
+    <string name="title_add_address_fragment">Add Address</string>
     <string name="title_cart_item_fragment">Orders</string>
     <string name="title_item_modifier_remark">Add Detail</string>
     <string name="title_order_summary_fragment">Order Summary</string>
@@ -291,5 +292,16 @@
 
     <!-- Your Address(s)-->
     <string name="title_fragment_your_address">Your Address(s)</string>
+    <string name="yaOffice">Office</string>
+    <string name="yaHome">Home</string>
+    <string name="yaName">Customer Name</string>
+    <string name="yaAddress">Address</string>
+    <string name="yaCountry">\u2013\u2013SELECT COUNTRY\u2013\u2013</string>
+    <string name="yaState">\u2013\u2013SELECT STATE\u2013\u2013</string>
+    <string name="yaCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
+    <string name="yaArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
+    <string name="yaZip">Zip Code</string>
+    <string name="yaMobileNum">Mobile Number</string>
+    <string name="yaAdd">Add Address</string>
     <!-- End-->
 </resources>
