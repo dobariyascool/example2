@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getXs_ImagePhysicalName()).into(holder.ivItem);
             }
         }
+        System.out.println("length"+objItemMaster.getItemName()+" "+objItemMaster.getItemName().length());
+        System.out.println("length"+holder.txtItemName.getMaxWidth());
         holder.txtItemName.setText(objItemMaster.getItemName());
         if (objItemMaster.getShortDescription().equals("")) {
             holder.txtItemDescription.setVisibility(View.GONE);
@@ -151,7 +154,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.ivSweet.setVisibility(View.GONE);
             holder.ivExtraSpicy.setVisibility(View.GONE);
         }
+        InputFilter[] FilterArray = new InputFilter[1];
 
+//        if((holder.ivJain.getVisibility()==View.VISIBLE)|| (holder.ivSpicy.getVisibility()==View.VISIBLE) || (holder.ivSweet.getVisibility()==View.VISIBLE) || (holder.ivExtraSpicy.getVisibility()==View.VISIBLE)){
+//            FilterArray[0] = new InputFilter.LengthFilter(17);
+//            holder.txtItemName.setFilters(FilterArray);
+//        }else{
+//            FilterArray[0] = new InputFilter.LengthFilter(objItemMaster.getItemName().length());
+//            holder.txtItemName.setFilters(FilterArray);
+//        }
+        //new InputFilter[] {new InputFilter.LengthFilter(maxLengthofEditText)}
         CheckDuplicate(null, objItemMaster);
 
         if (objItemMaster.getIsChecked() == -1) {

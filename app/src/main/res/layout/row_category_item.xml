@@ -23,19 +23,57 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/control_SpecingSmall">
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtItemName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="@color/heading"
-                android:textSize="@dimen/control_TextMedium" />
+                android:orientation="horizontal"
+                android:weightSum="1">
 
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@color/heading"
+                    android:textSize="@dimen/control_TextMedium" />
+
+                <ImageView
+                    android:id="@+id/ivJain"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/jain_icon"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/ivSpicy"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/spicy"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/ivDoubleSpicy"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/extra_spicy"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/ivSweet"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/sweet"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
             <com.rey.material.widget.TextView
                 android:id="@+id/txtItemDescription"
                 android:layout_width="match_parent"
@@ -84,38 +122,6 @@
                 android:gravity="end"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/ivJain"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/jain_icon"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
-
-                <ImageView
-                    android:id="@+id/ivSpicy"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/spicy"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
-
-                <ImageView
-                    android:id="@+id/ivDoubleSpicy"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/extra_spicy"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
-
-                <ImageView
-                    android:id="@+id/ivSweet"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/sweet"
-                    android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
-
                 <ToggleButton
                     android:id="@+id/ibLike"
                     android:layout_width="24dp"
@@ -128,13 +134,13 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:layout_height="35dp" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnAdd"
                 style="@style/AddButton"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_gravity="bottom|end"
                 android:text="Add"
                 android:visibility="visible"
@@ -144,7 +150,7 @@
                 android:id="@+id/btnAddDisable"
                 style="@style/DisableButton"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/control_SpecingTiny"
                 android:enabled="false"

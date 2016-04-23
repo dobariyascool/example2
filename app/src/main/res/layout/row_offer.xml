@@ -33,6 +33,7 @@
                 android:gravity="center|bottom"
                 android:orientation="vertical"
                 android:padding="@dimen/control_SpecingSmall"
+                android:visibility="visible"
                 android:weightSum="1">
 
                 <com.rey.material.widget.TextView
