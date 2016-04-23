@@ -107,20 +107,102 @@
                         android:text="@string/suFemale" />
                 </RadioGroup>
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/spCity"
-                    style="@style/Spinner"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/control_SpecingSmall" />
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/spArea"
-                    style="@style/Spinner"
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spCountry"
+                        style="@style/Spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:dropDownWidth="match_parent" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtCountryError"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/control_SpecingMedium"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/control_SpecingTiny"
+                        android:text="@string/ybStar"
+                        android:textColor="@color/error_text"
+                        android:textSize="@dimen/control_TextSmall"
+                        android:visibility="invisible"
+                        tools:ignore="HardcodedText" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spState"
+                        style="@style/Spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="invisible" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtStateError"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/control_SpecingTiny"
+                        android:text="@string/ybStar"
+                        android:textColor="@color/error_text"
+                        android:textSize="@dimen/control_TextSmall"
+                        android:visibility="invisible"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/control_SpecingSmall"
-                    android:visibility="invisible" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spCity"
+                        style="@style/Spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="invisible" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtCityError"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/control_SpecingMedium"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/control_SpecingTiny"
+                        android:text="@string/ybStar"
+                        android:textColor="@color/error_text"
+                        android:textSize="@dimen/control_TextSmall"
+                        android:visibility="invisible"
+                        tools:ignore="HardcodedText" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/spArea"
+                        style="@style/Spinner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="invisible" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtAreaError"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/control_SpecingTiny"
+                        android:text="@string/ybStar"
+                        android:textColor="@color/error_text"
+                        android:textSize="@dimen/control_TextSmall"
+                        android:visibility="invisible"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

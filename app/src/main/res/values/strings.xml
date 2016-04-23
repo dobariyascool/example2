@@ -95,6 +95,10 @@
     <string name="suGender">Gender</string>
     <string name="suBirthDate">Birth Date</string>
     <string name="suUpdate">Update Profile</string>
+    <string name="suCountry">\u2013\u2013SELECT COUNTRY\u2013\u2013</string>
+    <string name="suState">\u2013\u2013SELECT STATE\u2013\u2013</string>
+    <string name="suCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
+    <string name="suArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
     <!-- end -->
 
     <!--SignIn Activity-->
@@ -228,6 +232,7 @@
     <string-array name="Option">
         <item>Your Orders</item>
         <item>Your Bookings</item>
+        <item>Your Address</item>
         <item>Change Password</item>
         <item>Logout</item>
     </string-array>
@@ -274,7 +279,6 @@
     <!--end-->
 
     <!--Contact Us-->
-
     <string name="cuName">Name</string>
     <string name="cuEmail">Your Email</string>
     <string name="cuMobile">Mobile No.</string>
@@ -283,6 +287,9 @@
     <string name="cuOffice">Office</string>
     <string name="cuContactUs">Contact Us</string>
     <string name="title_activity_maps">Map</string>
-
     <!--End-->
+
+    <!-- Your Address(s)-->
+    <string name="title_fragment_your_address">Your Address(s)</string>
+    <!-- End-->
 </resources>

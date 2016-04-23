@@ -24,8 +24,10 @@ import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.AreaJSONParser;
 import com.arraybit.parser.CityJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
+import com.arraybit.parser.StateJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,12 +36,13 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener {
 
-    ArrayList<SpinnerItem> alCityMaster, alAreaMaster;
+    ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
     EditText etFirstName, etLastName, etEmail, etPassword, etConfirmPassword, etPhone, etDateOfBirth;
-    AppCompatSpinner spArea, spCity;
-    short cityMasterId, areaMasterId;
+    TextView txtCountryError, txtStateError, txtCityError, txtAreaError;
+    AppCompatSpinner spCountry, spState, spCity, spArea;
+    short countryMasterId, stateMasterId, cityMasterId, areaMasterId;
     Date birthDate;
     View view;
     RadioButton rbMale, rbFemale;
@@ -68,9 +71,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
         etPhone = (EditText) findViewById(R.id.etPhone);
         etDateOfBirth = (EditText) findViewById(R.id.etDateOfBirth);
+
+        txtCountryError = (TextView) findViewById(R.id.txtCountryError);
+        txtStateError = (TextView) findViewById(R.id.txtStateError);
+        txtCityError = (TextView) findViewById(R.id.txtCityError);
+        txtAreaError = (TextView) findViewById(R.id.txtAreaError);
+
         //hide keyboard
         etDateOfBirth.setInputType(InputType.TYPE_NULL);
 
+        spCountry = (AppCompatSpinner) findViewById(R.id.spCountry);
+        spState = (AppCompatSpinner) findViewById(R.id.spState);
         spCity = (AppCompatSpinner) findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) findViewById(R.id.spArea);
 
@@ -86,8 +97,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         cbPrivacyPolicy.setOnClickListener(this);
         cbTermsofService.setOnClickListener(this);
 
+        alCountryMaster = new ArrayList<>();
+        countryMasterId = 1;
         if (Service.CheckNet(this)) {
-            RequestCityMaster();
+            RequestStateMaster();
         } else {
             Globals.ShowSnackBar(registrationLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
@@ -95,13 +108,32 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         btnSignUp.setOnClickListener(this);
         cbSignIn.setOnClickListener(this);
 
+        FillCountry();
+        spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                View v = parent.getAdapter().getView(position, view, parent);
+                stateMasterId = (short) v.getId();
+                if (stateMasterId == 0) {
+                    spCity.setVisibility(View.INVISIBLE);
+                } else {
+                    RequestCityMaster();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 View v = parent.getAdapter().getView(position, view, parent);
                 cityMasterId = (short) v.getId();
                 if (cityMasterId == 0) {
-                    spArea.setVisibility(View.GONE);
+                    spArea.setVisibility(View.INVISIBLE);
                 } else {
                     RequestAreaMaster();
                 }
@@ -129,14 +161,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this,false);
+                    Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this, false);
                 }
             }
         });
     }
 
     public void EditTextOnClick(View view) {
-        Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this,false);
+        Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this, false);
     }
 
     @Override
@@ -183,17 +215,36 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
+    public void StateResponse(ArrayList<SpinnerItem> alStateMaster) {
+        progressDialog.dismiss();
+        this.alStateMaster = alStateMaster;
+        if (alStateMaster.size() > 0) {
+            FillState();
+        } else {
+            spState.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
         progressDialog.dismiss();
         this.alCityMaster = alCityMaster;
-        FillCity();
+        if (alCityMaster.size() > 0) {
+            FillCity();
+        } else {
+            spCity.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void AreaResponse(ArrayList<SpinnerItem> alAreaMaster) {
         progressDialog.dismiss();
         this.alAreaMaster = alAreaMaster;
-        FillArea();
+        if (alAreaMaster.size() > 0) {
+            FillArea();
+        } else {
+            spArea.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -209,10 +260,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     //region Private Methods
+    private void RequestStateMaster() {
+        progressDialog.show(getSupportFragmentManager(), "");
+        StateJSONParser objStateJSONParser = new StateJSONParser();
+        objStateJSONParser.SelectStateMaster(this, String.valueOf(countryMasterId));
+    }
+
     private void RequestCityMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         CityJSONParser objCityJSONParser = new CityJSONParser();
-        objCityJSONParser.SelectAllCityMasterByState(RegistrationActivity.this, String.valueOf(Globals.linktoStateMasterId));
+        objCityJSONParser.SelectAllCityMasterByState(RegistrationActivity.this, String.valueOf(stateMasterId));
     }
 
     private void RequestAreaMaster() {
@@ -245,35 +302,64 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         }
-        if (areaMasterId != 0) {
-            objCustomerMaster.setLinktoAreaMasterId(areaMasterId);
+        if (countryMasterId != 0) {
+            objCustomerMaster.setLinktoCountryMasterId(countryMasterId);
+        }
+        if (stateMasterId != 0) {
+            objCustomerMaster.setLinktoStateMasterId(stateMasterId);
         }
         if (cityMasterId != 0) {
             objCustomerMaster.setLinktoCityMasterId(cityMasterId);
+        }
+        if (areaMasterId != 0) {
+            objCustomerMaster.setLinktoAreaMasterId(areaMasterId);
         }
         objCustomerMaster.setIsEnabled(true);
         objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objCustomerMaster.setCustomerType(Globals.CustomerType);
         objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
 
-        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+        //objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+    }
+
+    private void FillCountry() {
+        SpinnerItem objSpinnerItem = new SpinnerItem();
+        objSpinnerItem.setText("India");
+        objSpinnerItem.setValue(1);
+        alCountryMaster.add(0, objSpinnerItem);
+
+        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCountryMaster, true);
+        spCountry.setAdapter(adapter);
+    }
+
+    private void FillState() {
+        SpinnerItem objSpinnerItem = new SpinnerItem();
+        objSpinnerItem.setText(getResources().getString(R.string.suState));
+        objSpinnerItem.setValue(0);
+
+        alStateMaster.add(0, objSpinnerItem);
+
+        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alStateMaster, true);
+        spState.setVisibility(View.VISIBLE);
+        spState.setAdapter(adapter);
     }
 
     private void FillCity() {
         SpinnerItem objSpinnerItem = new SpinnerItem();
-        objSpinnerItem.setText("--------SELECT CITY--------");
+        objSpinnerItem.setText(getResources().getString(R.string.suCity));
         objSpinnerItem.setValue(0);
 
         alCityMaster.add(0, objSpinnerItem);
 
         SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCityMaster, true);
+        spCity.setVisibility(View.VISIBLE);
         spCity.setAdapter(adapter);
     }
 
     private void FillArea() {
         if (alAreaMaster.size() != 0) {
             SpinnerItem objSpinnerItem = new SpinnerItem();
-            objSpinnerItem.setText("--------SELECT AREA--------");
+            objSpinnerItem.setText(getResources().getString(R.string.suArea));
             objSpinnerItem.setValue(0);
 
             alAreaMaster.add(0, objSpinnerItem);
@@ -310,7 +396,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 //startActivity(intent);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsLogin", true);
-                setResult(Activity.RESULT_OK,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 break;
         }
@@ -319,16 +405,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     private boolean ValidateControls() {
         boolean IsValid = true;
-        if (spCity.getSelectedItemId() == 0) {
-            Globals.ShowSnackBar(view, "Select City", RegistrationActivity.this, 1000);
-            IsValid = false;
-        } else if (spArea.getSelectedItemId() == 0) {
-            Globals.ShowSnackBar(view, "Select Area", RegistrationActivity.this, 1000);
-            IsValid = false;
-        }
+//        if (countryMasterId == 0) {
+//            Globals.ShowSnackBar(view, "Select Country", RegistrationActivity.this, 1000);
+//            IsValid = false;
+//        } else if (spState.getSelectedItemId() == 0) {
+//            Globals.ShowSnackBar(view, "Select State", RegistrationActivity.this, 1000);
+//            IsValid = false;
+//        } else if (spCity.getSelectedItemId() == 0) {
+//            Globals.ShowSnackBar(view, "Select City", RegistrationActivity.this, 1000);
+//            IsValid = false;
+//        } else if (spArea.getSelectedItemId() == 0) {
+//            Globals.ShowSnackBar(view, "Select Area", RegistrationActivity.this, 1000);
+//            IsValid = false;
+//        }
         if (etFirstName.getText().toString().equals("")
                 && !etEmail.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -340,25 +437,25 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             } else {
                 etConfirmPassword.clearError();
             }
-            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
             IsValid = false;
         } else if (etFirstName.getText().toString().equals("")
                 && !etEmail.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
                 etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
             }
-            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
-            etPassword.clearError();
-            IsValid = false;
-        } else if (etEmail.getText().toString().equals("")
-                && !etFirstName.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
-            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
                 etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
                 IsValid = false;
@@ -366,97 +463,1176 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 etConfirmPassword.clearError();
             }
             etPassword.clearError();
-            etFirstName.clearError();
-            IsValid = false;
-        } else if (etEmail.getText().toString().equals("")
-                && !etFirstName.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
-            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
-            etPassword.clearError();
-            etFirstName.clearError();
-        } else if (etPassword.getText().toString().equals("")
-                && !etFirstName.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
-            if (Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.clearError();
-            } else {
-                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
-            }
-            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
-            etFirstName.clearError();
-            IsValid = false;
-        } else if (etPassword.getText().toString().equals("")
-                && !etFirstName.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
-            if (Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.clearError();
-            } else {
-                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
-            }
-            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
-            etFirstName.clearError();
-            IsValid = false;
-        } else if (etFirstName.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
-            etPassword.clearError();
-            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
-                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
-                IsValid = false;
-            } else {
-                etConfirmPassword.clearError();
-            }
-            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
             IsValid = false;
         } else if (etFirstName.getText().toString().equals("")
                 && !etEmail.getText().toString().equals("")
-                && etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
                 etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
             }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
             etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
             IsValid = false;
-        } else if (etEmail.getText().toString().equals("")
-                && !etFirstName.getText().toString().equals("")
-                && etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
             etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            etPassword.clearError();
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etPassword.clearError();
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etPassword.clearError();
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etPassword.clearError();
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter" +getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError(getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError(getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etFirstName.clearError();
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etPassword.clearError();
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            etFirstName.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spState.getSelectedItemId() == 0) {
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
             IsValid = false;
         } else if (etFirstName.getText().toString().equals("")
                 && etEmail.getText().toString().equals("")
-                && !etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
             etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+            }
+            etPassword.clearError();
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
             IsValid = false;
         } else if (etFirstName.getText().toString().equals("")
                 && etEmail.getText().toString().equals("")
-                && etPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
             etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
             IsValid = false;
         } else if (etFirstName.getText().toString().equals("")
                 && etEmail.getText().toString().equals("")
-                && etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
             etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
             IsValid = false;
-        } else if (!etFirstName.getText().toString().equals("") && !etEmail.getText().toString().equals("") && !etPassword.getText().toString().equals("") && !etConfirmPassword.getText().toString().equals("")) {
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etFirstName.getText().toString().equals("")
+                && etEmail.getText().toString().equals("")
+                && etPassword.getText().toString().equals("")
+                && etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
+            etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
+            etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
+            etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() == 0) {
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+                IsValid = false;
+            }
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+                IsValid = false;
+            }
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
+            etFirstName.clearError();
+            if (Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.clearError();
+            } else {
+                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
+                IsValid = false;
+            }
+            etPassword.clearError();
+            if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                etConfirmPassword.setError(getResources().getString(R.string.suValidConfirmPassword));
+                IsValid = false;
+            } else {
+                etConfirmPassword.clearError();
+            }
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (!etFirstName.getText().toString().equals("")
+                && !etEmail.getText().toString().equals("")
+                && !etPassword.getText().toString().equals("")
+                && !etConfirmPassword.getText().toString().equals("")
+
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() != 0) {
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -471,18 +1647,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
             etFirstName.clearError();
             etPassword.clearError();
-        } else if (!etFirstName.getText().toString().equals("") && !etEmail.getText().toString().equals("") && !etPassword.getText().toString().equals("") && etConfirmPassword.getText().toString().equals("")) {
-            if (Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.clearError();
-            } else {
-                etEmail.setError("Enter " + getResources().getString(R.string.suValidEmail));
-            }
-            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
-            etFirstName.clearError();
-            etPassword.clearError();
-            IsValid = false;
+            txtCountryError.setVisibility(View.INVISIBLE);
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            txtAreaError.setVisibility(View.INVISIBLE);
         }
-        if (!etPhone.getText().toString().equals("") && etPhone.getText().length() != 10) {
+        if (!etPhone.getText().toString().equals("")
+                && etPhone.getText().length() != 10) {
             etPhone.setError("Enter 10 digit " + getResources().getString(R.string.suPhone));
             IsValid = false;
         } else {

@@ -189,6 +189,8 @@ public class CustomerJSONParser {
             if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
+            stringer.key("linktoCountryMasterId").value(objCustomerMaster.getLinktoCountryMasterId());
+            stringer.key("linktoStateMasterId").value(objCustomerMaster.getLinktoStateMasterId());
             stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
             stringer.key("linktoAreaMasterId").value(objCustomerMaster.getLinktoAreaMasterId());
             stringer.key("linktoBusinessMasterId").value(objCustomerMaster.getlinktoBusinessMasterId());
