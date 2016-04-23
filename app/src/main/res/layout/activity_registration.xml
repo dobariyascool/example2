@@ -139,7 +139,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:dropDownWidth="match_parent"
+                        android:visibility="invisible"/>
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtStateError"
@@ -156,9 +157,11 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/cityAreaLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spCity"
@@ -166,7 +169,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:dropDownWidth="match_parent"/>
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCityError"
@@ -188,6 +191,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:dropDownWidth="match_parent"
                         android:visibility="invisible" />
 
                     <com.rey.material.widget.TextView

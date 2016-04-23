@@ -95,6 +95,7 @@
     <string name="suGender">Gender</string>
     <string name="suBirthDate">Birth Date</string>
     <string name="suUpdate">Update Profile</string>
+    <string name="suSelect">\u2013\u2013SELECT\u2013\u2013</string>
     <string name="suCountry">\u2013\u2013SELECT COUNTRY\u2013\u2013</string>
     <string name="suState">\u2013\u2013SELECT STATE\u2013\u2013</string>
     <string name="suCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
