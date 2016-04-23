@@ -43,6 +43,8 @@ public class CustomerMaster implements Parcelable {
     short linktoSourceMasterId;
     String Remark;
     String LastLoginDateTime;
+    short linktoCountryMasterId;
+    short linktoStateMasterId;
     short linktoCityMasterId;
     short linktoAreaMasterId;
 
@@ -86,6 +88,8 @@ public class CustomerMaster implements Parcelable {
             objCustomerMaster.linktoSourceMasterId = (short) source.readInt();
             objCustomerMaster.Remark = source.readString();
             objCustomerMaster.LastLoginDateTime = source.readString();
+            objCustomerMaster.linktoCountryMasterId = (short) source.readInt();
+            objCustomerMaster.linktoStateMasterId = (short) source.readInt();
             objCustomerMaster.linktoCityMasterId = (short) source.readInt();
             objCustomerMaster.linktoAreaMasterId = (short) source.readInt();
             /// Extra
@@ -406,14 +410,30 @@ public class CustomerMaster implements Parcelable {
         return linktoAreaMasterId;
     }
 
+    public void setLinktoAreaMasterId(short linktoAreaMasterId) {
+        this.linktoAreaMasterId = linktoAreaMasterId;
+    }
+
+    public short getLinktoCountryMasterId() {
+        return linktoCountryMasterId;
+    }
+
+    public void setLinktoCountryMasterId(short linktoCountryMasterId) {
+        this.linktoCountryMasterId = linktoCountryMasterId;
+    }
+
+    public short getLinktoStateMasterId() {
+        return linktoStateMasterId;
+    }
+
+    public void setLinktoStateMasterId(short linktoStateMasterId) {
+        this.linktoStateMasterId = linktoStateMasterId;
+    }
+
     /// Extra
 
 
     //endregion
-
-    public void setLinktoAreaMasterId(short linktoAreaMasterId) {
-        this.linktoAreaMasterId = linktoAreaMasterId;
-    }
 
     public int describeContents() {
         return 0;
@@ -457,6 +477,8 @@ public class CustomerMaster implements Parcelable {
         parcel.writeInt(linktoSourceMasterId);
         parcel.writeString(Remark);
         parcel.writeString(LastLoginDateTime);
+        parcel.writeInt(linktoCountryMasterId);
+        parcel.writeInt(linktoStateMasterId);
         parcel.writeInt(linktoCityMasterId);
         parcel.writeInt(linktoAreaMasterId);
         /// Extra
