@@ -58,66 +58,72 @@
             <!--</LinearLayout>-->
 
             <!--<com.rey.material.widget.TextView-->
-                <!--android:id="@+id/txtItemName"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:maxLines="1"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="@dimen/control_TextMedium" />-->
+            <!--android:id="@+id/txtItemName"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:maxLines="1"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="@dimen/control_TextMedium" />-->
+
+            <!--<ToggleButton-->
+            <!--android:id="@+id/ibLike"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:background="@drawable/wishlist_drawable"-->
+            <!--android:padding="@dimen/control_SpecingSmall"-->
+            <!--android:textOff=""-->
+            <!--android:textOn="" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtItemName"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/control_SpecingSmall"
                     android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/control_SpecingSmall"
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:textColor="@color/heading"
                     android:textSize="@dimen/control_TextMedium" />
 
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end"-->
-                    <!--android:src="@drawable/wishlist_drawable"-->
-                    <!--tools:ignore="ContentDescription" />-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end"-->
-                    <!--android:src="@drawable/wishlist_drawable"-->
-                    <!--tools:ignore="ContentDescription" />-->
                 <ImageView
                     android:id="@+id/ivJain"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/jain_icon"
                     android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivSpicy"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/spicy"
                     android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivDoubleSpicy"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/extra_spicy"
                     android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivSweet"
@@ -125,8 +131,9 @@
                     android:layout_height="20dp"
                     android:src="@mipmap/sweet"
                     android:visibility="gone"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
+                </LinearLayout>
                 <ToggleButton
                     android:id="@+id/ibLike"
                     android:layout_width="24dp"
@@ -136,6 +143,8 @@
                     android:padding="@dimen/control_SpecingSmall"
                     android:textOff=""
                     android:textOn="" />
+
+
             </LinearLayout>
 
             <com.rey.material.widget.TextView

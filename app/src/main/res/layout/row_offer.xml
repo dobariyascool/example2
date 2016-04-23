@@ -27,9 +27,9 @@
             <LinearLayout
                 android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="#523e2723"
+                android:background="@color/transparentBrown"
                 android:gravity="center|bottom"
                 android:orientation="vertical"
                 android:padding="@dimen/control_SpecingSmall"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:textColor="#dedcdc"
+                    android:textColor="@color/dimWhite"
                     android:textSize="@dimen/control_TextSmall"
                     tools:ignore="HardcodedText" />
 
