@@ -38,21 +38,25 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="0dp"
                     android:textColor="@color/heading"
                     android:textSize="@dimen/control_TextMedium" />
 
                 <ImageView
                     android:id="@+id/ivJain"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/jain_icon"
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/ivSpicy"
-                    android:layout_width="20dp"
+                    android:layout_width="15dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/spicy"
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />
@@ -61,6 +65,7 @@
                     android:id="@+id/ivDoubleSpicy"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/extra_spicy"
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />

@@ -50,8 +50,8 @@
     <color name="navigationdrawerText">#616161</color>
     <color name="errorTextColor">#80180C02</color>
     <color name="errorIconColor">#406E6A2E</color>
-    <color name="transparentBrown">#523e2723</color>
-    <color name="dimWhite">#dedcdc</color>
+    <color name="transparentBrown">#cf3e2723</color>
+    <color name="dimWhite">#c1c0c0</color>
     <color name="purple">#FF3F0B4B</color>
 
 </resources>
