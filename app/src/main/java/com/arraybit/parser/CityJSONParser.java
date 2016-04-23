@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -66,7 +67,7 @@ public class CityJSONParser {
     }
 
     //region SelectAll
-    public void SelectAllCityMasterByState(final Context context,String linktoStateMasterId) {
+    public void SelectAllCityMasterByState(final Fragment targetFragment, final Context context, String linktoStateMasterId) {
         String url = Service.Url + this.SelectAllCityMasterByState + "/" + linktoStateMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -87,18 +88,17 @@ public class CityJSONParser {
                         }
 
                     }
-                    objCityRequestListener = (CityRequestListener)context;
+                    objCityRequestListener = (CityRequestListener) targetFragment;
                     objCityRequestListener.CityResponse(lstSpinnerItem);
-                }
-                catch (Exception e) {
-                    objCityRequestListener = (CityRequestListener)context;
+                } catch (Exception e) {
+                    objCityRequestListener = (CityRequestListener) targetFragment;
                     objCityRequestListener.CityResponse(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objCityRequestListener = (CityRequestListener)context;
+                objCityRequestListener = (CityRequestListener) targetFragment;
                 objCityRequestListener.CityResponse(null);
             }
         });

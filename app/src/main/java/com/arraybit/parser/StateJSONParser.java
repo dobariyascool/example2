@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -165,7 +166,7 @@ public class StateJSONParser {
         }
     }
 
-    public void SelectStateMaster(final Context context, String countryMasterId) {
+    public void SelectStateMaster(final Fragment targetFragment, final Context context, String countryMasterId) {
         String url = Service.Url + this.SelectStateMaster + "/" + countryMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -186,17 +187,17 @@ public class StateJSONParser {
                         }
 
                     }
-                    objStateRequestListener = (StateRequestListener) context;
+                    objStateRequestListener = (StateRequestListener) targetFragment;
                     objStateRequestListener.StateResponse(lstSpinnerItem);
                 } catch (Exception e) {
-                    objStateRequestListener = (StateRequestListener) context;
+                    objStateRequestListener = (StateRequestListener) targetFragment;
                     objStateRequestListener.StateResponse(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objStateRequestListener = (StateRequestListener) context;
+                objStateRequestListener = (StateRequestListener) targetFragment;
                 objStateRequestListener.StateResponse(null);
             }
         });

@@ -98,8 +98,10 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 1) {
             ReplaceFragment(new YourBookingFragment(), getResources().getString(R.string.title_fragment_your_booking));
         } else if (id == 2) {
-            ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
+            ReplaceFragment(new AddressFragment(), getResources().getString(R.string.title_fragment_your_address));
         } else if (id == 3) {
+            ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
+        } else if (id == 4) {
             Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
             setResult(Activity.RESULT_OK);
             finish();
