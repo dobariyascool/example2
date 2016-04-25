@@ -90,7 +90,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         rbFemale = (RadioButton) findViewById(R.id.rbFemale);
         rbMale = (RadioButton) findViewById(R.id.rbMale);
 
-        cityAreaLayout = (LinearLayout)findViewById(R.id.cityAreaLayout);
+        cityAreaLayout = (LinearLayout) findViewById(R.id.cityAreaLayout);
 
         Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
         CompoundButton cbSignIn = (CompoundButton) findViewById(R.id.cbSignIn);
@@ -195,7 +195,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         view = v;
         if (v.getId() == R.id.btnSignUp) {
             if (!ValidateControls()) {
-                    Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
+                Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
             } else {
                 if (Service.CheckNet(this)) {
                     RegistrationRequest();
@@ -715,7 +715,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spCity.getSelectedItemId() != 0
                 && spArea.getSelectedItemId() != 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -733,7 +733,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && etConfirmPassword.getText().toString().equals("")
                 && spState.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -752,7 +752,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -772,7 +772,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spCity.getSelectedItemId() != 0
                 && spArea.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -789,7 +789,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && !etPassword.getText().toString().equals("")
                 && etConfirmPassword.getText().toString().equals("")
                 && spState.getSelectedItemId() == 0) {
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
@@ -883,7 +883,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && etConfirmPassword.getText().toString().equals("")
                 && spState.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etPassword.clearError();
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
@@ -898,7 +898,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etPassword.clearError();
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
@@ -914,7 +914,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spCity.getSelectedItemId() != 0
                 && spArea.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etPassword.clearError();
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
@@ -1004,7 +1004,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spCity.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
@@ -1020,7 +1020,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spArea.getSelectedItemId() == 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.setError("Enter " + getResources().getString(R.string.suPassword));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
@@ -1093,7 +1093,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spCity.getSelectedItemId() != 0
                 && spArea.getSelectedItemId() != 0) {
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etPassword.clearError();
             etFirstName.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
@@ -1325,7 +1325,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spState.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etPassword.clearError();
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.VISIBLE);
@@ -1340,7 +1340,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() != 0
                 && spArea.getSelectedItemId() != 0) {
-            etConfirmPassword.setError("Enter " +getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             etFirstName.clearError();
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
@@ -1560,12 +1560,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);
             txtAreaError.setVisibility(View.INVISIBLE);
-        }else if(!etFirstName.getText().toString().equals("")
+        } else if (!etFirstName.getText().toString().equals("")
                 && !etEmail.getText().toString().equals("")
                 && !etPassword.getText().toString().equals("")
                 && etConfirmPassword.getText().toString().equals("")
-                && spState.getSelectedItemId()!=0
-                && spCity.getSelectedItemId()==0){
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -1574,18 +1574,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
             etFirstName.clearError();
             etPassword.clearError();
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.VISIBLE);
             txtAreaError.setVisibility(View.INVISIBLE);
-        }else if(!etFirstName.getText().toString().equals("")
+        } else if (!etFirstName.getText().toString().equals("")
                 && !etEmail.getText().toString().equals("")
                 && !etPassword.getText().toString().equals("")
                 && etConfirmPassword.getText().toString().equals("")
-                && spState.getSelectedItemId()!=0
-                && spCity.getSelectedItemId()!=0
-                && spArea.getSelectedItemId()==0){
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
             if (Globals.IsValidEmail(etEmail.getText().toString())) {
                 etEmail.clearError();
             } else {
@@ -1594,36 +1594,36 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
             etFirstName.clearError();
             etPassword.clearError();
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);
             txtAreaError.setVisibility(View.VISIBLE);
-        }else if(etFirstName.getText().toString().equals("")
+        } else if (etFirstName.getText().toString().equals("")
                 && etEmail.getText().toString().equals("")
                 && !etPassword.getText().toString().equals("")
                 && etConfirmPassword.getText().toString().equals("")
-                && spState.getSelectedItemId()!=0
-                && spCity.getSelectedItemId()==0){
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.clearError();
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.VISIBLE);
             txtAreaError.setVisibility(View.INVISIBLE);
-        }else if(etFirstName.getText().toString().equals("")
+        } else if (etFirstName.getText().toString().equals("")
                 && etEmail.getText().toString().equals("")
                 && !etPassword.getText().toString().equals("")
                 && etConfirmPassword.getText().toString().equals("")
-                && spState.getSelectedItemId()!=0
-                && spCity.getSelectedItemId()!=0
-                && spArea.getSelectedItemId()==0){
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && spArea.getSelectedItemId() == 0) {
             etFirstName.setError("Enter " + getResources().getString(R.string.suFirstName));
             etEmail.setError("Enter " + getResources().getString(R.string.suEmail));
             etPassword.clearError();
-            etConfirmPassword.setError("Enter "+getResources().getString(R.string.suConfirmPassword));
+            etConfirmPassword.setError("Enter " + getResources().getString(R.string.suConfirmPassword));
             txtCountryError.setVisibility(View.INVISIBLE);
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);
