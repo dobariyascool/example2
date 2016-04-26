@@ -215,10 +215,10 @@ public class Globals {
         animatorTranslateY.start();
     }
 
-    public static void SetErrorLayout(LinearLayout layout, boolean isShow, String errorMsg, RecyclerView recyclerView,int errorIcon) {
+    public static void SetErrorLayout(LinearLayout layout, boolean isShow, String errorMsg, RecyclerView recyclerView, int errorIcon) {
         TextView txtMsg = (TextView) layout.findViewById(R.id.txtMsg);
         ImageView ivErrorIcon = (ImageView) layout.findViewById(R.id.ivErrorIcon);
-        if(errorIcon!=0) {
+        if (errorIcon != 0) {
             ivErrorIcon.setImageResource(errorIcon);
         }
         if (isShow) {
@@ -388,6 +388,21 @@ public class Globals {
         private int intValue;
 
         OrderStatus(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
+
+    public enum AddressType {
+        Home(1),
+        Office(2);
+
+        private int intValue;
+
+        AddressType(int value) {
             intValue = value;
         }
 

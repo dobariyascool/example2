@@ -43,6 +43,7 @@
     <string name="MsgAlreadyExist">Record already exist</string>
     <string name="MsgInsertFail">Failed to insert record</string>
     <string name="MsgInsertSuccess">Record inserted successfully</string>
+    <string name="MsgInsertAddressSuccess">Address inserted successfully</string>
     <string name="MsgReviewInsertSuccess">Review inserted successfully</string>
     <string name="MsgDeleteFail">Failed to delete record</string>
     <string name="MsgDeleteSuccess">Record deleted successfully</string>
@@ -304,5 +305,8 @@
     <string name="yaZip">Zip Code</string>
     <string name="yaMobileNum">Mobile Number</string>
     <string name="yaAdd">Add Address</string>
+    <string name="yaEdit">Edit Address</string>
+    <string name="yaPrimary">Is Primary</string>
+    <string name="yaAddressType">Address Type</string>
     <!-- End-->
 </resources>

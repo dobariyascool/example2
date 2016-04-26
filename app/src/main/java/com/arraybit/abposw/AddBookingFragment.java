@@ -963,11 +963,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
         return IsValid;
     }
+    //endregion
+
     public interface AddNewBookingListener {
         void AddNewBooking(BookingMaster objBookingMaster);
     }
-
-   //endregion
 }
 
 

@@ -9,9 +9,12 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.ToggleButton;
 
 import com.arraybit.adapter.SpinnerAdapter;
 import com.arraybit.global.Globals;
@@ -28,18 +31,27 @@ import com.rey.material.widget.EditText;
 
 import java.util.ArrayList;
 
-public class AddAddressFragment extends Fragment implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener {
+public class AddAddressFragment extends Fragment implements View.OnClickListener, View.OnTouchListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerAddressJSONParser.CustomerAddressRequestListener {
 
     Activity activity;
+    ToggleButton btnHome, btnOffice;
     EditText etName, etAddress, etZip, etMobile;
     AppCompatSpinner spCountry, spState, spCity, spArea;
     Button btnAddress;
+    CheckBox chkIsPrimary;
+    SpinnerAdapter countryAdapter, stateAdapter, cityAdapter, areaAdapter;
+    boolean flag = false;
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
-    short countryMasterId, stateMasterId, cityMasterId, areaMasterId;
+    short CustomerAddressTranId, countryMasterId, stateMasterId, cityMasterId, areaMasterId;
     ProgressDialog progressDialog = new ProgressDialog();
+    View view;
+    CustomerAddressTran objCustomerAddressTran;
 
-    public AddAddressFragment(Activity activity) {
+    public AddAddressFragment(Activity activity, CustomerAddressTran obCustomerAddressTran) {
         this.activity = activity;
+        if (obCustomerAddressTran != null) {
+            this.objCustomerAddressTran = obCustomerAddressTran;
+        }
     }
 
     @Override
@@ -60,6 +72,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         app_bar.setTitle(getResources().getString(R.string.title_add_address_fragment));
         setHasOptionsMenu(true);
 
+        btnHome = (ToggleButton) view.findViewById(R.id.btnHome);
+        btnOffice = (ToggleButton) view.findViewById(R.id.btnOffice);
         etName = (EditText) view.findViewById(R.id.etName);
         etAddress = (EditText) view.findViewById(R.id.etAddress);
         etZip = (EditText) view.findViewById(R.id.etZip);
@@ -69,8 +83,10 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spState = (AppCompatSpinner) view.findViewById(R.id.spState);
         spCity = (AppCompatSpinner) view.findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
+        chkIsPrimary = (CheckBox) view.findViewById(R.id.chkIsPrimary);
         btnAddress = (Button) view.findViewById(R.id.btnAddress);
 
+        chkIsPrimary.setVisibility(View.INVISIBLE);
         alCountryMaster = new ArrayList<>();
         countryMasterId = 1;
         FillCountry();
@@ -88,7 +104,10 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 if (stateMasterId == 0) {
                     spCity.setVisibility(View.GONE);
                 } else {
-                    RequestCityMaster();
+                    if (!flag) {
+                        RequestCityMaster();
+                        flag = true;
+                    }
                 }
             }
 
@@ -106,7 +125,10 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 if (cityMasterId == 0) {
                     spArea.setVisibility(View.GONE);
                 } else {
-                    RequestAreaMaster();
+                    if (!flag) {
+                        RequestAreaMaster();
+                        flag = true;
+                    }
                 }
             }
 
@@ -129,22 +151,49 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             }
         });
 
+        btnHome.setOnClickListener(this);
+        btnOffice.setOnClickListener(this);
+        spState.setOnTouchListener(this);
+        spCity.setOnTouchListener(this);
         btnAddress.setOnClickListener(this);
+
+        if (objCustomerAddressTran != null) {
+            CustomerAddressTranId = (short) objCustomerAddressTran.getCustomerAddressTranId();
+            chkIsPrimary.setVisibility(View.VISIBLE);
+            btnAddress.setText(getResources().getString(R.string.yaEdit));
+            stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
+            RequestCityMaster();
+            cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
+            RequestAreaMaster();
+        }
 
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnAddress) {
+        if (v.getId() == R.id.btnHome) {
+            btnHome.setChecked(true);
+            btnOffice.setChecked(false);
+        } else if (v.getId() == R.id.btnOffice) {
+            btnHome.setChecked(false);
+            btnOffice.setChecked(true);
+        } else if (v.getId() == R.id.btnAddress) {
+            view = v;
+            progressDialog.show(getActivity().getSupportFragmentManager(), "");
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             CustomerAddressTran objCustomerAddressTran = new CustomerAddressTran();
-            objCustomerAddressTran.setCustomer(etName.getText().toString());
+            objCustomerAddressTran.setCustomerName(etName.getText().toString());
             objCustomerAddressTran.setAddress(etAddress.getText().toString());
-            objCustomerAddressTran.setCountry(String.valueOf(spCountry.getSelectedItemId()));
-            objCustomerAddressTran.setState(String.valueOf(spState.getSelectedItemId()));
-            objCustomerAddressTran.setCity(String.valueOf(spCity.getSelectedItemId()));
-            objCustomerAddressTran.setArea(String.valueOf(spArea.getSelectedItemId()));
+            if (btnHome.isChecked()) {
+                objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
+            } else {
+                objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
+            }
+            objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
+            objCustomerAddressTran.setlinktoStateMasterId((short) spState.getSelectedItemId());
+            objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getSelectedItemId());
+            objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getSelectedItemId());
             objCustomerAddressTran.setZipCode(etZip.getText().toString());
             objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
             objCustomerAddressTran.setIsPrimary(true);
@@ -152,8 +201,19 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
 
             CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-            objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+            if (btnAddress.getText().equals(getResources().getString(R.string.yaAdd))) {
+                objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+            } else {
+                objCustomerAddressTran.setCustomerAddressTranId(CustomerAddressTranId);
+                objCustomerAddressTran.setIsPrimary(chkIsPrimary.isChecked());
+                objCustomerAddressJSONParser.UpdateCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+            }
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return flag = false;
     }
 
     @Override
@@ -161,7 +221,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                    activity.finish();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,7 +230,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void StateResponse(ArrayList<SpinnerItem> alStateMaster) {
-        progressDialog.dismiss();
+        if (objCustomerAddressTran == null) {
+            progressDialog.dismiss();
+        }
         this.alStateMaster = alStateMaster;
         if (alStateMaster.size() > 0) {
             FillState();
@@ -181,7 +243,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
-        progressDialog.dismiss();
+        if (objCustomerAddressTran == null) {
+            progressDialog.dismiss();
+        }
         this.alCityMaster = alCityMaster;
         if (alCityMaster.size() > 0) {
             FillCity();
@@ -196,8 +260,19 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         this.alAreaMaster = alAreaMaster;
         if (alAreaMaster.size() > 0) {
             FillArea();
-        } else {
+        } else if (alAreaMaster.size() == 0) {
             spArea.setVisibility(View.GONE);
+        }
+        if (!flag) {
+            SetAddress();
+        }
+    }
+
+    @Override
+    public void CustomerAddressResponse(String errorCode, ArrayList<CustomerAddressTran> alCustomerAddressTran, CustomerAddressTran objCustomerAddressTran) {
+        progressDialog.dismiss();
+        if (errorCode != null) {
+            SetError(errorCode);
         }
     }
 
@@ -209,13 +284,17 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     }
 
     private void RequestCityMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        if (objCustomerAddressTran == null) {
+            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        }
         CityJSONParser objCityJSONParser = new CityJSONParser();
         objCityJSONParser.SelectAllCityMasterByState(this, getActivity(), String.valueOf(stateMasterId));
     }
 
     private void RequestAreaMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        if (objCustomerAddressTran == null) {
+            progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        }
         AreaJSONParser objAreaJSONParser = new AreaJSONParser();
         objAreaJSONParser.SelectAllAreaMasterAreaByCity(this, getActivity(), String.valueOf(cityMasterId));
     }
@@ -226,8 +305,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         objSpinnerItem.setValue(1);
         alCountryMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
-        spCountry.setAdapter(adapter);
+        countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
+        spCountry.setAdapter(countryAdapter);
     }
 
     private void FillState() {
@@ -237,9 +316,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
         alStateMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alStateMaster, true);
+        stateAdapter = new SpinnerAdapter(getActivity(), alStateMaster, true);
         spState.setVisibility(View.VISIBLE);
-        spState.setAdapter(adapter);
+        spState.setAdapter(stateAdapter);
     }
 
     private void FillCity() {
@@ -249,9 +328,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
         alCityMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alCityMaster, true);
+        cityAdapter = new SpinnerAdapter(getActivity(), alCityMaster, true);
         spCity.setVisibility(View.VISIBLE);
-        spCity.setAdapter(adapter);
+        spCity.setAdapter(cityAdapter);
     }
 
     private void FillArea() {
@@ -262,12 +341,59 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alAreaMaster.add(0, objSpinnerItem);
 
-            SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alAreaMaster, true);
+            areaAdapter = new SpinnerAdapter(getActivity(), alAreaMaster, true);
             spArea.setVisibility(View.VISIBLE);
-            spArea.setAdapter(adapter);
+            spArea.setAdapter(areaAdapter);
         } else {
             spArea.setVisibility(View.GONE);
         }
+    }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+                break;
+            case "0":
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgInsertAddressSuccess), getActivity(), 1000);
+                getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    private void SetAddress() {
+        flag = true;
+        if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
+            btnHome.setChecked(true);
+            btnOffice.setChecked(false);
+        } else {
+            btnHome.setChecked(false);
+            btnOffice.setChecked(true);
+        }
+        etName.setText(objCustomerAddressTran.getCustomerName());
+        etAddress.setText(objCustomerAddressTran.getAddress());
+
+        spCountry.setSelection(0);
+        for (int i = 0; i < stateAdapter.getCount(); i++) {
+            if (objCustomerAddressTran.getState().trim().equals(stateAdapter.getItem(i).toString())) {
+                spState.setSelection(i);
+                break;
+            }
+        }
+        for (int i = 0; i < cityAdapter.getCount(); i++) {
+            if (objCustomerAddressTran.getCity().trim().equals(cityAdapter.getItem(i).toString())) {
+                spCity.setSelection(i);
+                break;
+            }
+        }
+        for (int i = 0; i < areaAdapter.getCount(); i++) {
+            if (objCustomerAddressTran.getArea().trim().equals(areaAdapter.getItem(i).toString())) {
+                spArea.setSelection(i);
+                break;
+            }
+        }
+        etZip.setText(objCustomerAddressTran.getZipCode());
+        etMobile.setText(objCustomerAddressTran.getMobileNum());
+        chkIsPrimary.setChecked(objCustomerAddressTran.getIsPrimary());
     }
     //endregion
 }

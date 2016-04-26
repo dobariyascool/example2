@@ -10,6 +10,7 @@ public class CustomerAddressTran implements Parcelable {
     int linktoCustomerMasterId;
     int linktoRegisteredUserMasterId;
     String Address;
+    short AddressType;
     short linktoCountryMasterId;
     short linktoStateMasterId;
     short linktoCityMasterId;
@@ -21,7 +22,7 @@ public class CustomerAddressTran implements Parcelable {
     boolean IsDeleted;
     String MobileNum;
     /// Extra
-    String Customer;
+    String CustomerName;
     String RegisteredUser;
     String Country;
     String State;
@@ -33,8 +34,10 @@ public class CustomerAddressTran implements Parcelable {
             CustomerAddressTran objCustomerAddressTran = new CustomerAddressTran();
             objCustomerAddressTran.CustomerAddressTranId = source.readInt();
             objCustomerAddressTran.linktoCustomerMasterId = source.readInt();
+            objCustomerAddressTran.CustomerName = source.readString();
             objCustomerAddressTran.linktoRegisteredUserMasterId = source.readInt();
             objCustomerAddressTran.Address = source.readString();
+            objCustomerAddressTran.AddressType = (short) source.readInt();
             objCustomerAddressTran.linktoCountryMasterId = (short) source.readInt();
             objCustomerAddressTran.linktoStateMasterId = (short) source.readInt();
             objCustomerAddressTran.linktoCityMasterId = (short) source.readInt();
@@ -47,7 +50,6 @@ public class CustomerAddressTran implements Parcelable {
             objCustomerAddressTran.IsDeleted = source.readByte() != 0;
 
             /// Extra
-            objCustomerAddressTran.Customer = source.readString();
             objCustomerAddressTran.RegisteredUser = source.readString();
             objCustomerAddressTran.Country = source.readString();
             objCustomerAddressTran.State = source.readString();
@@ -78,6 +80,14 @@ public class CustomerAddressTran implements Parcelable {
         this.linktoCustomerMasterId = linktoCustomerMasterId;
     }
 
+    public String getCustomerName() {
+        return this.CustomerName;
+    }
+
+    public void setCustomerName(String customer) {
+        this.CustomerName = customer;
+    }
+
     public int getlinktoRegisteredUserMasterId() {
         return this.linktoRegisteredUserMasterId;
     }
@@ -92,6 +102,14 @@ public class CustomerAddressTran implements Parcelable {
 
     public void setAddress(String address) {
         this.Address = address;
+    }
+
+    public short getAddressType() {
+        return AddressType;
+    }
+
+    public void setAddressType(short addressType) {
+        AddressType = addressType;
     }
 
     public short getlinktoCountryMasterId() {
@@ -166,14 +184,6 @@ public class CustomerAddressTran implements Parcelable {
         this.IsDeleted = isDeleted;
     }
 
-    public String getCustomer() {
-        return this.Customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.Customer = customer;
-    }
-
     public String getRegisteredUser() {
         return this.RegisteredUser;
     }
@@ -239,8 +249,10 @@ public class CustomerAddressTran implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(CustomerAddressTranId);
         parcel.writeInt(linktoCustomerMasterId);
+        parcel.writeString(CustomerName);
         parcel.writeInt(linktoRegisteredUserMasterId);
         parcel.writeString(Address);
+        parcel.writeInt(AddressType);
         parcel.writeInt(linktoCountryMasterId);
         parcel.writeInt(linktoStateMasterId);
         parcel.writeInt(linktoCityMasterId);
@@ -253,7 +265,6 @@ public class CustomerAddressTran implements Parcelable {
         parcel.writeByte((byte) (IsDeleted ? 1 : 0));
 
         /// Extra
-        parcel.writeString(Customer);
         parcel.writeString(RegisteredUser);
         parcel.writeString(Country);
         parcel.writeString(State);
