@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.rey.material.widget.EditText;
 
 import java.util.ArrayList;
 
+@SuppressLint("ValidFragment")
 public class AddAddressFragment extends Fragment implements View.OnClickListener, View.OnTouchListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerAddressJSONParser.CustomerAddressRequestListener {
 
     Activity activity;
@@ -41,16 +43,17 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     CheckBox chkIsPrimary;
     SpinnerAdapter countryAdapter, stateAdapter, cityAdapter, areaAdapter;
     boolean flag = false;
+    CustomerAddressTran objCustomerAddressTran;
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
     short CustomerAddressTranId, countryMasterId, stateMasterId, cityMasterId, areaMasterId;
     ProgressDialog progressDialog = new ProgressDialog();
     View view;
-    CustomerAddressTran objCustomerAddressTran;
+    AddNewAddressListener objAddNewAddressListener;
 
-    public AddAddressFragment(Activity activity, CustomerAddressTran obCustomerAddressTran) {
+    public AddAddressFragment(Activity activity, CustomerAddressTran objCustomerAddressTran) {
         this.activity = activity;
-        if (obCustomerAddressTran != null) {
-            this.objCustomerAddressTran = obCustomerAddressTran;
+        if (objCustomerAddressTran != null) {
+            this.objCustomerAddressTran = objCustomerAddressTran;
         }
     }
 
@@ -179,10 +182,10 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             btnHome.setChecked(false);
             btnOffice.setChecked(true);
         } else if (v.getId() == R.id.btnAddress) {
+            objCustomerAddressTran = new CustomerAddressTran();
             view = v;
             progressDialog.show(getActivity().getSupportFragmentManager(), "");
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-            CustomerAddressTran objCustomerAddressTran = new CustomerAddressTran();
             objCustomerAddressTran.setCustomerName(etName.getText().toString());
             objCustomerAddressTran.setAddress(etAddress.getText().toString());
             if (btnHome.isChecked()) {
@@ -218,14 +221,12 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (getTargetFragment() != null) {
+            objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
+            objAddNewAddressListener.AddNewAddress(null);
+            getActivity().getSupportFragmentManager().popBackStack();
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -355,7 +356,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;
             case "0":
-                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgInsertAddressSuccess), getActivity(), 1000);
+                objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
+                objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
                 getActivity().getSupportFragmentManager().popBackStack();
         }
     }
@@ -373,27 +375,24 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         etAddress.setText(objCustomerAddressTran.getAddress());
 
         spCountry.setSelection(0);
-        for (int i = 0; i < stateAdapter.getCount(); i++) {
-            if (objCustomerAddressTran.getState().trim().equals(stateAdapter.getItem(i).toString())) {
-                spState.setSelection(i);
-                break;
-            }
-        }
-        for (int i = 0; i < cityAdapter.getCount(); i++) {
-            if (objCustomerAddressTran.getCity().trim().equals(cityAdapter.getItem(i).toString())) {
-                spCity.setSelection(i);
-                break;
-            }
-        }
-        for (int i = 0; i < areaAdapter.getCount(); i++) {
-            if (objCustomerAddressTran.getArea().trim().equals(areaAdapter.getItem(i).toString())) {
-                spArea.setSelection(i);
-                break;
-            }
-        }
+//        for (int i = 0; i < stateAdapter.getCount(); i++) {
+//            if (objCustomerAddressTran.getState().trim().equals(stateAdapter.getItem(i).toString())) {
+//                spState.setSelection(i);
+//                break;
+//            }
+//        }
+
+        spState.setSelection(SpinnerItem.GetSpinnerItemIndex(alStateMaster, objCustomerAddressTran.getlinktoStateMasterId()));
+        spCity.setSelection(SpinnerItem.GetSpinnerItemIndex(alCityMaster, objCustomerAddressTran.getlinktoCityMasterId()));
+        spArea.setSelection(SpinnerItem.GetSpinnerItemIndex(alAreaMaster, objCustomerAddressTran.getlinktoAreaMasterId()));
+
         etZip.setText(objCustomerAddressTran.getZipCode());
         etMobile.setText(objCustomerAddressTran.getMobileNum());
         chkIsPrimary.setChecked(objCustomerAddressTran.getIsPrimary());
     }
     //endregion
+
+    public interface AddNewAddressListener {
+        void AddNewAddress(CustomerAddressTran objCustomerAddressTran);
+    }
 }

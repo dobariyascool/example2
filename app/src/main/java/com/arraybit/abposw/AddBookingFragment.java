@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {

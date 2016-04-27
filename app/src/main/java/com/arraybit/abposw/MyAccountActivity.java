@@ -98,7 +98,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 1) {
             ReplaceFragment(new YourBookingFragment(), getResources().getString(R.string.title_fragment_your_booking));
         } else if (id == 2) {
-            ReplaceFragment(new AddressFragment(), getResources().getString(R.string.title_fragment_your_address));
+            ReplaceFragment(new YourAddressFragment(), getResources().getString(R.string.title_fragment_your_address));
         } else if (id == 3) {
             ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
         } else if (id == 4) {
@@ -137,6 +137,17 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                 addBookingFragment.objAddNewBookingListener = (AddBookingFragment.AddNewBookingListener) addBookingFragment.getTargetFragment();
                 addBookingFragment.objAddNewBookingListener.AddNewBooking(null);
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_fragment_your_address))) {
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_address), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_add_address_fragment))) {
+                AddAddressFragment addAddressFragment = (AddAddressFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_address_fragment));
+                addAddressFragment.objAddNewAddressListener = (AddAddressFragment.AddNewAddressListener) addAddressFragment.getTargetFragment();
+                addAddressFragment.objAddNewAddressListener.AddNewAddress(null);
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_fragment_change_password))) {

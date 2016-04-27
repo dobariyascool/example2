@@ -235,7 +235,7 @@
     <string-array name="Option">
         <item>Your Orders</item>
         <item>Your Bookings</item>
-        <item>Your Address</item>
+        <item>Your Addresses</item>
         <item>Change Password</item>
         <item>Logout</item>
     </string-array>
@@ -293,7 +293,7 @@
     <!--End-->
 
     <!-- Your Address(s)-->
-    <string name="title_fragment_your_address">Your Address(s)</string>
+    <string name="title_fragment_your_address">Your Addresses</string>
     <string name="yaOffice">Office</string>
     <string name="yaHome">Home</string>
     <string name="yaName">Customer Name</string>

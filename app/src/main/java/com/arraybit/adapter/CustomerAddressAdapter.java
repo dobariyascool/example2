@@ -49,10 +49,11 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
             holder.ivOffice.setVisibility(View.VISIBLE);
         }
 
-        holder.txtCustomer.setText(String.valueOf(objCustomerAddressTran.getCustomerName()));
+        //holder.txtCustomerAddressTranId.setText(String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
+        holder.txtCustomer.setText(objCustomerAddressTran.getCustomerName());
         holder.txtPhone.setText(" (" + String.valueOf(objCustomerAddressTran.getMobileNum()) + ")");
         holder.txtAddress.setText(objCustomerAddressTran.getAddress());
-        holder.txtCountry.setText(String.valueOf(objCustomerAddressTran.getCountry()));
+        holder.txtCountry.setText(objCustomerAddressTran.getCountry());
         holder.txtState.setText(" " + String.valueOf(objCustomerAddressTran.getState()));
         holder.txtZipCode.setText(objCustomerAddressTran.getZipCode());
 
@@ -65,12 +66,17 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         return lstCustomerAddressTran.size();
     }
 
-    public void CustomerAddressDataChanged(ArrayList<CustomerAddressTran> alCustomerAddressTran){
+    public void EditCustomerAddress(ArrayList<CustomerAddressTran> alCustomerAddressTran) {
         lstCustomerAddressTran.addAll(alCustomerAddressTran);
         notifyDataSetChanged();
     }
 
-    public void DeleteCustomerAddress(int position){
+    public void CustomerAddressDataChanged(CustomerAddressTran objCustomerAddressTran) {
+        lstCustomerAddressTran.add(0, objCustomerAddressTran);
+        notifyDataSetChanged();
+    }
+
+    public void DeleteCustomerAddress(int position) {
         lstCustomerAddressTran.remove(position);
         notifyDataSetChanged();
     }
@@ -84,6 +90,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder {
         CardView cvAddress;
         ImageView ivHome, ivOffice;
+        TextView txtCustomerAddressTranId;
         TextView txtCustomer;
         TextView txtPhone;
         TextView txtAddress;
@@ -100,6 +107,8 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
 
             ivHome = (ImageView) view.findViewById(R.id.ivHome);
             ivOffice = (ImageView) view.findViewById(R.id.ivOffice);
+            txtCustomerAddressTranId = (TextView) view.findViewById(R.id.txtCustomerAddressTranId);
+            txtCustomerAddressTranId.setVisibility(View.GONE);
             txtCustomer = (TextView) view.findViewById(R.id.txtCustomerName);
             txtPhone = (TextView) view.findViewById(R.id.txtPhone);
             txtAddress = (TextView) view.findViewById(R.id.txtCustomerAddress);

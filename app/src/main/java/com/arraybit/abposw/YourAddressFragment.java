@@ -1,6 +1,5 @@
 package com.arraybit.abposw;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +23,10 @@ import com.arraybit.modal.CustomerAddressTran;
 import com.arraybit.parser.CustomerAddressJSONParser;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class AddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener {
+public class YourAddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener, AddAddressFragment.AddNewAddressListener {
 
     FloatingActionButton fabAddress;
     LinearLayout errorLayout;
@@ -34,14 +36,15 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
     CustomerAddressAdapter adapter;
     int position;
+    ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
 
-    public AddressFragment() {
+    public YourAddressFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_address, container, false);
+        View view = inflater.inflate(R.layout.fragment_your_address, container, false);
         Toolbar app_bar = (Toolbar) view.findViewById(R.id.app_bar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(app_bar);
 
@@ -69,6 +72,28 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
             fabAddress.hide();
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvAddress, R.drawable.wifi_drawable);
         }
+
+//        simpleItemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+//                if (direction == ItemTouchHelper.RIGHT) {
+//                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
+//                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+//                    objCustomerAddressJSONParser.SelectCustomerAddressTranByMasterId(getActivity(), AddressFragment.this, String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+//                } else {
+//                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
+//                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+//                    objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), AddressFragment.this, String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+//                }
+//            }
+//        };
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
+//        itemTouchHelper.attachToRecyclerView(rvAddress);
         return view;
     }
 
@@ -82,7 +107,7 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
                     AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), null);
                     addAddressFragment.setTargetFragment(this, 0);
                     fabAddress.hide();
-                    Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourAddressFragment);
+                    Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
                 }
             }
         }
@@ -91,8 +116,11 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getActivity().setResult(Activity.RESULT_OK);
-            getActivity().finish();
+            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,8 +133,10 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
             SetRecyclerView();
         } else if (objCustomerAddressTran != null) {
             fabAddress.hide();
-            Globals.ReplaceFragment(new AddAddressFragment(getActivity(), objCustomerAddressTran), getActivity().getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
-        }else if(errorCode != null){
+            AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), objCustomerAddressTran);
+            addAddressFragment.setTargetFragment(this, 0);
+            Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
+        } else if (errorCode != null) {
             SetErrorCode(errorCode);
             SetRecyclerView();
         }
@@ -123,8 +153,31 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
     @Override
     public void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position) {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
+
         CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
         objCustomerAddressJSONParser.SelectCustomerAddressTranByMasterId(getActivity(), this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
+    }
+
+    @Override
+    public void AddNewAddress(CustomerAddressTran objCustomerAddressTran) {
+        if (objCustomerAddressTran == null) {
+            fabAddress.show();
+        } else {
+            if (adapter == null || adapter.getItemCount() == 0) {
+                RequestCustomerAddress();
+            } else {
+                adapter.CustomerAddressDataChanged(objCustomerAddressTran);
+                rvAddress.setAdapter(adapter);
+                rvAddress.setLayoutManager(linearLayoutManager);
+            }
+            Globals.ShowSnackBar(rvAddress, getActivity().getResources().getString(R.string.MsgInsertAddressSuccess), getActivity(), 1000);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    fabAddress.show();
+                }
+            }, 1600);
+        }
     }
 
     //region Private Methods
@@ -142,14 +195,14 @@ public class AddressFragment extends Fragment implements View.OnClickListener, C
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvAddress, 0);
         } else {
             adapter = new CustomerAddressAdapter(getActivity(), alCustomerAddressTran, this);
-            adapter.CustomerAddressDataChanged(alCustomerAddressTran);
+            //adapter.CustomerAddressDataChanged(alCustomerAddressTran);
             rvAddress.setAdapter(adapter);
             rvAddress.setLayoutManager(linearLayoutManager);
         }
     }
 
-    private void SetErrorCode(String errorCode){
-        switch (errorCode){
+    private void SetErrorCode(String errorCode) {
+        switch (errorCode) {
             case "0":
                 adapter.DeleteCustomerAddress(position);
         }
