@@ -199,6 +199,7 @@ public class CustomerJSONParser {
             stringer.key("CustomerType").value(objCustomerMaster.getCustomerType());
             stringer.key("LastLoginDateTime").value(sdfDateTimeFormat.format(dt));
             stringer.key("IsEnabled").value(objCustomerMaster.getIsEnabled());
+            stringer.key("IsPrimary").value(true);
 
             stringer.endObject();
             stringer.endObject();

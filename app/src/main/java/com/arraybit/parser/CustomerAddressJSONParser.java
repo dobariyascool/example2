@@ -80,9 +80,15 @@ public class CustomerAddressJSONParser {
 
                 /// Extra
                 objCustomerAddressTran.setCountry(jsonObject.getString("Country"));
-                objCustomerAddressTran.setState(jsonObject.getString("State"));
-                objCustomerAddressTran.setCity(jsonObject.getString("City"));
-                objCustomerAddressTran.setArea(jsonObject.getString("Area"));
+                if (!jsonObject.getString("State").equals("null")) {
+                    objCustomerAddressTran.setState(jsonObject.getString("State"));
+                }
+                if (!jsonObject.getString("City").equals("null")) {
+                    objCustomerAddressTran.setCity(jsonObject.getString("City"));
+                }
+                if (!jsonObject.getString("Area").equals("null")) {
+                    objCustomerAddressTran.setArea(jsonObject.getString("Area"));
+                }
                 objCustomerAddressTran.setUserCreatedBy(jsonObject.getString("linktoUserMasterIdCreatedBy"));
             }
             return objCustomerAddressTran;
@@ -135,9 +141,15 @@ public class CustomerAddressJSONParser {
 
                 /// Extra
                 objCustomerAddressTran.setCountry(jsonArray.getJSONObject(i).getString("Country"));
-                objCustomerAddressTran.setState(jsonArray.getJSONObject(i).getString("State"));
-                objCustomerAddressTran.setCity(jsonArray.getJSONObject(i).getString("City"));
-                objCustomerAddressTran.setArea(jsonArray.getJSONObject(i).getString("Area"));
+                if (!jsonArray.getJSONObject(i).getString("State").equals("null")) {
+                    objCustomerAddressTran.setState(jsonArray.getJSONObject(i).getString("State"));
+                }
+                if (!jsonArray.getJSONObject(i).getString("City").equals("null")) {
+                    objCustomerAddressTran.setCity(jsonArray.getJSONObject(i).getString("City"));
+                }
+                if (!jsonArray.getJSONObject(i).getString("Area").equals("null")) {
+                    objCustomerAddressTran.setArea(jsonArray.getJSONObject(i).getString("Area"));
+                }
                 objCustomerAddressTran.setUserCreatedBy(jsonArray.getJSONObject(i).getString("linktoUserMasterIdCreatedBy"));
                 lstCustomerAddressTran.add(objCustomerAddressTran);
             }
@@ -318,19 +330,34 @@ public class CustomerAddressJSONParser {
                     jsonArray = jsonObject.getJSONArray(SelectAllCustomerAddressTran + "Result");
                     if (jsonArray != null) {
                         ArrayList<CustomerAddressTran> alCustomerAddressTran = SetListPropertiesFromJSONArray(jsonArray);
-                        objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                        objCustomerAddressRequestListener.CustomerAddressResponse(null, alCustomerAddressTran, null);
+                        if(targetFragment==null){
+                            objCustomerAddressRequestListener = (CustomerAddressRequestListener) context;
+                            objCustomerAddressRequestListener.CustomerAddressResponse(null, alCustomerAddressTran, null);
+                        }else{
+                            objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
+                            objCustomerAddressRequestListener.CustomerAddressResponse(null, alCustomerAddressTran, null);
+                        }
                     }
                 } catch (Exception e) {
-                    objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                    objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                    if(targetFragment==null){
+                        objCustomerAddressRequestListener = (CustomerAddressRequestListener) context;
+                        objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                    }else{
+                        objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
+                        objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                if(targetFragment==null){
+                    objCustomerAddressRequestListener = (CustomerAddressRequestListener) context;
+                    objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                }else{
+                    objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
+                    objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
+                }
             }
         });
         queue.add(jsonObjectRequest);

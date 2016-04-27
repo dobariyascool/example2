@@ -34,6 +34,7 @@
                 android:layout_gravity="top"
                 android:layout_marginEnd="@dimen/control_SpecingTiny"
                 android:layout_marginStart="@dimen/control_SpecingTiny"
+                android:ellipsize="end"
                 android:max="5"
                 android:paddingBottom="@dimen/control_SpecingTiny"
                 android:paddingTop="@dimen/control_SpecingTiny" />

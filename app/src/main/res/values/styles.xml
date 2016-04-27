@@ -367,4 +367,42 @@
         <item name="rd_rippleType">touch</item>
     </style>
 
+    <style name="ToogleButtonLeftSelector">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/leftside_rounded_button</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:padding">@dimen/control_SpecingTiny</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+    </style>
+
+    <style name="ToogleButtonRightSelector">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/rightside_rounded_button</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:padding">@dimen/control_SpecingTiny</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+    </style>
+
+    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
+    </style>
+
+    <style name="MaterialDialogSheetAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
 </resources>

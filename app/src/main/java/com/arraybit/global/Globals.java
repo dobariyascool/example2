@@ -153,7 +153,6 @@ public class Globals {
                     }
 
                 }, H, m, true);
-
         dp.hide();
         dp.show();
     }

@@ -17,6 +17,7 @@
     <string name="title_fragment_policy">Privacy Policy</string>
     <string name="title_fragment_terms_of_service">Terms of service</string>
     <string name="title_detail">Detail</string>
+    <string name="title_activity_check_out">CheckOut</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -310,4 +311,28 @@
     <string name="yaAddressType">Address Type</string>
     <string name="yaDefault">Default</string>
     <!-- End-->
+
+    <!-- CheckOut Activity-->
+    <string name="coaOrderType">OrderType</string>
+    <string name="coaHomeDelivery">Home Delivery</string>
+    <string name="coaTakeAway">Take Away</string>
+    <string name="coaCity">City</string>
+    <string name="coaArea">Branch</string>
+    <string name="coaName">Name</string>
+    <string name="coaMobile">Mobile</string>
+    <string name="coaDate">Date</string>
+    <string name="coaTime">Time</string>
+    <string name="coaGetCode">Get Promo Code\u003F</string>
+    <string name="coaApply">Apply</string>
+    <string name="coaCancel">Cancel</string>
+    <string name="coaYouPay">You pay \u20B9 %s</string>
+    <string name="coaViewOrder">View Order</string>
+    <string name="coaPlaceOrder">Place Order</string>
+    <!-- End-->
+    <array name="strCity">
+        <item>Surat</item>
+        <item>Ahmadabad</item>
+        <item>Baroda</item>
+        <item>Surat</item>
+    </array>
 </resources>

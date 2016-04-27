@@ -51,6 +51,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="2"
                     android:textColor="@color/dimWhite"

@@ -53,6 +53,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
     String activityName;
+    OrderMaster objOrderMaster;
 
 
     public CartItemFragment(String activityName) {
@@ -126,11 +127,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             getActivity().finish();
         } else if (v.getId() == R.id.btnConfirmOrder) {
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
             } else {
-                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
                 RequestOrderMaster();
+                Intent intent = new Intent(getActivity(),CheckOutActivity.class);
+                intent.putExtra("OrderMaster",objOrderMaster);
+                intent.putParcelableArrayListExtra("TaxMaster",alTaxMaster);
+                startActivity(intent);
+                //customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+                //RequestOrderMaster();
             }
         } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();
@@ -310,9 +316,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void RequestOrderMaster() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+        //progressDialog.show(getActivity().getSupportFragmentManager(), "");
 
-        OrderMaster objOrderMaster = new OrderMaster();
+        objOrderMaster = new OrderMaster();
         objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objOrderMaster.setlinktoOrderTypeMasterId(Globals.linktoOrderTypeMasterId);
         objOrderMaster.setlinktoCustomerMasterId(customerMasterId);
@@ -327,8 +333,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objOrderMaster.setTotalDeductedPoint((short) 0);
         objOrderMaster.setIsPreOrder(true);
 
-        OrderJSONParser orderJSONParser = new OrderJSONParser();
-        orderJSONParser.InsertOrderMaster(objOrderMaster, Globals.alOrderItemTran, alTaxMaster, getActivity(), this);
+        //OrderJSONParser orderJSONParser = new OrderJSONParser();
+        //orderJSONParser.InsertOrderMaster(objOrderMaster, Globals.alOrderItemTran, alTaxMaster, getActivity(), this);
     }
 
     private void SetError(String errorCode) {

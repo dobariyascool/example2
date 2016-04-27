@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -42,7 +43,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     Button btnAddress;
     com.rey.material.widget.CheckBox chkIsPrimary;
     SpinnerAdapter countryAdapter, stateAdapter, cityAdapter, areaAdapter;
-    boolean flag = false;
+    boolean flag = false,isCitySelected = false;
     CustomerAddressTran objCustomerAddressTran;
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
     short CustomerAddressTranId, countryMasterId, stateMasterId, cityMasterId, areaMasterId;
@@ -101,22 +102,44 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
 
+        btnHome.setOnClickListener(this);
+        btnOffice.setOnClickListener(this);
+        spState.setOnTouchListener(this);
+        spCity.setOnTouchListener(this);
+        btnAddress.setOnClickListener(this);
+
+        if (objCustomerAddressTran != null) {
+            CustomerAddressTranId = (short) objCustomerAddressTran.getCustomerAddressTranId();
+            chkIsPrimary.setVisibility(View.VISIBLE);
+            btnAddress.setText(getResources().getString(R.string.yaEdit));
+            cityAreaLayout.setVisibility(View.VISIBLE);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 View v = parent.getAdapter().getView(position, view, parent);
-                if(stateMasterId==-1) {
-                    stateMasterId = (short) v.getId();
-                }
-                if (stateMasterId == 0) {
-                    cityAreaLayout.setVisibility(View.GONE);
-                } else {
-                    if (!flag) {
-                        cityAreaLayout.setVisibility(View.VISIBLE);
-                        RequestCityMaster();
-                        flag = true;
+                //if (!isCitySelected) {
+                    if (stateMasterId == -1) {
+                        stateMasterId = (short) v.getId();
                     }
-                }
+                    if (stateMasterId == 0) {
+                        cityAreaLayout.setVisibility(View.GONE);
+                    } else {
+                        if (!flag) {
+                            cityAreaLayout.setVisibility(View.VISIBLE);
+                            RequestCityMaster();
+                            flag = true;
+                        }
+                    }
+                //}
             }
 
             @Override
@@ -158,21 +181,6 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             }
         });
-
-        btnHome.setOnClickListener(this);
-        btnOffice.setOnClickListener(this);
-        spState.setOnTouchListener(this);
-        spCity.setOnTouchListener(this);
-        btnAddress.setOnClickListener(this);
-
-        if (objCustomerAddressTran != null) {
-            CustomerAddressTranId = (short) objCustomerAddressTran.getCustomerAddressTranId();
-            chkIsPrimary.setVisibility(View.VISIBLE);
-            btnAddress.setText(getResources().getString(R.string.yaEdit));
-            cityAreaLayout.setVisibility(View.VISIBLE);
-        }
-
-        return view;
     }
 
     @Override
@@ -219,6 +227,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         stateMasterId = -1;
+        isCitySelected = false;
         return flag = false;
     }
 
@@ -237,6 +246,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         if (objCustomerAddressTran == null) {
             progressDialog.dismiss();
         } else {
+            stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
             RequestCityMaster();
         }
         this.alStateMaster = alStateMaster;
@@ -248,10 +258,12 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         if (objCustomerAddressTran == null) {
             progressDialog.dismiss();
         } else {
+            cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
             RequestAreaMaster();
         }
         this.alCityMaster = alCityMaster;
         FillCity();
+        isCitySelected = true;
     }
 
     @Override
@@ -260,8 +272,6 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         this.alAreaMaster = alAreaMaster;
         FillArea();
         if (!flag) {
-            stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
-            cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
             SetAddress();
         }
     }
@@ -368,7 +378,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     }
 
     private void SetAddress() {
-       // flag = true;
+        flag = true;
         if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
             btnHome.setChecked(true);
             btnOffice.setChecked(false);
