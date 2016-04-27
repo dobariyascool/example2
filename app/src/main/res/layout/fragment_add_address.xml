@@ -1,4 +1,4 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,154 +11,165 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar_layout" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/control_SpecingMedium"
-        android:layout_marginStart="@dimen/control_SpecingMedium"
-        android:layout_marginTop="@dimen/control_SpecingSmall"
-        android:layout_weight=".6"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar_layout" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".4">
-
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtAddressType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_SpecingMedium"
-                android:text="@string/yaAddressType"
-                android:textColor="@color/colorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/control_SpecingMedium"
+            android:layout_marginStart="@dimen/control_SpecingMedium"
+            android:layout_marginTop="@dimen/control_SpecingSmall"
             android:layout_weight=".6"
-            android:background="@drawable/rounded_layout"
-            android:gravity="center"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <ToggleButton
-                android:id="@+id/btnHome"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/homeofficeselector"
-                android:checked="true"
-                android:textOff="@string/yaHome"
-                android:textOn="@string/yaHome" />
+                android:layout_weight=".4">
 
-            <ToggleButton
-                android:id="@+id/btnOffice"
-                android:layout_width="wrap_content"
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtAddressType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/control_SpecingMedium"
+                    android:text="@string/yaAddressType"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/homeofficeselector"
-                android:checked="false"
-                android:textOff="@string/yaOffice"
-                android:textOn="@string/yaOffice" />
+                android:layout_weight=".6"
+                android:background="@drawable/rounded_layout"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ToggleButton
+                    android:id="@+id/btnHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/homeofficeselector"
+                    android:checked="true"
+                    android:textOff="@string/yaHome"
+                    android:textOn="@string/yaHome" />
+
+                <ToggleButton
+                    android:id="@+id/btnOffice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/homeofficeselector"
+                    android:checked="false"
+                    android:textOff="@string/yaOffice"
+                    android:textOn="@string/yaOffice" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/control_SpecingMedium"
-        android:layout_marginStart="@dimen/control_SpecingMedium"
-        android:layout_marginTop="@dimen/control_SpecingSmall"
-        android:layout_weight="6"
-        android:orientation="vertical">
-
-        <com.rey.material.widget.EditText
-            android:id="@+id/etName"
-            style="@style/EditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaName" />
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/control_SpecingMedium"
+            android:layout_marginStart="@dimen/control_SpecingMedium"
+            android:layout_marginTop="@dimen/control_SpecingSmall"
+            android:layout_weight="7"
+            android:orientation="vertical">
 
-        <com.rey.material.widget.EditText
-            android:id="@+id/etAddress"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="@string/yaAddress"
-            android:inputType="textMultiLine" />
+            <com.rey.material.widget.EditText
+                android:id="@+id/etName"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/yaName" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spCountry"
-            style="@style/Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaCountry" />
+            <com.rey.material.widget.EditText
+                android:id="@+id/etAddress"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:hint="@string/yaAddress"
+                android:inputType="textMultiLine" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spState"
-            style="@style/Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaState" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spCity"
-            style="@style/Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaCity" />
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spCountry"
+                    style="@style/Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/yaCountry" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spArea"
-            style="@style/Spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaArea" />
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spState"
+                    style="@style/Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/yaState" />
+            </LinearLayout>
 
-        <com.rey.material.widget.EditText
-            android:id="@+id/etZip"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaZip"
-            android:inputType="number" />
+            <LinearLayout
+                android:id="@+id/cityAreaLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-        <com.rey.material.widget.EditText
-            android:id="@+id/etMobile"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/yaMobileNum"
-            android:inputType="number" />
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spCity"
+                    style="@style/Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/yaCity" />
 
-        <CheckBox
-            android:id="@+id/chkIsPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/yaPrimary"/>
-    </LinearLayout>
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spArea"
+                    style="@style/Spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/yaArea" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/control_SpecingTiny"
-        android:layout_marginEnd="@dimen/control_SpecingTiny"
-        android:layout_marginStart="@dimen/control_SpecingTiny"
-        android:layout_weight=".7"
-        android:orientation="vertical">
+            <com.rey.material.widget.EditText
+                android:id="@+id/etZip"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/yaZip"
+                android:inputType="number" />
+
+            <com.rey.material.widget.EditText
+                android:id="@+id/etMobile"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/yaMobileNum"
+                android:inputType="number" />
+
+            <com.rey.material.widget.CheckBox
+                android:id="@+id/chkIsPrimary"
+                style="@style/CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/yaPrimary"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
         <com.rey.material.widget.Button
             android:id="@+id/btnAddress"
             style="@style/Button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/yaAdd" />
-    </LinearLayout>
 
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

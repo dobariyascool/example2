@@ -298,15 +298,16 @@
     <string name="yaHome">Home</string>
     <string name="yaName">Customer Name</string>
     <string name="yaAddress">Address</string>
-    <string name="yaCountry">\u2013\u2013SELECT COUNTRY\u2013\u2013</string>
-    <string name="yaState">\u2013\u2013SELECT STATE\u2013\u2013</string>
-    <string name="yaCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
-    <string name="yaArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
+    <string name="yaCountry">\u2013\u2013COUNTRY\u2013\u2013</string>
+    <string name="yaState">\u2013\u2013STATE\u2013\u2013</string>
+    <string name="yaCity">\u2013\u2013CITY\u2013\u2013</string>
+    <string name="yaArea">\u2013\u2013AREA\u2013\u2013</string>
     <string name="yaZip">Zip Code</string>
     <string name="yaMobileNum">Mobile Number</string>
     <string name="yaAdd">Add Address</string>
     <string name="yaEdit">Edit Address</string>
     <string name="yaPrimary">Is Primary</string>
     <string name="yaAddressType">Address Type</string>
+    <string name="yaDefault">Default</string>
     <!-- End-->
 </resources>

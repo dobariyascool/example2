@@ -24,6 +24,10 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible"/>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <ImageView
                 android:id="@+id/ivHome"
                 android:layout_width="wrap_content"
@@ -40,6 +44,12 @@
                 android:src="@drawable/office_drawable"
                 android:visibility="invisible" />
 
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtDefault" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/control_SpecingTiny"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,14 +58,12 @@
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtCustomerName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Harsh A Modi " />
+                    android:layout_height="wrap_content"/>
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtPhone"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="(9427716397)" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -67,14 +75,12 @@
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtCountry"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="India" />
+                    android:layout_height="wrap_content" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtState"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Gujarat" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,16 +91,14 @@
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtCustomerAddress"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="At Po. Dholikuva, Ta. Vansda, Di. Navsari " />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtZipCode"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="396570" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

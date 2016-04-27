@@ -41,6 +41,13 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     public void onBindViewHolder(CustomerAddressTranViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = lstCustomerAddressTran.get(position);
 
+        if(objCustomerAddressTran.getIsPrimary()){
+            holder.txtDefault.setText("(" + view.getResources().getString(R.string.yaDefault) + ")");
+        }
+        else {
+            holder.txtDefault.setVisibility(View.GONE);
+        }
+
         if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
             holder.ivHome.setVisibility(View.VISIBLE);
             holder.ivOffice.setVisibility(View.GONE);
@@ -90,6 +97,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder {
         CardView cvAddress;
         ImageView ivHome, ivOffice;
+        TextView txtDefault;
         TextView txtCustomerAddressTranId;
         TextView txtCustomer;
         TextView txtPhone;
@@ -109,6 +117,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
             ivOffice = (ImageView) view.findViewById(R.id.ivOffice);
             txtCustomerAddressTranId = (TextView) view.findViewById(R.id.txtCustomerAddressTranId);
             txtCustomerAddressTranId.setVisibility(View.GONE);
+            txtDefault = (TextView) view.findViewById(R.id.txtDefault);
             txtCustomer = (TextView) view.findViewById(R.id.txtCustomerName);
             txtPhone = (TextView) view.findViewById(R.id.txtPhone);
             txtAddress = (TextView) view.findViewById(R.id.txtCustomerAddress);

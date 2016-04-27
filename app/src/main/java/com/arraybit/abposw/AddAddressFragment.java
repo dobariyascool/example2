@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.arraybit.adapter.SpinnerAdapter;
@@ -40,7 +40,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     EditText etName, etAddress, etZip, etMobile;
     AppCompatSpinner spCountry, spState, spCity, spArea;
     Button btnAddress;
-    CheckBox chkIsPrimary;
+    com.rey.material.widget.CheckBox chkIsPrimary;
     SpinnerAdapter countryAdapter, stateAdapter, cityAdapter, areaAdapter;
     boolean flag = false;
     CustomerAddressTran objCustomerAddressTran;
@@ -48,6 +48,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     short CustomerAddressTranId, countryMasterId, stateMasterId, cityMasterId, areaMasterId;
     ProgressDialog progressDialog = new ProgressDialog();
     View view;
+    LinearLayout cityAreaLayout;
     AddNewAddressListener objAddNewAddressListener;
 
     public AddAddressFragment(Activity activity, CustomerAddressTran objCustomerAddressTran) {
@@ -86,8 +87,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spState = (AppCompatSpinner) view.findViewById(R.id.spState);
         spCity = (AppCompatSpinner) view.findViewById(R.id.spCity);
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
-        chkIsPrimary = (CheckBox) view.findViewById(R.id.chkIsPrimary);
+        chkIsPrimary = (com.rey.material.widget.CheckBox) view.findViewById(R.id.chkIsPrimary);
         btnAddress = (Button) view.findViewById(R.id.btnAddress);
+        cityAreaLayout = (LinearLayout) view.findViewById(R.id.cityAreaLayout);
 
         chkIsPrimary.setVisibility(View.INVISIBLE);
         alCountryMaster = new ArrayList<>();
@@ -105,9 +107,10 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 View v = parent.getAdapter().getView(position, view, parent);
                 stateMasterId = (short) v.getId();
                 if (stateMasterId == 0) {
-                    spCity.setVisibility(View.GONE);
+                    cityAreaLayout.setVisibility(View.GONE);
                 } else {
                     if (!flag) {
+                        cityAreaLayout.setVisibility(View.VISIBLE);
                         RequestCityMaster();
                         flag = true;
                     }
@@ -126,7 +129,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 View v = parent.getAdapter().getView(position, view, parent);
                 cityMasterId = (short) v.getId();
                 if (cityMasterId == 0) {
-                    spArea.setVisibility(View.GONE);
+                    spArea.setVisibility(View.INVISIBLE);
                 } else {
                     if (!flag) {
                         RequestAreaMaster();
@@ -164,6 +167,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             CustomerAddressTranId = (short) objCustomerAddressTran.getCustomerAddressTranId();
             chkIsPrimary.setVisibility(View.VISIBLE);
             btnAddress.setText(getResources().getString(R.string.yaEdit));
+            cityAreaLayout.setVisibility(View.VISIBLE);
             stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
             RequestCityMaster();
             cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
@@ -248,7 +252,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             progressDialog.dismiss();
         }
         this.alCityMaster = alCityMaster;
-        if (alCityMaster.size() > 0) {
+        if (alCityMaster.size() > 0 && alCityMaster != null) {
             FillCity();
         } else {
             spCity.setVisibility(View.GONE);
@@ -261,7 +265,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         this.alAreaMaster = alAreaMaster;
         if (alAreaMaster.size() > 0) {
             FillArea();
-        } else if (alAreaMaster.size() == 0) {
+        } else if (alAreaMaster.size() == 0&& alAreaMaster == null) {
             spArea.setVisibility(View.GONE);
         }
         if (!flag) {
@@ -312,7 +316,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     private void FillState() {
         SpinnerItem objSpinnerItem = new SpinnerItem();
-        objSpinnerItem.setText(getResources().getString(R.string.suState));
+        objSpinnerItem.setText(getResources().getString(R.string.yaState));
         objSpinnerItem.setValue(0);
 
         alStateMaster.add(0, objSpinnerItem);
@@ -324,7 +328,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     private void FillCity() {
         SpinnerItem objSpinnerItem = new SpinnerItem();
-        objSpinnerItem.setText(getResources().getString(R.string.suCity));
+        objSpinnerItem.setText(getResources().getString(R.string.yaCity));
         objSpinnerItem.setValue(0);
 
         alCityMaster.add(0, objSpinnerItem);
@@ -337,7 +341,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     private void FillArea() {
         if (alAreaMaster.size() != 0) {
             SpinnerItem objSpinnerItem = new SpinnerItem();
-            objSpinnerItem.setText(getResources().getString(R.string.suArea));
+            objSpinnerItem.setText(getResources().getString(R.string.yaArea));
             objSpinnerItem.setValue(0);
 
             alAreaMaster.add(0, objSpinnerItem);
