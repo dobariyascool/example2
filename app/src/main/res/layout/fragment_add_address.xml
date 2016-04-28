@@ -43,24 +43,26 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".6"
-                android:background="@drawable/rounded_layout"
+                android:background="@drawable/toggle_drawable"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ToggleButton
                     android:id="@+id/btnHome"
-                    android:layout_width="wrap_content"
+                    style="@style/ToogleButtonLeftSelector"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/homeofficeselector"
+                    android:layout_weight="1"
                     android:checked="true"
                     android:textOff="@string/yaHome"
                     android:textOn="@string/yaHome" />
 
                 <ToggleButton
                     android:id="@+id/btnOffice"
-                    android:layout_width="wrap_content"
+                    style="@style/ToogleButtonRightSelector"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/homeofficeselector"
+                    android:layout_weight="1"
                     android:checked="false"
                     android:textOff="@string/yaOffice"
                     android:textOn="@string/yaOffice" />

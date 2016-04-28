@@ -35,7 +35,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     ProgressDialog progressDialog = new ProgressDialog();
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
     CustomerAddressAdapter adapter;
-    int position;
+    Integer position = null;
     ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
 
     public YourAddressFragment() {
@@ -131,11 +131,6 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         if (alCustomerAddressTran != null) {
             this.alCustomerAddressTran = alCustomerAddressTran;
             SetRecyclerView();
-        } else if (objCustomerAddressTran != null) {
-            fabAddress.hide();
-            AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), objCustomerAddressTran);
-            addAddressFragment.setTargetFragment(this, 0);
-            Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
         } else if (errorCode != null) {
             SetErrorCode(errorCode);
             SetRecyclerView();
@@ -153,9 +148,10 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     @Override
     public void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position) {
         this.position = position;
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
-        CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-        objCustomerAddressJSONParser.SelectCustomerAddressTranByMasterId(getActivity(), this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
+        fabAddress.hide();
+        AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), objCustomerAddressTran);
+        addAddressFragment.setTargetFragment(this, 0);
+        Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
     }
 
     @Override
@@ -170,7 +166,11 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
                 rvAddress.setAdapter(adapter);
                 rvAddress.setLayoutManager(linearLayoutManager);
             }
-            Globals.ShowSnackBar(rvAddress, getActivity().getResources().getString(R.string.MsgInsertAddressSuccess), getActivity(), 1000);
+            if (position == null) {
+                Globals.ShowSnackBar(rvAddress, getActivity().getResources().getString(R.string.MsgInsertAddressSuccess), getActivity(), 1000);
+            } else {
+                Globals.ShowSnackBar(rvAddress, getActivity().getResources().getString(R.string.MsgUpdateAddressSuccess), getActivity(), 1000);
+            }
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -194,7 +194,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         } else if (alCustomerAddressTran.size() == 0) {
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvAddress, 0);
         } else {
-            adapter = new CustomerAddressAdapter(getActivity(), alCustomerAddressTran, this);
+            adapter = new CustomerAddressAdapter(getActivity(), alCustomerAddressTran, this, getActivity().getSupportFragmentManager());
             //adapter.CustomerAddressDataChanged(alCustomerAddressTran);
             rvAddress.setAdapter(adapter);
             rvAddress.setLayoutManager(linearLayoutManager);

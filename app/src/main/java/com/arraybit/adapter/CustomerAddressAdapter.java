@@ -1,6 +1,7 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,12 +24,14 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     View view;
     CustomerAddressListener objCustomerAddressListener;
     int position;
+    FragmentManager fragmentManager;
 
-    public CustomerAddressAdapter(Context context, ArrayList<CustomerAddressTran> result, CustomerAddressListener objCustomerAddressListener) {
+    public CustomerAddressAdapter(Context context, ArrayList<CustomerAddressTran> result, CustomerAddressListener objCustomerAddressListener, FragmentManager fragmentManager) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.lstCustomerAddressTran = result;
         this.objCustomerAddressListener = objCustomerAddressListener;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -63,8 +66,8 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
         holder.txtZipCode.setText(objCustomerAddressTran.getZipCode());
 
-        holder.btnDelete.setId(objCustomerAddressTran.getCustomerAddressTranId());
-        holder.btnDelete.setTag(position);
+//        holder.btnDelete.setId(objCustomerAddressTran.getCustomerAddressTranId());
+//        holder.btnDelete.setTag(position);
     }
 
     @Override
@@ -72,14 +75,14 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         return lstCustomerAddressTran.size();
     }
 
-    public void EditCustomerAddress(ArrayList<CustomerAddressTran> alCustomerAddressTran) {
-        lstCustomerAddressTran.addAll(alCustomerAddressTran);
-        notifyDataSetChanged();
-    }
-
-    public void CustomerAddressDataChanged(CustomerAddressTran objCustomerAddressTran, int position) {
-        if (position >= 0) {
+    public void CustomerAddressDataChanged(CustomerAddressTran objCustomerAddressTran, Integer position) {
+        if (position != null) {
+            lstCustomerAddressTran.get(position).setCustomerName(objCustomerAddressTran.getCustomerName());
+            lstCustomerAddressTran.get(position).setMobileNum(objCustomerAddressTran.getMobileNum());
+            lstCustomerAddressTran.get(position).setCountry(objCustomerAddressTran.getCountry());
             lstCustomerAddressTran.get(position).setState(objCustomerAddressTran.getState());
+            lstCustomerAddressTran.get(position).setAddress(objCustomerAddressTran.getAddress());
+            lstCustomerAddressTran.get(position).setZipCode(objCustomerAddressTran.getZipCode());
         } else {
             lstCustomerAddressTran.add(0, objCustomerAddressTran);
         }
@@ -88,7 +91,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
 
     public void DeleteCustomerAddress(int position) {
         lstCustomerAddressTran.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
     }
 
     public interface CustomerAddressListener {
@@ -133,14 +136,21 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    objCustomerAddressListener.DeleteClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
+                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
+                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
+                        objCustomerAddressListener.DeleteClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
+                    }
                 }
             });
+
 
             cvAddress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    objCustomerAddressListener.OnClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
+                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
+                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
+                        objCustomerAddressListener.OnClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
+                    }
                 }
             });
         }

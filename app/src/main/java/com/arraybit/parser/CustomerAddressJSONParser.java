@@ -24,14 +24,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-/// <summary>
-/// JSONParser for CustomerAddressTran
-/// </summary>
 public class CustomerAddressJSONParser {
     public String InsertCustomerAddressTran = "InsertCustomerAddressTran";
     public String UpdateCustomerAddressTran = "UpdateCustomerAddressTran";
     public String DeleteCustomerAddressTran = "DeleteCustomerAddressTran";
-    public String SelectCustomerAddressTran = "SelectCustomerAddressTranByMasterId";
     public String SelectAllCustomerAddressTran = "SelectAllCustomerAddressTran";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -358,35 +354,6 @@ public class CustomerAddressJSONParser {
                     objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
                     objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
                 }
-            }
-        });
-        queue.add(jsonObjectRequest);
-    }
-
-    public void SelectCustomerAddressTranByMasterId(final Context context, final Fragment targetFragment, String customerAddressTranId) {
-        String url = Service.Url + this.SelectCustomerAddressTran + "/" + customerAddressTranId;
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                try {
-                    if (jsonObject != null) {
-                        JSONObject jsonResponse = jsonObject.getJSONObject(SelectCustomerAddressTran + "Result");
-                        if (jsonResponse != null) {
-                            objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                            objCustomerAddressRequestListener.CustomerAddressResponse(null, null, SetClassPropertiesFromJSONObject(jsonResponse));
-                        }
-                    }
-                } catch (Exception e) {
-                    objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                    objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;
-                objCustomerAddressRequestListener.CustomerAddressResponse(null, null, null);
             }
         });
         queue.add(jsonObjectRequest);
