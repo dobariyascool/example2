@@ -38,7 +38,6 @@ import java.util.ArrayList;
 public class AddAddressFragment extends Fragment implements View.OnClickListener, View.OnTouchListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerAddressJSONParser.CustomerAddressRequestListener {
 
     Activity activity;
-
     ToggleButton btnHome, btnOffice;
     EditText etName, etAddress, etZip, etMobile;
     AppCompatSpinner spCountry, spState, spCity, spArea;
