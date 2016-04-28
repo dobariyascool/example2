@@ -154,17 +154,6 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             }
         });
-
-        spArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @Override
@@ -188,12 +177,18 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
             }
             objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
-            objCustomerAddressTran.setlinktoStateMasterId((short)spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
-            objCustomerAddressTran.setlinktoCityMasterId((short)spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
-            objCustomerAddressTran.setlinktoAreaMasterId((short)spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
+            objCustomerAddressTran.setCountry(spCountry.getSelectedItem().toString());
+            objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
+            objCustomerAddressTran.setState(spState.getSelectedItem().toString());
+            objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
+            objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
+            objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
+            objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
             objCustomerAddressTran.setZipCode(etZip.getText().toString());
             objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
-            objCustomerAddressTran.setIsPrimary(true);
+            if(objCustomerAddressTran == null) {
+                objCustomerAddressTran.setIsPrimary(true);
+            }
             objCustomerAddressTran.setIsDeleted(false);
             objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
 
@@ -317,7 +312,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             spState.setVisibility(View.VISIBLE);
             spState.setAdapter(stateAdapter);
         } else {
-            spState.setVisibility(View.GONE);
+            spState.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -333,7 +328,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             spCity.setVisibility(View.VISIBLE);
             spCity.setAdapter(cityAdapter);
         } else {
-            spCity.setVisibility(View.GONE);
+            spCity.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -349,7 +344,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             spArea.setVisibility(View.VISIBLE);
             spArea.setAdapter(areaAdapter);
         } else {
-            spArea.setVisibility(View.GONE);
+            spArea.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -361,6 +356,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             case "0":
                 objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
                 objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+
                 getActivity().getSupportFragmentManager().popBackStack();
         }
     }
