@@ -76,6 +76,8 @@
     <string name="MsgCancelOrder">Order Payment is done</string>
     <string name="MsgCancelBooking">Booking Payment is done</string>
     <string name="MsgBookingIsAAvailable">Booking slot is not available</string>
+    <string name="MsgOfferCodeFailed">Offer Not Valid</string>
+    <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -327,14 +329,9 @@
     <string name="coaGetCode">Get Promo Code\u003F</string>
     <string name="coaApply">Apply</string>
     <string name="coaCancel">Cancel</string>
-    <string name="coaYouPay">You pay \u20B9 %s</string>
+    <string name="coaYouPay">You Pay \u20B9 %s</string>
     <string name="coaViewOrder">View Order</string>
     <string name="coaPlaceOrder">Place Order</string>
+    <string name="coaMsg">You can edit or delete address from your account</string>
     <!-- End-->
-    <array name="strCity">
-        <item>Surat</item>
-        <item>Ahmadabad</item>
-        <item>Baroda</item>
-        <item>Surat</item>
-    </array>
 </resources>

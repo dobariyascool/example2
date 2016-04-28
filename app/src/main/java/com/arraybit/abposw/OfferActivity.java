@@ -91,11 +91,13 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    public void OfferResponse(ArrayList<OfferMaster> alOfferMaster) {
+    public void OfferResponse(ArrayList<OfferMaster> alOfferMaster, OfferMaster objOfferMaster) {
         progressDialog.dismiss();
         SetRecyclerView(alOfferMaster);
     }
+
 
     //region Private Methods
 
@@ -130,6 +132,5 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
             rvOffer.setLayoutManager(linearLayoutManager);
         }
     }
-
     //endregion
 }
