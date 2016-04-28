@@ -309,7 +309,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         alCountryMaster.add(0, objSpinnerItem);
 
         SpinnerAdapter countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
-        spCountry.setAdapter(countryAdapter);
+        //spCountry.setAdapter(countryAdapter);
     }
 
     private void FillState() {
