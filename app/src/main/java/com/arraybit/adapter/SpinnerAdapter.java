@@ -40,7 +40,7 @@ public class SpinnerAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return lstSpinnerItem.get(position).getValue();
     }
 
     @Override

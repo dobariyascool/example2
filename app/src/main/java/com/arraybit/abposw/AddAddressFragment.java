@@ -42,8 +42,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     AppCompatSpinner spCountry, spState, spCity, spArea;
     Button btnAddress;
     com.rey.material.widget.CheckBox chkIsPrimary;
-    SpinnerAdapter countryAdapter, stateAdapter, cityAdapter, areaAdapter;
-    boolean flag = false,isCitySelected = false;
+    boolean flag = false;
     CustomerAddressTran objCustomerAddressTran;
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
     short CustomerAddressTranId, countryMasterId, stateMasterId, cityMasterId, areaMasterId;
@@ -125,21 +124,15 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                View v = parent.getAdapter().getView(position, view, parent);
-                //if (!isCitySelected) {
                     if (stateMasterId == -1) {
-                        stateMasterId = (short) v.getId();
+                        stateMasterId = (short) view.getId();
                     }
                     if (stateMasterId == 0) {
                         cityAreaLayout.setVisibility(View.GONE);
                     } else {
-                        if (!flag) {
-                            cityAreaLayout.setVisibility(View.VISIBLE);
-                            RequestCityMaster();
-                            flag = true;
-                        }
+                        cityAreaLayout.setVisibility(View.VISIBLE);
+                        RequestCityMaster();
                     }
-                //}
             }
 
             @Override
@@ -151,15 +144,11 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                View v = parent.getAdapter().getView(position, view, parent);
-                cityMasterId = (short) v.getId();
+                cityMasterId = (short) view.getId();
                 if (cityMasterId == 0) {
                     spArea.setVisibility(View.INVISIBLE);
                 } else {
-                    if (!flag) {
-                        RequestAreaMaster();
-                        flag = true;
-                    }
+                    RequestAreaMaster();
                 }
             }
 
@@ -172,8 +161,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                View v = parent.getAdapter().getView(position, view, parent);
-                areaMasterId = (short) v.getId();
+                areaMasterId = (short) view.getId();
             }
 
             @Override
@@ -227,8 +215,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         stateMasterId = -1;
-        isCitySelected = false;
-        return flag = false;
+        flag = true;
+        return false;
     }
 
     @Override
@@ -245,25 +233,32 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     public void StateResponse(ArrayList<SpinnerItem> alStateMaster) {
         if (objCustomerAddressTran == null) {
             progressDialog.dismiss();
+            this.alStateMaster = alStateMaster;
+            FillState();
         } else {
-            stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
-            RequestCityMaster();
+            this.alStateMaster = alStateMaster;
+            FillState();
+            if(!flag) {
+                stateMasterId = objCustomerAddressTran.getlinktoStateMasterId();
+                spState.setSelection(SpinnerItem.GetSpinnerItemIndex(alStateMaster, objCustomerAddressTran.getlinktoStateMasterId()));
+            }
         }
-        this.alStateMaster = alStateMaster;
-        FillState();
     }
 
     @Override
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
         if (objCustomerAddressTran == null) {
             progressDialog.dismiss();
+            this.alCityMaster = alCityMaster;
+            FillCity();
         } else {
-            cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
-            RequestAreaMaster();
+            this.alCityMaster = alCityMaster;
+            FillCity();
+            if(!flag) {
+                cityMasterId = objCustomerAddressTran.getlinktoCityMasterId();
+                spCity.setSelection(SpinnerItem.GetSpinnerItemIndex(alCityMaster, objCustomerAddressTran.getlinktoCityMasterId()));
+            }
         }
-        this.alCityMaster = alCityMaster;
-        FillCity();
-        isCitySelected = true;
     }
 
     @Override
@@ -313,7 +308,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         objSpinnerItem.setValue(1);
         alCountryMaster.add(0, objSpinnerItem);
 
-        countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
+        SpinnerAdapter countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
         spCountry.setAdapter(countryAdapter);
     }
 
@@ -325,7 +320,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alStateMaster.add(0, objSpinnerItem);
 
-            stateAdapter = new SpinnerAdapter(getActivity(), alStateMaster, true);
+            SpinnerAdapter stateAdapter = new SpinnerAdapter(getActivity(), alStateMaster, true);
             spState.setVisibility(View.VISIBLE);
             spState.setAdapter(stateAdapter);
         } else {
@@ -341,7 +336,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alCityMaster.add(0, objSpinnerItem);
 
-            cityAdapter = new SpinnerAdapter(getActivity(), alCityMaster, true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(getActivity(), alCityMaster, true);
             spCity.setVisibility(View.VISIBLE);
             spCity.setAdapter(cityAdapter);
         } else {
@@ -357,7 +352,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alAreaMaster.add(0, objSpinnerItem);
 
-            areaAdapter = new SpinnerAdapter(getActivity(), alAreaMaster, true);
+            SpinnerAdapter areaAdapter = new SpinnerAdapter(getActivity(), alAreaMaster, true);
             spArea.setVisibility(View.VISIBLE);
             spArea.setAdapter(areaAdapter);
         } else {
@@ -378,7 +373,6 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     }
 
     private void SetAddress() {
-        flag = true;
         if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
             btnHome.setChecked(true);
             btnOffice.setChecked(false);
@@ -390,15 +384,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         etAddress.setText(objCustomerAddressTran.getAddress());
 
         spCountry.setSelection(0);
-//        for (int i = 0; i < stateAdapter.getCount(); i++) {
-//            if (objCustomerAddressTran.getState().trim().equals(stateAdapter.getItem(i).toString())) {
-//                spState.setSelection(i);
-//                break;
-//            }
-//        }
 
-        spState.setSelection(SpinnerItem.GetSpinnerItemIndex(alStateMaster, objCustomerAddressTran.getlinktoStateMasterId()));
-        spCity.setSelection(SpinnerItem.GetSpinnerItemIndex(alCityMaster, objCustomerAddressTran.getlinktoCityMasterId()));
         spArea.setSelection(SpinnerItem.GetSpinnerItemIndex(alAreaMaster, objCustomerAddressTran.getlinktoAreaMasterId()));
 
         etZip.setText(objCustomerAddressTran.getZipCode());
