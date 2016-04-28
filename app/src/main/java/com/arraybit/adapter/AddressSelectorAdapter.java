@@ -1,11 +1,12 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.CustomerAddressTran;
@@ -39,6 +40,17 @@ public class AddressSelectorAdapter extends RecyclerView.Adapter<AddressSelector
     public void onBindViewHolder(AddressSelectorViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = alCustomerAddressTran.get(position);
         holder.txtAddress.setText(objCustomerAddressTran.getAddress());
+        if(objCustomerAddressTran.getMobileNum()==null || objCustomerAddressTran.getMobileNum().equals("")){
+            holder.ivCall.setVisibility(View.GONE);
+            holder.txtPhone.setVisibility(View.GONE);
+        }else{
+            holder.ivCall.setVisibility(View.VISIBLE);
+            holder.txtPhone.setVisibility(View.VISIBLE);
+            holder.txtPhone.setText(objCustomerAddressTran.getMobileNum());
+        }
+        if(position==alCustomerAddressTran.size()-1){
+            holder.txtHeader.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -53,15 +65,19 @@ public class AddressSelectorAdapter extends RecyclerView.Adapter<AddressSelector
 
     class AddressSelectorViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtAddress;
-        CardView cvAddress;
+        TextView txtAddress,txtHeader,txtPhone;
+        LinearLayout addressLayout;
+        ImageView ivCall;
 
         public AddressSelectorViewHolder(View view) {
             super(view);
-            cvAddress = (CardView)view.findViewById(R.id.cvAddress);
+            addressLayout = (LinearLayout)view.findViewById(R.id.addressLayout);
             txtAddress = (TextView) view.findViewById(R.id.txtAddress);
+            txtHeader = (TextView) view.findViewById(R.id.txtHeader);
+            txtPhone = (TextView) view.findViewById(R.id.txtPhone);
+            ivCall = (ImageView) view.findViewById(R.id.ivCall);
 
-            cvAddress.setOnClickListener(new View.OnClickListener() {
+            addressLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     objAddressSelectorListener.AddressSelectorOnClickListener(alCustomerAddressTran.get(getAdapterPosition()));

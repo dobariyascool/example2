@@ -6,7 +6,6 @@ import android.os.Parcelable;
 public class OfferMaster implements Parcelable {
 
     //region Properties
-
     int OfferMasterId;
     short linktoOfferTypeMasterId;
     String OfferTitle;
@@ -36,6 +35,7 @@ public class OfferMaster implements Parcelable {
     int GetItemCount;
     short linktoCounterMasterId;
     short linktoOrderTypeMasterId;
+    short linktoCustomerMasterId;
     /// Extra
     String OfferType;
     String Business;
@@ -43,7 +43,7 @@ public class OfferMaster implements Parcelable {
         public OfferMaster createFromParcel(Parcel source) {
             OfferMaster objOfferMaster = new OfferMaster();
             objOfferMaster.OfferMasterId = source.readInt();
-            objOfferMaster.linktoOfferTypeMasterId = (short)source.readInt();
+            objOfferMaster.linktoOfferTypeMasterId = (short) source.readInt();
             objOfferMaster.OfferTitle = source.readString();
             objOfferMaster.OfferContent = source.readString();
             objOfferMaster.FromDate = source.readString();
@@ -53,15 +53,15 @@ public class OfferMaster implements Parcelable {
             objOfferMaster.MinimumBillAmount = source.readDouble();
             objOfferMaster.Discount = source.readDouble();
             objOfferMaster.IsDiscountPercentage = source.readByte() != 0;
-            objOfferMaster.OfferLimit = (short)source.readInt();
+            objOfferMaster.OfferLimit = (short) source.readInt();
             objOfferMaster.RedeemCount = source.readInt();
             objOfferMaster.OfferCode = source.readString();
             objOfferMaster.ImagePhysicalName = source.readString();
             objOfferMaster.CreateDateTime = source.readString();
-            objOfferMaster.linktoUserMasterIdCreatedBy = (short)source.readInt();
+            objOfferMaster.linktoUserMasterIdCreatedBy = (short) source.readInt();
             objOfferMaster.UpdateDateTime = source.readString();
-            objOfferMaster.linktoUserMasterIdUpdatedBy = (short)source.readInt();
-            objOfferMaster.linktoBusinessMasterId = (short)source.readInt();
+            objOfferMaster.linktoUserMasterIdUpdatedBy = (short) source.readInt();
+            objOfferMaster.linktoBusinessMasterId = (short) source.readInt();
             objOfferMaster.TermsAndConditions = source.readString();
             objOfferMaster.IsEnabled = source.readByte() != 0;
             objOfferMaster.IsDeleted = source.readByte() != 0;
@@ -69,11 +69,12 @@ public class OfferMaster implements Parcelable {
             objOfferMaster.IsUnconditional = source.readByte() != 0;
             objOfferMaster.BuyItemCount = source.readInt();
             objOfferMaster.GetItemCount = source.readInt();
-            objOfferMaster.linktoCounterMasterId = (short)source.readInt();
-            objOfferMaster.linktoOrderTypeMasterId = (short)source.readInt();
+            objOfferMaster.linktoCounterMasterId = (short) source.readInt();
+            objOfferMaster.linktoOrderTypeMasterId = (short) source.readInt();
 
             /// Extra
-            objOfferMaster.OfferType = source.readString();;
+            objOfferMaster.OfferType = source.readString();
+            ;
             objOfferMaster.Business = source.readString();
             return objOfferMaster;
         }
@@ -83,141 +84,274 @@ public class OfferMaster implements Parcelable {
         }
     };
     short Counter;
-    short OrderType;
 
-    public int getOfferMasterId() { return this.OfferMasterId; }
+    public int getOfferMasterId() {
+        return this.OfferMasterId;
+    }
 
-    public void setOfferMasterId(int offerMasterId) { this.OfferMasterId = offerMasterId; }
+    public void setOfferMasterId(int offerMasterId) {
+        this.OfferMasterId = offerMasterId;
+    }
 
-    public short getlinktoOfferTypeMasterId() { return this.linktoOfferTypeMasterId; }
+    public short getlinktoOfferTypeMasterId() {
+        return this.linktoOfferTypeMasterId;
+    }
 
-    public void setlinktoOfferTypeMasterId(short linktoOfferTypeMasterId) { this.linktoOfferTypeMasterId = linktoOfferTypeMasterId; }
+    public void setlinktoOfferTypeMasterId(short linktoOfferTypeMasterId) {
+        this.linktoOfferTypeMasterId = linktoOfferTypeMasterId;
+    }
 
-    public String getOfferTitle() { return this.OfferTitle; }
+    public String getOfferTitle() {
+        return this.OfferTitle;
+    }
 
-    public void setOfferTitle(String offerTitle) { this.OfferTitle = offerTitle; }
+    public void setOfferTitle(String offerTitle) {
+        this.OfferTitle = offerTitle;
+    }
 
-    public String getOfferContent() { return this.OfferContent; }
+    public String getOfferContent() {
+        return this.OfferContent;
+    }
 
-    public void setOfferContent(String offerContent) { this.OfferContent = offerContent; }
+    public void setOfferContent(String offerContent) {
+        this.OfferContent = offerContent;
+    }
 
-    public String getFromDate() { return this.FromDate; }
+    public String getFromDate() {
+        return this.FromDate;
+    }
 
-    public void setFromDate(String fromDate) { this.FromDate = fromDate; }
+    public void setFromDate(String fromDate) {
+        this.FromDate = fromDate;
+    }
 
-    public String getToDate() { return this.ToDate; }
+    public String getToDate() {
+        return this.ToDate;
+    }
 
-    public void setToDate(String toDate) { this.ToDate = toDate; }
+    public void setToDate(String toDate) {
+        this.ToDate = toDate;
+    }
 
-    public String getFromTime() { return this.FromTime; }
+    public String getFromTime() {
+        return this.FromTime;
+    }
 
-    public void setFromTime(String fromTime) { this.FromTime = fromTime; }
+    public void setFromTime(String fromTime) {
+        this.FromTime = fromTime;
+    }
 
-    public String getToTime() { return this.ToTime; }
+    public String getToTime() {
+        return this.ToTime;
+    }
 
-    public void setToTime(String toTime) { this.ToTime = toTime; }
+    public void setToTime(String toTime) {
+        this.ToTime = toTime;
+    }
 
-    public double getMinimumBillAmount() { return this.MinimumBillAmount; }
+    public double getMinimumBillAmount() {
+        return this.MinimumBillAmount;
+    }
 
-    public void setMinimumBillAmount(double minimumBillAmount) { this.MinimumBillAmount = minimumBillAmount; }
+    public void setMinimumBillAmount(double minimumBillAmount) {
+        this.MinimumBillAmount = minimumBillAmount;
+    }
 
-    public double getDiscount() { return this.Discount; }
+    public double getDiscount() {
+        return this.Discount;
+    }
 
-    public void setDiscount(double discount) { this.Discount = discount; }
+    public void setDiscount(double discount) {
+        this.Discount = discount;
+    }
 
-    public boolean getIsDiscountPercentage() { return this.IsDiscountPercentage; }
+    public boolean getIsDiscountPercentage() {
+        return this.IsDiscountPercentage;
+    }
 
-    public void setIsDiscountPercentage(boolean isDiscountPercentage) { this.IsDiscountPercentage = isDiscountPercentage; }
+    public void setIsDiscountPercentage(boolean isDiscountPercentage) {
+        this.IsDiscountPercentage = isDiscountPercentage;
+    }
 
-    public short getOfferLimit() { return this.OfferLimit; }
+    public short getOfferLimit() {
+        return this.OfferLimit;
+    }
 
-    public void setOfferLimit(short offerLimit) { this.OfferLimit = offerLimit; }
+    public void setOfferLimit(short offerLimit) {
+        this.OfferLimit = offerLimit;
+    }
 
-    public int getRedeemCount() { return this.RedeemCount; }
+    public int getRedeemCount() {
+        return this.RedeemCount;
+    }
 
-    public void setRedeemCount(int redeemCount) { this.RedeemCount = redeemCount; }
+    public void setRedeemCount(int redeemCount) {
+        this.RedeemCount = redeemCount;
+    }
 
-    public String getOfferCode() { return this.OfferCode; }
+    public String getOfferCode() {
+        return this.OfferCode;
+    }
 
-    public void setOfferCode(String offerCode) { this.OfferCode = offerCode; }
+    public void setOfferCode(String offerCode) {
+        this.OfferCode = offerCode;
+    }
 
-    public String getImagePhysicalName() { return this.ImagePhysicalName; }
+    public String getImagePhysicalName() {
+        return this.ImagePhysicalName;
+    }
 
-    public void setImagePhysicalName(String imagePhysicalName) { this.ImagePhysicalName = imagePhysicalName; }
+    public void setImagePhysicalName(String imagePhysicalName) {
+        this.ImagePhysicalName = imagePhysicalName;
+    }
 
-    public String getCreateDateTime() { return this.CreateDateTime; }
+    public String getCreateDateTime() {
+        return this.CreateDateTime;
+    }
 
-    public void setCreateDateTime(String createDateTime) { this.CreateDateTime = createDateTime; }
+    public void setCreateDateTime(String createDateTime) {
+        this.CreateDateTime = createDateTime;
+    }
 
-    public short getlinktoUserMasterIdCreatedBy() { return this.linktoUserMasterIdCreatedBy; }
+    public short getlinktoUserMasterIdCreatedBy() {
+        return this.linktoUserMasterIdCreatedBy;
+    }
 
-    public void setlinktoUserMasterIdCreatedBy(short linktoUserMasterIdCreatedBy) { this.linktoUserMasterIdCreatedBy = linktoUserMasterIdCreatedBy; }
+    public void setlinktoUserMasterIdCreatedBy(short linktoUserMasterIdCreatedBy) {
+        this.linktoUserMasterIdCreatedBy = linktoUserMasterIdCreatedBy;
+    }
 
-    public String getUpdateDateTime() { return this.UpdateDateTime; }
+    public String getUpdateDateTime() {
+        return this.UpdateDateTime;
+    }
 
-    public void setUpdateDateTime(String updateDateTime) { this.UpdateDateTime = updateDateTime; }
+    public void setUpdateDateTime(String updateDateTime) {
+        this.UpdateDateTime = updateDateTime;
+    }
 
-    public short getlinktoUserMasterIdUpdatedBy() { return this.linktoUserMasterIdUpdatedBy; }
+    public short getlinktoUserMasterIdUpdatedBy() {
+        return this.linktoUserMasterIdUpdatedBy;
+    }
 
-    public void setlinktoUserMasterIdUpdatedBy(short linktoUserMasterIdUpdatedBy) { this.linktoUserMasterIdUpdatedBy = linktoUserMasterIdUpdatedBy; }
+    public void setlinktoUserMasterIdUpdatedBy(short linktoUserMasterIdUpdatedBy) {
+        this.linktoUserMasterIdUpdatedBy = linktoUserMasterIdUpdatedBy;
+    }
 
-    public short getlinktoBusinessMasterId() { return this.linktoBusinessMasterId; }
+    public short getlinktoBusinessMasterId() {
+        return this.linktoBusinessMasterId;
+    }
 
-    public void setlinktoBusinessMasterId(short linktoBusinessMasterId) { this.linktoBusinessMasterId = linktoBusinessMasterId; }
+    public void setlinktoBusinessMasterId(short linktoBusinessMasterId) {
+        this.linktoBusinessMasterId = linktoBusinessMasterId;
+    }
 
-    public String getTermsAndConditions() { return this.TermsAndConditions; }
+    public String getTermsAndConditions() {
+        return this.TermsAndConditions;
+    }
 
-    public void setTermsAndConditions(String termsAndConditions) { this.TermsAndConditions = termsAndConditions; }
+    public void setTermsAndConditions(String termsAndConditions) {
+        this.TermsAndConditions = termsAndConditions;
+    }
 
-    public boolean getIsEnabled() { return this.IsEnabled; }
+    public boolean getIsEnabled() {
+        return this.IsEnabled;
+    }
 
-    public void setIsEnabled(boolean isEnabled) { this.IsEnabled = isEnabled; }
+    public void setIsEnabled(boolean isEnabled) {
+        this.IsEnabled = isEnabled;
+    }
 
-    public boolean getIsDeleted() { return this.IsDeleted; }
+    public boolean getIsDeleted() {
+        return this.IsDeleted;
+    }
 
-    public void setIsDeleted(boolean isDeleted) { this.IsDeleted = isDeleted; }
+    public void setIsDeleted(boolean isDeleted) {
+        this.IsDeleted = isDeleted;
+    }
 
-    public boolean getIsForCustomers() { return this.IsForCustomers; }
+    public boolean getIsForCustomers() {
+        return this.IsForCustomers;
+    }
 
-    public void setIsForCustomers(boolean isForCustomers) { this.IsForCustomers = isForCustomers; }
+    public void setIsForCustomers(boolean isForCustomers) {
+        this.IsForCustomers = isForCustomers;
+    }
 
-    public boolean getIsUnconditional() { return this.IsUnconditional; }
+    public boolean getIsUnconditional() {
+        return this.IsUnconditional;
+    }
 
-    public void setIsUnconditional(boolean isUnconditional) { this.IsUnconditional = isUnconditional; }
+    public void setIsUnconditional(boolean isUnconditional) {
+        this.IsUnconditional = isUnconditional;
+    }
 
-    public int getBuyItemCount() { return this.BuyItemCount; }
+    public int getBuyItemCount() {
+        return this.BuyItemCount;
+    }
 
-    public void setBuyItemCount(int buyItemCount) { this.BuyItemCount = buyItemCount; }
+    public void setBuyItemCount(int buyItemCount) {
+        this.BuyItemCount = buyItemCount;
+    }
 
-    public int getGetItemCount() { return this.GetItemCount; }
+    public int getGetItemCount() {
+        return this.GetItemCount;
+    }
 
-    public void setGetItemCount(int getItemCount) { this.GetItemCount = getItemCount; }
+    public void setGetItemCount(int getItemCount) {
+        this.GetItemCount = getItemCount;
+    }
 
-    public short getlinktoCounterMasterId() { return this.linktoCounterMasterId; }
+    public short getlinktoCounterMasterId() {
+        return this.linktoCounterMasterId;
+    }
 
-    public void setlinktoCounterMasterId(short linktoCounterMasterId) { this.linktoCounterMasterId = linktoCounterMasterId; }
+    public void setlinktoCounterMasterId(short linktoCounterMasterId) {
+        this.linktoCounterMasterId = linktoCounterMasterId;
+    }
 
-    public short getlinktoOrderTypeMasterId() { return this.linktoOrderTypeMasterId; }
+    public short getlinktoOrderTypeMasterId() {
+        return this.linktoOrderTypeMasterId;
+    }
 
-    public void setlinktoOrderTypeMasterId(short linktoOrderTypeMasterId) { this.linktoOrderTypeMasterId = linktoOrderTypeMasterId; }
+    public void setlinktoOrderTypeMasterId(short linktoOrderTypeMasterId) {
+        this.linktoOrderTypeMasterId = linktoOrderTypeMasterId;
+    }
 
-    public String getOfferType() { return this.OfferType; }
+    public String getOfferType() {
+        return this.OfferType;
+    }
 
-    public void setOfferType(String offerType) { this.OfferType = offerType; }
+    public void setOfferType(String offerType) {
+        this.OfferType = offerType;
+    }
 
-    public String getBusiness() { return this.Business; }
+    public String getBusiness() {
+        return this.Business;
+    }
 
-    public void setBusiness(String business) { this.Business = business; }
+    public void setBusiness(String business) {
+        this.Business = business;
+    }
 
-    public short getCounter() { return this.Counter; }
+    public short getCounter() {
+        return this.Counter;
+    }
 
-    public void setCounter(short counter) { this.Counter = counter; }
+    public void setCounter(short counter) {
+        this.Counter = counter;
+    }
 
-    public short getOrderType() { return this.OrderType; }
+    public short getLinktoCustomerMasterId() {
+        return linktoCustomerMasterId;
+    }
+
+    public void setLinktoCustomerMasterId(short linktoCustomerMasterId) {
+        this.linktoCustomerMasterId = linktoCustomerMasterId;
+    }
+
 
     //endregion
 
-    public void setOrderType(short orderType) { this.OrderType = orderType; }
 
     public int describeContents() {
         return 0;
@@ -245,8 +379,8 @@ public class OfferMaster implements Parcelable {
         parcel.writeInt(linktoUserMasterIdUpdatedBy);
         parcel.writeInt(linktoBusinessMasterId);
         parcel.writeString(TermsAndConditions);
-        parcel.writeByte((byte)(IsEnabled ? 1 : 0));
-        parcel.writeByte((byte)(IsDeleted ? 1 : 0));
+        parcel.writeByte((byte) (IsEnabled ? 1 : 0));
+        parcel.writeByte((byte) (IsDeleted ? 1 : 0));
         parcel.writeByte((byte) (IsForCustomers ? 1 : 0));
         parcel.writeByte((byte) (IsUnconditional ? 1 : 0));
         parcel.writeInt(BuyItemCount);

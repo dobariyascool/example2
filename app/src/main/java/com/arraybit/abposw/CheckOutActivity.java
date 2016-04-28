@@ -16,30 +16,38 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerAddressTran;
+import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.CustomerAddressJSONParser;
+import com.arraybit.parser.OfferJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener,AddressSelectorBottomDialog.AddressSelectorResponseListener {
+public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener, OfferJSONParser.OfferRequestListener {
 
+    public static OfferMaster objOffer;
+    public static CustomerAddressTran objCustomerAddressTran;
     LinearLayout textLayout;
-    TextView txtCity, txtArea, txtAddress,txtPhone,txtName,txtPay;
+    TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay;
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
-    EditText etOfferCode,etOrderDate, etOrderTime;
-    Button btnApply,btnViewMore,btnAdd;
+    EditText etOfferCode, etOrderDate, etOrderTime;
+    Button btnApply, btnViewMore, btnAdd, btnViewOrder, btnPlaceOrder;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
     ArrayList<TaxMaster> alTaxMaster;
     OrderMaster objOrderMaster;
+    View snackFocus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +85,22 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         btnApply = (Button) findViewById(R.id.btnApply);
         btnViewMore = (Button) findViewById(R.id.btnViewMore);
         btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnPlaceOrder = (Button) findViewById(R.id.btnPlaceOrder);
+        btnViewOrder = (Button) findViewById(R.id.btnViewOrder);
 
         cbGetPromoCode.setOnClickListener(this);
         btnApply.setOnClickListener(this);
         btnViewMore.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
+        btnPlaceOrder.setOnClickListener(this);
+        btnViewOrder.setOnClickListener(this);
 
-        Intent intent= getIntent();
-        if(intent.getParcelableExtra("OrderMaster")!=null){
+        Intent intent = getIntent();
+        if (intent.getParcelableExtra("OrderMaster") != null) {
             objOrderMaster = intent.getParcelableExtra("OrderMaster");
-            txtPay.setText(String.format(getResources().getString(R.string.coaYouPay),Globals.dfWithPrecision.format(objOrderMaster.getNetAmount())));
+            txtPay.setText(String.format(getResources().getString(R.string.coaYouPay), Globals.dfWithPrecision.format(objOrderMaster.getNetAmount())));
         }
-        if(intent.getParcelableArrayListExtra("TaxMaster")!=null){
+        if (intent.getParcelableArrayListExtra("TaxMaster") != null) {
             alTaxMaster = intent.getParcelableArrayListExtra("TaxMaster");
         }
 
@@ -158,7 +170,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
+            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.RemovePreference("OfferPreference", "OfferCode", this);
+            objSharePreferenceManage.RemovePreference("OfferPreference", "OfferMasterId", this);
+            objSharePreferenceManage.ClearPreference("OfferPreference", CheckOutActivity.this);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -171,19 +187,25 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             etOfferCode.setVisibility(View.VISIBLE);
             btnApply.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnApply) {
+            snackFocus = v;
             if (btnApply.getText().equals(getResources().getString(R.string.coaCancel))) {
+                objOffer = null;
                 cbGetPromoCode.setVisibility(View.VISIBLE);
                 etOfferCode.setVisibility(View.GONE);
                 btnApply.setVisibility(View.GONE);
+            } else {
+                RequestVerifyOfferCode();
             }
-        }else if(v.getId()==R.id.btnViewMore){
+        } else if (v.getId() == R.id.btnViewMore) {
             AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran);
-            addressSelectorBottomDialog.show(getSupportFragmentManager(),"");
+            addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
+        } else if (v.getId() == R.id.btnViewOrder) {
+            finish();
         }
     }
 
     public void OrderDateOnClick(View view) {
-        Globals.ShowDatePickerDialog(etOrderDate,CheckOutActivity.this,true);
+        Globals.ShowDatePickerDialog(etOrderDate, CheckOutActivity.this, true);
     }
 
     public void OrderTimeOnClick(View view) {
@@ -199,7 +221,14 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran) {
+        this.objCustomerAddressTran = objCustomerAddressTran;
         SetPrimaryAddress(objCustomerAddressTran);
+    }
+
+    @Override
+    public void OfferResponse(ArrayList<OfferMaster> alOfferMaster, OfferMaster objOfferMaster) {
+        progressDialog.dismiss();
+        SetOffer(objOfferMaster);
     }
 
     private void RequestCustomerMaster() {
@@ -214,7 +243,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void SetPrimaryAddress(CustomerAddressTran objCustomerAddress) {
-        if(objCustomerAddress==null) {
+        if (objCustomerAddress == null) {
             for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
                 if (objCustomerAddressTran.getIsPrimary()) {
                     txtName.setText(objCustomerAddressTran.getCustomerName());
@@ -230,10 +259,27 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     if (objCustomerAddressTran.getAddress() != null) {
                         txtAddress.setText(objCustomerAddressTran.getAddress());
                     }
+                    etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+                    etOrderTime.setText(new SimpleDateFormat(Globals.TimeFormat, Locale.US).format(new Date()));
+                    if (objOffer != null) {
+                        cbGetPromoCode.setVisibility(View.GONE);
+                        etOfferCode.setVisibility(View.VISIBLE);
+                        btnApply.setVisibility(View.VISIBLE);
+                        etOfferCode.setText(objOffer.getOfferCode());
+                    } else {
+                        cbGetPromoCode.setVisibility(View.VISIBLE);
+                        etOfferCode.setVisibility(View.GONE);
+                        btnApply.setVisibility(View.GONE);
+                    }
+                    if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
+                        tbHomeDelivery.setChecked(true);
+                    } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
+                        tbTakeAway.setChecked(true);
+                    }
                     break;
                 }
             }
-        }else{
+        } else {
             txtName.setText(objCustomerAddress.getCustomerName());
             if (objCustomerAddress.getMobileNum() != null) {
                 txtPhone.setText(objCustomerAddress.getMobileNum());
@@ -246,6 +292,35 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
             if (objCustomerAddress.getAddress() != null) {
                 txtAddress.setText(objCustomerAddress.getAddress());
+            }
+        }
+    }
+
+    private void RequestVerifyOfferCode() {
+        progressDialog.show(getSupportFragmentManager(), "");
+        OfferJSONParser offerJSONParser = new OfferJSONParser();
+        OfferMaster objOfferMaster = new OfferMaster();
+        objOfferMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+        objOfferMaster.setLinktoCustomerMasterId(Short.parseShort(customerMasterId));
+        objOfferMaster.setOfferCode(etOfferCode.getText().toString());
+        if (tbHomeDelivery.isChecked()) {
+            objOfferMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.HomeDelivery.getValue());
+        } else if (tbTakeAway.isChecked()) {
+            objOfferMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.TakeAway.getValue());
+        }
+        objOfferMaster.setMinimumBillAmount(objOrderMaster.getNetAmount());
+        offerJSONParser.SelectOfferCodeVerification(CheckOutActivity.this, objOfferMaster);
+    }
+
+    private void SetOffer(OfferMaster objOfferMaster) {
+        if (objOfferMaster == null) {
+            Globals.ShowSnackBar(snackFocus, getResources().getString(R.string.MsgOfferCodeFailed), CheckOutActivity.this, 2000);
+        } else {
+            if (objOfferMaster.getOfferCode() == null) {
+                Globals.ShowSnackBar(snackFocus, getResources().getString(R.string.MsgOfferCodeFailed), CheckOutActivity.this, 2000);
+            } else {
+                Globals.ShowSnackBar(snackFocus, getResources().getString(R.string.MsgOfferCodeSuccess), CheckOutActivity.this, 2000);
+                objOffer = objOfferMaster;
             }
         }
     }
