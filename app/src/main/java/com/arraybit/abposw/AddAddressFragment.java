@@ -192,9 +192,12 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
             }
             objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
-            objCustomerAddressTran.setlinktoStateMasterId((short) spState.getSelectedItemId());
-            objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getSelectedItemId());
-            objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getSelectedItemId());
+            objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
+            objCustomerAddressTran.setState(spState.getSelectedItem().toString());
+            objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
+            objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
+            objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
+            objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
             objCustomerAddressTran.setZipCode(etZip.getText().toString());
             objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
             objCustomerAddressTran.setIsPrimary(true);
@@ -368,6 +371,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             case "0":
                 objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
                 objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+
                 getActivity().getSupportFragmentManager().popBackStack();
         }
     }

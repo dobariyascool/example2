@@ -152,8 +152,8 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position) {
+        this.position = position;
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
         CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
         objCustomerAddressJSONParser.SelectCustomerAddressTranByMasterId(getActivity(), this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
     }
@@ -166,7 +166,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             if (adapter == null || adapter.getItemCount() == 0) {
                 RequestCustomerAddress();
             } else {
-                adapter.CustomerAddressDataChanged(objCustomerAddressTran);
+                adapter.CustomerAddressDataChanged(objCustomerAddressTran, position);
                 rvAddress.setAdapter(adapter);
                 rvAddress.setLayoutManager(linearLayoutManager);
             }

@@ -17,11 +17,11 @@ import com.arraybit.modal.CustomerAddressTran;
 import java.util.ArrayList;
 
 public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddressAdapter.CustomerAddressTranViewHolder> {
+    public ArrayList<CustomerAddressTran> lstCustomerAddressTran;
     Context context;
     LayoutInflater inflater;
     View view;
     CustomerAddressListener objCustomerAddressListener;
-    ArrayList<CustomerAddressTran> lstCustomerAddressTran;
     int position;
 
     public CustomerAddressAdapter(Context context, ArrayList<CustomerAddressTran> result, CustomerAddressListener objCustomerAddressListener) {
@@ -41,10 +41,9 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     public void onBindViewHolder(CustomerAddressTranViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = lstCustomerAddressTran.get(position);
 
-        if(objCustomerAddressTran.getIsPrimary()){
+        if (objCustomerAddressTran.getIsPrimary()) {
             holder.txtDefault.setText("(" + view.getResources().getString(R.string.yaDefault) + ")");
-        }
-        else {
+        } else {
             holder.txtDefault.setVisibility(View.GONE);
         }
 
@@ -58,10 +57,10 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
 
         //holder.txtCustomerAddressTranId.setText(String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
         holder.txtCustomer.setText(objCustomerAddressTran.getCustomerName());
-        holder.txtPhone.setText(" (" + String.valueOf(objCustomerAddressTran.getMobileNum()) + ")");
+        holder.txtPhone.setText("(" + String.valueOf(objCustomerAddressTran.getMobileNum()) + ")");
         holder.txtAddress.setText(objCustomerAddressTran.getAddress());
         holder.txtCountry.setText(objCustomerAddressTran.getCountry());
-        holder.txtState.setText(" " + String.valueOf(objCustomerAddressTran.getState()));
+        holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
         holder.txtZipCode.setText(objCustomerAddressTran.getZipCode());
 
         holder.btnDelete.setId(objCustomerAddressTran.getCustomerAddressTranId());
@@ -78,8 +77,12 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         notifyDataSetChanged();
     }
 
-    public void CustomerAddressDataChanged(CustomerAddressTran objCustomerAddressTran) {
-        lstCustomerAddressTran.add(0, objCustomerAddressTran);
+    public void CustomerAddressDataChanged(CustomerAddressTran objCustomerAddressTran, int position) {
+        if (position >= 0) {
+            lstCustomerAddressTran.get(position).setState(objCustomerAddressTran.getState());
+        } else {
+            lstCustomerAddressTran.add(0, objCustomerAddressTran);
+        }
         notifyDataSetChanged();
     }
 
