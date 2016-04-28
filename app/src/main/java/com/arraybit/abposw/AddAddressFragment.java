@@ -30,6 +30,7 @@ import com.arraybit.parser.CustomerAddressJSONParser;
 import com.arraybit.parser.StateJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     ToggleButton btnHome, btnOffice;
     EditText etName, etAddress, etZip, etMobile;
     AppCompatSpinner spCountry, spState, spCity, spArea;
+    TextView txtCountryError, txtStateError, txtCityError;
     Button btnAddress;
     com.rey.material.widget.CheckBox chkIsPrimary;
     boolean flag = false;
@@ -90,6 +92,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spArea = (AppCompatSpinner) view.findViewById(R.id.spArea);
         chkIsPrimary = (com.rey.material.widget.CheckBox) view.findViewById(R.id.chkIsPrimary);
         btnAddress = (Button) view.findViewById(R.id.btnAddress);
+        txtCountryError = (TextView) view.findViewById(R.id.txtCountryError);
+        txtStateError = (TextView) view.findViewById(R.id.txtStateError);
+        txtCityError = (TextView) view.findViewById(R.id.txtCityError);
         cityAreaLayout = (LinearLayout) view.findViewById(R.id.cityAreaLayout);
 
         chkIsPrimary.setVisibility(View.INVISIBLE);
@@ -125,12 +130,12 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (view.getId() == 0) {
-                        cityAreaLayout.setVisibility(View.GONE);
-                    } else {
-                        cityAreaLayout.setVisibility(View.VISIBLE);
-                        RequestCityMaster();
-                    }
+                if (view.getId() == 0) {
+                    cityAreaLayout.setVisibility(View.GONE);
+                } else {
+                    cityAreaLayout.setVisibility(View.VISIBLE);
+                    RequestCityMaster();
+                }
             }
 
             @Override
@@ -158,6 +163,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        Globals.HideKeyBoard(getActivity(), v);
         if (v.getId() == R.id.btnHome) {
             btnHome.setChecked(true);
             btnOffice.setChecked(false);
@@ -165,40 +171,46 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             btnHome.setChecked(false);
             btnOffice.setChecked(true);
         } else if (v.getId() == R.id.btnAddress) {
-            objCustomerAddressTran = new CustomerAddressTran();
             view = v;
-            progressDialog.show(getActivity().getSupportFragmentManager(), "");
-            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-            objCustomerAddressTran.setCustomerName(etName.getText().toString());
-            objCustomerAddressTran.setAddress(etAddress.getText().toString());
-            if (btnHome.isChecked()) {
-                objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
+            if (!ValidateControls()) {
+                progressDialog.dismiss();
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
-                objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
-            }
-            objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
-            objCustomerAddressTran.setCountry(spCountry.getSelectedItem().toString());
-            objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
-            objCustomerAddressTran.setState(spState.getSelectedItem().toString());
-            objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
-            objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
-            objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
-            objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
-            objCustomerAddressTran.setZipCode(etZip.getText().toString());
-            objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
-            if(objCustomerAddressTran == null) {
-                objCustomerAddressTran.setIsPrimary(true);
-            }
-            objCustomerAddressTran.setIsDeleted(false);
-            objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+                objCustomerAddressTran = new CustomerAddressTran();
 
-            CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-            if (btnAddress.getText().equals(getResources().getString(R.string.yaAdd))) {
-                objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
-            } else {
-                objCustomerAddressTran.setCustomerAddressTranId(CustomerAddressTranId);
-                objCustomerAddressTran.setIsPrimary(chkIsPrimary.isChecked());
-                objCustomerAddressJSONParser.UpdateCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                progressDialog.show(getActivity().getSupportFragmentManager(), "");
+                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                objCustomerAddressTran.setCustomerName(etName.getText().toString());
+                objCustomerAddressTran.setAddress(etAddress.getText().toString());
+                if (btnHome.isChecked()) {
+                    objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
+                } else {
+                    objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
+                }
+                objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
+                objCustomerAddressTran.setCountry(spCountry.getSelectedItem().toString());
+                objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
+                objCustomerAddressTran.setState(spState.getSelectedItem().toString());
+                objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
+                objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
+                objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
+                objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
+                objCustomerAddressTran.setZipCode(etZip.getText().toString());
+                objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
+                if (objCustomerAddressTran == null) {
+                    objCustomerAddressTran.setIsPrimary(true);
+                }
+                objCustomerAddressTran.setIsDeleted(false);
+                objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+
+                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+                if (btnAddress.getText().equals(getResources().getString(R.string.yaAdd))) {
+                    objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                } else {
+                    objCustomerAddressTran.setCustomerAddressTranId(CustomerAddressTranId);
+                    objCustomerAddressTran.setIsPrimary(chkIsPrimary.isChecked());
+                    objCustomerAddressJSONParser.UpdateCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                }
             }
         }
     }
@@ -228,7 +240,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         } else {
             this.alStateMaster = alStateMaster;
             FillState();
-            if(!flag) {
+            if (!flag) {
                 spState.setSelection(SpinnerItem.GetSpinnerItemIndex(alStateMaster, objCustomerAddressTran.getlinktoStateMasterId()));
             }
         }
@@ -243,7 +255,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         } else {
             this.alCityMaster = alCityMaster;
             FillCity();
-            if(!flag) {
+            if (!flag) {
                 spCity.setSelection(SpinnerItem.GetSpinnerItemIndex(alCityMaster, objCustomerAddressTran.getlinktoCityMasterId()));
             }
         }
@@ -379,6 +391,712 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         etZip.setText(objCustomerAddressTran.getZipCode());
         etMobile.setText(objCustomerAddressTran.getMobileNum());
         chkIsPrimary.setChecked(objCustomerAddressTran.getIsPrimary());
+    }
+
+    private boolean ValidateControls() {
+        boolean IsValid = true;
+        if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etAddress.clearError();
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.VISIBLE);
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            etName.clearError();
+            txtCityError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            txtCityError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        }
+        return IsValid;
     }
     //endregion
 

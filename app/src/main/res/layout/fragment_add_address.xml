@@ -34,7 +34,7 @@
                     android:id="@+id/txtAddressType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/control_SpecingMedium"
+                    android:layout_marginTop="@dimen/control_SpecingSmall"
                     android:text="@string/yaAddressType"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
@@ -106,6 +106,20 @@
                     android:layout_weight="1"
                     android:hint="@string/yaCountry" />
 
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtCountryError"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/control_SpecingMedium"
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:text="@string/ybStar"
+                    android:textColor="@color/error_text"
+                    android:textSize="@dimen/control_TextSmall"
+                    android:visibility="invisible"
+                    tools:ignore="HardcodedText" />
+
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spState"
                     style="@style/Spinner"
@@ -113,6 +127,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/yaState" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtStateError"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/control_SpecingMedium"
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:text="@string/ybStar"
+                    android:textColor="@color/error_text"
+                    android:textSize="@dimen/control_TextSmall"
+                    android:visibility="invisible"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,6 +156,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/yaCity" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtCityError"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/control_SpecingMedium"
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:text="@string/ybStar"
+                    android:textColor="@color/error_text"
+                    android:textSize="@dimen/control_TextSmall"
+                    android:visibility="invisible"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spArea"

@@ -311,6 +311,7 @@
     <string name="yaPrimary">Make this my default Address</string>
     <string name="yaAddressType">Address Type</string>
     <string name="yaDefault">Default</string>
+    <string name="yaValidZip">Valid Zip Code</string>
     <!-- End-->
 
     <!-- CheckOut Activity-->
