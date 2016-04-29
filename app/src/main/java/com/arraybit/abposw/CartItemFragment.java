@@ -177,6 +177,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            if(errorLayout.isShown()){
+                CheckOutActivity.objCheckOut = null;
+            }
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
