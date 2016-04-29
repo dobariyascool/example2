@@ -107,18 +107,12 @@
                     android:hint="@string/yaCountry" />
 
                 <com.rey.material.widget.TextView
-                    android:id="@+id/txtCountryError"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/control_SpecingMedium"
                     android:layout_weight="0.15"
                     android:gravity="center"
                     android:paddingBottom="@dimen/control_SpecingTiny"
-                    android:text="@string/ybStar"
-                    android:textColor="@color/error_text"
-                    android:textSize="@dimen/control_TextSmall"
-                    android:visibility="invisible"
-                    tools:ignore="HardcodedText" />
+                    android:visibility="invisible" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spState"
@@ -132,7 +126,6 @@
                     android:id="@+id/txtStateError"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/control_SpecingMedium"
                     android:layout_weight="0.15"
                     android:gravity="center"
                     android:paddingBottom="@dimen/control_SpecingTiny"
@@ -161,7 +154,6 @@
                     android:id="@+id/txtCityError"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/control_SpecingMedium"
                     android:layout_weight="0.15"
                     android:gravity="center"
                     android:paddingBottom="@dimen/control_SpecingTiny"
@@ -178,6 +170,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/yaArea" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:visibility="invisible" />
             </LinearLayout>
 
             <com.rey.material.widget.EditText
