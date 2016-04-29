@@ -87,7 +87,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
             RequestBookingMaster();
         } else {
             fabBooking.hide();
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvBooking,R.drawable.wifi_drawable);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvBooking, R.drawable.wifi_drawable);
         }
 
         return view;
@@ -237,7 +237,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
         }
         if (customerMasterId == 0) {
             progressDialog.dismiss();
-            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvBooking,0);
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvBooking, 0);
         } else {
             BookingJSONParser objBookingJSONParser = new BookingJSONParser();
             objBookingJSONParser.SelectAllBookingMaster(getActivity(), this, String.valueOf(currentPage), String.valueOf(Globals.linktoBusinessMasterId), String.valueOf(customerMasterId));
@@ -248,24 +248,24 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     private void SetRecyclerView() {
         if (alBookingMaster == null) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvBooking,0);
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvBooking, 0);
             }
         } else if (alBookingMaster.size() == 0) {
             if (currentPage == 1) {
-                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvBooking,0);
+                Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvBooking, 0);
             }
         } else {
-            Globals.SetErrorLayout(errorLayout, false, null, rvBooking,0);
+            Globals.SetErrorLayout(errorLayout, false, null, rvBooking, 0);
             if (currentPage > 1) {
                 adapter.BookingDataChanged(alBookingMaster);
                 return;
             } else if (alBookingMaster.size() < 10) {
                 currentPage += 1;
             }
-            adapter = new BookingAdapter(getActivity(), alBookingMaster, this);
+            adapter = new BookingAdapter(getActivity(), alBookingMaster, this, getActivity().getSupportFragmentManager());
             rvBooking.setAdapter(adapter);
             rvBooking.setLayoutManager(linearLayoutManager);
-            if(isNewBooking) {
+            if (isNewBooking) {
                 isNewBooking = false;
                 Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
                 //prevent floating action button animation

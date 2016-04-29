@@ -37,6 +37,8 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     CustomerAddressAdapter adapter;
     Integer position = null;
     ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
+    int customerMasterId;
+    boolean isNewBooking;
 
     public YourAddressFragment() {
     }
@@ -81,31 +83,40 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if (direction == ItemTouchHelper.LEFT) {
-                    position = viewHolder.getAdapterPosition();
-                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
-                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-                    objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(alCustomerAddressTran.get(viewHolder.getAdapterPosition()).getCustomerAddressTranId()));//String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+                position = viewHolder.getAdapterPosition();
+                progressDialog.show(getActivity().getSupportFragmentManager(), "");
+                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+                objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(alCustomerAddressTran.get(viewHolder.getAdapterPosition()).getCustomerAddressTranId()));//String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                        && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                        .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
+                    return super.getSwipeDirs(recyclerView, viewHolder);
+                }
+                else {
+                    return 0;
                 }
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
         itemTouchHelper.attachToRecyclerView(rvAddress);
+        //itemTouchHelper.
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.fabAddress) {
-            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
-                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
-                    .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
-                if (v.getId() == R.id.fabAddress) {
-                    AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), null);
-                    addAddressFragment.setTargetFragment(this, 0);
-                    fabAddress.hide();
-                    Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
-                }
+        if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
+            if (v.getId() == R.id.fabAddress) {
+                AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), null);
+                addAddressFragment.setTargetFragment(this, 0);
+                fabAddress.hide();
+                Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
             }
         }
     }
@@ -157,6 +168,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             fabAddress.show();
         } else {
             if (adapter == null || adapter.getItemCount() == 0) {
+                isNewBooking = true;
                 RequestCustomerAddress();
             } else {
                 adapter.CustomerAddressDataChanged(objCustomerAddressTran, position);
@@ -181,8 +193,16 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     private void RequestCustomerAddress() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-        objCustomerAddressJSONParser.SelectAllCustomerAddressTran(getActivity(), this, objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+        }
+        if (customerMasterId == 0) {
+            progressDialog.dismiss();
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvAddress, 0);
+        } else {
+            CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+            objCustomerAddressJSONParser.SelectAllCustomerAddressTran(getActivity(), this, String.valueOf(customerMasterId));
+        }
     }
 
     private void SetRecyclerView() {
@@ -195,6 +215,16 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             //adapter.CustomerAddressDataChanged(alCustomerAddressTran);
             rvAddress.setAdapter(adapter);
             rvAddress.setLayoutManager(linearLayoutManager);
+            if (isNewBooking) {
+                isNewBooking = false;
+                //prevent floating action button animation
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        fabAddress.show();
+                    }
+                }, 1600);
+            }
         }
     }
 

@@ -65,7 +65,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         fabEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReplaceFragment(new UserProfileFragment(), getResources().getString(R.string.title_fragment_your_profile));
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                    ReplaceFragment(new UserProfileFragment(), getResources().getString(R.string.title_fragment_your_profile));
+                }
             }
         });
         //endregion
@@ -93,15 +95,15 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     @Override
     public void OptionClick(int id) {
-        if (id == 0) {
+        if (id == 0 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourOrderFragment(), getResources().getString(R.string.title_fragment_your_order));
-        } else if (id == 1) {
+        } else if (id == 1 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourBookingFragment(), getResources().getString(R.string.title_fragment_your_booking));
-        } else if (id == 2) {
+        } else if (id == 2 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourAddressFragment(), getResources().getString(R.string.title_fragment_your_address));
-        } else if (id == 3) {
+        } else if (id == 3 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
-        } else if (id == 4) {
+        } else if (id == 4 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
             setResult(Activity.RESULT_OK);
             finish();
