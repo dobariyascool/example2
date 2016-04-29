@@ -564,6 +564,19 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         } else if (etName.getText().toString().equals("")
                 && etAddress.getText().toString().equals("")
                 && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.VISIBLE);
+            IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() != 0
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
@@ -896,6 +909,26 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             IsValid = false;
         } else if (!etName.getText().toString().equals("")
                 && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            txtStateError.setVisibility(View.VISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
                 && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() != 0
                 && etZip.getText().toString().equals("")
@@ -908,6 +941,40 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             etAddress.clearError();
             IsValid = false;
         } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+            } else {
+                etZip.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            etName.clearError();
+            etAddress.clearError();
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+            } else {
+                etMobile.clearError();
+            }
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
                 && etAddress.getText().toString().equals("")
                 && spState.getSelectedItemId() != 0
                 && spCity.getSelectedItemId() == 0
@@ -1095,6 +1162,40 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 etMobile.clearError();
             }
             IsValid = false;
+        } else if (etName.getText().toString().equals("")
+                && etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() == 0
+                && etZip.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")) {
+            etName.setError("Enter " + getResources().getString(R.string.yaName));
+            etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
+            txtStateError.setVisibility(View.VISIBLE);
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
+            etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
+            txtCityError.setVisibility(View.INVISIBLE);
+            IsValid = false;
+        } else if (!etName.getText().toString().equals("")
+                && !etAddress.getText().toString().equals("")
+                && spState.getSelectedItemId() != 0
+                && spCity.getSelectedItemId() != 0
+                && !etZip.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")) {
+            etName.clearError();
+            etAddress.clearError();
+            txtStateError.setVisibility(View.INVISIBLE);
+            txtCityError.setVisibility(View.INVISIBLE);
+            if (!etZip.getText().toString().equals("") && etZip.getText().length() != 6) {
+                etZip.setError("Enter " + getResources().getString(R.string.yaValidZip));
+                IsValid = false;
+            } else {
+                etZip.clearError();
+            }
+            if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.yaMobileNum));
+                IsValid = false;
+            } else {
+                etMobile.clearError();
+            }
         }
         return IsValid;
     }
