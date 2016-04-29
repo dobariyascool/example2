@@ -73,27 +73,24 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvAddress, R.drawable.wifi_drawable);
         }
 
-//        simpleItemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                if (direction == ItemTouchHelper.RIGHT) {
-//                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
-//                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-//                    objCustomerAddressJSONParser.SelectCustomerAddressTranByMasterId(getActivity(), AddressFragment.this, String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
-//                } else {
-//                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
-//                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-//                    objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), AddressFragment.this, String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
-//                }
-//            }
-//        };
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
-//        itemTouchHelper.attachToRecyclerView(rvAddress);
+        simpleItemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    position = viewHolder.getAdapterPosition();
+                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
+                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+                    objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(alCustomerAddressTran.get(viewHolder.getAdapterPosition()).getCustomerAddressTranId()));//String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(rvAddress);
         return view;
     }
 

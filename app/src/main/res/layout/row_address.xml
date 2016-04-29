@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvAddress"
-    style="@style/CardViewTransparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/control_SpecingTiny"
@@ -23,87 +23,144 @@
                 android:id="@+id/txtCustomerAddressTranId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:visibility="gone" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/ivHome"
+                    android:id="@+id/ivHomeOffice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription=""
-                    android:src="@drawable/home_drawable"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/ivOffice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription=""
-                    android:src="@drawable/office_drawable"
-                    android:visibility="invisible" />
+                    android:layout_centerVertical="true"
+                    android:contentDescription="" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtDefault"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingTiny" />
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/control_SpecingTiny"
+                    android:layout_toEndOf="@+id/ivHomeOffice"
+                    android:textColor="@color/brown"
+                    tools:ignore="RelativeOverlap" />
+
+                <com.rey.material.widget.ImageButton
+                    android:id="@+id/ibEditAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:background="@android:color/white"
+                    android:src="@drawable/edit_drawable" />
+
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/control_SpecingTiny">
+
+                <ImageView
+                    android:id="@+id/ivCustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription=""
+                    android:src="@drawable/user_drawable" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtCustomerName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtPhone"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingSmall"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCountry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtState"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingSmall" />
+                    android:textColor="@color/brown"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:contentDescription=""
+                        android:src="@drawable/address_drawable" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtCustomerAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown_light"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
                 <com.rey.material.widget.TextView
-                    android:id="@+id/txtCustomerAddress"
+                    android:id="@+id/txtArea"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/control_SpecingLarge"
+                    android:textColor="@color/brown_light"
+                    android:textSize="15sp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/control_SpecingLarge"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown_light" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtZipCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brown_light" />
+
+                </LinearLayout>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/control_SpecingLarge"
+                    android:textColor="@color/brown_light" />
             </LinearLayout>
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtZipCode"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/control_SpecingTiny">
+
+                <ImageView
+                    android:id="@+id/ivCall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:contentDescription=""
+                    android:src="@drawable/call_drawable" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/brown_light" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -114,6 +171,7 @@
             android:layout_weight="1"
             android:background="@color/offwhite"
             android:padding="@dimen/control_SpecingSmall"
-            android:src="@drawable/cancel_drawable" />
+            android:src="@drawable/cancel_drawable"
+            android:visibility="gone" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
