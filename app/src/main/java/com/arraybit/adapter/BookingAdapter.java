@@ -2,6 +2,7 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +34,14 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     String today, strCurrentTime;
     SimpleDateFormat sdfDate = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     SimpleDateFormat sdfTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US);
+    FragmentManager fragmentManager;
 
-    public BookingAdapter(Context context, ArrayList<BookingMaster> result, BookingOnClickListener objBookingOnClickListener) {
+    public BookingAdapter(Context context, ArrayList<BookingMaster> result, BookingOnClickListener objBookingOnClickListener, FragmentManager fragmentManager) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.alBookingMaster = result;
         this.objBookingOnClickListener = objBookingOnClickListener;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -82,7 +85,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                         currentTime = sdfTime.parse(strCurrentTime);
                         if (toDate.compareTo(currentDate) > 0) {
                             holder.ibCancelBooking.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             if (toTime.getTime() > currentTime.getTime() && !objBookingMaster.getIsPreOrder()) {
                                 holder.ibCancelBooking.setVisibility(View.VISIBLE);
                             } else {
@@ -116,7 +119,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
     }
 
     public void BookingDataChanged(BookingMaster objBookingMaster) {
-        alBookingMaster.add(0,objBookingMaster);
+        alBookingMaster.add(0, objBookingMaster);
         isItemAnimate = false;
         notifyDataSetChanged();
     }
@@ -150,7 +153,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             ibCancelBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    objBookingOnClickListener.CancelClickListener(alBookingMaster.get(getAdapterPosition()), getAdapterPosition());
+                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
+                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_booking))) {
+                        objBookingOnClickListener.CancelClickListener(alBookingMaster.get(getAdapterPosition()), getAdapterPosition());
+                    }
                 }
             });
         }
