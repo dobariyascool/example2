@@ -142,10 +142,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             finish();
         } else if (id == android.R.id.home) {
             SaveWishListInSharePreference(true);
-            setResult(Activity.RESULT_OK);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsLogin", true);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
             ClearData();
-            Globals.ClearCartData();
+            //Globals.ClearCartData();
         } else if (id == R.id.logout) {
             Globals.ClearUserPreference(MenuActivity.this, MenuActivity.this);
         }
@@ -250,10 +252,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     @Override
     public void onBackPressed() {
         SaveWishListInSharePreference(true);
-        setResult(Activity.RESULT_OK);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("IsLogin", true);
+        setResult(Activity.RESULT_OK, returnIntent);
         finish();
         ClearData();
-        Globals.ClearCartData();
+        //Globals.ClearCartData();
     }
 
     @Override
@@ -409,7 +413,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setSoundEffectsEnabled(true);
             txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
-            if (isShowMsg) {
+            if (isShowMsg && itemName!=null) {
                 Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), MenuActivity.this, 1000);
             }
         } else {

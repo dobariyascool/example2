@@ -47,6 +47,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
+    boolean isNewBooking;
 
     public YourBookingFragment() {
     }
@@ -210,20 +211,21 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
             }
             currentPage = 1;
             if (adapter == null || adapter.getItemCount() == 0) {
+                isNewBooking = true;
                 RequestBookingMaster();
             } else {
                 adapter.BookingDataChanged(objBookingMaster);
                 rvBooking.setAdapter(adapter);
                 rvBooking.setLayoutManager(linearLayoutManager);
+                Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
+                //prevent floating action button animation
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        fabBooking.show();
+                    }
+                }, 1600);
             }
-            Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
-            //prevent floating action button animation
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    fabBooking.show();
-                }
-            }, 1600);
         }
     }
 
@@ -263,6 +265,17 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
             adapter = new BookingAdapter(getActivity(), alBookingMaster, this);
             rvBooking.setAdapter(adapter);
             rvBooking.setLayoutManager(linearLayoutManager);
+            if(isNewBooking) {
+                isNewBooking = false;
+                Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.ybAddBookingSuccessMsg), getActivity(), 1000);
+                //prevent floating action button animation
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        fabBooking.show();
+                    }
+                }, 1600);
+            }
         }
     }
 

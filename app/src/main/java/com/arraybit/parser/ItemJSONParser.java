@@ -76,7 +76,7 @@ public class ItemJSONParser {
                 }
                 objItemMaster.setRate(jsonObject.getDouble("Rate"));
                 objItemMaster.setMRP(jsonObject.getDouble("MRP"));
-
+                objItemMaster.setTaxRate(jsonObject.getDouble("TaxRate"));
                 /// Extra
                 objItemMaster.setUnit(jsonObject.getString("Unit"));
                 objItemMaster.setCategory(jsonObject.getString("Category"));
@@ -140,6 +140,7 @@ public class ItemJSONParser {
                 objItemMaster.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
                 objItemMaster.setMRP(jsonArray.getJSONObject(i).getDouble("MRP"));
                 objItemMaster.setTax(jsonArray.getJSONObject(i).getString("Tax"));
+                objItemMaster.setTaxRate(jsonArray.getJSONObject(i).getDouble("TaxRate"));
 
                 /// Extra
                 objItemMaster.setUnit(jsonArray.getJSONObject(i).getString("Unit"));

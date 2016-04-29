@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/control_SpecingTiny"
+    android:layout_marginBottom="2dp"
+    android:background="#edebeb"
     android:orientation="vertical"
     android:padding="@dimen/control_SpecingTiny">
 
@@ -101,11 +102,11 @@
 
             <ImageView
                 android:id="@+id/ivClose"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:paddingEnd="@dimen/control_SpecingTiny"
                 android:paddingStart="@dimen/control_SpecingTiny"
-                android:src="@drawable/remove_accent_vector_drawable"
+                android:src="@drawable/cancel_drawable"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>

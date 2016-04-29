@@ -29,7 +29,13 @@ public class CartItemActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("ShowMessage", false);
+        returnIntent.putExtra("IsLogin", true);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

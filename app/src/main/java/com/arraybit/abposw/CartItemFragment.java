@@ -131,10 +131,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 startActivity(intent);
             } else {
                 RequestOrderMaster();
-                Intent intent = new Intent(getActivity(),CheckOutActivity.class);
-                intent.putExtra("OrderMaster",objOrderMaster);
-                intent.putParcelableArrayListExtra("TaxMaster",alTaxMaster);
+                Intent intent = new Intent(getActivity(), CheckOutActivity.class);
+                intent.putExtra("OrderMaster", objOrderMaster);
+                intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
                 startActivity(intent);
+                //startActivity(intent);
                 //customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
                 //RequestOrderMaster();
             }

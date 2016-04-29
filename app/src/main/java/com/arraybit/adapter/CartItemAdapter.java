@@ -60,6 +60,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             holder.txtQty.setLayoutParams(txtQtyLayoutParams);
             SetModifierLayout(objItemMaster.getAlOrderItemModifierTran(), holder);
         }
+
         if (objItemMaster.getRemark()==null || objItemMaster.getRemark().equals("")) {
             holder.remarkLayout.setVisibility(View.GONE);
         } else {

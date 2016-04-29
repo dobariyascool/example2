@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.CheckOut;
 import com.arraybit.modal.CustomerAddressTran;
 import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
@@ -36,6 +37,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     public static OfferMaster objOffer;
     public static CustomerAddressTran objCustomerAddressTran;
+    public static CheckOut objCheckOut;
     LinearLayout textLayout;
     TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay;
     CompoundButton cbGetPromoCode;
@@ -48,6 +50,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<TaxMaster> alTaxMaster;
     OrderMaster objOrderMaster;
     View snackFocus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,10 +174,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-            objSharePreferenceManage.RemovePreference("OfferPreference", "OfferCode", this);
-            objSharePreferenceManage.RemovePreference("OfferPreference", "OfferMasterId", this);
-            objSharePreferenceManage.ClearPreference("OfferPreference", CheckOutActivity.this);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -323,5 +322,18 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 objOffer = objOfferMaster;
             }
         }
+    }
+
+    private void SetCheckOutData(CustomerAddressTran objCustomerAddress,OfferMaster objOffer){
+        objCheckOut = new CheckOut();
+        if(tbHomeDelivery.isChecked()) {
+            objCheckOut.setOrderType(Globals.OrderType.HomeDelivery.getValue());
+        }else if(tbTakeAway.isChecked()){
+            objCheckOut.setOrderType(Globals.OrderType.TakeAway.getValue());
+        }
+        objCheckOut.setOrderDate(etOrderDate.getText().toString());
+        objCheckOut.setOrderTime(etOrderTime.getText().toString());
+        objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
+        objCheckOut.setObjOfferMaster(objOffer);
     }
 }

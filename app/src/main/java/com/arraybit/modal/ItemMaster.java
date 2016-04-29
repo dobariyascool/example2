@@ -45,6 +45,7 @@ public class ItemMaster implements Parcelable {
     double Tax3;
     double Tax4;
     double Tax5;
+    double TaxRate;
     short IsChecked;
     /// Extra
     String Unit;
@@ -110,6 +111,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.linktoOrderMasterId = source.readInt();
             objItemMaster.OrderNumber = source.readString();
             objItemMaster.PaymentStatus = source.readByte() != 0;
+            objItemMaster.TaxRate = source.readDouble();
             return objItemMaster;
         }
 
@@ -578,6 +580,16 @@ public class ItemMaster implements Parcelable {
         PaymentStatus = paymentStatus;
     }
 
+
+    public double getTaxRate() {
+        return TaxRate;
+    }
+
+    public void setTaxRate(double taxRate) {
+        TaxRate = taxRate;
+    }
+
+
     //endregion
 
     public int describeContents() {
@@ -629,5 +641,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeInt(linktoOrderItemTranId);
         parcel.writeString(OrderNumber);
         parcel.writeByte((byte) (PaymentStatus ? 1 : 0));
+        parcel.writeDouble(TaxRate);
     }
 }
