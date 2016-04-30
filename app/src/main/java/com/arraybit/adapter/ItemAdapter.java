@@ -87,7 +87,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.txtItemPrice.setText(view.getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
         if (objItemMaster.getIsDineInOnly()) {
-            holder.cvItem.setClickable(false);
+            //holder.cvItem.setClickable(false);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
             if(MenuActivity.isViewChange){
                 holder.ibLike.setVisibility(View.GONE);
