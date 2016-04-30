@@ -400,8 +400,13 @@ public class BookingJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, final String strBookingDate) {
-        String url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate;
+    public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, final String strBookingDate, final boolean isDateTime) {
+        String url;
+        if (isDateTime) {
+            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + Globals.GetCurrentDateTime();
+        } else {
+            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate + "/" + null + "/" + null + "/" + null;
+        }
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -438,18 +443,34 @@ public class BookingJSONParser {
                             }
                         }
                     }
-                    objBookingRequestListener = (BookingRequestListener) targetFragment;
-                    objBookingRequestListener.TimeSlotsResponse(lstSpinnerItem);
+                    if (targetFragment == null) {
+                        objBookingRequestListener = (BookingRequestListener) context;
+                        objBookingRequestListener.TimeSlotsResponse(lstSpinnerItem);
+                    } else {
+                        objBookingRequestListener = (BookingRequestListener) targetFragment;
+                        objBookingRequestListener.TimeSlotsResponse(lstSpinnerItem);
+                    }
                 } catch (Exception e) {
-                    objBookingRequestListener = (BookingRequestListener) targetFragment;
-                    objBookingRequestListener.TimeSlotsResponse(null);
+                    if (targetFragment == null) {
+                        objBookingRequestListener = (BookingRequestListener) context;
+                        objBookingRequestListener.TimeSlotsResponse(null);
+                    } else {
+                        objBookingRequestListener = (BookingRequestListener) targetFragment;
+                        objBookingRequestListener.TimeSlotsResponse(null);
+                    }
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objBookingRequestListener = (BookingRequestListener) targetFragment;
-                objBookingRequestListener.TimeSlotsResponse(null);
+                if (targetFragment == null) {
+                    objBookingRequestListener = (BookingRequestListener) context;
+                    objBookingRequestListener.TimeSlotsResponse(null);
+                } else {
+                    objBookingRequestListener = (BookingRequestListener) targetFragment;
+                    objBookingRequestListener.TimeSlotsResponse(null);
+                }
             }
         });
         queue.add(jsonObjectRequest);

@@ -1,30 +1,37 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.arraybit.adapter.ItemAdapter;
+import com.arraybit.adapter.SpinnerAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.global.SpinnerItem;
+import com.arraybit.modal.BookingMaster;
 import com.arraybit.modal.CheckOut;
 import com.arraybit.modal.CustomerAddressTran;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
+import com.arraybit.parser.BookingJSONParser;
 import com.arraybit.parser.CustomerAddressJSONParser;
 import com.arraybit.parser.OfferJSONParser;
 import com.arraybit.parser.OrderJSONParser;
@@ -33,21 +40,23 @@ import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
-                                                                   OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener,AddAddressFragment.AddNewAddressListener {
+        OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener {
 
     public static CheckOut objCheckOut;
     LinearLayout textLayout;
     TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay;
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
-    EditText etOfferCode, etOrderDate, etOrderTime;
+    EditText etOfferCode, etOrderDate;
     Button btnApply, btnViewMore, btnAdd, btnViewOrder, btnPlaceOrder;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
@@ -56,8 +65,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     OrderMaster objOrderMaster;
     View snackFocus;
     FrameLayout checkOutMainLayout;
+    ArrayList<SpinnerItem> alOrderTime;
+    AppCompatSpinner spOrderTime;
+    boolean isDateChange;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +104,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         etOfferCode = (EditText) findViewById(R.id.etOfferCode);
         etOrderDate = (EditText) findViewById(R.id.etOrderDate);
-        etOrderTime = (EditText) findViewById(R.id.etOrderTime);
+
+        spOrderTime = (AppCompatSpinner) findViewById(R.id.spOrderTime);
 
         btnApply = (Button) findViewById(R.id.btnApply);
         btnViewMore = (Button) findViewById(R.id.btnViewMore);
@@ -109,7 +123,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         if (intent.getParcelableExtra("OrderMaster") != null) {
             objOrderMaster = intent.getParcelableExtra("OrderMaster");
-            txtPay.setText(String.format(getResources().getString(R.string.coaYouPay), Globals.dfWithPrecision.format(objOrderMaster.getNetAmount())));
+            txtPay.setText(getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objOrderMaster.getNetAmount()));
         }
         if (intent.getParcelableArrayListExtra("TaxMaster") != null) {
             alTaxMaster = intent.getParcelableArrayListExtra("TaxMaster");
@@ -117,6 +131,51 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (intent.getStringExtra("ParentActivity") != null) {
             activityName = intent.getStringExtra("ParentActivity");
         }
+
+        etOrderDate.addTextChangedListener(new TextWatcher() {
+            String strDate = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!etOrderDate.getText().toString().equals("") && !(strDate.equals(etOrderDate.getText().toString()))) {
+                    strDate = etOrderDate.getText().toString();
+                    cbGetPromoCode.setVisibility(View.VISIBLE);
+                    etOfferCode.setVisibility(View.GONE);
+                    btnApply.setVisibility(View.GONE);
+                    OfferMaster objOfferMaster = new OfferMaster();
+                    objOfferMaster.setOfferCode("Remove");
+                    SaveCheckOutData(null, objOfferMaster);
+//                    alFromTime = new ArrayList<>();
+//                    if (Service.CheckNet(CheckOutActivity.this)) {
+//                        isDateChange = true;
+//                        RequestTimeSlots();
+//                    } else {
+//                        Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), CheckOutActivity.this, 1000);
+//                    }
+                }
+            }
+        });
+
+        spOrderTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SaveCheckOutData(null, null);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         etOfferCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -126,7 +185,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     if (etOfferCode.getText().toString().equals("")) {
                         btnApply.setText(getResources().getString(R.string.coaCancel));
                         OfferMaster objOfferMaster = new OfferMaster();
@@ -146,7 +205,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         tbHomeDelivery.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     if (isChecked) {
                         if (tbTakeAway.isChecked()) {
                             if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.HomeDelivery.getValue()) {
@@ -168,7 +227,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         tbTakeAway.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     if (isChecked) {
                         if (tbHomeDelivery.isChecked()) {
                             if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.TakeAway.getValue()) {
@@ -198,7 +257,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(getSupportFragmentManager().getBackStackEntryCount()!=1) {
+            if (getSupportFragmentManager().getBackStackEntryCount() != 1) {
                 SaveCheckOutData(null, null);
                 finish();
             }
@@ -208,7 +267,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             if (v.getId() == R.id.cbGetPromoCode) {
                 cbGetPromoCode.setVisibility(View.GONE);
                 etOfferCode.setVisibility(View.VISIBLE);
@@ -238,22 +297,17 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void OrderDateOnClick(View view) {
-        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             Globals.ShowDatePickerDialog(etOrderDate, CheckOutActivity.this, true);
         }
     }
 
-    public void OrderTimeOnClick(View view) {
-        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
-            Globals.ShowTimePickerDialog(etOrderTime, CheckOutActivity.this);
-        }
-    }
 
     @Override
     public void CustomerAddressResponse(String errorCode, ArrayList<CustomerAddressTran> alCustomerAddressTran, CustomerAddressTran objCustomerAddressTran) {
         progressDialog.dismiss();
         this.alCustomerAddressTran = alCustomerAddressTran;
-        SetPrimaryAddress();
+        RequestTimeSlots();
     }
 
     @Override
@@ -282,13 +336,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()!=0){
+        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
             if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_add_address_fragment))) {
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
-        }else {
+        } else {
             SaveCheckOutData(null, null);
             finish();
         }
@@ -296,9 +350,22 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void AddNewAddress(CustomerAddressTran objCustomerAddressTran) {
-        SaveCheckOutData(objCustomerAddressTran,null);
+        SaveCheckOutData(objCustomerAddressTran, null);
         SetCheckOutData(null);
-        alCustomerAddressTran.add(0,objCustomerAddressTran);
+        alCustomerAddressTran.add(0, objCustomerAddressTran);
+    }
+
+    @Override
+    public void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster) {
+
+    }
+
+    @Override
+    public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {
+        progressDialog.dismiss();
+        alOrderTime = alTimeSlot;
+        FillOrderTime();
+        SetPrimaryAddress();
     }
 
     //region Private Methods
@@ -311,6 +378,26 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
         }
         objCustomerAddressJSONParser.SelectAllCustomerAddressTran(CheckOutActivity.this, null, customerMasterId);
+    }
+
+    private void RequestTimeSlots() {
+        progressDialog.show(getSupportFragmentManager(), "");
+
+        BookingJSONParser objBookingJSONParser = new BookingJSONParser();
+        objBookingJSONParser.SelectAllTimeSlots(null, CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId), etOrderDate.getText().toString(), true);
+    }
+
+    private void FillOrderTime() {
+        if (alOrderTime != null && alOrderTime.size() != 0) {
+            SpinnerItem objSpinnerItem = new SpinnerItem();
+            objSpinnerItem.setText(getResources().getString(R.string.coaTime));
+            objSpinnerItem.setValue(0);
+
+            alOrderTime.add(0, objSpinnerItem);
+
+            SpinnerAdapter adapter = new SpinnerAdapter(CheckOutActivity.this, alOrderTime, true);
+            spOrderTime.setAdapter(adapter);
+        }
     }
 
     private void SetPrimaryAddress() {
@@ -375,8 +462,14 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             } else if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
                 tbTakeAway.setChecked(true);
             }
-            etOrderDate.setText(objCheckOut.getOrderDate());
-            etOrderTime.setText(objCheckOut.getOrderTime());
+            if (isDateChange) {
+                etOrderDate.setText(etOrderDate.getText().toString());
+                spOrderTime.setSelection(0);
+                isDateChange = false;
+            } else {
+                etOrderDate.setText(objCheckOut.getOrderDate());
+                spOrderTime.setSelection(objCheckOut.getOrderTimeIndex());
+            }
             if (objCheckOut.getObjOfferMaster() != null) {
                 cbGetPromoCode.setVisibility(View.GONE);
                 etOfferCode.setVisibility(View.VISIBLE);
@@ -407,8 +500,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 tbTakeAway.setChecked(true);
             }
             etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
-            etOrderTime.setText(new SimpleDateFormat(Globals.TimeFormat, Locale.US).format(new Date()));
-
             cbGetPromoCode.setVisibility(View.VISIBLE);
             etOfferCode.setVisibility(View.GONE);
             btnApply.setVisibility(View.GONE);
@@ -427,7 +518,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             objCheckOut.setOrderType(Globals.OrderType.TakeAway.getValue());
         }
         objCheckOut.setOrderDate(etOrderDate.getText().toString());
-        objCheckOut.setOrderTime(etOrderTime.getText().toString());
+        objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
+        objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
         if (objCustomerAddress != null) {
             objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
         }
@@ -442,7 +534,19 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     private void RequestOrderMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
+        Date orderDateTime = null;
+        try {
+            if(objCheckOut.getOrderTime().equals(getResources().getString(R.string.coaTime))){
+                Calendar calendar = Calendar.getInstance();
+                orderDateTime = new SimpleDateFormat(Globals.DateFormat +" "+ Globals.DisplayTimeFormat,Locale.US).parse(objCheckOut.getOrderDate() + " " +new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US).format(calendar.getTime()));
+            }else {
+                orderDateTime = new SimpleDateFormat(Globals.DateFormat + " " + Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderDate() + " " + objCheckOut.getOrderTime());
 
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        objOrderMaster.setOrderDateTime(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US).format(orderDateTime));
         objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objOrderMaster.setlinktoOrderTypeMasterId((short) objCheckOut.getOrderType());
         objOrderMaster.setlinktoCustomerAddressTranId(objCheckOut.getObjCustomerAddressTran().getCustomerAddressTranId());

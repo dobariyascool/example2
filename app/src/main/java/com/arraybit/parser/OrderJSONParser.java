@@ -171,7 +171,8 @@ public class OrderJSONParser {
             stringer.key("orderMaster");
             stringer.object();
 
-            stringer.key("OrderDateTime").value(sdfDateTimeFormat.format(dt));
+            //stringer.key("OrderDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("OrderDateTime").value(objOrderMaster.getOrderDateTime());
             stringer.key("linktoBusinessMasterId").value(objOrderMaster.getLinktoBusinessMasterId());
             stringer.key("linktoCustomerMasterId").value(objOrderMaster.getlinktoCustomerMasterId());
             stringer.key("linktoOrderTypeMasterId").value(objOrderMaster.getlinktoOrderTypeMasterId());

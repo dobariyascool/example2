@@ -53,7 +53,19 @@ public class ConfirmDialog extends DialogFragment {
         final AlertDialog alertDialog = builder.create();
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
         try {
-            time = new SimpleDateFormat(Globals.TimeFormat, Locale.US).parse(objCheckOut.getOrderTime());
+            //time = new SimpleDateFormat(Globals.TimeFormat, Locale.US).parse(objCheckOut.getOrderTime());
+            //Date dt = new Date(time);
+            //long nowPlus5Minutes = time + TimeUnit.MINUTES.toMillis(5);
+            int addMinuteTime = 5;
+            if(!objCheckOut.getOrderTime().equals(getActivity().getResources().getString(R.string.coaTime))){
+                Date targetTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderTime());; //now
+                targetTime.setTime(targetTime.getTime()+20*60*1000); //add minute
+                time=targetTime;
+            }else{
+                Date date = new Date();
+                date.setTime(date.getTime()+20*60*1000);
+                time=date;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

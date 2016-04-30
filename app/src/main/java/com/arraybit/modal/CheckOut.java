@@ -3,6 +3,8 @@ package com.arraybit.modal;
 public class CheckOut {
 
     int orderType;
+    int orderTimeIndex;
+
     CustomerAddressTran objCustomerAddressTran;
     String orderDate;
     String orderTime;
@@ -47,4 +49,12 @@ public class CheckOut {
     public void setObjOfferMaster(OfferMaster objOfferMaster) {
         this.objOfferMaster = objOfferMaster;
     }
+    public int getOrderTimeIndex() {
+        return orderTimeIndex;
+    }
+
+    public void setOrderTimeIndex(int orderTimeIndex) {
+        this.orderTimeIndex = orderTimeIndex;
+    }
+
 }

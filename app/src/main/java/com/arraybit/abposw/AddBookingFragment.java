@@ -269,7 +269,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     private void RequestTimeSlot() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString());
+        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString(),false);
     }
 
     private void FillFromTime() {

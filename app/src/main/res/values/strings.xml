@@ -324,15 +324,16 @@
     <string name="coaArea">Branch</string>
     <string name="coaName">Name</string>
     <string name="coaMobile">Mobile</string>
-    <string name="coaDate">Date</string>
-    <string name="coaTime">Time</string>
     <string name="coaGetCode">Get Promo Code\u003F</string>
     <string name="coaApply">Apply</string>
     <string name="coaCancel">Cancel</string>
-    <string name="coaYouPay">You Pay \u20B9 %s</string>
+    <string name="coaYouPay">You Pay</string>
     <string name="coaViewOrder">View Order</string>
+    <string name="coaViewMore">View Order</string>
+    <string name="coaAddMore">Add More</string>
     <string name="coaPlaceOrder">Place Order</string>
     <string name="coaMsg">You can edit or delete address from your account</string>
+    <string name="coaTime">ASAP</string>
     <!-- End-->
 
     <!-- confirm dialog fragment -->

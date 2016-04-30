@@ -97,7 +97,7 @@ public class Globals {
 
                         SimpleDateFormat sdfControl = new SimpleDateFormat(DateFormat, Locale.US);
                         if (IsPreventPreviousDateRequest) {
-                            if (d >= calendar.get(Calendar.DAY_OF_MONTH)) {
+                            if (d >= calendar.get(Calendar.DAY_OF_MONTH) || M >= calendar.get(Calendar.MONTH) || y >= calendar.get(Calendar.YEAR)) {
                                 txtView.setText(sdfControl.format(cal.getTime()));
                             } else {
                                 txtView.setText(sdfControl.format(new Date()));
@@ -191,6 +191,12 @@ public class Globals {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static String GetCurrentDateTime(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/yyyy/h/m/s",Locale.US);
+        return simpleDateFormat.format(calendar.getTime());
     }
 
     @SuppressLint("SimpleDateFormat")

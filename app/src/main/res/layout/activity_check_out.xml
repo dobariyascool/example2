@@ -87,9 +87,11 @@
                         android:padding="@dimen/control_SpecingSmall"
                         android:visibility="visible">
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/ivPerson"
@@ -103,17 +105,22 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/control_SpecingTiny"
-                                android:layout_toEndOf="@+id/ivPerson"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
                                 android:text="dgfdgdsfhds" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/control_SpecingTiny"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/ivMobile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/ivPerson"
-                                android:layout_marginTop="@dimen/control_SpecingTiny"
+                                android:layout_width="24dp"
+                                android:layout_height="20dp"
                                 android:src="@drawable/call_drawable"
                                 tools:ignore="ContentDescription" />
 
@@ -121,13 +128,10 @@
                                 android:id="@+id/txtPhone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_below="@+id/txtName"
-                                android:layout_marginEnd="@dimen/control_SpecingTiny"
-                                android:layout_toEndOf="@+id/ivMobile"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
-                                android:paddingStart="@dimen/control_SpecingSmall" />
-                        </RelativeLayout>
+                                android:paddingStart="@dimen/control_SpecingSmall"
+                                android:text="fgdjklg" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <!--<LinearLayout-->
@@ -162,109 +166,75 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/control_SpecingSmall">
-
-                        <LinearLayout
-                            android:id="@+id/textLayout"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:animateLayoutChanges="true"
-                            android:orientation="vertical"
-                            android:visibility="visible">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:animateLayoutChanges="true"
-                                android:orientation="horizontal">
-
-                                <com.rey.material.widget.TextView
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/coaCity" />
-
-                                <com.rey.material.widget.TextView
-                                    android:id="@+id/txtCity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/control_SpecingSmall"
-                                    android:text="@string/coaCity"
-                                    android:visibility="visible" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:animateLayoutChanges="true"
-                                android:orientation="horizontal">
-
-                                <com.rey.material.widget.TextView
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/coaArea" />
-
-                                <com.rey.material.widget.TextView
-                                    android:id="@+id/txtArea"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:padding="@dimen/control_SpecingSmall"
-                                    android:text="@string/coaArea"
-                                    android:visibility="visible" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    style="@style/DefaultCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
-
-                    <LinearLayout
-                        android:id="@+id/dateLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/control_SpecingSmall"
-                        android:visibility="visible">
-
-                        <com.rey.material.widget.TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/coaDate" />
+                        android:layout_margin="@dimen/control_SpecingSmall"
+                        android:orientation="horizontal">
 
                         <com.rey.material.widget.EditText
                             android:id="@+id/etOrderDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/control_SpecingTiny"
-                            android:layout_marginStart="@dimen/control_SpecingTiny"
+                            android:layout_marginEnd="@dimen/control_SpecingSmall"
+                            android:layout_marginStart="@dimen/control_SpecingSmall"
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
                             android:onClick="OrderDateOnClick"
                             android:padding="@dimen/control_SpecingSmall" />
 
-                        <com.rey.material.widget.TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/coaTime" />
-
-                        <com.rey.material.widget.EditText
-                            android:id="@+id/etOrderTime"
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spOrderTime"
+                            style="@style/Spinner"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/control_SpecingTiny"
-                            android:layout_marginStart="@dimen/control_SpecingTiny"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/control_SpecingSmall"
+                            android:layout_marginStart="@dimen/control_SpecingSmall"
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
-                            android:onClick="OrderTimeOnClick"
-                            android:padding="@dimen/control_SpecingSmall" />
+                            android:dropDownWidth="match_parent"/>
+
                     </LinearLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:id="@+id/dateLayout"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:animateLayoutChanges="true"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:padding="@dimen/control_SpecingSmall"-->
+                    <!--android:visibility="visible">-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/coaDate" />-->
+
+                    <!--<com.rey.material.widget.EditText-->
+                    <!--android:id="@+id/etOrderDate"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
+                    <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/toggle_drawable"-->
+                    <!--android:onClick="OrderDateOnClick"-->
+                    <!--android:padding="@dimen/control_SpecingSmall" />-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/coaTime" />-->
+
+                    <!--<com.rey.material.widget.EditText-->
+                    <!--android:id="@+id/etOrderTime"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
+                    <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/toggle_drawable"-->
+                    <!--android:onClick="OrderTimeOnClick"-->
+                    <!--android:padding="@dimen/control_SpecingSmall" />-->
+                    <!--</LinearLayout>-->
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -276,35 +246,70 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/control_SpecingSmall">
 
-                        <com.rey.material.widget.TextView
-                            android:id="@+id/txtHeaderAddress"
-                            android:layout_width="100dp"
+                        <ImageView
+                            android:id="@+id/ivAddress"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Address" />
+                            android:src="@drawable/address_drawable" />
+
+                        <!--<com.rey.material.widget.TextView-->
+                        <!--android:id="@+id/txtHeaderAddress"-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Address" />-->
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtAddress"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_toEndOf="@+id/txtHeaderAddress" />
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/ivAddress"
+                            android:paddingEnd="@dimen/control_SpecingSmall"
+                            android:paddingStart="@dimen/control_SpecingSmall"
+                            android:text="@string/abBuildVersion" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtAddress"
+                            android:layout_toEndOf="@+id/ivAddress"
+                            android:paddingEnd="@dimen/control_SpecingSmall"
+                            android:paddingStart="@dimen/control_SpecingSmall"
+                            android:paddingTop="@dimen/control_SpecingTiny"
+                            android:text="@string/coaCity"
+                            android:visibility="visible" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtCity"
+                            android:layout_toEndOf="@+id/ivAddress"
+                            android:paddingEnd="@dimen/control_SpecingSmall"
+                            android:paddingStart="@dimen/control_SpecingSmall"
+                            android:paddingTop="@dimen/control_SpecingTiny"
+                            android:text="@string/coaArea"
+                            android:visibility="visible" />
 
                         <com.rey.material.widget.Button
                             android:id="@+id/btnViewMore"
-                            android:layout_width="150dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/txtArea"
                             android:layout_toStartOf="@+id/btnAdd"
-                            android:text="View More" />
+                            android:text="@string/coaViewMore" />
 
                         <com.rey.material.widget.Button
                             android:id="@+id/btnAdd"
-                            android:layout_width="150dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_below="@+id/txtAddress"
-                            android:text="Add" />
+                            android:layout_below="@+id/txtArea"
+                            android:text="@string/coaAddMore" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
@@ -357,14 +362,27 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/control_SpecingTiny">
 
-                    <com.rey.material.widget.TextView
-                        android:id="@+id/txtPay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/control_SpecingSmall"
-                        android:text="@string/coaYouPay"
-                        android:visibility="visible" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:text="@string/coaYouPay" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtPay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toEndOf="@+id/txtPayment"
+                            android:gravity="end"
+                            android:padding="@dimen/control_SpecingSmall" />
+
+                    </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
                 <LinearLayout
