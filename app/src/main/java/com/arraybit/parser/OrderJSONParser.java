@@ -188,6 +188,9 @@ public class OrderJSONParser {
             stringer.key("Remark").value(objOrderMaster.getRemark());
             stringer.key("IsPreOrder").value(objOrderMaster.getIsPreOrder());
             stringer.key("CreateDateTime").value(sdfDateTimeFormat.format(dt));
+            stringer.key("linktoOfferMasterId").value(objOrderMaster.getlinktoOfferMasterId());
+            stringer.key("OfferCode").value(objOrderMaster.getOfferCode());
+            stringer.key("linktoCustomerAddressTranId").value(objOrderMaster.getlinktoCustomerAddressTranId());
 
             stringer.endObject();
 
@@ -254,22 +257,46 @@ public class OrderJSONParser {
 
                         if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorCode"));
-                            objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
-                            objOrderMasterRequestListener.OrderMasterResponse(errorCode, null);
+                            if(targetFragment==null){
+                                objOrderMasterRequestListener = (OrderMasterRequestListener) context;
+                                objOrderMasterRequestListener.OrderMasterResponse(errorCode, null);
+                            }else{
+                                objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
+                                objOrderMasterRequestListener.OrderMasterResponse(errorCode, null);
+                            }
+
                         } else {
+                            if(targetFragment==null){
+                                objOrderMasterRequestListener = (OrderMasterRequestListener) context;
+                                objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                            }else{
+                                objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
+                                objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        if(targetFragment==null){
+                            objOrderMasterRequestListener = (OrderMasterRequestListener) context;
+                            objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                        }else{
                             objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
                             objOrderMasterRequestListener.OrderMasterResponse("-1", null);
                         }
-                    } catch (JSONException e) {
-                        objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
-                        objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
-                    objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                    if(targetFragment==null){
+                        objOrderMasterRequestListener = (OrderMasterRequestListener) context;
+                        objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                    }else{
+                        objOrderMasterRequestListener = (OrderMasterRequestListener) targetFragment;
+                        objOrderMasterRequestListener.OrderMasterResponse("-1", null);
+                    }
+
                 }
             });
             queue.add(jsonObjectRequest);

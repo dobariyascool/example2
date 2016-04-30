@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,12 +120,18 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 if (data != null) {
-                    isShowMsg = data.getBooleanExtra("ShowMessage", false);
-                    this.itemName = data.getStringExtra("ItemName");
-                    SetCartNumber();
-                    isShowMsg = true;
+                    if(data.getBooleanExtra("IsActivityFinish", false)){
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsLogin", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }else {
+                        isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                        this.itemName = data.getStringExtra("ItemName");
+                        SetCartNumber();
+                        isShowMsg = true;
+                    }
                 }
-
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

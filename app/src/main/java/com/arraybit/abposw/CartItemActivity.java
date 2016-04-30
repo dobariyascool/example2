@@ -42,6 +42,16 @@ public class CartItemActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0) {
+                if (data != null) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsActivityFinish", true);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

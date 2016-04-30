@@ -338,7 +338,8 @@
     <!-- confirm dialog fragment -->
     <string name="cdfConfirm">Confirm</string>
     <string name="cdfCancel">Cancel</string>
-    <string name="cdfMessage">You want to place order? \nYour %s order will be ready on</string>
+    <string name="cdfConfirmMsg">You want to place order?</string>
+    <string name="cdfMsg">Your %s order will be ready on</string>
     <!-- End-->
 
 </resources>

@@ -20,14 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.CartItemAdapter;
-import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
-import com.arraybit.parser.OrderJSONParser;
 import com.arraybit.parser.TaxJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
@@ -37,7 +35,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
-public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, OrderJSONParser.OrderMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
+public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
@@ -134,7 +132,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 Intent intent = new Intent(getActivity(), CheckOutActivity.class);
                 intent.putExtra("OrderMaster", objOrderMaster);
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
-                startActivity(intent);
+                intent.putExtra("ParentActivity", activityName);
+                getActivity().startActivityForResult(intent, 0);
                 //startActivity(intent);
                 //customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
                 //RequestOrderMaster();
@@ -217,12 +216,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void OrderMasterResponse(String errorCode, OrderMaster objOrderMaster) {
-        progressDialog.dismiss();
-        SetError(errorCode);
-    }
-
-    @Override
     public void RemarkResponse() {
         if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
             txtRemark.setVisibility(View.VISIBLE);
@@ -234,7 +227,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     //region Private Methods
-
     private void RequestTaxMaster() {
         progressDialog.show(getFragmentManager(), "");
         TaxJSONParser objTaxJSONParser = new TaxJSONParser();
@@ -320,8 +312,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void RequestOrderMaster() {
-        //progressDialog.show(getActivity().getSupportFragmentManager(), "");
-
         objOrderMaster = new OrderMaster();
         objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objOrderMaster.setlinktoOrderTypeMasterId(Globals.linktoOrderTypeMasterId);
@@ -336,9 +326,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objOrderMaster.setTotalItemPoint((short) 0);
         objOrderMaster.setTotalDeductedPoint((short) 0);
         objOrderMaster.setIsPreOrder(true);
-
-        //OrderJSONParser orderJSONParser = new OrderJSONParser();
-        //orderJSONParser.InsertOrderMaster(objOrderMaster, Globals.alOrderItemTran, alTaxMaster, getActivity(), this);
     }
 
     private void SetError(String errorCode) {
@@ -349,7 +336,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             case "0":
                 Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgConfirmOrder), getActivity(), 1000);
                 if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_activity_wish_list))) {
-                    RemoveWishListFromSharePreference();
+                    //RemoveWishListFromSharePreference();
                     Globals.ClearCartData();
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("ShowMessage", false);
@@ -445,32 +432,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             linearLayout[i].addView(txtTaxName[i]);
             linearLayout[i].addView(txtTaxRate[i]);
             taxLayout.addView(linearLayout[i]);
-        }
-    }
-
-    private void RemoveWishListFromSharePreference() {
-        ArrayList<String> alNewString = new ArrayList<>();
-        boolean isDuplicate;
-        ItemAdapter.alWishItemMaster = new ArrayList<>();
-        if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity()) != null) {
-            ArrayList<String> alOldString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity());
-            for (String strItemMasterId : alOldString) {
-                isDuplicate = false;
-                for (ItemMaster objItemMaster : Globals.alOrderItemTran) {
-                    if (strItemMasterId.equals(String.valueOf(objItemMaster.getItemMasterId()))) {
-                        isDuplicate = true;
-                        break;
-                    }
-                }
-                if (!isDuplicate) {
-                    alNewString.add(strItemMasterId);
-                    ItemMaster objWishItemMaster = new ItemMaster();
-                    objWishItemMaster.setItemMasterId(Integer.parseInt(strItemMasterId));
-                    objWishItemMaster.setIsChecked((short) 1);
-                    ItemAdapter.alWishItemMaster.add(objWishItemMaster);
-                }
-            }
-            objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alNewString, getActivity());
         }
     }
     //endregion

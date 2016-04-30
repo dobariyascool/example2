@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/control_SpecingTiny"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:contentDescription="" />
+                     />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtDefault"
@@ -52,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:background="@android:color/white"
                     android:src="@drawable/edit_drawable" />
 
@@ -61,6 +62,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="@dimen/control_SpecingTiny">
 
@@ -68,15 +70,14 @@
                     android:id="@+id/ivCustomer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription=""
                     android:src="@drawable/user_drawable" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtCustomerName"
+                    style="@style/HeaderTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/brown"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/control_TextMedium" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +94,6 @@
                         android:id="@+id/ivAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="18dp"
-                        android:contentDescription=""
                         android:src="@drawable/address_drawable" />
 
                     <com.rey.material.widget.TextView
@@ -150,7 +150,6 @@
                     android:id="@+id/ivCall"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
-                    android:contentDescription=""
                     android:src="@drawable/call_drawable" />
 
                 <com.rey.material.widget.TextView

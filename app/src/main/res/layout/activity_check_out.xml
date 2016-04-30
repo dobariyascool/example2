@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checkOutMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.arraybit.abposw.CheckOutActivity">
@@ -37,17 +38,15 @@
                         android:orientation="horizontal">
 
                         <com.rey.material.widget.TextView
-                            android:layout_width="0dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
                             android:padding="@dimen/control_SpecingSmall"
                             android:text="@string/coaOrderType" />
 
                         <RelativeLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_margin="@dimen/control_SpecingSmall"
-                            android:layout_weight="0.7"
                             android:background="@drawable/toggle_drawable">
 
                             <ToggleButton
@@ -63,7 +62,6 @@
                                 style="@style/ToogleButtonRightSelector"
                                 android:layout_width="120dp"
                                 android:layout_height="match_parent"
-                                android:layout_alignParentEnd="true"
                                 android:layout_toEndOf="@+id/tbHomeDelivery"
                                 android:textOff="@string/coaTakeAway"
                                 android:textOn="@string/coaTakeAway" />
@@ -89,50 +87,70 @@
                         android:padding="@dimen/control_SpecingSmall"
                         android:visibility="visible">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:animateLayoutChanges="true"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_height="wrap_content">
 
-                            <com.rey.material.widget.TextView
-                                android:layout_width="100dp"
+                            <ImageView
+                                android:id="@+id/ivPerson"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/coaName" />
+                                android:src="@drawable/user_drawable"
+                                tools:ignore="ContentDescription" />
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/control_SpecingTiny"
-                                android:background="@drawable/toggle_drawable"
-                                android:padding="@dimen/control_SpecingSmall" />
+                                android:layout_toEndOf="@+id/ivPerson"
+                                android:paddingEnd="@dimen/control_SpecingSmall"
+                                android:paddingStart="@dimen/control_SpecingSmall"
+                                android:text="dgfdgdsfhds" />
 
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/control_SpecingTiny"
-                            android:animateLayoutChanges="true"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <com.rey.material.widget.TextView
-                                android:layout_width="100dp"
+                            <ImageView
+                                android:id="@+id/ivMobile"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/coaMobile" />
+                                android:layout_below="@+id/ivPerson"
+                                android:layout_marginTop="@dimen/control_SpecingTiny"
+                                android:src="@drawable/call_drawable"
+                                tools:ignore="ContentDescription" />
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtPhone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_below="@+id/txtName"
                                 android:layout_marginEnd="@dimen/control_SpecingTiny"
-                                android:background="@drawable/toggle_drawable"
-                                android:padding="@dimen/control_SpecingSmall" />
-                        </LinearLayout>
+                                android:layout_toEndOf="@+id/ivMobile"
+                                android:paddingEnd="@dimen/control_SpecingSmall"
+                                android:paddingStart="@dimen/control_SpecingSmall" />
+                        </RelativeLayout>
                     </LinearLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/control_SpecingTiny"-->
+                    <!--android:animateLayoutChanges="true"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/coaMobile" />-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:id="@+id/txtPhone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
+                    <!--android:background="@drawable/toggle_drawable"-->
+                    <!--android:padding="@dimen/control_SpecingSmall" />-->
+                    <!--</LinearLayout>-->
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -229,7 +247,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
                             android:onClick="OrderDateOnClick"
-                            android:padding="@dimen/control_SpecingSmall"/>
+                            android:padding="@dimen/control_SpecingSmall" />
 
                         <com.rey.material.widget.TextView
                             android:layout_width="wrap_content"
@@ -245,7 +263,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
                             android:onClick="OrderTimeOnClick"
-                            android:padding="@dimen/control_SpecingSmall"/>
+                            android:padding="@dimen/control_SpecingSmall" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 

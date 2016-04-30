@@ -1,27 +1,33 @@
 package com.arraybit.abposw;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CheckOut;
 import com.arraybit.modal.CustomerAddressTran;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.CustomerAddressJSONParser;
 import com.arraybit.parser.OfferJSONParser;
+import com.arraybit.parser.OrderJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.EditText;
@@ -33,7 +39,8 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener, OfferJSONParser.OfferRequestListener {
+public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
+                                                                   OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener,AddAddressFragment.AddNewAddressListener {
 
     public static CheckOut objCheckOut;
     LinearLayout textLayout;
@@ -43,11 +50,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     EditText etOfferCode, etOrderDate, etOrderTime;
     Button btnApply, btnViewMore, btnAdd, btnViewOrder, btnPlaceOrder;
     ProgressDialog progressDialog = new ProgressDialog();
-    String customerMasterId;
+    String customerMasterId, activityName;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
     ArrayList<TaxMaster> alTaxMaster;
     OrderMaster objOrderMaster;
     View snackFocus;
+    FrameLayout checkOutMainLayout;
 
 
     @Override
@@ -64,6 +72,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
+
+        checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
 
         tbTakeAway = (ToggleButton) findViewById(R.id.tbTakeAway);
         tbHomeDelivery = (ToggleButton) findViewById(R.id.tbHomeDelivery);
@@ -104,6 +114,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (intent.getParcelableArrayListExtra("TaxMaster") != null) {
             alTaxMaster = intent.getParcelableArrayListExtra("TaxMaster");
         }
+        if (intent.getStringExtra("ParentActivity") != null) {
+            activityName = intent.getStringExtra("ParentActivity");
+        }
 
         etOfferCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,13 +126,15 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etOfferCode.getText().toString().equals("")) {
-                    btnApply.setText(getResources().getString(R.string.coaCancel));
-                    OfferMaster objOfferMaster = new OfferMaster();
-                    objOfferMaster.setOfferCode("Remove");
-                    SaveCheckOutData(null, objOfferMaster);
-                } else {
-                    btnApply.setText(getResources().getString(R.string.coaApply));
+                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                    if (etOfferCode.getText().toString().equals("")) {
+                        btnApply.setText(getResources().getString(R.string.coaCancel));
+                        OfferMaster objOfferMaster = new OfferMaster();
+                        objOfferMaster.setOfferCode("Remove");
+                        SaveCheckOutData(null, objOfferMaster);
+                    } else {
+                        btnApply.setText(getResources().getString(R.string.coaApply));
+                    }
                 }
             }
 
@@ -131,19 +146,21 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         tbHomeDelivery.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (tbTakeAway.isChecked()) {
-                        if(objCheckOut!=null && objCheckOut.getObjOfferMaster()!=null && objCheckOut.getOrderType()!=Globals.OrderType.HomeDelivery.getValue()){
-                            cbGetPromoCode.setVisibility(View.VISIBLE);
-                            etOfferCode.setVisibility(View.GONE);
-                            btnApply.setVisibility(View.GONE);
-                            OfferMaster objOfferMaster = new OfferMaster();
-                            objOfferMaster.setOfferCode("Remove");
-                            SaveCheckOutData(null, objOfferMaster);
+                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                    if (isChecked) {
+                        if (tbTakeAway.isChecked()) {
+                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.HomeDelivery.getValue()) {
+                                cbGetPromoCode.setVisibility(View.VISIBLE);
+                                etOfferCode.setVisibility(View.GONE);
+                                btnApply.setVisibility(View.GONE);
+                                OfferMaster objOfferMaster = new OfferMaster();
+                                objOfferMaster.setOfferCode("Remove");
+                                SaveCheckOutData(null, objOfferMaster);
+                            }
+                            tbTakeAway.setChecked(false);
+                        } else {
+                            buttonView.setChecked(true);
                         }
-                        tbTakeAway.setChecked(false);
-                    } else {
-                        buttonView.setChecked(true);
                     }
                 }
             }
@@ -151,19 +168,21 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         tbTakeAway.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (tbHomeDelivery.isChecked()) {
-                        if(objCheckOut!=null && objCheckOut.getObjOfferMaster()!=null && objCheckOut.getOrderType()!=Globals.OrderType.TakeAway.getValue()){
-                            cbGetPromoCode.setVisibility(View.VISIBLE);
-                            etOfferCode.setVisibility(View.GONE);
-                            btnApply.setVisibility(View.GONE);
-                            OfferMaster objOfferMaster = new OfferMaster();
-                            objOfferMaster.setOfferCode("Remove");
-                            SaveCheckOutData(null, objOfferMaster);
+                if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+                    if (isChecked) {
+                        if (tbHomeDelivery.isChecked()) {
+                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.TakeAway.getValue()) {
+                                cbGetPromoCode.setVisibility(View.VISIBLE);
+                                etOfferCode.setVisibility(View.GONE);
+                                btnApply.setVisibility(View.GONE);
+                                OfferMaster objOfferMaster = new OfferMaster();
+                                objOfferMaster.setOfferCode("Remove");
+                                SaveCheckOutData(null, objOfferMaster);
+                            }
+                            tbHomeDelivery.setChecked(false);
+                        } else {
+                            buttonView.setChecked(true);
                         }
-                        tbHomeDelivery.setChecked(false);
-                    } else {
-                        buttonView.setChecked(true);
                     }
                 }
             }
@@ -179,45 +198,55 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            SaveCheckOutData(null, null);
-            finish();
+            if(getSupportFragmentManager().getBackStackEntryCount()!=1) {
+                SaveCheckOutData(null, null);
+                finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.cbGetPromoCode) {
-            cbGetPromoCode.setVisibility(View.GONE);
-            etOfferCode.setVisibility(View.VISIBLE);
-            btnApply.setVisibility(View.VISIBLE);
-        } else if (v.getId() == R.id.btnApply) {
-            snackFocus = v;
-            if (btnApply.getText().equals(getResources().getString(R.string.coaCancel))) {
-                cbGetPromoCode.setVisibility(View.VISIBLE);
-                etOfferCode.setVisibility(View.GONE);
-                btnApply.setVisibility(View.GONE);
-            } else {
-                RequestVerifyOfferCode();
+        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+            if (v.getId() == R.id.cbGetPromoCode) {
+                cbGetPromoCode.setVisibility(View.GONE);
+                etOfferCode.setVisibility(View.VISIBLE);
+                btnApply.setVisibility(View.VISIBLE);
+            } else if (v.getId() == R.id.btnApply) {
+                snackFocus = v;
+                if (btnApply.getText().equals(getResources().getString(R.string.coaCancel))) {
+                    cbGetPromoCode.setVisibility(View.VISIBLE);
+                    etOfferCode.setVisibility(View.GONE);
+                    btnApply.setVisibility(View.GONE);
+                } else {
+                    RequestVerifyOfferCode();
+                }
+            } else if (v.getId() == R.id.btnViewMore) {
+                AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran);
+                addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
+            } else if (v.getId() == R.id.btnViewOrder) {
+                SaveCheckOutData(null, null);
+                finish();
+            } else if (v.getId() == R.id.btnPlaceOrder) {
+                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut);
+                confirmDialog.show(getSupportFragmentManager(), "");
+            } else if (v.getId() == R.id.btnAdd) {
+                Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
             }
-        } else if (v.getId() == R.id.btnViewMore) {
-            AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran);
-            addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
-        } else if (v.getId() == R.id.btnViewOrder) {
-            SaveCheckOutData(null, null);
-            finish();
-        }else if(v.getId()==R.id.btnPlaceOrder){
-            ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut);
-            confirmDialog.show(getSupportFragmentManager(),"");
         }
     }
 
     public void OrderDateOnClick(View view) {
-        Globals.ShowDatePickerDialog(etOrderDate, CheckOutActivity.this, true);
+        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+            Globals.ShowDatePickerDialog(etOrderDate, CheckOutActivity.this, true);
+        }
     }
 
     public void OrderTimeOnClick(View view) {
-        Globals.ShowTimePickerDialog(etOrderTime, CheckOutActivity.this);
+        if(getSupportFragmentManager().getBackStackEntryCount()==0) {
+            Globals.ShowTimePickerDialog(etOrderTime, CheckOutActivity.this);
+        }
     }
 
     @Override
@@ -241,11 +270,38 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onBackPressed() {
-        SaveCheckOutData(null, null);
-        finish();
+    public void OrderMasterResponse(String errorCode, OrderMaster objOrderMaster) {
+        progressDialog.dismiss();
+        SetError(errorCode);
     }
 
+    @Override
+    public void ConfirmResponse() {
+        RequestOrderMaster();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount()!=0){
+            if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                    && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                    .equals(getResources().getString(R.string.title_add_address_fragment))) {
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }else {
+            SaveCheckOutData(null, null);
+            finish();
+        }
+    }
+
+    @Override
+    public void AddNewAddress(CustomerAddressTran objCustomerAddressTran) {
+        SaveCheckOutData(objCustomerAddressTran,null);
+        SetCheckOutData(null);
+        alCustomerAddressTran.add(0,objCustomerAddressTran);
+    }
+
+    //region Private Methods
     private void RequestCustomerMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
 
@@ -375,12 +431,72 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (objCustomerAddress != null) {
             objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
         }
-        if(objOffer!=null) {
-            if(objOffer.getOfferCode().equals("Remove")){
+        if (objOffer != null) {
+            if (objOffer.getOfferCode().equals("Remove")) {
                 objCheckOut.setObjOfferMaster(null);
-            }else{
+            } else {
                 objCheckOut.setObjOfferMaster(objOffer);
             }
         }
     }
+
+    private void RequestOrderMaster() {
+        progressDialog.show(getSupportFragmentManager(), "");
+
+        objOrderMaster.setLinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+        objOrderMaster.setlinktoOrderTypeMasterId((short) objCheckOut.getOrderType());
+        objOrderMaster.setlinktoCustomerAddressTranId(objCheckOut.getObjCustomerAddressTran().getCustomerAddressTranId());
+        objOrderMaster.setOfferCode(objCheckOut.getObjOfferMaster() != null ? objCheckOut.getObjOfferMaster().getOfferCode() : null);
+        objOrderMaster.setlinktoOfferMasterId(objCheckOut.getObjOfferMaster() != null ? objCheckOut.getObjOfferMaster().getOfferMasterId() : 0);
+
+        OrderJSONParser orderJSONParser = new OrderJSONParser();
+        orderJSONParser.InsertOrderMaster(objOrderMaster, Globals.alOrderItemTran, alTaxMaster, CheckOutActivity.this, null);
+    }
+
+    private void SetError(String errorCode) {
+        switch (errorCode) {
+            case "-1":
+                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgServerNotResponding), CheckOutActivity.this, 1000);
+                break;
+            case "0":
+                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgConfirmOrder), CheckOutActivity.this, 1000);
+                if (activityName != null && activityName.equals(getResources().getString(R.string.title_activity_wish_list))) {
+                    RemoveWishListFromSharePreference();
+                }
+                Globals.ClearCartData();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("ShowMessage", false);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+                break;
+        }
+    }
+
+    private void RemoveWishListFromSharePreference() {
+        ArrayList<String> alNewString = new ArrayList<>();
+        boolean isDuplicate;
+        ItemAdapter.alWishItemMaster = new ArrayList<>();
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", CheckOutActivity.this) != null) {
+            ArrayList<String> alOldString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", CheckOutActivity.this);
+            for (String strItemMasterId : alOldString) {
+                isDuplicate = false;
+                for (ItemMaster objItemMaster : Globals.alOrderItemTran) {
+                    if (strItemMasterId.equals(String.valueOf(objItemMaster.getItemMasterId()))) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    alNewString.add(strItemMasterId);
+                    ItemMaster objWishItemMaster = new ItemMaster();
+                    objWishItemMaster.setItemMasterId(Integer.parseInt(strItemMasterId));
+                    objWishItemMaster.setIsChecked((short) 1);
+                    ItemAdapter.alWishItemMaster.add(objWishItemMaster);
+                }
+            }
+            objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alNewString, CheckOutActivity.this);
+        }
+    }
+    //endregion
 }

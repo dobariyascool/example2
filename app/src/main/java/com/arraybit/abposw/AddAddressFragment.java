@@ -227,6 +227,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
             objAddNewAddressListener.AddNewAddress(null);
             getActivity().getSupportFragmentManager().popBackStack();
+        }else if(activity.getTitle().equals(getResources().getString(R.string.title_activity_check_out))){
+            getActivity().getSupportFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -279,7 +281,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    //region Private Methods
+    //region Private Methods and Interface
     private void RequestStateMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         StateJSONParser objStateJSONParser = new StateJSONParser();
@@ -366,10 +368,15 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
                 break;
             case "0":
-                objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
-                objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
-
-                getActivity().getSupportFragmentManager().popBackStack();
+                if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_check_out))) {
+                    objAddNewAddressListener = (AddNewAddressListener) getActivity();
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
         }
     }
 

@@ -1,14 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.arraybit.abposw.ConfirmDialog">
+
+    <com.rey.material.widget.TextView
+        style="@style/HeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/control_SpecingSmall"
+        android:text="@string/cdfConfirmMsg" />
 
     <com.rey.material.widget.TextView
         android:id="@+id/txtMessage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="@dimen/control_SpecingSmall"/>
-
-</FrameLayout>
+        android:paddingEnd="@dimen/control_SpecingLarge"
+        android:paddingStart="@dimen/control_SpecingLarge"
+        android:textSize="@dimen/control_TextSmall" />
+</LinearLayout>
