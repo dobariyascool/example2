@@ -807,7 +807,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 && spState.getSelectedItemId() == 0
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
-            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
             etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
             txtStateError.setVisibility(View.VISIBLE);
             etName.clearError();
@@ -820,7 +820,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 && spCity.getSelectedItemId() == 0
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
-            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
             etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.VISIBLE);
@@ -940,7 +940,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 && spCity.getSelectedItemId() != 0
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
-            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
             etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);
@@ -988,7 +988,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
             etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
-            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
             etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.VISIBLE);
@@ -1001,7 +1001,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                 && etZip.getText().toString().equals("")
                 && etMobile.getText().toString().equals("")) {
             etAddress.setError("Enter " + getResources().getString(R.string.yaAddress));
-            etZip.setError("Enter " + getResources().getString(R.string.yaName));
+            etZip.setError("Enter " + getResources().getString(R.string.yaZip));
             etMobile.setError("Enter " + getResources().getString(R.string.yaMobileNum));
             txtStateError.setVisibility(View.INVISIBLE);
             txtCityError.setVisibility(View.INVISIBLE);

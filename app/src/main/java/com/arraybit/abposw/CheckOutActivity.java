@@ -161,7 +161,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                         } else {
                             buttonView.setChecked(true);
                         }
-                    }
+                    }              
                 }
             }
         });
@@ -245,7 +245,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     public void OrderTimeOnClick(View view) {
         if(getSupportFragmentManager().getBackStackEntryCount()==0) {
-            Globals.ShowTimePickerDialog(etOrderTime, CheckOutActivity.this);
+            Globals.ShowTimePickerDialog(etOrderTime, CheckOutActivity.this,true);
         }
     }
 
