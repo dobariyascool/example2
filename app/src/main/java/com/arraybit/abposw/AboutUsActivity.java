@@ -23,7 +23,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
     WebView wvAbout;
     ProgressDialog progressDialog;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
