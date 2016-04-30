@@ -11,8 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/control_SpecingTiny"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/control_SpecingSmall">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -35,8 +35,7 @@
                     android:id="@+id/ivHomeOffice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                     />
+                    android:layout_centerVertical="true" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtDefault"
@@ -69,7 +68,7 @@
                 <ImageView
                     android:id="@+id/ivCustomer"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="18dp"
                     android:src="@drawable/user_drawable" />
 
                 <com.rey.material.widget.TextView
@@ -88,20 +87,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/ivAddress"
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
+                        android:layout_height="16dp"
                         android:src="@drawable/address_drawable" />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCustomerAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/brown_light"
-                        android:textSize="15sp" />
+                        android:textColor="@color/addressColor"
+                        android:textSize="@dimen/control_TextSmall" />
                 </LinearLayout>
 
                 <com.rey.material.widget.TextView
@@ -109,26 +109,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/brown_light"
-                    android:textSize="15sp" />
+                    android:textColor="@color/addressColor"
+                    android:textSize="@dimen/control_TextSmall" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/brown_light" />
+                        android:textColor="@color/addressColor"
+                        android:textSize="@dimen/control_TextSmall" />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtZipCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/brown_light" />
+                        android:textColor="@color/addressColor"
+                        android:textSize="@dimen/control_TextSmall" />
 
                 </LinearLayout>
 
@@ -137,27 +140,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/brown_light" />
+                    android:textColor="@color/addressColor"
+                    android:textSize="@dimen/control_TextSmall" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/control_SpecingTiny">
 
                 <ImageView
                     android:id="@+id/ivCall"
                     android:layout_width="wrap_content"
-                    android:layout_height="18dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/call_drawable" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/brown_light" />
+                    android:textColor="@color/addressColor"
+                    android:textSize="@dimen/control_TextSmall" />
 
             </LinearLayout>
 
