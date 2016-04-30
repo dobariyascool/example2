@@ -47,6 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+
 @SuppressWarnings("ConstantConditions")
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
         OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener {
