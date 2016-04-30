@@ -87,7 +87,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.txtItemPrice.setText(view.getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
         if (objItemMaster.getIsDineInOnly()) {
-            holder.cvItem.setClickable(false);
+            //holder.cvItem.setClickable(false);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
             if(MenuActivity.isViewChange){
                 holder.ibLike.setVisibility(View.GONE);
@@ -112,7 +112,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
-                holder.ivJain.setVisibility(View.VISIBLE);
+//                holder.ivJain.setVisibility(View.VISIBLE);
+                holder.ivJain.setVisibility(View.GONE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -121,7 +122,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
-                holder.ivSpicy.setVisibility(View.VISIBLE);
+//                holder.ivSpicy.setVisibility(View.VISIBLE);
+                holder.ivSpicy.setVisibility(View.GONE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -130,7 +132,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Sweet.getValue()))) {
-                holder.ivSweet.setVisibility(View.VISIBLE);
+//                holder.ivSweet.setVisibility(View.VISIBLE);
+                holder.ivSweet.setVisibility(View.GONE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -139,7 +142,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.DoubleSpicy.getValue()))) {
-                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
+//                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
+                holder.ivExtraSpicy.setVisibility(View.GONE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }

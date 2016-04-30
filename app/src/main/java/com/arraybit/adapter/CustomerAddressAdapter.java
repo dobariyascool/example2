@@ -87,8 +87,11 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         if (position != null) {
             lstCustomerAddressTran.get(position).setCustomerName(objCustomerAddressTran.getCustomerName());
             lstCustomerAddressTran.get(position).setMobileNum(objCustomerAddressTran.getMobileNum());
+            lstCustomerAddressTran.get(position).setlinktoCountryMasterId(objCustomerAddressTran.getlinktoStateMasterId());
             lstCustomerAddressTran.get(position).setState(objCustomerAddressTran.getState());
+            lstCustomerAddressTran.get(position).setlinktoCityMasterId(objCustomerAddressTran.getlinktoCityMasterId());
             lstCustomerAddressTran.get(position).setCity(objCustomerAddressTran.getCity());
+            lstCustomerAddressTran.get(position).setlinktoAreaMasterId(objCustomerAddressTran.getlinktoAreaMasterId());
             lstCustomerAddressTran.get(position).setArea(objCustomerAddressTran.getArea());
             lstCustomerAddressTran.get(position).setAddress(objCustomerAddressTran.getAddress());
             lstCustomerAddressTran.get(position).setZipCode(objCustomerAddressTran.getZipCode());

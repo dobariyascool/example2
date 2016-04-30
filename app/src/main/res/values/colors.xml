@@ -46,6 +46,7 @@
     <color name="brown">#795548</color>
     <color name="brown_light">#8D6E63</color>
     <color name="brown1">#c2aea8</color>
+    <color name="addressColor">#99857e</color>
     <color name="rippleColor">#66999999</color>
     <color name="navigationdrawerText">#616161</color>
     <color name="errorTextColor">#80180C02</color>

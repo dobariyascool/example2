@@ -28,10 +28,10 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener {
 
     ImageView ivItemImage;
-    TextView txtItemRate, txtShortDescription, txtHeader;
+    TextView txtItemRate, txtShortDescription, txtHeader, txtItemDineOnly;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
-    Button btnCancel, btnAdd;
+    Button btnCancel, btnAdd, btnAddDisable;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -65,9 +65,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         txtItemRate = (TextView) findViewById(R.id.txtItemRate);
         txtShortDescription = (TextView) findViewById(R.id.txtShortDescription);
         txtHeader = (TextView) findViewById(R.id.txtHeader);
+        txtItemDineOnly = (TextView) findViewById(R.id.txtItemDineOnly);
 
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAddDisable = (Button) findViewById(R.id.btnAddDisable);
 
         btnCancel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
@@ -110,7 +112,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster, boolean isFilter) {
         progressDialog.dismiss();
         this.alItemMaster = alItemMaster;
         SetRecyclerView();
@@ -139,6 +141,14 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             } else {
                 getSupportActionBar().setTitle(this.getResources().getString(R.string.title_detail));
             }
+        }
+
+        if (objItemMaster.getIsDineInOnly()) {
+            btnAddDisable.setVisibility(View.VISIBLE);
+            btnAdd.setVisibility(View.GONE);
+        } else {
+            btnAddDisable.setVisibility(View.GONE);
+            btnAdd.setVisibility(View.VISIBLE);
         }
 
         if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
