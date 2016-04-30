@@ -115,7 +115,7 @@ public class Globals {
         dp.show();
     }
 
-    public static void ShowTimePickerDialog(final EditText txtView, final Context context) {
+    public static void ShowTimePickerDialog(final EditText txtView, final Context context, final boolean IsPreventPastTimeRequest) {
         final Calendar c = Calendar.getInstance();
 
         if (!txtView.getText().toString().equals("")) {
@@ -135,15 +135,22 @@ public class Globals {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        H = hourOfDay;
-                        m = minute;
-
                         Calendar cal = Calendar.getInstance();
                         cal.set(Calendar.YEAR, 0);
                         cal.set(Calendar.MONTH, 0);
                         cal.set(Calendar.DAY_OF_MONTH, 0);
-                        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        cal.set(Calendar.MINUTE, minute);
+                        if (IsPreventPastTimeRequest) {
+                            if (hourOfDay >= H && minute >= m) {
+                                cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                cal.set(Calendar.MINUTE, minute);
+                            } else if (hourOfDay > H && minute < m) {
+                                cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                cal.set(Calendar.MINUTE, minute);
+                            }
+                        } else {
+                            cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            cal.set(Calendar.MINUTE, minute);
+                        }
                         cal.set(Calendar.SECOND, 0);
                         cal.set(Calendar.MILLISECOND, 0);
 
