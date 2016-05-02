@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddressAdapter.CustomerAddressTranViewHolder> {
     public ArrayList<CustomerAddressTran> lstCustomerAddressTran;
+    public boolean isAddressAnimate = false;
     Context context;
     LayoutInflater inflater;
     View view;
@@ -75,6 +76,9 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         holder.txtZipCode.setText(context.getResources().getString(R.string.minus) + objCustomerAddressTran.getZipCode());
         holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
         holder.txtPhone.setText(String.valueOf(objCustomerAddressTran.getMobileNum()));
+        if (isAddressAnimate) {
+            Globals.SetItemAnimator(holder);
+        }
     }
 
     @Override
@@ -99,16 +103,19 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         } else {
             lstCustomerAddressTran.add(0, objCustomerAddressTran);
         }
+        isAddressAnimate = false;
         notifyDataSetChanged();
     }
 
     public void DeleteCustomerAddress(int position) {
         lstCustomerAddressTran.remove(position);
+        isAddressAnimate = false;
         notifyItemRemoved(position);
     }
 
-    public void AddCustomerAddress(int position,CustomerAddressTran objCustomerAddressTran) {
+    public void AddCustomerAddress(int position, CustomerAddressTran objCustomerAddressTran) {
         lstCustomerAddressTran.add(position, objCustomerAddressTran);
+        isAddressAnimate = false;
         notifyItemInserted(position);
     }
 

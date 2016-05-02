@@ -43,7 +43,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     Integer position = null;
     ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
     int customerMasterId;
-    boolean isNewBooking,isDismiss;
+    boolean isNewBooking, isDismiss;
     CoordinatorLayout yourAddressFragment;
 
     public YourAddressFragment() {
@@ -66,7 +66,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         app_bar.setTitle(getResources().getString(R.string.title_fragment_your_address));
         setHasOptionsMenu(true);
 
-        yourAddressFragment = (CoordinatorLayout)view.findViewById(R.id.yourAddressFragment);
+        yourAddressFragment = (CoordinatorLayout) view.findViewById(R.id.yourAddressFragment);
 
         fabAddress = (FloatingActionButton) view.findViewById(R.id.fabAddress);
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
@@ -94,7 +94,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 position = viewHolder.getAdapterPosition();
                 final CustomerAddressTran objCustomerAddressTran = alCustomerAddressTran.get(viewHolder.getAdapterPosition());
-                ShowSnackBarWithAction(position,objCustomerAddressTran);
+                ShowSnackBarWithAction(position, objCustomerAddressTran);
                 adapter.DeleteCustomerAddress(position);
             }
 
@@ -104,8 +104,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
                         && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                         .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
                     return super.getSwipeDirs(recyclerView, viewHolder);
-                }
-                else {
+                } else {
                     return 0;
                 }
             }
@@ -113,6 +112,20 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
         itemTouchHelper.attachToRecyclerView(rvAddress);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        rvAddress.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!adapter.isAddressAnimate) {
+                    adapter.isAddressAnimate = true;
+                }
+            }
+        });
     }
 
     @Override
@@ -236,7 +249,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void ShowSnackBarWithAction(final int position, final CustomerAddressTran objCustomerAddressTran){
+    private void ShowSnackBarWithAction(final int position, final CustomerAddressTran objCustomerAddressTran) {
         Snackbar snackbar = Snackbar
                 .make(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressDelete), Snackbar.LENGTH_LONG)
                 .setCallback(new Snackbar.Callback() {
@@ -269,7 +282,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
                     }
                 });
 
-        snackbar.setActionTextColor(ContextCompat.getColor(getActivity(),R.color.snackBarActionColor));
+        snackbar.setActionTextColor(ContextCompat.getColor(getActivity(), R.color.snackBarActionColor));
 
         View snackView = snackbar.getView();
         if (Build.VERSION.SDK_INT >= 21) {
