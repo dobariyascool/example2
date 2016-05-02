@@ -193,9 +193,9 @@ public class Globals {
         return matcher.matches();
     }
 
-    public static String GetCurrentDateTime(){
+    public static String GetCurrentDateTime() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/yyyy/h/m/s",Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d/M/yyyy/h/m/s", Locale.US);
         return simpleDateFormat.format(calendar.getTime());
     }
 
