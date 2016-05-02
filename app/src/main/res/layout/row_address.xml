@@ -100,7 +100,7 @@
                         android:id="@+id/txtCustomerAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/addressColor"
+                        android:textColor="@color/secondary_text"
                         android:textSize="@dimen/control_TextSmall" />
                 </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/addressColor"
+                    android:textColor="@color/secondary_text"
                     android:textSize="@dimen/control_TextSmall" />
 
                 <LinearLayout
@@ -123,14 +123,14 @@
                         android:id="@+id/txtCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/addressColor"
+                        android:textColor="@color/secondary_text"
                         android:textSize="@dimen/control_TextSmall" />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtZipCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/addressColor"
+                        android:textColor="@color/secondary_text"
                         android:textSize="@dimen/control_TextSmall" />
 
                 </LinearLayout>
@@ -140,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/addressColor"
+                    android:textColor="@color/secondary_text"
                     android:textSize="@dimen/control_TextSmall" />
             </LinearLayout>
 

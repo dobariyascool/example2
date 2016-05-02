@@ -4,19 +4,19 @@
         <layer-list>
             <item>
                 <shape>
-                    <solid android:angle="270.0" android:color="#3D689A" />
+                    <solid android:angle="270.0" android:color="@color/colorAccentDark" />
 
                     <corners android:radius="3dp" />
                 </shape>
             </item>
             <item android:right="50dp" android:top="30dp">
                 <shape>
-                    <solid android:color="#3D689A" />
+                    <solid android:color="@color/colorAccentDark" />
                 </shape>
             </item>
             <item android:bottom="30dp" android:right="50dp">
                 <shape>
-                    <solid android:color="#3D689A" />
+                    <solid android:color="@color/colorAccentDark" />
                 </shape>
             </item>
         </layer-list>
@@ -25,19 +25,19 @@
         <layer-list>
             <item>
                 <shape>
-                    <solid android:angle="270.0" android:color="#417abc" />
+                    <solid android:angle="270.0" android:color="@color/disableColor" />
 
                     <corners android:radius="3dp" />
                 </shape>
             </item>
             <item android:right="50dp" android:top="30dp">
                 <shape>
-                    <solid android:color="#417abc" />
+                    <solid android:color="@color/disableColor" />
                 </shape>
             </item>
             <item android:bottom="30dp" android:right="50dp">
                 <shape>
-                    <solid android:color="#417abc" />
+                    <solid android:color="@color/disableColor" />
                 </shape>
             </item>
         </layer-list>

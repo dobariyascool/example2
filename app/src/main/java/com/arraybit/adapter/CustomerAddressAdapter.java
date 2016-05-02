@@ -1,5 +1,6 @@
 package com.arraybit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -40,6 +41,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         return new CustomerAddressTranViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(CustomerAddressTranViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = lstCustomerAddressTran.get(position);
@@ -70,12 +72,9 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         holder.txtAddress.setText(objCustomerAddressTran.getAddress());
         holder.txtArea.setText(objCustomerAddressTran.getArea());
         holder.txtCity.setText(objCustomerAddressTran.getCity());
-        holder.txtZipCode.setText(" - " + objCustomerAddressTran.getZipCode());
+        holder.txtZipCode.setText(context.getResources().getString(R.string.minus) + objCustomerAddressTran.getZipCode());
         holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
         holder.txtPhone.setText(String.valueOf(objCustomerAddressTran.getMobileNum()));
-
-//        holder.btnDelete.setId(objCustomerAddressTran.getCustomerAddressTranId());
-//        holder.btnDelete.setTag(position);
     }
 
     @Override
@@ -106,6 +105,11 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     public void DeleteCustomerAddress(int position) {
         lstCustomerAddressTran.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void AddCustomerAddress(int position,CustomerAddressTran objCustomerAddressTran) {
+        lstCustomerAddressTran.add(position, objCustomerAddressTran);
+        notifyItemInserted(position);
     }
 
     public interface CustomerAddressListener {

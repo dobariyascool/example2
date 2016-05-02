@@ -10,7 +10,7 @@
     <!--<gradient android:startColor="#B3E5FC"-->
     <!--android:endColor="#B3E5FC"-->
     <!--android:angle="45" />-->
-    <stroke android:width="2dp" android:color="#90CAF9"/>
+    <stroke android:width="2dp" android:color="@color/colorAccent"/>
 
     <!--android:bottomRightRadius="10dp"android:topRightRadius="10dp"-->
 

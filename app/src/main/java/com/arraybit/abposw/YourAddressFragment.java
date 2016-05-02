@@ -2,8 +2,11 @@ package com.arraybit.abposw;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.arraybit.adapter.CustomerAddressAdapter;
 import com.arraybit.global.Globals;
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@SuppressWarnings("ConstantConditions")
 public class YourAddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener, AddAddressFragment.AddNewAddressListener {
 
     FloatingActionButton fabAddress;
@@ -38,7 +43,8 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     Integer position = null;
     ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
     int customerMasterId;
-    boolean isNewBooking;
+    boolean isNewBooking,isDismiss;
+    CoordinatorLayout yourAddressFragment;
 
     public YourAddressFragment() {
     }
@@ -60,9 +66,12 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         app_bar.setTitle(getResources().getString(R.string.title_fragment_your_address));
         setHasOptionsMenu(true);
 
+        yourAddressFragment = (CoordinatorLayout)view.findViewById(R.id.yourAddressFragment);
+
         fabAddress = (FloatingActionButton) view.findViewById(R.id.fabAddress);
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         rvAddress = (RecyclerView) view.findViewById(R.id.rvAddress);
+        rvAddress.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         fabAddress.setOnClickListener(this);
@@ -82,11 +91,11 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                 position = viewHolder.getAdapterPosition();
-                progressDialog.show(getActivity().getSupportFragmentManager(), "");
-                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-                objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(alCustomerAddressTran.get(viewHolder.getAdapterPosition()).getCustomerAddressTranId()));//String.valueOf(((CustomerAddressAdapter.CustomerAddressTranViewHolder) viewHolder).txtCustomerAddressTranId.getText()));
+                final CustomerAddressTran objCustomerAddressTran = alCustomerAddressTran.get(viewHolder.getAdapterPosition());
+                ShowSnackBarWithAction(position,objCustomerAddressTran);
+                adapter.DeleteCustomerAddress(position);
             }
 
             @Override
@@ -103,7 +112,6 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
         itemTouchHelper.attachToRecyclerView(rvAddress);
-        //itemTouchHelper.
         return view;
     }
 
@@ -211,8 +219,8 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         } else if (alCustomerAddressTran.size() == 0) {
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgNoRecord), rvAddress, 0);
         } else {
+            rvAddress.setVisibility(View.VISIBLE);
             adapter = new CustomerAddressAdapter(getActivity(), alCustomerAddressTran, this, getActivity().getSupportFragmentManager());
-            //adapter.CustomerAddressDataChanged(alCustomerAddressTran);
             rvAddress.setAdapter(adapter);
             rvAddress.setLayoutManager(linearLayoutManager);
             if (isNewBooking) {
@@ -228,10 +236,55 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    private void ShowSnackBarWithAction(final int position, final CustomerAddressTran objCustomerAddressTran){
+        Snackbar snackbar = Snackbar
+                .make(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressDelete), Snackbar.LENGTH_LONG)
+                .setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                        super.onShown(snackbar);
+                        // when snackbar is showing
+                    }
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        super.onDismissed(snackbar, event);
+                        if (event == DISMISS_EVENT_TIMEOUT) {
+                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
+                            if (!isDismiss) {
+                                progressDialog.show(getActivity().getSupportFragmentManager(), "");
+                                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+                                objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
+                            }
+                            isDismiss = false;
+                        }
+                    }
+                })
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        isDismiss = true;
+                        adapter.AddCustomerAddress(position, objCustomerAddressTran);
+                        Globals.ShowSnackBar(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressUndo), getActivity(), 1000);
+                    }
+                });
+
+        snackbar.setActionTextColor(ContextCompat.getColor(getActivity(),R.color.snackBarActionColor));
+
+        View snackView = snackbar.getView();
+        if (Build.VERSION.SDK_INT >= 21) {
+            snackView.setElevation(R.dimen.snackbar_elevation);
+        }
+        TextView txt = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+        txt.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blue_grey));
+        snackbar.show();
+    }
+
     private void SetErrorCode(String errorCode) {
         switch (errorCode) {
             case "0":
-                adapter.DeleteCustomerAddress(position);
+                //adapter.DeleteCustomerAddress(position);
         }
     }
     //endregion
