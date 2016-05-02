@@ -89,9 +89,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         if (objItemMaster.getIsDineInOnly()) {
             //holder.cvItem.setClickable(false);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
-            if(MenuActivity.isViewChange){
+            if (MenuActivity.isViewChange) {
                 holder.ibLike.setVisibility(View.GONE);
-            }else{
+            } else {
                 holder.ibLike.setVisibility(View.INVISIBLE);
             }
             if (!isTileGrid) {
@@ -161,9 +161,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         if (!isTileGrid && !MenuActivity.isViewChange) {
             if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
                 holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
-                if(objItemMaster.getItemName().length() > 15){
-                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0,15) + "..");
-                }else{
+                if (objItemMaster.getItemName().length() > 15) {
+                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 15) + "...");
+                } else {
                     holder.txtItemName.setText(objItemMaster.getItemName());
                 }
 
@@ -171,12 +171,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(objItemMaster.getItemName().length())});
                 holder.txtItemName.setText(objItemMaster.getItemName());
             }
-        }else if(MenuActivity.isViewChange){
+        } else if (MenuActivity.isViewChange) {
             if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
                 holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
-                if(objItemMaster.getItemName().length() > 11){
-                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 11) + "..");
-                }else{
+                if (objItemMaster.getItemName().length() > 11) {
+                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 11) + "...");
+                } else {
                     holder.txtItemName.setText(objItemMaster.getItemName());
                 }
             } else {
