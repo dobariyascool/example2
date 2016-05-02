@@ -54,5 +54,7 @@
     <color name="transparentBrown">#cf3e2723</color>
     <color name="dimWhite">#c1c0c0</color>
     <color name="purple">#FF3F0B4B</color>
+    <color name="disableColor">#FFACAA8A</color>
+    <color name="snackBarActionColor">#ccc673</color>
 
 </resources>

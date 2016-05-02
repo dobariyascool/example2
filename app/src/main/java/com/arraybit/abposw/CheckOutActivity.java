@@ -38,6 +38,7 @@ import com.arraybit.parser.OrderJSONParser;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.ImageButton;
 import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
@@ -58,7 +59,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
     EditText etOfferCode, etOrderDate;
-    Button btnApply, btnViewMore, btnAdd, btnViewOrder, btnPlaceOrder;
+    Button btnApply,btnViewOrder, btnPlaceOrder;
+    ImageButton ibAdd,ibViewMore;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
@@ -109,15 +111,16 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         spOrderTime = (AppCompatSpinner) findViewById(R.id.spOrderTime);
 
         btnApply = (Button) findViewById(R.id.btnApply);
-        btnViewMore = (Button) findViewById(R.id.btnViewMore);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
         btnPlaceOrder = (Button) findViewById(R.id.btnPlaceOrder);
         btnViewOrder = (Button) findViewById(R.id.btnViewOrder);
 
+        ibAdd = (ImageButton) findViewById(R.id.ibAdd);
+        ibViewMore = (ImageButton) findViewById(R.id.ibViewMore);
+
         cbGetPromoCode.setOnClickListener(this);
         btnApply.setOnClickListener(this);
-        btnViewMore.setOnClickListener(this);
-        btnAdd.setOnClickListener(this);
+        ibAdd.setOnClickListener(this);
+        ibViewMore.setOnClickListener(this);
         btnPlaceOrder.setOnClickListener(this);
         btnViewOrder.setOnClickListener(this);
 
@@ -282,7 +285,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     RequestVerifyOfferCode();
                 }
-            } else if (v.getId() == R.id.btnViewMore) {
+            } else if (v.getId() == R.id.ibViewMore) {
                 AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran);
                 addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
             } else if (v.getId() == R.id.btnViewOrder) {
@@ -291,7 +294,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             } else if (v.getId() == R.id.btnPlaceOrder) {
                 ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut);
                 confirmDialog.show(getSupportFragmentManager(), "");
-            } else if (v.getId() == R.id.btnAdd) {
+            } else if (v.getId() == R.id.ibAdd) {
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
             }
         }
@@ -491,6 +494,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
             if (objCustomerAddress.getArea() != null) {
                 txtArea.setText(objCustomerAddress.getArea());
+            }else{
+                txtArea.setText("");
             }
             if (objCustomerAddress.getAddress() != null) {
                 txtAddress.setText(objCustomerAddress.getAddress());

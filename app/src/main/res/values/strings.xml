@@ -108,6 +108,9 @@
     <string name="suArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
     <!-- end -->
 
+    <string name="plus">\u002B</string>
+    <string name="minus">\u2212</string>
+
     <!--SignIn Activity-->
     <string name="siLoginWithFb">Login with Facebook</string>
     <string name="siLoginWithGplus">Login with Google+</string>
@@ -314,6 +317,8 @@
     <string name="yaAddressType">Address Type</string>
     <string name="yaDefault">Default</string>
     <string name="yaValidZip">Valid Zip Code</string>
+    <string name="yaAddressDelete">Address is deleted</string>
+    <string name="yaAddressUndo">Address is restored</string>
     <!-- End-->
 
     <!-- CheckOut Activity-->
@@ -329,7 +334,7 @@
     <string name="coaCancel">Cancel</string>
     <string name="coaYouPay">You Pay</string>
     <string name="coaViewOrder">View Order</string>
-    <string name="coaViewMore">View Order</string>
+    <string name="coaViewMore">View More</string>
     <string name="coaAddMore">Add More</string>
     <string name="coaPlaceOrder">Place Order</string>
     <string name="coaMsg">You can edit or delete address from your account</string>

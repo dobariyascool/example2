@@ -192,49 +192,6 @@
                             android:dropDownWidth="match_parent"/>
 
                     </LinearLayout>
-
-                    <!--<LinearLayout-->
-                    <!--android:id="@+id/dateLayout"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:animateLayoutChanges="true"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:padding="@dimen/control_SpecingSmall"-->
-                    <!--android:visibility="visible">-->
-
-                    <!--<com.rey.material.widget.TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/coaDate" />-->
-
-                    <!--<com.rey.material.widget.EditText-->
-                    <!--android:id="@+id/etOrderDate"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
-                    <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/toggle_drawable"-->
-                    <!--android:onClick="OrderDateOnClick"-->
-                    <!--android:padding="@dimen/control_SpecingSmall" />-->
-
-                    <!--<com.rey.material.widget.TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/coaTime" />-->
-
-                    <!--<com.rey.material.widget.EditText-->
-                    <!--android:id="@+id/etOrderTime"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
-                    <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/toggle_drawable"-->
-                    <!--android:onClick="OrderTimeOnClick"-->
-                    <!--android:padding="@dimen/control_SpecingSmall" />-->
-                    <!--</LinearLayout>-->
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -253,13 +210,8 @@
                             android:id="@+id/ivAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/address_drawable" />
-
-                        <!--<com.rey.material.widget.TextView-->
-                        <!--android:id="@+id/txtHeaderAddress"-->
-                        <!--android:layout_width="100dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Address" />-->
+                            android:src="@drawable/address_drawable"
+                            tools:ignore="ContentDescription" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtAddress"
@@ -294,22 +246,27 @@
                             android:text="@string/coaArea"
                             android:visibility="visible" />
 
-                        <com.rey.material.widget.Button
-                            android:id="@+id/btnViewMore"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <com.rey.material.widget.ImageButton
+                            android:id="@+id/ibViewMore"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentBottom="true"
                             android:layout_below="@+id/txtArea"
-                            android:layout_toStartOf="@+id/btnAdd"
-                            android:text="@string/coaViewMore" />
+                            android:layout_toStartOf="@+id/ibAdd"
+                            android:background="@drawable/rounded_layout"
+                            android:src="@drawable/view_more_drawable"
+                            android:text="@string/coaViewMore"/>
 
-                        <com.rey.material.widget.Button
-                            android:id="@+id/btnAdd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <com.rey.material.widget.ImageButton
+                            android:id="@+id/ibAdd"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentEnd="true"
                             android:layout_below="@+id/txtArea"
-                            android:text="@string/coaAddMore" />
+                            android:layout_marginStart="@dimen/control_SpecingTiny"
+                            android:background="@drawable/rounded_layout"
+                            android:src="@drawable/plus_drawable"
+                            android:text="@string/coaAddMore"/>
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
