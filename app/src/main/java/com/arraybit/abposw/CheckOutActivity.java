@@ -59,8 +59,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
     EditText etOfferCode, etOrderDate;
-    Button btnApply,btnViewOrder, btnPlaceOrder;
-    ImageButton ibAdd,ibViewMore;
+    Button btnApply, btnViewOrder, btnPlaceOrder;
+    ImageButton ibAdd, ibViewMore;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
@@ -494,7 +494,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
             if (objCustomerAddress.getArea() != null) {
                 txtArea.setText(objCustomerAddress.getArea());
-            }else{
+            } else {
                 txtArea.setText("");
             }
             if (objCustomerAddress.getAddress() != null) {
@@ -542,10 +542,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         progressDialog.show(getSupportFragmentManager(), "");
         Date orderDateTime = null;
         try {
-            if(objCheckOut.getOrderTime().equals(getResources().getString(R.string.coaTime))){
+            if (objCheckOut.getOrderTime().equals(getResources().getString(R.string.coaTime))) {
                 Calendar calendar = Calendar.getInstance();
-                orderDateTime = new SimpleDateFormat(Globals.DateFormat +" "+ Globals.DisplayTimeFormat,Locale.US).parse(objCheckOut.getOrderDate() + " " +new SimpleDateFormat(Globals.DisplayTimeFormat,Locale.US).format(calendar.getTime()));
-            }else {
+                orderDateTime = new SimpleDateFormat(Globals.DateFormat + " " + Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderDate() + " " + new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).format(calendar.getTime()));
+            } else {
                 orderDateTime = new SimpleDateFormat(Globals.DateFormat + " " + Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderDate() + " " + objCheckOut.getOrderTime());
 
             }
@@ -574,6 +574,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     RemoveWishListFromSharePreference();
                 }
                 Globals.ClearCartData();
+                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.RemovePreference("CartItemListPreference", "CartItemList", CheckOutActivity.this);
+                objSharePreferenceManage.ClearPreference("CartItemListPreference", CheckOutActivity.this);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("ShowMessage", false);
                 setResult(Activity.RESULT_OK, returnIntent);

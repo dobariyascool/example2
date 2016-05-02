@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.arraybit.global.Globals;
-import com.arraybit.global.SharePreferenceManage;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.RadioButton;
@@ -70,12 +69,12 @@ public class MainActivity extends AppCompatActivity{
 //            Set<String> set = prefs.getStringSet("yourKey", null);
 //            ArrayList<String> sample=new ArrayList<String>(set);
 //        }
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-          if(objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this)==null){
-              objSharePreferenceManage.CreateStringListPreference("Preference","yourPrefsKey",alString,this);
-          }else{
-             ArrayList<String> sample = objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this);
-          }
+//        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+//          if(objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this)==null){
+//              objSharePreferenceManage.CreateStringListPreference("Preference","yourPrefsKey",alString,this);
+//          }else{
+//             ArrayList<String> sample = objSharePreferenceManage.GetStringListPreference("Preference","yourPrefsKey",this);
+//          }
 
 
 

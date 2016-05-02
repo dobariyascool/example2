@@ -30,8 +30,10 @@ import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.CategoryJSONParser;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
@@ -90,6 +92,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
 
         SaveWishListInSharePreference(false);
+        SaveCartDataInSharePreference(false);
     }
 
     @Override
@@ -141,6 +144,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             startActivity(i);
             finish();
         } else if (id == android.R.id.home) {
+            SaveCartDataInSharePreference(true);
             SaveWishListInSharePreference(true);
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin", true);
@@ -251,13 +255,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
     @Override
     public void onBackPressed() {
+        SaveCartDataInSharePreference(true);
         SaveWishListInSharePreference(true);
         Intent returnIntent = new Intent();
         returnIntent.putExtra("IsLogin", true);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         ClearData();
-        //Globals.ClearCartData();
+        Globals.ClearCartData();
     }
 
     @Override
@@ -504,6 +509,42 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
         return isDuplicate;
     }
+
+    private void SaveCartDataInSharePreference(boolean isBackPressed){
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        List<ItemMaster> lstItemMaster;
+        try {
+            if (Globals.alOrderItemTran.size() == 0) {
+                if (isBackPressed) {
+                    objSharePreferenceManage = new SharePreferenceManage();
+                    objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, MenuActivity.this);
+                } else {
+                    objSharePreferenceManage = new SharePreferenceManage();
+                    String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", MenuActivity.this);
+                    if(string!=null) {
+                        ItemMaster[] objItemMaster = gson.fromJson(string,
+                                ItemMaster[].class);
+
+                        lstItemMaster = Arrays.asList(objItemMaster);
+                        Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                        Globals.counter = Globals.alOrderItemTran.size();
+                    }
+                }
+
+            } else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = gson.toJson(Globals.alOrderItemTran);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, MenuActivity.this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            objSharePreferenceManage = null;
+            lstItemMaster = null;
+        }
+    }
+
     //endregion
 
     //region Page Adapter

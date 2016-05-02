@@ -23,8 +23,11 @@ import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.ItemJSONParser;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WishListActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemAdapter.ItemClickListener, View.OnClickListener {
 
@@ -80,6 +83,8 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
         ivCart.setOnClickListener(this);
 
+        SaveCartDataInSharePreference(false);
+
         return true;
     }
 
@@ -96,6 +101,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
+            SaveCartDataInSharePreference(true);
             SaveWishListInSharePreference(true);
             finish();
         }
@@ -104,6 +110,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
     @Override
     public void onBackPressed() {
+        SaveCartDataInSharePreference(true);
         SaveWishListInSharePreference(true);
         super.onBackPressed();
     }
@@ -296,11 +303,46 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             txtCartNumber.setSoundEffectsEnabled(true);
             txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
-            if (isShowMsg) {
+            if (isShowMsg && itemName!=null) {
                 Globals.ShowSnackBar(rvWishItemMaster,String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
             }
         } else {
             txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));
+        }
+    }
+
+    private void SaveCartDataInSharePreference(boolean isBackPressed) {
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        List<ItemMaster> lstItemMaster;
+        try {
+            if (Globals.alOrderItemTran.size() == 0) {
+                if (isBackPressed) {
+                    objSharePreferenceManage = new SharePreferenceManage();
+                    objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, WishListActivity.this);
+                } else {
+                    objSharePreferenceManage = new SharePreferenceManage();
+                    String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", WishListActivity.this);
+                    if (string != null) {
+                        ItemMaster[] objItemMaster = gson.fromJson(string,
+                                ItemMaster[].class);
+
+                        lstItemMaster = Arrays.asList(objItemMaster);
+                        Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                        Globals.counter = Globals.alOrderItemTran.size();
+                    }
+                }
+
+            } else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = gson.toJson(Globals.alOrderItemTran);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, WishListActivity.this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            objSharePreferenceManage = null;
+            lstItemMaster = null;
         }
     }
     //endregion

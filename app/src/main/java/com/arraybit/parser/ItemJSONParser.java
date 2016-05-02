@@ -159,6 +159,71 @@ public class ItemJSONParser {
             return null;
         }
     }
+
+    public ArrayList<ItemMaster> SetListSelectedPropertiesFromJSONArray(JSONArray jsonArray) {
+        ArrayList<ItemMaster> lstItemMaster = new ArrayList<>();
+        ItemMaster objItemMaster;
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                objItemMaster = new ItemMaster();
+                objItemMaster.setItemName(jsonArray.getJSONObject(i).getString("ItemName"));
+                objItemMaster.setTax(jsonArray.getJSONObject(i).getString("Tax"));
+                objItemMaster.setIsChecked((short) jsonArray.getJSONObject(i).getInt("IsChecked"));
+                objItemMaster.setExtraAmount(jsonArray.getJSONObject(i).getDouble("ExtraAmount"));
+                objItemMaster.setMRP(jsonArray.getJSONObject(i).getDouble("MRP"));
+                objItemMaster.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
+                objItemMaster.setSellPrice(jsonArray.getJSONObject(i).getDouble("SellPrice"));
+                objItemMaster.setTax1(jsonArray.getJSONObject(i).getDouble("Tax1"));
+                objItemMaster.setTax2(jsonArray.getJSONObject(i).getDouble("Tax2"));
+                objItemMaster.setTax3(jsonArray.getJSONObject(i).getDouble("Tax3"));
+                objItemMaster.setTax4(jsonArray.getJSONObject(i).getDouble("Tax4"));
+                objItemMaster.setTax5(jsonArray.getJSONObject(i).getDouble("Tax5"));
+                objItemMaster.setTaxRate(jsonArray.getJSONObject(i).getDouble("TaxRate"));
+                objItemMaster.setTotalAmount(jsonArray.getJSONObject(i).getDouble("TotalAmount"));
+                objItemMaster.setTotalTax(jsonArray.getJSONObject(i).getDouble("TotalTax"));
+                objItemMaster.setTotalTax(jsonArray.getJSONObject(i).getDouble("TotalTax"));
+                objItemMaster.setIsDeleted(jsonArray.getJSONObject(i).getBoolean("IsDeleted"));
+                objItemMaster.setIsDineInOnly(jsonArray.getJSONObject(i).getBoolean("IsDineInOnly"));
+                objItemMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
+                objItemMaster.setItemMasterId(jsonArray.getJSONObject(i).getInt("ItemMasterId"));
+                objItemMaster.setItemType((short) jsonArray.getJSONObject(i).getInt("ItemType"));
+                objItemMaster.setPaymentStatus(jsonArray.getJSONObject(i).getBoolean("PaymentStatus"));
+                objItemMaster.setPriceByPoint((short) jsonArray.getJSONObject(i).getInt("PriceByPoint"));
+                objItemMaster.setItemPoint((short) jsonArray.getJSONObject(i).getInt("ItemPoint"));
+                objItemMaster.setQuantity(jsonArray.getJSONObject(i).getInt("Quantity"));
+                objItemMaster.setType((short) jsonArray.getJSONObject(i).getInt("Type"));
+                objItemMaster.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
+                JSONArray objArrayModifier = jsonArray.getJSONObject(i).getJSONArray("alOrderItemModifierTran");
+                ArrayList<ItemMaster> alOrderItemModifierTran = null;
+                ItemMaster objItemModifier;
+                if(objArrayModifier!=null){
+                    alOrderItemModifierTran = new ArrayList<>();
+                    for(int j=0;j<objArrayModifier.length();j++){
+                        objItemModifier = new ItemMaster();
+                        objItemModifier.setItemName(jsonArray.getJSONObject(i).getString("ItemName"));
+                        objItemModifier.setExtraAmount(jsonArray.getJSONObject(i).getDouble("ExtraAmount"));
+                        objItemModifier.setMRP(jsonArray.getJSONObject(i).getDouble("MRP"));
+                        objItemModifier.setRate(jsonArray.getJSONObject(i).getDouble("Rate"));
+                        objItemModifier.setSellPrice(jsonArray.getJSONObject(i).getDouble("SellPrice"));
+                        objItemModifier.setTax1(jsonArray.getJSONObject(i).getDouble("Tax1"));
+                        objItemModifier.setTax2(jsonArray.getJSONObject(i).getDouble("Tax2"));
+                        objItemModifier.setTax3(jsonArray.getJSONObject(i).getDouble("Tax3"));
+                        objItemModifier.setTax4(jsonArray.getJSONObject(i).getDouble("Tax4"));
+                        objItemModifier.setTax5(jsonArray.getJSONObject(i).getDouble("Tax5"));
+                        objItemModifier.setTaxRate(jsonArray.getJSONObject(i).getDouble("TaxRate"));
+                        objItemModifier.setItemMasterId(jsonArray.getJSONObject(i).getInt("ItemMasterId"));
+                        objItemModifier.setTotalAmount(jsonArray.getJSONObject(i).getDouble("TotalAmount"));
+                        alOrderItemModifierTran.add(objItemModifier);
+                    }
+                }
+                objItemMaster.setAlOrderItemModifierTran(alOrderItemModifierTran);
+                lstItemMaster.add(objItemMaster);
+            }
+            return lstItemMaster;
+        } catch (JSONException e) {
+            return null;
+        }
+    }
     //endregion
 
     public void SelectAllItemMaster(final Fragment targetFragment, final Context context, final String currentPage, String categoryMasterId, String optionMasterId, String linktoBusinessMasterId,String itemMasterIds, final boolean isOptionFilter) {
