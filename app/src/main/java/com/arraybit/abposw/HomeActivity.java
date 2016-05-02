@@ -237,6 +237,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (requestCode == 0) {
                 if(data!=null){
                     isLogin = data.getBooleanExtra("IsLogin", false);
+                    if(data.getBooleanExtra("IsShowMessage", false))
+                    {
+                        Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.siLoginSucessMsg), HomeActivity.this, 2000);
+                    }
                 }
                 SetUserName();
             }

@@ -209,14 +209,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
-
-            Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), LoginActivity.this, 2000);
             //Intent i = new Intent(LoginActivity.this, HomeActivity.class);
             //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             //i.putExtra("CustomerMaster", objCustomerMaster);
             //startActivity(i);
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin", true);
+            returnIntent.putExtra("IsShowMessage", true);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }

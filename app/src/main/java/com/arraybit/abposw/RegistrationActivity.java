@@ -380,8 +380,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 ClearControls();
                 break;
             default:
-                Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginSucessMsg), RegistrationActivity.this, 1000);
-
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", errorCode, this);
                 objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etEmail.getText().toString(), this);
@@ -391,6 +389,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 ClearControls();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsLogin", true);
+                returnIntent.putExtra("IsShowMessage", true);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 break;
