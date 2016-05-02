@@ -73,6 +73,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     boolean isDateChange;
 
 
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
