@@ -26,6 +26,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/h_background"
                 android:contentDescription="@string/title_fragment_profile"
+                android:scaleType="centerInside"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar

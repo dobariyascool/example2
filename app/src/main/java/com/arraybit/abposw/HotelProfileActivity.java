@@ -103,7 +103,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
             Globals.ShowSnackBar(hotelProfileFragment, getResources().getString(R.string.MsgSelectFail), HotelProfileActivity.this, 1000);
         } else {
 
-            Picasso.with(HotelProfileActivity.this).load(objBusinessMaster.getMDImagePhysicalName()).into(ivLogo);
+            Picasso.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).resize(120,120).into(ivLogo);
 
             pageAdapter.AddFragment(new InformationFragment(objBusinessMaster), "Information");
             pageAdapter.AddFragment(new GalleryFragment(), "Gallery");
