@@ -421,7 +421,7 @@ public class BookingJSONParser {
                         Calendar calendar = Calendar.getInstance();
                         String strCurrentDate, strCurrentTime;
                         Date currentTime;
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 1; i < jsonArray.length(); i++) {
                             objSpinnerItem = new SpinnerItem();
                             objSpinnerItem.setValue(i);
 
