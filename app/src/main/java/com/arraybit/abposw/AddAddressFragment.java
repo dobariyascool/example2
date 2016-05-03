@@ -285,7 +285,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     private void RequestStateMaster() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         StateJSONParser objStateJSONParser = new StateJSONParser();
-        objStateJSONParser.SelectStateMaster(this, getActivity(), String.valueOf(countryMasterId));
+        objStateJSONParser.SelectAllStateMaster(this, getActivity(), String.valueOf(countryMasterId));
     }
 
     private void RequestCityMaster() {

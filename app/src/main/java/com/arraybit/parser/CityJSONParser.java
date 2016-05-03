@@ -88,18 +88,35 @@ public class CityJSONParser {
                         }
 
                     }
-                    objCityRequestListener = (CityRequestListener) targetFragment;
-                    objCityRequestListener.CityResponse(lstSpinnerItem);
+                    if(targetFragment==null){
+                        objCityRequestListener = (CityRequestListener) context;
+                        objCityRequestListener.CityResponse(lstSpinnerItem);
+                    }else{
+                        objCityRequestListener = (CityRequestListener) targetFragment;
+                        objCityRequestListener.CityResponse(lstSpinnerItem);
+                    }
+
                 } catch (Exception e) {
-                    objCityRequestListener = (CityRequestListener) targetFragment;
-                    objCityRequestListener.CityResponse(null);
+                    if(targetFragment==null){
+                        objCityRequestListener = (CityRequestListener) context;
+                        objCityRequestListener.CityResponse(null);
+                    }else{
+                        objCityRequestListener = (CityRequestListener) targetFragment;
+                        objCityRequestListener.CityResponse(null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objCityRequestListener = (CityRequestListener) targetFragment;
-                objCityRequestListener.CityResponse(null);
+                if(targetFragment==null){
+                    objCityRequestListener = (CityRequestListener) context;
+                    objCityRequestListener.CityResponse(null);
+                }else{
+                    objCityRequestListener = (CityRequestListener) targetFragment;
+                    objCityRequestListener.CityResponse(null);
+                }
+
             }
         });
         queue.add(jsonObjectRequest);

@@ -261,7 +261,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void RequestStateMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         StateJSONParser objStateJSONParser = new StateJSONParser();
-        objStateJSONParser.SelectStateMaster(null, this, String.valueOf(countryMasterId));
+        objStateJSONParser.SelectAllStateMaster(null, this, String.valueOf(countryMasterId));
     }
 
     private void RequestCityMaster() {

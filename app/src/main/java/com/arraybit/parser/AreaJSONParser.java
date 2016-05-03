@@ -87,18 +87,33 @@ public class AreaJSONParser {
                             lstSpinnerItem.add(objSpinnerItem);
                         }
                     }
-                    objAreaRequestListener = (AreaRequestListener) targetFragment;
-                    objAreaRequestListener.AreaResponse(lstSpinnerItem);
+                    if(targetFragment==null){
+                        objAreaRequestListener = (AreaRequestListener) context;
+                        objAreaRequestListener.AreaResponse(lstSpinnerItem);
+                    }else{
+                        objAreaRequestListener = (AreaRequestListener) targetFragment;
+                        objAreaRequestListener.AreaResponse(lstSpinnerItem);
+                    }
                 } catch (Exception e) {
-                    objAreaRequestListener = (AreaRequestListener) targetFragment;
-                    objAreaRequestListener.AreaResponse(null);
+                    if(targetFragment==null){
+                        objAreaRequestListener = (AreaRequestListener) context;
+                        objAreaRequestListener.AreaResponse(lstSpinnerItem);
+                    }else{
+                        objAreaRequestListener = (AreaRequestListener) targetFragment;
+                        objAreaRequestListener.AreaResponse(null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objAreaRequestListener = (AreaRequestListener) targetFragment;
-                objAreaRequestListener.AreaResponse(null);
+                if(targetFragment==null){
+                    objAreaRequestListener = (AreaRequestListener) context;
+                    objAreaRequestListener.AreaResponse(null);
+                }else{
+                    objAreaRequestListener = (AreaRequestListener) targetFragment;
+                    objAreaRequestListener.AreaResponse(null);
+                }
             }
         });
         queue.add(jsonObjectRequest);
