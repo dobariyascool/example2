@@ -68,6 +68,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:paddingEnd="@dimen/control_SpecingLarge"
+                    android:paddingStart="@dimen/control_SpecingLarge"
                     android:text="@string/cuSend" />
 
                 <com.rey.material.widget.TextView
