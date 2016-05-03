@@ -165,6 +165,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        menu.findItem(R.id.wishList).setVisible(false);
         if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null && isLogin) {
             menu.findItem(R.id.myAccount).setVisible(true);
             menu.findItem(R.id.logout).setVisible(true);

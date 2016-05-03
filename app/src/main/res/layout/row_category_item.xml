@@ -80,6 +80,7 @@
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
+
             <com.rey.material.widget.TextView
                 android:id="@+id/txtItemDescription"
                 android:layout_width="match_parent"
@@ -136,7 +137,8 @@
                     android:background="@drawable/wishlist_drawable"
                     android:padding="@dimen/control_SpecingSmall"
                     android:textOff=""
-                    android:textOn="" />
+                    android:textOn=""
+                    android:visibility="gone" />
             </LinearLayout>
 
             <Space

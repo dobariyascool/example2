@@ -108,6 +108,7 @@
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
+
             <ToggleButton
                 android:id="@+id/ibLike"
                 android:layout_width="24dp"
@@ -116,7 +117,8 @@
                 android:background="@drawable/wishlist_drawable"
                 android:padding="@dimen/control_SpecingSmall"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:visibility="gone" />
 
         </LinearLayout>
 
