@@ -140,6 +140,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         spFromTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("SelectedItemId"+spFromTime.getSelectedItemId());
                 if (selected == -1) {
                     selected = parent.getSelectedItemPosition();
                 } else {
@@ -265,6 +266,16 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         progressDialog.dismiss();
         this.alFromTime.addAll(alTimeSlot);
         FillFromTime();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     //region Private Methods
