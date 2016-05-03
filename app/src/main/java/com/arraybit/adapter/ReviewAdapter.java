@@ -39,6 +39,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
         ReviewMaster objReviewMaster = alReviewMaster.get(position);
 
+        if (position == 0) {
+            holder.btnAddReview.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnAddReview.setVisibility(View.GONE);
+        }
         holder.rtbReview.setRating((float) objReviewMaster.getStarRating());
         holder.txtReview.setText(objReviewMaster.getReview());
     }
