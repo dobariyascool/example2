@@ -334,7 +334,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     } else {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("ShowBookingMessage", true);
-                        getActivity().setResult(Activity.RESULT_OK,returnIntent);
+                        getActivity().setResult(Activity.RESULT_OK, returnIntent);
                         getActivity().finish();
                     }
                 } else {
