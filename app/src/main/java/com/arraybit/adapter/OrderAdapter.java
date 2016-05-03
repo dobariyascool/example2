@@ -204,7 +204,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
             }
 
             if (alOrderItemModifierTran.get(i).getRemark() != null && (!alOrderItemModifierTran.get(i).getRemark().equals(""))) {
-                strRemark = alOrderItemModifierTran.get(i).getRemark();
+                if (alOrderItemModifierTran.get(i).getRemark().substring(alOrderItemModifierTran.get(i).getRemark().length() - 1, alOrderItemModifierTran.get(i).getRemark().length()).equals(",")) {
+                    strRemark = alOrderItemModifierTran.get(i).getRemark().substring(0, alOrderItemModifierTran.get(i).getRemark().length() - 1);
+                } else if (alOrderItemModifierTran.get(i).getRemark().substring(alOrderItemModifierTran.get(i).getRemark().length() - 1, alOrderItemModifierTran.get(i).getRemark().length()).equals(" ")) {
+                    strRemark = alOrderItemModifierTran.get(i).getRemark().substring(0, alOrderItemModifierTran.get(i).getRemark().length() - 2);
+                } else {
+                    strRemark = alOrderItemModifierTran.get(i).getRemark();
+                }
             }
 
             mainLayout[i].addView(txtItemName[i]);
