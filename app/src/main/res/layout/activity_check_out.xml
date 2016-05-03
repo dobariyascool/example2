@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <include
             android:id="@+id/app_bar"
@@ -22,14 +23,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/control_SpecingTiny"
+                android:layout_marginBottom="@dimen/control_SpecingSmall"
+                android:layout_marginEnd="@dimen/control_SpecingTiny"
+                android:layout_marginStart="@dimen/control_SpecingTiny"
+                android:layout_marginTop="@dimen/control_SpecingSmall"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -44,7 +47,7 @@
                             android:text="@string/coaOrderType" />
 
                         <RelativeLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_margin="@dimen/control_SpecingSmall"
                             android:background="@drawable/toggle_drawable">
@@ -75,8 +78,7 @@
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/nameLayout"
@@ -106,8 +108,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/control_SpecingTiny"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
-                                android:paddingStart="@dimen/control_SpecingSmall"
-                                android:text="dgfdgdsfhds" />
+                                android:paddingStart="@dimen/control_SpecingSmall" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -129,39 +130,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
-                                android:paddingStart="@dimen/control_SpecingSmall"
-                                android:text="fgdjklg" />
+                                android:paddingStart="@dimen/control_SpecingSmall" />
                         </LinearLayout>
                     </LinearLayout>
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="@dimen/control_SpecingTiny"-->
-                    <!--android:animateLayoutChanges="true"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal">-->
-
-                    <!--<com.rey.material.widget.TextView-->
-                    <!--android:layout_width="100dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/coaMobile" />-->
-
-                    <!--<com.rey.material.widget.TextView-->
-                    <!--android:id="@+id/txtPhone"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
-                    <!--android:background="@drawable/toggle_drawable"-->
-                    <!--android:padding="@dimen/control_SpecingSmall" />-->
-                    <!--</LinearLayout>-->
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -197,8 +174,7 @@
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -273,8 +249,7 @@
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -316,8 +291,7 @@
                 <android.support.v7.widget.CardView
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/control_SpecingTiny">
+                    android:layout_height="wrap_content">
 
                     <RelativeLayout
                         android:layout_width="match_parent"

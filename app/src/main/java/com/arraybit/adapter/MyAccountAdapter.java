@@ -1,8 +1,6 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,9 +62,9 @@ public class MyAccountAdapter extends RecyclerView.Adapter<MyAccountAdapter.MyAc
             cvOptions = (CardView) itemView.findViewById(R.id.cvOptions);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
 
-            if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
-                titleLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.card_view_with_border));
-            }
+//            if (Build.VERSION.SDK_INT >= 17 && Build.VERSION.SDK_INT < 19) {
+//                titleLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.card_view_with_border));
+//            }
             cvOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

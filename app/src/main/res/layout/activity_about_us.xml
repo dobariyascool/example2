@@ -31,7 +31,9 @@
                 <WebView
                     android:id="@+id/wvAbout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/control_SpecingSmall"
+                    android:layout_marginStart="@dimen/control_SpecingSmall"/>
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtLegal"
@@ -39,6 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
+                    android:layout_marginBottom="@dimen/control_SpecingSmall"
                     android:layout_marginStart="@dimen/control_SpecingSmall"
                     android:layout_marginTop="@dimen/control_SpecingSmall"
                     android:text="@string/abLegal" />
@@ -48,10 +51,7 @@
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginEnd="@dimen/control_SpecingSmall"
-                    android:layout_marginStart="@dimen/control_SpecingSmall"
-                    android:layout_marginTop="@dimen/control_SpecingSmall">
+                    android:layout_gravity="top">
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCardPolicy"
@@ -59,7 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="start|center"
-                        android:padding="@dimen/card_TextPadding"
+                        android:padding="@dimen/control_SpecingMedium"
                         android:text="@string/abPolicy" />
                 </android.support.v7.widget.CardView>
 
@@ -68,10 +68,7 @@
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginEnd="@dimen/control_SpecingSmall"
-                    android:layout_marginStart="@dimen/control_SpecingSmall"
-                    android:layout_marginTop="@dimen/control_SpecingSmall">
+                    android:layout_gravity="top">
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCardTerms"
@@ -79,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="start|center"
-                        android:padding="@dimen/card_TextPadding"
+                        android:padding="@dimen/control_SpecingMedium"
                         android:text="@string/abTerms" />
                 </android.support.v7.widget.CardView>
 
@@ -88,6 +85,7 @@
                     style="@style/PrimaryTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/control_SpecingSmall"
                     android:layout_marginEnd="@dimen/control_SpecingSmall"
                     android:layout_marginStart="@dimen/control_SpecingSmall"
                     android:layout_marginTop="@dimen/control_SpecingSmall"
@@ -97,18 +95,15 @@
                     android:id="@+id/cardVersion"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
-                    android:layout_height="88dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/control_SpecingTiny"
-                    android:layout_marginEnd="@dimen/control_SpecingSmall"
-                    android:layout_marginStart="@dimen/control_SpecingSmall"
-                    android:layout_marginTop="@dimen/control_SpecingSmall"
                     android:background="@drawable/bottom_border">
 
                     <LinearLayout
                         android:id="@+id/versionLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/control_SpecingSmall"
                         android:orientation="vertical">
 
                         <com.rey.material.widget.TextView

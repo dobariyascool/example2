@@ -56,7 +56,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/topPanel"
-            android:layout_margin="@dimen/control_SpecingMedium" />
+            android:layout_margin="@dimen/control_SpecingMedium"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingTop="@dimen/control_SpecingTiny" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabEdit"

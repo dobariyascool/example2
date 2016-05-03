@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.arraybit.abposw.MainActivity"
     tools:showIn="@layout/activity_main">
@@ -11,17 +12,16 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv1"
+        style="@style/DefaultCardView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/control_SpecingSmall"
-        android:layout_marginStart="@dimen/control_SpecingSmall"
-        android:layout_marginTop="@dimen/control_SpecingSmall">
+        android:layout_height="70dp">
 
         <CheckBox
             android:id="@+id/chk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:visibility="gone"/>
 
         <com.rey.material.widget.CheckBox
             android:id="@+id/chk1"
@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chk"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:visibility="gone"/>
 
         <com.rey.material.widget.RadioButton
             android:id="@+id/chk2"
@@ -37,27 +38,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chk1"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:visibility="gone"/>
 
         <com.rey.material.widget.Button
             android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chk2"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:visibility="gone"/>
 
         <com.rey.material.widget.EditText
             android:id="@+id/etBookingdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="EditTextOnClick"/>
+            android:onClick="EditTextOnClick"
+            android:visibility="gone"/>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        style="@style/DefaultCardView1"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_below="@+id/cv1"
-        android:layout_margin="@dimen/control_SpecingSmall">
+        android:layout_below="@+id/cv1">
 
 
     </android.support.v7.widget.CardView>

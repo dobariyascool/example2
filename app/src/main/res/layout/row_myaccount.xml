@@ -3,14 +3,13 @@
     android:id="@+id/cvOptions"
     style="@style/DefaultCardView"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/button_TouchableHeight"
-    android:layout_margin="@dimen/control_SpecingTiny"
+    android:layout_height="wrap_content"
     android:foreground="@drawable/navigation_view_ripple_effect">
 
     <LinearLayout
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp">
 
         <com.rey.material.widget.TextView
             android:id="@+id/txtTitle"
