@@ -319,6 +319,7 @@
     <string name="yaValidZip">Valid Zip Code</string>
     <string name="yaAddressDelete">Address is deleted</string>
     <string name="yaAddressUndo">Address is restored</string>
+    <string name="yaSwipeDelete">&lt; Swipe left to delete &gt;</string>
     <!-- End-->
 
     <!-- CheckOut Activity-->

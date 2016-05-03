@@ -47,6 +47,11 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     public void onBindViewHolder(CustomerAddressTranViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = lstCustomerAddressTran.get(position);
 
+        if (position == 0) {
+            holder.txtSwipeDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.txtSwipeDelete.setVisibility(View.GONE);
+        }
         if (objCustomerAddressTran.getIsPrimary()) {
             holder.txtDefault.setText(view.getResources().getString(R.string.yaDefault));
             //} else {
@@ -125,8 +130,8 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position);
     }
 
-    public class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtDefault, txtCustomerAddressTranId, txtCustomer, txtPhone, txtAddress, txtState, txtCity, txtArea, txtZipCode;
+    class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder {
+        TextView txtDefault, txtCustomerAddressTranId, txtCustomer, txtPhone, txtAddress, txtState, txtCity, txtArea, txtZipCode, txtSwipeDelete;
         CardView cvAddress;
         ImageView ivHomeOffice;
         ImageButton btnDelete, ibEditAddress;
@@ -138,6 +143,7 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
 
             ivHomeOffice = (ImageView) view.findViewById(R.id.ivHomeOffice);
             txtCustomerAddressTranId = (TextView) view.findViewById(R.id.txtCustomerAddressTranId);
+            txtSwipeDelete = (TextView) view.findViewById(R.id.txtSwipeDelete);
             txtCustomerAddressTranId.setVisibility(View.GONE);
             txtDefault = (TextView) view.findViewById(R.id.txtDefault);
             txtCustomer = (TextView) view.findViewById(R.id.txtCustomerName);

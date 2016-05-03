@@ -10,172 +10,192 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/control_SpecingSmall">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:orientation="vertical">
-
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtCustomerAddressTranId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/ivHomeOffice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/control_SpecingTiny"
-                    android:layout_toEndOf="@+id/ivHomeOffice"
-                    android:textColor="@color/brown"
-                    tools:ignore="RelativeOverlap" />
-
-                <com.rey.material.widget.ImageButton
-                    android:id="@+id/ibEditAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="end"
-                    android:background="@android:color/white"
-                    android:src="@drawable/edit_drawable" />
-
-            </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/control_SpecingSmall">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/control_SpecingTiny">
-
-                <ImageView
-                    android:id="@+id/ivCustomer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:src="@drawable/user_drawable" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCustomerName"
-                    style="@style/HeaderTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/control_TextMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtCustomerAddressTranId"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/ivAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        android:src="@drawable/address_drawable" />
-
-                    <com.rey.material.widget.TextView
-                        android:id="@+id/txtCustomerAddress"
+                        android:id="@+id/ivHomeOffice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="@dimen/control_TextSmall" />
-                </LinearLayout>
+                        android:layout_centerVertical="true" />
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtArea"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/control_TextSmall" />
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtDefault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/control_SpecingTiny"
+                        android:layout_toEndOf="@+id/ivHomeOffice"
+                        android:textColor="@color/brown"
+                        tools:ignore="RelativeOverlap" />
+
+                    <com.rey.material.widget.ImageButton
+                        android:id="@+id/ibEditAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:background="@android:color/white"
+                        android:src="@drawable/edit_drawable" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingLarge"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/control_SpecingTiny">
+
+                    <ImageView
+                        android:id="@+id/ivCustomer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:src="@drawable/user_drawable" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/txtCity"
+                        android:id="@+id/txtCustomerName"
+                        style="@style/HeaderTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/control_TextMedium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:src="@drawable/address_drawable" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtCustomerAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text"
+                            android:textSize="@dimen/control_TextSmall" />
+                    </LinearLayout>
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/control_SpecingLarge"
                         android:textColor="@color/secondary_text"
                         android:textSize="@dimen/control_TextSmall" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/control_SpecingLarge"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtCity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text"
+                            android:textSize="@dimen/control_TextSmall" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtZipCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/secondary_text"
+                            android:textSize="@dimen/control_TextSmall" />
+
+                    </LinearLayout>
+
                     <com.rey.material.widget.TextView
-                        android:id="@+id/txtZipCode"
+                        android:id="@+id/txtState"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/control_SpecingLarge"
                         android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/control_TextSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/control_SpecingTiny">
+
+                    <ImageView
+                        android:id="@+id/ivCall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:src="@drawable/call_drawable" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/addressColor"
                         android:textSize="@dimen/control_TextSmall" />
 
                 </LinearLayout>
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtState"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingLarge"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/control_TextSmall" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/control_SpecingTiny">
-
-                <ImageView
-                    android:id="@+id/ivCall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:src="@drawable/call_drawable" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/addressColor"
-                    android:textSize="@dimen/control_TextSmall" />
-
-            </LinearLayout>
-
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/ibDeleteAddress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/offwhite"
+                android:padding="@dimen/control_SpecingSmall"
+                android:src="@drawable/cancel_drawable"
+                android:visibility="gone" />
         </LinearLayout>
 
-        <com.rey.material.widget.ImageButton
-            android:id="@+id/ibDeleteAddress"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/offwhite"
-            android:padding="@dimen/control_SpecingSmall"
-            android:src="@drawable/cancel_drawable"
-            android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtSwipeDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/control_SpecingTiny"
+                android:text="@string/yaSwipeDelete" />
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
