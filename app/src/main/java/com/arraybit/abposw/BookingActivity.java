@@ -19,7 +19,7 @@ public class BookingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
 
-        addBookingFragment = (FrameLayout)findViewById(R.id.addBookingFragment);
+        addBookingFragment = (FrameLayout) findViewById(R.id.addBookingFragment);
 
         Intent intent = getIntent();
         boolean isBookingFromMenu = intent.getBooleanExtra("IsBookingFromMenu", false);
@@ -43,7 +43,7 @@ public class BookingActivity extends AppCompatActivity {
             }
         } else {
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("IsLogin",true);
+            returnIntent.putExtra("IsLogin", true);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
@@ -58,9 +58,8 @@ public class BookingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                if(data!=null){
-                    if(data.getBooleanExtra("IsShowMessage", false))
-                    {
+                if (data != null) {
+                    if (data.getBooleanExtra("IsShowMessage", false)) {
                         Globals.ShowSnackBar(addBookingFragment, getResources().getString(R.string.siLoginSucessMsg), BookingActivity.this, 2000);
                     }
                 }

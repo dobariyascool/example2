@@ -7,9 +7,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -73,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
         //txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
-        txtFullName=(TextView)headerView.findViewById(R.id.txtFullName);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
         //cbName.setText(objCustomerMaster.getEmail1());
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -184,17 +186,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SetUserName();
-        }else if (id == R.id.myAccount) {
+        } else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
-        }else if (id == R.id.myBookings) {
+        } else if (id == R.id.myBookings) {
             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
             intent.putExtra("IsBookingFromMenu", true);
             startActivityForResult(intent, 0);
         } else if (id == R.id.wishList) {
             Intent intent = new Intent(HomeActivity.this, WishListActivity.class);
             startActivityForResult(intent, 0);
-        }else if (id == R.id.myOrders) {
+        } else if (id == R.id.myOrders) {
             Intent intent = new Intent(HomeActivity.this, MyOrderActivity.class);
             startActivityForResult(intent, 0);
         }
@@ -236,11 +238,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                if(data!=null){
+                if (data != null) {
                     isLogin = data.getBooleanExtra("IsLogin", false);
-                    if(data.getBooleanExtra("IsShowMessage", false))
-                    {
+                    if (data.getBooleanExtra("IsShowMessage", false)) {
                         Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.siLoginSucessMsg), HomeActivity.this, 2000);
+                    } else if (data.getBooleanExtra("ShowBookingMessage", false)) {
+                        ShowSnackBarWithAction();
                     }
                 }
                 SetUserName();
@@ -268,7 +271,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void SetUserName() {
         Intent intent = getIntent();
-        if(!isLogin){
+        if (!isLogin) {
             isLogin = intent.getBooleanExtra("IsLogin", false);
         }
         if (isLogin) {
@@ -287,6 +290,33 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
     //endregion
+
+    private void ShowSnackBarWithAction() {
+        Snackbar snackbar = Snackbar
+                .make(drawerLayout, getResources().getString(R.string.ybAddBookingSuccessMsg), Snackbar.LENGTH_LONG)
+                .setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+                        super.onShown(snackbar);
+                    }
+                })
+                .setAction("View", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Globals.ReplaceFragment(new YourBookingFragment(), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_your_booking), R.id.drawerLayout);
+                    }
+                })
+                .setDuration(5000);
+        snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.snackBarActionColor));
+        View snackView = snackbar.getView();
+        if (Build.VERSION.SDK_INT >= 21) {
+            snackView.setElevation(R.dimen.snackbar_elevation);
+        }
+        TextView txt = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+        txt.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        snackView.setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey));
+        snackbar.show();
+    }
 
     //region Page Adapter
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {
