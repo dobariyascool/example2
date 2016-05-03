@@ -294,12 +294,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void ShowSnackBarWithAction() {
         Snackbar snackbar = Snackbar
                 .make(drawerLayout, getResources().getString(R.string.ybAddBookingSuccessMsg), Snackbar.LENGTH_LONG)
-                .setCallback(new Snackbar.Callback() {
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-                        super.onShown(snackbar);
-                    }
-                })
                 .setAction("View", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
