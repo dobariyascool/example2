@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.arraybit.global.Globals;
 
 public class BookingActivity extends AppCompatActivity {
 
+    FrameLayout addBookingFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+
+        addBookingFragment = (FrameLayout)findViewById(R.id.addBookingFragment);
+
         Intent intent = getIntent();
         boolean isBookingFromMenu = intent.getBooleanExtra("IsBookingFromMenu", false);
         if (isBookingFromMenu) {
@@ -36,7 +42,9 @@ public class BookingActivity extends AppCompatActivity {
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_booking_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         } else {
-            setResult(Activity.RESULT_OK);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsLogin",true);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
     }
@@ -44,5 +52,20 @@ public class BookingActivity extends AppCompatActivity {
     public void BookingDateOnClick(View view) {
         AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
         addBookingFragment.ShowDateTimePicker(view.getId());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 0) {
+                if(data!=null){
+                    if(data.getBooleanExtra("IsShowMessage", false))
+                    {
+                        Globals.ShowSnackBar(addBookingFragment, getResources().getString(R.string.siLoginSucessMsg), BookingActivity.this, 2000);
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

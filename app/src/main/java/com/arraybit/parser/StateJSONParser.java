@@ -30,8 +30,8 @@ import java.util.Locale;
 public class StateJSONParser {
     public String InsertStateMaster = "InsertStateMaster";
     public String UpdateStateMaster = "UpdateStateMaster";
-    public String SelectStateMaster = "SelectAllStateMasterStateNameByCountry";
-    public String SelectAllStateMaster = "SelectAllStateMasterPageWise";
+    public String SelectAllStateMaster = "SelectAllStateMasterStateNameByCountry";
+    //public String SelectAllStateMaster = "SelectAllStateMasterPageWise";
     public String SelectAllStateMasterStateName = "SelectAllStateMasterStateName";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
@@ -166,8 +166,8 @@ public class StateJSONParser {
         }
     }
 
-    public void SelectStateMaster(final Fragment targetFragment, final Context context, String countryMasterId) {
-        String url = Service.Url + this.SelectStateMaster + "/" + countryMasterId;
+    public void SelectAllStateMaster(final Fragment targetFragment, final Context context, String countryMasterId) {
+        String url = Service.Url + this.SelectAllStateMaster + "/" + countryMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
@@ -175,7 +175,7 @@ public class StateJSONParser {
                 JSONArray jsonArray = null;
                 ArrayList<SpinnerItem> lstSpinnerItem = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectStateMaster + "Result");
+                    jsonArray = jsonObject.getJSONArray(SelectAllStateMaster + "Result");
                     if (jsonArray != null) {
                         lstSpinnerItem = new ArrayList<>();
                         SpinnerItem objSpinnerItem;
@@ -187,18 +187,34 @@ public class StateJSONParser {
                         }
 
                     }
-                    objStateRequestListener = (StateRequestListener) targetFragment;
-                    objStateRequestListener.StateResponse(lstSpinnerItem);
+                    if(targetFragment==null) {
+                        objStateRequestListener = (StateRequestListener) context;
+                        objStateRequestListener.StateResponse(lstSpinnerItem);
+                    }else{
+                        objStateRequestListener = (StateRequestListener) targetFragment;
+                        objStateRequestListener.StateResponse(lstSpinnerItem);
+                    }
                 } catch (Exception e) {
-                    objStateRequestListener = (StateRequestListener) targetFragment;
-                    objStateRequestListener.StateResponse(null);
+                    if(targetFragment==null) {
+                        objStateRequestListener = (StateRequestListener) context;
+                        objStateRequestListener.StateResponse(null);
+                    }else{
+                        objStateRequestListener = (StateRequestListener) targetFragment;
+                        objStateRequestListener.StateResponse(null);
+                    }
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objStateRequestListener = (StateRequestListener) targetFragment;
-                objStateRequestListener.StateResponse(null);
+                if(targetFragment==null) {
+                    objStateRequestListener = (StateRequestListener) context;
+                    objStateRequestListener.StateResponse(null);
+                }else{
+                    objStateRequestListener = (StateRequestListener) targetFragment;
+                    objStateRequestListener.StateResponse(null);
+                }
             }
         });
         queue.add(jsonObjectRequest);

@@ -45,14 +45,14 @@ public class CartItemActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 if (data != null) {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("IsActivityFinish", true);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    if(data.getBooleanExtra("IsShowMessage", false))
-                    {
+                    if(data.getBooleanExtra("IsShowMessage", false)){
                         Globals.ShowSnackBar(fragmentLayout, getResources().getString(R.string.siLoginSucessMsg), CartItemActivity.this, 2000);
+                    }else{
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsActivityFinish", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
                     }
-                    finish();
                 }
             }
         }

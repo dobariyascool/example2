@@ -43,23 +43,23 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        //region TextView
+
         txtLoginChar = (TextView) findViewById(R.id.txtLoginChar);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
-        //endregion
+
 
         SetUserName();
 
-        //region RecyclerView
+
         GetData();
+
         rvOptions = (RecyclerView) findViewById(R.id.rvOptions);
         MyAccountAdapter accountAdapter = new MyAccountAdapter(alString, MyAccountActivity.this, this);
         rvOptions.setAdapter(accountAdapter);
         rvOptions.setLayoutManager(new LinearLayoutManager(MyAccountActivity.this));
-        //endregion
 
-        //region FloatingActionButton click
+
         fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
 
         fabEdit.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +70,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                 }
             }
         });
-        //endregion
+
 
     }
 

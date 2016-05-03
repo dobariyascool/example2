@@ -126,7 +126,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         } else if (v.getId() == R.id.btnConfirmOrder) {
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, 0);
             } else {
                 RequestOrderMaster();
                 Intent intent = new Intent(getActivity(), CheckOutActivity.class);

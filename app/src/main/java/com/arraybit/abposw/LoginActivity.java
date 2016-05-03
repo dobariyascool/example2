@@ -147,8 +147,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                setResult(Activity.RESULT_OK);
-                finish();
+                if(data!=null){
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsLogin", true);
+                    returnIntent.putExtra("IsShowMessage", true);
+                    setResult(Activity.RESULT_OK,returnIntent);
+                    finish();
+                }else {
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -235,7 +235,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                     objAddNewBookingListener.AddNewBooking(null);
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    getActivity().setResult(Activity.RESULT_OK);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsLogin", true);
+                    getActivity().setResult(Activity.RESULT_OK,returnIntent);
                     getActivity().finish();
                 }
             } else {
@@ -343,7 +345,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
             progressDialog.dismiss();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            getActivity().startActivityForResult(intent,0);
         } else {
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
                 objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
