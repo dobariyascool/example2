@@ -13,6 +13,9 @@
         android:id="@+id/rvItemMaster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/control_SpecingTiny"/>
+        android:layout_marginBottom="@dimen/control_SpecingSmall"
+        android:layout_marginEnd="@dimen/control_SpecingTiny"
+        android:layout_marginStart="@dimen/control_SpecingTiny"
+        android:layout_marginTop="@dimen/control_SpecingSmall"/>
 
 </LinearLayout>
