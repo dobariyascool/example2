@@ -36,6 +36,7 @@ import com.rey.material.widget.CompoundButton;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ResourceType")
 @SuppressLint("InflateParams")
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BusinessGalleryJSONParser.BusinessGalleryRequestListener, View.OnClickListener {
 
@@ -289,7 +290,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-    //endregion
 
     private void ShowSnackBarWithAction() {
         Snackbar snackbar = Snackbar
@@ -311,6 +311,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         snackView.setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey));
         snackbar.show();
     }
+
+    //endregion
 
     //region Page Adapter
     public class SlidePagerAdapter extends FragmentStatePagerAdapter {

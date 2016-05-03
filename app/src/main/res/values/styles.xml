@@ -277,17 +277,16 @@
 
     <style name="Button" parent="Material.Drawable.Ripple.Touch.Light">
         <item name="android:background">@color/colorAccent</item>
-        <item name="rd_padding">@dimen/button_Padding</item>
+        <item name="rd_padding">4dp</item>
         <item name="android:layout_height">@dimen/button_Height</item>
         <item name="android:textColor">@android:color/white</item>
-        <!--<item name="android:shadowColor">@color/primary_dark</item>-->
-        <!--<item name="android:shadowDx">0.7</item>-->
-        <!--<item name="android:shadowDy">0.7</item>-->
-        <!--<item name="android:shadowRadius">0.7</item>-->
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+        <item name="android:textSize">@dimen/control_TextNormal</item>
         <item name="android:radius">2dp</item>
         <item name="rd_rippleColor">@color/colorAccentDark</item>
         <item name="rd_enable">true</item>
+        <item name="android:paddingStart">@dimen/control_SpecingSmall</item>
+        <item name="android:paddingEnd">@dimen/control_SpecingSmall</item>
         <item name="rd_rippleType">wave</item>
         <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
         <item name="android:layout_marginBottom">2dp</item>
