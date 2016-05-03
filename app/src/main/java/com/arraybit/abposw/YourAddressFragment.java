@@ -251,14 +251,8 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
 
     private void ShowSnackBarWithAction(final int position, final CustomerAddressTran objCustomerAddressTran) {
         Snackbar snackbar = Snackbar
-                .make(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressDelete), Snackbar.LENGTH_LONG)
+                .make(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressDelete), 10000)
                 .setCallback(new Snackbar.Callback() {
-                    @Override
-                    public void onShown(Snackbar snackbar) {
-                        super.onShown(snackbar);
-                        // when snackbar is showing
-                    }
-
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         super.onDismissed(snackbar, event);

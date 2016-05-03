@@ -40,7 +40,6 @@ import java.util.Locale;
 @SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {
 
-
     EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail, etRemark;
     Button btnBookTable;
     AppCompatSpinner spFromTime, spToTime;
@@ -56,6 +55,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     ProgressDialog progressDialog = new ProgressDialog();
     AddNewBookingListener objAddNewBookingListener;
     TextView txtFromError, txtToTimeError;
+    boolean ShowBookingMessage = false;
 
     public AddBookingFragment(Activity activity) {
         this.activity = activity;
@@ -140,7 +140,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         spFromTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("SelectedItemId"+spFromTime.getSelectedItemId());
+                System.out.println("SelectedItemId" + spFromTime.getSelectedItemId());
                 if (selected == -1) {
                     selected = parent.getSelectedItemPosition();
                 } else {
@@ -238,7 +238,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 } else {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsLogin", true);
-                    getActivity().setResult(Activity.RESULT_OK,returnIntent);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
                     getActivity().finish();
                 }
             } else {
@@ -276,13 +276,17 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null && ShowBookingMessage) {
+            SetBookingMasterForInsert();
+        }
     }
 
     //region Private Methods
     private void RequestTimeSlot() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString(),false);
+        objBookingJSONParser.SelectAllTimeSlots(this, getActivity(), String.valueOf(Globals.linktoBusinessMasterId), etBookingDate.getText().toString(), false);
     }
 
     private void FillFromTime() {
@@ -328,7 +332,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                         objAddNewBookingListener.AddNewBooking(objBookingMaster);
                         getActivity().getSupportFragmentManager().popBackStack();
                     } else {
-                        getActivity().setResult(Activity.RESULT_OK);
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("ShowBookingMessage", true);
+                        getActivity().setResult(Activity.RESULT_OK, returnIntent);
                         getActivity().finish();
                     }
                 } else {
@@ -355,8 +361,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
             progressDialog.dismiss();
+            ShowBookingMessage = true;
             Intent intent = new Intent(getActivity(), LoginActivity.class);
-            getActivity().startActivityForResult(intent,0);
+            getActivity().startActivityForResult(intent, 0);
         } else {
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
                 objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
