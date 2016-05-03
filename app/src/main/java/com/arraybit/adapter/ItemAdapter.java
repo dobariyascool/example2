@@ -102,7 +102,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else {
             holder.cvItem.setClickable(true);
             holder.txtItemDineOnly.setVisibility(View.INVISIBLE);
-            holder.ibLike.setVisibility(View.VISIBLE);
+//            holder.ibLike.setVisibility(View.VISIBLE);
+            holder.ibLike.setVisibility(View.GONE);
             if (!isTileGrid) {
                 holder.btnAdd.setVisibility(View.VISIBLE);
                 holder.btnAddDisable.setVisibility(View.GONE);
