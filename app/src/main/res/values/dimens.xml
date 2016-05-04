@@ -62,6 +62,7 @@
 
     <dimen name="control_SpecingTiny">4dp</dimen>
     <dimen name="control_SpecingSmall">8dp</dimen>
+    <dimen name="control_SpecingNormal">12dp</dimen>
     <dimen name="control_SpecingMedium">16dp</dimen>
     <dimen name="control_SpecingLarge">24dp</dimen>
 
