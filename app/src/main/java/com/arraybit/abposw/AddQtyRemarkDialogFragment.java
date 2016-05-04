@@ -16,6 +16,7 @@ import com.arraybit.modal.ItemMaster;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
+import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 public class AddQtyRemarkDialogFragment extends DialogFragment implements View.OnClickListener {
 
     ImageButton ibMinus, ibPlus;
+    TextView txtItemName;
     Button btnCancel, btnOk;
     EditText etQuantity, etRemark;
     ItemMaster objItemMaster;
@@ -45,6 +47,12 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         View view = inflater.inflate(R.layout.fragment_add_qty_remark_dialog, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
+        txtItemName = (TextView) view.findViewById(R.id.txtItemName);
+        if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_menu)) || getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_wish_list))) {
+            txtItemName.setText(objItemMaster.getItemName());
+        } else {
+            txtItemName.setVisibility(View.GONE);
+        }
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
 
@@ -70,14 +78,14 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
                 MenuActivity menuActivity = (MenuActivity) getActivity();
                 menuActivity.SetCartItemResponse(strItemName);
-            } else if(getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))){
+            } else if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))) {
                 WishListActivity wishListActivity = (WishListActivity) getActivity();
                 wishListActivity.SetCartItemResponse(strItemName);
-            }else{
+            } else {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("ShowMessage", true);
                 returnIntent.putExtra("ItemName", strItemName);
-                getActivity().setResult(Activity.RESULT_OK,returnIntent);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
             }
         } else if (v.getId() == R.id.btnCancel) {
@@ -134,10 +142,10 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             Globals.counter = Globals.counter + 1;
             Globals.alOrderItemTran.add(objOrderItemTran);
         } else {
-            for(ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran){
+            for (ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran) {
                 if ((objFilterOrderItemTran.getItemMasterId() == objItemMaster.getItemMasterId()) &&
                         ((objFilterOrderItemTran.getRemark() != null && objFilterOrderItemTran.getRemark().equals(etRemark.getText().toString()))
-                        || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty()))) {
+                                || (objFilterOrderItemTran.getRemark() == null && etRemark.getText().toString().isEmpty()))) {
                     isDuplicate = true;
                     strItemName = objItemMaster.getItemName();
                     objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
@@ -177,9 +185,9 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         double rate;
         if (objItemMaster.getTax() != null && !objItemMaster.getTax().equals("")) {
             ArrayList<String> alTax = new ArrayList<>(Arrays.asList(objItemMaster.getTax().split(",")));
-            for(String tax : alTax) {
+            for (String tax : alTax) {
                 if (isDuplicate) {
-                    if(objItemMaster.getTaxRate()==0) {
+                    if (objItemMaster.getTaxRate() == 0) {
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {
                             objOrderItemMaster.setTax1(objOrderItemMaster.getTax1() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
@@ -192,7 +200,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                         } else {
                             objOrderItemMaster.setTax5(objOrderItemMaster.getTax5() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         }
-                    }else{
+                    } else {
                         rate = objItemMaster.getRate() + objItemMaster.getTaxRate();
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {
@@ -209,7 +217,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                     }
 
                 } else {
-                    if(objItemMaster.getTaxRate()==0){
+                    if (objItemMaster.getTaxRate() == 0) {
                         totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100;
                         if (cnt == 0) {
                             objOrderItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
@@ -222,7 +230,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                         } else {
                             objOrderItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         }
-                    }else{
+                    } else {
                         rate = objItemMaster.getRate() + objItemMaster.getTaxRate();
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {
