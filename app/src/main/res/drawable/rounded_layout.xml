@@ -4,11 +4,11 @@
     android:layout_height="wrap_content"
     android:shape="rectangle">
 
-    <solid android:color="@color/disableColor" />
+    <solid android:color="@color/accentSecondaryColor" />
 
     <stroke
         android:width="2dp"
-        android:color="@color/disableColor" />
+        android:color="@color/accentSecondaryColor" />
 
     <corners android:radius="6dp" />
 </shape>

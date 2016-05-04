@@ -68,6 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:layout_margin="0dp"
                     android:paddingEnd="@dimen/control_SpecingLarge"
                     android:paddingStart="@dimen/control_SpecingLarge"
                     android:text="@string/cuSend" />
@@ -76,7 +77,7 @@
                     android:id="@+id/txtOffice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingLarge"
+                    android:paddingTop="@dimen/control_SpecingSmall"
                     android:textColor="@color/heading"
                     android:textSize="16sp" />
 
@@ -124,12 +125,9 @@
                     class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-
     </LinearLayout>
-
-
 </LinearLayout>

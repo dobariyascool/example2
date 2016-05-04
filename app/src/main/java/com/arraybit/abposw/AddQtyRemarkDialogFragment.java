@@ -51,10 +51,10 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
 
-        btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        //btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnOk = (Button) view.findViewById(R.id.btnOk);
 
-        btnCancel.setOnClickListener(this);
+        //btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);

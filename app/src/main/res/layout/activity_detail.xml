@@ -110,16 +110,6 @@
                 android:layout_weight="1"
                 android:text="@string/daAdd"
                 android:textAlignment="center" />
-
-            <com.rey.material.widget.Button
-                android:id="@+id/btnAddDisable"
-                style="@style/DisableButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/daAdd"
-                android:textAlignment="center"
-                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

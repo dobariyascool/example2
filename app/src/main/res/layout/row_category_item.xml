@@ -156,7 +156,7 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnAddDisable"
-                style="@style/DisableButton"
+                style="@style/DisableAddButton"
                 android:layout_width="60dp"
                 android:layout_height="35dp"
                 android:layout_gravity="bottom|end"

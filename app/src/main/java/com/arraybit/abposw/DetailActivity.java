@@ -31,7 +31,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     TextView txtItemRate, txtShortDescription, txtHeader, txtItemDineOnly;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
-    Button btnCancel, btnAdd, btnAddDisable;
+    Button btnCancel, btnAdd;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -69,7 +69,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnAdd = (Button) findViewById(R.id.btnAdd);
-        btnAddDisable = (Button) findViewById(R.id.btnAddDisable);
 
         btnCancel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
@@ -144,11 +143,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
 
         if (objItemMaster.getIsDineInOnly()) {
-            btnAddDisable.setVisibility(View.VISIBLE);
-            btnAdd.setVisibility(View.GONE);
+            btnAdd.setEnabled(false);
+            btnAdd.applyStyle(R.style.DisableButton);
         } else {
-            btnAddDisable.setVisibility(View.GONE);
-            btnAdd.setVisibility(View.VISIBLE);
+            btnAdd.setEnabled(true);
+            btnAdd.applyStyle(R.style.Button);
         }
 
         if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
