@@ -101,14 +101,6 @@
         <item name="cardBackgroundColor">@color/offwhite</item>
     </style>
 
-    <style name="BookingDetailCardView" parent="AppCompactCardView">
-        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
-        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
-        <item name="cardElevation">@dimen/card_Elevation</item>
-        <item name="android:layout_marginBottom">1dp</item>
-        <item name="cardBackgroundColor">@color/offwhite</item>
-    </style>
-
     <style name="ProgressDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

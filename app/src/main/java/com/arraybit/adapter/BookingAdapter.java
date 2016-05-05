@@ -58,15 +58,15 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         holder.txtDate.setText(String.valueOf(objBookingMaster.getToDate()));
         holder.txtTime.setText(String.valueOf(objBookingMaster.getFromTime()) + " To " + String.valueOf(objBookingMaster.getToTime()));
         holder.txtPersonName.setText(objBookingMaster.getBookingPersonName());
-        if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.New.getValue()) {
-            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.New.toString() + ")");
-        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Modified.getValue()) {
-            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Modified.toString() + ")");
-        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Confirmed.getValue()) {
-            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Confirmed.toString() + ")");
-        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Cancelled.getValue()) {
-            holder.txtBookingStatus.setText("(" + Globals.BookingStatus.Cancelled.toString() + ")");
-            holder.ibCancelBooking.setVisibility(View.INVISIBLE);
+
+        if (objBookingMaster.getEmail() != null && !objBookingMaster.getEmail().equals("")) {
+            holder.txtEmail.setVisibility(View.VISIBLE);
+            holder.txtEmail.setText(objBookingMaster.getEmail());
+        } else if (objBookingMaster.getPhone() != null && !objBookingMaster.getPhone().equals("")) {
+            holder.txtEmail.setVisibility(View.VISIBLE);
+            holder.txtEmail.setText(objBookingMaster.getPhone());
+        } else {
+            holder.txtEmail.setVisibility(View.GONE);
         }
 
         if (objBookingMaster.getToDate() != null) {
@@ -79,7 +79,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
 
                 if (objBookingMaster.getBookingStatus() != Globals.BookingStatus.Cancelled.getValue()) {
                     if (toDate.compareTo(currentDate) < 0) {
-                        holder.ibCancelBooking.setVisibility(View.INVISIBLE);
+                        holder.ibCancelBooking.setVisibility(View.GONE);
                     } else {
                         strCurrentTime = sdfTime.format(calendar.getTime());
                         currentTime = sdfTime.parse(strCurrentTime);
@@ -89,7 +89,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                             if (toTime.getTime() > currentTime.getTime() && !objBookingMaster.getIsPreOrder()) {
                                 holder.ibCancelBooking.setVisibility(View.VISIBLE);
                             } else {
-                                holder.ibCancelBooking.setVisibility(View.INVISIBLE);
+                                holder.ibCancelBooking.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -99,6 +99,18 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
                 e.printStackTrace();
             }
         }
+
+        if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.New.getValue()) {
+            holder.txtBookingStatus.setText("Pending");
+        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Modified.getValue()) {
+            holder.txtBookingStatus.setText(Globals.BookingStatus.Modified.toString());
+        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Confirmed.getValue()) {
+            holder.txtBookingStatus.setText(Globals.BookingStatus.Confirmed.toString());
+        } else if (objBookingMaster.getBookingStatus() == Globals.BookingStatus.Cancelled.getValue()) {
+            holder.txtBookingStatus.setText(Globals.BookingStatus.Cancelled.toString());
+            holder.ibCancelBooking.setVisibility(View.GONE);
+        }
+
         if (isItemAnimate) {
             if (position > previousPosition) {
                 Globals.SetItemAnimator(holder);
@@ -138,7 +150,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
         TextView txtDate;
         TextView txtTime;
         TextView txtPersonName;
-        TextView txtBookingStatus;
+        TextView txtBookingStatus, txtEmail;
         ImageButton ibCancelBooking;
 
         public BookingMasterViewHolder(View view) {
@@ -147,6 +159,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingM
             txtDate = (TextView) view.findViewById(R.id.txtDate);
             txtTime = (TextView) view.findViewById(R.id.txtTime);
             txtPersonName = (TextView) view.findViewById(R.id.txtPersonName);
+            txtEmail = (TextView) view.findViewById(R.id.txtEmail);
             txtBookingStatus = (TextView) view.findViewById(R.id.txtStatus);
             ibCancelBooking = (ImageButton) view.findViewById(R.id.ibCancelBooking);
 

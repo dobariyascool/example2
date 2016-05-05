@@ -73,7 +73,7 @@
                     <ImageView
                         android:id="@+id/ivCustomer"
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/user_drawable" />
 
                     <com.rey.material.widget.TextView
@@ -98,7 +98,7 @@
                         <ImageView
                             android:id="@+id/ivAddress"
                             android:layout_width="wrap_content"
-                            android:layout_height="16dp"
+                            android:layout_height="18dp"
                             android:src="@drawable/address_drawable" />
 
                         <com.rey.material.widget.TextView
@@ -159,7 +159,7 @@
                     <ImageView
                         android:id="@+id/ivCall"
                         android:layout_width="wrap_content"
-                        android:layout_height="16dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/call_drawable" />
 
                     <com.rey.material.widget.TextView
@@ -186,16 +186,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:layout_height="30dp"
+            android:background="@android:color/white"
+            android:gravity="center">
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtSwipeDelete"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:padding="@dimen/control_SpecingTiny"
-                android:text="@string/yaSwipeDelete" />
+                android:text="@string/yaSwipeDelete"
+                android:textColor="@color/brown" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

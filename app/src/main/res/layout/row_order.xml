@@ -75,7 +75,7 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/control_SpecingTiny"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtHeaderItem"
@@ -118,6 +118,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:gravity="center|end"
+                android:paddingEnd="@dimen/control_SpecingTiny"
+                android:paddingStart="0dp"
                 android:text="@string/cifAmount"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
