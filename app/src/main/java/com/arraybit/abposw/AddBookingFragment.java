@@ -426,44 +426,44 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.clearError();
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
             } else {
                 etAdults.setError("Zero is not valid");
             }
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             System.out.println("id" + spFromTime.getSelectedItem());
             txtFromError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
@@ -471,33 +471,33 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             System.out.println("id" + spFromTime.getSelectedItem());
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
             txtFromError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
             } else {
@@ -505,21 +505,21 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             }
             etCustomerName.clearError();
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.VISIBLE);
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
@@ -527,64 +527,64 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
@@ -594,47 +594,15 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.VISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
-            if (etAdults.getText().toString().charAt(0) != '0') {
-                etAdults.clearError();
-            } else {
-                etAdults.setError("Zero is not valid");
-            }
-            etBookingDate.clearError();
-            txtFromError.setVisibility(View.INVISIBLE);
-            txtToTimeError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
-            IsValid = false;
-        } else if (etCustomerName.getText().toString().equals("")
-                && !etAdults.getText().toString().equals("")
-                && !etBookingDate.getText().toString().equals("")
-                && spFromTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
-            etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
-            if (etAdults.getText().toString().charAt(0) != '0') {
-                etAdults.clearError();
-            } else {
-                etAdults.setError("Zero is not valid");
-            }
-            etBookingDate.clearError();
-            txtFromError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
-            IsValid = false;
-        } else if (etCustomerName.getText().toString().equals("")
-                && !etAdults.getText().toString().equals("")
-                && !etBookingDate.getText().toString().equals("")
-                && spFromTime.getSelectedItemId() != 0
-                && spToTime.getSelectedItemId() == 0
-                && etEmail.getText().toString().equals("")) {
-            etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
             } else {
@@ -643,14 +611,46 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
+            IsValid = false;
+        } else if (etCustomerName.getText().toString().equals("")
+                && !etAdults.getText().toString().equals("")
+                && !etBookingDate.getText().toString().equals("")
+                && spFromTime.getSelectedItemId() == 0
+                && etMobile.getText().toString().equals("")) {
+            etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
+            if (etAdults.getText().toString().charAt(0) != '0') {
+                etAdults.clearError();
+            } else {
+                etAdults.setError("Zero is not valid");
+            }
+            etBookingDate.clearError();
+            txtFromError.setVisibility(View.VISIBLE);
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
+            IsValid = false;
+        } else if (etCustomerName.getText().toString().equals("")
+                && !etAdults.getText().toString().equals("")
+                && !etBookingDate.getText().toString().equals("")
+                && spFromTime.getSelectedItemId() != 0
+                && spToTime.getSelectedItemId() == 0
+                && etMobile.getText().toString().equals("")) {
+            etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
+            if (etAdults.getText().toString().charAt(0) != '0') {
+                etAdults.clearError();
+            } else {
+                etAdults.setError("Zero is not valid");
+            }
+            etBookingDate.clearError();
+            txtFromError.setVisibility(View.INVISIBLE);
+            txtToTimeError.setVisibility(View.VISIBLE);
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
@@ -660,10 +660,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
@@ -671,22 +671,22 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
@@ -696,10 +696,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
@@ -707,7 +707,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
@@ -717,14 +717,14 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             if (etAdults.getText().toString().charAt(0) != '0') {
                 etAdults.clearError();
@@ -734,32 +734,32 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
@@ -767,7 +767,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && etEmail.getText().toString().equals("")) {
+                && etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
@@ -777,7 +777,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             } else {
                 etAdults.setError("Zero is not valid");
             }
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
@@ -785,7 +785,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
@@ -795,32 +795,32 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             } else {
                 etAdults.setError("Zero is not valid");
             }
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0) {
             etCustomerName.clearError();
             if (etAdults.getText().toString().charAt(0) != '0') {
@@ -830,16 +830,16 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             }
             etBookingDate.clearError();
             txtFromError.setVisibility(View.VISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0) {
             etCustomerName.clearError();
@@ -851,37 +851,37 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0) {
             etCustomerName.clearError();
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.VISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
             }
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
-                && etEmail.getText().toString().equals("")
+                && etMobile.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
-            etEmail.setError("Enter " + getResources().getString(R.string.ybEmail));
+            etMobile.setError("Enter " + getResources().getString(R.string.ybPhone));
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.VISIBLE);
@@ -891,20 +891,24 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etAdults.setError("Enter " + getResources().getString(R.string.ybAdults));
             txtToTimeError.setVisibility(View.VISIBLE);
             etCustomerName.clearError();
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
-            etEmail.clearError();
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
+            } else {
+                etMobile.clearError();
+            }
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() == 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             txtToTimeError.setVisibility(View.VISIBLE);
             if (etAdults.getText().toString().charAt(0) != '0') {
@@ -914,13 +918,17 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             }
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
-            etEmail.clearError();
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
+            } else {
+                etMobile.clearError();
+            }
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() == 0
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             txtFromError.setVisibility(View.VISIBLE);
             if (etAdults.getText().toString().charAt(0) != '0') {
@@ -929,12 +937,16 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 etAdults.setError("Zero is not valid");
             }
             etBookingDate.clearError();
-            etEmail.clearError();
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
+            } else {
+                etMobile.clearError();
+            }
             IsValid = false;
         } else if (etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")) {
+                && !etMobile.getText().toString().equals("")) {
             etCustomerName.setError("Enter " + getResources().getString(R.string.ybCustomerName));
             etBookingDate.setError("Enter " + getResources().getString(R.string.ybBookingdate));
             if (etAdults.getText().toString().charAt(0) != '0') {
@@ -942,12 +954,16 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             } else {
                 etAdults.setError("Zero is not valid");
             }
-            etEmail.clearError();
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
+            } else {
+                etMobile.clearError();
+            }
             IsValid = false;
         } else if (!etCustomerName.getText().toString().equals("")
                 && !etAdults.getText().toString().equals("")
                 && !etBookingDate.getText().toString().equals("")
-                && !etEmail.getText().toString().equals("")
+                && !etMobile.getText().toString().equals("")
                 && spFromTime.getSelectedItemId() != 0
                 && spToTime.getSelectedItemId() != 0) {
             etCustomerName.clearError();
@@ -959,11 +975,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             etBookingDate.clearError();
             txtFromError.setVisibility(View.INVISIBLE);
             txtToTimeError.setVisibility(View.INVISIBLE);
-            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
-                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+            if (etMobile.getText().length() != 10) {
+                etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
                 IsValid = false;
             } else {
-                etEmail.clearError();
+                etMobile.clearError();
                 IsValid = true;
             }
         }
@@ -973,11 +989,11 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         } else {
             etChildren.clearError();
         }
-        if (!etMobile.getText().toString().equals("") && etMobile.getText().length() != 10) {
-            etMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));
+        if (!etEmail.getText().toString().equals("") && !Globals.IsValidEmail(etEmail.getText().toString())) {
             IsValid = false;
+            etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
         } else {
-            etMobile.clearError();
+            etEmail.clearError();
         }
 
         return IsValid;

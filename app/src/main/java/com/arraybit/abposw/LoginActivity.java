@@ -147,13 +147,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
-                if(data!=null){
+                if (data != null) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsLogin", true);
                     returnIntent.putExtra("IsShowMessage", true);
-                    setResult(Activity.RESULT_OK,returnIntent);
+                    setResult(Activity.RESULT_OK, returnIntent);
                     finish();
-                }else {
+                } else {
                     setResult(Activity.RESULT_OK);
                     finish();
                 }
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString(),null,null);
+        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString(), etPassword.getText().toString(), null, null, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private boolean ValidateControls() {
