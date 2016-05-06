@@ -26,8 +26,8 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/delicious_logo"
                 android:scaleType="fitCenter"
+                android:src="@drawable/delicious_logo"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -41,27 +41,27 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithFb"
-                style="@style/RaiseColorButtonRippleStyle"
-                android:layout_width="170dp"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_TouchableHeight"
                 android:background="@color/facebook_button"
-                android:drawableStart="@mipmap/facebook"
-                android:paddingEnd="0dp"
-                android:paddingStart="@dimen/control_SpecingMedium"
+                android:drawablePadding="@dimen/control_SpecingSmall"
+                android:drawableStart="@drawable/facebook_box"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
                 android:text="@string/siLoginWithFb"
                 android:textAllCaps="false"
                 android:textColor="#ffffff" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithGplus"
-                style="@style/RaiseColorButtonRippleStyle"
-                android:layout_width="170dp"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_TouchableHeight"
-                android:layout_marginStart="@dimen/control_SpecingMedium"
+                android:layout_marginStart="@dimen/control_SpecingNormal"
                 android:background="@color/googleplus_button"
-                android:drawableStart="@mipmap/googleplus"
-                android:paddingEnd="0dp"
-                android:paddingStart="@dimen/control_SpecingMedium"
+                android:drawablePadding="@dimen/control_SpecingSmall"
+                android:drawableStart="@drawable/google_plus_box"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
                 android:text="@string/siLoginWithGplus"
                 android:textAllCaps="false"
                 android:textColor="#ffffff" />

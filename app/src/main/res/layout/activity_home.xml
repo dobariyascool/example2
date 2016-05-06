@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.arraybit.abposw.HomeActivity">
+    tools:context="com.arraybit.abposw.HomeActivity"
+    tools:ignore="ContentDescription">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/home_background"
         android:orientation="vertical">
 
         <include
@@ -36,61 +38,151 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvDelivery"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp">
+            android:layout_marginTop="@dimen/control_SpecingSmall"
+            android:orientation="horizontal">
 
-            <com.rey.material.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:text="@string/haGetDelivery"
-                android:textSize="@dimen/control_TextMedium"/>
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvDelivery"
+                style="@style/DefaultCardView"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#8b000000">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvTakeAway"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_line"
+                        android:padding="25dp"
+                        android:src="@mipmap/delivery"
+                        android:tint="#c3c4c1" />
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="@string/haGetDelivery"
+                        android:textColor="#c3c4c1"
+                        android:textSize="@dimen/control_TextMedium" />
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvTakeAway"
+                style="@style/DefaultCardView"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#8b000000">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_line"
+                        android:padding="25dp"
+                        android:src="@mipmap/take_away"
+                        android:tint="#c3c4c1" />
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="@string/haTakeAway"
+                        android:textColor="#c3c4c1"
+                        android:textSize="@dimen/control_TextMedium" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp">
+            android:orientation="horizontal">
 
-            <com.rey.material.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:text="@string/haTakeAway"
-                android:textSize="@dimen/control_TextMedium"/>
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvBookTable"
+                style="@style/DefaultCardView"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#8b000000">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvBookTable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <com.rey.material.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:text="@string/haBookTable"
-                android:textSize="@dimen/control_TextMedium"/>
-        </android.support.v7.widget.CardView>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_line"
+                        android:padding="30dp"
+                        android:src="@mipmap/book_table"
+                        android:tint="#c3c4c1" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cvOffer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp">
+                    <com.rey.material.widget.TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="@string/haBookTable"
+                        android:textColor="#c3c4c1"
+                        android:textSize="@dimen/control_TextMedium" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            <com.rey.material.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:text="@string/haOffer"
-                android:textSize="@dimen/control_TextMedium"/>
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvOffer"
+                style="@style/DefaultCardView"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#8b000000">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_line"
+                        android:padding="25dp"
+                        android:src="@mipmap/offers"
+                        android:tint="#c3c4c1" />
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="@string/haOffer"
+                        android:textColor="#c3c4c1"
+                        android:textSize="@dimen/control_TextMedium" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Navigation Drawer -->
