@@ -71,19 +71,17 @@ public class TaxJSONParser
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 objTaxMaster = new TaxMaster();
-                objTaxMaster.setTaxMasterId((short)jsonArray.getJSONObject(i).getInt("TaxMasterId"));
+                objTaxMaster.setTaxMasterId((short) jsonArray.getJSONObject(i).getInt("TaxMasterId"));
                 objTaxMaster.setTaxName(jsonArray.getJSONObject(i).getString("TaxName"));
                 objTaxMaster.setTaxCaption(jsonArray.getJSONObject(i).getString("TaxCaption"));
-                objTaxMaster.setTaxIndex((short)jsonArray.getJSONObject(i).getInt("TaxIndex"));
+                objTaxMaster.setTaxIndex((short) jsonArray.getJSONObject(i).getInt("TaxIndex"));
                 objTaxMaster.setTaxRate(jsonArray.getJSONObject(i).getDouble("TaxRate"));
                 objTaxMaster.setIsPercentage(jsonArray.getJSONObject(i).getBoolean("IsPercentage"));
                 objTaxMaster.setlinktoBusinessMasterId((short)jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
                 objTaxMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
                 dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("CreatedDateTime"));
                 objTaxMaster.setCreatedDateTime(sdfControlDateFormat.format(dt));
-                objTaxMaster.setlinktoUserMasterIdCreatedBy((short)jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
-                dt = sdfDateTimeFormat.parse(jsonArray.getJSONObject(i).getString("UpdateDateTime"));
-                objTaxMaster.setUpdateDateTime(sdfControlDateFormat.format(dt));
+                objTaxMaster.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objTaxMaster.setlinktoUserMasterIdUpdatedBy((short)jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }

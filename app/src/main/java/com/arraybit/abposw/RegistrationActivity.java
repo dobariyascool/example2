@@ -216,7 +216,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void StateResponse(ArrayList<SpinnerItem> alStateMaster) {
         progressDialog.dismiss();
         this.alStateMaster = alStateMaster;
-        if (alStateMaster.size() > 0) {
+        if (alStateMaster!=null && alStateMaster.size() > 0) {
             FillState();
         } else {
             spState.setVisibility(View.INVISIBLE);
@@ -227,7 +227,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
         progressDialog.dismiss();
         this.alCityMaster = alCityMaster;
-        if (alCityMaster.size() > 0) {
+        if (alCityMaster!=null && alCityMaster.size() > 0) {
             FillCity();
         } else {
             spCity.setVisibility(View.INVISIBLE);
@@ -238,7 +238,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void AreaResponse(ArrayList<SpinnerItem> alAreaMaster) {
         progressDialog.dismiss();
         this.alAreaMaster = alAreaMaster;
-        if (alAreaMaster.size() > 0) {
+        if (alAreaMaster!=null && alAreaMaster.size() > 0) {
             FillArea();
         } else {
             spArea.setVisibility(View.INVISIBLE);

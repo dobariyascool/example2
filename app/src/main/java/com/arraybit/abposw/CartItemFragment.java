@@ -204,7 +204,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             tax4 = 0;
             tax5 = 0;
             SetRecyclerView();
-            SetTextLayout();
+            if(alTaxMaster!=null && alTaxMaster.size()!=0) {
+                SetTextLayout();
+            }
         }
     }
 
@@ -212,7 +214,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     public void TaxMasterResponse(ArrayList<TaxMaster> alTaxMaster) {
         progressDialog.dismiss();
         this.alTaxMaster = alTaxMaster;
-        SetTextLayout();
+        if (alTaxMaster != null && alTaxMaster.size() != 0) {
+            SetTextLayout();
+        }
     }
 
     @Override

@@ -152,7 +152,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                         if (Service.CheckNet(getActivity())) {
                             spToTime.setVisibility(View.VISIBLE);
                             fromTime = (String) parent.getAdapter().getItem(position);
-                            FillToTime();
+                            if(alFromTime!=null && alFromTime.size()!=0) {
+                                FillToTime();
+                            }
                         } else {
                             Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                         }
@@ -264,8 +266,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {
         progressDialog.dismiss();
-        this.alFromTime.addAll(alTimeSlot);
-        FillFromTime();
+        if(alTimeSlot!=null && alTimeSlot.size()!=0) {
+            this.alFromTime.addAll(alTimeSlot);
+            FillFromTime();
+        }
     }
 
     @Override

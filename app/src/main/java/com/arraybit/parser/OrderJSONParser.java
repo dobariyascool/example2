@@ -234,13 +234,15 @@ public class OrderJSONParser {
             stringer.key("lstTaxMaster");
             stringer.array();
 
-            for (int i = 0; i < alTaxMaster.size(); i++) {
-                stringer.object();
-                stringer.key("TaxMasterId").value(alTaxMaster.get(i).getTaxMasterId());
-                stringer.key("TaxName").value(alTaxMaster.get(i).getTaxName());
-                stringer.key("TaxRate").value(alTaxMaster.get(i).getTaxRate());
-                stringer.key("IsPercentage").value(alTaxMaster.get(i).getIsPercentage());
-                stringer.endObject();
+            if(alTaxMaster!=null && alTaxMaster.size()!=0) {
+                for (int i = 0; i < alTaxMaster.size(); i++) {
+                    stringer.object();
+                    stringer.key("TaxMasterId").value(alTaxMaster.get(i).getTaxMasterId());
+                    stringer.key("TaxName").value(alTaxMaster.get(i).getTaxName());
+                    stringer.key("TaxRate").value(alTaxMaster.get(i).getTaxRate());
+                    stringer.key("IsPercentage").value(alTaxMaster.get(i).getIsPercentage());
+                    stringer.endObject();
+                }
             }
             stringer.endArray();
 
