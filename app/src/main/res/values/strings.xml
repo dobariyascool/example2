@@ -240,9 +240,9 @@
 
     <!--MyAccountActivity array-->
     <string-array name="Option">
-        <item>Your Orders</item>
-        <item>Your Bookings</item>
-        <item>Your Addresses</item>
+        <item>My Orders</item>
+        <item>My Bookings</item>
+        <item>My Addresses</item>
         <item>Change Password</item>
         <item>Logout</item>
     </string-array>

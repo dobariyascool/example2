@@ -36,9 +36,20 @@
             android:orientation="vertical">
 
             <com.rey.material.widget.TextView
+                android:id="@+id/txtDineIn"
+                style="@style/HeaderTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@string/MsgDineOnly"
+                android:textSize="@dimen/control_TextSmall"
+                android:visibility="gone" />
+
+            <com.rey.material.widget.TextView
                 android:id="@+id/txtShortDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:maxLines="4"
                 android:textSize="@dimen/control_TextSmall" />
 
@@ -46,8 +57,6 @@
                 android:id="@+id/txtItemRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/control_TextTiny"
-                android:paddingTop="@dimen/control_TextTiny"
                 android:textColor="@color/brown"
                 android:textSize="@dimen/control_TextMedium" />
         </LinearLayout>
@@ -120,7 +129,7 @@
                 android:enabled="false"
                 android:text="@string/daAdd"
                 android:textAlignment="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

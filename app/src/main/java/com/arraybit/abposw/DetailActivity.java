@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener {
 
     ImageView ivItemImage;
-    TextView txtItemRate, txtShortDescription, txtHeader, txtItemDineOnly;
+    TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn;
     RecyclerView rvSuggestedItem;
     Toolbar app_bar;
     Button btnCancel, btnAdd,btnDisable;
@@ -65,7 +65,8 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         txtItemRate = (TextView) findViewById(R.id.txtItemRate);
         txtShortDescription = (TextView) findViewById(R.id.txtShortDescription);
         txtHeader = (TextView) findViewById(R.id.txtHeader);
-        txtItemDineOnly = (TextView) findViewById(R.id.txtItemDineOnly);
+        txtDineIn = (TextView) findViewById(R.id.txtDineIn);
+
 
         btnCancel = (Button) findViewById(R.id.btnCancel);
         btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -144,9 +145,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
 
         if (objItemMaster.getIsDineInOnly()) {
+            txtDineIn.setVisibility(View.VISIBLE);
             btnDisable.setVisibility(View.VISIBLE);
             btnAdd.setVisibility(View.GONE);
         } else {
+            txtDineIn.setVisibility(View.GONE);
             btnDisable.setVisibility(View.GONE);
             btnAdd.setVisibility(View.VISIBLE);
         }
