@@ -14,6 +14,18 @@
         <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
     </style>
 
+    <style name="HomeCardView" parent="AppCompactCardView">
+        <item name="android:layout_height">@dimen/card_MinimumHeight</item>
+        <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardMaxElevation">2dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">#8b000000</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+    </style>
+
     <style name="BusinessInfoCardView" parent="AppCompactCardView">
         <item name="android:layout_height">@dimen/card_MinimumHeight</item>
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
