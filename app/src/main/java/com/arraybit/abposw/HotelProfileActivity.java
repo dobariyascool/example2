@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,6 +9,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +22,8 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.parser.BusinessJSONParser;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +107,16 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
             Globals.ShowSnackBar(hotelProfileFragment, getResources().getString(R.string.MsgSelectFail), HotelProfileActivity.this, 1000);
         } else {
 
-            Picasso.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).resize(120,120).into(ivLogo);
+            Glide.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).asBitmap().override(150, 150).centerCrop().into(new BitmapImageViewTarget(ivLogo) {
+                @Override
+                protected void setResource(Bitmap resource) {
+                    RoundedBitmapDrawable circularBitmapDrawable =
+                            RoundedBitmapDrawableFactory.create(getResources(), resource);
+                    circularBitmapDrawable.setCircular(true);
+                    ivLogo.setImageDrawable(circularBitmapDrawable);
+                }
+            });
+            //Picasso.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).resize(120,120).into(ivLogo);
 
             pageAdapter.AddFragment(new InformationFragment(objBusinessMaster), "Information");
             pageAdapter.AddFragment(new GalleryFragment(), "Gallery");

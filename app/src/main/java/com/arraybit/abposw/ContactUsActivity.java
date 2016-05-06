@@ -214,7 +214,6 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
                 etContactUsEmail.clearError();
             }
             etContactUsMessage.clearError();
-            IsValid = false;
         }
         if (!etContactUsMobile.getText().toString().equals("") && etContactUsMobile.getText().length() != 10) {
             etContactUsMobile.setError("Enter 10 digit " + getResources().getString(R.string.ybPhone));

@@ -31,6 +31,7 @@
         android:id="@+id/checkIn"
         android:orderInCategory="100"
         android:title="@string/action_checkin"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item

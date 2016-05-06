@@ -41,11 +41,13 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithFb"
+                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_TouchableHeight"
+                android:layout_marginEnd="0dp"
                 android:background="@color/facebook_button"
                 android:drawablePadding="@dimen/control_SpecingSmall"
-                android:drawableStart="@drawable/facebook_box"
+                android:drawableStart="@drawable/facebook_drawable"
                 android:paddingEnd="@dimen/control_SpecingSmall"
                 android:paddingStart="@dimen/control_SpecingSmall"
                 android:text="@string/siLoginWithFb"
@@ -54,12 +56,13 @@
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithGplus"
+                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/button_TouchableHeight"
                 android:layout_marginStart="@dimen/control_SpecingNormal"
                 android:background="@color/googleplus_button"
                 android:drawablePadding="@dimen/control_SpecingSmall"
-                android:drawableStart="@drawable/google_plus_box"
+                android:drawableStart="@drawable/google_plus_drawable"
                 android:paddingEnd="@dimen/control_SpecingSmall"
                 android:paddingStart="@dimen/control_SpecingSmall"
                 android:text="@string/siLoginWithGplus"
