@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.parser.CustomerJSONParser;
@@ -24,7 +25,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", this);
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
                 CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword,null,null);
+                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null,String.valueOf(Globals.linktoBusinessMasterId));
             } else {
                 Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
                 startActivity(intent);
@@ -45,10 +46,10 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-        if(objCustomerMaster==null){
-            intent.putExtra("IsLogin",false);
-        }else{
-            intent.putExtra("IsLogin",true);
+        if (objCustomerMaster == null) {
+            intent.putExtra("IsLogin", false);
+        } else {
+            intent.putExtra("IsLogin", true);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

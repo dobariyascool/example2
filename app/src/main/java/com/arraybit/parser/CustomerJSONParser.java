@@ -359,13 +359,13 @@ public class CustomerJSONParser {
     //endregion
 
     //region Select
-    public void SelectCustomerMaster(final Context context, String userName, String password, String customerMasterId, final Fragment targetFragment) {
+    public void SelectCustomerMaster(final Context context, String userName, String password, String customerMasterId, final Fragment targetFragment, String businessMasterId) {
         String url;
         try {
             if (userName != null && password != null) {
-                url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId;
+                url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId + "/" + businessMasterId;
             } else {
-                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId;
+                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId;
             }
             final RequestQueue queue = Volley.newRequestQueue(context);
             final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
