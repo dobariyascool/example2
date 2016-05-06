@@ -988,10 +988,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             }
         }
         if (!etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
-            IsValid = true;
-            etChildren.setError("Zero is not valid");
-        } else {
             etChildren.clearError();
+        } else {
+            IsValid = false;
+            etChildren.setError("Zero is not valid");
         }
         if (!etEmail.getText().toString().equals("") && !Globals.IsValidEmail(etEmail.getText().toString())) {
             IsValid = false;
