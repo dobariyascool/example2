@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.arraybit.abposw.HomeActivity"
     tools:ignore="ContentDescription">
+    <!--#c3c4c1-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,16 +42,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/control_SpecingSmall"
+            android:layout_marginStart="@dimen/control_SpecingSmall"
             android:layout_marginTop="@dimen/control_SpecingSmall"
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvDelivery"
-                style="@style/DefaultCardView"
+                style="@style/HomeCardView"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#8b000000">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,12 +83,11 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvTakeAway"
-                style="@style/DefaultCardView"
+                style="@style/HomeCardView"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="0dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#8b000000">
+                android:layout_marginEnd="0dp"
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,7 +101,7 @@
                         android:background="@drawable/card_line"
                         android:padding="25dp"
                         android:src="@mipmap/take_away"
-                        android:tint="#c3c4c1" />
+                        android:tint="#c3c4c1"/>
 
                     <com.rey.material.widget.TextView
                         android:layout_width="match_parent"
@@ -116,11 +117,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/control_SpecingSmall"
+            android:layout_marginStart="@dimen/control_SpecingSmall"
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvBookTable"
-                style="@style/DefaultCardView"
+                style="@style/HomeCardView"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_weight="1"
@@ -138,7 +141,7 @@
                         android:background="@drawable/card_line"
                         android:padding="30dp"
                         android:src="@mipmap/book_table"
-                        android:tint="#c3c4c1" />
+                        android:tint="#c3c4c1"/>
 
                     <com.rey.material.widget.TextView
                         android:layout_width="match_parent"
@@ -152,10 +155,10 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cvOffer"
-                style="@style/DefaultCardView"
+                style="@style/HomeCardView"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#8b000000">
 
@@ -171,7 +174,7 @@
                         android:background="@drawable/card_line"
                         android:padding="25dp"
                         android:src="@mipmap/offers"
-                        android:tint="#c3c4c1" />
+                        android:tint="#c3c4c1"/>
 
                     <com.rey.material.widget.TextView
                         android:layout_width="match_parent"
