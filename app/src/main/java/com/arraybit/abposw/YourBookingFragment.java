@@ -102,6 +102,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                 AddBookingFragment addBookingFragment = new AddBookingFragment(getActivity());
                 addBookingFragment.setTargetFragment(this, 0);
                 fabBooking.hide();
+                rvBooking.setVisibility(View.GONE);
                 Globals.ReplaceFragment(addBookingFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_booking_fragment), R.id.yourBookingFragment);
             }
         }
@@ -128,33 +129,43 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        rvBooking.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (!adapter.isItemAnimate) {
-                    adapter.isItemAnimate = true;
-                }
-            }
-        });
 
-        rvBooking.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                if (!adapter.isItemAnimate) {
-                    adapter.isItemAnimate = true;
-                }
-                if (current_page > currentPage) {
-                    currentPage = current_page;
-                    if (Service.CheckNet(getActivity())) {
-                        RequestBookingMaster();
-                    } else {
-                        Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            rvBooking.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                            && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                            .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
+
+                        if (!adapter.isItemAnimate) {
+                            adapter.isItemAnimate = true;
+                        }
                     }
                 }
-            }
-        });
-    }
+            });
+
+            rvBooking.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+                @Override
+                public void onLoadMore(int current_page) {
+                    if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+                            && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+                            .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
+                        if (!adapter.isItemAnimate) {
+                            adapter.isItemAnimate = true;
+                        }
+                        if (current_page > currentPage) {
+                            currentPage = current_page;
+                            if (Service.CheckNet(getActivity())) {
+                                RequestBookingMaster();
+                            } else {
+                                Globals.ShowSnackBar(rvBooking, getActivity().getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
     @Override
     public void BookingResponse(String errorCode, ArrayList<BookingMaster> alBookingMaster) {
@@ -184,7 +195,9 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     public void AddNewBooking(BookingMaster objBookingMaster) {
         if (objBookingMaster == null) {
             fabBooking.show();
+            rvBooking.setVisibility(View.VISIBLE);
         } else {
+            rvBooking.setVisibility(View.VISIBLE);
             Date dt;
             SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
