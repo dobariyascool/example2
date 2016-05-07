@@ -137,6 +137,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
                 AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), null);
                 addAddressFragment.setTargetFragment(this, 0);
                 fabAddress.hide();
+                rvAddress.setVisibility(View.GONE);
                 Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getActivity().getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
             }
         }
@@ -187,7 +188,9 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     public void AddNewAddress(CustomerAddressTran objCustomerAddressTran) {
         if (objCustomerAddressTran == null) {
             fabAddress.show();
+            rvAddress.setVisibility(View.VISIBLE);
         } else {
+            rvAddress.setVisibility(View.VISIBLE);
             if (adapter == null || adapter.getItemCount() == 0) {
                 isNewBooking = true;
                 RequestCustomerAddress();

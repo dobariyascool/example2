@@ -119,7 +119,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     }
 
     @Override
-    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster,boolean isFilter) {
+    public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster, boolean isFilter) {
         alItemMasterModifier = alItemMaster;
         SetModifierRecyclerView();
     }
@@ -292,7 +292,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @SuppressLint("SetTextI18n")
     private void SetDetail() {
-        if (objItemMaster.getSm_ImagePhysicalName().equals("null")) {
+        if (objItemMaster.getSm_ImagePhysicalName() == null || objItemMaster.getSm_ImagePhysicalName().equals("")) {
             Picasso.with(ivItem.getContext()).load(R.drawable.default_image).into(ivItem);
         } else {
             Picasso.with(ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItem);
@@ -534,7 +534,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             ArrayList<String> alTax = new ArrayList<>(Arrays.asList(objItemMaster.getTax().split(",")));
             for (String tax : alTax) {
                 if (isDuplicate) {
-                    if(objItemMaster.getTaxRate()==0) {
+                    if (objItemMaster.getTaxRate() == 0) {
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {
                             objOrderItemMaster.setTax1(objOrderItemMaster.getTax1() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
@@ -547,7 +547,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         } else {
                             objOrderItemMaster.setTax5(objOrderItemMaster.getTax5() + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         }
-                    }else{
+                    } else {
                         rate = objItemMaster.getRate() + objItemMaster.getTaxRate();
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {
@@ -563,7 +563,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         }
                     }
                 } else {
-                    if(objItemMaster.getTaxRate()==0) {
+                    if (objItemMaster.getTaxRate() == 0) {
                         totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100;
                         if (cnt == 0) {
                             objOrderItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
@@ -576,7 +576,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         } else {
                             objOrderItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
                         }
-                    }else{
+                    } else {
                         rate = objItemMaster.getRate() + objItemMaster.getTaxRate();
                         totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
                         if (cnt == 0) {

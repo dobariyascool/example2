@@ -72,7 +72,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
         if (!isTileGrid) {
-            if (objItemMaster.getXs_ImagePhysicalName()==null || objItemMaster.getXs_ImagePhysicalName().equals("")) {
+            if (objItemMaster.getXs_ImagePhysicalName() == null || objItemMaster.getXs_ImagePhysicalName().equals("")) {
                 Picasso.with(holder.ivItem.getContext()).load(R.drawable.default_image).into(holder.ivItem);
             } else {
                 Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getXs_ImagePhysicalName()).into(holder.ivItem);
