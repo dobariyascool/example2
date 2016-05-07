@@ -52,11 +52,13 @@ public class ItemJSONParser {
                 if (!jsonObject.getString("IsFavourite").equals("null")) {
                     objItemMaster.setIsFavourite(jsonObject.getBoolean("IsFavourite"));
                 }
-                objItemMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
-                objItemMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
-                objItemMaster.setLg_ImagePhysicalName(jsonObject.getString("lg_ImagePhysicalName"));
-                objItemMaster.setXl_ImagePhysicalName(jsonObject.getString("xl_ImagePhysicalName"));
-                objItemMaster.setMd_ImagePhysicalName(jsonObject.getString("md_ImagePhysicalName"));
+                if(!jsonObject.getString("ImagePhysicalName").equals("null")) {
+                    objItemMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
+                    objItemMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
+                    objItemMaster.setLg_ImagePhysicalName(jsonObject.getString("lg_ImagePhysicalName"));
+                    objItemMaster.setXl_ImagePhysicalName(jsonObject.getString("xl_ImagePhysicalName"));
+                    objItemMaster.setMd_ImagePhysicalName(jsonObject.getString("md_ImagePhysicalName"));
+                }
                 objItemMaster.setItemPoint((short) jsonObject.getInt("ItemPoint"));
                 objItemMaster.setPriceByPoint((short) jsonObject.getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonObject.getString("SearchWords"));
@@ -115,11 +117,13 @@ public class ItemJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("IsFavourite").equals("null")) {
                     objItemMaster.setIsFavourite(jsonArray.getJSONObject(i).getBoolean("IsFavourite"));
                 }
-                objItemMaster.setXs_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xs_ImagePhysicalName"));
-                objItemMaster.setSm_ImagePhysicalName(jsonArray.getJSONObject(i).getString("sm_ImagePhysicalName"));
-                objItemMaster.setLg_ImagePhysicalName(jsonArray.getJSONObject(i).getString("lg_ImagePhysicalName"));
-                objItemMaster.setXl_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xl_ImagePhysicalName"));
-                objItemMaster.setMd_ImagePhysicalName(jsonArray.getJSONObject(i).getString("md_ImagePhysicalName"));
+                if(!jsonArray.getJSONObject(i).getString("ImagePhysicalName").equals("null")) {
+                    objItemMaster.setXs_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xs_ImagePhysicalName"));
+                    objItemMaster.setSm_ImagePhysicalName(jsonArray.getJSONObject(i).getString("sm_ImagePhysicalName"));
+                    objItemMaster.setLg_ImagePhysicalName(jsonArray.getJSONObject(i).getString("lg_ImagePhysicalName"));
+                    objItemMaster.setXl_ImagePhysicalName(jsonArray.getJSONObject(i).getString("xl_ImagePhysicalName"));
+                    objItemMaster.setMd_ImagePhysicalName(jsonArray.getJSONObject(i).getString("md_ImagePhysicalName"));
+                }
                 objItemMaster.setItemPoint((short) jsonArray.getJSONObject(i).getInt("ItemPoint"));
                 objItemMaster.setPriceByPoint((short) jsonArray.getJSONObject(i).getInt("PriceByPoint"));
                 objItemMaster.setSearchWords(jsonArray.getJSONObject(i).getString("SearchWords"));

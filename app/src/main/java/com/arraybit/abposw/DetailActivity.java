@@ -154,7 +154,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             btnAdd.setVisibility(View.VISIBLE);
         }
 
-        if (objItemMaster.getMd_ImagePhysicalName().equals("null")) {
+        if (objItemMaster.getMd_ImagePhysicalName()==null || objItemMaster.getMd_ImagePhysicalName().equals("")) {
             Picasso.with(ivItemImage.getContext()).load(R.drawable.default_image).into(ivItemImage);
         } else {
             Picasso.with(ivItemImage.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItemImage);
