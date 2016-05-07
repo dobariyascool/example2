@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setLogo(R.mipmap.app_logo);
+            //getSupportActionBar().setLogo(R.mipmap.app_logo);
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);

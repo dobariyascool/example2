@@ -152,7 +152,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                         if (Service.CheckNet(getActivity())) {
                             spToTime.setVisibility(View.VISIBLE);
                             fromTime = (String) parent.getAdapter().getItem(position);
-                            if(alFromTime!=null && alFromTime.size()!=0) {
+                            if (alFromTime != null && alFromTime.size() != 0) {
                                 FillToTime();
                             }
                         } else {
@@ -266,7 +266,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {
         progressDialog.dismiss();
-        if(alTimeSlot!=null && alTimeSlot.size()!=0) {
+        if (alTimeSlot != null && alTimeSlot.size() != 0) {
             this.alFromTime.addAll(alTimeSlot);
             FillFromTime();
         }
@@ -987,11 +987,13 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 IsValid = true;
             }
         }
-        if (!etChildren.getText().toString().equals("") && etChildren.getText().toString().charAt(0) != '0') {
-            etChildren.clearError();
-        } else {
-            IsValid = false;
-            etChildren.setError("Zero is not valid");
+        if (!etChildren.getText().toString().equals("")) {
+            if (etChildren.getText().toString().charAt(0) != '0') {
+                etChildren.clearError();
+            } else {
+                IsValid = false;
+                etChildren.setError("Zero is not valid");
+            }
         }
         if (!etEmail.getText().toString().equals("") && !Globals.IsValidEmail(etEmail.getText().toString())) {
             IsValid = false;

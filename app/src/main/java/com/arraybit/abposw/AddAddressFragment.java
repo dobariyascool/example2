@@ -1206,9 +1206,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         }
         return IsValid;
     }
-    //endregion
 
     public interface AddNewAddressListener {
         void AddNewAddress(CustomerAddressTran objCustomerAddressTran);
     }
+    //endregion
 }
