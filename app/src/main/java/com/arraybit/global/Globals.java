@@ -571,5 +571,32 @@ public class Globals {
 //        dp.show();
 //    }
 
+//    simpleItemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+//        @Override
+//        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+//            position = viewHolder.getAdapterPosition();
+//            final CustomerAddressTran objCustomerAddressTran = alCustomerAddressTran.get(viewHolder.getAdapterPosition());
+//            ShowSnackBarWithAction(position, objCustomerAddressTran);
+//            adapter.DeleteCustomerAddress(position);
+//        }
+//
+//        @Override
+//        public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+//            if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+//                    && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
+//                    .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
+//                return super.getSwipeDirs(recyclerView, viewHolder);
+//            } else {
+//                return 0;
+//            }
+//        }
+//    };
+//    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
+//    itemTouchHelper.attachToRecyclerView(rvAddress);
     //endregion
 }

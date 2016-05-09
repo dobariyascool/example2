@@ -40,4 +40,5 @@
         android:title="@string/action_logout"
         android:visible="false"
         app:showAsAction="never" />
+
 </menu>

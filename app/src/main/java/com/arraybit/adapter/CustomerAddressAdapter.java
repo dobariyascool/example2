@@ -2,14 +2,17 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.arraybit.abposw.R;
@@ -47,36 +50,30 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
     public void onBindViewHolder(CustomerAddressTranViewHolder holder, int position) {
         CustomerAddressTran objCustomerAddressTran = lstCustomerAddressTran.get(position);
 
-        if (position == 0) {
-            holder.txtSwipeDelete.setVisibility(View.VISIBLE);
-        } else {
-            holder.txtSwipeDelete.setVisibility(View.GONE);
-        }
         if (objCustomerAddressTran.getIsPrimary()) {
             holder.txtDefault.setText(view.getResources().getString(R.string.yaDefault));
-            //} else {
-            //    holder.txtDefault.setVisibility(View.GONE);
             if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
-                //holder.ivHomeOffice.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.home_drawable));
                 holder.txtDefault.setText(holder.txtDefault.getText() + " (" + Globals.AddressType.Home.toString() + ")");
             } else {
-                //holder.ivHomeOffice.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.office_drawable));
                 holder.txtDefault.setText(holder.txtDefault.getText() + " (" + Globals.AddressType.Office.toString() + ")");
             }
         } else {
             if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
-                //holder.ivHomeOffice.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.home_drawable));
                 holder.txtDefault.setText(Globals.AddressType.Home.toString());
             } else {
-                //holder.ivHomeOffice.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.office_drawable));
                 holder.txtDefault.setText(Globals.AddressType.Office.toString());
             }
         }
 
-        //holder.txtCustomerAddressTranId.setText(String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
         holder.txtCustomer.setText(objCustomerAddressTran.getCustomerName());
         holder.txtAddress.setText(objCustomerAddressTran.getAddress());
-        holder.txtArea.setText(objCustomerAddressTran.getArea());
+        if (objCustomerAddressTran.getArea() != null) {
+            holder.txtArea.setVisibility(View.VISIBLE);
+            holder.txtArea.setText(objCustomerAddressTran.getArea());
+        } else {
+            holder.txtArea.setVisibility(View.GONE);
+        }
+
         holder.txtCity.setText(objCustomerAddressTran.getCity());
         holder.txtZipCode.setText(context.getResources().getString(R.string.minus) + objCustomerAddressTran.getZipCode());
         holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
@@ -124,26 +121,66 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         notifyItemInserted(position);
     }
 
+    private PopupWindow ShowEditDeletePopup(View view, final int position) {
+        LayoutInflater mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams")
+        View layout = mInflater.inflate(R.layout.row_popup, null);
+
+
+        TextView txtEdit = (TextView) layout.findViewById(R.id.txtEdit);
+        TextView txtDelete = (TextView) layout.findViewById(R.id.txtDelete);
+
+        layout.measure(View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED);
+        final PopupWindow popupWindow = new PopupWindow(layout, FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT, true);
+        Drawable background = ContextCompat.getDrawable(context, android.R.drawable.picture_frame);
+        popupWindow.setBackgroundDrawable(background);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(view, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                popupWindow.dismiss();
+
+            }
+        });
+        txtEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                objCustomerAddressListener.OnClickListener(lstCustomerAddressTran.get(position), position);
+            }
+        });
+        txtDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                objCustomerAddressListener.DeleteClickListener(lstCustomerAddressTran.get(position), position);
+            }
+        });
+        return popupWindow;
+    }
+
     public interface CustomerAddressListener {
         void DeleteClickListener(CustomerAddressTran objCustomerAddressTran, int position);
 
         void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position);
     }
 
-    class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder {
-        TextView txtDefault, txtCustomerAddressTranId, txtCustomer, txtPhone, txtAddress, txtState, txtCity, txtArea, txtZipCode, txtSwipeDelete;
+
+    class CustomerAddressTranViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView txtDefault, txtCustomerAddressTranId, txtCustomer, txtPhone, txtAddress, txtState, txtCity, txtArea, txtZipCode;
         CardView cvAddress;
-        ImageView ivHomeOffice;
-        ImageButton btnDelete, ibEditAddress;
+        ImageButton ibOverflowMenu;
 
         public CustomerAddressTranViewHolder(View view) {
             super(view);
 
             cvAddress = (CardView) view.findViewById(R.id.cvAddress);
 
-            ivHomeOffice = (ImageView) view.findViewById(R.id.ivHomeOffice);
             txtCustomerAddressTranId = (TextView) view.findViewById(R.id.txtCustomerAddressTranId);
-            txtSwipeDelete = (TextView) view.findViewById(R.id.txtSwipeDelete);
             txtCustomerAddressTranId.setVisibility(View.GONE);
             txtDefault = (TextView) view.findViewById(R.id.txtDefault);
             txtCustomer = (TextView) view.findViewById(R.id.txtCustomerName);
@@ -154,39 +191,23 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
             txtArea = (TextView) view.findViewById(R.id.txtArea);
             txtZipCode = (TextView) view.findViewById(R.id.txtZipCode);
 
-            btnDelete = (ImageButton) view.findViewById(R.id.ibDeleteAddress);
-            ibEditAddress = (ImageButton) view.findViewById(R.id.ibEditAddress);
+            ibOverflowMenu = (ImageButton) view.findViewById(R.id.ibOverflowMenu);
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
-                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
-                        objCustomerAddressListener.DeleteClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
-                    }
-                }
-            });
-
-            cvAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
-                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
-                        objCustomerAddressListener.OnClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
-                    }
-                }
-            });
-
-            ibEditAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
-                            && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
-                        objCustomerAddressListener.OnClickListener(lstCustomerAddressTran.get(getAdapterPosition()), getAdapterPosition());
-                    }
-                }
-            });
+            ibOverflowMenu.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName() != null
+                    && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName().equals(context.getResources().getString(R.string.title_fragment_your_address))) {
+                if (v.getId() == R.id.ibOverflowMenu) {
+                    ShowEditDeletePopup(v, getAdapterPosition());
+                }
+            }
+        }
+
     }
 }
+
+
 

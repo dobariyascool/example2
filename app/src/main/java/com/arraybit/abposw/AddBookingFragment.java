@@ -319,34 +319,31 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     }
 
     private void SetError(String errorCode) {
-        switch (errorCode) {
-            case "-1":
-                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
-                break;
-            case "-2":
-                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgBookingIsAAvailable), getActivity(), 1000);
-                break;
-            case "1":
-                SetBookingMasterForInsert();
-                break;
-            case "0":
-                if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
-                    if (getTargetFragment() != null) {
-                        objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
-                        objAddNewBookingListener.AddNewBooking(objBookingMaster);
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    } else {
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("ShowBookingMessage", true);
-                        getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                        getActivity().finish();
-                    }
-                } else {
+        if (errorCode.equals("-1")) {
+            Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+        } else if (errorCode.equals("-2")) {
+            Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgBookingIsAAvailable), getActivity(), 1000);
+        } else if (errorCode.equals("1")) {
+            SetBookingMasterForInsert();
+        } else if (!errorCode.equals("0")) {
+            if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
+                if (getTargetFragment() != null) {
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
+                    objBookingMaster.setBookingMasterId(Integer.parseInt(errorCode));
                     objAddNewBookingListener.AddNewBooking(objBookingMaster);
                     getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("ShowBookingMessage", true);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
                 }
-                break;
+            } else {
+                objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();
+                objBookingMaster.setBookingMasterId(Integer.parseInt(errorCode));
+                objAddNewBookingListener.AddNewBooking(objBookingMaster);
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
     }
 
