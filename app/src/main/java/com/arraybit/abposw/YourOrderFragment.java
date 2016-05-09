@@ -28,7 +28,7 @@ import com.arraybit.parser.OrderJSONParser;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener, OrderAdapter.OrderOnClickListener, OrderJSONParser.OrderMasterRequestListener ,ConfirmDialog.ConfirmationResponseListener{
+public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener, OrderAdapter.OrderOnClickListener, OrderJSONParser.OrderMasterRequestListener, ConfirmDialog.ConfirmationResponseListener {
 
     RecyclerView rvOrder;
     LinearLayout errorLayout;
@@ -68,7 +68,6 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         if (Service.CheckNet(getActivity())) {
             RequestOrderMasterOrderItem();
@@ -134,8 +133,8 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
         this.position = position;
         this.objOrder = objOrderMaster;
-        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),objOrder.getOrderNumber()+" Order"));
-        confirmDialog.setTargetFragment(this,0);
+        ConfirmDialog confirmDialog = new ConfirmDialog(null, true, String.format(getActivity().getResources().getString(R.string.cdfCancelMsg), objOrder.getOrderNumber() + " Order"));
+        confirmDialog.setTargetFragment(this, 0);
         confirmDialog.show(getActivity().getSupportFragmentManager(), "");
     }
 
@@ -236,6 +235,10 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
                     objOrderMaster.setIsPreOrder(objItemMaster.getPaymentStatus());
                     objOrderMaster.setlinktoOrderStatusMasterId(objItemMaster.getLinktoOrderStatusMasterId());
                     alOrderItem.add(objItemMaster);
+                    if (cnt == alItemMaster.size() - 1) {
+                        objOrderMaster.setAlOrderItemTran(alOrderItem);
+                        alOrderMaster.add(objOrderMaster);
+                    }
                 }
             }
             cnt++;
