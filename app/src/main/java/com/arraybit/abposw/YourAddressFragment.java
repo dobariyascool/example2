@@ -2,6 +2,7 @@ package com.arraybit.abposw;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "ResourceType"})
 public class YourAddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener, AddAddressFragment.AddNewAddressListener {
 
     FloatingActionButton fabAddress;
@@ -84,34 +85,12 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvAddress, R.drawable.wifi_drawable);
         }
 
-        simpleItemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                position = viewHolder.getAdapterPosition();
-                final CustomerAddressTran objCustomerAddressTran = alCustomerAddressTran.get(viewHolder.getAdapterPosition());
-                ShowSnackBarWithAction(position, objCustomerAddressTran);
-                adapter.DeleteCustomerAddress(position);
-            }
-
-            @Override
-            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if (getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
-                        && getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
-                        .equals(getActivity().getResources().getString(R.string.title_fragment_your_address))) {
-                    return super.getSwipeDirs(recyclerView, viewHolder);
-                } else {
-                    return 0;
-                }
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchHelper);
-        itemTouchHelper.attachToRecyclerView(rvAddress);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -179,6 +158,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     public void OnClickListener(CustomerAddressTran objCustomerAddressTran, int position) {
         this.position = position;
         fabAddress.hide();
+        rvAddress.setVisibility(View.GONE);
         AddAddressFragment addAddressFragment = new AddAddressFragment(getActivity(), objCustomerAddressTran);
         addAddressFragment.setTargetFragment(this, 0);
         Globals.ReplaceFragment(addAddressFragment, getActivity().getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.yourAddressFragment);
@@ -294,7 +274,7 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     private void SetErrorCode(String errorCode) {
         switch (errorCode) {
             case "0":
-                //adapter.DeleteCustomerAddress(position);
+                adapter.DeleteCustomerAddress(position);
         }
     }
     //endregion

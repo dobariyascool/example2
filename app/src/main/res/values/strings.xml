@@ -7,6 +7,8 @@
     <string name="action_wishlist">Wishlist</string>
     <string name="action_checkin">Check In</string>
     <string name="action_logout">Logout</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
     <string name="title_activity_login">Sign In</string>
     <string name="title_activity_registration">Sign Up</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
