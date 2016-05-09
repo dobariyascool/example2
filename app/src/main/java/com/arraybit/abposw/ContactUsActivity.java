@@ -145,8 +145,8 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         map = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(21.1904891,72.7864842);
+        map.addMarker(new MarkerOptions().position(sydney).title("ArrayBit"));
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
@@ -195,7 +195,6 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             etContactUsMessage.setError("Enter " + getResources().getString(R.string.cuMessage));
             if (!Globals.IsValidEmail(etContactUsEmail.getText().toString())) {
                 etContactUsEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
-                IsValid = false;
             } else {
                 etContactUsEmail.clearError();
             }
