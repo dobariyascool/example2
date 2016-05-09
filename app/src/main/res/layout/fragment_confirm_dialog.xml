@@ -33,7 +33,8 @@
             android:id="@+id/txtMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/control_SpecingMedium" />
+            android:padding="@dimen/control_SpecingMedium"
+            android:textColor="@color/blue_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
