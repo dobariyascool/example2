@@ -72,14 +72,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                 if (objOrderMaster.getlinktoOrderStatusMasterId() > 0 || objOrderMaster.getIsPreOrder()) {
                     holder.ibCancelOrder.setVisibility(View.GONE);
                     holder.txtStatus.setVisibility(View.VISIBLE);
-                    if (Globals.OrderStatus.Cancelled.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
-                        holder.txtStatus.setText(Globals.OrderStatus.Cancelled.toString());
-                    } else if (Globals.OrderStatus.Delivered.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
-                        holder.txtStatus.setText(Globals.OrderStatus.Delivered.toString());
-                    }// else {
-//                        holder.txtStatus.setVisibility(View.INVISIBLE);
-//                    }
-
                 } else {
                     holder.txtStatus.setVisibility(View.GONE);
                     holder.ibCancelOrder.setVisibility(View.VISIBLE);
