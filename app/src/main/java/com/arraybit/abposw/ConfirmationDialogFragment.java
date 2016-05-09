@@ -21,7 +21,7 @@ public class ConfirmationDialogFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_confirmation_dailog, container, false);
 
         txtConfirmMessage = (TextView) view.findViewById(R.id.txtConfirmMessage);
-        txtConfirmMessage.setText(String.format(getResources().getString(R.string.cdltfMsg),"Cancel"));
+        txtConfirmMessage.setText(String.format(getResources().getString(R.string.cdfConfirmDeleteMsg),"Booking"));
         return view;
     }
 }

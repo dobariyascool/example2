@@ -14,7 +14,7 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="title_activity_offer">Top Offers</string>
     <string name="title_activity_hotel_profile">Profile</string>
-    <string name="title_fragment_your_profile">Your Profile</string>
+    <string name="title_fragment_your_profile">My Profile</string>
     <string name="title_activity_about_us">About Us</string>
     <string name="title_fragment_policy">Privacy Policy</string>
     <string name="title_fragment_terms_of_service">Terms of service</string>
@@ -34,7 +34,7 @@
     <string name="title_activity_feedback">Feedback</string>
     <string name="title_fragment_change_password">Change Password</string>
     <string name="title_activity_wish_list">Wish List</string>
-    <string name="title_activity_my_account">Your Account</string>
+    <string name="title_activity_my_account">My Account</string>
     <string name="title_activity_my_order">YourOrderActivity</string>
     <string name="title_activity_contactus">Contact Us</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
@@ -261,7 +261,7 @@
     <!--end-->
 
     <!--Your Order-->
-    <string name="title_fragment_your_order">Your Orders</string>
+    <string name="title_fragment_your_order">My Orders</string>
     <string name="yoOrderNo">Order No</string>
     <string name="yoOrderDate">Order Date</string>
     <string name="yoOrderTime">Order Time</string>
@@ -269,7 +269,7 @@
     <!--end-->
 
     <!--Your Booking-->
-    <string name="title_fragment_your_booking">Your Bookings</string>
+    <string name="title_fragment_your_booking">My Bookings</string>
     <string name="title_activity_booking">BookingActivity</string>
     <string name="ybCustomerName">Person Name</string>
     <string name="ybAdults">Adults</string>
@@ -303,7 +303,7 @@
     <!--End-->
 
     <!-- Your Address(s)-->
-    <string name="title_fragment_your_address">Your Addresses</string>
+    <string name="title_fragment_your_address">My Addresses</string>
     <string name="yaOffice">Office</string>
     <string name="yaHome">Home</string>
     <string name="yaName">Customer Name</string>
@@ -350,12 +350,11 @@
     <string name="cdfCancel">Cancel</string>
     <string name="cdfConfirmMsg">You want to place order?</string>
     <string name="cdfMsg">Your %s order will be ready on</string>
-    <!-- End-->
-
-    <!-- Confirm Delete Fragment-->
-    <string name="cdltfMsg">Are you want to %s your</string>
-    <string name="cdltfNo">No</string>
-    <string name="cdltfYes">Yes</string>
+    <string name="cdfConfirmDeleteMsg">Remove %s?</string>
+    <string name="cdfCancelMsg">Cancel %s?</string>
+    <string name="cdfRemove">Remove</string>
+    <string name="cdfBooking">booking</string>
+    <string name="cdfOrder">order</string>
     <!-- End-->
 
 </resources>

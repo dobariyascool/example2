@@ -33,7 +33,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @SuppressWarnings("ConstantConditions")
-public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener {
+public class YourBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, BookingAdapter.BookingOnClickListener, AddBookingFragment.AddNewBookingListener,ConfirmDialog.ConfirmationResponseListener {
 
     RecyclerView rvBooking;
     FloatingActionButton fabBooking;
@@ -48,6 +48,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     ProgressDialog progressDialog = new ProgressDialog();
     int customerMasterId;
     boolean isNewBooking;
+    BookingMaster objBooking;
 
     public YourBookingFragment() {
     }
@@ -186,9 +187,18 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     @Override
     public void CancelClickListener(BookingMaster objBookingMaster, int position) {
         this.position = position;
+        this.objBooking = objBookingMaster;
+        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),objBookingMaster.getBookingPersonName()+"'s booking"));
+        confirmDialog.setTargetFragment(this,0);
+        confirmDialog.show(getActivity().getSupportFragmentManager(), "");
+    }
+
+
+    @Override
+    public void ConfirmResponse() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-        objBookingJSONParser.UpdateBookingMaster(objBookingMaster, getActivity(), this);
+        objBookingJSONParser.UpdateBookingMaster(objBooking, getActivity(), this);
     }
 
     @Override

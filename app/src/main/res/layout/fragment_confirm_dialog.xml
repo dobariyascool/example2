@@ -1,24 +1,60 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.arraybit.abposw.ConfirmDialog">
 
-    <com.rey.material.widget.TextView
-        style="@style/HeaderTextView"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/control_SpecingSmall"
-        android:text="@string/cdfConfirmMsg" />
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-    <com.rey.material.widget.TextView
-        android:id="@+id/txtMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingEnd="@dimen/control_SpecingLarge"
-        android:paddingStart="@dimen/control_SpecingLarge"
-        android:textSize="@dimen/control_TextSmall" />
-</LinearLayout>
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtHeader"
+            style="@style/HeaderTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/control_SpecingSmall"
+            android:paddingEnd="@dimen/control_SpecingMedium"
+            android:paddingStart="@dimen/control_SpecingMedium"
+            android:paddingTop="@dimen/control_SpecingSmall"
+            android:text="@string/cdfConfirmMsg" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtOrderMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/control_SpecingMedium"
+            android:paddingStart="@dimen/control_SpecingMedium"
+            android:textSize="@dimen/control_TextSmall" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/control_SpecingMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnCancel"
+                style="@style/DialogButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cdfCancel"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnConfirm"
+                style="@style/DialogButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cdfConfirm"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

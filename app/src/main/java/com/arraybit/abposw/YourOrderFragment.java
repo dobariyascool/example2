@@ -28,7 +28,7 @@ import com.arraybit.parser.OrderJSONParser;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener, OrderAdapter.OrderOnClickListener, OrderJSONParser.OrderMasterRequestListener {
+public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMasterRequestListener, OrderAdapter.OrderOnClickListener, OrderJSONParser.OrderMasterRequestListener ,ConfirmDialog.ConfirmationResponseListener{
 
     RecyclerView rvOrder;
     LinearLayout errorLayout;
@@ -40,6 +40,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     ArrayList<OrderMaster> alOrderMaster;
     int customerMasterId;
     SharePreferenceManage objSharePreferenceManage;
+    OrderMaster objOrder;
 
     public YourOrderFragment() {
         // Required empty public constructor
@@ -130,10 +131,18 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
 
     @Override
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         this.position = position;
+        this.objOrder = objOrderMaster;
+        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),objOrder.getOrderNumber()+" Order"));
+        confirmDialog.setTargetFragment(this,0);
+        confirmDialog.show(getActivity().getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void ConfirmResponse() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
         OrderJSONParser orderJSONParser = new OrderJSONParser();
-        orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrderMaster.getOrderMasterId()), getActivity(), this);
+        orderJSONParser.UpdateOrderMasterStatus(String.valueOf(objOrder.getOrderMasterId()), getActivity(), this);
     }
 
     @Override
@@ -246,5 +255,6 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         }
 
     }
+
     //endregion
 }

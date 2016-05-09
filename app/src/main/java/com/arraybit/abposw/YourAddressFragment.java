@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 @SuppressWarnings({"ConstantConditions", "ResourceType"})
-public class YourAddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener, AddAddressFragment.AddNewAddressListener {
+public class YourAddressFragment extends Fragment implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, CustomerAddressAdapter.CustomerAddressListener, AddAddressFragment.AddNewAddressListener,ConfirmDialog.ConfirmationResponseListener {
 
     FloatingActionButton fabAddress;
     LinearLayout errorLayout;
@@ -39,10 +38,10 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
     CustomerAddressAdapter adapter;
     Integer position = null;
-    ItemTouchHelper.SimpleCallback simpleItemTouchHelper;
     int customerMasterId;
-    boolean isNewBooking, isDismiss;
+    boolean isNewBooking;
     CoordinatorLayout yourAddressFragment;
+    CustomerAddressTran objCustomerAddress;
 
     public YourAddressFragment() {
     }
@@ -146,9 +145,17 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
     @Override
     public void DeleteClickListener(CustomerAddressTran objCustomerAddressTran, int position) {
         this.position = position;
+        this.objCustomerAddress = objCustomerAddressTran;
+        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfConfirmDeleteMsg),"address"));
+        confirmDialog.setTargetFragment(this,0);
+        confirmDialog.show(getActivity().getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void ConfirmResponse() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-        objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
+        objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), this, String.valueOf(objCustomerAddress.getCustomerAddressTranId()));
     }
 
     @Override

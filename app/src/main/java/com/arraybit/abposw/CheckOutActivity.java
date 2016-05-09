@@ -292,7 +292,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 SaveCheckOutData(null, null);
                 finish();
             } else if (v.getId() == R.id.btnPlaceOrder) {
-                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut);
+                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut,false,null);
                 confirmDialog.show(getSupportFragmentManager(), "");
             } else if (v.getId() == R.id.ibAdd) {
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
