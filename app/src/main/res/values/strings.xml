@@ -349,4 +349,10 @@
     <string name="cdfMsg">Your %s order will be ready on</string>
     <!-- End-->
 
+    <!-- Confirm Delete Fragment-->
+    <string name="cdltfMsg">Are you want to %s your</string>
+    <string name="cdltfNo">No</string>
+    <string name="cdltfYes">Yes</string>
+    <!-- End-->
+
 </resources>
