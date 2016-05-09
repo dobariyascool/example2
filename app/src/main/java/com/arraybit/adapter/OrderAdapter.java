@@ -87,6 +87,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                         holder.txtStatus.setText(Globals.OrderStatus.Cancelled.toString());
                     } else if (Globals.OrderStatus.Delivered.getValue() == objOrderMaster.getlinktoOrderStatusMasterId()) {
                         holder.txtStatus.setText(Globals.OrderStatus.Delivered.toString());
+                    } else {
+                        holder.txtStatus.setVisibility(View.INVISIBLE);
                     }
 
                 } else {
