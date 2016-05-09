@@ -17,7 +17,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder>{
+public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
 
     public boolean isItemAnimate;
     public boolean isModifierChanged = true, changeAmount;
@@ -29,7 +29,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     int previousPosition;
 
     // Constructor
-    public CartItemAdapter(Context context, ArrayList<ItemMaster> result,CartItemOnClickListener objCartItemOnClickListener,boolean isItemAnimate) {
+    public CartItemAdapter(Context context, ArrayList<ItemMaster> result, CartItemOnClickListener objCartItemOnClickListener, boolean isItemAnimate) {
         this.context = context;
         this.alItemMaster = result;
         this.layoutInflater = LayoutInflater.from(context);
@@ -54,14 +54,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         if (!isModifierChanged) {
             RemoveModifierView(holder);
         }
-        if (objItemMaster.getAlOrderItemModifierTran() != null && objItemMaster.getAlOrderItemModifierTran().size()!=0) {
+        if (objItemMaster.getAlOrderItemModifierTran() != null && objItemMaster.getAlOrderItemModifierTran().size() != 0) {
             LinearLayout.LayoutParams txtQtyLayoutParams = (LinearLayout.LayoutParams) holder.txtQty.getLayoutParams();
             txtQtyLayoutParams.gravity = Gravity.TOP;
             holder.txtQty.setLayoutParams(txtQtyLayoutParams);
             SetModifierLayout(objItemMaster.getAlOrderItemModifierTran(), holder);
         }
 
-        if (objItemMaster.getRemark()==null || objItemMaster.getRemark().equals("")) {
+        if (objItemMaster.getRemark() == null || objItemMaster.getRemark().equals("")) {
             holder.remarkLayout.setVisibility(View.GONE);
         } else {
             holder.remarkLayout.setVisibility(View.VISIBLE);
@@ -97,6 +97,15 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             changeAmount = true;
         }
 
+    }
+
+    public void UndoData(int position, ItemMaster objItemMaster) {
+        isModifierChanged = false;
+        isItemAnimate = true;
+        alItemMaster.add(position, objItemMaster);
+        notifyItemInserted(position);
+        Globals.counter = Globals.counter + 1;
+        changeAmount = true;
     }
 
     private void SetModifierLayout(ArrayList<ItemMaster> alOrderItemModifierTran, CartItemViewHolder holder) {
@@ -150,7 +159,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     }
 
     public interface CartItemOnClickListener {
-        void ImageViewOnClick(int position);
+        void ImageViewOnClick(int position, ItemMaster objOrderItemMaster);
     }
 
 
@@ -188,7 +197,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 @Override
                 public void onClick(View v) {
                     //getAdapterPosition current position
-                    objCartItemOnClickListener.ImageViewOnClick(getAdapterPosition());
+                    objCartItemOnClickListener.ImageViewOnClick(getAdapterPosition(), alItemMaster.get(getAdapterPosition()));
                 }
             });
         }

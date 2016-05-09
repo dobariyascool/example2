@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.arraybit.adapter.CustomerAddressAdapter;
 import com.arraybit.global.Globals;
@@ -230,45 +227,6 @@ public class YourAddressFragment extends Fragment implements View.OnClickListene
                 }, 1600);
             }
         }
-    }
-
-    private void ShowSnackBarWithAction(final int position, final CustomerAddressTran objCustomerAddressTran) {
-        Snackbar snackbar = Snackbar
-                .make(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressDelete), 10000)
-                .setCallback(new Snackbar.Callback() {
-                    @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        super.onDismissed(snackbar, event);
-                        if (event == DISMISS_EVENT_TIMEOUT) {
-                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
-                            if (!isDismiss) {
-                                progressDialog.show(getActivity().getSupportFragmentManager(), "");
-                                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-                                objCustomerAddressJSONParser.DeleteCustomerAddressTran(getActivity(), YourAddressFragment.this, String.valueOf(objCustomerAddressTran.getCustomerAddressTranId()));
-                            }
-                            isDismiss = false;
-                        }
-                    }
-                })
-                .setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        isDismiss = true;
-                        adapter.AddCustomerAddress(position, objCustomerAddressTran);
-                        Globals.ShowSnackBar(yourAddressFragment, getActivity().getResources().getString(R.string.yaAddressUndo), getActivity(), 1000);
-                    }
-                });
-
-        snackbar.setActionTextColor(ContextCompat.getColor(getActivity(), R.color.snackBarActionColor));
-
-        View snackView = snackbar.getView();
-        if (Build.VERSION.SDK_INT >= 21) {
-            snackView.setElevation(R.dimen.snackbar_elevation);
-        }
-        TextView txt = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
-        txt.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
-        snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blue_grey));
-        snackbar.show();
     }
 
     private void SetErrorCode(String errorCode) {

@@ -80,6 +80,7 @@
     <string name="MsgBookingIsAAvailable">Booking slot is not available</string>
     <string name="MsgOfferCodeFailed">Offer Not Valid</string>
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
+    <string name="MsgCartItemDelete">%s is deleted from the dish</string>
     <!-- End -->
 
     <!-- signupActivity -->

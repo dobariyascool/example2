@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +35,7 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "ResourceType"})
 @SuppressLint("ValidFragment")
 public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
 
@@ -188,7 +190,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void ImageViewOnClick(int position) {
+    public void ImageViewOnClick(int position,ItemMaster objOrderItemMaster) {
+        ShowSnackBarWithAction(position,objOrderItemMaster);
         adapter.RemoveData(position);
         if (Globals.alOrderItemTran.size() == 0) {
             RemarkDialogFragment.strRemark = "";
@@ -332,32 +335,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objOrderMaster.setIsPreOrder(true);
     }
 
-    private void SetError(String errorCode) {
-        switch (errorCode) {
-            case "-1":
-                Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
-                break;
-            case "0":
-                Globals.ShowSnackBar(rvCartItem, getResources().getString(R.string.MsgConfirmOrder), getActivity(), 1000);
-                if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_activity_wish_list))) {
-                    //RemoveWishListFromSharePreference();
-                    Globals.ClearCartData();
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("ShowMessage", false);
-                    returnIntent.putExtra("IsRefreshList", true);
-                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                    getActivity().finish();
-                } else {
-                    Globals.ClearCartData();
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("ShowMessage", false);
-                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                    getActivity().finish();
-                }
-                break;
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private void CountAmount() {
         if (Globals.alOrderItemTran.size() != 0) {
@@ -437,6 +414,56 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             linearLayout[i].addView(txtTaxRate[i]);
             taxLayout.addView(linearLayout[i]);
         }
+    }
+
+    private void ShowSnackBarWithAction(final int position, final ItemMaster objItemMaster) {
+        Snackbar snackbar = Snackbar
+                .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete),objItemMaster.getItemName()), 8000)
+                .setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        super.onDismissed(snackbar, event);
+                        if (event == DISMISS_EVENT_TIMEOUT) {
+                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
+                        }
+                    }
+                })
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        adapter.UndoData(position, objItemMaster);
+                        if (Globals.alOrderItemTran.size() == 0) {
+                            RemarkDialogFragment.strRemark = "";
+                            SetRecyclerView();
+                        }
+                        if (adapter.changeAmount) {
+                            totalAmount = 0;
+                            netAmount = 0;
+                            totalTax = 0;
+                            tax1 = 0;
+                            tax2 = 0;
+                            tax3 = 0;
+                            tax4 = 0;
+                            tax5 = 0;
+                            SetRecyclerView();
+                            if (alTaxMaster != null && alTaxMaster.size() != 0) {
+                                SetTextLayout();
+                            }
+                        }
+                        Globals.ShowSnackBar(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItem), objItemMaster.getItemName()), getActivity(), 1000);
+                    }
+                });
+
+        snackbar.setActionTextColor(ContextCompat.getColor(getActivity(), R.color.snackBarActionColor));
+
+        View snackView = snackbar.getView();
+        if (Build.VERSION.SDK_INT >= 21) {
+            snackView.setElevation(R.dimen.snackbar_elevation);
+        }
+        android.widget.TextView txt = (android.widget.TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
+        txt.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blue_grey));
+        snackbar.show();
     }
     //endregion
 }
