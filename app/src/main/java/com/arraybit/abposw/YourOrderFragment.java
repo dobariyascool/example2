@@ -68,6 +68,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         rvOrder = (RecyclerView) view.findViewById(R.id.rvOrder);
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
         linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         if (Service.CheckNet(getActivity())) {
             RequestOrderMasterOrderItem();
