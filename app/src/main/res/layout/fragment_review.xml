@@ -7,11 +7,11 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         tools:ignore="HardcodedText">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -20,6 +20,33 @@
                 android:id="@+id/rvReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:background="@color/errorIconColor">-->
+
+        <!--<com.rey.material.widget.TextView-->
+            <!--android:id="@+id/txtAverage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/control_SpecingSmall"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="Average Review" />-->
+
+        <!--<com.rey.material.widget.Button-->
+            <!--android:id="@+id/btnAddReview"-->
+            <!--style="@style/Button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:padding="@dimen/control_SpecingSmall"-->
+            <!--android:text="@string/rfReview"-->
+            <!--android:layout_alignParentEnd="true"/>-->
+
+    <!--</RelativeLayout>-->
 </FrameLayout>

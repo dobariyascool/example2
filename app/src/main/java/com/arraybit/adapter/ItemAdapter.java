@@ -79,7 +79,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
         }
         if (objItemMaster.getShortDescription().equals("")) {
-            holder.txtItemDescription.setVisibility(View.GONE);
+            holder.txtItemDescription.setVisibility(View.INVISIBLE);
         } else {
             holder.txtItemDescription.setVisibility(View.VISIBLE);
             holder.txtItemDescription.setText(objItemMaster.getShortDescription());
@@ -87,7 +87,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.txtItemPrice.setText(view.getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
         if (objItemMaster.getIsDineInOnly()) {
-            //holder.cvItem.setClickable(false);
             holder.txtItemDineOnly.setVisibility(View.VISIBLE);
             if (MenuActivity.isViewChange) {
                 holder.ibLike.setVisibility(View.GONE);
@@ -102,8 +101,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else {
             holder.cvItem.setClickable(true);
             holder.txtItemDineOnly.setVisibility(View.INVISIBLE);
-//            holder.ibLike.setVisibility(View.VISIBLE);
-            holder.ibLike.setVisibility(View.GONE);
+            holder.ibLike.setVisibility(View.VISIBLE);
             if (!isTileGrid) {
                 holder.btnAdd.setVisibility(View.VISIBLE);
                 holder.btnAddDisable.setVisibility(View.GONE);
@@ -113,8 +111,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
-//                holder.ivJain.setVisibility(View.VISIBLE);
-                holder.ivJain.setVisibility(View.GONE);
+                holder.ivJain.setVisibility(View.VISIBLE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -123,8 +120,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
-//                holder.ivSpicy.setVisibility(View.VISIBLE);
-                holder.ivSpicy.setVisibility(View.GONE);
+                holder.ivSpicy.setVisibility(View.VISIBLE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -133,8 +129,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Sweet.getValue()))) {
-//                holder.ivSweet.setVisibility(View.VISIBLE);
-                holder.ivSweet.setVisibility(View.GONE);
+                holder.ivSweet.setVisibility(View.VISIBLE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -143,8 +138,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             }
 
             if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.DoubleSpicy.getValue()))) {
-//                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
-                holder.ivExtraSpicy.setVisibility(View.GONE);
+                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
                 if (objItemMaster.getIsDineInOnly()) {
                     holder.ibLike.setVisibility(View.GONE);
                 }
@@ -175,8 +169,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else if (MenuActivity.isViewChange) {
             if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
                 holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
-                if (objItemMaster.getItemName().length() > 11) {
-                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 11) + "...");
+                if (objItemMaster.getItemName().length() > 10) {
+                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 10) + "...");
                 } else {
                     holder.txtItemName.setText(objItemMaster.getItemName());
                 }
@@ -333,7 +327,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 height = displayMetrics.widthPixels / 2 - 24;
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-                //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
                 ivItem.setLayoutParams(layoutParams);
             }
 

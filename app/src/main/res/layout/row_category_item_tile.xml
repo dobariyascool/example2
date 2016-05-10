@@ -11,43 +11,6 @@
         android:orientation="vertical"
         android:padding="@dimen/control_SpecingSmall">
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="end"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/wishlist_drawable"-->
-        <!--tools:ignore="ContentDescription" />-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/wishlist_drawable"-->
-        <!--tools:ignore="ContentDescription" />-->
-
-        <!--<ToggleButton-->
-        <!--android:id="@+id/ibLike"-->
-        <!--android:layout_width="24dp"-->
-        <!--android:layout_height="24dp"-->
-        <!--android:background="@drawable/wishlist_drawable"-->
-        <!--android:padding="@dimen/control_SpecingSmall"-->
-        <!--android:textOff=""-->
-        <!--android:textOn="" />-->
-        <!--</LinearLayout>-->
-
-        <!--<com.rey.material.widget.TextView-->
-        <!--android:id="@+id/txtItemName"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:maxLines="1"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:textSize="@dimen/control_TextMedium" />-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,23 +87,12 @@
         <com.rey.material.widget.TextView
             android:id="@+id/txtItemDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="2"
+            android:maxLines="3"
             android:text="Description"
             android:textColor="@color/darkgoldenrod"
             android:textSize="@dimen/control_TextSmall"
-            tools:ignore="HardcodedText" />
-
-        <com.rey.material.widget.TextView
-            android:id="@+id/txtItemPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/control_TextMedium"
             tools:ignore="HardcodedText" />
 
         <com.rey.material.widget.TextView
@@ -153,6 +105,15 @@
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/control_TextTiny"
             android:visibility="invisible"
+            tools:ignore="HardcodedText" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtItemPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/control_TextMedium"
             tools:ignore="HardcodedText" />
 
         <com.rey.material.widget.Button

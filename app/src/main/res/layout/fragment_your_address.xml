@@ -26,7 +26,7 @@
             android:id="@+id/rvAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/control_SpecingTiny" />
+            android:layout_marginTop="@dimen/control_SpecingTiny"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
