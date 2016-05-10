@@ -403,9 +403,9 @@ public class BookingJSONParser {
     public void SelectAllTimeSlots(final Fragment targetFragment, final Context context, String linktoBusinessMasterId, final String strBookingDate, final boolean isDateTime) {
         String url;
         if (isDateTime) {
-            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + Globals.GetCurrentDateTime();
+            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate + "/" + 15;
         } else {
-            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate + "/" + null + "/" + null + "/" + null;
+            url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate + "/" + 30;
         }
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {

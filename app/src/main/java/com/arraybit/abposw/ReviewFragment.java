@@ -24,7 +24,6 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewMasterRequestListener, ReviewAdapter.WriteReviewListener {
 
-    static ArrayList<ReviewMaster> lstReviewMaster;
     RecyclerView rvReview;
     ProgressDialog progressDialog = new ProgressDialog();
     LinearLayoutManager linearLayoutManager;
@@ -82,8 +81,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
         if(currentPage > 3) {
             progressDialog.dismiss();
         }
-        lstReviewMaster = alReviewMaster;
-        SetRecyclerView(lstReviewMaster);
+        SetRecyclerView(alReviewMaster);
     }
 
     @Override

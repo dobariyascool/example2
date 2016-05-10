@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/informationFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -216,6 +217,44 @@
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/headerServiceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:layout_marginTop="@dimen/control_SpecingMedium"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/ivTimings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timing_drawable"
+                    tools:ignore="ContentDescription" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="17dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/rsService"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/control_SpecingSmall"
+                android:paddingLeft="@dimen/control_SpecingTiny"
+                android:paddingRight="@dimen/control_SpecingTiny"
+                android:paddingTop="@dimen/control_SpecingSmall" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvWorkingHours"

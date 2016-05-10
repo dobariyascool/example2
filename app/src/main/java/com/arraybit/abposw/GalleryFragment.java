@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 public class GalleryFragment extends Fragment implements BusinessGalleryJSONParser.BusinessGalleryRequestListener, GalleryAdapter.ImageViewClickListener {
 
-    static ArrayList<BusinessGalleryTran> lstBusinessGalleryTran;
     ProgressDialog progressDialog = new ProgressDialog();
     RecyclerView rvGallery;
     TextView txtMsg;
@@ -99,8 +98,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
         if (currentPage > 3) {
             progressDialog.dismiss();
         }
-        lstBusinessGalleryTran = alBusinessGalleryTran;
-        SetGalleryRecyclerView(lstBusinessGalleryTran);
+        SetGalleryRecyclerView(alBusinessGalleryTran);
     }
 
     @Override

@@ -357,4 +357,8 @@
     <string name="cdfOrder">order</string>
     <!-- End-->
 
+    <!-- row_service -->
+    <string name="rsService">Services</string>
+    <!-- end -->
+
 </resources>

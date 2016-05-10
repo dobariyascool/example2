@@ -78,6 +78,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            ClearData();
             setResult(Activity.RESULT_OK);
             finish();
         }
@@ -87,9 +88,11 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            ClearData();
             setResult(Activity.RESULT_OK);
             finish();
         } else {
+            ClearData();
             super.onBackPressed();
         }
     }
@@ -126,6 +129,11 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
             viewPager.setAdapter(pageAdapter);
             tabLayout.setupWithViewPager(viewPager);
         }
+    }
+
+    private void ClearData(){
+        InformationFragment.lstBusinessHoursTran = null;
+        InformationFragment.lstBusinessService = null;
     }
     //endregion
 

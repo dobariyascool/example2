@@ -73,6 +73,8 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         ivNext.setOnClickListener(this);
         ivPrevious.setOnClickListener(this);
 
+        SetVisibility(0);
+
         if (Service.CheckNet(this)) {
             RequestFeedbackQuestion();
         } else {
@@ -124,17 +126,33 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
             ivNext.setEnabled(true);
             txtPrevious.setEnabled(false);
             ivPrevious.setEnabled(false);
+            txtPrevious.setVisibility(View.INVISIBLE);
+            ivPrevious.setVisibility(View.INVISIBLE);
+            txtNext.setVisibility(View.VISIBLE);
+            ivNext.setVisibility(View.VISIBLE);
         } else if (position == viewPager.getOffscreenPageLimit() - 1) {
+            txtNext.setVisibility(View.INVISIBLE);
+            ivNext.setVisibility(View.INVISIBLE);
+            txtPrevious.setVisibility(View.VISIBLE);
+            ivPrevious.setVisibility(View.VISIBLE);
             txtNext.setEnabled(false);
             ivNext.setEnabled(false);
             txtPrevious.setEnabled(true);
             ivPrevious.setEnabled(true);
         } else if (position == -1) {
+            txtNext.setVisibility(View.INVISIBLE);
+            ivNext.setVisibility(View.INVISIBLE);
+            txtPrevious.setVisibility(View.INVISIBLE);
+            ivPrevious.setVisibility(View.INVISIBLE);
             txtNext.setEnabled(false);
             ivNext.setEnabled(false);
             txtPrevious.setEnabled(false);
             ivPrevious.setEnabled(false);
         } else {
+            txtPrevious.setVisibility(View.VISIBLE);
+            ivPrevious.setVisibility(View.VISIBLE);
+            txtNext.setVisibility(View.VISIBLE);
+            ivNext.setVisibility(View.VISIBLE);
             txtNext.setEnabled(true);
             ivNext.setEnabled(true);
             txtPrevious.setEnabled(true);
