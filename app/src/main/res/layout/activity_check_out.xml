@@ -18,7 +18,8 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,6 +77,101 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cvEditName"
+                    style="@style/DefaultCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/control_SpecingSmall"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/user_drawable"
+                                tools:ignore="ContentDescription" />
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/etName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/control_SpecingTiny"
+                                android:paddingEnd="@dimen/control_SpecingSmall"
+                                android:paddingStart="@dimen/control_SpecingSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/control_SpecingTiny"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/call_drawable"
+                                tools:ignore="ContentDescription" />
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/etPhone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="@dimen/control_SpecingSmall"
+                                android:paddingStart="@dimen/control_SpecingSmall" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvCityArea"
+                    style="@style/DefaultCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_margin="@dimen/control_SpecingSmall"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spOrderCity"
+                            style="@style/Spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/control_SpecingSmall"
+                            android:layout_marginStart="@dimen/control_SpecingSmall"
+                            android:layout_weight="1"
+                            android:background="@drawable/toggle_drawable"
+                            android:dropDownWidth="match_parent"/>
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spOrderArea"
+                            style="@style/Spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/control_SpecingSmall"
+                            android:layout_marginStart="@dimen/control_SpecingSmall"
+                            android:layout_weight="1"
+                            android:background="@drawable/toggle_drawable"
+                            android:dropDownWidth="match_parent"/>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvName"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -136,6 +232,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cvDateTime"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -172,6 +269,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cvAddress"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -247,6 +345,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cvOfferCode"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -289,6 +388,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cvPayment"
                     style="@style/DefaultCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -315,32 +415,35 @@
 
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/control_SpecingSmall"
-                    android:layout_marginTop="@dimen/control_SpecingSmall"
-                    android:orientation="horizontal">
-
-                    <com.rey.material.widget.Button
-                        android:id="@+id/btnViewOrder"
-                        style="@style/Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/coaViewOrder" />
-
-                    <com.rey.material.widget.Button
-                        android:id="@+id/btnPlaceOrder"
-                        style="@style/Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/coaPlaceOrder" />
-
-                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="@dimen/control_SpecingTiny"
+            android:layout_marginEnd="@dimen/control_SpecingSmall"
+            android:layout_marginStart="@dimen/control_SpecingSmall"
+            android:orientation="horizontal">
+
+            <!--android:layout_marginBottom="@dimen/control_SpecingSmall"-->
+            <!--android:layout_marginTop="@dimen/control_SpecingSmall"-->
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnViewOrder"
+                style="@style/Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/coaViewOrder" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnPlaceOrder"
+                style="@style/Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/coaPlaceOrder" />
+
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

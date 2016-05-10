@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -71,6 +72,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<SpinnerItem> alOrderTime;
     AppCompatSpinner spOrderTime;
     boolean isDateChange;
+    CardView cvEditName,cvCityArea,cvName,cvDateTime,cvAddress,cvOfferCode,cvPayment;
 
 
     @SuppressLint("SetTextI18n")
@@ -90,6 +92,14 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
 
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
+
+        cvEditName = (CardView)findViewById(R.id.cvEditName);
+        cvCityArea = (CardView)findViewById(R.id.cvCityArea);
+        cvName = (CardView)findViewById(R.id.cvName);
+        cvDateTime = (CardView)findViewById(R.id.cvDateTime);
+        cvAddress = (CardView)findViewById(R.id.cvAddress);
+        cvOfferCode = (CardView)findViewById(R.id.cvOfferCode);
+        cvPayment = (CardView)findViewById(R.id.cvPayment);
 
         tbTakeAway = (ToggleButton) findViewById(R.id.tbTakeAway);
         tbHomeDelivery = (ToggleButton) findViewById(R.id.tbHomeDelivery);
@@ -135,6 +145,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (intent.getStringExtra("ParentActivity") != null) {
             activityName = intent.getStringExtra("ParentActivity");
         }
+
+        SetCardVisibility(Globals.linktoOrderTypeMasterId);
 
         etOrderDate.addTextChangedListener(new TextWatcher() {
             String strDate = "";
@@ -220,6 +232,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                                 objOfferMaster.setOfferCode("Remove");
                                 SaveCheckOutData(null, objOfferMaster);
                             }
+                            SetCardVisibility(Globals.OrderType.HomeDelivery.getValue());
                             tbTakeAway.setChecked(false);
                         } else {
                             buttonView.setChecked(true);
@@ -242,6 +255,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                                 objOfferMaster.setOfferCode("Remove");
                                 SaveCheckOutData(null, objOfferMaster);
                             }
+                            SetCardVisibility(Globals.OrderType.TakeAway.getValue());
                             tbHomeDelivery.setChecked(false);
                         } else {
                             buttonView.setChecked(true);
@@ -251,11 +265,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        if (Service.CheckNet(this)) {
-            RequestCustomerMaster();
-        } else {
-            Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
-        }
     }
 
     @Override
@@ -512,6 +521,33 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
+    }
+
+    private void SetCardVisibility(int orderType){
+        if(orderType == Globals.OrderType.TakeAway.getValue()){
+            cvEditName.setVisibility(View.VISIBLE);
+            cvName.setVisibility(View.GONE);
+            cvCityArea.setVisibility(View.VISIBLE);
+            cvAddress.setVisibility(View.GONE);
+            cvOfferCode.setVisibility(View.VISIBLE);
+            cvDateTime.setVisibility(View.VISIBLE);
+            cvPayment.setVisibility(View.VISIBLE);
+            etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+        }else if(orderType == Globals.OrderType.HomeDelivery.getValue()){
+            cvEditName.setVisibility(View.GONE);
+            cvName.setVisibility(View.VISIBLE);
+            cvCityArea.setVisibility(View.GONE);
+            cvAddress.setVisibility(View.VISIBLE);
+            cvOfferCode.setVisibility(View.VISIBLE);
+            cvDateTime.setVisibility(View.VISIBLE);
+            cvPayment.setVisibility(View.VISIBLE);
+            etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+            if (Service.CheckNet(this)) {
+                RequestCustomerMaster();
+            } else {
+                Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            }
+        }
     }
 
     private void SaveCheckOutData(CustomerAddressTran objCustomerAddress, OfferMaster objOffer) {

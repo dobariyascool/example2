@@ -33,6 +33,81 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <fragment
+                    android:id="@+id/mapFragment"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="0dp"
+                    android:visibility="visible" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOffice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/control_SpecingSmall"
+                    android:textColor="@color/heading"
+                    android:textSize="16sp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/control_SpecingSmall" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/control_SpecingSmall" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtContactUs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/control_SpecingSmall"
+                    android:textColor="@color/heading"
+                    android:textSize="16sp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtWebSite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/control_SpecingSmall"
+                    android:textColor="@color/colorAccent" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivCall"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/call_drawable"
+                        tools:ignore="ContentDescription" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtPhone1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/ivCall"
+                        android:paddingEnd="@dimen/control_SpecingSmall"
+                        android:paddingStart="@dimen/control_SpecingSmall" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtPhone2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtPhone1"
+                        android:layout_toEndOf="@+id/ivCall"
+                        android:paddingEnd="0dp"
+                        android:paddingStart="@dimen/control_SpecingSmall"
+                        android:paddingTop="@dimen/control_SpecingTiny" />
+
+                </RelativeLayout>
+
+
                 <com.rey.material.widget.EditText
                     android:id="@+id/etContactUsName"
                     style="@style/EditText"
@@ -73,59 +148,6 @@
                     android:paddingStart="@dimen/control_SpecingLarge"
                     android:text="@string/cuSend" />
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtOffice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/heading"
-                    android:textSize="16sp" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCountry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtContactUs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/heading"
-                    android:textSize="16sp" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtWebSite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/colorAccent" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtPhone1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtPhone2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingTiny" />
-
-                <fragment
-                    android:id="@+id/mapFragment"
-                    class="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:visibility="visible" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

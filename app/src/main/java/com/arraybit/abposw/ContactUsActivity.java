@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
@@ -38,6 +39,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
     View view;
+    ImageView ivCall;
     private GoogleMap map;
 
 
@@ -60,6 +62,8 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         etContactUsEmail = (EditText) findViewById(R.id.etContactUsEmail);
         etContactUsMobile = (EditText) findViewById(R.id.etContactUsMobile);
         etContactUsMessage = (EditText) findViewById(R.id.etContactUsMessage);
+
+        ivCall = (ImageView) findViewById(R.id.ivCall);
 
         txtOffice = (TextView) findViewById(R.id.txtOffice);
         txtCountry = (TextView) findViewById(R.id.txtCountry);
@@ -86,6 +90,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtWebSite.setOnClickListener(this);
         txtPhone1.setOnClickListener(this);
         txtPhone2.setOnClickListener(this);
+        ivCall.setOnClickListener(this);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         if (errorCode == null && objBusinessMaster != null) {
             this.objBusinessMaster = objBusinessMaster;
             SetBusinessDetail();
-        } else if(errorCode!=null){
+        } else if (errorCode != null) {
             SetError(errorCode);
         }
     }
@@ -129,6 +134,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone2()));
             startActivity(intent);
+        } else if(v.getId() == R.id.ivCall){
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone1()));
+            startActivity(intent);
         }
     }
 
@@ -145,7 +154,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         map = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(21.1904891,72.7864842);
+        LatLng sydney = new LatLng(21.1904891, 72.7864842);
         map.addMarker(new MarkerOptions().position(sydney).title("ArrayBit"));
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
