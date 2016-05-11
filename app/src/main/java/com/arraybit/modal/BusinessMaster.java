@@ -8,6 +8,7 @@ public class BusinessMaster implements Parcelable {
     //region Properties
 
     short BusinessMasterId;
+    short linktoBusinessGroupMasterId;
     String BusinessName;
     String BusinessShortName;
     String Address;
@@ -37,6 +38,7 @@ public class BusinessMaster implements Parcelable {
         public BusinessMaster createFromParcel(Parcel source) {
             BusinessMaster objBusinessMaster = new BusinessMaster();
             objBusinessMaster.BusinessMasterId = (short)source.readInt();
+            objBusinessMaster.linktoBusinessGroupMasterId = (short)source.readInt();
             objBusinessMaster.BusinessName = source.readString();
             objBusinessMaster.BusinessShortName = source.readString();
             objBusinessMaster.Address = source.readString();
@@ -169,9 +171,17 @@ public class BusinessMaster implements Parcelable {
 
     public String getBusinessType() { return this.BusinessType; }
 
+    public void setBusinessType(String businessType) { this.BusinessType = businessType; }
+
+    public short getLinktoBusinessGroupMasterId() {
+        return linktoBusinessGroupMasterId;
+    }
+
     //endregion
 
-    public void setBusinessType(String businessType) { this.BusinessType = businessType; }
+    public void setLinktoBusinessGroupMasterId(short linktoBusinessGroupMasterId) {
+        this.linktoBusinessGroupMasterId = linktoBusinessGroupMasterId;
+    }
 
     public int describeContents() {
         return 0;
@@ -179,6 +189,7 @@ public class BusinessMaster implements Parcelable {
 
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(BusinessMasterId);
+        parcel.writeInt(linktoBusinessGroupMasterId);
         parcel.writeString(BusinessName);
         parcel.writeString(BusinessShortName);
         parcel.writeString(Address);

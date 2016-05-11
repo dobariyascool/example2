@@ -9,61 +9,130 @@
     tools:ignore="ContentDescription">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/customerAddressLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/control_SpecingTiny"
-        android:layout_marginStart="@dimen/control_SpecingTiny"
-        android:layout_marginTop="@dimen/control_SpecingTiny"
-        android:orientation="horizontal"
-        android:padding="@dimen/control_SpecingTiny">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/address_drawable" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/control_SpecingTiny"
-                android:paddingEnd="@dimen/control_SpecingTiny"
-                android:paddingStart="@dimen/control_SpecingTiny"/>
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:layout_marginTop="@dimen/control_SpecingTiny"
+            android:orientation="horizontal"
+            android:padding="@dimen/control_SpecingTiny">
 
             <ImageView
-                android:id="@+id/ivCall"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_below="@+id/txtAddress"
-                android:src="@drawable/call_drawable" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/address_drawable" />
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtPhone"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_below="@+id/txtAddress"
-                android:layout_toEndOf="@+id/ivCall"
-                android:gravity="center_vertical"
-                android:paddingEnd="@dimen/control_SpecingTiny"
-                android:paddingStart="@dimen/control_SpecingTiny"
-                android:text="@string/abApp"
-                android:textSize="@dimen/control_TextSmall"/>
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny" />
+
+                <ImageView
+                    android:id="@+id/ivCall"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtAddress"
+                    android:src="@drawable/call_drawable" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtAddress"
+                    android:layout_toEndOf="@+id/ivCall"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:text="@string/abApp"
+                    android:textSize="@dimen/control_TextSmall" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtHeader"
+            style="@style/HeaderTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/control_SpecingSmall"
+            android:text="@string/coaMsg"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <com.rey.material.widget.TextView
-        android:id="@+id/txtHeader"
-        style="@style/HeaderTextView"
+    <LinearLayout
+        android:id="@+id/businessAddressLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/control_SpecingSmall"
-        android:text="@string/coaMsg"
-        android:visibility="gone" />
+        android:orientation="vertical">
 
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtBusinessName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingEnd="@dimen/control_SpecingSmall"
+            android:paddingStart="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingSmall" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:orientation="horizontal"
+            android:padding="@dimen/control_SpecingTiny">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/address_drawable" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtBusinessAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny" />
+
+                <ImageView
+                    android:id="@+id/ivBusinessCall"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtBusinessAddress"
+                    android:src="@drawable/call_drawable" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtBusinessPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtBusinessAddress"
+                    android:layout_toEndOf="@+id/ivBusinessCall"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:text="@string/abApp"
+                    android:textSize="@dimen/control_TextSmall" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

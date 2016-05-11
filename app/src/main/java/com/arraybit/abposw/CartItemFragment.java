@@ -29,6 +29,7 @@ import com.arraybit.modal.ItemMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.TaxJSONParser;
+import com.google.gson.Gson;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.TextView;
@@ -178,9 +179,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(errorLayout.isShown()){
-                CheckOutActivity.objCheckOut = null;
-            }
+//            if(errorLayout.isShown()){
+//                CheckOutActivity.objCheckOut = null;
+//            }
+            SaveCartDataInSharePreference();
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
@@ -190,10 +192,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void ImageViewOnClick(int position,ItemMaster objOrderItemMaster) {
-        ShowSnackBarWithAction(position,objOrderItemMaster);
+    public void ImageViewOnClick(int position, ItemMaster objOrderItemMaster) {
+        ShowSnackBarWithAction(position, objOrderItemMaster);
         adapter.RemoveData(position);
         if (Globals.alOrderItemTran.size() == 0) {
+            RemovePreference();
             RemarkDialogFragment.strRemark = "";
             SetRecyclerView();
         }
@@ -207,7 +210,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             tax4 = 0;
             tax5 = 0;
             SetRecyclerView();
-            if(alTaxMaster!=null && alTaxMaster.size()!=0) {
+            if (alTaxMaster != null && alTaxMaster.size() != 0) {
                 SetTextLayout();
             }
         }
@@ -418,7 +421,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void ShowSnackBarWithAction(final int position, final ItemMaster objItemMaster) {
         Snackbar snackbar = Snackbar
-                .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete),objItemMaster.getItemName()), 8000)
+                .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete), objItemMaster.getItemName()), 8000)
                 .setCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
@@ -464,6 +467,29 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         txt.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         snackView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blue_grey));
         snackbar.show();
+    }
+
+    private void RemovePreference() {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", getActivity());
+        objSharePreferenceManage.ClearPreference("CheckOutDataPreference", getActivity());
+    }
+
+    private void SaveCartDataInSharePreference() {
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        try {
+            if (Globals.alOrderItemTran.size() == 0) {
+                objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, getActivity());
+            } else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = gson.toJson(Globals.alOrderItemTran);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, getActivity());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //endregion
 }

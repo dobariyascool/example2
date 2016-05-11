@@ -131,6 +131,9 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         TextView txtEdit = (TextView) layout.findViewById(R.id.txtEdit);
         TextView txtDelete = (TextView) layout.findViewById(R.id.txtDelete);
 
+        txtEdit.setText(context.getResources().getString(R.string.action_edit));
+        txtDelete.setText(context.getResources().getString(R.string.action_delete));
+
         layout.measure(View.MeasureSpec.UNSPECIFIED,
                 View.MeasureSpec.UNSPECIFIED);
         final PopupWindow popupWindow = new PopupWindow(layout, FrameLayout.LayoutParams.WRAP_CONTENT,

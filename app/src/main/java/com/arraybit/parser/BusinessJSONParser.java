@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +28,9 @@ import java.util.Locale;
 public class BusinessJSONParser {
 
     public String SelectBusinessMasterByBusinessMasterId = "SelectBusinessMasterByBusinessMasterId";
-    public String SelectAllBusinessMaster = "SelectAllBusinessMasterPageWise";
+    public String SelectAllBusinessMasterByBusinessGroup = "SelectAllBusinessMasterByBusinessGroup";
     public String SelectAllBusinessMasterBusinessName = "SelectAllBusinessMasterBusinessName";
-    public String InsertContactUsMaster ="InsertContactUsMaster";
+    public String InsertContactUsMaster = "InsertContactUsMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
@@ -42,6 +43,7 @@ public class BusinessJSONParser {
             if (jsonObject != null) {
                 objBusinessMaster = new BusinessMaster();
                 objBusinessMaster.setBusinessMasterId((short) jsonObject.getInt("BusinessMasterId"));
+                objBusinessMaster.setLinktoBusinessGroupMasterId((short) jsonObject.getInt("linktoBusinessGroupMasterId"));
                 objBusinessMaster.setBusinessName(jsonObject.getString("BusinessName"));
                 objBusinessMaster.setBusinessShortName(jsonObject.getString("BusinessShortName"));
                 objBusinessMaster.setAddress(jsonObject.getString("Address"));
@@ -84,6 +86,7 @@ public class BusinessJSONParser {
             for (int i = 0; i < jsonArray.length(); i++) {
                 objBusinessMaster = new BusinessMaster();
                 objBusinessMaster.setBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("BusinessMasterId"));
+                objBusinessMaster.setLinktoBusinessGroupMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessGroupMasterId"));
                 objBusinessMaster.setBusinessName(jsonArray.getJSONObject(i).getString("BusinessName"));
                 objBusinessMaster.setBusinessShortName(jsonArray.getJSONObject(i).getString("BusinessShortName"));
                 objBusinessMaster.setAddress(jsonArray.getJSONObject(i).getString("Address"));
@@ -133,30 +136,71 @@ public class BusinessJSONParser {
                             JSONObject jsonResponse = jsonObject.getJSONObject(SelectBusinessMasterByBusinessMasterId + "Result");
                             if (jsonResponse != null) {
                                 objBusinessRequestListener = (BusinessRequestListener) context;
-                                objBusinessRequestListener.BusinessResponse(null, SetClassPropertiesFromJSONObject(jsonResponse));
+                                objBusinessRequestListener.BusinessResponse(null, SetClassPropertiesFromJSONObject(jsonResponse), null);
                             }
                         }
                     } catch (Exception e) {
                         objBusinessRequestListener = (BusinessRequestListener) context;
-                        objBusinessRequestListener.BusinessResponse(null, null);
+                        objBusinessRequestListener.BusinessResponse(null, null, null);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     objBusinessRequestListener = (BusinessRequestListener) context;
-                    objBusinessRequestListener.BusinessResponse(null, null);
+                    objBusinessRequestListener.BusinessResponse(null, null, null);
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception e) {
             objBusinessRequestListener = (BusinessRequestListener) context;
-            objBusinessRequestListener.BusinessResponse(null, null);
+            objBusinessRequestListener.BusinessResponse(null, null, null);
+        }
+    }
+
+    public void SelectAllBusinessMasterByBusinessGroup(final Context context, String linktoBusinessGroupMasterId, String city) {
+        try {
+            String url;
+            if(city==null){
+                url = Service.Url + this.SelectAllBusinessMasterByBusinessGroup + "/" + linktoBusinessGroupMasterId + "/"+null;
+            }else{
+                url = Service.Url + this.SelectAllBusinessMasterByBusinessGroup + "/" + linktoBusinessGroupMasterId + "/"+ URLEncoder.encode(city,"UTF-8");
+            }
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    JSONArray jsonArray = null;
+                    try {
+                        jsonArray = jsonObject.getJSONArray(SelectAllBusinessMasterByBusinessGroup + "Result");
+                        if (jsonArray != null) {
+                            ArrayList<BusinessMaster> alBusinessMaster = SetListPropertiesFromJSONArray(jsonArray);
+                            objBusinessRequestListener = (BusinessRequestListener) context;
+                            objBusinessRequestListener.BusinessResponse(null, null, alBusinessMaster);
+
+                        }
+                    } catch (Exception e) {
+                        objBusinessRequestListener = (BusinessRequestListener) context;
+                        objBusinessRequestListener.BusinessResponse(null, null, null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objBusinessRequestListener = (BusinessRequestListener) context;
+                    objBusinessRequestListener.BusinessResponse(null, null, null);
+                }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            objBusinessRequestListener = (BusinessRequestListener) context;
+            objBusinessRequestListener.BusinessResponse(null, null, null);
         }
     }
 
     //region Insert ContactUs Activity
-    public void InsertContactUsMaster(final Context context,ContactUsMaster objContactUsMaster){
+    public void InsertContactUsMaster(final Context context, ContactUsMaster objContactUsMaster) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
@@ -183,37 +227,36 @@ public class BusinessJSONParser {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         JSONObject jsonResponse = jsonObject.getJSONObject(InsertContactUsMaster + "Result");
-
                         if (jsonResponse != null) {
                             String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
                             objBusinessRequestListener = (BusinessRequestListener) context;
-                            objBusinessRequestListener .BusinessResponse(errorCode, null);
+                            objBusinessRequestListener.BusinessResponse(errorCode, null, null);
                         } else {
-                            objBusinessRequestListener= (BusinessRequestListener) context;
-                            objBusinessRequestListener.BusinessResponse("-1", null);
+                            objBusinessRequestListener = (BusinessRequestListener) context;
+                            objBusinessRequestListener.BusinessResponse("-1", null, null);
                         }
                     } catch (JSONException e) {
-                        objBusinessRequestListener= (BusinessRequestListener) context;
-                        objBusinessRequestListener.BusinessResponse("-1", null);
+                        objBusinessRequestListener = (BusinessRequestListener) context;
+                        objBusinessRequestListener.BusinessResponse("-1", null, null);
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    objBusinessRequestListener= (BusinessRequestListener) context;
-                    objBusinessRequestListener.BusinessResponse("-1", null);
+                    objBusinessRequestListener = (BusinessRequestListener) context;
+                    objBusinessRequestListener.BusinessResponse("-1", null, null);
                 }
             });
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
-            objBusinessRequestListener= (BusinessRequestListener) context;
-            objBusinessRequestListener.BusinessResponse("-1", null);
+            objBusinessRequestListener = (BusinessRequestListener) context;
+            objBusinessRequestListener.BusinessResponse("-1", null, null);
         }
     }
     //endregion
 
     public interface BusinessRequestListener {
-        void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster);
+        void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster);
     }
 
 }

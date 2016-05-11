@@ -26,6 +26,7 @@ import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BookingMaster;
+import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CheckOut;
 import com.arraybit.modal.CustomerAddressTran;
 import com.arraybit.modal.ItemMaster;
@@ -33,9 +34,11 @@ import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.BookingJSONParser;
+import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerAddressJSONParser;
 import com.arraybit.parser.OfferJSONParser;
 import com.arraybit.parser.OrderJSONParser;
+import com.google.gson.Gson;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 import com.rey.material.widget.EditText;
@@ -52,16 +55,16 @@ import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
-        OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener {
+        OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener, BusinessJSONParser.BusinessRequestListener {
 
-    public static CheckOut objCheckOut;
+    CheckOut objCheckOut;
     LinearLayout textLayout;
-    TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay;
+    TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay, txtBusinessAddress;
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
-    EditText etOfferCode, etOrderDate;
+    EditText etOfferCode, etOrderDate, etName, etPhone, etBusinessName;
     Button btnApply, btnViewOrder, btnPlaceOrder;
-    ImageButton ibAdd, ibViewMore;
+    ImageButton ibAdd, ibViewMore,ibBusinessViewMore;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
@@ -70,9 +73,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     View snackFocus;
     FrameLayout checkOutMainLayout;
     ArrayList<SpinnerItem> alOrderTime;
-    AppCompatSpinner spOrderTime;
-    boolean isDateChange;
-    CardView cvEditName,cvCityArea,cvName,cvDateTime,cvAddress,cvOfferCode,cvPayment;
+    AppCompatSpinner spOrderTime, spOrderCity;
+    boolean isDateChange = false, isDateFilter,isCityFilter,isSelected;
+    CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment;
+    BusinessMaster objBusinessMaster;
+    ArrayList<BusinessMaster> alBusinessMaster;
 
 
     @SuppressLint("SetTextI18n")
@@ -91,15 +96,20 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this) != null) {
+            customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
+        }
+
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
 
-        cvEditName = (CardView)findViewById(R.id.cvEditName);
-        cvCityArea = (CardView)findViewById(R.id.cvCityArea);
-        cvName = (CardView)findViewById(R.id.cvName);
-        cvDateTime = (CardView)findViewById(R.id.cvDateTime);
-        cvAddress = (CardView)findViewById(R.id.cvAddress);
-        cvOfferCode = (CardView)findViewById(R.id.cvOfferCode);
-        cvPayment = (CardView)findViewById(R.id.cvPayment);
+        cvEditName = (CardView) findViewById(R.id.cvEditName);
+        cvCityArea = (CardView) findViewById(R.id.cvCityArea);
+        cvName = (CardView) findViewById(R.id.cvName);
+        cvDateTime = (CardView) findViewById(R.id.cvDateTime);
+        cvAddress = (CardView) findViewById(R.id.cvAddress);
+        cvOfferCode = (CardView) findViewById(R.id.cvOfferCode);
+        cvPayment = (CardView) findViewById(R.id.cvPayment);
 
         tbTakeAway = (ToggleButton) findViewById(R.id.tbTakeAway);
         tbHomeDelivery = (ToggleButton) findViewById(R.id.tbHomeDelivery);
@@ -110,6 +120,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         txtPhone = (TextView) findViewById(R.id.txtPhone);
         txtName = (TextView) findViewById(R.id.txtName);
         txtPay = (TextView) findViewById(R.id.txtPay);
+        txtBusinessAddress = (TextView) findViewById(R.id.txtBusinessAddress);
 
         textLayout = (LinearLayout) findViewById(R.id.textLayout);
 
@@ -117,8 +128,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         etOfferCode = (EditText) findViewById(R.id.etOfferCode);
         etOrderDate = (EditText) findViewById(R.id.etOrderDate);
+        etName = (EditText) findViewById(R.id.etName);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etBusinessName = (EditText) findViewById(R.id.etBusinessName);
 
         spOrderTime = (AppCompatSpinner) findViewById(R.id.spOrderTime);
+        spOrderCity = (AppCompatSpinner) findViewById(R.id.spOrderCity);
 
         btnApply = (Button) findViewById(R.id.btnApply);
         btnPlaceOrder = (Button) findViewById(R.id.btnPlaceOrder);
@@ -126,6 +141,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         ibAdd = (ImageButton) findViewById(R.id.ibAdd);
         ibViewMore = (ImageButton) findViewById(R.id.ibViewMore);
+        ibBusinessViewMore = (ImageButton) findViewById(R.id.ibBusinessViewMore);
 
         cbGetPromoCode.setOnClickListener(this);
         btnApply.setOnClickListener(this);
@@ -133,6 +149,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         ibViewMore.setOnClickListener(this);
         btnPlaceOrder.setOnClickListener(this);
         btnViewOrder.setOnClickListener(this);
+        ibBusinessViewMore.setOnClickListener(this);
 
         Intent intent = getIntent();
         if (intent.getParcelableExtra("OrderMaster") != null) {
@@ -146,7 +163,16 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             activityName = intent.getStringExtra("ParentActivity");
         }
 
-        SetCardVisibility(Globals.linktoOrderTypeMasterId);
+        //check data from sharePreference
+        SaveCheckOutObjectInSharePreference();
+
+        if (objCheckOut == null) {
+            isDateFilter = false;
+            SetCardVisibility(Globals.linktoOrderTypeMasterId);
+        } else {
+            isDateFilter = false;
+            SetCardVisibility(objCheckOut.getOrderType());
+        }
 
         etOrderDate.addTextChangedListener(new TextWatcher() {
             String strDate = "";
@@ -164,12 +190,20 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             public void afterTextChanged(Editable s) {
                 if (!etOrderDate.getText().toString().equals("") && !(strDate.equals(etOrderDate.getText().toString()))) {
                     strDate = etOrderDate.getText().toString();
-                    cbGetPromoCode.setVisibility(View.VISIBLE);
-                    etOfferCode.setVisibility(View.GONE);
-                    btnApply.setVisibility(View.GONE);
-                    OfferMaster objOfferMaster = new OfferMaster();
-                    objOfferMaster.setOfferCode("Remove");
-                    SaveCheckOutData(null, objOfferMaster);
+                    if (objCheckOut != null && !objCheckOut.getOrderDate().equals(etOrderDate.getText().toString())) {
+                        cbGetPromoCode.setVisibility(View.VISIBLE);
+                        etOfferCode.setVisibility(View.GONE);
+                        btnApply.setVisibility(View.GONE);
+                        OfferMaster objOfferMaster = new OfferMaster();
+                        objOfferMaster.setOfferCode("Remove");
+                        if (tbHomeDelivery.isChecked()) {
+                            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.HomeDelivery.getValue());
+                        } else if (tbTakeAway.isChecked()) {
+                            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.TakeAway.getValue());
+                        }
+                    }
+
+
 //                    alFromTime = new ArrayList<>();
 //                    if (Service.CheckNet(CheckOutActivity.this)) {
 //                        isDateChange = true;
@@ -184,7 +218,36 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         spOrderTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SaveCheckOutData(null, null);
+                if(!isSelected) {
+                    if (tbHomeDelivery.isChecked()) {
+                        SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
+                    } else if (tbTakeAway.isChecked()) {
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }
+                }else{
+                    isSelected = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spOrderCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!isSelected) {
+                    if (Service.CheckNet(CheckOutActivity.this)) {
+                        isCityFilter = true;
+                        RequestBusinessMaster((short) alBusinessMaster.get(0).getLinktoBusinessGroupMasterId(), (String) parent.getAdapter().getItem(position));
+                    } else {
+                        Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), CheckOutActivity.this, 1000);
+                    }
+                }else{
+                    isSelected = false;
+                }
             }
 
             @Override
@@ -206,7 +269,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                         btnApply.setText(getResources().getString(R.string.coaCancel));
                         OfferMaster objOfferMaster = new OfferMaster();
                         objOfferMaster.setOfferCode("Remove");
-                        SaveCheckOutData(null, objOfferMaster);
+                        if (tbHomeDelivery.isChecked()) {
+                            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.HomeDelivery.getValue());
+                        } else if (tbTakeAway.isChecked()) {
+                            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.TakeAway.getValue());
+                        }
+
                     } else {
                         btnApply.setText(getResources().getString(R.string.coaApply));
                     }
@@ -224,20 +292,23 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     if (isChecked) {
                         if (tbTakeAway.isChecked()) {
-                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.HomeDelivery.getValue()) {
-                                cbGetPromoCode.setVisibility(View.VISIBLE);
-                                etOfferCode.setVisibility(View.GONE);
-                                btnApply.setVisibility(View.GONE);
-                                OfferMaster objOfferMaster = new OfferMaster();
-                                objOfferMaster.setOfferCode("Remove");
-                                SaveCheckOutData(null, objOfferMaster);
-                            }
+//                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.HomeDelivery.getValue()) {
+//                                cbGetPromoCode.setVisibility(View.VISIBLE);
+//                                etOfferCode.setVisibility(View.GONE);
+//                                btnApply.setVisibility(View.GONE);
+//                                OfferMaster objOfferMaster = new OfferMaster();
+//                                objOfferMaster.setOfferCode("Remove");
+//                                SaveCheckOutData(null, objOfferMaster);
+//                            }
+//                            objCheckOut = null;
+                            isDateFilter = true;
                             SetCardVisibility(Globals.OrderType.HomeDelivery.getValue());
                             tbTakeAway.setChecked(false);
-                        } else {
-                            buttonView.setChecked(true);
                         }
                     }
+//                    else{
+//                        buttonView.setChecked(false);
+//                    }
                 }
             }
         });
@@ -247,20 +318,23 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     if (isChecked) {
                         if (tbHomeDelivery.isChecked()) {
-                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.TakeAway.getValue()) {
-                                cbGetPromoCode.setVisibility(View.VISIBLE);
-                                etOfferCode.setVisibility(View.GONE);
-                                btnApply.setVisibility(View.GONE);
-                                OfferMaster objOfferMaster = new OfferMaster();
-                                objOfferMaster.setOfferCode("Remove");
-                                SaveCheckOutData(null, objOfferMaster);
-                            }
+//                            if (objCheckOut != null && objCheckOut.getObjOfferMaster() != null && objCheckOut.getOrderType() != Globals.OrderType.TakeAway.getValue()) {
+//                                cbGetPromoCode.setVisibility(View.VISIBLE);
+//                                etOfferCode.setVisibility(View.GONE);
+//                                btnApply.setVisibility(View.GONE);
+//                                OfferMaster objOfferMaster = new OfferMaster();
+//                                objOfferMaster.setOfferCode("Remove");
+//                                SaveCheckOutData(null, objOfferMaster);
+//                            }
+//                            objCheckOut = null;
+                            isDateFilter = true;
                             SetCardVisibility(Globals.OrderType.TakeAway.getValue());
                             tbHomeDelivery.setChecked(false);
-                        } else {
-                            buttonView.setChecked(true);
                         }
                     }
+//                    else{
+//                        buttonView.setChecked(false);
+//                    }
                 }
             }
         });
@@ -271,7 +345,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (getSupportFragmentManager().getBackStackEntryCount() != 1) {
-                SaveCheckOutData(null, null);
+                if (tbTakeAway.isChecked()) {
+                    SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                } else if (tbHomeDelivery.isChecked()) {
+                    SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
+                }
                 finish();
             }
         }
@@ -292,19 +370,30 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     etOfferCode.setVisibility(View.GONE);
                     btnApply.setVisibility(View.GONE);
                 } else {
-                    RequestVerifyOfferCode();
+                    if (Service.CheckNet(this)) {
+                        RequestVerifyOfferCode();
+                    } else {
+                        Globals.ShowSnackBar(snackFocus, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                    }
                 }
             } else if (v.getId() == R.id.ibViewMore) {
-                AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran);
+                AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran,null);
                 addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
             } else if (v.getId() == R.id.btnViewOrder) {
-                SaveCheckOutData(null, null);
+                if (tbTakeAway.isChecked()) {
+                    SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                } else if (tbHomeDelivery.isChecked()) {
+                    SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
+                }
                 finish();
             } else if (v.getId() == R.id.btnPlaceOrder) {
-                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut,false,null);
+                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
                 confirmDialog.show(getSupportFragmentManager(), "");
             } else if (v.getId() == R.id.ibAdd) {
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
+            } else if (v.getId() == R.id.ibBusinessViewMore) {
+                AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(null,alBusinessMaster);
+                addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
             }
         }
     }
@@ -320,20 +409,35 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public void CustomerAddressResponse(String errorCode, ArrayList<CustomerAddressTran> alCustomerAddressTran, CustomerAddressTran objCustomerAddressTran) {
         progressDialog.dismiss();
         this.alCustomerAddressTran = alCustomerAddressTran;
-        RequestTimeSlots();
+        if (Service.CheckNet(this)) {
+            RequestTimeSlots();
+        } else {
+            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+        }
+
     }
 
     @Override
-    public void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran) {
-        SaveCheckOutData(objCustomerAddressTran, null);
-        SetPrimaryAddress();
+    public void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran,BusinessMaster objBusinessMaster) {
+        if(objCustomerAddressTran!=null) {
+            SetPrimaryAddress();
+            SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
+        }else if(objBusinessMaster!=null){
+            this.objBusinessMaster = objBusinessMaster;
+            SetBusinessAddress();
+            SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+        }
     }
 
     @Override
     public void OfferResponse(ArrayList<OfferMaster> alOfferMaster, OfferMaster objOfferMaster) {
         progressDialog.dismiss();
-        SaveCheckOutData(null, objOfferMaster);
         SetOffer(objOfferMaster);
+        if (tbTakeAway.isChecked()) {
+            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.TakeAway.getValue());
+        } else if (tbHomeDelivery.isChecked()) {
+            SaveCheckOutData(null, objOfferMaster, Globals.OrderType.HomeDelivery.getValue());
+        }
     }
 
     @Override
@@ -356,15 +460,19 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         } else {
-            SaveCheckOutData(null, null);
+            if (tbTakeAway.isChecked()) {
+                SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+            } else if (tbHomeDelivery.isChecked()) {
+                SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
+            }
             finish();
         }
     }
 
     @Override
     public void AddNewAddress(CustomerAddressTran objCustomerAddressTran) {
-        SaveCheckOutData(objCustomerAddressTran, null);
-        SetCheckOutData(null);
+        SetCheckOutData(null, Globals.OrderType.HomeDelivery.getValue());
+        SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
         alCustomerAddressTran.add(0, objCustomerAddressTran);
     }
 
@@ -373,12 +481,92 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+
+    @Override
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
+        progressDialog.dismiss();
+        this.objBusinessMaster = objBusinessMaster;
+        if (objBusinessMaster != null) {
+            if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
+                if (Service.CheckNet(this)) {
+                    RequestTimeSlots();
+                } else {
+                    Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                }
+            } else {
+                if (Service.CheckNet(this)) {
+                    RequestBusinessMaster(objBusinessMaster.getLinktoBusinessGroupMasterId(),null);
+                } else {
+                    Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                }
+            }
+        } else if (alBusinessMaster != null) {
+            this.alBusinessMaster = alBusinessMaster;
+            if(isCityFilter){
+                SetBusinessAddress();
+                SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                isCityFilter = false;
+            }else {
+                if (Service.CheckNet(this)) {
+                    RequestTimeSlots();
+                } else {
+                    Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                }
+            }
+        }
+
+    }
+
     @Override
     public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {
         progressDialog.dismiss();
         alOrderTime = alTimeSlot;
-        FillOrderTime();
-        SetPrimaryAddress();
+        if (objCheckOut == null) {
+            if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
+                if (objBusinessMaster != null) {
+                    FillOrderTime();
+                    SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                    SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                }
+            } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
+                FillOrderTime();
+                SetPrimaryAddress();
+            }
+        } else {
+            if (isDateFilter) {
+                objCheckOut = null;
+                if (tbTakeAway.isChecked()) {
+                    if (objBusinessMaster != null) {
+                        FillOrderTime();
+                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }else if(alBusinessMaster!=null){
+                        FillOrderTime();
+                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }
+                } else if (tbHomeDelivery.isChecked()) {
+                    FillOrderTime();
+                    SetPrimaryAddress();
+                }
+            } else {
+                if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
+                    if (objBusinessMaster != null) {
+                        FillOrderTime();
+                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }else if(alBusinessMaster!=null){
+                        FillOrderTime();
+                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }
+                } else if (objCheckOut.getOrderType() == Globals.OrderType.HomeDelivery.getValue()) {
+                    FillOrderTime();
+                    SetPrimaryAddress();
+                }
+            }
+
+        }
     }
 
     //region Private Methods
@@ -386,10 +574,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this) != null) {
-            customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
-        }
         objCustomerAddressJSONParser.SelectAllCustomerAddressTran(CheckOutActivity.this, null, customerMasterId);
     }
 
@@ -417,13 +601,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (objCheckOut == null) {
             for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
                 if (objCustomerAddressTran.getIsPrimary()) {
-                    SetCheckOutData(objCustomerAddressTran);
-                    SaveCheckOutData(objCustomerAddressTran, null);
+                    SetCheckOutData(objCustomerAddressTran, Globals.OrderType.HomeDelivery.getValue());
+                    SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
                     break;
                 }
             }
         } else {
-            SetCheckOutData(null);
+            SetCheckOutData(null, Globals.OrderType.HomeDelivery.getValue());
         }
     }
 
@@ -455,76 +639,170 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void SetCheckOutData(CustomerAddressTran objCustomerAddress) {
-        if (objCustomerAddress == null) {
-            txtName.setText(objCheckOut.getObjCustomerAddressTran().getCustomerName());
-            if (objCheckOut.getObjCustomerAddressTran().getMobileNum() != null) {
-                txtPhone.setText(objCheckOut.getObjCustomerAddressTran().getMobileNum());
-            }
-            if (objCheckOut.getObjCustomerAddressTran().getCity() != null) {
-                txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
-            }
-            if (objCheckOut.getObjCustomerAddressTran().getArea() != null) {
-                txtArea.setText(objCheckOut.getObjCustomerAddressTran().getArea());
-            }
-            if (objCheckOut.getObjCustomerAddressTran().getAddress() != null) {
-                txtAddress.setText(objCheckOut.getObjCustomerAddressTran().getAddress());
-            }
-            if (objCheckOut.getOrderType() == Globals.OrderType.HomeDelivery.getValue()) {
+    private void SetCheckOutData(CustomerAddressTran objCustomerAddress, int orderType) {
+        if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
+            if (objCustomerAddress == null) {
+                txtName.setText(objCheckOut.getObjCustomerAddressTran().getCustomerName());
+                if (objCheckOut.getObjCustomerAddressTran().getMobileNum() != null) {
+                    txtPhone.setText(objCheckOut.getObjCustomerAddressTran().getMobileNum());
+                }
+                if (objCheckOut.getObjCustomerAddressTran().getCity() != null) {
+                    txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
+                }
+                if (objCheckOut.getObjCustomerAddressTran().getArea() != null) {
+                    txtArea.setText(objCheckOut.getObjCustomerAddressTran().getArea());
+                }
+                if (objCheckOut.getObjCustomerAddressTran().getAddress() != null) {
+                    txtAddress.setText(objCheckOut.getObjCustomerAddressTran().getAddress());
+                }
+//                if (objCheckOut.getOrderType() == Globals.OrderType.HomeDelivery.getValue()) {
+//                    tbHomeDelivery.setChecked(true);
+//                } else if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
+//                    tbTakeAway.setChecked(true);
+//                }
                 tbHomeDelivery.setChecked(true);
-            } else if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
-                tbTakeAway.setChecked(true);
-            }
-            if (isDateChange) {
-                etOrderDate.setText(etOrderDate.getText().toString());
-                spOrderTime.setSelection(0);
-                isDateChange = false;
+                if (isDateChange) {
+                    etOrderDate.setText(etOrderDate.getText().toString());
+                    spOrderTime.setSelection(0);
+                    isDateChange = false;
+                } else {
+                    etOrderDate.setText(objCheckOut.getOrderDate());
+                    isSelected = true;
+                    spOrderTime.setSelection(objCheckOut.getOrderTimeIndex());
+                }
+                if (objCheckOut.getObjOfferMaster() != null) {
+                    cbGetPromoCode.setVisibility(View.GONE);
+                    etOfferCode.setVisibility(View.VISIBLE);
+                    btnApply.setVisibility(View.VISIBLE);
+                    etOfferCode.setText(objCheckOut.getObjOfferMaster().getOfferCode());
+                } else {
+                    cbGetPromoCode.setVisibility(View.VISIBLE);
+                    etOfferCode.setVisibility(View.GONE);
+                    btnApply.setVisibility(View.GONE);
+                }
             } else {
-                etOrderDate.setText(objCheckOut.getOrderDate());
-                spOrderTime.setSelection(objCheckOut.getOrderTimeIndex());
-            }
-            if (objCheckOut.getObjOfferMaster() != null) {
-                cbGetPromoCode.setVisibility(View.GONE);
-                etOfferCode.setVisibility(View.VISIBLE);
-                btnApply.setVisibility(View.VISIBLE);
-                etOfferCode.setText(objCheckOut.getObjOfferMaster().getOfferCode());
-            } else {
+                txtName.setText(objCustomerAddress.getCustomerName());
+                if (objCustomerAddress.getMobileNum() != null) {
+                    txtPhone.setText(objCustomerAddress.getMobileNum());
+                }
+                if (objCustomerAddress.getCity() != null) {
+                    txtCity.setText(objCustomerAddress.getCity());
+                }
+                if (objCustomerAddress.getArea() != null) {
+                    txtArea.setText(objCustomerAddress.getArea());
+                } else {
+                    txtArea.setText("");
+                }
+                if (objCustomerAddress.getAddress() != null) {
+                    txtAddress.setText(objCustomerAddress.getAddress());
+                }
+//                if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
+//                    tbHomeDelivery.setChecked(true);
+//                } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
+//                    tbTakeAway.setChecked(true);
+//                }
+                tbHomeDelivery.setChecked(true);
+                etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
                 cbGetPromoCode.setVisibility(View.VISIBLE);
                 etOfferCode.setVisibility(View.GONE);
                 btnApply.setVisibility(View.GONE);
+
             }
-        } else {
-            txtName.setText(objCustomerAddress.getCustomerName());
-            if (objCustomerAddress.getMobileNum() != null) {
-                txtPhone.setText(objCustomerAddress.getMobileNum());
-            }
-            if (objCustomerAddress.getCity() != null) {
-                txtCity.setText(objCustomerAddress.getCity());
-            }
-            if (objCustomerAddress.getArea() != null) {
-                txtArea.setText(objCustomerAddress.getArea());
+        } else if (orderType == Globals.OrderType.TakeAway.getValue()) {
+            if (objCheckOut == null) {
+                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
+                    etName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this));
+                }
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
+                    etPhone.setText(objSharePreferenceManage.GetPreference("LoginPreference", "Phone", CheckOutActivity.this));
+                }
+                FillCity();
+                SetBusinessAddress();
+                etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+                cbGetPromoCode.setVisibility(View.VISIBLE);
+                etOfferCode.setVisibility(View.GONE);
+                btnApply.setVisibility(View.GONE);
             } else {
-                txtArea.setText("");
-            }
-            if (objCustomerAddress.getAddress() != null) {
-                txtAddress.setText(objCustomerAddress.getAddress());
-            }
-            if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
-                tbHomeDelivery.setChecked(true);
-            } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
                 tbTakeAway.setChecked(true);
+                if (isDateChange) {
+                    etOrderDate.setText(etOrderDate.getText().toString());
+                    spOrderTime.setSelection(0);
+                    isDateChange = false;
+                } else {
+                    //etOrderDate.setText(objCheckOut.getOrderDate());
+                    isSelected = true;
+                    spOrderTime.setSelection(objCheckOut.getOrderTimeIndex());
+                }
+                FillCity();
+                if (objCheckOut.getObjOfferMaster() != null) {
+                    cbGetPromoCode.setVisibility(View.GONE);
+                    etOfferCode.setVisibility(View.VISIBLE);
+                    btnApply.setVisibility(View.VISIBLE);
+                    etOfferCode.setText(objCheckOut.getObjOfferMaster().getOfferCode());
+                } else {
+                    cbGetPromoCode.setVisibility(View.VISIBLE);
+                    etOfferCode.setVisibility(View.GONE);
+                    btnApply.setVisibility(View.GONE);
+                }
+                etName.setText(objCheckOut.getName());
+                if (objCheckOut.getPhone() != null && !objCheckOut.getPhone().equals("")) {
+                    etPhone.setText(objCheckOut.getPhone());
+                }
+                isSelected = true;
+                spOrderCity.setSelection(objCheckOut.getCityIndex());
+                if (objCheckOut.getObjBusinessMaster() != null) {
+                    etBusinessName.setText(objCheckOut.getObjBusinessMaster().getBusinessName());
+                    etBusinessName.setEnabled(false);
+                    txtBusinessAddress.setText(objCheckOut.getObjBusinessMaster().getAddress());
+                }
             }
-            etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
-            cbGetPromoCode.setVisibility(View.VISIBLE);
-            etOfferCode.setVisibility(View.GONE);
-            btnApply.setVisibility(View.GONE);
-
         }
-
     }
 
-    private void SetCardVisibility(int orderType){
-        if(orderType == Globals.OrderType.TakeAway.getValue()){
+    private void FillCity() {
+        if(alBusinessMaster==null && objBusinessMaster!=null){
+            ibBusinessViewMore.setVisibility(View.INVISIBLE);
+            SpinnerItem objSpinnerItem = new SpinnerItem();
+            objSpinnerItem.setText(objBusinessMaster.getCity());
+            objSpinnerItem.setValue(0);
+
+            ArrayList<SpinnerItem> alCity = new ArrayList<>();
+            alCity.add(objSpinnerItem);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
+            spOrderCity.setAdapter(cityAdapter);
+        }
+        else{
+            ibBusinessViewMore.setVisibility(View.VISIBLE);
+            ArrayList<SpinnerItem> alCity = new ArrayList<>();
+            short cnt = 0;
+            for(BusinessMaster objBusiness : alBusinessMaster){
+                SpinnerItem objSpinnerItem = new SpinnerItem();
+                objSpinnerItem.setText(objBusiness.getCity());
+                objSpinnerItem.setValue(cnt);
+                alCity.add(objSpinnerItem);
+                cnt++;
+            }
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
+            spOrderCity.setAdapter(cityAdapter);
+        }
+    }
+
+    private void SetBusinessAddress(){
+        if(alBusinessMaster==null && objBusinessMaster!=null){
+            etBusinessName.setText(objBusinessMaster.getBusinessName());
+            etBusinessName.setEnabled(false);
+            txtBusinessAddress.setText(objBusinessMaster.getAddress());
+        }else{
+            etBusinessName.setText(alBusinessMaster.get(0).getBusinessName());
+            etBusinessName.setEnabled(false);
+            txtBusinessAddress.setText(alBusinessMaster.get(0).getAddress());
+            objBusinessMaster = alBusinessMaster.get(0);
+        }
+    }
+
+    private void SetCardVisibility(int orderType) {
+        if (orderType == Globals.OrderType.TakeAway.getValue()) {
             cvEditName.setVisibility(View.VISIBLE);
             cvName.setVisibility(View.GONE);
             cvCityArea.setVisibility(View.VISIBLE);
@@ -532,8 +810,18 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             cvOfferCode.setVisibility(View.VISIBLE);
             cvDateTime.setVisibility(View.VISIBLE);
             cvPayment.setVisibility(View.VISIBLE);
-            etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
-        }else if(orderType == Globals.OrderType.HomeDelivery.getValue()){
+            if (objCheckOut == null) {
+                etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+            } else {
+                etOrderDate.setText(objCheckOut.getOrderDate());
+            }
+            if (Service.CheckNet(this)) {
+                RequestBusinessMaster((short) 0,null);
+            } else {
+                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            }
+
+        } else if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
             cvEditName.setVisibility(View.GONE);
             cvName.setVisibility(View.VISIBLE);
             cvCityArea.setVisibility(View.GONE);
@@ -541,37 +829,75 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             cvOfferCode.setVisibility(View.VISIBLE);
             cvDateTime.setVisibility(View.VISIBLE);
             cvPayment.setVisibility(View.VISIBLE);
-            etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+            if (objCheckOut == null) {
+                etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+            } else {
+                etOrderDate.setText(objCheckOut.getOrderDate());
+            }
             if (Service.CheckNet(this)) {
                 RequestCustomerMaster();
             } else {
-                Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
         }
     }
 
-    private void SaveCheckOutData(CustomerAddressTran objCustomerAddress, OfferMaster objOffer) {
+    private void RequestBusinessMaster(short linktoBusinessGroupMasterId,String city) {
+        progressDialog.show(getSupportFragmentManager(), "");
+        BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
+        if (linktoBusinessGroupMasterId == 0) {
+            objBusinessJSONParser.SelectBusinessMaster(CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
+        } else {
+            objBusinessJSONParser.SelectAllBusinessMasterByBusinessGroup(CheckOutActivity.this, String.valueOf(linktoBusinessGroupMasterId),city);
+        }
+
+    }
+
+    private void SaveCheckOutData(CustomerAddressTran objCustomerAddress, OfferMaster objOffer, int orderType) {
         if (objCheckOut == null) {
             objCheckOut = new CheckOut();
         }
-        if (tbHomeDelivery.isChecked()) {
-            objCheckOut.setOrderType(Globals.OrderType.HomeDelivery.getValue());
-        } else if (tbTakeAway.isChecked()) {
-            objCheckOut.setOrderType(Globals.OrderType.TakeAway.getValue());
-        }
-        objCheckOut.setOrderDate(etOrderDate.getText().toString());
-        objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
-        objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
-        if (objCustomerAddress != null) {
-            objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
-        }
-        if (objOffer != null) {
-            if (objOffer.getOfferCode().equals("Remove")) {
-                objCheckOut.setObjOfferMaster(null);
-            } else {
-                objCheckOut.setObjOfferMaster(objOffer);
+        if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
+//            if (tbHomeDelivery.isChecked()) {
+//                objCheckOut.setOrderType(Globals.OrderType.HomeDelivery.getValue());
+//            } else if (tbTakeAway.isChecked()) {
+//                objCheckOut.setOrderType(Globals.OrderType.TakeAway.getValue());
+//            }
+            objCheckOut.setOrderType(orderType);
+            objCheckOut.setOrderDate(etOrderDate.getText().toString());
+            objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
+            objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
+            if (objCustomerAddress != null) {
+                objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
             }
+            if (objOffer != null) {
+                if (objOffer.getOfferCode().equals("Remove")) {
+                    objCheckOut.setObjOfferMaster(null);
+                } else {
+                    objCheckOut.setObjOfferMaster(objOffer);
+                }
+            }
+        } else {
+            objCheckOut.setOrderType(orderType);
+            objCheckOut.setOrderDate(etOrderDate.getText().toString());
+            objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
+            objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
+            objCheckOut.setCityIndex(spOrderCity.getSelectedItemPosition());
+            objCheckOut.setCity((String) spOrderCity.getAdapter().getItem(spOrderCity.getSelectedItemPosition()));
+            objCheckOut.setBranch(etBusinessName.getText().toString());
+            objCheckOut.setName(etName.getText().toString());
+            objCheckOut.setPhone(etPhone.getText().toString());
+            objCheckOut.setObjBusinessMaster(objBusinessMaster);
+            if (objOffer != null) {
+                if (objOffer.getOfferCode().equals("Remove")) {
+                    objCheckOut.setObjOfferMaster(null);
+                } else {
+                    objCheckOut.setObjOfferMaster(objOffer);
+                }
+            }
+            //objCheckOut.setLinktoBusinessMasterId();
         }
+        SaveCheckOutObjectInSharePreference();
     }
 
     private void RequestOrderMaster() {
@@ -613,6 +939,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.RemovePreference("CartItemListPreference", "CartItemList", CheckOutActivity.this);
                 objSharePreferenceManage.ClearPreference("CartItemListPreference", CheckOutActivity.this);
+                objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
+                objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("ShowMessage", false);
                 setResult(Activity.RESULT_OK, returnIntent);
@@ -647,5 +975,28 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alNewString, CheckOutActivity.this);
         }
     }
+
+    private void SaveCheckOutObjectInSharePreference() {
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        try {
+            if (objCheckOut == null) {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = objSharePreferenceManage.GetPreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
+                if (string != null) {
+                    objCheckOut = gson.fromJson(string,
+                            CheckOut.class);
+                }
+
+            } else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = gson.toJson(objCheckOut);
+                objSharePreferenceManage.CreatePreference("CheckOutDataPreference", "CheckOutData", string, CheckOutActivity.this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //endregion
 }

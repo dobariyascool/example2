@@ -69,7 +69,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     }
 
     @Override
-    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster) {
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster,ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
         this.objBusinessMaster = objBusinessMaster;
         SetTabLayout();

@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.SharePreferenceManage;
+import com.google.gson.Gson;
 
 public class CartItemActivity extends AppCompatActivity {
 
@@ -29,10 +30,11 @@ public class CartItemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        LinearLayout errorLayout = (LinearLayout)fragmentLayout.findViewById(R.id.errorLayout);
-        if(errorLayout.isShown()){
-            CheckOutActivity.objCheckOut = null;
-        }
+//        LinearLayout errorLayout = (LinearLayout)fragmentLayout.findViewById(R.id.errorLayout);
+//        if(errorLayout.isShown()){
+//            CheckOutActivity.objCheckOut = null;
+//        }
+        SaveCartDataInSharePreference();
         Intent returnIntent = new Intent();
         returnIntent.putExtra("ShowMessage", false);
         returnIntent.putExtra("IsLogin", true);
@@ -57,5 +59,22 @@ public class CartItemActivity extends AppCompatActivity {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void SaveCartDataInSharePreference(){
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        try {
+            if (Globals.alOrderItemTran.size() == 0) {
+                objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, CartItemActivity.this);
+            } else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = gson.toJson(Globals.alOrderItemTran);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, CartItemActivity.this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

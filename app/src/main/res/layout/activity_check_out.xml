@@ -101,7 +101,7 @@
                                 android:src="@drawable/user_drawable"
                                 tools:ignore="ContentDescription" />
 
-                            <com.rey.material.widget.TextView
+                            <com.rey.material.widget.EditText
                                 android:id="@+id/etName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                                 android:src="@drawable/call_drawable"
                                 tools:ignore="ContentDescription" />
 
-                            <com.rey.material.widget.TextView
+                            <com.rey.material.widget.EditText
                                 android:id="@+id/etPhone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -141,32 +141,74 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="34dp"
+                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/control_SpecingSmall"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
-                        <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/spOrderCity"
-                            style="@style/Spinner"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/control_SpecingSmall"
-                            android:layout_marginStart="@dimen/control_SpecingSmall"
-                            android:layout_weight="1"
-                            android:background="@drawable/toggle_drawable"
-                            android:dropDownWidth="match_parent"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:orientation="horizontal">
 
-                        <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/spOrderArea"
-                            style="@style/Spinner"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/control_SpecingSmall"
-                            android:layout_marginStart="@dimen/control_SpecingSmall"
-                            android:layout_weight="1"
-                            android:background="@drawable/toggle_drawable"
-                            android:dropDownWidth="match_parent"/>
+                            <com.rey.material.widget.EditText
+                                android:id="@+id/etBusinessName"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                                android:layout_marginStart="@dimen/control_SpecingSmall"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_drawable"
+                                android:padding="@dimen/control_SpecingSmall" />
 
+                            <android.support.v7.widget.AppCompatSpinner
+                                android:id="@+id/spOrderCity"
+                                style="@style/Spinner"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                                android:layout_marginStart="@dimen/control_SpecingSmall"
+                                android:layout_weight="1"
+                                android:background="@drawable/toggle_drawable"
+                                android:dropDownWidth="match_parent" />
+
+                        </LinearLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/areaLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/control_SpecingSmall"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/ivBusinessArea"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/address_drawable"
+                                tools:ignore="ContentDescription" />
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtBusinessAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/ivBusinessArea"
+                                android:paddingEnd="@dimen/control_SpecingSmall"
+                                android:paddingStart="@dimen/control_SpecingSmall"
+                                android:text="@string/abBuildVersion" />
+
+                            <com.rey.material.widget.ImageButton
+                                android:id="@+id/ibBusinessViewMore"
+                                android:layout_width="50dp"
+                                android:layout_height="35dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_below="@+id/txtBusinessAddress"
+                                android:layout_marginTop="@dimen/control_SpecingSmall"
+                                android:background="@drawable/rounded_layout"
+                                android:src="@drawable/view_more_drawable"
+                                android:text="@string/coaViewMore"
+                                android:visibility="invisible"/>
+                        </RelativeLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
@@ -263,7 +305,7 @@
                             android:layout_marginStart="@dimen/control_SpecingSmall"
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
-                            android:dropDownWidth="match_parent"/>
+                            android:dropDownWidth="match_parent" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -329,7 +371,7 @@
                             android:layout_toStartOf="@+id/ibAdd"
                             android:background="@drawable/rounded_layout"
                             android:src="@drawable/view_more_drawable"
-                            android:text="@string/coaViewMore"/>
+                            android:text="@string/coaViewMore" />
 
                         <com.rey.material.widget.ImageButton
                             android:id="@+id/ibAdd"
@@ -340,7 +382,7 @@
                             android:layout_marginStart="@dimen/control_SpecingTiny"
                             android:background="@drawable/rounded_layout"
                             android:src="@drawable/plus_drawable"
-                            android:text="@string/coaAddMore"/>
+                            android:text="@string/coaAddMore" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
@@ -417,6 +459,7 @@
                 </android.support.v7.widget.CardView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -425,8 +468,6 @@
             android:layout_marginStart="@dimen/control_SpecingSmall"
             android:orientation="horizontal">
 
-            <!--android:layout_marginBottom="@dimen/control_SpecingSmall"-->
-            <!--android:layout_marginTop="@dimen/control_SpecingSmall"-->
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnViewOrder"

@@ -385,6 +385,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etEmail.getText().toString(), this);
                 objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etPassword.getText().toString(), this);
                 objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", etFirstName.getText().toString() + " " + etLastName.getText().toString(), this);
+                if(!etPhone.getText().toString().equals("")) {
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", etPhone.getText().toString(), this);
+                }
 
                 ClearControls();
                 Intent returnIntent = new Intent();

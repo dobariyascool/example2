@@ -12,8 +12,7 @@
         android:paddingBottom="@dimen/control_SpecingTiny"
         android:paddingEnd="@dimen/control_SpecingSmall"
         android:paddingStart="@dimen/control_SpecingSmall"
-        android:paddingTop="@dimen/control_SpecingSmall"
-        android:text="@string/action_edit"/>
+        android:paddingTop="@dimen/control_SpecingSmall" />
 
     <TextView
         android:id="@+id/txtDelete"
@@ -23,6 +22,5 @@
         android:paddingBottom="@dimen/control_SpecingSmall"
         android:paddingEnd="@dimen/control_SpecingSmall"
         android:paddingStart="@dimen/control_SpecingSmall"
-        android:paddingTop="@dimen/control_SpecingTiny"
-        android:text="@string/action_delete"/>
+        android:paddingTop="@dimen/control_SpecingTiny" />
 </LinearLayout>

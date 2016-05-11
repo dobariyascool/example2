@@ -61,18 +61,19 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/control_SpecingSmall" />
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtContactUs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/heading"
-                    android:textSize="16sp" />
+                <!--<com.rey.material.widget.TextView-->
+                    <!--android:id="@+id/txtContactUs"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingTop="@dimen/control_SpecingSmall"-->
+                    <!--android:textColor="@color/heading"-->
+                    <!--android:textSize="16sp" />-->
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtWebSite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/control_SpecingSmall"
                     android:paddingTop="@dimen/control_SpecingSmall"
                     android:textColor="@color/colorAccent" />
 
@@ -82,8 +83,8 @@
 
                     <ImageView
                         android:id="@+id/ivCall"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/call_drawable"
                         tools:ignore="ContentDescription" />
 
@@ -106,7 +107,6 @@
                         android:paddingTop="@dimen/control_SpecingTiny" />
 
                 </RelativeLayout>
-
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etContactUsName"

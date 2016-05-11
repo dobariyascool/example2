@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.AddressSelectorAdapter;
+import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CustomerAddressTran;
 
 import java.util.ArrayList;
@@ -20,10 +21,13 @@ import java.util.ArrayList;
 public class AddressSelectorBottomDialog extends DialogFragment implements AddressSelectorAdapter.AddressSelectorListener {
 
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
+    ArrayList<BusinessMaster> alBusinessMaster;
     AddressSelectorResponseListener objAddressSelectorResponseListener;
+    AddressSelectorAdapter addressSelectorAdapter;
 
-    public AddressSelectorBottomDialog(ArrayList<CustomerAddressTran> alCustomerAddressTran) {
+    public AddressSelectorBottomDialog(ArrayList<CustomerAddressTran> alCustomerAddressTran,ArrayList<BusinessMaster> alBusinessMaster) {
       this.alCustomerAddressTran = alCustomerAddressTran;
+      this.alBusinessMaster = alBusinessMaster;
     }
 
     @NonNull
@@ -31,7 +35,12 @@ public class AddressSelectorBottomDialog extends DialogFragment implements Addre
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view =  LayoutInflater.from(getActivity()).inflate(R.layout.fragment_address_selector_bottom_dialog, null, false);
         RecyclerView rvAddress = (RecyclerView)view.findViewById(R.id.rvAddress);
-        AddressSelectorAdapter addressSelectorAdapter = new AddressSelectorAdapter(getActivity(),alCustomerAddressTran,this);
+        if(alBusinessMaster!=null){
+            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(),null,alBusinessMaster,this);
+        }else if(alCustomerAddressTran!=null){
+            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(),alCustomerAddressTran,null,this);
+        }
+
         rvAddress.setAdapter(addressSelectorAdapter);
         rvAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Dialog mBottomSheetDialog = new Dialog(getActivity(),
@@ -55,13 +64,17 @@ public class AddressSelectorBottomDialog extends DialogFragment implements Addre
 //    }
 
     @Override
-    public void AddressSelectorOnClickListener(CustomerAddressTran objCustomerAddressTran) {
+    public void AddressSelectorOnClickListener(CustomerAddressTran objCustomerAddressTran,BusinessMaster objBusinessMaster) {
         objAddressSelectorResponseListener = (AddressSelectorResponseListener)getActivity();
-        objAddressSelectorResponseListener.AddressSelectorResponse(objCustomerAddressTran);
+        if(objCustomerAddressTran!=null){
+            objAddressSelectorResponseListener.AddressSelectorResponse(objCustomerAddressTran,null);
+        }else if (objBusinessMaster != null) {
+            objAddressSelectorResponseListener.AddressSelectorResponse(null,objBusinessMaster);
+        }
         dismiss();
     }
 
     public interface AddressSelectorResponseListener{
-        void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran);
+        void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran,BusinessMaster objBusinessMaster);
     }
 }
