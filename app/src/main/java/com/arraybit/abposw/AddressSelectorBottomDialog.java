@@ -24,21 +24,23 @@ public class AddressSelectorBottomDialog extends DialogFragment implements Addre
     ArrayList<BusinessMaster> alBusinessMaster;
     AddressSelectorResponseListener objAddressSelectorResponseListener;
     AddressSelectorAdapter addressSelectorAdapter;
+    ProgressDialog progressDialog = new ProgressDialog();
 
-    public AddressSelectorBottomDialog(ArrayList<CustomerAddressTran> alCustomerAddressTran,ArrayList<BusinessMaster> alBusinessMaster) {
-      this.alCustomerAddressTran = alCustomerAddressTran;
-      this.alBusinessMaster = alBusinessMaster;
+    public AddressSelectorBottomDialog(ArrayList<CustomerAddressTran> alCustomerAddressTran, ArrayList<BusinessMaster> alBusinessMaster) {
+        this.alCustomerAddressTran = alCustomerAddressTran;
+        this.alBusinessMaster = alBusinessMaster;
     }
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view =  LayoutInflater.from(getActivity()).inflate(R.layout.fragment_address_selector_bottom_dialog, null, false);
-        RecyclerView rvAddress = (RecyclerView)view.findViewById(R.id.rvAddress);
-        if(alBusinessMaster!=null){
-            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(),null,alBusinessMaster,this);
-        }else if(alCustomerAddressTran!=null){
-            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(),alCustomerAddressTran,null,this);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_address_selector_bottom_dialog, null, false);
+        RecyclerView rvAddress = (RecyclerView) view.findViewById(R.id.rvAddress);
+        if (alBusinessMaster != null) {
+            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(), null, alBusinessMaster, this);
+        } else if (alCustomerAddressTran != null) {
+            addressSelectorAdapter = new AddressSelectorAdapter(getActivity(), alCustomerAddressTran, null, this);
         }
 
         rvAddress.setAdapter(addressSelectorAdapter);
@@ -64,17 +66,20 @@ public class AddressSelectorBottomDialog extends DialogFragment implements Addre
 //    }
 
     @Override
-    public void AddressSelectorOnClickListener(CustomerAddressTran objCustomerAddressTran,BusinessMaster objBusinessMaster) {
-        objAddressSelectorResponseListener = (AddressSelectorResponseListener)getActivity();
-        if(objCustomerAddressTran!=null){
-            objAddressSelectorResponseListener.AddressSelectorResponse(objCustomerAddressTran,null);
-        }else if (objBusinessMaster != null) {
-            objAddressSelectorResponseListener.AddressSelectorResponse(null,objBusinessMaster);
+    public void AddressSelectorOnClickListener(CustomerAddressTran objCustomerAddressTran, BusinessMaster objBusinessMaster) {
+        objAddressSelectorResponseListener = (AddressSelectorResponseListener) getActivity();
+        if (objCustomerAddressTran != null) {
+            objAddressSelectorResponseListener.AddressSelectorResponse(objCustomerAddressTran, null);
+        } else if (objBusinessMaster != null) {
+            objAddressSelectorResponseListener.AddressSelectorResponse(null, objBusinessMaster);
         }
         dismiss();
     }
 
-    public interface AddressSelectorResponseListener{
-        void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran,BusinessMaster objBusinessMaster);
+
+    public interface AddressSelectorResponseListener {
+        void AddressSelectorResponse(CustomerAddressTran objCustomerAddressTran, BusinessMaster objBusinessMaster);
     }
 }
+
+

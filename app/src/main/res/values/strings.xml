@@ -198,6 +198,7 @@
     <string name="cifNetAmount">Net Amount</string>
     <string name="cifConfirmClear">Are you sure to clear Order?</string>
     <string name="cifMsg">Go to Menu</string>
+    <string name="cifMinOrder">Minimum Order \u20B9 300</string>
     <!--end -->
 
     <!-- DetailActivity -->

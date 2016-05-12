@@ -91,6 +91,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection), R.drawable.wifi_drawable);
         }
 
+        //set default ui like list or grid
+        SetDefaultMenuDesign();
+
         SaveWishListInSharePreference(false);
         SaveCartDataInSharePreference(false);
     }
@@ -113,6 +116,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         //noinspection SimplifiableIfStatement
         if (id == R.id.viewChange) {
             if (!errorLayout.isShown()) {
+                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
                 i = (short) (i + 1);
                 if (i == 1) {
@@ -120,17 +124,20 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     isViewChange = true;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true, false,false);
+                    objSharePreferenceManage.CreatePreference("ViewPreference","IsViewChange","Grid",MenuActivity.this);
                 } else if (i == 2) {
                     item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
-                    itemListFragment.SetRecyclerView(true, false,false);
+                    itemListFragment.SetRecyclerView(true, false, false);
+                    objSharePreferenceManage.CreatePreference("ViewPreference", "IsViewChange", "TwoGrid", MenuActivity.this);
                 } else {
                     i = 0;
                     item.setIcon(R.drawable.view_list);
                     isViewChange = false;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true, false,false);
+                    objSharePreferenceManage.CreatePreference("ViewPreference", "IsViewChange", "List", MenuActivity.this);
                 }
             }
         } else if (id == R.id.logout) {
@@ -180,6 +187,13 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.viewChange).setVisible(true);
+        if(i == 1){
+            menu.findItem(R.id.viewChange).setIcon(R.drawable.view_grid);
+        }else if(i==2){
+            menu.findItem(R.id.viewChange).setIcon(R.drawable.view_grid_two);
+        }else{
+            menu.findItem(R.id.viewChange).setIcon(R.drawable.view_list);
+        }
         menu.findItem(R.id.cart_layout).setVisible(true);
         menu.findItem(R.id.logout).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
@@ -369,7 +383,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                             isForceToChange = false;
                         } else {
                             if (sbItemTypeMasterId == null) {
-                                itemListFragment.SetRecyclerView(true, false,false);
+                                itemListFragment.SetRecyclerView(true, false, false);
                                 isForceToChange = false;
                             } else {
                                 itemListFragment.ItemByOptionName(null);
@@ -384,7 +398,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                                 itemListFragment.ItemByOptionName(null);
                             } else {
                                 if (ItemAdapter.alWishItemMaster.size() > 0) {
-                                    itemListFragment.SetRecyclerView(true, true,false);
+                                    itemListFragment.SetRecyclerView(true, true, false);
                                 }
                             }
                         }
@@ -529,6 +543,9 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         lstItemMaster = Arrays.asList(objItemMaster);
                         Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
+                    }else{
+                        objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", MenuActivity.this);
+                        objSharePreferenceManage.ClearPreference("CheckOutDataPreference",  MenuActivity.this);
                     }
                 }
 
@@ -542,6 +559,30 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }finally {
             objSharePreferenceManage = null;
             lstItemMaster = null;
+        }
+    }
+
+    private void SetDefaultMenuDesign(){
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if(objSharePreferenceManage.GetPreference("ViewPreference","IsViewChange",MenuActivity.this)==null){
+            i=0;
+            isViewChange=false;
+        }else{
+            String IsViewChange = objSharePreferenceManage.GetPreference("ViewPreference","IsViewChange",MenuActivity.this);
+            switch (IsViewChange) {
+                case "Grid":
+                    i = 1;
+                    isViewChange = true;
+                    break;
+                case "TwoGrid":
+                    i = 2;
+                    isViewChange = true;
+                    break;
+                default:
+                    i = 0;
+                    isViewChange = false;
+                    break;
+            }
         }
     }
 

@@ -43,7 +43,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder;
-    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder;
     ImageView ivRemark;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout, errorLayout;
@@ -91,6 +91,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         txtHeaderRounding = (TextView) view.findViewById(R.id.txtHeaderRounding);
         txtNetAmount = (TextView) view.findViewById(R.id.txtNetAmount);
         txtHeaderNetAmount = (TextView) view.findViewById(R.id.txtHeaderNetAmount);
+        txtMinOrder = (TextView) view.findViewById(R.id.txtMinOrder);
+
         cbMenu = (CompoundButton) view.findViewById(R.id.cbMenu);
 
         errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
@@ -290,6 +292,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnConfirmOrder.setVisibility(View.GONE);
             taxLayout.setVisibility(View.GONE);
             txtRemark.setVisibility(View.GONE);
+            txtMinOrder.setVisibility(View.GONE);
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
@@ -308,6 +311,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             btnAddMore.setVisibility(View.VISIBLE);
             btnConfirmOrder.setVisibility(View.VISIBLE);
             taxLayout.setVisibility(View.VISIBLE);
+            txtMinOrder.setVisibility(View.VISIBLE);
             if (RemarkDialogFragment.strRemark != null) {
                 if (!RemarkDialogFragment.strRemark.equals("")) {
                     txtRemark.setVisibility(View.VISIBLE);
@@ -355,6 +359,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTotalAmount.setText(Globals.dfWithPrecision.format(totalAmount));
             txtNetAmount.setText(Globals.dfWithPrecision.format(Math.round(netAmount)));
             txtRoundingOff.setText("- 0." + strNetAmount.substring(strNetAmount.lastIndexOf(".") + 1, strNetAmount.length()));
+            if(totalAmount >= 300){
+                btnConfirmOrder.setEnabled(true);
+            }else{
+                btnConfirmOrder.setEnabled(false);
+            }
         }
     }
 
@@ -426,9 +435,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         super.onDismissed(snackbar, event);
-                        if (event == DISMISS_EVENT_TIMEOUT) {
-                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
-                        }
+//                        if (event == DISMISS_EVENT_TIMEOUT) {
+//                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
+//                        }
                     }
                 })
                 .setAction("UNDO", new View.OnClickListener() {

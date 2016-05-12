@@ -79,11 +79,10 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
         txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
 
-        SetCartNumber();
-
         ivCart.setOnClickListener(this);
 
         SaveCartDataInSharePreference(false);
+        SetCartNumber();
 
         return true;
     }
@@ -330,6 +329,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                         lstItemMaster = Arrays.asList(objItemMaster);
                         Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
+                    }else{
+                        objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", WishListActivity.this);
+                        objSharePreferenceManage.ClearPreference("CheckOutDataPreference",  WishListActivity.this);
                     }
                 }
 

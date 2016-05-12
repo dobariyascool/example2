@@ -143,12 +143,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/control_SpecingTiny"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_marginEnd="@dimen/control_SpecingTiny"
+                            android:layout_marginStart="@dimen/control_SpecingTiny">
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtHeaderRemark"
@@ -163,10 +162,47 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/control_SpecingSmall"
+                                android:layout_toEndOf="@+id/txtHeaderRemark"
                                 android:src="@drawable/edit_drawable"
                                 tools:ignore="ContentDescription" />
 
-                        </LinearLayout>
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtMinOrder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/ivRemark"
+                                android:gravity="end"
+                                android:text="@string/cifMinOrder"
+                                android:textAllCaps="false"
+                                android:textSize="@dimen/control_TextNormal" />
+
+                        </RelativeLayout>
+
+                        <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:orientation="horizontal">-->
+
+                        <!--<com.rey.material.widget.TextView-->
+                        <!--android:id="@+id/txtHeaderRemark"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/cifRemark"-->
+                        <!--android:textColor="@color/colorPrimary"-->
+                        <!--android:textSize="@dimen/control_TextMedium" />-->
+
+                        <!--<ImageView-->
+                        <!--android:id="@+id/ivRemark"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginStart="@dimen/control_SpecingSmall"-->
+                        <!--android:src="@drawable/edit_drawable"-->
+                        <!--tools:ignore="ContentDescription" />-->
+                        <!--</LinearLayout>-->
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtRemark"
@@ -272,7 +308,7 @@
                                 android:text="@string/cifNumber"
                                 android:textAllCaps="false"
                                 android:textSize="9sp"
-                                tools:ignore="SmallSp"/>
+                                tools:ignore="SmallSp" />
 
                         </LinearLayout>
 
