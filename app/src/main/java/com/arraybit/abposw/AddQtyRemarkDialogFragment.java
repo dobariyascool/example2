@@ -48,7 +48,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         txtItemName = (TextView) view.findViewById(R.id.txtItemName);
-        if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_menu)) || getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_wish_list))) {
+        if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_menu)) || getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_wish_list)) || getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_cart_item_fragment))) {
             txtItemName.setText(objItemMaster.getItemName());
         } else {
             txtItemName.setVisibility(View.GONE);
@@ -59,13 +59,16 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
 
-        //btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnOk = (Button) view.findViewById(R.id.btnOk);
 
-        //btnCancel.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
+
+        if(getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_cart_item_fragment))){
+            etQuantity.setText(String.valueOf(objItemMaster.getQuantity()));
+            etRemark.setText(objItemMaster.getItemRemark());
+        }
 
         return view;
     }
@@ -136,6 +139,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             objOrderItemTran.setTotalTax(totalTax);
             if (!etRemark.getText().toString().isEmpty()) {
                 objOrderItemTran.setRemark(etRemark.getText().toString());
+                objOrderItemTran.setItemRemark(etRemark.getText().toString());
             }
             totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
             objOrderItemTran.setTotalAmount(totalAmount);
@@ -170,6 +174,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                 objOrderItemTran.setTotalTax(totalTax);
                 if (!etRemark.getText().toString().isEmpty()) {
                     objOrderItemTran.setRemark(etRemark.getText().toString());
+                    objOrderItemTran.setItemRemark(etRemark.getText().toString());
                 }
                 totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
                 objOrderItemTran.setTotalAmount(totalAmount);
@@ -251,5 +256,6 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             }
         }
     }
+
     //endregion
 }

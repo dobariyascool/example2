@@ -334,8 +334,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                     objOrderItemTran.setRemark(sbOptionValue.toString());
                 }
             } else {
+                objOrderItemTran.setItemRemark(etRemark.getText().toString());
                 if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(etRemark.getText().toString() + "," + sbOptionValue.toString());
+                }else{
+                    objOrderItemTran.setRemark(etRemark.getText().toString());
                 }
             }
             if (alCheckedModifier.size() != 0) {
@@ -371,8 +374,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         objOrderItemTran.setRemark(sbOptionValue.toString());
                     }
                 } else {
+                    objOrderItemTran.setItemRemark(etRemark.getText().toString());
                     if (!sbOptionValue.toString().equals("")) {
                         objOrderItemTran.setRemark(etRemark.getText().toString() + "," + sbOptionValue.toString());
+                    }else{
+                        objOrderItemTran.setRemark(etRemark.getText().toString());
                     }
                 }
                 if (alCheckedModifier.size() != 0) {

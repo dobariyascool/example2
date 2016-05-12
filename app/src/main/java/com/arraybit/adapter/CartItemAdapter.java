@@ -62,9 +62,11 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         }
 
         if (objItemMaster.getRemark() == null || objItemMaster.getRemark().equals("")) {
-            holder.remarkLayout.setVisibility(View.GONE);
+            //holder.remarkLayout.setVisibility(View.GONE);
+            holder.txtRemark.setVisibility(View.GONE);
         } else {
-            holder.remarkLayout.setVisibility(View.VISIBLE);
+            //holder.remarkLayout.setVisibility(View.VISIBLE);
+            holder.txtRemark.setVisibility(View.VISIBLE);
             if (objItemMaster.getRemark().substring(objItemMaster.getRemark().length() - 1, objItemMaster.getRemark().length()).equals(",")) {
                 holder.txtRemark.setText(objItemMaster.getRemark().substring(0, objItemMaster.getRemark().length() - 1));
             } else if (objItemMaster.getRemark().substring(objItemMaster.getRemark().length() - 1, objItemMaster.getRemark().length()).equals(" ")) {
@@ -159,7 +161,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     }
 
     public interface CartItemOnClickListener {
-        void ImageViewOnClick(int position, ItemMaster objOrderItemMaster);
+        void ImageViewOnClick(int position, ItemMaster objOrderItemMaster,boolean isDeleteClick);
     }
 
 
@@ -167,7 +169,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
     class CartItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItem, txtQty, txtRate, txtAmount, txtRemark;
-        LinearLayout childLayout, modifierLayout, modifierRateLayout, modifierAmountLayout, remarkLayout;
+        LinearLayout mainLayout,childLayout, modifierLayout, modifierRateLayout, modifierAmountLayout, remarkLayout;
         ImageView ivClose;
 
         public CartItemViewHolder(View itemView) {
@@ -177,7 +179,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             modifierLayout = (LinearLayout) itemView.findViewById(R.id.modifierLayout);
             modifierRateLayout = (LinearLayout) itemView.findViewById(R.id.modifierRateLayout);
             modifierAmountLayout = (LinearLayout) itemView.findViewById(R.id.modifierAmountLayout);
-            remarkLayout = (LinearLayout) itemView.findViewById(R.id.remarkLayout);
+            //remarkLayout = (LinearLayout) itemView.findViewById(R.id.remarkLayout);
 
             txtItem = (TextView) itemView.findViewById(R.id.txtItem);
             txtAmount = (TextView) itemView.findViewById(R.id.txtAmount);
@@ -189,7 +191,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             childLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    //getAdapterPosition current position
+                    objCartItemOnClickListener.ImageViewOnClick(getAdapterPosition(), alItemMaster.get(getAdapterPosition()),false);
                 }
             });
 
@@ -197,7 +200,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 @Override
                 public void onClick(View v) {
                     //getAdapterPosition current position
-                    objCartItemOnClickListener.ImageViewOnClick(getAdapterPosition(), alItemMaster.get(getAdapterPosition()));
+                    objCartItemOnClickListener.ImageViewOnClick(getAdapterPosition(), alItemMaster.get(getAdapterPosition()),true);
                 }
             });
         }

@@ -194,27 +194,32 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void ImageViewOnClick(int position, ItemMaster objOrderItemMaster) {
-        ShowSnackBarWithAction(position, objOrderItemMaster);
-        adapter.RemoveData(position);
-        if (Globals.alOrderItemTran.size() == 0) {
-            RemovePreference();
-            RemarkDialogFragment.strRemark = "";
-            SetRecyclerView();
-        }
-        if (adapter.changeAmount) {
-            totalAmount = 0;
-            netAmount = 0;
-            totalTax = 0;
-            tax1 = 0;
-            tax2 = 0;
-            tax3 = 0;
-            tax4 = 0;
-            tax5 = 0;
-            SetRecyclerView();
-            if (alTaxMaster != null && alTaxMaster.size() != 0) {
-                SetTextLayout();
+    public void ImageViewOnClick(int position, ItemMaster objOrderItemMaster,boolean isDeleteClick) {
+        if(isDeleteClick) {
+            ShowSnackBarWithAction(position, objOrderItemMaster);
+            adapter.RemoveData(position);
+            if (Globals.alOrderItemTran.size() == 0) {
+                RemovePreference();
+                RemarkDialogFragment.strRemark = "";
+                SetRecyclerView();
             }
+            if (adapter.changeAmount) {
+                totalAmount = 0;
+                netAmount = 0;
+                totalTax = 0;
+                tax1 = 0;
+                tax2 = 0;
+                tax3 = 0;
+                tax4 = 0;
+                tax5 = 0;
+                SetRecyclerView();
+                if (alTaxMaster != null && alTaxMaster.size() != 0) {
+                    SetTextLayout();
+                }
+            }
+        }else{
+            AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objOrderItemMaster);
+            addQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(),"");
         }
     }
 

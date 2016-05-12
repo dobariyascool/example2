@@ -58,6 +58,7 @@ public class ItemMaster implements Parcelable {
     int linktoOrderMasterId;
     int linktoOrderItemTranId;
     int Quantity;
+    String ItemRemark;
     String Remark;
     double TotalAmount;
     double ExtraAmount;
@@ -112,6 +113,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.OrderNumber = source.readString();
             objItemMaster.PaymentStatus = source.readByte() != 0;
             objItemMaster.TaxRate = source.readDouble();
+            objItemMaster.ItemRemark = source.readString();
             return objItemMaster;
         }
 
@@ -589,7 +591,13 @@ public class ItemMaster implements Parcelable {
         TaxRate = taxRate;
     }
 
+    public String getItemRemark() {
+        return ItemRemark;
+    }
 
+    public void setItemRemark(String itemRemark) {
+        ItemRemark = itemRemark;
+    }
     //endregion
 
     public int describeContents() {
@@ -642,5 +650,6 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(OrderNumber);
         parcel.writeByte((byte) (PaymentStatus ? 1 : 0));
         parcel.writeDouble(TaxRate);
+        parcel.writeString(ItemRemark);
     }
 }
