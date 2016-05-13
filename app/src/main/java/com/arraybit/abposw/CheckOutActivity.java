@@ -638,6 +638,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         } else if (orderType == Globals.OrderType.TakeAway.getValue()) {
             if (objCheckOut == null) {
+                tbTakeAway.setChecked(true);
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
                     etName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this));
@@ -950,6 +951,30 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (string != null) {
                     objCheckOut = gson.fromJson(string,
                             CheckOut.class);
+                    if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_home))){
+                        if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_activity_wish_list)))
+                        {
+                            if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId) {
+                                objCheckOut = null;
+                                objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
+                                objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
+                            }
+                        }
+                    }else{
+                        if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId) {
+                            objCheckOut = null;
+                            objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
+                            objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
+                        }
+                    }
+                }else {
+                    //this case come when cart click from home page or wishlist
+                    if((activityName!=null && activityName.equals(getResources().getString(R.string.title_home))) || (activityName!=null && activityName.equals(getResources().getString(R.string.title_activity_wish_list)))) {
+                        if (Globals.linktoOrderTypeMasterId == 0) {
+                            objCheckOut = null;
+                            Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
+                        }
+                    }
                 }
 
             } else {
@@ -1050,6 +1075,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             if (objCheckOut == null) {
                 if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
                     if (objBusinessMaster != null) {
+                        FillOrderTime();
+                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
+                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
+                    }else if (alBusinessMaster != null) {
                         FillOrderTime();
                         SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                         SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());

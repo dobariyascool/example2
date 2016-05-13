@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"ConstantConditions", "ResourceType"})
 @SuppressLint("ValidFragment")
-public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener {
+public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener ,AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener{
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
@@ -55,6 +55,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     SharePreferenceManage objSharePreferenceManage;
     String activityName;
     OrderMaster objOrderMaster;
+    int position;
 
 
     public CartItemFragment(String activityName) {
@@ -218,8 +219,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 }
             }
         }else{
+            this.position = position;
             AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objOrderItemMaster);
-            addQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(),"");
+            addQtyRemarkDialogFragment.setTargetFragment(this,0);
+            addQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
     }
 
@@ -243,6 +246,23 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void AddQtyRemarkResponse(ItemMaster objItemMaster) {
+        adapter.UpdateData(position, objItemMaster);
+        totalAmount = 0;
+        netAmount = 0;
+        totalTax = 0;
+        tax1 = 0;
+        tax2 = 0;
+        tax3 = 0;
+        tax4 = 0;
+        tax5 = 0;
+        CountAmount();
+        if (alTaxMaster != null && alTaxMaster.size() != 0) {
+            SetTextLayout();
+        }
+    }
+
     //region Private Methods
     private void RequestTaxMaster() {
         progressDialog.show(getFragmentManager(), "");
@@ -259,7 +279,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         } else {
             SetVisibility();
             CountAmount();
-            rvCartItem.setVisibility(View.VISIBLE);
+            Globals.SetErrorLayout(errorLayout,false,null,rvCartItem,0);
             adapter = new CartItemAdapter(getActivity(), Globals.alOrderItemTran, this, false);
             rvCartItem.setAdapter(adapter);
             rvCartItem.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -293,7 +313,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtRoundingOff.setVisibility(View.GONE);
             txtHeaderNetAmount.setVisibility(View.GONE);
             txtNetAmount.setVisibility(View.GONE);
-            btnAddMore.setVisibility(View.GONE);
+            if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+                btnAddMore.setVisibility(View.GONE);
+            }else{
+                btnAddMore.setVisibility(View.GONE);
+            }
             btnConfirmOrder.setVisibility(View.GONE);
             taxLayout.setVisibility(View.GONE);
             txtRemark.setVisibility(View.GONE);
@@ -313,7 +337,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtRoundingOff.setVisibility(View.VISIBLE);
             txtHeaderNetAmount.setVisibility(View.VISIBLE);
             txtNetAmount.setVisibility(View.VISIBLE);
-            btnAddMore.setVisibility(View.VISIBLE);
+            if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+                btnAddMore.setVisibility(View.GONE);
+            }else{
+                btnAddMore.setVisibility(View.VISIBLE);
+            }
             btnConfirmOrder.setVisibility(View.VISIBLE);
             taxLayout.setVisibility(View.VISIBLE);
             txtMinOrder.setVisibility(View.VISIBLE);

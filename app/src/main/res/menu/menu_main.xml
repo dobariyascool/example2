@@ -2,6 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.arraybit.abposw.HomeActivity">
+
+    <item
+        android:id="@+id/cart_layout"
+        android:orderInCategory="300"
+        android:title="@string/mACart"
+        android:visible="false"
+        app:actionLayout="@layout/cart_layout"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/myAccount"
         android:orderInCategory="100"

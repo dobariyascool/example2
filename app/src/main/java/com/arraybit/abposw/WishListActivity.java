@@ -102,6 +102,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (id == android.R.id.home) {
             SaveCartDataInSharePreference(true);
             SaveWishListInSharePreference(true);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsLogin", true);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -111,6 +114,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     public void onBackPressed() {
         SaveCartDataInSharePreference(true);
         SaveWishListInSharePreference(true);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("IsLogin", true);
+        setResult(Activity.RESULT_OK, returnIntent);
         super.onBackPressed();
     }
 

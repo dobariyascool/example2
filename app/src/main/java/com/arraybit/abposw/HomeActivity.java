@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,17 +24,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BusinessGalleryTran;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BusinessGalleryJSONParser;
+import com.google.gson.Gson;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
 import com.rey.material.widget.CompoundButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("ResourceType")
@@ -49,6 +54,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     CompoundButton cbName;
     TextView txtFullName;
     boolean isLogin;
+    RelativeLayout relativeLayout;
+    com.rey.material.widget.TextView txtCartNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +108,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
+
+        SaveCartDataInSharePreference();
 
         SetUserName();
     }
@@ -162,6 +171,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //MenuItem menuItem = menu.findItem(R.id.cart_layout);
 
         //homeLinearLayoput = (LinearLayout) MenuItemCompat.getActionView(menuItem);
+
+        MenuItem menuItem = menu.findItem(R.id.cart_layout);
+
+        relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
+        final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
+
+        SetCartNumber();
+
+        ivCart.setOnClickListener(this);
+
         return true;
     }
 
@@ -175,7 +195,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             menu.findItem(R.id.myAccount).setVisible(false);
             menu.findItem(R.id.logout).setVisible(false);
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+            SaveCartDataInSharePreference();
         }
+        menu.findItem(R.id.cart_layout).setVisible(true);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -185,11 +207,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.logout) {
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+            SaveCartDataInSharePreference();
             SetUserName();
         } else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
         } else if (id == R.id.myBookings) {
+
             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
             intent.putExtra("IsBookingFromMenu", true);
             startActivityForResult(intent, 0);
@@ -229,8 +253,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(navigationView);
             if (cbName.getText().equals(getResources().getString(R.string.siSignIn))) {
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                this.startActivityForResult(intent, 0);
+                startActivityForResult(intent, 0);
             }
+        } else if (v.getId() == R.id.ivCart) {
+            Intent intent = new Intent(HomeActivity.this, CartItemActivity.class);
+            intent.putExtra("ActivityName", getResources().getString(R.string.title_home));
+            startActivityForResult(intent, 0);
         }
     }
 
@@ -247,6 +275,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
                 SetUserName();
+                SaveCartDataInSharePreference();
+                SetCartNumber();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -310,6 +340,50 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         snackView.setBackgroundColor(ContextCompat.getColor(this, R.color.blue_grey));
         snackbar.show();
     }
+
+    private void SetCartNumber() {
+        if (Globals.counter > 0) {
+            txtCartNumber.setText(String.valueOf(Globals.counter));
+            txtCartNumber.setSoundEffectsEnabled(true);
+            txtCartNumber.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.cart_number));
+//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
+//            if (isShowMsg && itemName!=null) {
+//                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), HomeActivity.this, 3000);
+//            }
+        } else {
+            txtCartNumber.setBackgroundColor(ContextCompat.getColor(HomeActivity.this, android.R.color.transparent));
+        }
+    }
+
+    private void SaveCartDataInSharePreference() {
+        Gson gson = new Gson();
+        SharePreferenceManage objSharePreferenceManage;
+        List<ItemMaster> lstItemMaster;
+        try {
+            if (Globals.alOrderItemTran.size() == 0) {
+                objSharePreferenceManage = new SharePreferenceManage();
+                String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", HomeActivity.this);
+                if (string != null) {
+                    ItemMaster[] objItemMaster = gson.fromJson(string,
+                            ItemMaster[].class);
+
+                    lstItemMaster = Arrays.asList(objItemMaster);
+                    Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                    Globals.counter = Globals.alOrderItemTran.size();
+                } else {
+                    objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", HomeActivity.this);
+                    objSharePreferenceManage.ClearPreference("CheckOutDataPreference", HomeActivity.this);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            objSharePreferenceManage = null;
+            lstItemMaster = null;
+        }
+    }
+
 
     //endregion
 

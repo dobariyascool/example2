@@ -19,6 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/control_SpecingTiny"
             android:gravity="center"
             android:orientation="horizontal"
             tools:ignore="DisableBaselineAlignment">
@@ -158,17 +159,18 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/control_SpecingSmall"
         android:layout_weight="0.14"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/ivClose"
-            android:layout_width="28dp"
+            android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:paddingEnd="@dimen/control_SpecingTiny"
-            android:paddingStart="@dimen/control_SpecingTiny"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingEnd="0dp"
+            android:paddingStart="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingTiny"
             android:src="@drawable/cancel_drawable"
             tools:ignore="ContentDescription" />
 

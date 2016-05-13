@@ -55,6 +55,7 @@ public class ItemMaster implements Parcelable {
     String UserUpdatedBy;
     String linktoItemMasterIdModifiers;
     String linktoOptionMasterIds;
+    String OptionValue;
     int linktoOrderMasterId;
     int linktoOrderItemTranId;
     int Quantity;
@@ -598,6 +599,15 @@ public class ItemMaster implements Parcelable {
     public void setItemRemark(String itemRemark) {
         ItemRemark = itemRemark;
     }
+
+    public String getOptionValue() {
+        return OptionValue;
+    }
+
+    public void setOptionValue(String optionValue) {
+        OptionValue = optionValue;
+    }
+
     //endregion
 
     public int describeContents() {

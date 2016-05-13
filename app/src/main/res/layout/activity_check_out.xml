@@ -194,8 +194,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@+id/ivBusinessArea"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
-                                android:paddingStart="@dimen/control_SpecingSmall"
-                                android:text="@string/abBuildVersion" />
+                                android:paddingStart="@dimen/control_SpecingSmall" />
 
                             <com.rey.material.widget.ImageButton
                                 android:id="@+id/ibBusinessViewMore"
@@ -335,8 +334,7 @@
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@+id/ivAddress"
                             android:paddingEnd="@dimen/control_SpecingSmall"
-                            android:paddingStart="@dimen/control_SpecingSmall"
-                            android:text="@string/abBuildVersion" />
+                            android:paddingStart="@dimen/control_SpecingSmall" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtCity"
@@ -347,7 +345,6 @@
                             android:paddingEnd="@dimen/control_SpecingSmall"
                             android:paddingStart="@dimen/control_SpecingSmall"
                             android:paddingTop="@dimen/control_SpecingTiny"
-                            android:text="@string/coaCity"
                             android:visibility="visible" />
 
                         <com.rey.material.widget.TextView
@@ -359,7 +356,6 @@
                             android:paddingEnd="@dimen/control_SpecingSmall"
                             android:paddingStart="@dimen/control_SpecingSmall"
                             android:paddingTop="@dimen/control_SpecingTiny"
-                            android:text="@string/coaArea"
                             android:visibility="visible" />
 
                         <com.rey.material.widget.ImageButton

@@ -33,12 +33,13 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     boolean isDuplicate;
     String strItemName;
     ArrayList<ItemMaster> alOrderItemModifierTran = new ArrayList<>();
+    AddQtyRemarkDialogListener objAddQtyRemarkDialogListener;
+    double totalModifierAmount;
 
     public AddQtyRemarkDialogFragment(ItemMaster objItemMaster) {
         // Required empty public constructor
         this.objItemMaster = objItemMaster;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,20 +77,30 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnOk) {
-            dismiss();
-            SetOrderItem();
-            if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
-                MenuActivity menuActivity = (MenuActivity) getActivity();
-                menuActivity.SetCartItemResponse(strItemName);
-            } else if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))) {
-                WishListActivity wishListActivity = (WishListActivity) getActivity();
-                wishListActivity.SetCartItemResponse(strItemName);
-            } else {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("ShowMessage", true);
-                returnIntent.putExtra("ItemName", strItemName);
-                getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                getActivity().finish();
+            if(etQuantity.getText().toString().equals("0")){
+                etQuantity.setText("1");
+            }
+            if(getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_cart_item_fragment))){
+                UpdateOrderItem();
+                objAddQtyRemarkDialogListener = (AddQtyRemarkDialogListener)getTargetFragment();
+                objAddQtyRemarkDialogListener.AddQtyRemarkResponse(objItemMaster);
+                dismiss();
+            }else {
+                dismiss();
+                SetOrderItem();
+                if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
+                    MenuActivity menuActivity = (MenuActivity) getActivity();
+                    menuActivity.SetCartItemResponse(strItemName);
+                } else if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))) {
+                    WishListActivity wishListActivity = (WishListActivity) getActivity();
+                    wishListActivity.SetCartItemResponse(strItemName);
+                } else {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("ShowMessage", true);
+                    returnIntent.putExtra("ItemName", strItemName);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                    getActivity().finish();
+                }
             }
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
@@ -184,6 +195,110 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         }
     }
 
+    private void UpdateOrderItem() {
+        if (Integer.parseInt(etQuantity.getText().toString())  >  objItemMaster.getQuantity()) {
+            objItemMaster.setItemRemark(etRemark.getText().toString());
+            objItemMaster.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTotalAmount(objItemMaster.getTotalAmount() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTotalTax(objItemMaster.getTotalTax() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTax1(objItemMaster.getTax1() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTax2(objItemMaster.getTax2() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTax3(objItemMaster.getTax3() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTax4(objItemMaster.getTax3() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setTax5(objItemMaster.getTax3() * Integer.parseInt(etQuantity.getText().toString()));
+            objItemMaster.setSellPrice(objItemMaster.getSellPrice() * Integer.parseInt(etQuantity.getText().toString()));
+            UpdateOrderItemModifier(false);
+            if (alOrderItemModifierTran.size() != 0) {
+                objItemMaster.setAlOrderItemModifierTran(alOrderItemModifierTran);
+            }
+
+        } else {
+            objItemMaster.setItemRemark(etRemark.getText().toString());
+            objItemMaster.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
+            CountUpdateTax();
+            objItemMaster.setTotalTax(totalTax);
+            UpdateOrderItemModifier(true);
+            if (alOrderItemModifierTran.size() != 0) {
+                objItemMaster.setAlOrderItemModifierTran(alOrderItemModifierTran);
+            }
+            objItemMaster.setSellPrice(objItemMaster.getRate() * Integer.parseInt(etQuantity.getText().toString()));
+            if (alOrderItemModifierTran.size() != 0) {
+                objItemMaster.setTotalAmount((objItemMaster.getRate() + totalModifierAmount) * Integer.parseInt(etQuantity.getText().toString()));
+            }else{
+                objItemMaster.setTotalAmount(objItemMaster.getRate() * Integer.parseInt(etQuantity.getText().toString()));
+            }
+
+        }
+    }
+
+    private void UpdateOrderItemModifier(boolean isQtyMinus){
+        alOrderItemModifierTran = new ArrayList<>();
+        totalModifierAmount = 0;
+        if(isQtyMinus){
+            if (objItemMaster.getAlOrderItemModifierTran() != null && objItemMaster.getAlOrderItemModifierTran().size() != 0) {
+                for (ItemMaster objItemModifier : objItemMaster.getAlOrderItemModifierTran()) {
+                    ItemMaster objModifier = new ItemMaster();
+                    objModifier = objItemModifier;
+                    objModifier.setRate(objItemModifier.getRate());
+                    objModifier.setSellPrice(objItemModifier.getRate() * Integer.parseInt(etQuantity.getText().toString()));
+                    totalModifierAmount = totalModifierAmount + objModifier.getRate();
+                    alOrderItemModifierTran.add(objModifier);
+                }
+            }
+        }else {
+            if (objItemMaster.getAlOrderItemModifierTran() != null && objItemMaster.getAlOrderItemModifierTran().size() != 0) {
+                for (ItemMaster objItemModifier : objItemMaster.getAlOrderItemModifierTran()) {
+                    ItemMaster objModifier = new ItemMaster();
+                    objModifier = objItemModifier;
+                    objModifier.setRate(objItemModifier.getRate());
+                    objModifier.setSellPrice(objItemModifier.getSellPrice() * Integer.parseInt(etQuantity.getText().toString()));
+                    alOrderItemModifierTran.add(objModifier);
+                }
+            }
+        }
+    }
+
+    private void CountUpdateTax(){
+        totalTax = 0;
+        int cnt = 0;
+        double rate;
+        if (objItemMaster.getTax() != null && !objItemMaster.getTax().equals("")) {
+            ArrayList<String> alTax = new ArrayList<>(Arrays.asList(objItemMaster.getTax().split(",")));
+            for (String tax : alTax) {
+                if (objItemMaster.getTaxRate() == 0) {
+                        totalTax = totalTax + (Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100;
+                        if (cnt == 0) {
+                            objItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 1) {
+                            objItemMaster.setTax2((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 2) {
+                            objItemMaster.setTax3((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 3) {
+                            objItemMaster.setTax4((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                        } else {
+                            objItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate()) * Double.valueOf(tax) / 100);
+                        }
+                    } else {
+                        rate = objItemMaster.getRate() + objItemMaster.getTaxRate();
+                        totalTax = totalTax + ((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        if (cnt == 0) {
+                            objItemMaster.setTax1((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 1) {
+                            objItemMaster.setTax2((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 2) {
+                            objItemMaster.setTax3((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        } else if (cnt == 3) {
+                            objItemMaster.setTax4((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        } else {
+                            objItemMaster.setTax5((Integer.valueOf(etQuantity.getText().toString()) * rate) * Double.valueOf(tax) / 100);
+                        }
+                    }
+
+                cnt++;
+            }
+        }
+    }
+
     private void CountTax(ItemMaster objOrderItemMaster, boolean isDuplicate) {
         totalTax = 0;
         int cnt = 0;
@@ -255,6 +370,10 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                 cnt++;
             }
         }
+    }
+
+    public interface AddQtyRemarkDialogListener{
+        void AddQtyRemarkResponse(ItemMaster objItemMaster);
     }
 
     //endregion

@@ -310,7 +310,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         if (alOptionValue != null && alOptionValue.size() > 0) {
             for (OptionMaster objOptionMaster : alOptionValue) {
                 if (objOptionMaster.getOptionName() != null) {
-                    sbOptionValue.append(objOptionMaster.getOptionName()).append(",");
+                    sbOptionValue.append(objOptionMaster.getOptionName()).append(", ");
                 }
             }
         }
@@ -332,11 +332,13 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             if (etRemark.getText().toString().isEmpty()) {
                 if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(sbOptionValue.toString());
+                    objOrderItemTran.setOptionValue(sbOptionValue.toString());
                 }
             } else {
                 objOrderItemTran.setItemRemark(etRemark.getText().toString());
                 if (!sbOptionValue.toString().equals("")) {
-                    objOrderItemTran.setRemark(etRemark.getText().toString() + "," + sbOptionValue.toString());
+                    objOrderItemTran.setRemark(etRemark.getText().toString() + ", " + sbOptionValue.toString());
+                    objOrderItemTran.setOptionValue(sbOptionValue.toString());
                 }else{
                     objOrderItemTran.setRemark(etRemark.getText().toString());
                 }
@@ -372,11 +374,13 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 if (etRemark.getText().toString().isEmpty()) {
                     if (!sbOptionValue.toString().equals("")) {
                         objOrderItemTran.setRemark(sbOptionValue.toString());
+                        objOrderItemTran.setOptionValue(sbOptionValue.toString());
                     }
                 } else {
                     objOrderItemTran.setItemRemark(etRemark.getText().toString());
                     if (!sbOptionValue.toString().equals("")) {
-                        objOrderItemTran.setRemark(etRemark.getText().toString() + "," + sbOptionValue.toString());
+                        objOrderItemTran.setRemark(etRemark.getText().toString() + ", " + sbOptionValue.toString());
+                        objOrderItemTran.setOptionValue(sbOptionValue.toString());
                     }else{
                         objOrderItemTran.setRemark(etRemark.getText().toString());
                     }
