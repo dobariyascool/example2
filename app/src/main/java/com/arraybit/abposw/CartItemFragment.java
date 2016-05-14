@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -56,6 +57,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     String activityName;
     OrderMaster objOrderMaster;
     int position;
+    FrameLayout cartItemFragment;
 
 
     public CartItemFragment(String activityName) {
@@ -79,6 +81,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             app_bar.setTitle(getActivity().getResources().getString(R.string.title_cart_item_fragment));
         }
         //end
+
+        cartItemFragment = (FrameLayout)view.findViewById(R.id.cartItemFragment);
+        Globals.SetScaleImageBackground(getActivity(),null,null,cartItemFragment);
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
         txtHeaderRemark = (TextView) view.findViewById(R.id.txtHeaderRemark);
@@ -421,6 +426,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTaxName[i].setLayoutParams(txtTaxNameParams);
             txtTaxName[i].setGravity(Gravity.START);
             txtTaxName[i].setTextSize(9f);
+            txtTaxName[i].setTextColor(ContextCompat.getColor(getActivity(), R.color.grey));
 
             txtTaxRate[i] = new TextView(getActivity());
             LinearLayout.LayoutParams txtTaxRateParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -428,6 +434,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTaxName[i].setLayoutParams(txtTaxRateParams);
             txtTaxRate[i].setGravity(Gravity.END);
             txtTaxRate[i].setTextSize(9f);
+            txtTaxRate[i].setTextColor(ContextCompat.getColor(getActivity(), R.color.grey));
 
 
             if (alTaxMaster.get(i).getIsPercentage()) {

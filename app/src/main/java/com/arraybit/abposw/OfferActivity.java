@@ -45,6 +45,7 @@ public class OfferActivity extends AppCompatActivity implements OfferJSONParser.
         }
 
         CoordinatorLayout offerLayout = (CoordinatorLayout) findViewById(R.id.offerLayout);
+        Globals.SetScaleImageBackground(this, offerLayout);
 
         errorLayout = (LinearLayout) findViewById(R.id.error_layout);
 

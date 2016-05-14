@@ -1,6 +1,7 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,14 @@ public class SpinnerAdapter extends BaseAdapter {
 
     ArrayList<SpinnerItem> lstSpinnerItem;
     boolean isAlignCenter;
+    boolean isTextColorWhite;
 
-    public SpinnerAdapter(Context context, ArrayList<SpinnerItem> result, boolean isAlignCenter) {
+    public SpinnerAdapter(Context context, ArrayList<SpinnerItem> result, boolean isAlignCenter,boolean isTextColorWhite) {
         this.context = context;
         this.lstSpinnerItem = result;
         this.L_Inflater = LayoutInflater.from(context);
         this.isAlignCenter = isAlignCenter;
+        this.isTextColorWhite = isTextColorWhite;
     }
 
     @Override
@@ -55,6 +58,9 @@ public class SpinnerAdapter extends BaseAdapter {
         TextView txtview = (TextView) view1.findViewById(R.id.txtSpinnerItem);
         if(!isAlignCenter){
             txtview.setGravity(Gravity.START | Gravity.CENTER);
+        }
+        if(isTextColorWhite){
+         txtview.setTextColor(ContextCompat.getColor(context,R.color.white_blur));
         }
         txtview.setText(lstSpinnerItem.get(i).getText());
         return view1;

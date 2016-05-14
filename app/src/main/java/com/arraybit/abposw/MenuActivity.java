@@ -71,6 +71,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         }
 
         menuActivity = (CoordinatorLayout) findViewById(R.id.menuActivity);
+        Globals.SetScaleImageBackground(MenuActivity.this, menuActivity);
+
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);

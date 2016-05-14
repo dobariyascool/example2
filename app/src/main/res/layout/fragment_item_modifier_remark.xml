@@ -89,11 +89,13 @@
 
                 <com.rey.material.widget.ImageButton
                     android:id="@+id/ibMinus"
+                    style="@style/QtyPicker"
                     android:layout_width="40dp"
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
-                    android:background="@color/accentSecondaryColor"
-                    android:src="@drawable/minus_drawable" />
+                    android:background="@drawable/rounded_layout"
+                    android:src="@drawable/minus_drawable"
+                    android:tint="@color/colorPrimary" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etQuantity"
@@ -109,18 +111,20 @@
 
                 <com.rey.material.widget.ImageButton
                     android:id="@+id/ibPlus"
+                    style="@style/QtyPicker"
                     android:layout_width="40dp"
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/etQuantity"
-                    android:background="@color/accentSecondaryColor"
-                    android:src="@drawable/plus_drawable" />
+                    android:background="@drawable/rounded_layout"
+                    android:src="@drawable/plus_drawable"
+                    android:tint="@color/colorPrimary" />
 
                 <com.rey.material.widget.Button
                     android:id="@+id/btnAdd"
                     style="@style/Button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/button_TouchableHeight"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/control_SpecingLarge"
                     android:layout_toEndOf="@+id/ibPlus"

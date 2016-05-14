@@ -6,7 +6,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.os.Build;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,12 +21,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -246,6 +254,51 @@ public class Globals {
             }
         }
     }
+
+    public static void SetScaleImageBackground(final Context context, final LinearLayout linearLayout, final RelativeLayout relativeLayout, final FrameLayout frameLayout) {
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        Bitmap originalBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
+        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
+
+        if (relativeLayout != null) {
+            relativeLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        } else if (frameLayout != null) {
+            frameLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        } else if (linearLayout != null) {
+            linearLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        }
+    }
+
+    public static void SetScaleImageBackground(final Context context, final CoordinatorLayout coordinatorLayout) {
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        Bitmap originalBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
+        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
+
+        coordinatorLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+    }
+
+    public static void SetHomePageBackground(final Context context,final DrawerLayout drawerLayout,final LinearLayout linearLayout, final RelativeLayout relativeLayout, final FrameLayout frameLayout) {
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+        Bitmap originalBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.background);
+        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
+
+        if (relativeLayout != null) {
+            relativeLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        } else if (frameLayout != null) {
+            frameLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        } else if (linearLayout != null) {
+            linearLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        } else if (drawerLayout != null) {
+            drawerLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        }
+    }
+
 
     public static void ReplaceFragment(Fragment fragment, FragmentManager fragmentManager, String fragmentName, int layoutId) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -22,18 +22,19 @@
         <item name="cardElevation">@dimen/card_Elevation</item>
         <item name="android:layout_marginBottom">@dimen/control_SpecingSmall</item>
         <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
-        <item name="cardBackgroundColor">#8b000000</item>
+        <item name="cardBackgroundColor">#65000000</item>
+        <item name="android:foreground">@drawable/cardview_ripple_effect</item>
     </style>
 
     <style name="CardViewTransparent" parent="AppCompactCardView">
         <item name="android:layout_height">@dimen/card_MinimumHeight</item>
         <item name="cardCornerRadius">@dimen/card_CornerRadius</item>
         <item name="cardElevation">@dimen/card_Elevation</item>
-        <item name="cardBackgroundColor">@color/transparent_orange</item>
-        <item name="android:foreground">@drawable/category_item_ripple_effect</item>
+        <item name="cardBackgroundColor">@color/card_transparent_orange</item>
         <item name="android:layout_marginBottom">@dimen/control_SpecingSmall</item>
         <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
         <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+        <item name="android:foreground">@drawable/offer_ripple_effect</item>
     </style>
 
     <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">

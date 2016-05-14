@@ -55,10 +55,10 @@
 
             <com.rey.material.widget.ImageButton
                 android:id="@+id/ibMinus"
+                style="@style/QtyPicker"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
-                android:background="@color/accentSecondaryColor"
                 android:src="@drawable/minus_drawable" />
 
             <com.rey.material.widget.EditText
@@ -75,11 +75,11 @@
 
             <com.rey.material.widget.ImageButton
                 android:id="@+id/ibPlus"
+                style="@style/QtyPicker"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/etQuantity"
-                android:background="@color/accentSecondaryColor"
                 android:src="@drawable/plus_drawable" />
 
             <com.rey.material.widget.Button

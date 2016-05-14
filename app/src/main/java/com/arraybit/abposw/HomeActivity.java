@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,10 +70,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            //getSupportActionBar().setLogo(R.mipmap.app_logo);
+            getSupportActionBar().setLogo(R.mipmap.app_logo);
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        Globals.SetHomePageBackground(HomeActivity.this,drawerLayout,null,null,null);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
@@ -161,6 +163,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             System.exit(0);
         }
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
     }
 
     @Override

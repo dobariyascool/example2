@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
-    android:background="#edebeb"
+    android:background="@color/card_transparent_orange"
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:padding="@dimen/control_SpecingTiny">
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white"  />
 
                 <LinearLayout
                     android:id="@+id/modifierLayout"
@@ -54,7 +54,7 @@
                 android:layout_weight="0.15"
                 android:gravity="center"
                 android:maxLines="1"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white"  />
 
                 <LinearLayout
                     android:id="@+id/modifierRateLayout"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/white"  />
 
                 <LinearLayout
                     android:id="@+id/modifierAmountLayout"

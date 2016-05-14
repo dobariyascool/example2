@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -96,12 +97,16 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
+        //hide keyboard focus when activity open
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this) != null) {
             customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
         }
 
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
+        Globals.SetScaleImageBackground(CheckOutActivity.this,null,null,checkOutMainLayout);
 
         cvEditName = (CardView) findViewById(R.id.cvEditName);
         cvCityArea = (CardView) findViewById(R.id.cvCityArea);
@@ -537,7 +542,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             alOrderTime.add(0, objSpinnerItem);
 
-            SpinnerAdapter adapter = new SpinnerAdapter(CheckOutActivity.this, alOrderTime, true);
+            SpinnerAdapter adapter = new SpinnerAdapter(CheckOutActivity.this, alOrderTime, true,true);
             spOrderTime.setAdapter(adapter);
             isSelected = true;
         }
@@ -689,7 +694,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             ArrayList<SpinnerItem> alCity = new ArrayList<>();
             alCity.add(objSpinnerItem);
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true,true);
             spOrderCity.setAdapter(cityAdapter);
             isSelected = true;
         } else {
@@ -718,7 +723,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
                 cnt++;
             }
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true,true);
             spOrderCity.setAdapter(cityAdapter);
             isSelected = true;
         }

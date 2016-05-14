@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cartItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/offwhite"
     tools:context="com.arraybit.abposw.CartItemFragment">
 
     <include
@@ -48,7 +48,7 @@
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorAccentSecondary"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/control_SpecingTiny">
@@ -63,7 +63,7 @@
                 android:paddingStart="@dimen/control_SpecingTiny"
                 android:text="@string/cifItem"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/colorPrimary" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtHeaderNo"
@@ -73,7 +73,7 @@
                 android:gravity="center"
                 android:text="@string/cifQty"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/colorPrimary" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtHeaderRate"
@@ -83,7 +83,7 @@
                 android:gravity="center|end"
                 android:text="@string/cifRate"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/colorPrimary" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtHeaderAmount"
@@ -93,7 +93,7 @@
                 android:gravity="center|end"
                 android:text="@string/cifAmount"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/colorPrimary" />
 
             <com.rey.material.widget.TextView
                 android:layout_width="0dp"
@@ -154,7 +154,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/cifRemark"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/white_blur"
                                 android:textSize="@dimen/control_TextMedium" />
 
                             <ImageView
@@ -176,33 +176,10 @@
                                 android:gravity="end"
                                 android:text="@string/cifMinOrder"
                                 android:textAllCaps="false"
+                                android:textColor="@color/grey"
                                 android:textSize="@dimen/control_TextNormal" />
 
                         </RelativeLayout>
-
-                        <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="@dimen/control_SpecingTiny"-->
-                        <!--android:gravity="center_vertical"-->
-                        <!--android:orientation="horizontal">-->
-
-                        <!--<com.rey.material.widget.TextView-->
-                        <!--android:id="@+id/txtHeaderRemark"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/cifRemark"-->
-                        <!--android:textColor="@color/colorPrimary"-->
-                        <!--android:textSize="@dimen/control_TextMedium" />-->
-
-                        <!--<ImageView-->
-                        <!--android:id="@+id/ivRemark"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginStart="@dimen/control_SpecingSmall"-->
-                        <!--android:src="@drawable/edit_drawable"-->
-                        <!--tools:ignore="ContentDescription" />-->
-                        <!--</LinearLayout>-->
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtRemark"
@@ -230,7 +207,8 @@
                                 android:gravity="start"
                                 android:maxLines="1"
                                 android:text="@string/cifTotalAmount"
-                                android:textAllCaps="false" />
+                                android:textAllCaps="false"
+                                android:textColor="@color/grey"/>
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtTotalAmount"
@@ -240,7 +218,8 @@
                                 android:gravity="end"
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
-                                android:textAllCaps="false" />
+                                android:textAllCaps="false"
+                                android:textColor="@color/grey"/>
 
                         </LinearLayout>
 
@@ -259,7 +238,8 @@
                                 android:gravity="start"
                                 android:maxLines="1"
                                 android:text="@string/cifDiscount"
-                                android:textAllCaps="false" />
+                                android:textAllCaps="false"
+                                android:textColor="@color/grey"/>
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtTotalDiscount"
@@ -269,7 +249,8 @@
                                 android:gravity="end"
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
-                                android:textAllCaps="false" />
+                                android:textAllCaps="false"
+                                android:textColor="@color/grey" />
 
                         </LinearLayout>
 
@@ -295,6 +276,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifRounding"
                                 android:textAllCaps="false"
+                                android:textColor="@color/grey"
                                 android:textSize="9sp"
                                 tools:ignore="SmallSp" />
 
@@ -307,6 +289,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
                                 android:textAllCaps="false"
+                                android:textColor="@color/grey"
                                 android:textSize="9sp"
                                 tools:ignore="SmallSp" />
 
@@ -328,6 +311,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifNetAmount"
                                 android:textAllCaps="false"
+                                android:textColor="@color/white_blur"
                                 android:textStyle="bold" />
 
                             <com.rey.material.widget.TextView
@@ -339,6 +323,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
                                 android:textAllCaps="false"
+                                android:textColor="@color/white_blur"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -355,12 +340,13 @@
 
                 <com.rey.material.widget.Button
                     android:id="@+id/btnAddMore"
-                    style="@style/Button"
+                    style="@style/BorderButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/cifAddMore"
-                    tools:ignore="NestedWeights" />
+                    android:visibility="visible"
+                    tools:ignore="NestedWeights"/>
 
                 <com.rey.material.widget.Button
                     android:id="@+id/btnConfirmOrder"

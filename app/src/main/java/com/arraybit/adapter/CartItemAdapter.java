@@ -129,7 +129,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             txtModifierName[i].setLayoutParams(layoutParams);
             txtModifierName[i].setTextSize(12f);
-            txtModifierName[i].setTextColor(ContextCompat.getColor(context, R.color.secondary_text));
+            txtModifierName[i].setTextColor(ContextCompat.getColor(context,  R.color.grey));
             txtModifierName[i].setMaxLines(1);
             txtModifierName[i].setText(alOrderItemModifierTran.get(i).getItemName());
 
@@ -139,7 +139,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             txtModifierRate[i].setTextSize(12f);
             txtModifierRate[i].setGravity(Gravity.END);
             txtModifierRate[i].setMaxLines(1);
-            txtModifierRate[i].setTextColor(ContextCompat.getColor(context, R.color.secondary_text));
+            txtModifierRate[i].setTextColor(ContextCompat.getColor(context,  R.color.grey));
             txtModifierRate[i].setText(Globals.dfWithPrecision.format(alOrderItemModifierTran.get(i).getRate()));
 
             txtModifierAmount[i] = new TextView(context);
@@ -148,7 +148,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             txtModifierAmount[i].setTextSize(12f);
             txtModifierAmount[i].setGravity(Gravity.END);
             txtModifierAmount[i].setMaxLines(1);
-            txtModifierAmount[i].setTextColor(ContextCompat.getColor(context, R.color.secondary_text));
+            txtModifierAmount[i].setTextColor(ContextCompat.getColor(context,  R.color.grey));
             txtModifierAmount[i].setText(Globals.dfWithPrecision.format(alOrderItemModifierTran.get(i).getSellPrice()));
 
             holder.modifierLayout.addView(txtModifierName[i]);

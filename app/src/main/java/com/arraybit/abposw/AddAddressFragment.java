@@ -314,7 +314,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         objSpinnerItem.setValue(1);
         alCountryMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true);
+        SpinnerAdapter countryAdapter = new SpinnerAdapter(getActivity(), alCountryMaster, true,false);
         spCountry.setAdapter(countryAdapter);
     }
 
@@ -326,7 +326,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alStateMaster.add(0, objSpinnerItem);
 
-            SpinnerAdapter stateAdapter = new SpinnerAdapter(getActivity(), alStateMaster, true);
+            SpinnerAdapter stateAdapter = new SpinnerAdapter(getActivity(), alStateMaster, true,false);
             spState.setVisibility(View.VISIBLE);
             spState.setAdapter(stateAdapter);
         } else {
@@ -342,7 +342,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alCityMaster.add(0, objSpinnerItem);
 
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(getActivity(), alCityMaster, true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(getActivity(), alCityMaster, true,false);
             spCity.setVisibility(View.VISIBLE);
             spCity.setAdapter(cityAdapter);
         } else {
@@ -358,7 +358,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             alAreaMaster.add(0, objSpinnerItem);
 
-            SpinnerAdapter areaAdapter = new SpinnerAdapter(getActivity(), alAreaMaster, true);
+            SpinnerAdapter areaAdapter = new SpinnerAdapter(getActivity(), alAreaMaster, true,false);
             spArea.setVisibility(View.VISIBLE);
             spArea.setAdapter(areaAdapter);
         } else {

@@ -40,7 +40,7 @@
                     android:maxLines="1"
                     android:paddingEnd="@dimen/control_SpecingTiny"
                     android:paddingStart="0dp"
-                    android:textColor="@color/heading"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/control_TextMedium" />
 
                 <ImageView
@@ -89,7 +89,7 @@
                 android:maxLines="2"
                 android:textColor="@color/darkgoldenrod"
                 android:textSize="@dimen/control_TextSmall"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText,NestedWeights" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtItemDineOnly"
@@ -99,7 +99,7 @@
                 android:layout_weight="0.7"
                 android:maxLines="1"
                 android:text="@string/MsgDineOnly"
-                android:textColor="@color/secondary_text"
+                android:textColor="@color/disable_grey"
                 android:textSize="@dimen/control_TextTiny"
                 android:visibility="visible"
                 tools:ignore="HardcodedText" />
@@ -111,7 +111,7 @@
                 android:layout_marginBottom="@dimen/control_SpecingSmall"
                 android:layout_weight="1"
                 android:maxLines="1"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/control_TextMedium"
                 tools:ignore="HardcodedText" />
         </LinearLayout>

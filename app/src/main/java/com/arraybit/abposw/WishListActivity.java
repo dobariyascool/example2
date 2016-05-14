@@ -56,6 +56,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        LinearLayout wishListLayout = (LinearLayout)findViewById(R.id.wishListLayout);
+        Globals.SetScaleImageBackground(WishListActivity.this,wishListLayout,null,null);
+
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         rvWishItemMaster = (RecyclerView) findViewById(R.id.rvWishItemMaster);

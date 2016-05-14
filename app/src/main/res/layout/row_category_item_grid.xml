@@ -44,7 +44,7 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:textColor="@color/heading"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/control_TextMedium" />
 
                     <ImageView
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="@string/MsgDineOnly"
-                android:textColor="@color/secondary_text"
+                android:textColor="@color/disable_grey"
                 android:textSize="@dimen/control_TextTiny"
                 android:visibility="invisible"
                 tools:ignore="HardcodedText" />
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:maxLines="1"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/control_TextMedium"
                 tools:ignore="HardcodedText" />
 

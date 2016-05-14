@@ -87,7 +87,7 @@
                 android:paddingStart="@dimen/control_SpecingTiny"
                 android:text="@string/cifItem"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/control_TextTiny" />
 
             <com.rey.material.widget.TextView
@@ -98,7 +98,7 @@
                 android:gravity="center"
                 android:text="@string/cifQty"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/control_TextTiny" />
 
             <com.rey.material.widget.TextView
@@ -109,7 +109,7 @@
                 android:gravity="center|end"
                 android:text="@string/cifRate"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/control_TextTiny" />
 
             <com.rey.material.widget.TextView
@@ -122,7 +122,7 @@
                 android:paddingStart="0dp"
                 android:text="@string/cifAmount"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/control_TextTiny" />
         </LinearLayout>
         <LinearLayout

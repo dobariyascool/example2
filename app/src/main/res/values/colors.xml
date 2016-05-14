@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF331B17</color>
-    <color name="colorPrimaryDark">#FF120907</color>
-    <color name="colorPrimaryLight">#c7b2ad</color>
-    <color name="colorAccent">#FF66632D</color>
-    <color name="colorAccentDark">#FF5C5927</color>
-    <color name="colorAccentLight">#8b8632</color>
+    <color name="colorPrimary">#3f0b4b</color>
+    <color name="colorPrimaryDark">#2a0832</color>
+    <color name="colorPrimaryLight">#E1BEE7</color>
+    <color name="colorAccent">#FFC400</color>
+    <color name="colorAccentDark">#FFAB00</color>
+    <color name="colorAccentLight">#FFD740</color>
+    <color name="colorAccentEditLabel">#FFE29801</color>
+    <color name="colorAccentSecondary">#FFBB00</color>
     <color name="text_icons">#FFFFFF</color>
     <color name="facebook_button">#3b5998</color>
     <color name="googleplus_button">#d34836</color>
 
     <array name="colorArray">
-        <!--<item name="first">#FFBB00</item>-->
-        <item name="first">#FFA7A14A</item>
-        <!--<item name="second">#FF9800</item>-->
-        <item name="second">#AFA725</item>
-        <!--<item name="third">#FF6F00</item>-->
-        <item name="third">#BFB725</item>
+        <item name="first">#FFBB00</item>
+        <item name="second">#FF9800</item>
+        <item name="third">#FF6F00</item>
     </array>
     <color name="heading">#FF633611</color>
     <color name="error_text">#FF5252</color>
@@ -35,6 +34,10 @@
     <!--<color name="transparent_orange">#d6ceb8</color>-->
     <color name="transparent_orange">#d6ceb8</color>
     <color name="transparent_white">#60FFFFFF</color>
+    <color name="card_option_ripple_color">#55000000</color>
+    <color name="card_transparent_orange">#30FFA726</color>
+    <color name="grey">#AFAFAF</color>
+    <color name="disable_grey">#9e9d9d</color>
 
 
     <!--<color name="primary">#3f0b4b</color>-->
@@ -49,12 +52,12 @@
     <color name="addressColor">#99857e</color>
     <color name="rippleColor">#66999999</color>
     <color name="navigationdrawerText">#616161</color>
-    <color name="errorTextColor">#80180C02</color>
-    <color name="errorIconColor">#406E6A2E</color>
+    <color name="errorTextColor">#66999999</color>
+    <color name="errorIconColor">#43ffab00</color>
     <color name="transparentBrown">#cf3e2723</color>
     <color name="dimWhite">#c1c0c0</color>
     <color name="purple">#FF3F0B4B</color>
     <color name="accentSecondaryColor">#FFACAA8A</color>
-    <color name="snackBarActionColor">#ccc673</color>
-
+    <color name="snackBarActionColor">#FFAB00</color>
+    <color name="white_blur">#EFEBE9</color>
 </resources>

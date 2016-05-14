@@ -91,6 +91,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/control_SpecingTiny"
             android:layout_marginEnd="@dimen/control_SpecingTiny"
             android:layout_marginStart="@dimen/control_SpecingTiny"
             android:orientation="horizontal"

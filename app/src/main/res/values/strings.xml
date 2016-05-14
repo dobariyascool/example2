@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">abPOSW</string>
+    <string name="app_name">LikEat</string>
     <string name="action_settings">Settings</string>
     <string name="action_my_account">My Account</string>
     <string name="action_my_orders">My Orders</string>
@@ -26,7 +26,7 @@
     <string name="title_fragment_profile">Hotel Profile</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_add_booking_fragment">Add Booking</string>
-    <string name="title_add_address_fragment">Add Address</string>
+    <string name="title_add_address_fragment">Address</string>
     <string name="title_cart_item_fragment">Orders</string>
     <string name="title_item_modifier_remark">Add Detail</string>
     <string name="title_order_summary_fragment">Order Summary</string>
@@ -258,7 +258,8 @@
     <string name="cpNewPasssword">New Password</string>
     <string name="cpConfirmPassword">Confirm Password</string>
     <string name="cpChangePassword">Change Password</string>
-
+    //confirmation password does not match
+    <string name="cpPasswordMisMatch">Password mismatch</string>
     <!--end-->
 
     <!--Your Order-->
@@ -315,9 +316,9 @@
     <string name="yaArea">\u2013\u2013AREA\u2013\u2013</string>
     <string name="yaZip">Zip Code</string>
     <string name="yaMobileNum">Mobile Number</string>
-    <string name="yaAdd">Add Address</string>
-    <string name="yaEdit">Edit Address</string>
-    <string name="yaPrimary">Make this my default Address</string>
+    <string name="yaAdd">Add</string>
+    <string name="yaEdit">Update</string>
+    <string name="yaPrimary">Set as a default address</string>
     <string name="yaAddressType">Address Type</string>
     <string name="yaDefault">Default</string>
     <string name="yaValidZip">Valid Zip Code</string>
