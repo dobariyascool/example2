@@ -51,7 +51,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.txtItem.setText(objItemMaster.getItemName());
         holder.txtQty.setText(String.valueOf(objItemMaster.getQuantity()));
         holder.txtAmount.setText(String.valueOf(Globals.dfWithPrecision.format(objItemMaster.getSellPrice())));
-        holder.txtRate.setText(String.valueOf(Globals.dfWithPrecision.format(objItemMaster.getTax1())));
+        holder.txtRate.setText(String.valueOf(Globals.dfWithPrecision.format(objItemMaster.getRate())));
         if (!isModifierChanged) {
             RemoveModifierView(holder);
         }

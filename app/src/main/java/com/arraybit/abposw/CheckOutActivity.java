@@ -960,7 +960,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                             }
                         }
-                    }else{
+                    }else if(activityName==null){
                         if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId) {
                             objCheckOut = null;
                             objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
