@@ -33,6 +33,7 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
     }
 
 
+    @SuppressLint("ValidFragment")
     public ConfirmDialog(CheckOut objCheckOut, boolean isDeleteConfirm, String message) {
         // Required empty public constructor
         this.objCheckOut = objCheckOut;

@@ -46,13 +46,23 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
     public void onClick(View v) {
         if (v.getId() == R.id.btnDone) {
             strRemark = etRemark.getText().toString();
-            objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
-            objRemarkResponseListener.RemarkResponse();
+            if(getTargetFragment()!=null) {
+                objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
+                objRemarkResponseListener.RemarkResponse();
+            }else{
+                objRemarkResponseListener = (RemarkResponseListener) getActivity();
+                objRemarkResponseListener.RemarkResponse();
+            }
             dismiss();
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
-            objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
-            objRemarkResponseListener.RemarkResponse();
+            if(getTargetFragment()!=null) {
+                objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
+                objRemarkResponseListener.RemarkResponse();
+            }else{
+                objRemarkResponseListener = (RemarkResponseListener) getActivity();
+                objRemarkResponseListener.RemarkResponse();
+            }
         }
     }
 

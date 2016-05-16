@@ -73,19 +73,35 @@ public class OptionValueJSONParser
                     jsonArray = jsonObject.getJSONArray(SelectAllOptionValueTran + "Result");
                     if (jsonArray != null) {
                         ArrayList<OptionValueTran> alOptionValueTran = SetListPropertiesFromJSONArray(jsonArray);
-                        objOptionValueRequestListener = (OptionValueRequestListener)targetFragment;
-                        objOptionValueRequestListener.OptionValueResponse(alOptionValueTran);
+                        if(targetFragment==null){
+                            objOptionValueRequestListener = (OptionValueRequestListener)context;
+                            objOptionValueRequestListener.OptionValueResponse(alOptionValueTran);
+                        }else{
+                            objOptionValueRequestListener = (OptionValueRequestListener)targetFragment;
+                            objOptionValueRequestListener.OptionValueResponse(alOptionValueTran);
+                        }
+
                     }
                 } catch (Exception e) {
-                    objOptionValueRequestListener = (OptionValueRequestListener)targetFragment;
-                    objOptionValueRequestListener.OptionValueResponse(null);
+                    if (targetFragment == null) {
+                        objOptionValueRequestListener = (OptionValueRequestListener) context;
+                        objOptionValueRequestListener.OptionValueResponse(null);
+                    } else {
+                        objOptionValueRequestListener = (OptionValueRequestListener) targetFragment;
+                        objOptionValueRequestListener.OptionValueResponse(null);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objOptionValueRequestListener = (OptionValueRequestListener)targetFragment;
-                objOptionValueRequestListener.OptionValueResponse(null);
+                if (targetFragment == null) {
+                    objOptionValueRequestListener = (OptionValueRequestListener) context;
+                    objOptionValueRequestListener.OptionValueResponse(null);
+                } else {
+                    objOptionValueRequestListener = (OptionValueRequestListener) targetFragment;
+                    objOptionValueRequestListener.OptionValueResponse(null);
+                }
             }
 
         });

@@ -29,14 +29,13 @@ import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.ImageButton;
 import com.rey.material.widget.TextView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
-public class ItemModifierRemarkFragment extends Fragment implements OptionValueJSONParser.OptionValueRequestListener, View.OnClickListener, ItemJSONParser.ItemMasterRequestListener, ModifierAdapter.ModifierCheckedChangeListener {
+public class ItemModifierRemarkFragment extends Fragment implements OptionValueJSONParser.OptionValueRequestListener, View.OnClickListener, ItemJSONParser.ItemMasterRequestListener, ModifierAdapter.ModifierCheckedChangeListener,RemarkDialogFragment.RemarkResponseListener {
 
     public static ArrayList<OptionMaster> alOptionValue;
     RecyclerView rvOptionValue, rvModifier;
@@ -47,10 +46,10 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ArrayList<OptionValueTran> lstOptionValueTran;
     Button btnAdd;
     StringBuilder sbOptionValue;
-    TextView txtItemDescription, txtItemRate;
-    ImageView ivItem;
+    TextView txtItemDescription, txtItemRate,txtRemark;
+    ImageView ivItem,ivRemark;
     ImageButton ibMinus, ibPlus;
-    EditText etQuantity, etRemark;
+    EditText etQuantity;
     ArrayList<ItemMaster> alItemMasterModifier;
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
     boolean isDuplicate = false;
@@ -75,14 +74,19 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 app_bar.setElevation(getActivity().getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-        app_bar.setTitle(getResources().getString(R.string.title_item_modifier_remark));
+        if(objItemMaster!=null && objItemMaster.getItemName()!=null) {
+            ((AppCompatActivity) getActivity()).setTitle(objItemMaster.getItemName());
+        }else{
+            app_bar.setTitle(getResources().getString(R.string.title_item_modifier_remark));
+        }
 
         setHasOptionsMenu(true);
 
-        ivItem = (ImageView) view.findViewById(R.id.ivItem);
+        ivRemark = (ImageView) view.findViewById(R.id.ivRemark);
 
         txtItemDescription = (TextView) view.findViewById(R.id.txtItemDescription);
         txtItemRate = (TextView) view.findViewById(R.id.txtItemRate);
+        txtRemark = (TextView) view.findViewById(R.id.txtRemark);
 
         rvModifier = (RecyclerView) view.findViewById(R.id.rvModifier);
         rvOptionValue = (RecyclerView) view.findViewById(R.id.rvOptionValue);
@@ -91,7 +95,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         rvOptionValue.setVisibility(View.GONE);
 
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
-        etRemark = (EditText) view.findViewById(R.id.etRemark);
+
 
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
@@ -100,6 +104,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
+        ivRemark.setOnClickListener(this);
 
         SetDetail();
 
@@ -156,6 +161,22 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             returnIntent.putExtra("ItemName", strItemName);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
+        }else if (v.getId() == R.id.ivRemark) {
+            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment();
+            remarkDialogFragment.setTargetFragment(this,0);
+            remarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+        }
+    }
+
+
+    @Override
+    public void RemarkResponse() {
+        if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
+            txtRemark.setVisibility(View.VISIBLE);
+            txtRemark.setText(RemarkDialogFragment.strRemark);
+        } else {
+            txtRemark.setVisibility(View.GONE);
+            txtRemark.setText("");
         }
     }
 
@@ -215,12 +236,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     private void SetOptionValueRecyclerView(ArrayList<OptionValueTran> lstOptionValue) {
         if (lstOptionValue == null || lstOptionValue.size() == 0) {
-            progressDialog.dismiss();
             rvOptionValue.setVisibility(View.GONE);
         } else {
             rvOptionValue.setVisibility(View.VISIBLE);
             SetOptionMasterList(lstOptionValue);
-            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(), alOptionMaster));
+            rvOptionValue.setAdapter(new ItemOptionValueAdapter(getActivity(), alOptionMaster,false));
             rvOptionValue.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
     }
@@ -292,11 +312,6 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @SuppressLint("SetTextI18n")
     private void SetDetail() {
-        if (objItemMaster.getSm_ImagePhysicalName() == null || objItemMaster.getSm_ImagePhysicalName().equals("")) {
-            Picasso.with(ivItem.getContext()).load(R.drawable.default_image).into(ivItem);
-        } else {
-            Picasso.with(ivItem.getContext()).load(objItemMaster.getMd_ImagePhysicalName()).into(ivItem);
-        }
         if (objItemMaster.getShortDescription().equals("")) {
             txtItemDescription.setText(objItemMaster.getItemName());
         } else {
@@ -329,18 +344,18 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             CountTax(objOrderItemTran, isDuplicate);
             objOrderItemTran.setTotalTax(totalTax);
             SetItemRemark();
-            if (etRemark.getText().toString().isEmpty()) {
+            if (txtRemark.getText().toString().isEmpty()) {
                 if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(sbOptionValue.toString());
                     objOrderItemTran.setOptionValue(sbOptionValue.toString());
                 }
             } else {
-                objOrderItemTran.setItemRemark(etRemark.getText().toString());
+                objOrderItemTran.setItemRemark(txtRemark.getText().toString());
                 if (!sbOptionValue.toString().equals("")) {
-                    objOrderItemTran.setRemark(etRemark.getText().toString() + ", " + sbOptionValue.toString());
+                    objOrderItemTran.setRemark(txtRemark.getText().toString() + ", " + sbOptionValue.toString());
                     objOrderItemTran.setOptionValue(sbOptionValue.toString());
                 }else{
-                    objOrderItemTran.setRemark(etRemark.getText().toString());
+                    objOrderItemTran.setRemark(txtRemark.getText().toString());
                 }
             }
             if (alCheckedModifier.size() != 0) {
@@ -371,18 +386,18 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 objOrderItemTran.setTax(objItemMaster.getTax());
                 CountTax(objOrderItemTran, isDuplicate);
                 objOrderItemTran.setTotalTax(totalTax);
-                if (etRemark.getText().toString().isEmpty()) {
+                if (txtRemark.getText().toString().isEmpty()) {
                     if (!sbOptionValue.toString().equals("")) {
                         objOrderItemTran.setRemark(sbOptionValue.toString());
                         objOrderItemTran.setOptionValue(sbOptionValue.toString());
                     }
                 } else {
-                    objOrderItemTran.setItemRemark(etRemark.getText().toString());
+                    objOrderItemTran.setItemRemark(txtRemark.getText().toString());
                     if (!sbOptionValue.toString().equals("")) {
-                        objOrderItemTran.setRemark(etRemark.getText().toString() + ", " + sbOptionValue.toString());
+                        objOrderItemTran.setRemark(txtRemark.getText().toString() + ", " + sbOptionValue.toString());
                         objOrderItemTran.setOptionValue(sbOptionValue.toString());
                     }else{
-                        objOrderItemTran.setRemark(etRemark.getText().toString());
+                        objOrderItemTran.setRemark(txtRemark.getText().toString());
                     }
                 }
                 if (alCheckedModifier.size() != 0) {
@@ -423,10 +438,10 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         for (ItemMaster objFilterOrderItemTran : Globals.alOrderItemTran) {
             cnt = 0;
             cntModifier = 0;
-            if (etRemark.getText().toString().isEmpty()) {
+            if (txtRemark.getText().toString().isEmpty()) {
                 strOptionValue = sbOptionValue.toString();
             } else {
-                strOptionValue = sbOptionValue.toString() + etRemark.getText().toString();
+                strOptionValue = sbOptionValue.toString() + txtRemark.getText().toString();
             }
 
             if (!strOptionValue.equals("") && objFilterOrderItemTran.getRemark() != null) {

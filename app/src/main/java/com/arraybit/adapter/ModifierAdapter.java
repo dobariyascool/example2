@@ -1,5 +1,6 @@
 package com.arraybit.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class ModifierAdapter extends RecyclerView.Adapter<ModifierAdapter.Modifi
         return new ModifierViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ModifierViewHolder holder, int position) {
         ItemMaster objItemModifier = alItemModifier.get(position);
@@ -48,9 +50,6 @@ public class ModifierAdapter extends RecyclerView.Adapter<ModifierAdapter.Modifi
         }
         holder.chkModifier.setText(objItemModifier.getItemName());
         holder.txtRate.setText(view.getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemModifier.getMRP()));
-//        if (ModifierSelectionFragmentDialog.alFinalCheckedModifier.size() != 0) {
-//            CheckedModifier(objItemModifier, holder);
-//        }
     }
 
     @Override
@@ -58,14 +57,6 @@ public class ModifierAdapter extends RecyclerView.Adapter<ModifierAdapter.Modifi
         return alItemModifier.size();
     }
 
-    private void CheckedModifier(ItemMaster objItemMaster, ModifierViewHolder holder) {
-//        for (int i = 0; i < ModifierSelectionFragmentDialog.alFinalCheckedModifier.size(); i++) {
-//            if (objItemMaster.getItemMasterId() == ModifierSelectionFragmentDialog.alFinalCheckedModifier.get(i).getItemMasterId()) {
-//                holder.chkModifier.setChecked(true);
-//                break;
-//            }
-//        }
-    }
 
     public interface ModifierCheckedChangeListener {
         void ModifierCheckedChange(boolean isChecked, ItemMaster objItemModifier, boolean isDuplicate);

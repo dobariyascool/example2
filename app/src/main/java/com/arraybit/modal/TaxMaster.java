@@ -22,7 +22,7 @@ public class TaxMaster implements Parcelable {
     /// Extra
     double DefaultTaxRate;
     int linktoItemMasterId;
-    public static final Parcelable.Creator<TaxMaster> CREATOR = new Creator<TaxMaster>() {
+    public static final Creator<TaxMaster> CREATOR = new Creator<TaxMaster>() {
         public TaxMaster createFromParcel(Parcel source) {
             TaxMaster objTaxMaster = new TaxMaster();
             objTaxMaster.TaxMasterId = (short)source.readInt();

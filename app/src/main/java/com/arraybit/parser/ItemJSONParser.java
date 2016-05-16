@@ -276,7 +276,7 @@ public class ItemJSONParser {
         queue.add(jsonObjectRequest);
     }
 
-    public void SelectAllItemModifier(final Fragment targetFragment, Context context, String linktoItemMasterId, String linktoBusinessMasterId) {
+    public void SelectAllItemModifier(final Fragment targetFragment, final Context context, String linktoItemMasterId, String linktoBusinessMasterId) {
         String url = Service.Url + this.SelectAllItemModifier + "/" + linktoItemMasterId + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -287,19 +287,35 @@ public class ItemJSONParser {
                     jsonArray = jsonObject.getJSONArray(SelectAllItemModifier + "Result");
                     if (jsonArray != null) {
                         ArrayList<ItemMaster> alItemMaster = SetListPropertiesFromJSONArray(jsonArray);
-                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                        objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
+                        if (targetFragment == null) {
+                            objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
+                        } else {
+                            objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                            objItemMasterRequestListener.ItemMasterResponse(alItemMaster,false);
+                        }
+
                     }
                 } catch (Exception e) {
-                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                    objItemMasterRequestListener.ItemMasterResponse(null,false);
+                    if (targetFragment == null) {
+                        objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                        objItemMasterRequestListener.ItemMasterResponse(null, false);
+                    } else {
+                        objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                        objItemMasterRequestListener.ItemMasterResponse(null, false);
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
-                objItemMasterRequestListener.ItemMasterResponse(null,false);
+                if (targetFragment == null) {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) context;
+                    objItemMasterRequestListener.ItemMasterResponse(null, false);
+                } else {
+                    objItemMasterRequestListener = (ItemMasterRequestListener) targetFragment;
+                    objItemMasterRequestListener.ItemMasterResponse(null, false);
+                }
             }
 
         });

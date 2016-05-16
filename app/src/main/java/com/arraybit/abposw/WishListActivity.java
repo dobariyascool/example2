@@ -105,6 +105,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (id == android.R.id.home) {
             SaveCartDataInSharePreference(true);
             SaveWishListInSharePreference(true);
+            CheckOutActivity.isBackPressed = false;
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin", true);
             setResult(Activity.RESULT_OK, returnIntent);
@@ -117,6 +118,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
     public void onBackPressed() {
         SaveCartDataInSharePreference(true);
         SaveWishListInSharePreference(true);
+        CheckOutActivity.isBackPressed = false;
         Intent returnIntent = new Intent();
         returnIntent.putExtra("IsLogin", true);
         setResult(Activity.RESULT_OK, returnIntent);
@@ -336,7 +338,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                                 ItemMaster[].class);
 
                         lstItemMaster = Arrays.asList(objItemMaster);
-                        Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                        Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
                     }else{
                         objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", WishListActivity.this);
@@ -351,9 +353,6 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            objSharePreferenceManage = null;
-            lstItemMaster = null;
         }
     }
     //endregion

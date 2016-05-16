@@ -190,6 +190,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 //            if(errorLayout.isShown()){
 //                CheckOutActivity.objCheckOut = null;
 //            }
+            if(activityName !=null && activityName.equals(getResources().getString(R.string.title_home))){
+                CheckOutActivity.isBackPressed = false;
+            }
             SaveCartDataInSharePreference();
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);

@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +18,7 @@ import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CustomerAddressTran;
 
 import java.util.ArrayList;
-
+@SuppressLint("ValidFragment")
 public class AddressSelectorBottomDialog extends DialogFragment implements AddressSelectorAdapter.AddressSelectorListener {
 
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
@@ -25,6 +26,7 @@ public class AddressSelectorBottomDialog extends DialogFragment implements Addre
     AddressSelectorResponseListener objAddressSelectorResponseListener;
     AddressSelectorAdapter addressSelectorAdapter;
     ProgressDialog progressDialog = new ProgressDialog();
+
 
     public AddressSelectorBottomDialog(ArrayList<CustomerAddressTran> alCustomerAddressTran, ArrayList<BusinessMaster> alBusinessMaster) {
         this.alCustomerAddressTran = alCustomerAddressTran;

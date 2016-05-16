@@ -320,6 +320,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         i = 0;
         isViewChange = false;
         ItemAdapter.alWishItemMaster = new ArrayList<>();
+        CheckOutActivity.isBackPressed = false;
     }
 
     private void SetErrorLayout(boolean isShow, String errorMsg, int errorIcon) {
@@ -543,7 +544,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                                 ItemMaster[].class);
 
                         lstItemMaster = Arrays.asList(objItemMaster);
-                        Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                        Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
                     }else{
                         objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", MenuActivity.this);
@@ -558,9 +559,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            objSharePreferenceManage = null;
-            lstItemMaster = null;
         }
     }
 

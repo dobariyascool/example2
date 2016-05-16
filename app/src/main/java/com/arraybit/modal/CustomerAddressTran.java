@@ -29,7 +29,7 @@ public class CustomerAddressTran implements Parcelable {
     String City;
     String Area;
     String UserCreatedBy;
-    public static final Parcelable.Creator<CustomerAddressTran> CREATOR = new Creator<CustomerAddressTran>() {
+    public static final Creator<CustomerAddressTran> CREATOR = new Creator<CustomerAddressTran>() {
         public CustomerAddressTran createFromParcel(Parcel source) {
             CustomerAddressTran objCustomerAddressTran = new CustomerAddressTran();
             objCustomerAddressTran.CustomerAddressTranId = source.readInt();

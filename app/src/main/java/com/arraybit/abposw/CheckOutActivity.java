@@ -58,6 +58,7 @@ import java.util.Locale;
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
         OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener, BusinessJSONParser.BusinessRequestListener {
 
+    public static boolean isBackPressed = false;
     CheckOut objCheckOut;
     LinearLayout textLayout;
     TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay, txtBusinessAddress;
@@ -230,6 +231,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         spOrderTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               //((android.widget.TextView) view).setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
                 if (!isSelected) {
                     if (tbHomeDelivery.isChecked()) {
                         SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
@@ -347,6 +349,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (getSupportFragmentManager().getBackStackEntryCount() != 1) {
+                isBackPressed = true;
                 if (tbTakeAway.isChecked()) {
                     SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
                 } else if (tbHomeDelivery.isChecked()) {
@@ -387,6 +390,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
 
             } else if (v.getId() == R.id.btnViewOrder) {
+                isBackPressed = true;
                 if (tbTakeAway.isChecked()) {
                     SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
                 } else if (tbHomeDelivery.isChecked()) {
@@ -485,6 +489,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         } else {
+            isBackPressed = true;
             if (tbTakeAway.isChecked()) {
                 SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
             } else if (tbHomeDelivery.isChecked()) {
@@ -959,14 +964,14 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_home))){
                         if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_activity_wish_list)))
                         {
-                            if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId) {
+                            if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId && !isBackPressed) {
                                 objCheckOut = null;
                                 objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                             }
                         }
                     }else if(activityName==null){
-                        if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId) {
+                        if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId && !isBackPressed) {
                             objCheckOut = null;
                             objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                             objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);

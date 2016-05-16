@@ -40,6 +40,9 @@ public class CartItemActivity extends AppCompatActivity {
         returnIntent.putExtra("IsLogin", true);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
+        if(activityName !=null && activityName.equals(getResources().getString(R.string.title_home))){
+            CheckOutActivity.isBackPressed = false;
+        }
     }
 
     @Override
