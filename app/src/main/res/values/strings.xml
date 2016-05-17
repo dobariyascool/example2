@@ -38,6 +38,7 @@
     <string name="title_activity_my_order">YourOrderActivity</string>
     <string name="title_activity_contactus">Contact Us</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
+    <string name="title_activity_notification">Notification</string>
 
     <!-- Operation Message -->
     <string name="MsgValidation">Please correct the errors</string>
@@ -81,6 +82,7 @@
     <string name="MsgOfferCodeFailed">Offer Not Valid</string>
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <string name="MsgCartItemDelete">%s is deleted from the dish</string>
+    <string name="MsgNotification">There is no notification</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -223,6 +225,7 @@
     <string name="rfSubmit">Submit</string>
     <string name="rfClose">Close</string>
     <string name="rfReview">Write Review</string>
+    <string name="rfAverageReview">%s total</string>
     <!-- end -->
 
     <!-- OrderSummaryFragment -->

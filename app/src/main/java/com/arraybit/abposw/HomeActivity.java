@@ -81,12 +81,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         ImageView ivLogo = (ImageView) headerView.findViewById(R.id.ivLogo);
-        //ivLogo.setVisibility(View.GONE);
-        //TextView txtLetter = (TextView) headerView.findViewById(R.id.txtLetter);
-        //txtLetter.setText(objCustomerMaster.getCustomerName().substring(0, 1).toUpperCase());
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
-        //cbName.setText(objCustomerMaster.getEmail1());
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -128,6 +124,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
+            Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
+            startActivity(intent);
         } else if (item.getItemId() == R.id.hFeedback) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
@@ -151,7 +149,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
 
             }
-        } else if (item.getItemId() == R.id.hAboutUs) {
+        }
+        else if (item.getItemId() == R.id.hAboutUs) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
             startActivity(intent);

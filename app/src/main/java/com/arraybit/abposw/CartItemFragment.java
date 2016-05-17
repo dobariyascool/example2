@@ -43,7 +43,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
-    Button btnAddMore, btnConfirmOrder;
+    Button btnAddMore, btnConfirmOrder,btnDisableConfirmOrder;
     TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder;
     ImageView ivRemark;
     CompoundButton cbMenu;
@@ -111,6 +111,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
         btnAddMore = (Button) view.findViewById(R.id.btnAddMore);
         btnConfirmOrder = (Button) view.findViewById(R.id.btnConfirmOrder);
+        btnDisableConfirmOrder = (Button) view.findViewById(R.id.btnDisableConfirmOrder);
 
         SetRecyclerView();
 
@@ -404,9 +405,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtNetAmount.setText(Globals.dfWithPrecision.format(Math.round(netAmount)));
             txtRoundingOff.setText("- 0." + strNetAmount.substring(strNetAmount.lastIndexOf(".") + 1, strNetAmount.length()));
             if(totalAmount >= 300){
-                btnConfirmOrder.setEnabled(true);
+                btnConfirmOrder.setVisibility(View.VISIBLE);
+                btnDisableConfirmOrder.setVisibility(View.GONE);
             }else{
-                btnConfirmOrder.setEnabled(false);
+                btnConfirmOrder.setVisibility(View.GONE);
+                btnDisableConfirmOrder.setVisibility(View.VISIBLE);
             }
         }
     }

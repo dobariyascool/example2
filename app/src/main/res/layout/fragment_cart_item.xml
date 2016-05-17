@@ -168,6 +168,7 @@
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtMinOrder"
+                                style="@style/HighLightedTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -176,7 +177,7 @@
                                 android:gravity="end"
                                 android:text="@string/cifMinOrder"
                                 android:textAllCaps="false"
-                                android:textColor="@color/grey"
+                                android:textColor="@color/colorAccentEditLabel"
                                 android:textSize="@dimen/control_TextNormal" />
 
                         </RelativeLayout>
@@ -354,7 +355,18 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/cifConfirmOrder" />
+                    android:text="@string/cifConfirmOrder"
+                    android:visibility="gone"/>
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/btnDisableConfirmOrder"
+                    style="@style/DisableButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:text="@string/cifConfirmOrder"
+                    android:visibility="visible"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

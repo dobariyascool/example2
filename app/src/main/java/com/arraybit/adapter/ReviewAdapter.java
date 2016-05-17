@@ -1,6 +1,11 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +14,6 @@ import android.widget.RatingBar;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ReviewMaster;
-import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,14 +23,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     View view;
     Context context;
     ArrayList<ReviewMaster> alReviewMaster;
-    WriteReviewListener objWriteReviewListener;
+    ReviewListener objReviewListener;
     LayoutInflater layoutInflater;
+    double totalReview;
 
-    public ReviewAdapter(Context context, ArrayList<ReviewMaster> alReviewMaster, WriteReviewListener objWriteReviewListener) {
+    public ReviewAdapter(Context context, ArrayList<ReviewMaster> alReviewMaster, ReviewListener objReviewListener) {
         this.context = context;
         this.alReviewMaster = alReviewMaster;
         this.layoutInflater = LayoutInflater.from(context);
-        this.objWriteReviewListener = objWriteReviewListener;
+        this.objReviewListener = objReviewListener;
     }
 
     @Override
@@ -39,11 +44,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
         ReviewMaster objReviewMaster = alReviewMaster.get(position);
 
-        if (position == 0) {
-            holder.btnAddReview.setVisibility(View.VISIBLE);
-        } else {
-            holder.btnAddReview.setVisibility(View.GONE);
-        }
         holder.rtbReview.setRating((float) objReviewMaster.getStarRating());
         holder.txtReview.setText(objReviewMaster.getReview());
     }
@@ -51,6 +51,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void ReviewDataChanged(ArrayList<ReviewMaster> result) {
         alReviewMaster.addAll(result);
         notifyDataSetChanged();
+        SetAverageReview(alReviewMaster);
+    }
+
+    private void SetAverageReview(ArrayList<ReviewMaster> alReviewMaster){
+        totalReview = 0;
+        for(ReviewMaster reviewMaster : alReviewMaster){
+            totalReview = totalReview + reviewMaster.getStarRating();
+        }
+        totalReview = totalReview/5;
+        if(totalReview > 0) {
+            objReviewListener.AverageReview(String.valueOf(totalReview), String.valueOf(alReviewMaster.size()));
+        }
     }
 
     @Override
@@ -58,29 +70,33 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         return alReviewMaster.size();
     }
 
-    public interface WriteReviewListener {
-        void AddReview();
+    public interface ReviewListener {
+        void AverageReview(String average,String totalUser);
     }
 
     class ReviewViewHolder extends RecyclerView.ViewHolder {
 
         RatingBar rtbReview;
         TextView txtReview;
-        Button btnAddReview;
 
         public ReviewViewHolder(View itemView) {
             super(itemView);
 
             rtbReview = (RatingBar) itemView.findViewById(R.id.rtbReview);
             txtReview = (TextView) itemView.findViewById(R.id.txtReview);
-            btnAddReview = (Button) itemView.findViewById(R.id.btnAddReview);
 
-            btnAddReview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    objWriteReviewListener.AddReview();
-                }
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Drawable drawable = rtbReview.getProgressDrawable();
+                drawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
+                LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
+                stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+            } else {
+                //stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                Drawable drawable = rtbReview.getProgressDrawable();
+                drawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+            }
+
         }
     }
 }

@@ -42,7 +42,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn,txtHeaderRemark,txtRemark;
     RecyclerView rvSuggestedItem, rvModifier, rvOptionValue;
     Toolbar app_bar;
-    Button btnCancel, btnAdd, btnDisable;
+    Button  btnAdd, btnDisable;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -96,14 +96,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
         etQuantity = (EditText) findViewById(R.id.etQuantity);
 
-        //btnCancel = (Button) findViewById(R.id.btnCancel);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnDisable = (Button) findViewById(R.id.btnDisable);
 
         ibMinus = (ImageButton)findViewById(R.id.ibMinus);
         ibPlus = (ImageButton)findViewById(R.id.ibPlus);
 
-        //btnCancel.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
         ivRemark.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
@@ -560,7 +558,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 strOptionValue = sbOptionValue.toString() + txtRemark.getText().toString();
             }
 
-            if (!strOptionValue.equals("") && objFilterOrderItemTran.getRemark() != null) {
+            if (!strOptionValue.equals("") && (objFilterOrderItemTran.getRemark() != null && !objFilterOrderItemTran.getRemark().equals(""))) {
                 if (strOptionValue.subSequence(strOptionValue.length() - 1, strOptionValue.length()).toString().equals(",")) {
                     strNewRemark = String.valueOf(strOptionValue.subSequence(0, strOptionValue.length()) + " ").split(", ");
                 } else if (strOptionValue.subSequence(strOptionValue.length() - 1, strOptionValue.length()).toString().equals(" ")) {

@@ -77,13 +77,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             } else {
                 Picasso.with(holder.ivItem.getContext()).load(objItemMaster.getXs_ImagePhysicalName()).into(holder.ivItem);
             }
+            if (objItemMaster.getShortDescription().equals("")) {
+                holder.txtItemDescription.setVisibility(View.INVISIBLE);
+            } else {
+                holder.txtItemDescription.setVisibility(View.VISIBLE);
+                holder.txtItemDescription.setText(objItemMaster.getShortDescription());
+            }
         }
-        if (objItemMaster.getShortDescription().equals("")) {
-            holder.txtItemDescription.setVisibility(View.INVISIBLE);
-        } else {
-            holder.txtItemDescription.setVisibility(View.VISIBLE);
-            holder.txtItemDescription.setText(objItemMaster.getShortDescription());
-        }
+
         holder.txtItemPrice.setText(view.getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
 
         if (objItemMaster.getIsDineInOnly()) {
@@ -169,8 +170,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else if (MenuActivity.isViewChange) {
             if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
                 holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
-                if (objItemMaster.getItemName().length() > 10) {
-                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 10) + "...");
+                if (objItemMaster.getItemName().length() > 9) {
+                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 9) + "...");
                 } else {
                     holder.txtItemName.setText(objItemMaster.getItemName());
                 }

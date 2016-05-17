@@ -93,7 +93,8 @@
             android:text="Description"
             android:textColor="@color/darkgoldenrod"
             android:textSize="@dimen/control_TextSmall"
-            tools:ignore="HardcodedText" />
+            android:visibility="gone"
+            tools:ignore="HardcodedText"/>
 
         <com.rey.material.widget.TextView
             android:id="@+id/txtItemDineOnly"

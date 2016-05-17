@@ -1,52 +1,92 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.arraybit.abposw.ReviewFragment">
 
+    <RelativeLayout
+        android:id="@+id/reviewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/separator"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/control_SpecingTiny"
+        android:paddingEnd="@dimen/control_SpecingSmall"
+        android:paddingStart="0dp"
+        android:paddingTop="@dimen/control_SpecingTiny">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtAverage"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:background="@drawable/star_drawable"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
+
+        <RatingBar
+            android:id="@+id/rtbReview"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginTop="@dimen/control_SpecingSmall"
+            android:layout_toEndOf="@+id/txtAverage"
+            android:numStars="5"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingTop="@dimen/control_SpecingTiny"
+            android:rating="3"/>
+
+        <ImageView
+            android:id="@+id/ivPerson"
+            android:layout_width="20dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@+id/txtAverage"
+            android:layout_toEndOf="@+id/txtAverage"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingEnd="@dimen/control_SpecingTiny"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/control_SpecingTiny"
+            android:src="@drawable/user_drawable"
+            tools:ignore="ContentDescription" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txtAverage"
+            android:layout_toEndOf="@+id/ivPerson"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:text="@string/rfAverageReview"
+            android:textSize="12sp"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btnAddReview"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/rtbReview"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:padding="@dimen/control_SpecingSmall"
+            android:text="@string/rfReview" />
+
+    </RelativeLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/control_SpecingTiny"
         android:fillViewport="true"
         tools:ignore="HardcodedText">
 
-        <RelativeLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvReview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:background="@color/errorIconColor">-->
-
-        <!--<com.rey.material.widget.TextView-->
-            <!--android:id="@+id/txtAverage"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="@dimen/control_SpecingSmall"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:text="Average Review" />-->
-
-        <!--<com.rey.material.widget.Button-->
-            <!--android:id="@+id/btnAddReview"-->
-            <!--style="@style/Button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:padding="@dimen/control_SpecingSmall"-->
-            <!--android:text="@string/rfReview"-->
-            <!--android:layout_alignParentEnd="true"/>-->
-
-    <!--</RelativeLayout>-->
-</FrameLayout>
+</LinearLayout>
