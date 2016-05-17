@@ -300,7 +300,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
         alFromTime.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alFromTime, true,false);
+        SpinnerAdapter adapter = new SpinnerAdapter(getActivity(), alFromTime, true);
         spFromTime.setAdapter(adapter);
     }
 
@@ -314,7 +314,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         }
         alToTime.add(0, objSpinnerItem);
 
-        SpinnerAdapter toTimeadapter = new SpinnerAdapter(getActivity(), alToTime, true,false);
+        SpinnerAdapter toTimeadapter = new SpinnerAdapter(getActivity(), alToTime, true);
         spToTime.setAdapter(toTimeadapter);
     }
 

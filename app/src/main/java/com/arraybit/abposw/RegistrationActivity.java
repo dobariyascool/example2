@@ -326,7 +326,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         objSpinnerItem.setValue(1);
         alCountryMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCountryMaster, true,false);
+        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCountryMaster, true);
         spCountry.setAdapter(adapter);
     }
 
@@ -337,7 +337,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         alStateMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alStateMaster, true,false);
+        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alStateMaster, true);
         spState.setVisibility(View.VISIBLE);
         spState.setAdapter(adapter);
     }
@@ -349,7 +349,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         alCityMaster.add(0, objSpinnerItem);
 
-        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCityMaster, true,false);
+        SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alCityMaster, true);
         spCity.setVisibility(View.VISIBLE);
         spCity.setAdapter(adapter);
     }
@@ -362,7 +362,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
             alAreaMaster.add(0, objSpinnerItem);
 
-            SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alAreaMaster, true,false);
+            SpinnerAdapter adapter = new SpinnerAdapter(RegistrationActivity.this, alAreaMaster, true);
             spArea.setVisibility(View.VISIBLE);
             spArea.setAdapter(adapter);
         } else {

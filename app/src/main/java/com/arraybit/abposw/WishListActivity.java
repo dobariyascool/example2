@@ -340,6 +340,9 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                         lstItemMaster = Arrays.asList(objItemMaster);
                         Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
+                        if(objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",WishListActivity.this)!=null){
+                            RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",WishListActivity.this);
+                        }
                     }else{
                         objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", WishListActivity.this);
                         objSharePreferenceManage.ClearPreference("CheckOutDataPreference",  WishListActivity.this);

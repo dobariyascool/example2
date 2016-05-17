@@ -546,10 +546,14 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         lstItemMaster = Arrays.asList(objItemMaster);
                         Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
                         Globals.counter = Globals.alOrderItemTran.size();
+                        if(objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",MenuActivity.this)!=null){
+                            RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",MenuActivity.this);
+                        }
                     }else{
                         objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", MenuActivity.this);
                         objSharePreferenceManage.ClearPreference("CheckOutDataPreference",  MenuActivity.this);
                     }
+
                 }
 
             } else {

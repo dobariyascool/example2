@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
@@ -134,6 +136,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         etOfferCode = (EditText) findViewById(R.id.etOfferCode);
         etOrderDate = (EditText) findViewById(R.id.etOrderDate);
+        etOrderDate.setInputType(InputType.TYPE_NULL);
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
         etBusinessName = (EditText) findViewById(R.id.etBusinessName);
@@ -231,7 +234,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         spOrderTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               //((android.widget.TextView) view).setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
+                TextView spinnerText = (TextView) view.findViewById(R.id.txtSpinnerItem);
+                if(spinnerText!=null) {
+                    spinnerText.setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
+                }
                 if (!isSelected) {
                     if (tbHomeDelivery.isChecked()) {
                         SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
@@ -252,6 +258,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         spOrderCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView spinnerText = (TextView) view.findViewById(R.id.txtSpinnerItem);
+                if(spinnerText!=null) {
+                    spinnerText.setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
+                }
                 if (!isSelected) {
                     if (Service.CheckNet(CheckOutActivity.this)) {
                         isCityFilter = true;
@@ -367,6 +377,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             if (v.getId() == R.id.cbGetPromoCode) {
                 cbGetPromoCode.setVisibility(View.GONE);
                 etOfferCode.setVisibility(View.VISIBLE);
+                btnApply.setSelected(true);
                 btnApply.setVisibility(View.VISIBLE);
             } else if (v.getId() == R.id.btnApply) {
                 snackFocus = v;
@@ -547,7 +558,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             alOrderTime.add(0, objSpinnerItem);
 
-            SpinnerAdapter adapter = new SpinnerAdapter(CheckOutActivity.this, alOrderTime, true,true);
+            SpinnerAdapter adapter = new SpinnerAdapter(CheckOutActivity.this, alOrderTime, true);
             spOrderTime.setAdapter(adapter);
             isSelected = true;
         }
@@ -617,6 +628,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (objCheckOut.getObjOfferMaster() != null) {
                     cbGetPromoCode.setVisibility(View.GONE);
                     etOfferCode.setVisibility(View.VISIBLE);
+                    btnApply.setSelected(true);
                     btnApply.setVisibility(View.VISIBLE);
                     etOfferCode.setText(objCheckOut.getObjOfferMaster().getOfferCode());
                 } else {
@@ -669,6 +681,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (objCheckOut.getObjOfferMaster() != null) {
                     cbGetPromoCode.setVisibility(View.GONE);
                     etOfferCode.setVisibility(View.VISIBLE);
+                    btnApply.setSelected(true);
                     btnApply.setVisibility(View.VISIBLE);
                     etOfferCode.setText(objCheckOut.getObjOfferMaster().getOfferCode());
                 } else {
@@ -699,7 +712,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             ArrayList<SpinnerItem> alCity = new ArrayList<>();
             alCity.add(objSpinnerItem);
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true,true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
             spOrderCity.setAdapter(cityAdapter);
             isSelected = true;
         } else {
@@ -728,7 +741,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
                 cnt++;
             }
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true,true);
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
             spOrderCity.setAdapter(cityAdapter);
             isSelected = true;
         }
@@ -910,6 +923,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 Globals.ClearCartData();
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.RemovePreference("CartItemListPreference", "CartItemList", CheckOutActivity.this);
+                objSharePreferenceManage.RemovePreference("CartItemListPreference", "OrderRemark", CheckOutActivity.this);
                 objSharePreferenceManage.ClearPreference("CartItemListPreference", CheckOutActivity.this);
                 objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);

@@ -378,6 +378,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     lstItemMaster = Arrays.asList(objItemMaster);
                     Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
                     Globals.counter = Globals.alOrderItemTran.size();
+                    if(objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",HomeActivity.this)!=null){
+                        RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",HomeActivity.this);
+                    }
                 } else {
                     objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", HomeActivity.this);
                     objSharePreferenceManage.ClearPreference("CheckOutDataPreference", HomeActivity.this);

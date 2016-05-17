@@ -162,7 +162,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
         }else if (v.getId() == R.id.ivRemark) {
-            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment();
+            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.setTargetFragment(this,0);
             remarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
@@ -170,10 +170,10 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
 
     @Override
-    public void RemarkResponse() {
-        if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
+    public void RemarkResponse(String strRemark) {
+        if (strRemark != null && !strRemark.equals("")) {
             txtRemark.setVisibility(View.VISIBLE);
-            txtRemark.setText(RemarkDialogFragment.strRemark);
+            txtRemark.setText(strRemark);
         } else {
             txtRemark.setVisibility(View.GONE);
             txtRemark.setText("");

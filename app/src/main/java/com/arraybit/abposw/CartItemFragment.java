@@ -130,6 +130,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnAddMore) {
+            objSharePreferenceManage = new SharePreferenceManage();
+            objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
@@ -244,7 +246,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void RemarkResponse() {
+    public void RemarkResponse(String strRemark) {
         if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
             txtRemark.setVisibility(View.VISIBLE);
             txtRemark.setText(RemarkDialogFragment.strRemark);
@@ -282,6 +284,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         if (Globals.alOrderItemTran.size() == 0) {
             //txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
+            RemarkDialogFragment.strRemark = null;
             SetVisibility();
 
         } else {
@@ -538,6 +541,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 objSharePreferenceManage = new SharePreferenceManage();
                 String string = gson.toJson(Globals.alOrderItemTran);
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, getActivity());
+                objSharePreferenceManage.CreatePreference("CartItemListPreference","OrderRemark",RemarkDialogFragment.strRemark,getActivity());
             }
         } catch (Exception e) {
             e.printStackTrace();

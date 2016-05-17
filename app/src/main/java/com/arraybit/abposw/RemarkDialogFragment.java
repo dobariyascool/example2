@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,17 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
     public static String strRemark;
     EditText etRemark;
     Button btnCancel, btnDone;
+    String remark;
     RemarkResponseListener objRemarkResponseListener;
 
     public RemarkDialogFragment() {
         // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public RemarkDialogFragment(String strRemark) {
+        // Required empty public constructor
+        this.remark = strRemark;
     }
 
     @Override
@@ -28,10 +36,14 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         etRemark = (EditText) view.findViewById(R.id.etRemark);
-        if (strRemark != null) {
-            etRemark.setText(strRemark);
-        } else {
-            etRemark.setText("");
+        if(remark==null) {
+            if (strRemark != null) {
+                etRemark.setText(strRemark);
+            } else {
+                etRemark.setText("");
+            }
+        }else{
+            etRemark.setText(remark);
         }
 
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
@@ -45,28 +57,23 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnDone) {
-            strRemark = etRemark.getText().toString();
+            if(remark==null) {
+                strRemark = etRemark.getText().toString();
+            }
             if(getTargetFragment()!=null) {
                 objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
-                objRemarkResponseListener.RemarkResponse();
+                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString());
             }else{
                 objRemarkResponseListener = (RemarkResponseListener) getActivity();
-                objRemarkResponseListener.RemarkResponse();
+                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString());
             }
             dismiss();
         } else if (v.getId() == R.id.btnCancel) {
             dismiss();
-            if(getTargetFragment()!=null) {
-                objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
-                objRemarkResponseListener.RemarkResponse();
-            }else{
-                objRemarkResponseListener = (RemarkResponseListener) getActivity();
-                objRemarkResponseListener.RemarkResponse();
-            }
         }
     }
 
     public interface RemarkResponseListener {
-        void RemarkResponse();
+        void RemarkResponse(String strRemark);
     }
 }

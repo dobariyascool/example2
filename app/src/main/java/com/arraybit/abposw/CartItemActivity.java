@@ -75,6 +75,7 @@ public class CartItemActivity extends AppCompatActivity {
                 objSharePreferenceManage = new SharePreferenceManage();
                 String string = gson.toJson(Globals.alOrderItemTran);
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, CartItemActivity.this);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference","OrderRemark",RemarkDialogFragment.strRemark,CartItemActivity.this);
             }
         } catch (Exception e) {
             e.printStackTrace();

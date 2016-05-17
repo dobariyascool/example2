@@ -152,7 +152,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 //                Globals.ReplaceFragment(new ItemModifierRemarkFragment(objItemMaster), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
 //            }
         }else if (v.getId() == R.id.ivRemark) {
-            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment();
+            RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.show(getSupportFragmentManager(), "");
         }else if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
@@ -233,10 +233,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     }
 
     @Override
-    public void RemarkResponse() {
-        if (RemarkDialogFragment.strRemark != null && !RemarkDialogFragment.strRemark.equals("")) {
+    public void RemarkResponse(String strRemark) {
+        if (strRemark != null && !strRemark.equals("")) {
             txtRemark.setVisibility(View.VISIBLE);
-            txtRemark.setText(RemarkDialogFragment.strRemark);
+            txtRemark.setText(strRemark);
         } else {
             txtRemark.setVisibility(View.GONE);
             txtRemark.setText("");
