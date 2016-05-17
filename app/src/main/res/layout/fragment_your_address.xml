@@ -19,7 +19,7 @@
 
         <include
             android:id="@+id/errorLayout"
-            layout="@layout/error_layout"
+            layout="@layout/error_layout_with_white_background"
             android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView

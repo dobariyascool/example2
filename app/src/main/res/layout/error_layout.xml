@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/control_SpecingSmall"
         android:text="@string/MsgNoRecord"
-        android:textColor="@color/errorTextColor"
+        android:textColor="@color/grey"
         android:textSize="@dimen/control_TextMedium" />
 </LinearLayout>
