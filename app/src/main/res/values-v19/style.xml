@@ -50,19 +50,30 @@
         <item name="android:layout_marginEnd">2dp</item>
         <item name="android:foreground">@drawable/offer_ripple_effect</item>
     </style>
-    <style name="FloatingMiniButton" parent="FloatingActionButton">
-        <item name="fab_colorNormal">@color/orange</item>
-        <item name="rd_rippleColor">@color/orange_light</item>
-        <item name="fab_size">mini</item>
-        <item name="fab_colorPressed">@color/orange</item>
+
+    <style name="FloatingMiniButton" parent="FloatingButtonDesignSupport">
+        <item name="rippleColor">@color/orange_light</item>
+        <item name="fabSize">mini</item>
         <item name="android:src">@drawable/edit_drawable</item>
-        <item name="android:layout_marginTop">162dp</item>
+        <item name="android:layout_marginTop">162dp</item>-->
         <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
+        <item name="backgroundTint">@color/orange</item>
+        <item name="pressedTranslationZ">12dp</item>//show shadow when pressed
     </style>
+    <!--<style name="FloatingMiniButton" parent="FloatingActionButton">-->
+    <!--<item name="fab_colorNormal">@color/orange</item>-->
+    <!--<item name="rd_rippleColor">@color/orange_light</item>-->
+    <!--<item name="fab_size">mini</item>-->
+    <!--<item name="fab_colorPressed">@color/orange</item>-->
+    <!--<item name="android:src">@drawable/edit_drawable</item>-->
+    <!--<item name="android:layout_marginTop">162dp</item>-->
+    <!--<item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>-->
+    <!--</style>-->
     <style name="FloatingButton" parent="FloatingButtonDesignSupport">
-        <item name="rippleColor">@color/colorAccentDark</item>
+        <item name="rippleColor">@color/orange_light</item>
         <item name="fabSize">normal</item>
-        <item name="android:background">@color/colorAccent</item>
+        <item name="backgroundTint">@color/orange</item>
         <item name="android:layout_margin">@dimen/control_SpecingSmall</item>
+        <item name="pressedTranslationZ">12dp</item>
     </style>
 </resources>

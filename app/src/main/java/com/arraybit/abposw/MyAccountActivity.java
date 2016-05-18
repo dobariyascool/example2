@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,10 +21,11 @@ import android.view.View;
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
-import com.github.clans.fab.FloatingActionButton;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
+
+//import com.github.clans.fab.FloatingActionButton;
 
 public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener, UserProfileFragment.UpdateResponseListener {
 

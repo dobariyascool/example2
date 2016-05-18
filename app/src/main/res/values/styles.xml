@@ -33,13 +33,13 @@
         <item name="android:textSize">@dimen/control_TextMedium</item>
     </style>
 
-    <style name="FloatingMiniButton" parent="FloatingActionButton">
-        <item name="fab_colorNormal">@color/orange</item>
-        <item name="rd_rippleColor">@color/orange_light</item>
-        <item name="fab_size">mini</item>
-        <item name="fab_colorPressed">@color/orange</item>
-        <item name="android:src">@drawable/edit_drawable</item>
-    </style>
+    <!--<style name="FloatingMiniButton" parent="FloatingActionButton">-->
+        <!--<item name="fab_colorNormal">@color/orange</item>-->
+        <!--<item name="rd_rippleColor">@color/orange_light</item>-->
+        <!--<item name="fab_size">mini</item>-->
+        <!--<item name="fab_colorPressed">@color/orange</item>-->
+        <!--<item name="android:src">@drawable/edit_drawable</item>-->
+    <!--</style>-->
 
     <style name="QtyPicker">
         <item name="android:tint">@color/colorPrimary</item>
@@ -76,17 +76,17 @@
         <!--<item name="android:fontFamily">Roboto-Regular</item>-->
     </style>
 
-    <style name="EditDeletePopup" parent="@style/Widget.AppCompat.Light.PopupMenu">
-        <item name="android:background">@color/offwhite</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/control_TextSmall</item>
-        <item name="android:padding">0dp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">150dp</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Body2</item>
-        <!--<item name="android:fontFamily">Roboto-Regular</item>-->
-    </style>
+    <!--<style name="EditDeletePopup" parent="@style/Widget.AppCompat.Light.PopupMenu">-->
+        <!--<item name="android:background">@color/offwhite</item>-->
+        <!--<item name="android:textColor">@android:color/black</item>-->
+        <!--<item name="android:textSize">@dimen/control_TextSmall</item>-->
+        <!--<item name="android:padding">0dp</item>-->
+        <!--<item name="android:layout_width">0dp</item>-->
+        <!--<item name="android:layout_height">150dp</item>-->
+        <!--<item name="android:layout_marginEnd">8dp</item>-->
+        <!--<item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Body2</item>-->
+        <!--&lt;!&ndash;<item name="android:fontFamily">Roboto-Regular</item>&ndash;&gt;-->
+    <!--</style>-->
 
     <style name="EditTextToogleButton">
         <item name="android:layout_height">@dimen/tbutton_Height</item>

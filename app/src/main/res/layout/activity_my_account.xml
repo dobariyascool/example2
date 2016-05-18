@@ -60,12 +60,13 @@
             android:paddingBottom="@dimen/control_SpecingTiny"
             android:paddingTop="@dimen/control_SpecingTiny" />
 
-        <com.github.clans.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabEdit"
             style="@style/FloatingMiniButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:tint="@android:color/white"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>

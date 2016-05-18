@@ -3,9 +3,7 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
@@ -25,7 +24,6 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.ReviewMaster;
 import com.arraybit.parser.ReviewJSONParser;
-import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,9 +40,9 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     boolean isPause,isDataAppend;
     double totalReview;
     RelativeLayout reviewLayout;
-    TextView txtAverage,txtTotal;
+    TextView txtAverage,txtTotal,txtHeaderReview;
     RatingBar rtbReview;
-    Button btnAddReview;
+    ImageView ivReview;
 
     public ReviewFragment(BusinessMaster objBusinessMaster) {
         this.objBusinessMaster = objBusinessMaster;
@@ -58,26 +56,18 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
         txtAverage = (TextView)view.findViewById(R.id.txtAverage);
         txtTotal = (TextView)view.findViewById(R.id.txtTotal);
+        txtHeaderReview = (TextView)view.findViewById(R.id.txtHeaderReview);
 
         rtbReview =(RatingBar)view.findViewById(R.id.rtbReview);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Drawable drawable = rtbReview.getProgressDrawable();
-            drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-
-            LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-        } else {
-            //stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-            Drawable drawable = rtbReview.getProgressDrawable();
-            drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-        }
+        LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
         rvReview = (RecyclerView) view.findViewById(R.id.rvReview);
         rvReview.setNestedScrollingEnabled(false);
         rvReview.setVisibility(View.GONE);
 
-        btnAddReview = (Button)view.findViewById(R.id.btnAddReview);
+        ivReview = (ImageView)view.findViewById(R.id.ivReview);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -109,7 +99,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             }
         });
 
-        btnAddReview.setOnClickListener(new View.OnClickListener() {
+        ivReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
@@ -190,9 +180,8 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             adapter = new ReviewAdapter(getActivity(), alReviewMaster, this);
             rvReview.setAdapter(adapter);
             rvReview.setLayoutManager(linearLayoutManager);
-            if(!isDataAppend){
+            if(isDataAppend){
                 SetAverageReview(alReviewMaster);
-            }else{
                 isDataAppend = false;
             }
         }
@@ -203,8 +192,8 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
         for(ReviewMaster reviewMaster : alReviewMaster){
             totalReview = totalReview + reviewMaster.getStarRating();
         }
-        totalReview = totalReview/5;
-        txtAverage.setText(String.valueOf(totalReview));
+        totalReview = totalReview/alReviewMaster.size();
+        txtAverage.setText(Globals.dfWithOnePrecision.format(totalReview));
         txtTotal.setText(String.format(getActivity().getString(R.string.rfAverageReview), alReviewMaster.size()));
         rtbReview.setRating((float) totalReview);
     }

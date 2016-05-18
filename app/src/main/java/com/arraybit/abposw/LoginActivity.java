@@ -219,10 +219,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if(objCustomerMaster.getPhone1()!=null && !objCustomerMaster.getPhone1().equals("")) {
                 objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
             }
-            //Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-            //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //i.putExtra("CustomerMaster", objCustomerMaster);
-            //startActivity(i);
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin", true);
             returnIntent.putExtra("IsShowMessage", true);

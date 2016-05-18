@@ -50,7 +50,7 @@
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
+                            android:layout_height="38dp"
                             android:layout_margin="@dimen/control_SpecingSmall"
                             android:background="@drawable/toggle_drawable">
 
@@ -206,7 +206,7 @@
                             <com.rey.material.widget.ImageButton
                                 android:id="@+id/ibBusinessViewMore"
                                 android:layout_width="50dp"
-                                android:layout_height="35dp"
+                                android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_below="@+id/txtBusinessAddress"
                                 android:layout_marginTop="@dimen/control_SpecingSmall"
@@ -375,7 +375,7 @@
                         <com.rey.material.widget.ImageButton
                             android:id="@+id/ibViewMore"
                             android:layout_width="50dp"
-                            android:layout_height="35dp"
+                            android:layout_height="30dp"
                             android:layout_alignParentBottom="true"
                             android:layout_below="@+id/txtArea"
                             android:layout_toStartOf="@+id/ibAdd"
@@ -386,7 +386,7 @@
                         <com.rey.material.widget.ImageButton
                             android:id="@+id/ibAdd"
                             android:layout_width="50dp"
-                            android:layout_height="35dp"
+                            android:layout_height="30dp"
                             android:layout_alignParentEnd="true"
                             android:layout_below="@+id/txtArea"
                             android:layout_marginStart="@dimen/control_SpecingTiny"
@@ -419,9 +419,11 @@
 
                         <com.rey.material.widget.EditText
                             android:id="@+id/etOfferCode"
-                            android:layout_width="300dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:layout_marginEnd="@dimen/control_SpecingMedium"
+                            android:layout_marginStart="@dimen/control_SpecingMedium"
                             android:background="@drawable/toggle_drawable"
                             android:padding="@dimen/control_SpecingSmall"
                             android:textColor="@color/white_blur"

@@ -23,7 +23,7 @@
             android:layout_height="50dp"
             android:background="@drawable/star_drawable"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp"/>
 
         <RatingBar
@@ -62,17 +62,27 @@
             android:text="@string/rfAverageReview"
             android:textSize="12sp"/>
 
-        <com.rey.material.widget.Button
-            android:id="@+id/btnAddReview"
-            style="@style/Button"
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtHeaderReview"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignEnd="@+id/rtbReview"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="end"
-            android:padding="@dimen/control_SpecingSmall"
-            android:text="@string/rfReview" />
+            android:layout_marginEnd="30dp"
+            android:layout_toEndOf="@+id/txtTotal"
+            android:gravity="end"
+            android:text="@string/rfReview"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/control_TextMedium"/>
+
+        <ImageView
+            android:id="@+id/ivReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/edit_drawable"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 

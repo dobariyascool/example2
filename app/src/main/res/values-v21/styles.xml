@@ -78,26 +78,38 @@
     <style name="ButtonStyle" parent="Button" />
 
     <style name="FloatingButton" parent="FloatingButtonDesignSupport">
-        <item name="rippleColor">@color/colorAccentDark</item>
+        <item name="rippleColor">@color/orange_light</item>
         <item name="fabSize">normal</item>
-        <item name="android:background">@color/colorAccent</item>
+        <item name="backgroundTint">@color/orange</item>
         <item name="android:elevation">@dimen/snackbar_elevation</item>
         <item name="android:layout_margin">@dimen/control_SpecingMedium</item>
+        <item name="pressedTranslationZ">12dp</item>
     </style>
 
-    <style name="FloatingMiniButton" parent="FloatingActionButton">
-        <item name="fab_colorNormal">@color/orange</item>
-        <item name="rd_rippleColor">@color/orange_light</item>
-        <item name="fab_size">mini</item>
-        <item name="fab_colorPressed">@color/orange</item>
+    <style name="FloatingMiniButton" parent="FloatingButtonDesignSupport">
+        <item name="rippleColor">@color/orange_light</item>
+        <item name="fabSize">mini</item>
         <item name="android:src">@drawable/edit</item>
         <item name="android:elevation">8dp</item>
         <item name="android:layout_marginTop">170dp</item>
-        <item name="fab_showShadow">true</item>
         <item name="android:layout_marginEnd">@dimen/control_SpecingMedium</item>
-        <!--<item name="fab_shadowColor">#66000000</item>-->
-        <!--<item name="fab_shadowRadius">4dp</item>-->
-        <!--<item name="fab_shadowXOffset">1dp</item>-->
-        <!--<item name="fab_shadowYOffset">3dp</item>-->
+        <item name="backgroundTint">@color/orange</item>
+        <item name="pressedTranslationZ">12dp</item>//show shadow when pressed
     </style>
+
+    <!--<style name="FloatingMiniButton" parent="FloatingActionButton">-->
+    <!--<item name="fab_colorNormal">@color/orange</item>-->
+    <!--<item name="rd_rippleColor">@color/orange_light</item>-->
+    <!--<item name="fab_size">mini</item>-->
+    <!--<item name="fab_colorPressed">@color/orange</item>-->
+    <!--<item name="android:src">@drawable/edit</item>-->
+    <!--<item name="android:elevation">8dp</item>-->
+    <!--<item name="android:layout_marginTop">170dp</item>-->
+    <!--<item name="fab_showShadow">true</item>-->
+    <!--<item name="android:layout_marginEnd">@dimen/control_SpecingMedium</item>-->
+    <!--&lt;!&ndash;<item name="fab_shadowColor">#66000000</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="fab_shadowRadius">4dp</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="fab_shadowXOffset">1dp</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="fab_shadowYOffset">3dp</item>&ndash;&gt;-->
+    <!--</style>-->
 </resources>

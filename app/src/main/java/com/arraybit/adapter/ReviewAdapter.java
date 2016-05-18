@@ -2,9 +2,7 @@ package com.arraybit.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 
 import com.arraybit.abposw.R;
+import com.arraybit.global.Globals;
 import com.arraybit.modal.ReviewMaster;
 import com.rey.material.widget.TextView;
 
@@ -59,9 +58,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         for(ReviewMaster reviewMaster : alReviewMaster){
             totalReview = totalReview + reviewMaster.getStarRating();
         }
-        totalReview = totalReview/5;
+        totalReview = totalReview/alReviewMaster.size();
         if(totalReview > 0) {
-            objReviewListener.AverageReview(String.valueOf(totalReview), String.valueOf(alReviewMaster.size()));
+            objReviewListener.AverageReview(Globals.dfWithOnePrecision.format(totalReview), String.valueOf(alReviewMaster.size()));
         }
     }
 
@@ -85,18 +84,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             rtbReview = (RatingBar) itemView.findViewById(R.id.rtbReview);
             txtReview = (TextView) itemView.findViewById(R.id.txtReview);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Drawable drawable = rtbReview.getProgressDrawable();
-                drawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-
-                LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
-                stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-            } else {
-                //stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-                Drawable drawable = rtbReview.getProgressDrawable();
-                drawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-            }
-
+            LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
+            //2 means fullyselected,1 means partiallyselected,0 means notselected
+            stars.getDrawable(2).setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         }
     }
 }

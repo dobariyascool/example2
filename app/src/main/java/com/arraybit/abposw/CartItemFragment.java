@@ -407,9 +407,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             if(totalAmount >= 300){
                 btnConfirmOrder.setVisibility(View.VISIBLE);
                 btnDisableConfirmOrder.setVisibility(View.GONE);
+                txtMinOrder.setVisibility(View.INVISIBLE);
             }else{
                 btnConfirmOrder.setVisibility(View.GONE);
                 btnDisableConfirmOrder.setVisibility(View.VISIBLE);
+                txtMinOrder.setVisibility(View.VISIBLE);
             }
         }
     }

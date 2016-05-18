@@ -59,6 +59,7 @@ public class Globals {
     public static short linktoSourceMasterId = 4;
     public static short linktoOrderTypeMasterId = 0;
     public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
+    public static DecimalFormat dfWithOnePrecision = new DecimalFormat("0.0");
     public static int counter = 0;
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
@@ -121,6 +122,12 @@ public class Globals {
         }
         dp.hide();
         dp.show();
+    }
+
+    public static double CalculateAverageRating(double totalReview){
+        //Sum of (weight * number of reviews at that weight) / total number of reviews
+        //double review = (5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 1 * 33)/totalReview;
+        return  (5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 33)/totalReview;
     }
 
     public static void ShowTimePickerDialog(final EditText txtView, final Context context, final boolean IsPreventPastTimeRequest) {

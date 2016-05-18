@@ -27,9 +27,9 @@ public class BusinessServiceJSONParser {
         try {
             if (jsonObject != null) {
                 objBusinessServiceTran = new BusinessServiceTran();
-                objBusinessServiceTran.setBusinessServiceTran((short)jsonObject.getInt("BusinessServiceTranId"));
-                objBusinessServiceTran.setlinktoServiceMasterId((short)jsonObject.getInt("linktoServiceMasterId"));
-                objBusinessServiceTran.setlinktoBusinessMasterId((short)jsonObject.getInt("linktoBusinessMasterId"));
+                objBusinessServiceTran.setBusinessServiceTran((short) jsonObject.getInt("BusinessServiceTranId"));
+                objBusinessServiceTran.setlinktoServiceMasterId((short) jsonObject.getInt("linktoServiceMasterId"));
+                objBusinessServiceTran.setlinktoBusinessMasterId((short) jsonObject.getInt("linktoBusinessMasterId"));
 
                 /// Extra
                 objBusinessServiceTran.setService(jsonObject.getString("ServiceName"));
@@ -48,14 +48,15 @@ public class BusinessServiceJSONParser {
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 objBusinessServiceTran = new BusinessServiceTran();
-                objBusinessServiceTran.setBusinessServiceTran((short)jsonArray.getJSONObject(i).getInt("BusinessServiceTranId"));
-                objBusinessServiceTran.setlinktoServiceMasterId((short)jsonArray.getJSONObject(i).getInt("linktoServiceMasterId"));
-                objBusinessServiceTran.setlinktoBusinessMasterId((short)jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
+                objBusinessServiceTran.setBusinessServiceTran((short) jsonArray.getJSONObject(i).getInt("BusinessServiceTranId"));
+                objBusinessServiceTran.setlinktoServiceMasterId((short) jsonArray.getJSONObject(i).getInt("linktoServiceMasterId"));
+                objBusinessServiceTran.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
 
                 /// Extra
                 objBusinessServiceTran.setService(jsonArray.getJSONObject(i).getString("ServiceName"));
                 objBusinessServiceTran.setImageName(jsonArray.getJSONObject(i).getString("ImageName"));
                 objBusinessServiceTran.setXSImagePhysicalName(jsonArray.getJSONObject(i).getString("xs_ImagePhysicalName"));
+                objBusinessServiceTran.setIsSelected(jsonArray.getJSONObject(i).getBoolean("IsSelected"));
                 lstBusinessServiceTran.add(objBusinessServiceTran);
             }
             return lstBusinessServiceTran;
@@ -64,8 +65,8 @@ public class BusinessServiceJSONParser {
         }
     }
 
-    public void SelectAllBusinessService(final Context context, final Fragment targetFragment,String linktoBusinessMasterId) {
-        String url = Service.Url + this.SelectAllBusinessServiceTran + "/" + linktoBusinessMasterId;
+    public void SelectAllBusinessService(final Context context, final Fragment targetFragment, String linktoBusinessTypeMasterId, String linktoBusinessMasterId) {
+        String url = Service.Url + this.SelectAllBusinessServiceTran + "/" + linktoBusinessTypeMasterId + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override

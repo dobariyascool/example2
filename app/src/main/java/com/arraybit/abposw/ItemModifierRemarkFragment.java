@@ -441,7 +441,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             if (txtRemark.getText().toString().isEmpty()) {
                 strOptionValue = sbOptionValue.toString();
             } else {
-                strOptionValue = sbOptionValue.toString() + txtRemark.getText().toString();
+                if(sbOptionValue.toString() !=null && !sbOptionValue.toString().equals("")) {
+                    strOptionValue = sbOptionValue.toString() + txtRemark.getText().toString();
+                }else{
+                    strOptionValue = txtRemark.getText().toString();
+                }
             }
 
             if (!strOptionValue.equals("") && objFilterOrderItemTran.getRemark() != null) {
@@ -486,7 +490,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                             }
                         }
                     }
-                    if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals(""))))) {
+                    if (cntModifier == alCheckedModifier.size() && ((strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt) || (strOptionValue.equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals(""))))) {
                         isDuplicate = true;
                         strItemName = objItemMaster.getItemName();
                         objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
@@ -502,7 +506,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                         CountTax(objFilterOrderItemTran, isDuplicate);
                         objFilterOrderItemTran.setTotalTax(objFilterOrderItemTran.getTotalTax() + totalTax);
                         break;
-                    } else if (sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0) {
+                    } else if (strOptionValue.equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0) {
                         isDuplicate = true;
                         strItemName = objItemMaster.getItemName();
                         objFilterOrderItemTran.setSellPrice(objFilterOrderItemTran.getSellPrice() + Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
@@ -522,7 +526,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 }
             } else {
                 if ((objItemMaster.getItemMasterId() == objFilterOrderItemTran.getItemMasterId())
-                        && ((sbOptionValue.toString().equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && alCheckedModifier.size() == 0 && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0)
+                        && ((strOptionValue.equals("") && (objFilterOrderItemTran.getRemark() == null || objFilterOrderItemTran.getRemark().equals("")) && alCheckedModifier.size() == 0 && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0)
                         || (strNewRemark.length != 0 && cnt != 0 && strNewRemark.length == cnt && alCheckedModifier.size() == 0 && objFilterOrderItemTran.getAlOrderItemModifierTran().size() == 0))) {
                     isDuplicate = true;
                     strItemName = objItemMaster.getItemName();

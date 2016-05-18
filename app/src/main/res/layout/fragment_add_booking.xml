@@ -139,7 +139,9 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:hint="@string/ybRemark" />
+            android:hint="@string/ybRemark"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout

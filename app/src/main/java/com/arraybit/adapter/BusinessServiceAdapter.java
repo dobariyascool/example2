@@ -1,6 +1,7 @@
 package com.arraybit.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,16 @@ public class BusinessServiceAdapter extends RecyclerView.Adapter<BusinessService
         if(objBusinessServiceTran.getXSImagePhysicalName()!=null){
             Picasso.with(context).load(objBusinessServiceTran.getXSImagePhysicalName()).into(holder.ivService);
         }
+        if(objBusinessServiceTran.getIsSelected()){
+            holder.txtService.setEnabled(true);
+            holder.ivService.setEnabled(true);
+            holder.ivService.setColorFilter(ContextCompat.getColor(context, R.color.secondary_text));
+        }else{
+            holder.txtService.setEnabled(false);
+            holder.ivService.setEnabled(false);
+            holder.ivService.setColorFilter(ContextCompat.getColor(context, R.color.dimWhite));
+        }
+
     }
 
     @Override

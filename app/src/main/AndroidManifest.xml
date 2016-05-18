@@ -23,6 +23,7 @@
         android:icon="@mipmap/app_logo_likeat"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -32,6 +33,7 @@
         <activity
             android:name=".ContactUsActivity"
             android:label="@string/title_activity_contact_us"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
             <!-- <intent-filter> -->
@@ -41,8 +43,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -51,16 +53,16 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegistrationActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_registration" />
+            android:label="@string/title_activity_registration"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SplashScreenActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,57 +71,68 @@
         </activity>
         <activity
             android:name=".OfferActivity"
-            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_offer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".HotelProfileActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_hotel_profile" />
+            android:label="@string/title_activity_hotel_profile"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CartItemActivity"
             android:label="@string/title_cart_item_fragment"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ItemModifierRemarkActivity"
             android:label="@string/title_item_modifier_remark"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_detail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".MyAccountActivity"
             android:label="@string/title_activity_my_account"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".BookingActivity"
             android:label="@string/title_activity_booking"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".AboutUsActivity"
             android:label="@string/title_activity_about_us"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".WishListActivity"
             android:label="@string/title_activity_wish_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!-- <uses-library android:name="com.google.android.maps" /> -->
         <activity
             android:name=".MyOrderActivity"
             android:label="@string/title_activity_my_order"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!-- <meta-data -->
@@ -135,6 +148,7 @@
         <activity
             android:name=".CheckOutActivity"
             android:label="@string/title_activity_check_out"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -147,7 +161,8 @@
         <activity
             android:name=".NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

@@ -109,7 +109,6 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
         if (objBusinessMaster == null) {
             Globals.ShowSnackBar(hotelProfileFragment, getResources().getString(R.string.MsgSelectFail), HotelProfileActivity.this, 1000);
         } else {
-
             Glide.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).asBitmap().override(150, 150).centerCrop().into(new BitmapImageViewTarget(ivLogo) {
                 @Override
                 protected void setResource(Bitmap resource) {

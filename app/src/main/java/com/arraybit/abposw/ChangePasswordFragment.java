@@ -138,6 +138,8 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
                 break;
             default:
                 Globals.ShowSnackBar(view, getResources().getString(R.string.MsgUpdatePassword), getActivity(), 1000);
+                objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etNewPassword.getText().toString(), getActivity());
                 ClearControls();
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;

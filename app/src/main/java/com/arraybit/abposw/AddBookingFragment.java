@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -180,8 +181,20 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         });
 
         btnBookTable.setOnClickListener(this);
+
+        etRemark.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Globals.HideKeyBoard(getActivity(), v);
+                }
+                return false;
+            }
+        });
+
         return view;
     }
+
 
     public void ShowDateTimePicker(int id) {
         if (id == R.id.etBookingDate) {
@@ -262,6 +275,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         progressDialog.dismiss();
         SetError(errorCode);
     }
+
 
     @Override
     public void TimeSlotsResponse(ArrayList<SpinnerItem> alTimeSlot) {

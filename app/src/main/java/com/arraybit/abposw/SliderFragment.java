@@ -40,7 +40,7 @@ public class SliderFragment extends Fragment {
             assert url != null;
             if (!url.equals("")) {
                 ivSliderImage.setTag(id);
-                Picasso.with(getActivity()).load(url).fit().into(ivSliderImage);
+                Picasso.with(getActivity()).load(url).into(ivSliderImage);
             }
         }
 

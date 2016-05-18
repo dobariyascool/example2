@@ -12,6 +12,7 @@ public class BusinessServiceTran implements Parcelable {
     /// Extra
     String ServiceName;
     String ImageName;
+    boolean IsSelected;
     public static final Parcelable.Creator<BusinessServiceTran> CREATOR = new Creator<BusinessServiceTran>() {
         public BusinessServiceTran createFromParcel(Parcel source) {
             BusinessServiceTran objBusinessServiceTran = new BusinessServiceTran();
@@ -22,6 +23,7 @@ public class BusinessServiceTran implements Parcelable {
             /// Extra
             objBusinessServiceTran.ServiceName = source.readString();
             objBusinessServiceTran.ImageName = source.readString();
+            objBusinessServiceTran.IsSelected = source.readByte() != 0;
             return objBusinessServiceTran;
         }
 
@@ -79,6 +81,13 @@ public class BusinessServiceTran implements Parcelable {
     public void setXSImagePhysicalName(String xsImagePhysicalName) {
         this.XSImagePhysicalName = xsImagePhysicalName;
     }
+    public boolean getIsSelected() {
+        return IsSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        IsSelected = isSelected;
+    }
 
     //endregion
 
@@ -96,5 +105,6 @@ public class BusinessServiceTran implements Parcelable {
         parcel.writeString(ServiceName);
         parcel.writeString(ImageName);
         parcel.writeString(XSImagePhysicalName);
+        parcel.writeByte((byte)(IsSelected ? 1 : 0));
     }
 }

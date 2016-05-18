@@ -3,10 +3,10 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -57,6 +57,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     boolean isLogin;
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
+    boolean doubleBackToExitPressedOnce;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,12 +165,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         return false;
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
-    }
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -232,6 +229,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivityForResult(intent, 0);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Globals.ShowSnackBar(drawerLayout,getResources().getString(R.string.HoBackMsg),HomeActivity.this,1000);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     @Override

@@ -123,7 +123,7 @@ public class InformationFragment extends Fragment implements BusinessHoursJSONPa
     private void RequestBusinessServices(){
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
         BusinessServiceJSONParser objBusinessServiceJSONParser = new BusinessServiceJSONParser();
-        objBusinessServiceJSONParser.SelectAllBusinessService(getActivity(), this, String.valueOf(Globals.linktoBusinessMasterId));
+        objBusinessServiceJSONParser.SelectAllBusinessService(getActivity(), this,String.valueOf(Globals.linktoBusinessTypeMasterId),String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private void SetWorkingHoursRecyclerView(ArrayList<BusinessHoursTran> lstBusinessHoursTran) {

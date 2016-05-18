@@ -165,6 +165,7 @@
     <string name="navExit">Exit</string>
     <string name="navOpen">Open</string>
     <string name="navClose">Close</string>
+    <string name="HoBackMsg">Please click BACK again to exit.</string>
     <!-- end -->
 
     <!-- row_workinghours-->
@@ -321,7 +322,7 @@
     <string name="yaMobileNum">Mobile Number</string>
     <string name="yaAdd">Add</string>
     <string name="yaEdit">Update</string>
-    <string name="yaPrimary">Set as a default address</string>
+    <string name="yaPrimary">Set as default address</string>
     <string name="yaAddressType">Address Type</string>
     <string name="yaDefault">Default</string>
     <string name="yaValidZip">Valid Zip Code</string>
