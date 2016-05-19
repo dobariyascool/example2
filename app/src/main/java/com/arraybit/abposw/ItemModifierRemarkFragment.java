@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +53,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     EditText etQuantity;
     ArrayList<ItemMaster> alItemMasterModifier;
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
-    boolean isDuplicate = false;
+    boolean isDuplicate = false,isKeyClick = false;
     double totalAmount, totalModifierAmount, totalTax;
 
     public ItemModifierRemarkFragment(ItemMaster objItemMaster) {
@@ -95,6 +96,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         rvOptionValue.setVisibility(View.GONE);
 
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
+        etQuantity.setSelectAllOnFocus(true);
 
 
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
@@ -114,6 +116,30 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         } else {
             Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
+
+        etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    etQuantity.setSelectAllOnFocus(true);
+                }
+            }
+        });
+
+        etQuantity.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        isKeyClick = false;
+                        Globals.HideKeyBoard(getActivity(), v);
+                    } else {
+                        isKeyClick = true;
+                    }
+                }
+                return false;
+            }
+        });
 
         return view;
     }
@@ -139,6 +165,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @Override
     public void onClick(View v) {
+        Globals.HideKeyBoard(getActivity(), v);
         if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
                 etQuantity.setText("1");
@@ -154,6 +181,9 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             }
             etQuantity.requestFocus();
         } else if (v.getId() == R.id.btnAdd) {
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            }
             SetOrderItemModifierTran();
             SetOrderItem();
             Intent returnIntent = new Intent();
@@ -205,6 +235,15 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                     break;
                 }
             }
+        }
+    }
+
+    public void SetEditClickEvent(){
+        if (!isKeyClick) {
+            etQuantity.clearFocus();
+            etQuantity.requestFocus();
+        } else {
+            isKeyClick = false;
         }
     }
 

@@ -360,12 +360,12 @@ public class Globals {
     }
 
     public enum OptionValue {
-        Veg(7),
-        NonVeg(6),
-        Spice(3),
-        Jain(5),
-        Sweet(34),
-        DoubleSpicy(43);
+        Veg(4),
+        NonVeg(5),
+        Jain(6),
+        Spicy(1),
+        Sweet(3),
+        DoubleSpicy(2);
 
 
         private int intValue;

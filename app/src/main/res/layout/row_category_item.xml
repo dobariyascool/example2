@@ -78,6 +78,14 @@
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />
 
+                <ImageView
+                    android:id="@+id/ivNonVeg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/nonvegicon"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
             </LinearLayout>
 
             <com.rey.material.widget.TextView

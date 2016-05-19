@@ -292,10 +292,22 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }else{
-                        isShowMsg = data.getBooleanExtra("ShowMessage", false);
-                        this.itemName = data.getStringExtra("ItemName");
-                        SetCartNumber();
-                        isShowMsg = true;
+                        if(data.getBooleanExtra("IsWishListChange", false)){
+                            ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+                            itemListFragment.UpdateWishList(data.getIntExtra("Position",-1), data.getShortExtra("IsChecked",(short) 0));
+                            if(data.getBooleanExtra("ShowMessage", false)){
+                                isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                                this.itemName = data.getStringExtra("ItemName");
+                                SetCartNumber();
+                                isShowMsg = true;
+                            }
+
+                        }else {
+                            isShowMsg = data.getBooleanExtra("ShowMessage", false);
+                            this.itemName = data.getStringExtra("ItemName");
+                            SetCartNumber();
+                            isShowMsg = true;
+                        }
                     }
                 }
             }
@@ -589,7 +601,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             }
         }
     }
-
     //endregion
 
     //region Page Adapter

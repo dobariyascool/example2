@@ -30,7 +30,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     public static ArrayList<ItemMaster> alWishItemMaster = new ArrayList<>();
     public boolean isItemAnimate = false;
-    boolean isTileGrid = false;
+    boolean isTileGrid = false, isWishListChange;
     View view;
     Context context;
     ArrayList<ItemMaster> alItemMaster;
@@ -38,6 +38,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     int previousPosition;
     int width, height, cnt = 0;
     boolean isDuplicate = false, isLikeClick;
+    boolean isVeg, isNonVeg, isJain;
     private LayoutInflater inflater;
 
 
@@ -111,47 +112,43 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
 
         if (!objItemMaster.getLinktoOptionMasterIds().equals("")) {
-            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()))) {
-                holder.ivJain.setVisibility(View.VISIBLE);
-                if (objItemMaster.getIsDineInOnly()) {
-                    holder.ibLike.setVisibility(View.GONE);
-                }
-            } else {
-                holder.ivJain.setVisibility(View.GONE);
-            }
-
-            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spice.getValue()))) {
+            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.DoubleSpicy.getValue()))) {
+                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
+                holder.ivSpicy.setVisibility(View.GONE);
+                holder.ivSweet.setVisibility(View.GONE);
+            } else if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Spicy.getValue()))) {
                 holder.ivSpicy.setVisibility(View.VISIBLE);
-                if (objItemMaster.getIsDineInOnly()) {
-                    holder.ibLike.setVisibility(View.GONE);
-                }
+                holder.ivExtraSpicy.setVisibility(View.GONE);
+                holder.ivSweet.setVisibility(View.GONE);
+            } else if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Sweet.getValue()))) {
+                holder.ivSweet.setVisibility(View.VISIBLE);
+                holder.ivExtraSpicy.setVisibility(View.GONE);
+                holder.ivSpicy.setVisibility(View.GONE);
             } else {
+                holder.ivSweet.setVisibility(View.GONE);
+                holder.ivExtraSpicy.setVisibility(View.GONE);
                 holder.ivSpicy.setVisibility(View.GONE);
             }
 
-            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Sweet.getValue()))) {
-                holder.ivSweet.setVisibility(View.VISIBLE);
-                if (objItemMaster.getIsDineInOnly()) {
-                    holder.ibLike.setVisibility(View.GONE);
-                }
+            isVeg = CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Veg.getValue()));
+            isNonVeg = CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.NonVeg.getValue()));
+            isJain = CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.Jain.getValue()));
+            if (isNonVeg && !isVeg) {
+                holder.ivNonVeg.setVisibility(View.VISIBLE);
+                holder.ivJain.setVisibility(View.GONE);
+            } else if (isJain && !isNonVeg) {
+                holder.ivJain.setVisibility(View.VISIBLE);
+                holder.ivNonVeg.setVisibility(View.GONE);
             } else {
-                holder.ivSweet.setVisibility(View.GONE);
+                holder.ivJain.setVisibility(View.GONE);
+                holder.ivNonVeg.setVisibility(View.GONE);
             }
-
-            if (CheckOptionValue(objItemMaster.getLinktoOptionMasterIds(), String.valueOf(Globals.OptionValue.DoubleSpicy.getValue()))) {
-                holder.ivExtraSpicy.setVisibility(View.VISIBLE);
-                if (objItemMaster.getIsDineInOnly()) {
-                    holder.ibLike.setVisibility(View.GONE);
-                }
-            } else {
-                holder.ivExtraSpicy.setVisibility(View.GONE);
-            }
-
         } else {
             holder.ivJain.setVisibility(View.GONE);
-            holder.ivSpicy.setVisibility(View.GONE);
+            holder.ivNonVeg.setVisibility(View.GONE);
             holder.ivSweet.setVisibility(View.GONE);
             holder.ivExtraSpicy.setVisibility(View.GONE);
+            holder.ivSpicy.setVisibility(View.GONE);
         }
 
         if (!isTileGrid && !MenuActivity.isViewChange) {
@@ -180,11 +177,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 holder.txtItemName.setText(objItemMaster.getItemName());
             }
         }
+
         CheckDuplicate(null, objItemMaster);
 
-        if (objItemMaster.getIsChecked() == -1) {
+        if (objItemMaster.getIsChecked() == -1 || objItemMaster.getIsChecked() == 0) {
             holder.ibLike.setChecked(false);
-
         } else {
             holder.ibLike.setChecked(true);
         }
@@ -213,9 +210,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         notifyDataSetChanged();
     }
 
-    public void RemoveData(int position) {
+    public void RemoveData(int position, boolean isRemoveFromList) {
+        if (isRemoveFromList) {
+            CheckDuplicate(String.valueOf(0), alItemMaster.get(position));
+        }
         alItemMaster.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void UpdateWishList(int position, short isCheck) {
+        isItemAnimate = false;
+        isWishListChange = true;
+        CheckDuplicate(String.valueOf(isCheck), alItemMaster.get(position));
+        alItemMaster.get(position).setIsChecked(isCheck);
+        notifyItemChanged(position);
     }
 
     private boolean CheckOptionValue(String optionValueIds, String optionValue) {
@@ -285,7 +293,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public interface ItemClickListener {
-        void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName);
+        void ItemOnClick(ItemMaster objItemMaster, View view, String transitionName, int position);
 
         void AddItemOnClick(ItemMaster objItemMaster);
 
@@ -295,7 +303,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtItemName, txtItemDescription, txtItemPrice, txtItemDineOnly;
-        ImageView ivItem, ivJain, ivSpicy, ivExtraSpicy, ivSweet;
+        ImageView ivItem, ivJain, ivSpicy, ivExtraSpicy, ivSweet, ivNonVeg;
         CardView cvItem;
         Button btnAdd, btnAddDisable;
         ToggleButton ibLike;
@@ -310,6 +318,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             ivSpicy = (ImageView) itemView.findViewById(R.id.ivSpicy);
             ivExtraSpicy = (ImageView) itemView.findViewById(R.id.ivDoubleSpicy);
             ivSweet = (ImageView) itemView.findViewById(R.id.ivSweet);
+            ivNonVeg = (ImageView) itemView.findViewById(R.id.ivNonVeg);
 
             ibLike = (ToggleButton) itemView.findViewById(R.id.ibLike);
 
@@ -342,9 +351,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 @Override
                 public void onClick(View v) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), v, v.getTransitionName());
+                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), v, v.getTransitionName(), getAdapterPosition());
                     } else {
-                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), null, null);
+                        objItemClickListener.ItemOnClick(alItemMaster.get(getAdapterPosition()), null, null, getAdapterPosition());
                     }
                 }
             });

@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.arraybit.adapter.ItemOptionValueAdapter;
 import com.arraybit.adapter.ItemSuggestedAdapter;
@@ -35,14 +37,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SuppressWarnings("ConstantConditions")
-public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener, OptionValueJSONParser.OptionValueRequestListener,RemarkDialogFragment.RemarkResponseListener,ModifierAdapter.ModifierCheckedChangeListener {
+public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener, OptionValueJSONParser.OptionValueRequestListener, RemarkDialogFragment.RemarkResponseListener, ModifierAdapter.ModifierCheckedChangeListener {
 
     public static ArrayList<OptionMaster> alOptionValue;
-    ImageView ivItemImage,ivRemark;
-    TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn,txtHeaderRemark,txtRemark;
+    ImageView ivItemImage, ivRemark;
+    TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn, txtHeaderRemark, txtRemark;
     RecyclerView rvSuggestedItem, rvModifier, rvOptionValue;
     Toolbar app_bar;
-    Button  btnAdd, btnDisable;
+    Button btnAdd, btnDisable;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -56,15 +58,18 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     ArrayList<OptionValueTran> lstOptionValueTran;
     boolean isRequestForModifier = false;
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
-    boolean isDuplicate = false;
+    boolean isDuplicate = false, isKeyClick = false,isLikeChecked;
     double totalAmount, totalModifierAmount, totalTax;
     StringBuilder sbOptionValue;
-    ImageButton ibMinus,ibPlus;
+    ToggleButton tbLike;
+    ImageButton ibMinus, ibPlus;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         app_bar = (Toolbar) findViewById(R.id.app_bar);
         if (app_bar != null) {
             setSupportActionBar(app_bar);
@@ -75,6 +80,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
 
         objItemMaster = getIntent().getParcelableExtra("ItemMaster");
+        position = getIntent().getIntExtra("Position", -1);
 
         detailLayout = (FrameLayout) findViewById(R.id.detailLayout);
         itemSuggestionLayout = (LinearLayout) findViewById(R.id.itemSuggestionLayout);
@@ -95,18 +101,21 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         txtRemark = (com.rey.material.widget.TextView) findViewById(R.id.txtRemark);
 
         etQuantity = (EditText) findViewById(R.id.etQuantity);
+        etQuantity.setSelectAllOnFocus(true);
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnDisable = (Button) findViewById(R.id.btnDisable);
 
-        ibMinus = (ImageButton)findViewById(R.id.ibMinus);
-        ibPlus = (ImageButton)findViewById(R.id.ibPlus);
+        ibMinus = (ImageButton) findViewById(R.id.ibMinus);
+        ibPlus = (ImageButton) findViewById(R.id.ibPlus);
+
+        tbLike = (ToggleButton) findViewById(R.id.tbLike);
 
         btnAdd.setOnClickListener(this);
         ivRemark.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
-
+        tbLike.setOnClickListener(this);
 
         SetVisibility(false);
 
@@ -119,40 +128,87 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             }
 
         }
+
+        etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    etQuantity.setSelectAllOnFocus(true);
+                }
+            }
+        });
+
+        etQuantity.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        isKeyClick = false;
+                        Globals.HideKeyBoard(DetailActivity.this, v);
+                    } else {
+                        isKeyClick = true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent returnIntent = new Intent();
+                if(isLikeChecked && (objItemMaster.getIsChecked()!=0 || objItemMaster.getIsChecked()!=1)){
+                    objItemMaster.setIsChecked((short)1);
+                    returnIntent.putExtra("IsWishListChange", true);
+                    returnIntent.putExtra("Position", position);
+                    returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
+                }else if(!isLikeChecked && (objItemMaster.getIsChecked()!=0 || objItemMaster.getIsChecked()!=-1)){
+                    objItemMaster.setIsChecked((short)0);
+                    returnIntent.putExtra("IsWishListChange", true);
+                    returnIntent.putExtra("Position", position);
+                    returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
+                }
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("IsWishListChange", true);
+        returnIntent.putExtra("Position", position);
+        returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnCancel) {
-            onBackPressed();
-        } else if (v.getId() == R.id.btnAdd) {
+        Globals.HideKeyBoard(DetailActivity.this,v);
+        if (v.getId() == R.id.btnAdd) {
+            if (etQuantity.getText().toString().equals("")) {
+                etQuantity.setText("1");
+            }
             SetOrderItemModifierTran();
             SetOrderItem();
             Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsWishListChange", true);
             returnIntent.putExtra("ShowMessage", true);
             returnIntent.putExtra("ItemName", strItemName);
+            returnIntent.putExtra("Position", position);
+            returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
-//            if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
-//                AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
-//                objAddQtyRemarkDialogFragment.show(this.getSupportFragmentManager(), "");
-//            } else {
-//                Globals.ReplaceFragment(new ItemModifierRemarkFragment(objItemMaster), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
-//            }
-        }else if (v.getId() == R.id.ivRemark) {
+        } else if (v.getId() == R.id.ivRemark) {
             RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.show(getSupportFragmentManager(), "");
-        }else if (v.getId() == R.id.ibMinus) {
+        } else if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
                 etQuantity.setText("1");
             } else {
@@ -166,8 +222,26 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 IncrementDecrementValue(v.getId(), Integer.valueOf(etQuantity.getText().toString()));
             }
             etQuantity.requestFocus();
+        } else if (v.getId() == R.id.tbLike) {
+            if (tbLike.isChecked()) {
+                isLikeChecked = true;
+                objItemMaster.setIsChecked((short) 1);
+            } else {
+                isLikeChecked = false;
+                objItemMaster.setIsChecked((short) 0);
+            }
         }
     }
+
+    public void EditTextOnClick(View view) {
+        if (!isKeyClick) {
+            etQuantity.clearFocus();
+            etQuantity.requestFocus();
+        } else {
+            isKeyClick = false;
+        }
+    }
+
 
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster, boolean isFilter) {
@@ -175,10 +249,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             alItemMasterModifier = alItemMaster;
             SetModifierRecyclerView();
             isRequestForModifier = false;
-            if(objItemMaster.getLinktoOptionMasterIds().equals("")){
+            if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
                 rvOptionValue.setVisibility(View.GONE);
                 progressDialog.dismiss();
-            }else{
+            } else {
                 if (Service.CheckNet(DetailActivity.this)) {
                     RequestOptionValue();
                 } else {
@@ -189,19 +263,19 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             progressDialog.dismiss();
             this.alItemMaster = alItemMaster;
             SetRecyclerView();
-            if(objItemMaster.getLinktoItemMasterIdModifiers().equals("")){
+            if (objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
                 rvModifier.setVisibility(View.GONE);
-               if(objItemMaster.getLinktoOptionMasterIds().equals("")) {
-                   rvOptionValue.setVisibility(View.GONE);
-               }else{
-                   if (Service.CheckNet(DetailActivity.this)) {
-                       progressDialog.show(getSupportFragmentManager(),"");
-                       RequestOptionValue();
-                   } else {
-                       Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
-                   }
-               }
-            }else if(!objItemMaster.getLinktoItemMasterIdModifiers().equals("")){
+                if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
+                    rvOptionValue.setVisibility(View.GONE);
+                } else {
+                    if (Service.CheckNet(DetailActivity.this)) {
+                        progressDialog.show(getSupportFragmentManager(), "");
+                        RequestOptionValue();
+                    } else {
+                        Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                    }
+                }
+            } else if (!objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
                 if (Service.CheckNet(DetailActivity.this)) {
                     isRequestForModifier = true;
                     RequestItemModifier();
@@ -225,7 +299,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         GetItemDetail(this.objItemMaster);
         if (Service.CheckNet(DetailActivity.this)) {
             RequestItem();
-        }else {
+        } else {
             Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
         }
     }
@@ -290,9 +364,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         if (objItemMaster.getIsDineInOnly()) {
             txtDineIn.setVisibility(View.VISIBLE);
             btnDisable.setVisibility(View.VISIBLE);
+            tbLike.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
         } else {
             txtDineIn.setVisibility(View.GONE);
+            tbLike.setVisibility(View.VISIBLE);
             btnDisable.setVisibility(View.GONE);
             btnAdd.setVisibility(View.VISIBLE);
         }
@@ -310,6 +386,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
         txtShortDescription.setText(objItemMaster.getShortDescription());
         txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
+        if (objItemMaster.getIsChecked() == 1) {
+            tbLike.setChecked(true);
+        } else {
+            tbLike.setChecked(false);
+        }
     }
 
     private void SetRecyclerView() {
@@ -376,7 +457,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             progressDialog.dismiss();
             rvOptionValue.setVisibility(View.VISIBLE);
             SetOptionMasterList(lstOptionValue);
-            rvOptionValue.setAdapter(new ItemOptionValueAdapter(DetailActivity.this, alOptionMaster,true));
+            rvOptionValue.setAdapter(new ItemOptionValueAdapter(DetailActivity.this, alOptionMaster, true));
             rvOptionValue.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
         }
     }
@@ -481,7 +562,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 if (!sbOptionValue.toString().equals("")) {
                     objOrderItemTran.setRemark(txtRemark.getText().toString() + ", " + sbOptionValue.toString());
                     objOrderItemTran.setOptionValue(sbOptionValue.toString());
-                }else{
+                } else {
                     objOrderItemTran.setRemark(txtRemark.getText().toString());
                 }
             }
@@ -523,7 +604,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                     if (!sbOptionValue.toString().equals("")) {
                         objOrderItemTran.setRemark(txtRemark.getText().toString() + ", " + sbOptionValue.toString());
                         objOrderItemTran.setOptionValue(sbOptionValue.toString());
-                    }else{
+                    } else {
                         objOrderItemTran.setRemark(txtRemark.getText().toString());
                     }
                 }
@@ -555,9 +636,9 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             if (txtRemark.getText().toString().isEmpty()) {
                 strOptionValue = sbOptionValue.toString();
             } else {
-                if(sbOptionValue.toString() !=null && !sbOptionValue.toString().equals("")) {
+                if (sbOptionValue.toString() != null && !sbOptionValue.toString().equals("")) {
                     strOptionValue = sbOptionValue.toString() + txtRemark.getText().toString();
-                }else{
+                } else {
                     strOptionValue = txtRemark.getText().toString();
                 }
             }
@@ -751,7 +832,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
     }
 
-    private void ClearData(){
+    private void ClearData() {
         alOptionValue = new ArrayList<>();
         alCheckedModifier = new ArrayList<>();
         alItemMasterModifier = new ArrayList<>();

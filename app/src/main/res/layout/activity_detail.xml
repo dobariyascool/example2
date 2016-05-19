@@ -44,31 +44,80 @@
                     android:layout_marginTop="@dimen/control_SpecingTiny"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtItemRate"
                             style="@style/HighLightedTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="@string/abBuildVersion" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtDineIn"
                             style="@style/HeaderTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@+id/txtItemRate"
+                            android:layout_weight="1"
                             android:gravity="end"
                             android:maxLines="1"
                             android:text="@string/MsgDineOnly"
                             android:textSize="@dimen/control_TextSmall"
                             android:visibility="gone" />
-                    </RelativeLayout>
+
+                        <ToggleButton
+                            android:id="@+id/tbLike"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/wishlist_drawable"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:textOff=""
+                            android:textOn="" />
+
+                    </LinearLayout>
+
+                    <!--<RelativeLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:id="@+id/txtItemRate"-->
+                    <!--style="@style/HighLightedTextView"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/abBuildVersion" />-->
+
+                    <!--<com.rey.material.widget.TextView-->
+                    <!--android:id="@+id/txtDineIn"-->
+                    <!--style="@style/HeaderTextView"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toEndOf="@+id/txtItemRate"-->
+                    <!--android:gravity="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text="@string/MsgDineOnly"-->
+                    <!--android:textSize="@dimen/control_TextSmall"-->
+                    <!--android:visibility="gone" />-->
+
+                    <!--<ToggleButton-->
+                    <!--android:id="@+id/ibLike"-->
+                    <!--android:layout_width="24dp"-->
+                    <!--android:layout_height="24dp"-->
+                    <!--android:background="@drawable/wishlist_drawable"-->
+                    <!--android:padding="@dimen/control_SpecingSmall"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toEndOf="@+id/txtItemRate"-->
+                    <!--android:textOff=""-->
+                    <!--android:textOn=""-->
+                    <!--android:visibility="visible" />-->
+                    <!--</RelativeLayout>-->
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtShortDescription"
@@ -84,7 +133,7 @@
                     android:id="@+id/rvModifier"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/control_SpecingTiny"/>
+                    android:layout_marginTop="@dimen/control_SpecingTiny" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvOptionValue"
@@ -196,9 +245,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/ibMinus"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="2"
+                android:onClick="EditTextOnClick"
                 android:text="1"
                 tools:ignore="HardcodedText" />
 

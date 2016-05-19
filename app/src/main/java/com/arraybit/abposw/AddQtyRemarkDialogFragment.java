@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,11 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
 
     ImageButton ibMinus, ibPlus;
     TextView txtItemName;
-    Button  btnOk;
+    Button btnOk;
     EditText etQuantity, etRemark;
     ItemMaster objItemMaster;
     double totalAmount, totalTax;
-    boolean isDuplicate;
+    boolean isDuplicate, isKeyClick = false;
     String strItemName;
     ArrayList<ItemMaster> alOrderItemModifierTran = new ArrayList<>();
     AddQtyRemarkDialogListener objAddQtyRemarkDialogListener;
@@ -59,6 +60,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
 
         etQuantity = (EditText) view.findViewById(R.id.etQuantity);
+        etQuantity.setSelectAllOnFocus(true);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
 
         btnOk = (Button) view.findViewById(R.id.btnOk);
@@ -66,17 +68,43 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         btnOk.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
+        etQuantity.setOnClickListener(this);
 
         if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_cart_item_fragment))) {
             etQuantity.setText(String.valueOf(objItemMaster.getQuantity()));
             etRemark.setText(objItemMaster.getItemRemark());
         }
 
+        etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    etQuantity.setSelectAllOnFocus(true);
+                }
+            }
+        });
+
+        etQuantity.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        isKeyClick = false;
+                        Globals.HideKeyBoard(getActivity(), v);
+                    } else {
+                        isKeyClick = true;
+                    }
+                }
+                return false;
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
+        Globals.HideKeyBoard(getActivity(), v);
         if (v.getId() == R.id.btnOk) {
             if (etQuantity.getText().toString().equals("0")) {
                 etQuantity.setText("1");

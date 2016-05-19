@@ -22,7 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
 
     SharePreferenceManage objSharePreferenceManage;
     DisplayMetrics displayMetrics;
-    ImageView ivLeft, ivRight, ivLogo, ivText, ivSwipe;
+    ImageView ivLeft, ivRight, ivLogo, ivText;
     DrawerLayout mainLayout;
 
     @Override
@@ -43,12 +43,11 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         ivRight = (ImageView) findViewById(R.id.ivRight);
         ivLogo = (ImageView) findViewById(R.id.ivLogo);
         ivText = (ImageView) findViewById(R.id.ivText);
-        ivSwipe = (ImageView) findViewById(R.id.ivSwipe);
 
         Picasso.with(SplashScreenActivity.this).load(R.drawable.left_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivLeft);
         Picasso.with(SplashScreenActivity.this).load(R.drawable.right_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivRight);
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 8) / 100).into(ivLogo);
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 6) / 100).into(ivText);
+        Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 9) / 100).into(ivLogo);
+        Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 7) / 100).into(ivText);
 
         objSharePreferenceManage = new SharePreferenceManage();
         new Handler().postDelayed(new Runnable() {
@@ -80,13 +79,14 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     }
 
     @Override
-    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+    public void CustomerResponse(String errorCode,CustomerMaster objCustomerMaster) {
         Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
         if (objCustomerMaster == null) {
             intent.putExtra("IsLogin", false);
         } else {
             intent.putExtra("IsLogin", true);
         }
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

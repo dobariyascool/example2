@@ -68,6 +68,7 @@ public class ItemMaster implements Parcelable {
 
     public static final Parcelable.Creator<ItemMaster> CREATOR = new Creator<ItemMaster>() {
         public ItemMaster createFromParcel(Parcel source) {
+            //get from parcel;
             ItemMaster objItemMaster = new ItemMaster();
             objItemMaster.ItemMasterId = source.readInt();
             objItemMaster.ShortName = source.readString();
@@ -114,6 +115,7 @@ public class ItemMaster implements Parcelable {
             objItemMaster.OrderNumber = source.readString();
             objItemMaster.PaymentStatus = source.readByte() != 0;
             objItemMaster.TaxRate = source.readDouble();
+            objItemMaster.IsChecked = (short) source.readInt();
             objItemMaster.ItemRemark = source.readString();
             return objItemMaster;
         }
@@ -615,6 +617,7 @@ public class ItemMaster implements Parcelable {
     }
 
     public void writeToParcel(Parcel parcel, int flags) {
+        //set parcel
         parcel.writeInt(ItemMasterId);
         parcel.writeString(ShortName);
         parcel.writeString(ItemName);
@@ -660,6 +663,7 @@ public class ItemMaster implements Parcelable {
         parcel.writeString(OrderNumber);
         parcel.writeByte((byte) (PaymentStatus ? 1 : 0));
         parcel.writeDouble(TaxRate);
+        parcel.writeInt(IsChecked);
         parcel.writeString(ItemRemark);
     }
 }
