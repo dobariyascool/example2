@@ -180,11 +180,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
         final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        final RelativeLayout cartLayout = (RelativeLayout) relativeLayout.findViewById(R.id.cartLayout);
         txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
 
         SetCartNumber();
 
-        ivCart.setOnClickListener(this);
+        cartLayout.setOnClickListener(this);
 
         return true;
     }
@@ -276,7 +277,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 0);
             }
-        } else if (v.getId() == R.id.ivCart) {
+        } else if (v.getId() == R.id.cartLayout) {
             Intent intent = new Intent(HomeActivity.this, CartItemActivity.class);
             intent.putExtra("ActivityName", getResources().getString(R.string.title_home));
             startActivityForResult(intent, 0);

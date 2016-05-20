@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ivSuggestedItem"
     android:layout_width="200dp"
     android:layout_height="match_parent"
-    android:layout_marginEnd="@dimen/control_SpecingTiny"
-    android:scaleType="centerCrop"
-    tools:ignore="ContentDescription"/>
+    android:orientation="vertical">
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/txtSuggestedName"
+        style="@style/HighLightedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparentBrown"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:padding="@dimen/control_SpecingTiny"
+        android:text="@string/abBuildVersion"
+        android:textColor="@android:color/white"/>
+
+    <ImageView
+        android:id="@+id/ivSuggestedItem"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/control_SpecingTiny"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription"/>
+</LinearLayout>

@@ -19,6 +19,7 @@
     </array>
     <color name="heading">#FF633611</color>
     <color name="error_text">#FF5252</color>
+    <color name="remark_color">#FF7043</color>
     <color name="blue_grey">#263238</color>
     <color name="offwhite">#F5F5F5</color>
     <color name="secondary_text">#727272</color>

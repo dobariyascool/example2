@@ -32,7 +32,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     EditText etQuantity, etRemark;
     ItemMaster objItemMaster;
     double totalAmount, totalTax;
-    boolean isDuplicate, isKeyClick = false;
+    boolean isDuplicate, isEdit = false;
     String strItemName;
     ArrayList<ItemMaster> alOrderItemModifierTran = new ArrayList<>();
     AddQtyRemarkDialogListener objAddQtyRemarkDialogListener;
@@ -71,8 +71,9 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
         etQuantity.setOnClickListener(this);
 
         if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_cart_item_fragment))) {
-            etQuantity.setText(String.valueOf(objItemMaster.getQuantity()));
+            isEdit = true;
             etRemark.setText(objItemMaster.getItemRemark());
+            etQuantity.setText(String.valueOf(objItemMaster.getQuantity()));
         }
 
         etQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -84,15 +85,26 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             }
         });
 
+        if(isEdit) {
+            etRemark.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                            Globals.HideKeyBoard(getActivity(), v);
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+
         etQuantity.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        isKeyClick = false;
                         Globals.HideKeyBoard(getActivity(), v);
-                    } else {
-                        isKeyClick = true;
                     }
                 }
                 return false;

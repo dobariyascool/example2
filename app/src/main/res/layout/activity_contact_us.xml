@@ -83,18 +83,23 @@
 
                     <ImageView
                         android:id="@+id/ivCall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/myaccount_selector"
+                        android:paddingBottom="@dimen/control_SpecingNormal"
+                        android:paddingTop="@dimen/control_SpecingNormal"
                         android:src="@drawable/call_drawable"
-                        tools:ignore="ContentDescription" />
+                        android:tint="@color/colorPrimary"
+                        tools:ignore="ContentDescription"/>
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtPhone1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/ivCall"
                         android:paddingEnd="@dimen/control_SpecingSmall"
-                        android:paddingStart="@dimen/control_SpecingSmall" />
+                        android:paddingStart="@dimen/control_SpecingSmall"/>
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtPhone2"

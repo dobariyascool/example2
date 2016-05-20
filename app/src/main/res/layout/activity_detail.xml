@@ -29,12 +29,39 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/ivItemImage"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="260dp">
+
+                    <ImageView
+                        android:id="@+id/ivItemImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:id="@+id/wishListLayout"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/wish_list_shape"
+                        android:gravity="center">
+
+                        <ToggleButton
+                            android:id="@+id/tbLike"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/wish_list_primary_drawable"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:textOff=""
+                            android:textOn="" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,34 +77,58 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtItemName"
+                                style="@style/HighLightedTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:paddingEnd="@dimen/control_SpecingTiny"
+                                android:paddingStart="0dp"
+                                android:text="@string/abBuildVersion" />
+
+                            <ImageView
+                                android:id="@+id/ivTest"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/txtItemName"
+                                android:src="@mipmap/extra_spicy"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:id="@+id/ivJain"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/ivTest"
+                                android:src="@mipmap/nonvegicon"
+                                tools:ignore="ContentDescription" />
+                        </RelativeLayout>
+
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtItemRate"
                             style="@style/HighLightedTextView"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:paddingEnd="@dimen/control_SpecingTiny"
+                            android:paddingStart="0dp"
                             android:text="@string/abBuildVersion" />
 
-                        <com.rey.material.widget.TextView
-                            android:id="@+id/txtDineIn"
-                            style="@style/HeaderTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:maxLines="1"
-                            android:text="@string/MsgDineOnly"
-                            android:textSize="@dimen/control_TextSmall"
-                            android:visibility="gone" />
-
-                        <ToggleButton
-                            android:id="@+id/tbLike"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:background="@drawable/wishlist_drawable"
-                            android:padding="@dimen/control_SpecingSmall"
-                            android:textOff=""
-                            android:textOn="" />
+                        <!--<ToggleButton-->
+                        <!--android:id="@+id/tbLike"-->
+                        <!--android:layout_width="24dp"-->
+                        <!--android:layout_height="24dp"-->
+                        <!--android:background="@drawable/wishlist_drawable"-->
+                        <!--android:padding="@dimen/control_SpecingSmall"-->
+                        <!--android:textOff=""-->
+                        <!--android:textOn="" />-->
 
                     </LinearLayout>
 
@@ -124,8 +175,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:paddingBottom="@dimen/control_SpecingTiny"
+                        android:paddingTop="@dimen/control_SpecingTiny"
                         android:text="@string/abBuildVersion"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
                         android:textSize="@dimen/control_TextSmall" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtDineIn"
+                        style="@style/HeaderTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="@string/MsgDineOnly"
+                        android:textSize="@dimen/control_TextSmall"
+                        android:visibility="gone" />
+
 
                 </LinearLayout>
 
@@ -177,7 +243,7 @@
                 <LinearLayout
                     android:id="@+id/itemSuggestionLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="200dp"
                     android:layout_marginBottom="@dimen/control_SpecingSmall"
                     android:orientation="vertical">
 

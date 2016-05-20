@@ -112,7 +112,23 @@
             android:layout_height="0dp"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="@dimen/control_SpecingSmall"
-            android:layout_weight="0.65" />
+            android:layout_weight="0.65"
+            android:background="@drawable/dash_line_separator"
+            android:paddingBottom="@dimen/control_SpecingSmall"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtEditMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dash_line_separator"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingTiny"
+            android:text="@string/cifEditMessage"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+            android:textColor="#81e29801"
+            android:textSize="@dimen/control_TextNormal"/>
 
         <LinearLayout
             android:id="@+id/amountLayout"
@@ -133,6 +149,19 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 tools:ignore="NestedWeights">
+
+                <!--<com.rey.material.widget.TextView-->
+                <!--android:id="@+id/txtEditMessage"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:maxLines="1"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:paddingTop="2dp"-->
+                <!--android:text="@string/cifEditMessage"-->
+                <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"-->
+                <!--android:textColor="@color/colorAccentDark"-->
+                <!--android:textSize="@dimen/control_TextNormal" />-->
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -209,7 +238,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifTotalAmount"
                                 android:textAllCaps="false"
-                                android:textColor="@color/grey"/>
+                                android:textColor="@color/grey" />
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtTotalAmount"
@@ -220,7 +249,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifNumber"
                                 android:textAllCaps="false"
-                                android:textColor="@color/grey"/>
+                                android:textColor="@color/grey" />
 
                         </LinearLayout>
 
@@ -240,7 +269,7 @@
                                 android:maxLines="1"
                                 android:text="@string/cifDiscount"
                                 android:textAllCaps="false"
-                                android:textColor="@color/grey"/>
+                                android:textColor="@color/grey" />
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtTotalDiscount"
@@ -347,7 +376,7 @@
                     android:layout_weight="1"
                     android:text="@string/cifAddMore"
                     android:visibility="visible"
-                    tools:ignore="NestedWeights"/>
+                    tools:ignore="NestedWeights" />
 
                 <com.rey.material.widget.Button
                     android:id="@+id/btnConfirmOrder"
@@ -356,7 +385,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/cifConfirmOrder"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <com.rey.material.widget.Button
                     android:id="@+id/btnDisableConfirmOrder"
@@ -366,7 +395,7 @@
                     android:layout_weight="1"
                     android:enabled="false"
                     android:text="@string/cifConfirmOrder"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

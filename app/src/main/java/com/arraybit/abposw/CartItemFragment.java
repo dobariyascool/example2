@@ -44,7 +44,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder,btnDisableConfirmOrder;
-    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder,txtEditMessage;
     ImageView ivRemark;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout, errorLayout;
@@ -98,6 +98,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         txtNetAmount = (TextView) view.findViewById(R.id.txtNetAmount);
         txtHeaderNetAmount = (TextView) view.findViewById(R.id.txtHeaderNetAmount);
         txtMinOrder = (TextView) view.findViewById(R.id.txtMinOrder);
+        txtEditMessage = (TextView) view.findViewById(R.id.txtEditMessage);
 
         cbMenu = (CompoundButton) view.findViewById(R.id.cbMenu);
 
@@ -334,9 +335,12 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             taxLayout.setVisibility(View.GONE);
             txtRemark.setVisibility(View.GONE);
             txtMinOrder.setVisibility(View.GONE);
+            txtEditMessage.setVisibility(View.GONE);
+            btnDisableConfirmOrder.setVisibility(View.GONE);
         } else {
             txtMsg.setVisibility(View.GONE);
             cbMenu.setVisibility(View.GONE);
+            txtEditMessage.setVisibility(View.VISIBLE);
             headerLayout.setVisibility(View.VISIBLE);
             txtHeaderRemark.setVisibility(View.VISIBLE);
             ivRemark.setVisibility(View.VISIBLE);

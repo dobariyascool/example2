@@ -177,11 +177,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
         relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
         final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        final RelativeLayout cartLayout = (RelativeLayout) relativeLayout.findViewById(R.id.cartLayout);
         txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
 
         SetCartNumber();
 
-        ivCart.setOnClickListener(this);
+        cartLayout.setOnClickListener(this);
 
         return true;
     }
@@ -262,7 +263,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                     itemListFragment.ItemByOptionName(sbItemTypeMasterId.toString());
                     famRoot.close(true);
                 }
-            } else if (v.getId() == R.id.ivCart) {
+            } else if (v.getId() == R.id.cartLayout) {
                 Intent intent = new Intent(this, CartItemActivity.class);
                 this.startActivityForResult(intent, 0);
             }
@@ -301,8 +302,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                                 SetCartNumber();
                                 isShowMsg = true;
                             }
-
-                        }else {
+                        }else if(data.getBooleanExtra("IsItemSuggestionClick", false)){
+                            ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
+                            itemListFragment.CheckItemMasterIdInCurrentList(data.getShortExtra("IsChecked",(short) 0),data.getIntExtra("ItemMasterId", 0),data.getShortExtra("ItemMasterOldChecked",(short) 0));
+                        }
+                        else {
                             isShowMsg = data.getBooleanExtra("ShowMessage", false);
                             this.itemName = data.getStringExtra("ItemName");
                             SetCartNumber();
@@ -363,12 +367,12 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
             SetErrorLayout(false, null, 0);
 
-            CategoryMaster objCategoryMaster = new CategoryMaster();
-            objCategoryMaster.setCategoryMasterId((short) 0);
-            objCategoryMaster.setCategoryName("All");
-            ArrayList<CategoryMaster> alCategory = new ArrayList<>();
-            alCategory.add(objCategoryMaster);
-            alCategoryMaster.addAll(0, alCategory);
+//            CategoryMaster objCategoryMaster = new CategoryMaster();
+//            objCategoryMaster.setCategoryMasterId((short) 0);
+//            objCategoryMaster.setCategoryName("All");
+//            ArrayList<CategoryMaster> alCategory = new ArrayList<>();
+//            alCategory.add(objCategoryMaster);
+//            alCategoryMaster.addAll(0, alCategory);
 
             itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
             int cnt = 0;

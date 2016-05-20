@@ -305,6 +305,10 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         });
     }
 
+    public void CheckItemMasterIdInCurrentList(short isChecked,int itemMasterId,short oldCheckValue){
+        itemAdapter.CheckIdInCurrentListAndUpdate(isChecked,itemMasterId,oldCheckValue);
+    }
+
     //region Private Methods
     private void RequestItemMaster(boolean isOptionFilter) {
         if (cnt == 0) {
@@ -315,11 +319,11 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             cnt = 1;
         }
         ItemJSONParser objItemJSONParser = new ItemJSONParser();
-        if (objCategoryMaster.getCategoryMasterId() == 0) {
-            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
-        } else {
+//        if (objCategoryMaster.getCategoryMasterId() == 0) {
+//            objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), null, OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
+//        } else {
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
-        }
+//        }
     }
     //endregion
 }

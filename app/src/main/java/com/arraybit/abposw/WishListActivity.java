@@ -80,9 +80,10 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
         relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
         final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
+        RelativeLayout cartLayout = (RelativeLayout) relativeLayout.findViewById(R.id.cartLayout);
         txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
 
-        ivCart.setOnClickListener(this);
+        cartLayout.setOnClickListener(this);
 
         SaveCartDataInSharePreference(false);
         SetCartNumber();
@@ -156,7 +157,10 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                                 isShowMsg = true;
                             }
 
-                        } else {
+                        }else if(data.getBooleanExtra("IsItemSuggestionClick", false)){
+                            itemAdapter.CheckIdInCurrentList(data.getShortExtra("IsChecked",(short) 0),data.getIntExtra("ItemMasterId", 0),data.getShortExtra("ItemMasterOldChecked", (short) 0), (ItemMaster) data.getParcelableExtra("ItemMaster"));
+                        }
+                        else {
                             isShowMsg = data.getBooleanExtra("ShowMessage", false);
                             this.itemName = data.getStringExtra("ItemName");
                             SetCartNumber();
@@ -200,7 +204,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ivCart) {
+        if (v.getId() == R.id.cartLayout) {
             if (!errorLayout.isShown()) {
                 Intent intent = new Intent(this, CartItemActivity.class);
                 intent.putExtra("ActivityName", getResources().getString(R.string.title_activity_wish_list));

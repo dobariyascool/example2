@@ -226,6 +226,52 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         notifyItemChanged(position);
     }
 
+    public void CheckIdInCurrentListAndUpdate(short isChecked,int itemMasterId,short oldCheckValue){
+        int count=0;
+        boolean isDuplicate = false;
+        for(ItemMaster objItemMaster : alItemMaster) {
+            if (objItemMaster.getItemMasterId() == itemMasterId) {
+                isItemAnimate = false;
+                isWishListChange = true;
+                objItemMaster.setIsChecked(oldCheckValue);
+                CheckDuplicate(String.valueOf(isChecked), objItemMaster);
+                objItemMaster.setIsChecked(isChecked);
+                notifyItemChanged(count);
+                isDuplicate = true;
+                break;
+            }
+            count++;
+        }
+        if(!isDuplicate){
+            ItemMaster objItem = new ItemMaster();
+            objItem.setItemMasterId(itemMasterId);
+            objItem.setIsChecked(oldCheckValue);
+            CheckDuplicate(String.valueOf(isChecked),objItem);
+        }
+    }
+
+    public void CheckIdInCurrentList(short isChecked,int itemMasterId,short oldCheckValue,ItemMaster objWishList){
+        int count=0;
+        boolean isDuplicate = false;
+        for(ItemMaster objItemMaster : alItemMaster) {
+            if (objItemMaster.getItemMasterId() == itemMasterId) {
+                isDuplicate = true;
+                CheckDuplicate(String.valueOf(0), objItemMaster);
+                alItemMaster.remove(count);
+                notifyItemRemoved(count);
+                break;
+            }
+            count++;
+        }
+        if(!isDuplicate){
+            if(objWishList!=null) {
+                CheckDuplicate(String.valueOf(isChecked), objWishList);
+                alItemMaster.add(alItemMaster.size(), objWishList);
+                notifyItemInserted(alItemMaster.size());
+            }
+        }
+    }
+
     private boolean CheckOptionValue(String optionValueIds, String optionValue) {
         List<String> items = Arrays.asList(optionValueIds.split(","));
         boolean isMatch = false;

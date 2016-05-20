@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
+import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
     @Override
     public void onBindViewHolder(ItemSuggestdViewHolder holder, int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
-
+        holder.txtSuggestedName.setText(objItemMaster.getItemName());
         if (objItemMaster.getXs_ImagePhysicalName() == null || objItemMaster.getXs_ImagePhysicalName().equals("")) {
             Picasso.with(holder.ivSuggestedItem.getContext()).load(R.drawable.default_image).into(holder.ivSuggestedItem);
         } else {
@@ -55,9 +56,12 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
     class ItemSuggestdViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSuggestedItem;
+        TextView txtSuggestedName;
 
         public ItemSuggestdViewHolder(View itemView) {
             super(itemView);
+
+            txtSuggestedName = (TextView)itemView.findViewById(R.id.txtSuggestedName);
 
             ivSuggestedItem = (ImageView) itemView.findViewById(R.id.ivSuggestedItem);
 
