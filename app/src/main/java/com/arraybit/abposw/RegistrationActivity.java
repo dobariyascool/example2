@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -169,6 +170,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 if (hasFocus) {
                     Globals.ShowDatePickerDialog(etDateOfBirth, RegistrationActivity.this, false);
                 }
+            }
+        });
+
+        etPhone.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Globals.HideKeyBoard(RegistrationActivity.this, v);
+                }
+                return false;
             }
         });
     }

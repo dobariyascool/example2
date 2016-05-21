@@ -48,7 +48,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     String fromTime, toTime;
     int selected = -1;
     ArrayList<SpinnerItem> alFromTime, alToTime;
-    LinearLayout timeLinearLayout;
+    LinearLayout timeLinearLayout,addBookingFragment;
     View view;
     BookingMaster objBookingMaster;
     SharePreferenceManage objSharePreferenceManage;
@@ -79,7 +79,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         }
         app_bar.setTitle(getResources().getString(R.string.title_add_booking_fragment));
         setHasOptionsMenu(true);
+
+
         timeLinearLayout = (LinearLayout) view.findViewById(R.id.timeLinearLayout);
+        addBookingFragment = (LinearLayout) view.findViewById(R.id.addBookingFragment);
         timeLinearLayout.setVisibility(View.GONE);
 
         txtFromError = (TextView) view.findViewById(R.id.txtFromError);
@@ -245,6 +248,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Globals.HideKeyBoard(getActivity(),addBookingFragment);
             if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
                 if (getTargetFragment() != null) {
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();

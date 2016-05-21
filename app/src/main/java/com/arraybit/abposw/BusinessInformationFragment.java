@@ -38,6 +38,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
         View view = inflater.inflate(R.layout.fragment_business_information, container, false);
 
         rvBusinessInfo = (RecyclerView) view.findViewById(R.id.rvBusinessInfo);
+        rvBusinessInfo.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         if (Service.CheckNet(getActivity())) {
@@ -79,88 +80,6 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
         }
     }
 
-//    private void SetRecyclerView(ArrayList<BusinessInfoQuestionMaster> alBusinessInfoQuestionMaster) {
-//        if (alBusinessInfoQuestionMaster != null && alBusinessInfoQuestionMaster.size() != 0) {
-//            rvBusinessInfo.setVisibility(View.VISIBLE);
-//            ArrayList<BusinessInfoAnswerMaster> alBusinessInfoAnswerMaster = new ArrayList<>();
-//            lstBusinessInfoQuestionMaster = new ArrayList<>();
-//            que = "";
-//            cnt = 0;
-//            boolean isAnswer = false;
-//            for (BusinessInfoQuestionMaster objQuestionMaster : alBusinessInfoQuestionMaster) {
-//                if (que.equals("")) {
-//                    que = objQuestionMaster.getQuestion();
-//                    objBusinessInfoQuestionMaster = new BusinessInfoQuestionMaster();
-//                    objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-//                    objBusinessInfoQuestionMaster = objQuestionMaster;
-//                    objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
-//                    objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-//                    if (objQuestionMaster.getIsAnswer() && objQuestionMaster.getQuestionType() != Globals.QuestionType.Input.getValue()) {
-//                        isAnswer = true;
-//                    } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
-//                        isAnswer = true;
-//                    }
-//                    alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
-//                    if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-//                        if (isAnswer) {
-//                            isAnswer = false;
-//                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-//                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
-//                        }
-//                    }
-//                } else {
-//                    if (que.equals(objQuestionMaster.getQuestion())) {
-//                        objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-//                        objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
-//                        objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-//                        if (objQuestionMaster.getIsAnswer()) {
-//                            isAnswer = true;
-//                        } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
-//                            isAnswer = true;
-//                        }
-//                        alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
-//                        if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-//                            if (isAnswer) {
-//                                isAnswer = false;
-//                                objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-//                                lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
-//                            }
-//                        }
-//                    } else {
-//                        if (isAnswer) {
-//                            isAnswer = false;
-//                            objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-//                            lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
-//                        }
-//                        alBusinessInfoAnswerMaster = new ArrayList<>();
-//                        que = objQuestionMaster.getQuestion();
-//                        objBusinessInfoQuestionMaster = new BusinessInfoQuestionMaster();
-//                        objBusinessInfoAnswerMaster = new BusinessInfoAnswerMaster();
-//                        objBusinessInfoQuestionMaster = objQuestionMaster;
-//                        objBusinessInfoAnswerMaster.setAnswer(objQuestionMaster.getAnswer());
-//                        objBusinessInfoAnswerMaster.setIsAnswer(objQuestionMaster.getIsAnswer());
-//                        if (objQuestionMaster.getIsAnswer()) {
-//                            isAnswer = true;
-//                        } else if (objQuestionMaster.getQuestionType() == Globals.QuestionType.Input.getValue()) {
-//                            isAnswer = true;
-//                        }
-//                        alBusinessInfoAnswerMaster.add(objBusinessInfoAnswerMaster);
-//                        if (cnt == alBusinessInfoQuestionMaster.size() - 1) {
-//                            if (isAnswer) {
-//                                isAnswer = false;
-//                                objBusinessInfoQuestionMaster.setAlBusinessInfoAnswerMaster(alBusinessInfoAnswerMaster);
-//                                lstBusinessInfoQuestionMaster.add(objBusinessInfoQuestionMaster);
-//                            }
-//                        }
-//                    }
-//                }
-//                cnt++;
-//            }
-//            adapter = new BusinessInfoAdapter(getActivity(), lstBusinessInfoQuestionMaster);
-//            rvBusinessInfo.setAdapter(adapter);
-//            rvBusinessInfo.setLayoutManager(linearLayoutManager);
-//        }
-//    }
     //endregion
 }
 

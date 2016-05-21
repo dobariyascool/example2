@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -51,7 +52,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     short CustomerAddressTranId, countryMasterId;
     ProgressDialog progressDialog = new ProgressDialog();
     View view;
-    LinearLayout cityAreaLayout;
+    LinearLayout cityAreaLayout,addAddressFragment;
     AddNewAddressListener objAddNewAddressListener;
 
     public AddAddressFragment(Activity activity, CustomerAddressTran objCustomerAddressTran) {
@@ -78,6 +79,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         }
         app_bar.setTitle(getResources().getString(R.string.title_add_address_fragment));
         setHasOptionsMenu(true);
+
+        addAddressFragment = (LinearLayout)view.findViewById(R.id.addAddressFragment);
 
         btnHome = (ToggleButton) view.findViewById(R.id.btnHome);
         btnOffice = (ToggleButton) view.findViewById(R.id.btnOffice);
@@ -119,6 +122,16 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             btnAddress.setText(getResources().getString(R.string.yaEdit));
             cityAreaLayout.setVisibility(View.VISIBLE);
         }
+
+        etAddress.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Globals.HideKeyBoard(getActivity(), v);
+                }
+                return false;
+            }
+        });
 
         return view;
     }
@@ -227,6 +240,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Globals.HideKeyBoard(getActivity(), addAddressFragment);
         if (getTargetFragment() != null) {
             objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
             objAddNewAddressListener.AddNewAddress(null);

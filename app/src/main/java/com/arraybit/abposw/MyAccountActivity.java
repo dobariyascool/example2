@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
@@ -33,6 +34,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     RecyclerView rvOptions;
     FloatingActionButton fabEdit;
     TextView txtLoginChar, txtFullName, txtEmail;
+    FrameLayout myAccountLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-
+        myAccountLayout = (FrameLayout)findViewById(R.id.myAccountLayout);
         txtLoginChar = (TextView) findViewById(R.id.txtLoginChar);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
@@ -129,6 +131,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     @Override
     public void onBackPressed() {
+        Globals.HideKeyBoard(MyAccountActivity.this,myAccountLayout);
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
@@ -204,7 +207,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else {
             fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, 0, R.anim.right_exit);
         }
-        fragmentTransaction.replace(R.id.myaccount, fragment, fragmentName);
+        fragmentTransaction.replace(R.id.myAccountLayout, fragment, fragmentName);
         fragmentTransaction.addToBackStack(fragmentName);
         fragmentTransaction.commit();
     }
