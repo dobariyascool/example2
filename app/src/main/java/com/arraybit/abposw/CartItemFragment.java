@@ -558,6 +558,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", getActivity());
         objSharePreferenceManage.ClearPreference("CheckOutDataPreference", getActivity());
+        objSharePreferenceManage.RemovePreference("CartItemListPreference", "OrderRemark", getActivity());
+        objSharePreferenceManage.ClearPreference("CartItemListPreference", getActivity());
     }
 
     private void SaveCartDataInSharePreference() {

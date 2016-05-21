@@ -180,7 +180,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             adapter = new ReviewAdapter(getActivity(), alReviewMaster, this);
             rvReview.setAdapter(adapter);
             rvReview.setLayoutManager(linearLayoutManager);
-            if(isDataAppend){
+            if(!isDataAppend){
                 SetAverageReview(alReviewMaster);
                 isDataAppend = false;
             }
