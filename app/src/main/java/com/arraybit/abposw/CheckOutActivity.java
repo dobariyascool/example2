@@ -109,7 +109,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
 
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
-        Globals.SetScaleImageBackground(CheckOutActivity.this,null,null,checkOutMainLayout);
+        Globals.SetScaleImageBackground(CheckOutActivity.this, null, null, checkOutMainLayout);
 
         cvEditName = (CardView) findViewById(R.id.cvEditName);
         cvCityArea = (CardView) findViewById(R.id.cvCityArea);
@@ -235,7 +235,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView spinnerText = (TextView) view.findViewById(R.id.txtSpinnerItem);
-                if(spinnerText!=null) {
+                if (spinnerText != null) {
                     spinnerText.setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
                 }
                 if (!isSelected) {
@@ -259,7 +259,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView spinnerText = (TextView) view.findViewById(R.id.txtSpinnerItem);
-                if(spinnerText!=null) {
+                if (spinnerText != null) {
                     spinnerText.setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
                 }
                 if (!isSelected) {
@@ -927,6 +927,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 objSharePreferenceManage.ClearPreference("CartItemListPreference", CheckOutActivity.this);
                 objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
+                objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", CheckOutActivity.this);
+                objSharePreferenceManage.ClearPreference("OrderTypePreference", CheckOutActivity.this);
                 MenuActivity.i = 0;
                 MenuActivity.isViewChange = false;
                 ItemAdapter.alWishItemMaster = new ArrayList<>();
@@ -975,25 +977,24 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (string != null) {
                     objCheckOut = gson.fromJson(string,
                             CheckOut.class);
-                    if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_home))){
-                        if(activityName!=null && !activityName.equals(getResources().getString(R.string.title_activity_wish_list)))
-                        {
+                    if (activityName != null && !activityName.equals(getResources().getString(R.string.title_home))) {
+                        if (activityName != null && !activityName.equals(getResources().getString(R.string.title_activity_wish_list))) {
                             if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId && !isBackPressed) {
                                 objCheckOut = null;
                                 objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                             }
                         }
-                    }else if(activityName==null){
+                    } else if (activityName == null) {
                         if (objCheckOut.getOrderType() != Globals.linktoOrderTypeMasterId && !isBackPressed) {
                             objCheckOut = null;
                             objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
                             objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                         }
                     }
-                }else {
+                } else {
                     //this case come when cart click from home page or wishlist
-                    if((activityName!=null && activityName.equals(getResources().getString(R.string.title_home))) || (activityName!=null && activityName.equals(getResources().getString(R.string.title_activity_wish_list)))) {
+                    if ((activityName != null && activityName.equals(getResources().getString(R.string.title_home))) || (activityName != null && activityName.equals(getResources().getString(R.string.title_activity_wish_list)))) {
                         if (Globals.linktoOrderTypeMasterId == 0) {
                             objCheckOut = null;
                             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
@@ -1011,7 +1012,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void BusinessMasterResponse(BusinessMaster objBusinessMaster,ArrayList<BusinessMaster> alBusinessMaster){
+    private void BusinessMasterResponse(BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         if (isGroup) {
             //if linktoBusinessGroupMasterId save in preference and in database have null so clear preference
             isGroup = false;
@@ -1084,7 +1085,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void TimeSlotResponse(){
+    private void TimeSlotResponse() {
         if (isDateChange) {
             isDateChange = false;
             OfferMaster objOfferMaster = new OfferMaster();
@@ -1102,7 +1103,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                         FillOrderTime();
                         SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                         SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
-                    }else if (alBusinessMaster != null) {
+                    } else if (alBusinessMaster != null) {
                         FillOrderTime();
                         SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                         SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());

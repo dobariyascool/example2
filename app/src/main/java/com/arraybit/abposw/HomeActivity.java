@@ -259,10 +259,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
+            SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+            objSharePreferenceManager.CreatePreference("OrderTypePreference","OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()),HomeActivity.this);
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
+            SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+            objSharePreferenceManager.CreatePreference("OrderTypePreference","OrderType", String.valueOf(Globals.OrderType.TakeAway.getValue()),HomeActivity.this);
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvBookTable) {

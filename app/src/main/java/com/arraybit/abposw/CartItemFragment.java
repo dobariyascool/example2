@@ -132,13 +132,34 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnAddMore) {
-            objSharePreferenceManage = new SharePreferenceManage();
-            objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("ShowMessage", false);
-            getActivity().setResult(Activity.RESULT_OK, returnIntent);
-            getActivity().finish();
+            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
+                objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
+                if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
+                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType", getActivity());
+                    if(str!=null && !str.equals("")) {
+                        Globals.linktoOrderTypeMasterId = Short.parseShort(str);
+                    }
+                }
+                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                getActivity().startActivityForResult(intent,0);
+            }else {
+                objSharePreferenceManage = new SharePreferenceManage();
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("ShowMessage", false);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
+            }
         } else if (v.getId() == R.id.btnConfirmOrder) {
+            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
+                if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
+                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType", getActivity());
+                    if(str!=null && !str.equals("")) {
+                        Globals.linktoOrderTypeMasterId = Short.parseShort(str);
+                    }
+                }
+            }
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().startActivityForResult(intent, 0);
@@ -199,6 +220,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             }
             SaveCartDataInSharePreference();
             Intent returnIntent = new Intent();
+            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
+                if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                    returnIntent.putExtra("IsLogin", true);
+                }
+            }
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
@@ -288,7 +314,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
             RemarkDialogFragment.strRemark = null;
             SetVisibility();
-
         } else {
             SetVisibility();
             CountAmount();
@@ -353,11 +378,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtRoundingOff.setVisibility(View.VISIBLE);
             txtHeaderNetAmount.setVisibility(View.VISIBLE);
             txtNetAmount.setVisibility(View.VISIBLE);
-            if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
-                btnAddMore.setVisibility(View.GONE);
-            }else{
-                btnAddMore.setVisibility(View.VISIBLE);
-            }
+            btnAddMore.setVisibility(View.VISIBLE);
             btnConfirmOrder.setVisibility(View.VISIBLE);
             taxLayout.setVisibility(View.VISIBLE);
             txtMinOrder.setVisibility(View.VISIBLE);

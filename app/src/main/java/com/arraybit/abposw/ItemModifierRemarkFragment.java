@@ -487,7 +487,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 }
             }
 
-            if (!strOptionValue.equals("") && objFilterOrderItemTran.getRemark() != null) {
+            if (!strOptionValue.equals("") && (objFilterOrderItemTran.getRemark() != null && !objFilterOrderItemTran.getRemark().equals(""))) {
                 if (strOptionValue.subSequence(strOptionValue.length() - 1, strOptionValue.length()).toString().equals(",")) {
                     strNewRemark = String.valueOf(strOptionValue.subSequence(0, strOptionValue.length()) + " ").split(", ");
                 } else if (strOptionValue.subSequence(strOptionValue.length() - 1, strOptionValue.length()).toString().equals(" ")) {

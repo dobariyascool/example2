@@ -584,15 +584,13 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             dividerLayout.setVisibility(View.VISIBLE);
             itemSuggestionLayout.setVisibility(View.VISIBLE);
             rvSuggestedItem.setVisibility(View.VISIBLE);
-            wishListLayout.setVisibility(View.VISIBLE);
         } else {
             txtHeader.setVisibility(View.GONE);
             dividerLayout.setVisibility(View.GONE);
             itemSuggestionLayout.setVisibility(View.GONE);
             rvSuggestedItem.setVisibility(View.GONE);
-            rvModifier.setVisibility(View.VISIBLE);
-            rvOptionValue.setVisibility(View.VISIBLE);
-            wishListLayout.setVisibility(View.GONE);
+            rvModifier.setVisibility(View.GONE);
+            rvOptionValue.setVisibility(View.GONE);
         }
     }
 

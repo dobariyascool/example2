@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
@@ -57,15 +58,18 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
 
         ImageView ivSuggestedItem;
         TextView txtSuggestedName;
+        LinearLayout suggestedItemLayout;
 
         public ItemSuggestdViewHolder(View itemView) {
             super(itemView);
+
+            suggestedItemLayout = (LinearLayout)itemView.findViewById(R.id.suggestedItemLayout);
 
             txtSuggestedName = (TextView)itemView.findViewById(R.id.txtSuggestedName);
 
             ivSuggestedItem = (ImageView) itemView.findViewById(R.id.ivSuggestedItem);
 
-            ivSuggestedItem.setOnClickListener(new View.OnClickListener() {
+            suggestedItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
