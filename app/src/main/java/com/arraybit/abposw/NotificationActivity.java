@@ -32,7 +32,7 @@ public class NotificationActivity extends AppCompatActivity {
         if (Service.CheckNet(this)) {
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, 0);
         }else{
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, R.drawable.wifi_drawable);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
         }
     }
 

@@ -50,10 +50,10 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 8) / 100).into(ivLogo);
         Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 7) / 100).into(ivText);
 
-        objSharePreferenceManage = new SharePreferenceManage();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                objSharePreferenceManage = new SharePreferenceManage();
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this) != null) {
                     String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
                     String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this);
@@ -63,6 +63,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                             objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
                         }else {
                             Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                            intent.putExtra("IsNetCheck",true);
                             startActivity(intent);
                             finish();
                         }

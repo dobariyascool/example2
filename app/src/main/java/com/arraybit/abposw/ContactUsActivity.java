@@ -43,7 +43,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
     TextView txtOffice, txtCountry, txtAddress, txtWebSite, txtPhone1, txtPhone2;
     Button btnSend;
-    LinearLayout linearLayoutContactUs;
+    LinearLayout linearLayoutContactUs,errorLayout;
     ProgressDialog progressDialog = new ProgressDialog();
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
@@ -72,6 +72,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         etContactUsMobile = (EditText) findViewById(R.id.etContactUsMobile);
         etContactUsMessage = (EditText) findViewById(R.id.etContactUsMessage);
 
+
         ivCall = (ImageView) findViewById(R.id.ivCall);
 
         txtOffice = (TextView) findViewById(R.id.txtOffice);
@@ -81,12 +82,15 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtPhone1 = (TextView) findViewById(R.id.txtPhone1);
         txtPhone2 = (TextView) findViewById(R.id.txtPhone2);
         btnSend = (Button) findViewById(R.id.btnSend);
+
         linearLayoutContactUs = (LinearLayout) findViewById(R.id.linearLayoutContactUs);
+        errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
 
         if (Service.CheckNet(this)) {
+            errorLayout.setVisibility(View.GONE);
             RequestBusinessInfoMaster();
         } else {
-            Globals.ShowSnackBar(linearLayoutContactUs, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
         }
 
         SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment));

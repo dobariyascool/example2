@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     boolean isLogin;
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
-    boolean doubleBackToExitPressedOnce;
+    boolean doubleBackToExitPressedOnce,isNetCheck;
     LinearLayout homeLayout,errorLayout;
 
 
@@ -76,6 +76,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setLogo(R.mipmap.app_logo);
         }
+
+        isNetCheck = getIntent().getBooleanExtra("IsNetCheck",false);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
@@ -196,13 +198,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null && isLogin) {
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this)!=null) {
             menu.findItem(R.id.myAccount).setVisible(true);
             menu.findItem(R.id.logout).setVisible(true);
         } else {
             menu.findItem(R.id.myAccount).setVisible(false);
             menu.findItem(R.id.logout).setVisible(false);
-            Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+            if(!isNetCheck) {
+                Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+            }
             SaveCartDataInSharePreference();
         }
         menu.findItem(R.id.cart_layout).setVisible(true);
@@ -216,7 +220,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SaveCartDataInSharePreference();
-            SetUserName();
+            txtFullName.setVisibility(View.GONE);
+            cbName.setText(getResources().getString(R.string.siSignIn));
         } else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
@@ -346,6 +351,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 txtFullName.setVisibility(View.GONE);
             }
+            isLogin = false;
         }
     }
 
