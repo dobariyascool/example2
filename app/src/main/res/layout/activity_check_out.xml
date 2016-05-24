@@ -38,6 +38,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/control_SpecingSmall"
+                        android:layout_marginStart="@dimen/control_SpecingSmall"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -51,7 +53,8 @@
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="38dp"
-                            android:layout_margin="@dimen/control_SpecingSmall"
+                            android:layout_marginBottom="@dimen/control_SpecingSmall"
+                            android:layout_marginTop="@dimen/control_SpecingSmall"
                             android:background="@drawable/toggle_drawable">
 
                             <ToggleButton
@@ -184,6 +187,7 @@
                             android:id="@+id/areaLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/control_SpecingSmall"
                             android:layout_marginTop="@dimen/control_SpecingSmall"
                             android:gravity="center_vertical">
 
@@ -329,6 +333,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/control_SpecingSmall"
                         android:gravity="center_vertical"
                         android:padding="@dimen/control_SpecingSmall">
 
@@ -450,7 +455,9 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/control_SpecingSmall"
+                        android:layout_marginStart="@dimen/control_SpecingTiny">
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtPayment"

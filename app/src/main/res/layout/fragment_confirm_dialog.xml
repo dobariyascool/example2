@@ -38,22 +38,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_height="@dimen/dialog_button_layout_height"
+            android:gravity="end|center_vertical"
             android:orientation="horizontal">
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnCancel"
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/cdfCancel"/>
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnConfirm"
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/cdfConfirm"/>
 
         </LinearLayout>

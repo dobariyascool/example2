@@ -229,7 +229,8 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         txtWebSite.setText(content);
         txtPhone1.setText(objBusinessMaster.getPhone1());
         if(objBusinessMaster.getPhone2()!=null && !objBusinessMaster.getPhone2().equals("")){
-            txtPhone2.setVisibility(View.INVISIBLE);
+            txtPhone2.setVisibility(View.VISIBLE);
+            txtPhone2.setText(objBusinessMaster.getPhone2());
         }else{
             txtPhone2.setVisibility(View.INVISIBLE);
         }

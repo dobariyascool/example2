@@ -60,7 +60,7 @@ public class BookingActivity extends AppCompatActivity {
             if (requestCode == 0) {
                 if (data != null) {
                     if (data.getBooleanExtra("IsShowMessage", false)) {
-                        Globals.ShowSnackBar(addBookingFragment, getResources().getString(R.string.siLoginSucessMsg), BookingActivity.this, 2000);
+                        Globals.ShowSnackBar(addBookingFragment, getResources().getString(R.string.siLoginSuccessMsg), BookingActivity.this, 2000);
                     }
                 }
             }

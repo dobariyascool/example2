@@ -24,9 +24,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
@@ -58,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     boolean doubleBackToExitPressedOnce;
+    LinearLayout homeLayout,errorLayout;
 
 
     @Override
@@ -76,13 +78,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        Globals.SetHomePageBackground(HomeActivity.this,drawerLayout,null,null,null);
+        Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
+
+        errorLayout = (LinearLayout)findViewById(R.id.errorLayout);
+        homeLayout = (LinearLayout)findViewById(R.id.homeLayout);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
-        ImageView ivLogo = (ImageView) headerView.findViewById(R.id.ivLogo);
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
 
@@ -104,9 +108,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cbName.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
+            errorLayout.setVisibility(View.GONE);
+            homeLayout.setVisibility(View.VISIBLE);
             RequestBusinessGallery();
         } else {
-            Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+            errorLayout.setVisibility(View.VISIBLE);
+            Globals.SetErrorLayout(errorLayout,true,getResources().getString(R.string.MsgCheckConnection),null,R.drawable.wifi_drawable);
+            homeLayout.setVisibility(View.GONE);
+            //Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
 
         SaveCartDataInSharePreference();
@@ -151,8 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
 
             }
-        }
-        else if (item.getItemId() == R.id.hAboutUs) {
+        } else if (item.getItemId() == R.id.hAboutUs) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, AboutUsActivity.class);
             startActivity(intent);
@@ -165,21 +173,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         return false;
     }
-    
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        //MenuItem menuItem = menu.findItem(R.id.cart_layout);
-
-        //homeLinearLayoput = (LinearLayout) MenuItemCompat.getActionView(menuItem);
-
         MenuItem menuItem = menu.findItem(R.id.cart_layout);
 
         relativeLayout = (RelativeLayout) MenuItemCompat.getActionView(menuItem);
-        final ImageView ivCart = (ImageView) relativeLayout.findViewById(R.id.ivCart);
         final RelativeLayout cartLayout = (RelativeLayout) relativeLayout.findViewById(R.id.cartLayout);
         txtCartNumber = (com.rey.material.widget.TextView) relativeLayout.findViewById(R.id.txtCartNumber);
 
@@ -239,7 +242,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Globals.ShowSnackBar(drawerLayout,getResources().getString(R.string.HoBackMsg),HomeActivity.this,1000);
+        Toast.makeText(HomeActivity.this, getResources().getString(R.string.HoBackMsg), Toast.LENGTH_LONG).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -260,13 +263,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
             SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
-            objSharePreferenceManager.CreatePreference("OrderTypePreference","OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()),HomeActivity.this);
+            objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
             SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
-            objSharePreferenceManager.CreatePreference("OrderTypePreference","OrderType", String.valueOf(Globals.OrderType.TakeAway.getValue()),HomeActivity.this);
+            objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.TakeAway.getValue()), HomeActivity.this);
             Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.cvBookTable) {
@@ -295,7 +298,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (data != null) {
                     isLogin = data.getBooleanExtra("IsLogin", false);
                     if (data.getBooleanExtra("IsShowMessage", false)) {
-                        Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.siLoginSucessMsg), HomeActivity.this, 2000);
+                        Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.siLoginSuccessMsg), HomeActivity.this, 2000);
                     } else if (data.getBooleanExtra("ShowBookingMessage", false)) {
                         ShowSnackBarWithAction();
                     }
@@ -394,10 +397,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             ItemMaster[].class);
 
                     lstItemMaster = Arrays.asList(objItemMaster);
-                    Globals.alOrderItemTran.addAll(new ArrayList<ItemMaster>(lstItemMaster));
+                    Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
                     Globals.counter = Globals.alOrderItemTran.size();
-                    if(objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",HomeActivity.this)!=null){
-                        RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference","OrderRemark",HomeActivity.this);
+                    if (objSharePreferenceManage.GetPreference("CartItemListPreference", "OrderRemark", HomeActivity.this) != null) {
+                        RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference", "OrderRemark", HomeActivity.this);
                     }
                 } else {
                     objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", HomeActivity.this);
@@ -407,12 +410,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            objSharePreferenceManage = null;
-            lstItemMaster = null;
         }
     }
-
 
     //endregion
 

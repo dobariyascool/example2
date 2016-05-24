@@ -48,11 +48,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/control_SpecingTiny"
-            android:layout_marginEnd="@dimen/control_SpecingMedium"
-            android:layout_marginStart="@dimen/control_SpecingMedium"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/dialog_button_layout_height">
 
             <com.rey.material.widget.ImageButton
                 android:id="@+id/ibMinus"
@@ -60,6 +56,7 @@
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/control_SpecingMedium"
                 android:src="@drawable/minus_drawable" />
 
             <com.rey.material.widget.EditText
@@ -81,6 +78,7 @@
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:layout_toEndOf="@+id/etQuantity"
                 android:src="@drawable/plus_drawable" />
 
@@ -89,7 +87,8 @@
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
-                android:layout_marginStart="@dimen/control_SpecingLarge"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/ibPlus"
                 android:text="@string/aiqDone"
                 tools:ignore="HardcodedText" />

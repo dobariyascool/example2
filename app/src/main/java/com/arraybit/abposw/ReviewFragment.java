@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
@@ -40,9 +40,9 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     boolean isPause,isDataAppend;
     double totalReview;
     RelativeLayout reviewLayout;
-    TextView txtAverage,txtTotal,txtHeaderReview;
+    TextView txtAverage,txtTotal;
     RatingBar rtbReview;
-    ImageView ivReview;
+    Button btnReview;
 
     public ReviewFragment(BusinessMaster objBusinessMaster) {
         this.objBusinessMaster = objBusinessMaster;
@@ -56,7 +56,6 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
         txtAverage = (TextView)view.findViewById(R.id.txtAverage);
         txtTotal = (TextView)view.findViewById(R.id.txtTotal);
-        txtHeaderReview = (TextView)view.findViewById(R.id.txtHeaderReview);
 
         rtbReview =(RatingBar)view.findViewById(R.id.rtbReview);
 
@@ -67,7 +66,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
         rvReview.setNestedScrollingEnabled(false);
         rvReview.setVisibility(View.GONE);
 
-        ivReview = (ImageView)view.findViewById(R.id.ivReview);
+        btnReview = (Button)view.findViewById(R.id.btnReview);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -99,7 +98,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             }
         });
 
-        ivReview.setOnClickListener(new View.OnClickListener() {
+        btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();

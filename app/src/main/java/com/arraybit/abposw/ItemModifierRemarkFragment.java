@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.arraybit.adapter.ItemOptionValueAdapter;
 import com.arraybit.adapter.ModifierAdapter;
@@ -45,10 +44,9 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ArrayList<OptionMaster> alOptionMaster;
     String strOptionName, strItemName;
     ArrayList<OptionValueTran> lstOptionValueTran;
-    Button btnAdd;
+    Button btnAdd,btnRemark;
     StringBuilder sbOptionValue;
-    TextView txtItemDescription, txtItemRate,txtRemark;
-    ImageView ivItem,ivRemark;
+    TextView txtItemDescription,txtItemName, txtItemRate,txtRemark;
     ImageButton ibMinus, ibPlus;
     EditText etQuantity;
     ArrayList<ItemMaster> alItemMasterModifier;
@@ -75,17 +73,17 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 app_bar.setElevation(getActivity().getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
-        if(objItemMaster!=null && objItemMaster.getItemName()!=null) {
-            ((AppCompatActivity) getActivity()).setTitle(objItemMaster.getItemName());
+        if(objItemMaster!=null && objItemMaster.getCategory()!=null) {
+            ((AppCompatActivity) getActivity()).setTitle(objItemMaster.getCategory());
         }else{
             app_bar.setTitle(getResources().getString(R.string.title_item_modifier_remark));
         }
 
         setHasOptionsMenu(true);
 
-        ivRemark = (ImageView) view.findViewById(R.id.ivRemark);
 
         txtItemDescription = (TextView) view.findViewById(R.id.txtItemDescription);
+        txtItemName = (TextView) view.findViewById(R.id.txtItemName);
         txtItemRate = (TextView) view.findViewById(R.id.txtItemRate);
         txtRemark = (TextView) view.findViewById(R.id.txtRemark);
 
@@ -102,11 +100,12 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
         ibMinus = (ImageButton) view.findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) view.findViewById(R.id.ibPlus);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        btnRemark = (Button) view.findViewById(R.id.btnRemark);
 
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
-        ivRemark.setOnClickListener(this);
+        btnRemark.setOnClickListener(this);
 
         SetDetail();
 
@@ -191,7 +190,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             returnIntent.putExtra("ItemName", strItemName);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
-        }else if (v.getId() == R.id.ivRemark) {
+        }else if (v.getId() == R.id.btnRemark) {
             RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.setTargetFragment(this,0);
             remarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
@@ -351,9 +350,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @SuppressLint("SetTextI18n")
     private void SetDetail() {
+        txtItemName.setText(objItemMaster.getItemName());
         if (objItemMaster.getShortDescription().equals("")) {
-            txtItemDescription.setText(objItemMaster.getItemName());
+            txtItemDescription.setVisibility(View.GONE);
         } else {
+            txtItemDescription.setVisibility(View.VISIBLE);
             txtItemDescription.setText(objItemMaster.getShortDescription());
         }
         txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());

@@ -51,7 +51,7 @@ public class CartItemActivity extends AppCompatActivity {
             if (requestCode == 0) {
                 if (data != null) {
                     if(data.getBooleanExtra("IsShowMessage", false)){
-                        Globals.ShowSnackBar(fragmentLayout, getResources().getString(R.string.siLoginSucessMsg), CartItemActivity.this, 2000);
+                        Globals.ShowSnackBar(fragmentLayout, getResources().getString(R.string.siLoginSuccessMsg), CartItemActivity.this, 2000);
                     }else{
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("IsActivityFinish", true);

@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/plus_drawable"
-        android:tint="@color/colorPrimary"
+        android:tint="@android:color/white"
         app:layout_behavior="com.arraybit.global.FloatingActionMenuBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

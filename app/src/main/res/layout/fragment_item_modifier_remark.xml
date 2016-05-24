@@ -23,28 +23,56 @@
             android:layout_margin="@dimen/control_SpecingTiny"
             android:orientation="vertical">
 
-            <com.rey.material.widget.TextView
-                android:id="@+id/txtItemRate"
-                style="@style/HighLightedTextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/control_SpecingSmall"
-                android:paddingStart="@dimen/control_SpecingSmall" />
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtItemName"
+                    style="@style/HighLightedTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="0dp"
+                    android:text="@string/abBuildVersion" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtItemRate"
+                    style="@style/HighLightedTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:gravity="end"
+                    android:paddingEnd="@dimen/control_SpecingSmall"
+                    android:paddingStart="@dimen/control_SpecingSmall" />
+
+            </LinearLayout>
+
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtItemDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/control_SpecingTiny"
                 android:paddingEnd="@dimen/control_SpecingSmall"
                 android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
                 android:text="@string/abBuildVersion"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
                 android:textSize="@dimen/control_TextSmall" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvModifier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_SpecingSmall"/>
+                android:layout_marginTop="@dimen/control_SpecingTiny" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvOptionValue"
@@ -60,27 +88,33 @@
                 android:layout_marginStart="@dimen/control_SpecingSmall"
                 android:layout_marginTop="@dimen/control_SpecingTiny">
 
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtHeaderRemark"
-                    style="@style/HeaderTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cifRemark" />
+                <!--<com.rey.material.widget.TextView-->
+                <!--android:id="@+id/txtHeaderRemark"-->
+                <!--style="@style/HeaderTextView"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/cifRemark" />-->
 
-                <ImageView
-                    android:id="@+id/ivRemark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/control_SpecingSmall"
-                    android:layout_toEndOf="@+id/txtHeaderRemark"
-                    android:src="@drawable/edit_drawable"
-                    tools:ignore="ContentDescription" />
+                <!--<ImageView-->
+                <!--android:id="@+id/ivRemark"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="@dimen/control_SpecingSmall"-->
+                <!--android:layout_toEndOf="@+id/txtHeaderRemark"-->
+                <!--android:src="@drawable/edit_drawable"-->
+                <!--tools:ignore="ContentDescription" />-->
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/btnRemark"
+                    style="@style/BorderLessButton"
+                    android:drawableEnd="@drawable/edit_drawable"
+                    android:text="@string/cifRemark" />
 
                 <com.rey.material.widget.TextView
                     android:id="@+id/txtRemark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtHeaderRemark"
+                    android:layout_below="@+id/btnRemark"
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:textSize="@dimen/control_TextSmall"

@@ -62,28 +62,20 @@
             android:text="@string/rfAverageReview"
             android:textSize="12sp"/>
 
-        <com.rey.material.widget.TextView
-            android:id="@+id/txtHeaderReview"
+        <com.rey.material.widget.Button
+            android:id="@+id/btnReview"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="30dp"
-            android:layout_toEndOf="@+id/txtTotal"
-            android:gravity="end"
+            android:drawableEnd="@drawable/edit_drawable"
+            android:drawablePadding="@dimen/control_SpecingSmall"
+            android:padding="@dimen/control_SpecingSmall"
             android:text="@string/rfReview"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/control_TextMedium"/>
-
-        <ImageView
-            android:id="@+id/ivReview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/edit_drawable"
-            tools:ignore="ContentDescription" />
-
+            android:textSize="@dimen/control_TextNormal"
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView

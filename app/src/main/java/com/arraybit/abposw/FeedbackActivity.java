@@ -78,7 +78,7 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         if (Service.CheckNet(this)) {
             RequestFeedbackQuestion();
         } else {
-            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection));
+            SetErrorLayout(true, getResources().getString(R.string.MsgCheckConnection),R.drawable.wifi_drawable);
         }
     }
 
@@ -172,11 +172,15 @@ public class FeedbackActivity extends AppCompatActivity implements FeedbackQuest
         }
     }
 
-    private void SetErrorLayout(boolean isShow, String errorMsg) {
+    private void SetErrorLayout(boolean isShow, String errorMsg,int errorIcon) {
         TextView txtMsg = (TextView) errorLayout.findViewById(R.id.txtMsg);
+        ImageView ivErrorIcon = (ImageView) errorLayout.findViewById(R.id.ivErrorIcon);
         if (isShow) {
             errorLayout.setVisibility(View.VISIBLE);
             txtMsg.setText(errorMsg);
+            if(errorIcon!=0){
+                ivErrorIcon.setImageResource(errorIcon);
+            }
             txtFeedbackGroup.setVisibility(View.GONE);
             viewPager.setVisibility(View.GONE);
 

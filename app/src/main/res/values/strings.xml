@@ -142,7 +142,7 @@
     <string name="siNewUser">New User?</string>
     <string name="siSignupHere">Sign Up</string>
     <string name="siLoginFailedMsg">Username or Password are invalid.</string>
-    <string name="siLoginSucessMsg">Successfully logged in.</string>
+    <string name="siLoginSuccessMsg">Login successfully.</string>
     <string name="clear_text">Clear Text</string>
     <!-- end -->
 
@@ -165,7 +165,7 @@
     <string name="navExit">Exit</string>
     <string name="navOpen">Open</string>
     <string name="navClose">Close</string>
-    <string name="HoBackMsg">Please click BACK again to exit.</string>
+    <string name="HoBackMsg">Press again to exit.</string>
     <!-- end -->
 
     <!-- row_workinghours-->
@@ -264,7 +264,7 @@
     <string name="cpConfirmPassword">Confirm Password</string>
     <string name="cpChangePassword">Change Password</string>
     //confirmation password does not match
-    <string name="cpPasswordMisMatch">Password mismatch</string>
+    <string name="cpPasswordMisMatch">New and confirm password do not match</string>
     <!--end-->
 
     <!--Your Order-->

@@ -1,14 +1,14 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical"
     tools:context="com.arraybit.abposw.RemarkDialogFragment">
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/control_SpecingSmall"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -19,8 +19,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/aiqRemark"
-            android:paddingEnd="@dimen/control_SpecingSmall"
-            android:paddingStart="@dimen/control_SpecingSmall"
+            android:paddingBottom="@dimen/control_SpecingMedium"
+            android:paddingEnd="@dimen/control_SpecingMedium"
+            android:paddingStart="@dimen/control_SpecingMedium"
+            android:paddingTop="@dimen/control_SpecingMedium"
             android:singleLine="true"
             app:et_inputId="@+id/remarkInput" />
 
@@ -28,7 +30,7 @@
             android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_button_layout_height"
-            android:gravity="center|end"
+            android:gravity="end|center_vertical"
             android:orientation="horizontal"
             tools:ignore="HardcodedText">
 
@@ -47,5 +49,4 @@
                 android:text="@string/msdDone" />
         </LinearLayout>
     </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

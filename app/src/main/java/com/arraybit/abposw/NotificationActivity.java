@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 
 @SuppressWarnings("ConstantConditions")
 public class NotificationActivity extends AppCompatActivity {
@@ -28,8 +29,11 @@ public class NotificationActivity extends AppCompatActivity {
         }
 
         LinearLayout errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
-        Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null,0);
-
+        if (Service.CheckNet(this)) {
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, 0);
+        }else{
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, R.drawable.wifi_drawable);
+        }
     }
 
     @Override

@@ -162,7 +162,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_fragment_your_order))) {
-                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_profile), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_order), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_fragment_your_profile))) {

@@ -37,7 +37,7 @@
     <!-- end -->
 
     <!-- dialog button -->
-    <dimen name="dialog_button_height">48dp</dimen>
+    <dimen name="dialog_button_height">36dp</dimen>
     <dimen name="dialog_button_layout_height">52dp</dimen>
     <dimen name="dialog_button_layout_margin_top">24dp</dimen>
     <dimen name="dialog_margin">24dp</dimen>

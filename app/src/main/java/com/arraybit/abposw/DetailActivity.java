@@ -42,11 +42,11 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener, OptionValueJSONParser.OptionValueRequestListener, RemarkDialogFragment.RemarkResponseListener, ModifierAdapter.ModifierCheckedChangeListener {
 
     public static ArrayList<OptionMaster> alOptionValue;
-    ImageView ivItemImage, ivRemark, ivTest, ivJain;
-    TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn, txtHeaderRemark, txtRemark,txtItemName;
+    ImageView ivItemImage, ivTest, ivJain;
+    TextView txtItemRate, txtShortDescription, txtHeader, txtDineIn,txtRemark,txtItemName;
     RecyclerView rvSuggestedItem, rvModifier, rvOptionValue;
     Toolbar app_bar;
-    Button btnAdd, btnDisable;
+    Button btnAdd, btnDisable,btnRemark;
     ItemMaster objItemMaster;
     ArrayList<ItemMaster> alItemMaster;
     ItemSuggestedAdapter itemSuggestedAdapter;
@@ -96,7 +96,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         rvOptionValue = (RecyclerView) findViewById(R.id.rvOptionValue);
 
         ivItemImage = (ImageView) findViewById(R.id.ivItemImage);
-        ivRemark = (ImageView) findViewById(R.id.ivRemark);
         ivTest = (ImageView) findViewById(R.id.ivTest);
         ivJain = (ImageView) findViewById(R.id.ivJain);
 
@@ -105,7 +104,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         txtShortDescription = (TextView) findViewById(R.id.txtShortDescription);
         txtHeader = (TextView) findViewById(R.id.txtHeader);
         txtDineIn = (TextView) findViewById(R.id.txtDineIn);
-        txtHeaderRemark = (com.rey.material.widget.TextView) findViewById(R.id.txtHeaderRemark);
         txtRemark = (com.rey.material.widget.TextView) findViewById(R.id.txtRemark);
 
         etQuantity = (EditText) findViewById(R.id.etQuantity);
@@ -113,6 +111,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnDisable = (Button) findViewById(R.id.btnDisable);
+        btnRemark = (Button) findViewById(R.id.btnRemark);
 
         ibMinus = (ImageButton) findViewById(R.id.ibMinus);
         ibPlus = (ImageButton) findViewById(R.id.ibPlus);
@@ -120,10 +119,10 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         tbLike = (ToggleButton) findViewById(R.id.tbLike);
 
         btnAdd.setOnClickListener(this);
-        ivRemark.setOnClickListener(this);
         ibMinus.setOnClickListener(this);
         ibPlus.setOnClickListener(this);
         tbLike.setOnClickListener(this);
+        btnRemark.setOnClickListener(this);
 
         SetVisibility(false);
 
@@ -345,7 +344,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 }
 
             }
-        } else if (v.getId() == R.id.ivRemark) {
+        } else if (v.getId() == R.id.btnRemark) {
             RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.show(getSupportFragmentManager(), "");
         } else if (v.getId() == R.id.ibMinus) {
