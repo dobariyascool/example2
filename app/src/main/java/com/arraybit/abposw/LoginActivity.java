@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -163,6 +164,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+        @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
         this.objCustomerMaster = objCustomerMaster;
@@ -219,11 +227,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if(objCustomerMaster.getPhone1()!=null && !objCustomerMaster.getPhone1().equals("")) {
                 objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
             }
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("IsLogin", true);
-            returnIntent.putExtra("IsShowMessage", true);
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+            if(getIntent().getStringExtra("Booking")!=null && getIntent().getStringExtra("Booking").equals("Booking")){
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("IsRedirect", true);
+                returnIntent.putExtra("TargetActivity", "Booking");
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }else if(getIntent().getStringExtra("Order")!=null && getIntent().getStringExtra("Order").equals("Order")){
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("IsRedirect", true);
+                returnIntent.putExtra("TargetActivity", "Order");
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }else {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("IsLogin", true);
+                returnIntent.putExtra("IsShowMessage", true);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
         }
     }
     //endregion

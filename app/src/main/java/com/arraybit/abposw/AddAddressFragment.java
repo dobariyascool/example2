@@ -107,7 +107,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         if (Service.CheckNet(getActivity())) {
             RequestStateMaster();
         } else {
-            Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
 
         btnHome.setOnClickListener(this);
@@ -186,47 +186,49 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         } else if (v.getId() == R.id.btnAddress) {
             view = v;
             if (!ValidateControls()) {
-                progressDialog.dismiss();
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
-                objCustomerAddressTran = new CustomerAddressTran();
+                if (Service.CheckNet(getActivity())) {
+                    objCustomerAddressTran = new CustomerAddressTran();
+                    progressDialog.show(getActivity().getSupportFragmentManager(), "");
+                    SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                    objCustomerAddressTran.setCustomerName(etName.getText().toString());
+                    objCustomerAddressTran.setAddress(etAddress.getText().toString());
+                    if (btnHome.isChecked()) {
+                        objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
+                    } else {
+                        objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
+                    }
+                    objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
+                    objCustomerAddressTran.setCountry(spCountry.getSelectedItem().toString());
+                    objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
+                    objCustomerAddressTran.setState(spState.getSelectedItem().toString());
+                    if (spCity != null && spCity.getAdapter() != null) {
+                        objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
+                        objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
+                    }
+                    if (spArea != null && spArea.getAdapter() != null) {
+                        objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
+                        objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
+                    }
+                    objCustomerAddressTran.setZipCode(etZip.getText().toString());
+                    objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
+                    if (objCustomerAddressTran == null) {
+                        objCustomerAddressTran.setIsPrimary(true);
+                    }
+                    objCustomerAddressTran.setIsDeleted(false);
+                    objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
 
-                progressDialog.show(getActivity().getSupportFragmentManager(), "");
-                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-                objCustomerAddressTran.setCustomerName(etName.getText().toString());
-                objCustomerAddressTran.setAddress(etAddress.getText().toString());
-                if (btnHome.isChecked()) {
-                    objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
-                } else {
-                    objCustomerAddressTran.setAddressType((short) Globals.AddressType.Office.getValue());
-                }
-                objCustomerAddressTran.setlinktoCountryMasterId(countryMasterId);
-                objCustomerAddressTran.setCountry(spCountry.getSelectedItem().toString());
-                objCustomerAddressTran.setlinktoStateMasterId((short) spState.getAdapter().getItemId(spState.getSelectedItemPosition()));
-                objCustomerAddressTran.setState(spState.getSelectedItem().toString());
-                if(spCity!=null && spCity.getAdapter()!=null) {
-                    objCustomerAddressTran.setlinktoCityMasterId((short) spCity.getAdapter().getItemId(spCity.getSelectedItemPosition()));
-                    objCustomerAddressTran.setCity(spCity.getSelectedItem().toString());
-                }
-                if(spArea!=null && spArea.getAdapter()!=null) {
-                    objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
-                    objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
-                }
-                objCustomerAddressTran.setZipCode(etZip.getText().toString());
-                objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
-                if (objCustomerAddressTran == null) {
-                    objCustomerAddressTran.setIsPrimary(true);
-                }
-                objCustomerAddressTran.setIsDeleted(false);
-                objCustomerAddressTran.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
-
-                CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
-                if (btnAddress.getText().equals(getResources().getString(R.string.yaAdd))) {
-                    objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
-                } else {
-                    objCustomerAddressTran.setCustomerAddressTranId(CustomerAddressTranId);
-                    objCustomerAddressTran.setIsPrimary(chkIsPrimary.isChecked());
-                    objCustomerAddressJSONParser.UpdateCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                    CustomerAddressJSONParser objCustomerAddressJSONParser = new CustomerAddressJSONParser();
+                    if (btnAddress.getText().equals(getResources().getString(R.string.yaAdd))) {
+                        objCustomerAddressJSONParser.InsertCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                    } else {
+                        objCustomerAddressTran.setCustomerAddressTranId(CustomerAddressTranId);
+                        objCustomerAddressTran.setIsPrimary(chkIsPrimary.isChecked());
+                        objCustomerAddressJSONParser.UpdateCustomerAddressTran(getActivity(), this, objCustomerAddressTran);
+                    }
+                }else {
+                    Globals.ShowSnackBar(addAddressFragment, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                 }
             }
         }

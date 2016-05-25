@@ -483,6 +483,21 @@ public class Globals {
         }
     }
 
+    public enum BannerType {
+        Item(1),
+        Offer(2);
+
+        private int intValue;
+
+        BannerType(int value) {
+            intValue = value;
+        }
+
+        public int getValue() {
+            return intValue;
+        }
+    }
+
     //endregion
 
     //region Commented Code

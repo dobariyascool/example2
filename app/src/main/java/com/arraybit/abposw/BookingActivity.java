@@ -24,7 +24,11 @@ public class BookingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean isBookingFromMenu = intent.getBooleanExtra("IsBookingFromMenu", false);
         if (isBookingFromMenu) {
-            Globals.ReplaceFragment(new YourBookingFragment(), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_your_booking), R.id.addBookingFragment);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("IsShowMessage", intent.getBooleanExtra("IsShowMessage", false));
+            YourBookingFragment yourBookingFragment = new YourBookingFragment();
+            yourBookingFragment.setArguments(bundle);
+            Globals.ReplaceFragment(yourBookingFragment, getSupportFragmentManager(), getResources().getString(R.string.title_fragment_your_booking), R.id.addBookingFragment);
         } else {
             Globals.ReplaceFragment(new AddBookingFragment(this), getSupportFragmentManager(), getResources().getString(R.string.title_add_booking_fragment), R.id.addBookingFragment);
         }

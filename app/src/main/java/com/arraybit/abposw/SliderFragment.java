@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,17 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.arraybit.modal.BusinessGalleryTran;
+import com.arraybit.global.Globals;
+import com.arraybit.modal.BannerMaster;
+import com.rey.material.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class SliderFragment extends Fragment {
 
-    private static final String PIC_URL = "slidepagefragment.picurl";
+    //private static final String PIC_URL = "slidepagefragment.picurl";
+    BannerMaster objBannerMaster;
 
-    public static SliderFragment createInstance(BusinessGalleryTran objBusinessGalleryTran) {
+    public static SliderFragment createInstance(BannerMaster objBannerMaster) {
         Bundle arguments = new Bundle();
-        arguments.putInt("id", objBusinessGalleryTran.getBusinessGalleryTranId());
-        arguments.putString(PIC_URL, objBusinessGalleryTran.getMDImagePhysicalName());
+        arguments.putParcelable("BannerMaster", objBannerMaster);
+        //arguments.putInt("id", objBannerMaster.getBannerMasterId());
+        //arguments.putString(PIC_URL, objBannerMaster.getLGImageName());
         SliderFragment fragment = new SliderFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -26,24 +31,46 @@ public class SliderFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_slider, container, false);
 
-        ImageView ivSliderImage = (ImageView) view.findViewById(R.id.ivGalleryImage);
+        ImageView ivGalleryImage = (ImageView) view.findViewById(R.id.ivGalleryImage);
+        TextView txtBannerTitle = (TextView) view.findViewById(R.id.txtBannerTitle);
+        TextView txtBannerDescription = (TextView) view.findViewById(R.id.txtBannerDescription);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
-            String url = arguments.getString(PIC_URL);
-            int id = arguments.getInt(String.valueOf("id"));
-            assert url != null;
-            if (!url.equals("")) {
-                ivSliderImage.setTag(id);
-                Picasso.with(getActivity()).load(url).into(ivSliderImage);
+            objBannerMaster = arguments.getParcelable("BannerMaster");
+            //String url = objBannerMaster.getLGImageName();
+            //int id = arguments.getInt(String.valueOf("id"));
+            //assert url != null;
+            if (objBannerMaster != null && objBannerMaster.getLGImageName() != null && !objBannerMaster.getLGImageName().equals("")) {
+                ivGalleryImage.setTag(objBannerMaster.getBannerMasterId());
+                Picasso.with(getActivity()).load(objBannerMaster.getLGImageName()).into(ivGalleryImage);
+                if (objBannerMaster.getBannerTitle() != null && !objBannerMaster.getBannerTitle().equals("")) {
+                    txtBannerTitle.setText(objBannerMaster.getBannerTitle());
+                }
+                if (objBannerMaster.getBannerDescription() != null && !objBannerMaster.getBannerDescription().equals("")) {
+                    txtBannerDescription.setText(objBannerMaster.getBannerDescription());
+                }
             }
         }
 
+        ivGalleryImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (objBannerMaster.getType() != 0 && objBannerMaster.getID() != 0) {
+                    if(objBannerMaster.getType() == Globals.BannerType.Item.getValue()) {
+                        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                        intent.putExtra("isBannerClick", true);
+                        intent.putExtra("ItemMasterId", objBannerMaster.getID());
+                        getActivity().startActivityForResult(intent, 0);
+                    }
+                }
+            }
+        });
 
         return view;
     }

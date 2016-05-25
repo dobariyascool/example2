@@ -119,6 +119,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         if (Service.CheckNet(getActivity())) {
             RequestTaxMaster();
         } else {
+            AllControlVisibility();
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCheckConnection), rvCartItem, R.drawable.wifi_drawable);
         }
 
@@ -259,7 +260,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }else{
             this.position = position;
             AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objOrderItemMaster);
-            addQtyRemarkDialogFragment.setTargetFragment(this,0);
+            addQtyRemarkDialogFragment.setTargetFragment(this, 0);
             addQtyRemarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
         }
     }
@@ -333,6 +334,34 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 }
             });
         }
+    }
+
+    private void AllControlVisibility(){
+        txtMsg.setVisibility(View.VISIBLE);
+        cbMenu.setVisibility(View.GONE);
+        rvCartItem.setVisibility(View.GONE);
+        headerLayout.setVisibility(View.GONE);
+        txtHeaderRemark.setVisibility(View.GONE);
+        ivRemark.setVisibility(View.GONE);
+        txtHeaderTotalAmount.setVisibility(View.GONE);
+        txtTotalAmount.setVisibility(View.GONE);
+        txtHeaderDiscount.setVisibility(View.GONE);
+        txtTotalDiscount.setVisibility(View.GONE);
+        txtHeaderRounding.setVisibility(View.GONE);
+        txtRoundingOff.setVisibility(View.GONE);
+        txtHeaderNetAmount.setVisibility(View.GONE);
+        txtNetAmount.setVisibility(View.GONE);
+        if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+            btnAddMore.setVisibility(View.GONE);
+        }else{
+            btnAddMore.setVisibility(View.GONE);
+        }
+        btnConfirmOrder.setVisibility(View.GONE);
+        taxLayout.setVisibility(View.GONE);
+        txtRemark.setVisibility(View.GONE);
+        txtMinOrder.setVisibility(View.GONE);
+        txtEditMessage.setVisibility(View.GONE);
+        btnDisableConfirmOrder.setVisibility(View.GONE);
     }
 
     private void SetVisibility() {

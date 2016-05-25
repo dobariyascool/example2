@@ -1,6 +1,8 @@
 package com.arraybit.abposw;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -114,6 +116,9 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
         Globals.HideKeyBoard(getActivity(), getView());
         if (item.getItemId() == android.R.id.home) {
             if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_my_order))) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("IsLogin", true);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
             } else {
                 getActivity().getSupportFragmentManager().popBackStack();

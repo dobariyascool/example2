@@ -1,6 +1,7 @@
 package com.arraybit.abposw;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -117,7 +118,9 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
                     .equals(getActivity().getResources().getString(R.string.title_fragment_your_booking))) {
                 Globals.HideKeyBoard(getActivity(), getView());
                 if (getActivity().getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
-                    getActivity().setResult(Activity.RESULT_OK);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsLogin", true);
+                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
                     getActivity().finish();
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
@@ -269,6 +272,9 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     }
 
     private void SetRecyclerView() {
+        if(getArguments()!=null && getArguments().getBoolean("IsShowMessage", false)) {
+            Globals.ShowSnackBar(rvBooking, getResources().getString(R.string.siLoginSuccessMsg), getActivity(), 2000);
+        }
         if (alBookingMaster == null) {
             if (currentPage == 1) {
                 Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgSelectFail), rvBooking, 0);

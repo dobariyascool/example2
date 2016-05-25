@@ -16,7 +16,12 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar_layout" />
 
+        <include android:id="@+id/errorLayout"
+            layout="@layout/error_layout"
+            android:visibility="gone"/>
+
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -431,6 +436,7 @@
                             android:layout_marginStart="@dimen/control_SpecingMedium"
                             android:background="@drawable/toggle_drawable"
                             android:padding="@dimen/control_SpecingSmall"
+                            android:singleLine="true"
                             android:textColor="@color/white_blur"
                             android:visibility="gone" />
 

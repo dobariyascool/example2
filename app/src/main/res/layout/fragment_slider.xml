@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,4 +11,31 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="start|center"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/control_SpecingMedium"
+        android:paddingStart="@dimen/control_SpecingMedium">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtBannerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/offwhite"
+            android:textSize="@dimen/control_TextLarge" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtBannerDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/control_TextSmall" />
+    </LinearLayout>
+</RelativeLayout>

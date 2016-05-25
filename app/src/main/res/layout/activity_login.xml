@@ -98,6 +98,7 @@
                     android:layout_marginTop="@dimen/control_SpecingSmall"
                     android:contentDescription="@string/clear_text"
                     android:src="@drawable/close_drawer"
+                    android:tint="#757575"
                     android:visibility="gone" />
 
             </RelativeLayout>
