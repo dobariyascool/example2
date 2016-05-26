@@ -151,6 +151,12 @@
     <string name="haTakeAway">Take Away</string>
     <string name="haBookTable">Book Table</string>
     <string name="haOffer">Offers</string>
+    <string name="haFb">Facebook</string>
+    <string name="haGoogle">Google+</string>
+    <string name="haTwitter">Twitter</string>
+    <string name="haInst">Instagram</string>
+    <string name="haLinked">LinkedIn</string>
+    <string name="haPinterest">Pinterest</string>
     <!-- end -->
 
     <!-- Home Navigation Drawer-->
@@ -366,6 +372,7 @@
 
     <!-- row_service -->
     <string name="rsService">Services</string>
+    <string name="retry">Retry</string>
     <!-- end -->
 
 </resources>

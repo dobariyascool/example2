@@ -613,11 +613,17 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             btnDisable.setVisibility(View.VISIBLE);
             wishListLayout.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
+            etQuantity.setEnabled(false);
+            ibMinus.setEnabled(false);
+            ibPlus.setEnabled(false);
         } else {
             txtDineIn.setVisibility(View.GONE);
             wishListLayout.setVisibility(View.VISIBLE);
             btnDisable.setVisibility(View.GONE);
             btnAdd.setVisibility(View.VISIBLE);
+            etQuantity.setEnabled(true);
+            ibMinus.setEnabled(true);
+            ibPlus.setEnabled(true);
         }
 
         if (objItemMaster.getMd_ImagePhysicalName() == null || objItemMaster.getMd_ImagePhysicalName().equals("")) {

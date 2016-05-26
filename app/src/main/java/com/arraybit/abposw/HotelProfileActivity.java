@@ -24,6 +24,7 @@ import com.arraybit.modal.BusinessMaster;
 import com.arraybit.parser.BusinessJSONParser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 public class HotelProfileActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener {
 
     ViewPager viewPager;
-    ImageView ivLogo;
+    ImageView ivLogo, ivBackground;
     TabLayout tabLayout;
     BusinessMaster objBusinessMaster;
     PageAdapter pageAdapter;
@@ -58,8 +59,11 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         ivLogo = (ImageView) findViewById(R.id.ivLogo);
+        ivBackground = (ImageView) findViewById(R.id.ivBackground);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager());
+
+        Picasso.with(HotelProfileActivity.this).load(R.drawable.hotel_profile_background).fit().centerCrop().into(ivBackground);
 
         if (Service.CheckNet(this)) {
             RequestBusinessMaster();
@@ -69,7 +73,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
     }
 
     @Override
-    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster,ArrayList<BusinessMaster> alBusinessMaster) {
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
         this.objBusinessMaster = objBusinessMaster;
         SetTabLayout();
@@ -109,6 +113,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
         if (objBusinessMaster == null) {
             Globals.ShowSnackBar(hotelProfileFragment, getResources().getString(R.string.MsgSelectFail), HotelProfileActivity.this, 1000);
         } else {
+
             Glide.with(HotelProfileActivity.this).load(objBusinessMaster.getXSImagePhysicalName()).asBitmap().override(150, 150).centerCrop().into(new BitmapImageViewTarget(ivLogo) {
                 @Override
                 protected void setResource(Bitmap resource) {
@@ -130,7 +135,7 @@ public class HotelProfileActivity extends AppCompatActivity implements BusinessJ
         }
     }
 
-    private void ClearData(){
+    private void ClearData() {
         InformationFragment.lstBusinessHoursTran = null;
         InformationFragment.lstBusinessService = null;
     }

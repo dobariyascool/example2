@@ -16,9 +16,10 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar_layout" />
 
-        <include android:id="@+id/errorLayout"
+        <include
+            android:id="@+id/errorLayout"
             layout="@layout/error_layout"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -53,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:padding="@dimen/control_SpecingSmall"
                             android:text="@string/coaOrderType"
-                            android:textColor="@color/white_blur"/>
+                            android:textColor="@color/white_blur" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -118,7 +119,7 @@
                                 android:enabled="false"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -141,7 +142,7 @@
                                 android:enabled="false"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
                         </LinearLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -172,7 +173,7 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/toggle_drawable"
                                 android:padding="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
 
                             <android.support.v7.widget.AppCompatSpinner
                                 android:id="@+id/spOrderCity"
@@ -210,7 +211,7 @@
                                 android:layout_toEndOf="@+id/ivBusinessArea"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
 
                             <com.rey.material.widget.ImageButton
                                 android:id="@+id/ibBusinessViewMore"
@@ -222,7 +223,7 @@
                                 android:background="@drawable/rounded_layout"
                                 android:src="@drawable/view_more_drawable"
                                 android:text="@string/coaViewMore"
-                                android:visibility="invisible"/>
+                                android:visibility="invisible" />
                         </RelativeLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -262,7 +263,7 @@
                                 android:layout_marginEnd="@dimen/control_SpecingTiny"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -285,7 +286,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingEnd="@dimen/control_SpecingSmall"
                                 android:paddingStart="@dimen/control_SpecingSmall"
-                                android:textColor="@color/white_blur"/>
+                                android:textColor="@color/white_blur" />
                         </LinearLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -312,7 +313,7 @@
                             android:background="@drawable/toggle_drawable"
                             android:onClick="OrderDateOnClick"
                             android:padding="@dimen/control_SpecingSmall"
-                            android:textColor="@color/white_blur"/>
+                            android:textColor="@color/white_blur" />
 
                         <android.support.v7.widget.AppCompatSpinner
                             android:id="@+id/spOrderTime"
@@ -324,7 +325,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/toggle_drawable"
                             android:dropDownWidth="match_parent"
-                            android:textColor="@color/white_blur"/>
+                            android:textColor="@color/white_blur" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -356,7 +357,7 @@
                             android:layout_toEndOf="@+id/ivAddress"
                             android:paddingEnd="@dimen/control_SpecingSmall"
                             android:paddingStart="@dimen/control_SpecingSmall"
-                            android:textColor="@color/white_blur"/>
+                            android:textColor="@color/white_blur" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtCity"
@@ -472,7 +473,7 @@
                             android:padding="@dimen/control_SpecingSmall"
                             android:text="@string/coaYouPay"
                             android:textColor="@color/white_blur"
-                            android:textSize="@dimen/control_TextMedium"/>
+                            android:textSize="@dimen/control_TextMedium" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtPay"
@@ -483,9 +484,36 @@
                             android:gravity="end"
                             android:padding="@dimen/control_SpecingSmall"
                             android:textColor="@color/white_blur"
-                            android:textSize="@dimen/control_TextMedium"/>
+                            android:textSize="@dimen/control_TextMedium" />
 
                     </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvMinimumOrder"
+                    style="@style/CardViewTransparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/control_SpecingSmall"
+                        android:layout_marginStart="@dimen/control_SpecingSmall"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtMinOrder"
+                            style="@style/HighLightedTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:text="@string/cifMinOrder"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/control_TextNormal" />
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
@@ -513,7 +541,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/coaPlaceOrder" />
+                android:text="@string/coaPlaceOrder"
+                />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btnDisablePlaceOrder"
+                style="@style/DisableButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/coaPlaceOrder"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

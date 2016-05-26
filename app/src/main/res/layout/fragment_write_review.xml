@@ -5,12 +5,8 @@
     tools:context="com.arraybit.abposw.WriteReviewFragment">
 
     <LinearLayout
-        android:layout_width="250dp"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/control_SpecingMedium"
-        android:layout_marginLeft="@dimen/control_SpecingMedium"
-        android:layout_marginRight="@dimen/control_SpecingMedium"
-        android:layout_marginTop="@dimen/control_SpecingMedium"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -19,6 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/control_SpecingMedium"
+            android:layout_marginStart="@dimen/control_SpecingMedium"
+            android:layout_marginTop="@dimen/control_SpecingMedium"
             android:max="5" />
 
         <com.rey.material.widget.EditText
@@ -26,29 +25,29 @@
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/control_SpecingTiny"
-            android:layout_marginRight="@dimen/control_SpecingTiny"
             android:hint="@string/rfReview"
-            android:inputType="text" />
+            android:inputType="text"
+            android:paddingEnd="@dimen/control_SpecingMedium"
+            android:paddingStart="@dimen/control_SpecingMedium" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
+            android:layout_height="@dimen/dialog_button_layout_height"
+            android:gravity="center|end"
             android:orientation="horizontal">
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnReviewClose"
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/rfClose" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnReviewSubmit"
                 style="@style/DialogButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/rfSubmit" />
         </LinearLayout>
     </LinearLayout>

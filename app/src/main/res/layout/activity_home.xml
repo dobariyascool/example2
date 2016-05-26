@@ -16,18 +16,19 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/app_bar"
-            layout="@layout/app_bar_layout" />
-
-        <include android:id="@+id/errorLayout"
-            layout="@layout/error_layout"
-            android:visibility="gone"/>
+            android:id="@+id/internetLayout"
+            layout="@layout/internet_layout"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/homeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <include
+                android:id="@+id/app_bar"
+                layout="@layout/app_bar_layout" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -36,8 +37,7 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:animateLayoutChanges="true"/>
+                    android:layout_height="match_parent" />
 
                 <com.liangfeizc.slidepageindicator.CirclePageIndicator
                     android:id="@+id/circlePageIndicator"
@@ -196,6 +196,71 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionMenu xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/famRoot"
+        style="@style/FloatingMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/control_SpecingSmall"
+        app:layout_behavior="com.arraybit.global.FloatingActionMenuBehavior"
+        app:menu_icon="@drawable/social_drawable">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabFB"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/facebook_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haFb" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabTwitter"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/twitter_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haTwitter" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabInst"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/instagram_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haInst" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGoogle"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/google_plus_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haGoogle" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabLinkedIn"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/linkedin_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haLinked" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabPin"
+            style="@style/FloatingButtonWithTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pinterest_drawable"
+            android:tint="@color/colorAccent"
+            fab:fab_label="@string/haPinterest" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
     <!-- Navigation Drawer -->
     <android.support.design.widget.NavigationView

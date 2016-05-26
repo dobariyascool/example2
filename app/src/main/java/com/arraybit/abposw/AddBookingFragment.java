@@ -41,7 +41,8 @@ import java.util.Locale;
 @SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {
 
-    EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail, etRemark;
+    EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail,etRemark;
+//    android.widget.EditText etRemark;
     Button btnBookTable;
     AppCompatSpinner spFromTime, spToTime;
     Date time, date;
@@ -96,6 +97,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
+//        etRemark = (android.widget.EditText) view.findViewById(R.id.etRemark);
 
         spFromTime = (AppCompatSpinner) view.findViewById(R.id.spFromTime);
         spToTime = (AppCompatSpinner) view.findViewById(R.id.spToTime);
@@ -194,6 +196,18 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 return false;
             }
         });
+
+//        etRemark.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
+//                boolean handled = false;
+//                if (actionId == EditorInfo.IME_ACTION_SEND) {
+//                    Globals.HideKeyBoard(getActivity(), v);
+//                    handled = true;
+//                }
+//                return handled;
+//            }
+//        });
 
         return view;
     }

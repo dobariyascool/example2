@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,10 +35,14 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BannerMaster;
+import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BannerMasterJSONParser;
+import com.arraybit.parser.CustomerJSONParser;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
+import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 
 import java.util.ArrayList;
@@ -46,9 +51,10 @@ import java.util.List;
 
 @SuppressWarnings("ResourceType")
 @SuppressLint("InflateParams")
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener ,CustomerJSONParser.CustomerRequestListener{
 
-    final int requestCode=123;
+    static final int duration = 2000;
+    final int requestCode = 123;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -61,8 +67,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     boolean doubleBackToExitPressedOnce, isNetCheck;
-    LinearLayout homeLayout, errorLayout;
-
+    LinearLayout homeLayout, internetLayout;
+    boolean stopSliding = false, isPause;
+    SlidePagerAdapter pagerAdapter;
+    ArrayList<BannerMaster> alBannerMaster;
+    FloatingActionMenu famRoot;
+    private Runnable animateViewPager;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +92,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         isNetCheck = getIntent().getBooleanExtra("IsNetCheck", false);
 
+        famRoot = (FloatingActionMenu)findViewById(R.id.famRoot);
+        famRoot.setClosedOnTouchOutside(true);
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
 
-        errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
+        internetLayout = (LinearLayout) findViewById(R.id.internetLayout);
+        Button btnRetry = (Button)internetLayout.findViewById(R.id.btnRetry);
         homeLayout = (LinearLayout) findViewById(R.id.homeLayout);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -112,21 +127,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cbName.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
-            errorLayout.setVisibility(View.GONE);
+            internetLayout.setVisibility(View.GONE);
+            famRoot.setVisibility(View.VISIBLE);
             homeLayout.setVisibility(View.VISIBLE);
             RequestBannerMaster();
         } else {
-            errorLayout.setVisibility(View.VISIBLE);
-            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
+            internetLayout.setVisibility(View.VISIBLE);
+            famRoot.setVisibility(View.GONE);
+            Globals.SetErrorLayout(internetLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
             homeLayout.setVisibility(View.GONE);
-            //Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
         }
 
-        SaveCartDataInSharePreference();
+        if(internetLayout.getVisibility()==View.GONE){
 
-        SetUserName();
+            SaveCartDataInSharePreference();
 
-        SetWishListFromSharePreference();
+            SetUserName();
+
+            SetWishListFromSharePreference();
+        }
+
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Service.CheckNet(HomeActivity.this)) {
+                    CheckUserNamePassword();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -199,10 +229,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void runnable(final int size) {
+        handler = new Handler();
+        animateViewPager = new Runnable() {
+            public void run() {
+                if (!stopSliding) {
+                    if (viewPager.getCurrentItem() == size - 1) {
+                        viewPager.setCurrentItem(0,true);
+                    } else {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
+                    }
+                    handler.postDelayed(animateViewPager, duration);
+                }
+            }
+        };
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null) {
+        if (txtFullName.getVisibility() == View.VISIBLE) {
             menu.findItem(R.id.myAccount).setVisible(true);
             menu.findItem(R.id.logout).setVisible(true);
         } else {
@@ -218,6 +263,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onPause() {
+        if (handler != null) {
+            //Remove callback
+            handler.removeCallbacks(animateViewPager);
+            isPause = true;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (isPause) {
+            handler.postDelayed(animateViewPager, duration);
+        }
+        super.onResume();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -230,11 +293,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
         } else if (id == R.id.myBookings) {
-            if(txtFullName.getVisibility()==View.GONE){
+            if (txtFullName.getVisibility() == View.GONE) {
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.putExtra("Booking","Booking");
+                intent.putExtra("Booking", "Booking");
                 startActivityForResult(intent, requestCode);
-            }else {
+            } else {
                 Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
                 intent.putExtra("IsBookingFromMenu", true);
                 startActivityForResult(intent, 0);
@@ -243,11 +306,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, WishListActivity.class);
             startActivityForResult(intent, 0);
         } else if (id == R.id.myOrders) {
-            if(txtFullName.getVisibility()==View.GONE){
+            if (txtFullName.getVisibility() == View.GONE) {
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.putExtra("Order","Order");
+                intent.putExtra("Order", "Order");
                 startActivityForResult(intent, requestCode);
-            }else {
+            } else {
                 Intent intent = new Intent(HomeActivity.this, MyOrderActivity.class);
                 startActivityForResult(intent, 0);
             }
@@ -313,8 +376,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 if (data != null) {
@@ -329,15 +391,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 SaveCartDataInSharePreference();
                 SetCartNumber();
                 SetWishListFromSharePreference();
-            }else if(requestCode==123){
-                if(data!=null){
-                    if(data.getBooleanExtra("IsRedirect",false)){
-                        if(data.getStringExtra("TargetActivity")!=null && data.getStringExtra("TargetActivity").equals("Booking")) {
+            } else if (requestCode == 123) {
+                if (data != null) {
+                    if (data.getBooleanExtra("IsRedirect", false)) {
+                        if (data.getStringExtra("TargetActivity") != null && data.getStringExtra("TargetActivity").equals("Booking")) {
                             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
                             intent.putExtra("IsShowMessage", true);
                             intent.putExtra("IsBookingFromMenu", true);
                             startActivityForResult(intent, 0);
-                        }else if(data.getStringExtra("TargetActivity")!=null && data.getStringExtra("TargetActivity").equals("Order")){
+                        } else if (data.getStringExtra("TargetActivity") != null && data.getStringExtra("TargetActivity").equals("Order")) {
                             Intent intent = new Intent(HomeActivity.this, MyOrderActivity.class);
                             intent.putExtra("IsShowMessage", true);
                             startActivityForResult(intent, 0);
@@ -347,6 +409,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
+        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+        if (objCustomerMaster == null) {
+            intent.putExtra("IsLogin", false);
+        } else {
+            intent.putExtra("IsLogin", true);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     //region Private Methods
@@ -359,10 +433,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void SetSlider(ArrayList<BannerMaster> alBannerMaster) {
         if (alBannerMaster != null && alBannerMaster.size() != 0) {
-            SlidePagerAdapter pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
+            pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
             pagerAdapter.addAll(alBannerMaster);
             viewPager.setAdapter(pagerAdapter);
+            viewPager.setPageTransformer(true, new DepthPageTransformer());
             circlePageIndicator.setViewPager(viewPager);
+            runnable(alBannerMaster.size());
+            //Re-run callback
+            handler.postDelayed(animateViewPager, duration);
+            viewPager.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction()) {
+
+                        case MotionEvent.ACTION_CANCEL:
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                            // calls when touch release on ViewPager
+                            stopSliding = false;
+                            handler.postDelayed(animateViewPager,5000);
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            // calls when ViewPager touch
+                            if (handler != null && !stopSliding) {
+                                stopSliding = true;
+                                handler.removeCallbacks(animateViewPager);
+                            }
+                            break;
+                    }
+                    return false;
+
+            }
+            });
         }
     }
 
@@ -469,6 +574,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             ItemAdapter.alWishItemMaster = new ArrayList<>();
         }
     }
+
+    private void CheckUserNamePassword(){
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", HomeActivity.this) != null) {
+            String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this);
+            String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", HomeActivity.this);
+            if (!userName.isEmpty() && !userPassword.isEmpty()) {
+                if (Service.CheckNet(HomeActivity.this)) {
+                    CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+                    objCustomerJSONParser.SelectCustomerMaster(HomeActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
+                }else {
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    intent.putExtra("IsNetCheck",true);
+                    startActivity(intent);
+                }
+
+            } else {
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        }else{
+            Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+    }
     //endregion
 
     //region Page Adapter
@@ -493,5 +623,82 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             this.lstBannerMaster = lstBannerMaster;
         }
     }
+
+    public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
+        private static final float MIN_SCALE = 0.85f;
+        private static final float MIN_ALPHA = 0.5f;
+
+        public void transformPage(View view, float position) {
+            int pageWidth = view.getWidth();
+            int pageHeight = view.getHeight();
+
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+
+            } else if (position <= 1) { // [-1,1]
+                // Modify the default slide transition to shrink the page as well
+                float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+                float vertMargin = pageHeight * (1 - scaleFactor) / 2;
+                float horzMargin = pageWidth * (1 - scaleFactor) / 2;
+                if (position < 0) {
+                    view.setTranslationX(horzMargin - vertMargin / 2);
+                } else {
+                    view.setTranslationX(-horzMargin + vertMargin / 2);
+                }
+
+                // Scale the page down (between MIN_SCALE and 1)
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+
+                // Fade the page relative to its size.
+                view.setAlpha(MIN_ALPHA +
+                        (scaleFactor - MIN_SCALE) /
+                                (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
+        }
+    }
+
+    public class DepthPageTransformer implements ViewPager.PageTransformer {
+        private static final float MIN_SCALE = 0.75f;
+
+        public void transformPage(View view, float position) {
+            int pageWidth = view.getWidth();
+
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+
+            } else if (position <= 0) { // [-1,0]
+                // Use the default slide transition when moving to the left page
+                view.setAlpha(1);
+                view.setTranslationX(0);
+                view.setScaleX(1);
+                view.setScaleY(1);
+
+            } else if (position <= 1) { // (0,1]
+                // Fade the page out.
+                view.setAlpha(1 - position);
+
+                // Counteract the default slide transition
+                view.setTranslationX(pageWidth * -position);
+
+                // Scale the page down (between MIN_SCALE and 1)
+                float scaleFactor = MIN_SCALE
+                        + (1 - MIN_SCALE) * (1 - Math.abs(position));
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
+        }
+    }
+
     //endregion
 }

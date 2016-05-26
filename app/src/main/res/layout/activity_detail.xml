@@ -161,11 +161,13 @@
                     android:layout_height="wrap_content" />
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/control_SpecingSmall"
                     android:layout_marginStart="@dimen/control_SpecingSmall"
-                    android:layout_marginTop="@dimen/control_SpecingTiny">
+                    android:layout_marginTop="@dimen/control_SpecingTiny"
+                    android:background="@drawable/separator"
+                    android:paddingBottom="@dimen/control_SpecingTiny">
 
                     <com.rey.material.widget.Button
                         android:id="@+id/btnRemark"

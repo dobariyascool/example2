@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ybCustomerName"
+            android:singleLine="true"
             app:et_inputId="@+id/etCustomerName" />
 
         <LinearLayout
@@ -41,8 +42,11 @@
                 android:layout_marginEnd="@dimen/control_SpecingMedium"
                 android:layout_weight="1"
                 android:hint="@string/ybAdults"
+                android:imeOptions="actionNext"
                 android:inputType="number"
-                android:maxLength="2" />
+                android:maxLength="2"
+                android:nextFocusRight="@+id/etChildren"
+                android:singleLine="true" />
 
             <com.rey.material.widget.EditText
                 android:id="@+id/etChildren"
@@ -51,8 +55,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/ybChildren"
+                android:imeOptions="actionNext"
                 android:inputType="number"
-                android:maxLength="2" />
+                android:maxLength="2"
+                android:nextFocusRight="@+id/etBookingDate"
+                android:singleLine="true" />
         </LinearLayout>
 
         <com.rey.material.widget.EditText
@@ -125,7 +132,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/ybPhone"
             android:inputType="number"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:singleLine="true" />
 
         <com.rey.material.widget.EditText
             android:id="@+id/etEmail"
@@ -133,7 +141,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ybEmail"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
 
         <com.rey.material.widget.EditText
             android:id="@+id/etRemark"
@@ -141,8 +150,18 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:hint="@string/ybRemark"
-            android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:inputType="textMultiLine" />
+
+        <!--<EditText-->
+        <!--android:id="@+id/etRemark"-->
+        <!--style="@style/EditText"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:hint="@string/ybRemark"-->
+        <!--android:imeOptions="actionSend"-->
+        <!--android:scrollHorizontally="false"-->
+        <!--android:maxLines="10"-->
+        <!--android:inputType="textMultiLine" />-->
     </LinearLayout>
 
     <LinearLayout

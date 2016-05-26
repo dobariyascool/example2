@@ -69,7 +69,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
     EditText etOfferCode, etOrderDate, etName, etPhone, etBusinessName;
-    Button btnApply, btnViewOrder, btnPlaceOrder;
+    Button btnApply, btnViewOrder, btnPlaceOrder,btnDisablePlaceOrder;
     ImageButton ibAdd, ibViewMore, ibBusinessViewMore;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
@@ -81,7 +81,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<SpinnerItem> alOrderTime;
     AppCompatSpinner spOrderTime, spOrderCity;
     boolean isDateChange = false, isDataFilter, isCityFilter, isSelected, isDataLoad, isCityLoad, isGroup;
-    CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment;
+    CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment,cvMinimumOrder;
     BusinessMaster objBusinessMaster;
     ArrayList<BusinessMaster> alBusinessMaster;
     LinearLayout errorLayout;
@@ -124,6 +124,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         cvAddress = (CardView) findViewById(R.id.cvAddress);
         cvOfferCode = (CardView) findViewById(R.id.cvOfferCode);
         cvPayment = (CardView) findViewById(R.id.cvPayment);
+        cvMinimumOrder = (CardView) findViewById(R.id.cvMinimumOrder);
 
         tbTakeAway = (ToggleButton) findViewById(R.id.tbTakeAway);
         tbHomeDelivery = (ToggleButton) findViewById(R.id.tbHomeDelivery);
@@ -153,6 +154,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         btnApply = (Button) findViewById(R.id.btnApply);
         btnPlaceOrder = (Button) findViewById(R.id.btnPlaceOrder);
+        btnDisablePlaceOrder = (Button) findViewById(R.id.btnDisablePlaceOrder);
         btnViewOrder = (Button) findViewById(R.id.btnViewOrder);
 
         ibAdd = (ImageButton) findViewById(R.id.ibAdd);
@@ -405,6 +407,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 btnApply.setSelected(true);
                 btnApply.setVisibility(View.VISIBLE);
             } else if (v.getId() == R.id.btnApply) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 snackFocus = v;
                 if (btnApply.getText().equals(getResources().getString(R.string.coaCancel))) {
                     cbGetPromoCode.setVisibility(View.VISIBLE);
@@ -418,6 +421,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
             } else if (v.getId() == R.id.ibViewMore) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 if (Service.CheckNet(this)) {
                     isDataLoad = true;
                     RequestCustomerMaster();
@@ -426,6 +430,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
 
             } else if (v.getId() == R.id.btnViewOrder) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 isBackPressed = true;
                 if (tbTakeAway.isChecked()) {
                     SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
@@ -434,11 +439,14 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
                 finish();
             } else if (v.getId() == R.id.btnPlaceOrder) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
                 confirmDialog.show(getSupportFragmentManager(), "");
             } else if (v.getId() == R.id.ibAdd) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
             } else if (v.getId() == R.id.ibBusinessViewMore) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
                 if (spOrderCity != null && spOrderCity.getAdapter() != null) {
                     if (Service.CheckNet(this)) {
                         isDataLoad = true;
@@ -796,6 +804,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             cvOfferCode.setVisibility(View.VISIBLE);
             cvDateTime.setVisibility(View.VISIBLE);
             cvPayment.setVisibility(View.VISIBLE);
+            cvMinimumOrder.setVisibility(View.GONE);
+            btnPlaceOrder.setVisibility(View.VISIBLE);
+            btnDisablePlaceOrder.setVisibility(View.GONE);
             if (objCheckOut == null) {
                 isSelected = true;
                 etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
@@ -837,6 +848,15 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             cvOfferCode.setVisibility(View.VISIBLE);
             cvDateTime.setVisibility(View.VISIBLE);
             cvPayment.setVisibility(View.VISIBLE);
+            if(objOrderMaster.getTotalAmount() >= 300){
+                btnPlaceOrder.setVisibility(View.VISIBLE);
+                btnDisablePlaceOrder.setVisibility(View.GONE);
+                cvMinimumOrder.setVisibility(View.GONE);
+            }else{
+                btnPlaceOrder.setVisibility(View.GONE);
+                btnDisablePlaceOrder.setVisibility(View.VISIBLE);
+                cvMinimumOrder.setVisibility(View.VISIBLE);
+            }
             if (objCheckOut == null) {
                 isSelected = true;
                 etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));

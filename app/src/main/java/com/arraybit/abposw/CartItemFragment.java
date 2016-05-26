@@ -58,6 +58,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     OrderMaster objOrderMaster;
     int position;
     FrameLayout cartItemFragment;
+    boolean isPause;
 
 
     public CartItemFragment(String activityName) {
@@ -162,10 +163,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 }
             }
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
+                isPause = true;
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().startActivityForResult(intent, 0);
             } else {
                 RequestOrderMaster();
+                objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
+                objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
                 Intent intent = new Intent(getActivity(), CheckOutActivity.class);
                 intent.putExtra("OrderMaster", objOrderMaster);
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
@@ -192,22 +196,25 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        //isPause = true;
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-//        if (isPause) {
-//            objSharePreferenceManage = new SharePreferenceManage();
-//            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-//                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
-//                RequestOrderMaster();
-//            }
-//        }
+        if (isPause) {
+            isPause = false;
+            objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
+                RequestOrderMaster();
+                objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
+                objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
+                Intent intent = new Intent(getActivity(), CheckOutActivity.class);
+                intent.putExtra("OrderMaster", objOrderMaster);
+                intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
+                intent.putExtra("ParentActivity", activityName);
+                getActivity().startActivityForResult(intent, 0);
+            }
+        }
     }
 
     @Override
@@ -463,9 +470,24 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 btnDisableConfirmOrder.setVisibility(View.GONE);
                 txtMinOrder.setVisibility(View.INVISIBLE);
             }else{
-                btnConfirmOrder.setVisibility(View.GONE);
-                btnDisableConfirmOrder.setVisibility(View.VISIBLE);
-                txtMinOrder.setVisibility(View.VISIBLE);
+                if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+                    if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
+                        Globals.linktoOrderTypeMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity()));
+                    }
+                }
+                if(Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()){
+                    btnConfirmOrder.setVisibility(View.GONE);
+                    btnDisableConfirmOrder.setVisibility(View.VISIBLE);
+                    txtMinOrder.setVisibility(View.VISIBLE);
+                }else if(Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()){
+                    btnConfirmOrder.setVisibility(View.VISIBLE);
+                    btnDisableConfirmOrder.setVisibility(View.GONE);
+                    txtMinOrder.setVisibility(View.GONE);
+                }else{
+                    btnConfirmOrder.setVisibility(View.VISIBLE);
+                    btnDisableConfirmOrder.setVisibility(View.GONE);
+                    txtMinOrder.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -589,6 +611,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objSharePreferenceManage.ClearPreference("CheckOutDataPreference", getActivity());
         objSharePreferenceManage.RemovePreference("CartItemListPreference", "OrderRemark", getActivity());
         objSharePreferenceManage.ClearPreference("CartItemListPreference", getActivity());
+        objSharePreferenceManage.RemovePreference("OrderTypePreference","OrderType", getActivity());
+        objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
     }
 
     private void SaveCartDataInSharePreference() {

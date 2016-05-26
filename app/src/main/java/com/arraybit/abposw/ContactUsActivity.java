@@ -160,9 +160,14 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         map = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(21.1904891, 72.7864842);
-        map.addMarker(new MarkerOptions().position(sydney).title("ArrayBit"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //map.getUiSettings().setZoomControlsEnabled(true);
+        map.getUiSettings().setZoomGesturesEnabled(true);
+        map.getUiSettings().setScrollGesturesEnabled(true);
+        map.getUiSettings().setMapToolbarEnabled(true);
+        LatLng arraybit = new LatLng(21.1904891, 72.7864842);
+        map.addMarker(new MarkerOptions().position(arraybit).title("ArrayBit"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(arraybit));
+        map.animateCamera(CameraUpdateFactory.newLatLng(arraybit));
     }
 
     //region Private Methods
