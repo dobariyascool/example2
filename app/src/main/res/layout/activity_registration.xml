@@ -32,8 +32,10 @@
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
                     android:hint="@string/suFirstName"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etLastName"
@@ -41,7 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/suLastName"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etEmail"
@@ -49,7 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/suEmail"
-                    android:inputType="textWebEmailAddress" />
+                    android:inputType="textWebEmailAddress"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etPassword"
@@ -57,7 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/suPassword"
-                    android:inputType="textWebPassword" />
+                    android:inputType="textWebPassword"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etConfirmPassword"
@@ -65,7 +70,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/suConfirmPassword"
-                    android:inputType="textWebPassword" />
+                    android:inputType="textWebPassword"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etPhone"
@@ -74,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/suPhone"
                     android:inputType="phone"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etDateOfBirth"
@@ -83,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/suBirthDate"
                     android:inputType="none"
-                    android:onClick="EditTextOnClick" />
+                    android:onClick="EditTextOnClick"
+                    android:singleLine="true" />
 
                 <RadioGroup
                     android:id="@+id/rgMain"

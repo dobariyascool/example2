@@ -116,6 +116,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 
     @Override
     public void onClick(View v) {
+        Globals.HideKeyBoard(ContactUsActivity.this,v);
         if (v.getId() == R.id.btnSend) {
             view = v;
             progressDialog.show(getSupportFragmentManager(), "");

@@ -204,6 +204,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         view = v;
+        Globals.HideKeyBoard(RegistrationActivity.this, v);
         if (v.getId() == R.id.btnSignUp) {
             if (!ValidateControls()) {
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
@@ -401,11 +402,25 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
 
                 ClearControls();
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("IsLogin", true);
-                returnIntent.putExtra("IsShowMessage", true);
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+                if(getIntent().getStringExtra("Booking")!=null && getIntent().getStringExtra("Booking").equals("Booking")){
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsRedirect", true);
+                    returnIntent.putExtra("TargetActivity", "Booking");
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }else if(getIntent().getStringExtra("Order")!=null && getIntent().getStringExtra("Order").equals("Order")){
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsRedirect", true);
+                    returnIntent.putExtra("TargetActivity", "Order");
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }else {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsLogin", true);
+                    returnIntent.putExtra("IsShowMessage", true);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
                 break;
         }
 

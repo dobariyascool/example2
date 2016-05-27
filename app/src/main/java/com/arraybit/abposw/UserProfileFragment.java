@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +72,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etBirthDate = (EditText) view.findViewById(R.id.etDateOfBirth);
+        etBirthDate.setInputType(InputType.TYPE_NULL);
         //endregion
 
         //region View
@@ -110,6 +113,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Globals.HideKeyBoard(getActivity(),v);
                 if (!ValidateControls()) {
                     Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), getActivity(), 1000);
                     return;
@@ -119,6 +123,16 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
                 } else {
                     Globals.ShowSnackBar(btnUpdateProfile, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                 }
+            }
+        });
+
+        etMobile.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Globals.HideKeyBoard(getActivity(), v);
+                }
+                return false;
             }
         });
 

@@ -34,13 +34,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     ToggleButton tbPasswordShow;
     ProgressDialog progressDialog;
     SharePreferenceManage objSharePreferenceManage;
+    Toolbar app_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar app_bar = (Toolbar) findViewById(R.id.app_bar);
+        app_bar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(app_bar);
         if (app_bar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Globals.HideKeyBoard(LoginActivity.this, app_bar);
         if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
             getSupportFragmentManager().popBackStack();
         } else {
@@ -129,8 +131,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Globals.HideKeyBoard(this, view);
         } else if (v.getId() == R.id.cbSignUp) {
             Globals.HideKeyBoard(this, view);
-            Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-            startActivityForResult(intent, 0);
+            if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                intent.putExtra("Booking", "Booking");
+                startActivityForResult(intent, 123);
+            } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                intent.putExtra("Order", "Order");
+                startActivityForResult(intent, 123);
+            } else {
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivityForResult(intent, 0);
+            }
         } else if (v.getId() == R.id.ibClear) {
             etUserName.setText("");
             ibClear.setVisibility(View.GONE);
@@ -158,6 +170,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     setResult(Activity.RESULT_OK);
                     finish();
                 }
+            } else if (requestCode == 123) {
+                if (data.getBooleanExtra("IsRedirect", false)) {
+                    if (data.getStringExtra("TargetActivity") != null && data.getStringExtra("TargetActivity").equals("Booking")) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsRedirect", true);
+                        returnIntent.putExtra("TargetActivity", "Booking");
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } else if (data.getStringExtra("TargetActivity") != null && data.getStringExtra("TargetActivity").equals("Order")) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsRedirect", true);
+                        returnIntent.putExtra("TargetActivity", "Order");
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } else {
+                        setResult(Activity.RESULT_OK);
+                        finish();
+                    }
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-        @Override
+    @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
         this.objCustomerMaster = objCustomerMaster;
@@ -224,22 +255,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
-            if(objCustomerMaster.getPhone1()!=null && !objCustomerMaster.getPhone1().equals("")) {
+            if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
                 objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
             }
-            if(getIntent().getStringExtra("Booking")!=null && getIntent().getStringExtra("Booking").equals("Booking")){
+            if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsRedirect", true);
                 returnIntent.putExtra("TargetActivity", "Booking");
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-            }else if(getIntent().getStringExtra("Order")!=null && getIntent().getStringExtra("Order").equals("Order")){
+            } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsRedirect", true);
                 returnIntent.putExtra("TargetActivity", "Order");
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-            }else {
+            } else {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsLogin", true);
                 returnIntent.putExtra("IsShowMessage", true);

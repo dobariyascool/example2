@@ -253,6 +253,7 @@
                 android:inputType="number"
                 android:maxLength="2"
                 android:onClick="EditTextOnClick"
+                android:singleLine="true"
                 android:text="1"
                 tools:ignore="HardcodedText" />
 

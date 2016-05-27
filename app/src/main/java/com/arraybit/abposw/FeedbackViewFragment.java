@@ -396,6 +396,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         editText.setLayoutParams(editTextLayoutParams);
         editText.setPadding(30, 0, 0, 0);
         editText.applyStyle(R.style.EditText);
+        editText.setSingleLine();
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -540,6 +541,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         etUserName.setLayoutParams(etUserNameLayoutParams);
         etUserName.applyStyle(R.style.EditText);
         etUserName.setHint(getActivity().getResources().getString(R.string.fbName));
+        etUserName.setSingleLine();
         etUserName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         final EditText etEmail = new EditText(getActivity());
@@ -547,6 +549,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         etEmail.setLayoutParams(etEmailLayoutParams);
         etEmail.applyStyle(R.style.EditText);
         etEmail.setHint(getActivity().getResources().getString(R.string.fbEmail));
+        etEmail.setSingleLine();
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
         final EditText etMobileNo = new EditText(getActivity());
@@ -554,14 +557,17 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         etMobileNo.setLayoutParams(etMobileNoLayoutParams);
         etMobileNo.applyStyle(R.style.EditText);
         etMobileNo.setHint(getActivity().getResources().getString(R.string.fbMobileNo));
+        etMobileNo.setSingleLine();
         etMobileNo.setInputType(InputType.TYPE_CLASS_PHONE);
 
         final EditText etFeedback = new EditText(getActivity());
-        LinearLayout.LayoutParams etFeedbackLayoutParams = new LinearLayout.LayoutParams(600, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams etFeedbackLayoutParams = new LinearLayout.LayoutParams(600, 200);
         etFeedback.setLayoutParams(etFeedbackLayoutParams);
         etFeedback.applyStyle(R.style.EditText);
         etFeedback.setHint(getActivity().getResources().getString(R.string.fbFeedback));
-        etFeedback.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        etFeedback.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        etFeedback.setMaxLines(10);
+        etFeedback.setVerticalScrollBarEnabled(true);
 
         SetUser(etEmail, etUserName);
         Button btnSubmit = new Button(getActivity());

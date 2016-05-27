@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,16 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
                 } else {
                     Globals.ShowSnackBar(btnChangePassword, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
                 }
+            }
+        });
+
+        etConfirmPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Globals.HideKeyBoard(getActivity(), v);
+                }
+                return false;
             }
         });
 

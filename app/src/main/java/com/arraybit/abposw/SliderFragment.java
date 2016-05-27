@@ -16,14 +16,11 @@ import com.squareup.picasso.Picasso;
 
 public class SliderFragment extends Fragment {
 
-    //private static final String PIC_URL = "slidepagefragment.picurl";
     BannerMaster objBannerMaster;
 
     public static SliderFragment createInstance(BannerMaster objBannerMaster) {
         Bundle arguments = new Bundle();
         arguments.putParcelable("BannerMaster", objBannerMaster);
-        //arguments.putInt("id", objBannerMaster.getBannerMasterId());
-        //arguments.putString(PIC_URL, objBannerMaster.getLGImageName());
         SliderFragment fragment = new SliderFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -43,9 +40,6 @@ public class SliderFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             objBannerMaster = arguments.getParcelable("BannerMaster");
-            //String url = objBannerMaster.getLGImageName();
-            //int id = arguments.getInt(String.valueOf("id"));
-            //assert url != null;
             if (objBannerMaster != null && objBannerMaster.getLGImageName() != null && !objBannerMaster.getLGImageName().equals("")) {
                 ivGalleryImage.setTag(objBannerMaster.getBannerMasterId());
                 Picasso.with(getActivity()).load(objBannerMaster.getLGImageName()).into(ivGalleryImage);

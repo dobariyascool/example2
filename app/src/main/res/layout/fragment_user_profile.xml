@@ -64,7 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/suFirstName"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:singleLine="true" />
 
             <com.rey.material.widget.EditText
                 android:id="@+id/etMobile"
@@ -73,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/suPhone"
                 android:inputType="phone"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:singleLine="true" />
 
             <com.rey.material.widget.EditText
                 android:id="@+id/etDateOfBirth"
@@ -81,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/suBirthDate"
+                android:imeOptions="actionDone"
                 android:onClick="EditTextOnClick" />
 
             <RadioGroup

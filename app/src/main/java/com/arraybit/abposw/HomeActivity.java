@@ -53,7 +53,7 @@ import java.util.List;
 
 @SuppressWarnings("ResourceType")
 @SuppressLint("InflateParams")
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener ,CustomerJSONParser.CustomerRequestListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener {
 
     static final int duration = 2000;
     final int requestCode = 123;
@@ -72,7 +72,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     LinearLayout homeLayout, internetLayout;
     boolean stopSliding = false, isPause;
     SlidePagerAdapter pagerAdapter;
-    ArrayList<BannerMaster> alBannerMaster;
     FloatingActionMenu famRoot;
     private Runnable animateViewPager;
     private Handler handler;
@@ -94,14 +93,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         isNetCheck = getIntent().getBooleanExtra("IsNetCheck", false);
 
-        famRoot = (FloatingActionMenu)findViewById(R.id.famRoot);
+        famRoot = (FloatingActionMenu) findViewById(R.id.famRoot);
         famRoot.setClosedOnTouchOutside(true);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         Globals.SetHomePageBackground(HomeActivity.this, drawerLayout, null, null, null);
 
         internetLayout = (LinearLayout) findViewById(R.id.internetLayout);
-        Button btnRetry = (Button)internetLayout.findViewById(R.id.btnRetry);
+        Button btnRetry = (Button) internetLayout.findViewById(R.id.btnRetry);
         homeLayout = (LinearLayout) findViewById(R.id.homeLayout);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -140,7 +139,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             homeLayout.setVisibility(View.GONE);
         }
 
-        if(internetLayout.getVisibility()==View.GONE){
+        if (internetLayout.getVisibility() == View.GONE) {
 
             SaveCartDataInSharePreference();
 
@@ -149,13 +148,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             SetWishListFromSharePreference();
         }
 
-        FloatingActionButton fabYou = (FloatingActionButton)findViewById(R.id.fabYou);
-        FloatingActionButton fabInst = (FloatingActionButton)findViewById(R.id.fabInst);
-        FloatingActionButton fabPin = (FloatingActionButton)findViewById(R.id.fabPin);
-        FloatingActionButton fabLinkedIn = (FloatingActionButton)findViewById(R.id.fabLinkedIn);
-        FloatingActionButton fabTwitter = (FloatingActionButton)findViewById(R.id.fabTwitter);
-        FloatingActionButton fabGoogle = (FloatingActionButton)findViewById(R.id.fabGoogle);
-        FloatingActionButton fabFB = (FloatingActionButton)findViewById(R.id.fabFB);
+        FloatingActionButton fabYou = (FloatingActionButton) findViewById(R.id.fabYou);
+        FloatingActionButton fabInst = (FloatingActionButton) findViewById(R.id.fabInst);
+        FloatingActionButton fabPin = (FloatingActionButton) findViewById(R.id.fabPin);
+        FloatingActionButton fabLinkedIn = (FloatingActionButton) findViewById(R.id.fabLinkedIn);
+        FloatingActionButton fabTwitter = (FloatingActionButton) findViewById(R.id.fabTwitter);
+        FloatingActionButton fabGoogle = (FloatingActionButton) findViewById(R.id.fabGoogle);
+        FloatingActionButton fabFB = (FloatingActionButton) findViewById(R.id.fabFB);
 
         btnRetry.setOnClickListener(this);
         fabYou.setOnClickListener(this);
@@ -169,12 +168,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         famRoot.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
             @Override
             public void onMenuToggle(boolean opened) {
-                if(opened) {
+                if (opened) {
                     if (handler != null && !stopSliding) {
                         stopSliding = true;
                         handler.removeCallbacks(animateViewPager);
                     }
-                }else{
+                } else {
                     stopSliding = false;
                     handler.postDelayed(animateViewPager, duration);
                 }
@@ -344,7 +343,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(!famRoot.isOpened()) {
+        if (!famRoot.isOpened()) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -398,41 +397,41 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, CartItemActivity.class);
             intent.putExtra("ActivityName", getResources().getString(R.string.title_home));
             startActivityForResult(intent, 0);
-        }else if(v.getId() == R.id.btnRetry){
+        } else if (v.getId() == R.id.btnRetry) {
             if (Service.CheckNet(HomeActivity.this)) {
                 CheckUserNamePassword();
             }
-        }else if(v.getId() == R.id.fabFB){
+        } else if (v.getId() == R.id.fabFB) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://www.facebook.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabGoogle){
+        } else if (v.getId() == R.id.fabGoogle) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://plus.google.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabTwitter){
+        } else if (v.getId() == R.id.fabTwitter) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://twitter.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabLinkedIn){
+        } else if (v.getId() == R.id.fabLinkedIn) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://www.linkedin.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabInst){
+        } else if (v.getId() == R.id.fabInst) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://www.instagram.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabPin){
+        } else if (v.getId() == R.id.fabPin) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://in.pinterest.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }else if(v.getId() == R.id.fabYou){
+        } else if (v.getId() == R.id.fabYou) {
             famRoot.close(true);
             Uri uri = Uri.parse("https://www.youtube.com");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -519,7 +518,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         case MotionEvent.ACTION_UP:
                             // calls when touch release on ViewPager
                             stopSliding = false;
-                            handler.postDelayed(animateViewPager,5000);
+                            handler.postDelayed(animateViewPager, 5000);
                             break;
 
                         case MotionEvent.ACTION_MOVE:
@@ -532,7 +531,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                     return false;
 
-            }
+                }
             });
         }
     }
@@ -641,7 +640,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void CheckUserNamePassword(){
+    private void CheckUserNamePassword() {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", HomeActivity.this) != null) {
             String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", HomeActivity.this);
@@ -650,9 +649,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (Service.CheckNet(HomeActivity.this)) {
                     CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
                     objCustomerJSONParser.SelectCustomerMaster(HomeActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
-                }else {
+                } else {
                     Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-                    intent.putExtra("IsNetCheck",true);
+                    intent.putExtra("IsNetCheck", true);
                     startActivity(intent);
                 }
 
@@ -660,7 +659,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
-        }else{
+        } else {
             Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
             startActivity(intent);
         }
@@ -687,45 +686,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         public void addAll(List<BannerMaster> lstBannerMaster) {
             this.lstBannerMaster = lstBannerMaster;
-        }
-    }
-
-    public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
-        private static final float MIN_SCALE = 0.85f;
-        private static final float MIN_ALPHA = 0.5f;
-
-        public void transformPage(View view, float position) {
-            int pageWidth = view.getWidth();
-            int pageHeight = view.getHeight();
-
-            if (position < -1) { // [-Infinity,-1)
-                // This page is way off-screen to the left.
-                view.setAlpha(0);
-
-            } else if (position <= 1) { // [-1,1]
-                // Modify the default slide transition to shrink the page as well
-                float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
-                float vertMargin = pageHeight * (1 - scaleFactor) / 2;
-                float horzMargin = pageWidth * (1 - scaleFactor) / 2;
-                if (position < 0) {
-                    view.setTranslationX(horzMargin - vertMargin / 2);
-                } else {
-                    view.setTranslationX(-horzMargin + vertMargin / 2);
-                }
-
-                // Scale the page down (between MIN_SCALE and 1)
-                view.setScaleX(scaleFactor);
-                view.setScaleY(scaleFactor);
-
-                // Fade the page relative to its size.
-                view.setAlpha(MIN_ALPHA +
-                        (scaleFactor - MIN_SCALE) /
-                                (1 - MIN_SCALE) * (1 - MIN_ALPHA));
-
-            } else { // (1,+Infinity]
-                // This page is way off-screen to the right.
-                view.setAlpha(0);
-            }
         }
     }
 

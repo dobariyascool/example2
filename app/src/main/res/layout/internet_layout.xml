@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivErrorIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/wifi_drawable" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/control_SpecingSmall"
+            android:text="@string/MsgCheckConnection"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/control_TextMedium" />
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btnRetry"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/control_SpecingSmall"
+        android:layout_weight="0.09"
+        android:padding="@dimen/control_SpecingSmall"
+        android:text="@string/retry" />
+</LinearLayout>

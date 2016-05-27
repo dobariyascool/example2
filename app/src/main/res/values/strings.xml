@@ -374,6 +374,7 @@
     <!-- row_service -->
     <string name="rsService">Services</string>
     <string name="retry">Retry</string>
+    <string name="laSkip">laSkip</string>
     <!-- end -->
 
 </resources>

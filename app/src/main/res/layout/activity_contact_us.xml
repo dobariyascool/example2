@@ -101,15 +101,13 @@
                             android:id="@+id/txtPhone1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:text="@string/abBuildVersion" />
+                            android:gravity="start" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtPhone2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:text="@string/abBuildVersion" />
+                            android:gravity="start" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -119,21 +117,25 @@
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cuName" />
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/cuName"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etContactUsEmail"
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cuEmail" />
+                    android:hint="@string/cuEmail"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etContactUsMobile"
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/cuMobile" />
+                    android:hint="@string/cuMobile"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etContactUsMessage"

@@ -28,7 +28,8 @@
             android:hint="@string/rfReview"
             android:inputType="text"
             android:paddingEnd="@dimen/control_SpecingMedium"
-            android:paddingStart="@dimen/control_SpecingMedium" />
+            android:paddingStart="@dimen/control_SpecingMedium"
+            android:singleLine="true" />
 
         <LinearLayout
             android:layout_width="match_parent"

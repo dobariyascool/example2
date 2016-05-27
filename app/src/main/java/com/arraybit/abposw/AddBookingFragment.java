@@ -41,15 +41,14 @@ import java.util.Locale;
 @SuppressLint("ValidFragment")
 public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener {
 
-    EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail,etRemark;
-//    android.widget.EditText etRemark;
+    EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail, etRemark;
     Button btnBookTable;
     AppCompatSpinner spFromTime, spToTime;
     Date time, date;
     String fromTime, toTime;
     int selected = -1;
     ArrayList<SpinnerItem> alFromTime, alToTime;
-    LinearLayout timeLinearLayout,addBookingFragment;
+    LinearLayout timeLinearLayout, addBookingFragment;
     View view;
     BookingMaster objBookingMaster;
     SharePreferenceManage objSharePreferenceManage;
@@ -97,7 +96,6 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etEmail = (EditText) view.findViewById(R.id.etEmail);
         etRemark = (EditText) view.findViewById(R.id.etRemark);
-//        etRemark = (android.widget.EditText) view.findViewById(R.id.etRemark);
 
         spFromTime = (AppCompatSpinner) view.findViewById(R.id.spFromTime);
         spToTime = (AppCompatSpinner) view.findViewById(R.id.spToTime);
@@ -196,19 +194,6 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 return false;
             }
         });
-
-//        etRemark.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
-//                boolean handled = false;
-//                if (actionId == EditorInfo.IME_ACTION_SEND) {
-//                    Globals.HideKeyBoard(getActivity(), v);
-//                    handled = true;
-//                }
-//                return handled;
-//            }
-//        });
-
         return view;
     }
 
@@ -262,7 +247,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Globals.HideKeyBoard(getActivity(),addBookingFragment);
+            Globals.HideKeyBoard(getActivity(), addBookingFragment);
             if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_booking))) {
                 if (getTargetFragment() != null) {
                     objAddNewBookingListener = (AddNewBookingListener) getTargetFragment();

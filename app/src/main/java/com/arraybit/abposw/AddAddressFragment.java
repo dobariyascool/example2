@@ -143,6 +143,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Globals.HideKeyBoard(getActivity(), view);
                 if (view.getId() == 0) {
                     cityAreaLayout.setVisibility(View.GONE);
                 } else {
@@ -153,13 +154,14 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Globals.HideKeyBoard(getActivity(), parent);
             }
         });
 
         spCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Globals.HideKeyBoard(getActivity(), view);
                 if (view.getId() == 0) {
                     spArea.setVisibility(View.INVISIBLE);
                 } else {
@@ -169,7 +171,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Globals.HideKeyBoard(getActivity(), parent);
             }
         });
     }

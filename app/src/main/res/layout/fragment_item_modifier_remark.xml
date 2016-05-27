@@ -88,22 +88,6 @@
                 android:layout_marginStart="@dimen/control_SpecingSmall"
                 android:layout_marginTop="@dimen/control_SpecingTiny">
 
-                <!--<com.rey.material.widget.TextView-->
-                <!--android:id="@+id/txtHeaderRemark"-->
-                <!--style="@style/HeaderTextView"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/cifRemark" />-->
-
-                <!--<ImageView-->
-                <!--android:id="@+id/ivRemark"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="@dimen/control_SpecingSmall"-->
-                <!--android:layout_toEndOf="@+id/txtHeaderRemark"-->
-                <!--android:src="@drawable/edit_drawable"-->
-                <!--tools:ignore="ContentDescription" />-->
-
                 <com.rey.material.widget.Button
                     android:id="@+id/btnRemark"
                     style="@style/BorderLessButton"
@@ -154,6 +138,7 @@
             android:inputType="number"
             android:maxLength="2"
             android:onClick="EditTextOnClick"
+            android:singleLine="true"
             android:text="1"
             tools:ignore="HardcodedText" />
 
