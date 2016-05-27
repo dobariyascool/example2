@@ -207,58 +207,81 @@
         app:menu_icon="@drawable/social_drawable">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabFB"
-            style="@style/FloatingButtonWithTextStyle"
+            android:id="@+id/fabYou"
+            style="@style/FloatingButtonTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/facebook_drawable"
-            android:tint="@color/colorAccent"
-            fab:fab_label="@string/haFb" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabTwitter"
-            style="@style/FloatingButtonWithTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/twitter_drawable"
-            android:tint="@color/colorAccent"
-            fab:fab_label="@string/haTwitter" />
+            android:src="@drawable/youtube_drawable"
+            fab:fab_colorNormal="#cd201f"
+            fab:fab_colorPressed="#9b3326"
+            fab:fab_colorRipple="#9b3326"
+            fab:fab_label="@string/haYouTube" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabInst"
-            style="@style/FloatingButtonWithTextStyle"
+            style="@style/FloatingButtonTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/instagram_drawable"
-            android:tint="@color/colorAccent"
+            fab:fab_colorNormal="#fcaf45"
+            fab:fab_colorPressed="#de9a3e"
+            fab:fab_colorRipple="#de9a3e"
             fab:fab_label="@string/haInst" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGoogle"
-            style="@style/FloatingButtonWithTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/google_plus_drawable"
-            android:tint="@color/colorAccent"
-            fab:fab_label="@string/haGoogle" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabLinkedIn"
-            style="@style/FloatingButtonWithTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/linkedin_drawable"
-            android:tint="@color/colorAccent"
-            fab:fab_label="@string/haLinked" />
-
-        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabPin"
-            style="@style/FloatingButtonWithTextStyle"
+            style="@style/FloatingButtonTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pinterest_drawable"
-            android:tint="@color/colorAccent"
+            fab:fab_colorNormal="#bd081c"
+            fab:fab_colorPressed="#9b3326"
+            fab:fab_colorRipple="#9b3326"
             fab:fab_label="@string/haPinterest" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabLinkedIn"
+            style="@style/FloatingButtonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/linkedin_drawable"
+            fab:fab_colorNormal="#0077b5"
+            fab:fab_colorPressed="#015b8b"
+            fab:fab_colorRipple="#015b8b"
+            fab:fab_label="@string/haLinked" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabTwitter"
+            style="@style/FloatingButtonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/twitter_drawable"
+            fab:fab_colorNormal="#29acdc"
+            fab:fab_colorPressed="#058ec1"
+            fab:fab_colorRipple="#058ec1"
+            fab:fab_label="@string/haTwitter" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabGoogle"
+            style="@style/FloatingButtonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/google_letter_drawable"
+            fab:fab_colorNormal="@color/googleplus_button"
+            fab:fab_colorPressed="#9b3326"
+            fab:fab_colorRipple="#9b3326"
+            fab:fab_label="@string/haGoogle" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabFB"
+            style="@style/FloatingButtonTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/facebook_letter_drawable"
+            fab:fab_colorNormal="@color/facebook_button"
+            fab:fab_colorPressed="#213764"
+            fab:fab_colorRipple="#213764"
+            fab:fab_label="@string/haFb" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

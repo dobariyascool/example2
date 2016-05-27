@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BannerMasterJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.liangfeizc.slidepageindicator.CirclePageIndicator;
@@ -147,12 +149,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             SetWishListFromSharePreference();
         }
 
+        FloatingActionButton fabYou = (FloatingActionButton)findViewById(R.id.fabYou);
+        FloatingActionButton fabInst = (FloatingActionButton)findViewById(R.id.fabInst);
+        FloatingActionButton fabPin = (FloatingActionButton)findViewById(R.id.fabPin);
+        FloatingActionButton fabLinkedIn = (FloatingActionButton)findViewById(R.id.fabLinkedIn);
+        FloatingActionButton fabTwitter = (FloatingActionButton)findViewById(R.id.fabTwitter);
+        FloatingActionButton fabGoogle = (FloatingActionButton)findViewById(R.id.fabGoogle);
+        FloatingActionButton fabFB = (FloatingActionButton)findViewById(R.id.fabFB);
 
-        btnRetry.setOnClickListener(new View.OnClickListener() {
+        btnRetry.setOnClickListener(this);
+        fabYou.setOnClickListener(this);
+        fabInst.setOnClickListener(this);
+        fabPin.setOnClickListener(this);
+        fabLinkedIn.setOnClickListener(this);
+        fabTwitter.setOnClickListener(this);
+        fabGoogle.setOnClickListener(this);
+        fabFB.setOnClickListener(this);
+
+        famRoot.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
             @Override
-            public void onClick(View v) {
-                if (Service.CheckNet(HomeActivity.this)) {
-                    CheckUserNamePassword();
+            public void onMenuToggle(boolean opened) {
+                if(opened) {
+                    if (handler != null && !stopSliding) {
+                        stopSliding = true;
+                        handler.removeCallbacks(animateViewPager);
+                    }
+                }else{
+                    stopSliding = false;
+                    handler.postDelayed(animateViewPager, duration);
                 }
             }
         });
@@ -235,9 +259,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void run() {
                 if (!stopSliding) {
                     if (viewPager.getCurrentItem() == size - 1) {
-                        viewPager.setCurrentItem(0,true);
+                        viewPager.setCurrentItem(0, true);
                     } else {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                     }
                     handler.postDelayed(animateViewPager, duration);
                 }
@@ -320,19 +344,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(HomeActivity.this, getResources().getString(R.string.HoBackMsg), Toast.LENGTH_LONG).show();
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+        if(!famRoot.isOpened()) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
             }
-        }, 2000);
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(HomeActivity.this, getResources().getString(R.string.HoBackMsg), Toast.LENGTH_LONG).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
     }
 
     @Override
@@ -372,6 +398,45 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(HomeActivity.this, CartItemActivity.class);
             intent.putExtra("ActivityName", getResources().getString(R.string.title_home));
             startActivityForResult(intent, 0);
+        }else if(v.getId() == R.id.btnRetry){
+            if (Service.CheckNet(HomeActivity.this)) {
+                CheckUserNamePassword();
+            }
+        }else if(v.getId() == R.id.fabFB){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://www.facebook.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabGoogle){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://plus.google.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabTwitter){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://twitter.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabLinkedIn){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://www.linkedin.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabInst){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://www.instagram.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabPin){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://in.pinterest.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }else if(v.getId() == R.id.fabYou){
+            famRoot.close(true);
+            Uri uri = Uri.parse("https://www.youtube.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 
@@ -437,6 +502,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             pagerAdapter.addAll(alBannerMaster);
             viewPager.setAdapter(pagerAdapter);
             viewPager.setPageTransformer(true, new DepthPageTransformer());
+            viewPager.setAnimation(AnimationUtils.makeInAnimation(HomeActivity.this, false));
             circlePageIndicator.setViewPager(viewPager);
             runnable(alBannerMaster.size());
             //Re-run callback
