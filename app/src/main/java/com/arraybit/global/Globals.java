@@ -60,6 +60,7 @@ public class Globals {
     public static short linktoOrderTypeMasterId = 0;
     public static DecimalFormat dfWithPrecision = new DecimalFormat("0.00");
     public static DecimalFormat dfWithOnePrecision = new DecimalFormat("0.0");
+    public static DecimalFormat dfWithoutPrecision = new DecimalFormat("0");
     public static int counter = 0;
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;

@@ -450,10 +450,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                         rvOptionValue.setVisibility(View.GONE);
                         progressDialog.dismiss();
                     } else {
-                        if (Service.CheckNet(DetailActivity.this)) {
-                            RequestOptionValue();
-                        } else {
-                            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                        if(!objItemMaster.getIsDineInOnly()) {
+                            if (Service.CheckNet(DetailActivity.this)) {
+                                RequestOptionValue();
+                            } else {
+                                Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                            }
                         }
                     }
                 } else {
@@ -465,19 +467,23 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                         if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
                             rvOptionValue.setVisibility(View.GONE);
                         } else {
-                            if (Service.CheckNet(DetailActivity.this)) {
-                                progressDialog.show(getSupportFragmentManager(), "");
-                                RequestOptionValue();
-                            } else {
-                                Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                            if(!objItemMaster.getIsDineInOnly()) {
+                                if (Service.CheckNet(DetailActivity.this)) {
+                                    progressDialog.show(getSupportFragmentManager(), "");
+                                    RequestOptionValue();
+                                } else {
+                                    Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                                }
                             }
                         }
                     } else if (!objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
-                        if (Service.CheckNet(DetailActivity.this)) {
-                            isRequestForModifier = true;
-                            RequestItemModifier();
-                        } else {
-                            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                        if(!objItemMaster.getIsDineInOnly()) {
+                            if (Service.CheckNet(DetailActivity.this)) {
+                                isRequestForModifier = true;
+                                RequestItemModifier();
+                            } else {
+                                Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                            }
                         }
                     }
                 }
@@ -491,10 +497,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                     rvOptionValue.setVisibility(View.GONE);
                     progressDialog.dismiss();
                 } else {
-                    if (Service.CheckNet(DetailActivity.this)) {
-                        RequestOptionValue();
-                    } else {
-                        Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                    if(!objItemMaster.getIsDineInOnly()) {
+                        if (Service.CheckNet(DetailActivity.this)) {
+                            RequestOptionValue();
+                        } else {
+                            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                        }
                     }
                 }
             } else {
@@ -506,19 +514,23 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                     if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
                         rvOptionValue.setVisibility(View.GONE);
                     } else {
-                        if (Service.CheckNet(DetailActivity.this)) {
-                            progressDialog.show(getSupportFragmentManager(), "");
-                            RequestOptionValue();
-                        } else {
-                            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                        if(!objItemMaster.getIsDineInOnly()) {
+                            if (Service.CheckNet(DetailActivity.this)) {
+                                progressDialog.show(getSupportFragmentManager(), "");
+                                RequestOptionValue();
+                            } else {
+                                Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                            }
                         }
                     }
                 } else if (!objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
-                    if (Service.CheckNet(DetailActivity.this)) {
-                        isRequestForModifier = true;
-                        RequestItemModifier();
-                    } else {
-                        Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                    if(!objItemMaster.getIsDineInOnly()) {
+                        if (Service.CheckNet(DetailActivity.this)) {
+                            isRequestForModifier = true;
+                            RequestItemModifier();
+                        } else {
+                            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+                        }
                     }
                 }
             }
@@ -675,6 +687,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         } else {
             ivTest.setVisibility(View.GONE);
             ivJain.setVisibility(View.GONE);
+        }
+        if(objItemMaster.getIsDineInOnly()){
+            btnRemark.setVisibility(View.GONE);
+        }else{
+            btnRemark.setVisibility(View.VISIBLE);
         }
     }
 

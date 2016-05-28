@@ -43,7 +43,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
-    Button btnAddMore, btnConfirmOrder,btnDisableConfirmOrder;
+    Button btnAddMore, btnConfirmOrder,btnDisableConfirmOrder,btnRemark;
     TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder,txtEditMessage;
     ImageView ivRemark;
     CompoundButton cbMenu;
@@ -87,9 +87,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         Globals.SetScaleImageBackground(getActivity(),null,null,cartItemFragment);
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
-        txtHeaderRemark = (TextView) view.findViewById(R.id.txtHeaderRemark);
         txtRemark = (TextView) view.findViewById(R.id.txtRemark);
-        ivRemark = (ImageView) view.findViewById(R.id.ivRemark);
         txtTotalAmount = (TextView) view.findViewById(R.id.txtTotalAmount);
         txtHeaderTotalAmount = (TextView) view.findViewById(R.id.txtHeaderTotalAmount);
         txtTotalDiscount = (TextView) view.findViewById(R.id.txtTotalDiscount);
@@ -114,6 +112,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         btnAddMore = (Button) view.findViewById(R.id.btnAddMore);
         btnConfirmOrder = (Button) view.findViewById(R.id.btnConfirmOrder);
         btnDisableConfirmOrder = (Button) view.findViewById(R.id.btnDisableConfirmOrder);
+        btnRemark = (Button) view.findViewById(R.id.btnRemark);
 
         SetRecyclerView();
 
@@ -127,7 +126,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         cbMenu.setOnClickListener(this);
         btnAddMore.setOnClickListener(this);
         btnConfirmOrder.setOnClickListener(this);
-        ivRemark.setOnClickListener(this);
+        btnRemark.setOnClickListener(this);
         return view;
     }
 
@@ -184,7 +183,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             returnIntent.putExtra("ShowMessage", false);
             getActivity().setResult(Activity.RESULT_OK, returnIntent);
             getActivity().finish();
-        } else if (v.getId() == R.id.ivRemark) {
+        } else if (v.getId() == R.id.btnRemark) {
             RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment();
             remarkDialogFragment.setTargetFragment(this, 0);
             remarkDialogFragment.show(getActivity().getSupportFragmentManager(), "");
@@ -377,8 +376,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             cbMenu.setVisibility(View.GONE);
             rvCartItem.setVisibility(View.GONE);
             headerLayout.setVisibility(View.GONE);
-            txtHeaderRemark.setVisibility(View.GONE);
-            ivRemark.setVisibility(View.GONE);
+            btnRemark.setVisibility(View.GONE);
             txtHeaderTotalAmount.setVisibility(View.GONE);
             txtTotalAmount.setVisibility(View.GONE);
             txtHeaderDiscount.setVisibility(View.GONE);
@@ -403,8 +401,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             cbMenu.setVisibility(View.GONE);
             txtEditMessage.setVisibility(View.VISIBLE);
             headerLayout.setVisibility(View.VISIBLE);
-            txtHeaderRemark.setVisibility(View.VISIBLE);
-            ivRemark.setVisibility(View.VISIBLE);
+            btnRemark.setVisibility(View.VISIBLE);
             rvCartItem.setVisibility(View.VISIBLE);
             txtHeaderTotalAmount.setVisibility(View.VISIBLE);
             txtTotalAmount.setVisibility(View.VISIBLE);

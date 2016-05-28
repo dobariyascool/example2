@@ -178,22 +178,12 @@
                             android:layout_marginEnd="@dimen/control_SpecingTiny"
                             android:layout_marginStart="@dimen/control_SpecingTiny">
 
-                            <com.rey.material.widget.TextView
-                                android:id="@+id/txtHeaderRemark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <com.rey.material.widget.Button
+                                android:id="@+id/btnRemark"
+                                style="@style/BorderLessButton"
+                                android:drawableEnd="@drawable/edit_drawable"
                                 android:text="@string/cifRemark"
-                                android:textColor="@color/white_blur"
-                                android:textSize="@dimen/control_TextMedium" />
-
-                            <ImageView
-                                android:id="@+id/ivRemark"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/control_SpecingSmall"
-                                android:layout_toEndOf="@+id/txtHeaderRemark"
-                                android:src="@drawable/edit_drawable"
-                                tools:ignore="ContentDescription" />
+                                android:textColor="@color/white_blur"/>
 
                             <com.rey.material.widget.TextView
                                 android:id="@+id/txtMinOrder"
@@ -202,7 +192,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:layout_toEndOf="@+id/ivRemark"
+                                android:layout_toEndOf="@+id/btnRemark"
                                 android:gravity="end"
                                 android:text="@string/cifMinOrder"
                                 android:textAllCaps="false"

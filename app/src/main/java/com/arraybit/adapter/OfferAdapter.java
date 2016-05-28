@@ -2,6 +2,7 @@ package com.arraybit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.arraybit.abposw.OfferDetailActivity;
 import com.arraybit.abposw.R;
 import com.arraybit.global.Globals;
 import com.arraybit.modal.OfferMaster;
@@ -68,8 +70,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                 holder.dateLayout.setVisibility(View.GONE);
             }
         }
-        if (!objOfferMaster.getImagePhysicalName().equals("")) {
-            Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getImagePhysicalName()).into(holder.ivOffer);
+        if (!objOfferMaster.getMd_ImagePhysicalName().equals("")) {
+            Picasso.with(holder.ivOffer.getContext()).load(objOfferMaster.getMd_ImagePhysicalName()).into(holder.ivOffer);
         }
 
         //holder animation
@@ -113,6 +115,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             txtOfferContent = (TextView) itemView.findViewById(R.id.txtOfferContent);
             txtOfferExpiredDate = (TextView) itemView.findViewById(R.id.txtOfferExpiredDate);
 
+            cvOffer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, OfferDetailActivity.class);
+                    intent.putExtra("OfferMasterId",alOfferMaster.get(getAdapterPosition()).getOfferMasterId());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

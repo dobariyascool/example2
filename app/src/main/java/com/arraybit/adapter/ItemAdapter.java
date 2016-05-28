@@ -165,15 +165,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 holder.txtItemName.setText(objItemMaster.getItemName());
             }
         } else if (MenuActivity.isViewChange) {
-            if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
-                holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
-                if (objItemMaster.getItemName().length() > 9) {
-                    holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 9) + "...");
+            if(!isTileGrid) {
+                if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
+                    holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
+                    if (objItemMaster.getItemName().length() > 9) {
+                        holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 9) + "...");
+                    } else {
+                        holder.txtItemName.setText(objItemMaster.getItemName());
+                    }
                 } else {
+                    holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(objItemMaster.getItemName().length())});
                     holder.txtItemName.setText(objItemMaster.getItemName());
                 }
-            } else {
-                holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(objItemMaster.getItemName().length())});
+            }else{
                 holder.txtItemName.setText(objItemMaster.getItemName());
             }
         }

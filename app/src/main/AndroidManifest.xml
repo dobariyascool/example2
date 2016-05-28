@@ -162,7 +162,11 @@
             android:name=".NotificationActivity"
             android:label="@string/title_activity_notification"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OfferDetailActivity"
+            android:label="@string/title_activity_offer_detail"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

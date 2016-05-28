@@ -73,6 +73,7 @@ public class OfferJSONParser {
                 }
                 objOfferMaster.setOfferCode(jsonObject.getString("OfferCode"));
                 objOfferMaster.setImagePhysicalName(jsonObject.getString("ImagePhysicalName"));
+                objOfferMaster.setMd_ImagePhysicalName(jsonObject.getString("mdImagePhysicalName"));
                 dt = sdfDateTimeFormat.parse(jsonObject.getString("CreateDateTime"));
                 objOfferMaster.setCreateDateTime(sdfControlDateFormat.format(dt));
                 objOfferMaster.setlinktoUserMasterIdCreatedBy((short) jsonObject.getInt("linktoUserMasterIdCreatedBy"));
@@ -141,6 +142,7 @@ public class OfferJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("linktoUserMasterIdUpdatedBy").equals("null")) {
                     objOfferMaster.setlinktoUserMasterIdUpdatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdUpdatedBy"));
                 }
+                objOfferMaster.setMd_ImagePhysicalName(jsonArray.getJSONObject(i).getString("mdImagePhysicalName"));
                 objOfferMaster.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
                 objOfferMaster.setTermsAndConditions(jsonArray.getJSONObject(i).getString("TermsAndConditions"));
                 objOfferMaster.setIsEnabled(jsonArray.getJSONObject(i).getBoolean("IsEnabled"));
@@ -195,7 +197,7 @@ public class OfferJSONParser {
     }
     //endregion
 
-    public void SelectOfferCodeVerification(final Context context,OfferMaster objOfferMaster) {
+    public void SelectOfferCodeVerification(final Context context, OfferMaster objOfferMaster) {
         try {
             JSONStringer stringer = new JSONStringer();
             stringer.object();
@@ -224,7 +226,7 @@ public class OfferJSONParser {
                     try {
                         jObject = jsonObject.getJSONObject(SelectOfferCodeVerification + "Result");
                         if (jObject != null) {
-                            OfferMaster offerMaster= SetClassPropertiesFromJSONObject(jObject);
+                            OfferMaster offerMaster = SetClassPropertiesFromJSONObject(jObject);
                             objOfferRequestListener = (OfferRequestListener) context;
                             objOfferRequestListener.OfferResponse(null, offerMaster);
                         }
@@ -246,6 +248,36 @@ public class OfferJSONParser {
             objOfferRequestListener = (OfferRequestListener) context;
             objOfferRequestListener.OfferResponse(null, null);
         }
+    }
+
+    public void SelectOfferMaster(final Context context, int offerMasterId) {
+        String url = Service.Url + this.SelectOfferMaster + "/" + offerMasterId;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                JSONObject jObject = null;
+                try {
+                    jObject = jsonObject.getJSONObject(SelectOfferMaster + "Result");
+                    if (jObject != null) {
+                        OfferMaster offerMaster = SetClassPropertiesFromJSONObject(jObject);
+                        objOfferRequestListener = (OfferRequestListener) context;
+                        objOfferRequestListener.OfferResponse(null, offerMaster);
+                    }
+                } catch (Exception e) {
+                    objOfferRequestListener = (OfferRequestListener) context;
+                    objOfferRequestListener.OfferResponse(null, null);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                objOfferRequestListener = (OfferRequestListener) context;
+                objOfferRequestListener.OfferResponse(null, null);
+            }
+
+        });
+        queue.add(jsonObjectRequest);
     }
 
 

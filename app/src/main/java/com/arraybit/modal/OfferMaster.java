@@ -39,6 +39,16 @@ public class OfferMaster implements Parcelable {
     /// Extra
     String OfferType;
     String Business;
+    String ValidBuyItems;
+    String ValidDays;
+    String ValidGetItems;
+    String ValidItems;
+    String xs_ImagePhysicalName;
+    String sm_ImagePhysicalName;
+    String md_ImagePhysicalName;
+    String lg_ImagePhysicalName;
+    String xl_ImagePhysicalName;
+
     public static final Creator<OfferMaster> CREATOR = new Creator<OfferMaster>() {
         public OfferMaster createFromParcel(Parcel source) {
             OfferMaster objOfferMaster = new OfferMaster();
@@ -74,8 +84,16 @@ public class OfferMaster implements Parcelable {
 
             /// Extra
             objOfferMaster.OfferType = source.readString();
-            ;
             objOfferMaster.Business = source.readString();
+            objOfferMaster.ValidBuyItems = source.readString();
+            objOfferMaster.ValidGetItems = source.readString();
+            objOfferMaster.ValidDays = source.readString();
+            objOfferMaster.ValidItems = source.readString();
+            objOfferMaster.sm_ImagePhysicalName = source.readString();
+            objOfferMaster.xs_ImagePhysicalName = source.readString();
+            objOfferMaster.md_ImagePhysicalName = source.readString();
+            objOfferMaster.lg_ImagePhysicalName = source.readString();
+            objOfferMaster.xl_ImagePhysicalName = source.readString();
             return objOfferMaster;
         }
 
@@ -349,6 +367,77 @@ public class OfferMaster implements Parcelable {
         this.linktoCustomerMasterId = linktoCustomerMasterId;
     }
 
+    public String getValidBuyItems() {
+        return ValidBuyItems;
+    }
+
+    public void setValidBuyItems(String validBuyItems) {
+        ValidBuyItems = validBuyItems;
+    }
+
+    public String getValidDays() {
+        return ValidDays;
+    }
+
+    public void setValidDays(String validDays) {
+        ValidDays = validDays;
+    }
+
+    public String getValidGetItems() {
+        return ValidGetItems;
+    }
+
+    public void setValidGetItems(String validGetItems) {
+        ValidGetItems = validGetItems;
+    }
+
+    public String getValidItems() {
+        return ValidItems;
+    }
+
+    public void setValidItems(String validItems) {
+        ValidItems = validItems;
+    }
+
+    public String getXs_ImagePhysicalName() {
+        return xs_ImagePhysicalName;
+    }
+
+    public void setXs_ImagePhysicalName(String xs_ImagePhysicalName) {
+        this.xs_ImagePhysicalName = xs_ImagePhysicalName;
+    }
+
+    public String getSm_ImagePhysicalName() {
+        return sm_ImagePhysicalName;
+    }
+
+    public void setSm_ImagePhysicalName(String sm_ImagePhysicalName) {
+        this.sm_ImagePhysicalName = sm_ImagePhysicalName;
+    }
+
+    public String getMd_ImagePhysicalName() {
+        return md_ImagePhysicalName;
+    }
+
+    public void setMd_ImagePhysicalName(String md_ImagePhysicalName) {
+        this.md_ImagePhysicalName = md_ImagePhysicalName;
+    }
+
+    public String getLg_ImagePhysicalName() {
+        return lg_ImagePhysicalName;
+    }
+
+    public void setLg_ImagePhysicalName(String lg_ImagePhysicalName) {
+        this.lg_ImagePhysicalName = lg_ImagePhysicalName;
+    }
+
+    public String getXl_ImagePhysicalName() {
+        return xl_ImagePhysicalName;
+    }
+
+    public void setXl_ImagePhysicalName(String xl_ImagePhysicalName) {
+        this.xl_ImagePhysicalName = xl_ImagePhysicalName;
+    }
 
     //endregion
 
@@ -391,5 +480,14 @@ public class OfferMaster implements Parcelable {
         /// Extra
         parcel.writeString(OfferType);
         parcel.writeString(Business);
+        parcel.writeString(ValidDays);
+        parcel.writeString(ValidBuyItems);
+        parcel.writeString(ValidGetItems);
+        parcel.writeString(ValidItems);
+        parcel.writeString(xs_ImagePhysicalName);
+        parcel.writeString(md_ImagePhysicalName);
+        parcel.writeString(lg_ImagePhysicalName);
+        parcel.writeString(xl_ImagePhysicalName);
+        parcel.writeString(sm_ImagePhysicalName);
     }
 }

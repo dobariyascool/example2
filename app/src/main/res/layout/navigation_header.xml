@@ -62,13 +62,5 @@
             android:text="@string/siSignIn"
             android:textColor="@android:color/white" />
 
-        <!--<com.rey.material.widget.TextView-->
-        <!--android:id="@+id/tvSignIn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:text="Sign In"-->
-        <!--android:textColor="@color/accent" />-->
-
     </LinearLayout>
 </LinearLayout>

@@ -127,7 +127,7 @@
                 android:layout_gravity="end"
                 android:maxLines="1"
                 android:text="@string/abBuildVersion"
-                android:textColor="@android:color/white"
+                android:textColor="@color/yellow"
                 android:textSize="@dimen/control_TextMedium"
                 tools:ignore="HardcodedText" />
 

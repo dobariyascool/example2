@@ -20,6 +20,7 @@
     <string name="title_fragment_terms_of_service">Terms of service</string>
     <string name="title_detail">Detail</string>
     <string name="title_activity_check_out">CheckOut</string>
+    <string name="title_activity_offer_detail">Offer Detail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -65,7 +66,7 @@
     <string name="MsgDineOnly">Available for Dine-In only</string>
     <string name="MsgFeedbackSubmit">Feedback is submitted</string>
     <string name="MsgCart">Cart is empty.</string>
-    <string name="MsgCartItem">%s is added into dish</string>
+    <string name="MsgCartItem">%s is added to dish</string>
     <string name="MsgConfirmOrder">Items are place into order</string>
     <string name="MsgAddPerson">Person is added successfully</string>
     <string name="MsgUpdateProfile">Profile updated successfully</string>
@@ -377,4 +378,13 @@
     <string name="laSkip">laSkip</string>
     <!-- end -->
 
+    <!-- offer detail activity -->
+    <string name="odaOfferHighLight">Highlights</string>
+    <string name="odaOfferCondition">Terms and condition</string>
+    <string name="odaValidOn">Valid On %s</string>
+    <string name="odaValidFor">Valid For %s</string>
+    <string name="odaOfferFor">Offer for %s</string>
+    <string name="odaOfferDiscountWithRupee">\u20B9 %s OFF</string>
+    <string name="odaOfferDiscount">%s\uff05 OFF</string>
+    <!-- end -->
 </resources>
