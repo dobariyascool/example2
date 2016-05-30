@@ -167,7 +167,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         } else if (MenuActivity.isViewChange) {
             if(!isTileGrid) {
                 if ((holder.ivJain.getVisibility() == View.VISIBLE) || (holder.ivSpicy.getVisibility() == View.VISIBLE) || (holder.ivSweet.getVisibility() == View.VISIBLE) || (holder.ivExtraSpicy.getVisibility() == View.VISIBLE)) {
-                    holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
+                    holder.txtItemName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(13)});
                     if (objItemMaster.getItemName().length() > 9) {
                         holder.txtItemName.setText(objItemMaster.getItemName().substring(0, 9) + "...");
                     } else {

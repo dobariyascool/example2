@@ -17,14 +17,14 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.ReviewMaster;
 import com.arraybit.parser.ReviewJSONParser;
-import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
 
 public class WriteReviewFragment extends DialogFragment implements View.OnClickListener, ReviewJSONParser.InsertReviewMasterRequestListener {
 
     RatingBar rtbReview;
     EditText etReview;
-    Button btnReviewClose, btnReviewSubmit;
+    TextView txtReviewClose, txtReviewSubmit;
     ReviewMaster objReviewMaster;
     SharePreferenceManage objSharePreferenceManage;
     View view;
@@ -50,11 +50,11 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
         }
 
         etReview = (EditText) view.findViewById(R.id.etReview);
-        btnReviewClose = (Button) view.findViewById(R.id.btnReviewClose);
-        btnReviewSubmit = (Button) view.findViewById(R.id.btnReviewSubmit);
+        txtReviewClose = (TextView) view.findViewById(R.id.txtReviewClose);
+        txtReviewSubmit = (TextView) view.findViewById(R.id.txtReviewSubmit);
 
-        btnReviewClose.setOnClickListener(this);
-        btnReviewSubmit.setOnClickListener(this);
+        txtReviewClose.setOnClickListener(this);
+        txtReviewSubmit.setOnClickListener(this);
 
         return view;
     }
@@ -62,9 +62,9 @@ public class WriteReviewFragment extends DialogFragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         view = v;
-        if (v.getId() == R.id.btnReviewClose) {
+        if (v.getId() == R.id.txtReviewClose) {
             dismiss();
-        } else if (v.getId() == R.id.btnReviewSubmit) {
+        } else if (v.getId() == R.id.txtReviewSubmit) {
             ReuestWriteReview();
         }
     }

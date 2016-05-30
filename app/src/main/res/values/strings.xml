@@ -381,10 +381,16 @@
     <!-- offer detail activity -->
     <string name="odaOfferHighLight">Highlights</string>
     <string name="odaOfferCondition">Terms and condition</string>
-    <string name="odaValidOn">Valid On %s</string>
-    <string name="odaValidFor">Valid For %s</string>
+    <string name="odaValidOn">Valid on %s</string>
+    <string name="odaValidFor">Valid for %s</string>
     <string name="odaOfferFor">Offer for %s</string>
     <string name="odaOfferDiscountWithRupee">\u20B9 %s OFF</string>
     <string name="odaOfferDiscount">%s\uff05 OFF</string>
+    <string name="odaMinAmt">Minimum Bill Amount \u20B9 %s</string>
+    <string name="odaOfferValid">online and app</string>
+    <string name="odaOfferValidOnline">online only</string>
+    <string name="odaOfferValidApp">app only</string>
+    <string name="odaOfferOnlyFor">Only for %s</string>
+    <string name="odaDiamond">\u25C6</string>
     <!-- end -->
 </resources>

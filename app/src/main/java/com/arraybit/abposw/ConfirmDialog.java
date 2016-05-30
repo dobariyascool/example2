@@ -11,7 +11,6 @@ import android.view.Window;
 
 import com.arraybit.global.Globals;
 import com.arraybit.modal.CheckOut;
-import com.rey.material.widget.Button;
 import com.rey.material.widget.TextView;
 
 import java.text.ParseException;
@@ -51,19 +50,19 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
         TextView txtOrderMessage = (TextView) view.findViewById(R.id.txtOrderMessage);
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
-        Button btnConfirm = (Button)view.findViewById(R.id.btnConfirm);
-        Button btnCancel = (Button)view.findViewById(R.id.btnCancel);
+        TextView txtConfirm = (TextView)view.findViewById(R.id.txtConfirm);
+        TextView txtCancel = (TextView)view.findViewById(R.id.txtCancel);
 
         if (isDeleteConfirm) {
             txtHeader.setVisibility(View.GONE);
             txtOrderMessage.setVisibility(View.GONE);
             txtMessage.setVisibility(View.VISIBLE);
-            btnConfirm.setText(getActivity().getResources().getString(R.string.cdfRemove));
+            txtConfirm.setText(getActivity().getResources().getString(R.string.cdfRemove));
         } else {
             txtHeader.setVisibility(View.VISIBLE);
             txtOrderMessage.setVisibility(View.VISIBLE);
             txtMessage.setVisibility(View.GONE);
-            btnConfirm.setText(getActivity().getResources().getString(R.string.cdfConfirm));
+            txtConfirm.setText(getActivity().getResources().getString(R.string.cdfConfirm));
         }
 
         if (isDeleteConfirm) {
@@ -74,15 +73,15 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
 
 
 
-        btnCancel.setOnClickListener(this);
-        btnConfirm.setOnClickListener(this);
+        txtCancel.setOnClickListener(this);
+        txtConfirm.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnConfirm) {
+        if (v.getId() == R.id.txtConfirm) {
             if(getTargetFragment()!=null){
                 objConfirmationResponseListener = (ConfirmationResponseListener) getTargetFragment();
                 objConfirmationResponseListener.ConfirmResponse();
@@ -91,7 +90,7 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
                 objConfirmationResponseListener.ConfirmResponse();
             }
             dismiss();
-        } else if (v.getId() == R.id.btnCancel) {
+        } else if (v.getId() == R.id.txtCancel) {
             dismiss();
         }
     }

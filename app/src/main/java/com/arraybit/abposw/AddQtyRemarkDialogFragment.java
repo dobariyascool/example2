@@ -143,8 +143,6 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                     getActivity().finish();
                 }
             }
-        } else if (v.getId() == R.id.btnCancel) {
-            dismiss();
         } else if (v.getId() == R.id.ibMinus) {
             if (etQuantity.getText().toString().equals("")) {
                 etQuantity.setText("1");

@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessDescription;
 import com.arraybit.parser.BusinessDescriptionJSONParser;
 
@@ -46,6 +48,15 @@ public class PolicyFragment extends Fragment implements BusinessDescriptionJSONP
             }
         }
 
+        LinearLayout errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
+        wvPolicy = (WebView) view.findViewById(R.id.wvPolicy);
+        wvPolicy.getSettings().setDatabaseEnabled(true);
+        wvPolicy.getSettings().setDomStorageEnabled(true);
+        wvPolicy.getSettings().setAppCacheEnabled(true);
+        wvPolicy.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        wvPolicy.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+
         if (keyword == null) {
             app_bar.setTitle(keyword);
         } else {
@@ -53,14 +64,13 @@ public class PolicyFragment extends Fragment implements BusinessDescriptionJSONP
         }
         setHasOptionsMenu(true);
 
-        RequestKeyword();
-
-        wvPolicy = (WebView) view.findViewById(R.id.wvPolicy);
-        wvPolicy.getSettings().setDatabaseEnabled(true);
-        wvPolicy.getSettings().setDomStorageEnabled(true);
-        wvPolicy.getSettings().setAppCacheEnabled(true);
-        wvPolicy.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        wvPolicy.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        if (Service.CheckNet(getActivity())) {
+            wvPolicy.setVisibility(View.VISIBLE);
+            RequestKeyword();
+        } else {
+            wvPolicy.setVisibility(View.GONE);
+            Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
+        }
 
         return view;
     }

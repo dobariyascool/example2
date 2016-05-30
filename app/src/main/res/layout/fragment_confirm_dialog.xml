@@ -42,20 +42,20 @@
             android:gravity="end|center_vertical"
             android:orientation="horizontal">
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnCancel"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtCancel"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/cdfCancel"/>
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnConfirm"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtConfirm"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
                 android:text="@string/cdfConfirm"/>
-
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

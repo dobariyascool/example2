@@ -37,18 +37,19 @@
             android:gravity="center|end"
             android:orientation="horizontal">
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnReviewClose"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtReviewClose"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/rfClose" />
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnReviewSubmit"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtReviewSubmit"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
                 android:text="@string/rfSubmit" />
         </LinearLayout>
     </LinearLayout>

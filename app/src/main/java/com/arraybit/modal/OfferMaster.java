@@ -31,6 +31,8 @@ public class OfferMaster implements Parcelable {
     boolean IsDeleted;
     boolean IsForCustomers;
     boolean IsUnconditional;
+    boolean IsForApp;
+    boolean IsOnline;
     int BuyItemCount;
     int GetItemCount;
     short linktoCounterMasterId;
@@ -48,7 +50,6 @@ public class OfferMaster implements Parcelable {
     String md_ImagePhysicalName;
     String lg_ImagePhysicalName;
     String xl_ImagePhysicalName;
-
     public static final Creator<OfferMaster> CREATOR = new Creator<OfferMaster>() {
         public OfferMaster createFromParcel(Parcel source) {
             OfferMaster objOfferMaster = new OfferMaster();
@@ -101,7 +102,16 @@ public class OfferMaster implements Parcelable {
             return new OfferMaster[size];
         }
     };
+    String linktoOrderTypeMasterIds;
     short Counter;
+
+    public String getLinktoOrderTypeMasterIds() {
+        return linktoOrderTypeMasterIds;
+    }
+
+    public void setLinktoOrderTypeMasterIds(String linktoOrderTypeMasterIds) {
+        this.linktoOrderTypeMasterIds = linktoOrderTypeMasterIds;
+    }
 
     public int getOfferMasterId() {
         return this.OfferMasterId;
@@ -437,6 +447,22 @@ public class OfferMaster implements Parcelable {
 
     public void setXl_ImagePhysicalName(String xl_ImagePhysicalName) {
         this.xl_ImagePhysicalName = xl_ImagePhysicalName;
+    }
+
+    public boolean getIsForApp() {
+        return IsForApp;
+    }
+
+    public void setIsForApp(boolean isForApp) {
+        IsForApp = isForApp;
+    }
+
+    public boolean getIsOnline() {
+        return IsOnline;
+    }
+
+    public void setIsOnline(boolean isOnline) {
+        IsOnline = isOnline;
     }
 
     //endregion

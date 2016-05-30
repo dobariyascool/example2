@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
+import com.rey.material.widget.TextView;
 
 public class RemarkDialogFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener {
 
     public static String strRemark;
     EditText etRemark;
-    Button btnCancel, btnDone;
+    TextView txtCancel, txtDone;
     String remark;
     RemarkResponseListener objRemarkResponseListener;
 
@@ -46,17 +46,17 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
             etRemark.setText(remark);
         }
 
-        btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        btnDone = (Button) view.findViewById(R.id.btnDone);
+        txtCancel = (TextView) view.findViewById(R.id.txtCancel);
+        txtDone = (TextView) view.findViewById(R.id.txtDone);
 
-        btnDone.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
+        txtDone.setOnClickListener(this);
+        txtCancel.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnDone) {
+        if (v.getId() == R.id.txtDone) {
             if(remark==null) {
                 strRemark = etRemark.getText().toString();
             }
@@ -68,7 +68,7 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
                 objRemarkResponseListener.RemarkResponse(etRemark.getText().toString());
             }
             dismiss();
-        } else if (v.getId() == R.id.btnCancel) {
+        } else if (v.getId() == R.id.txtCancel) {
             dismiss();
         }
     }

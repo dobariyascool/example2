@@ -34,18 +34,19 @@
             android:orientation="horizontal"
             tools:ignore="HardcodedText">
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnCancel"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtCancel"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
                 android:text="@string/msdCancel" />
 
-            <com.rey.material.widget.Button
-                android:id="@+id/btnDone"
-                style="@style/DialogButton"
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtDone"
+                style="@style/DialogTextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dialog_button_height"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
                 android:text="@string/msdDone" />
         </LinearLayout>
     </LinearLayout>

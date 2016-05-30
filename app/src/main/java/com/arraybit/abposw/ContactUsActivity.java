@@ -167,8 +167,8 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         map.getUiSettings().setMapToolbarEnabled(true);
         LatLng arraybit = new LatLng(21.1904891, 72.7864842);
         map.addMarker(new MarkerOptions().position(arraybit).title("ArrayBit"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(arraybit));
-        map.animateCamera(CameraUpdateFactory.newLatLng(arraybit));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(arraybit, 15));
+        map.animateCamera(CameraUpdateFactory.zoomIn());
     }
 
     //region Private Methods

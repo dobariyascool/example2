@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/offwhite"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.arraybit.abposw.OfferDetailActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout" />
+
+    <include
+        android:id="@+id/errorLayout"
+        layout="@layout/error_layout_with_white_background"
+        android:visibility="gone" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="260dp">
+
+                <ImageView
+                    android:id="@+id/ivOfferImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:id="@+id/discountLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="#FFBB00"
+                    android:gravity="end|center"
+                    android:orientation="vertical"
+                    tools:ignore="RelativeOverlap">
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtOfferDiscount"
+                        style="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingEnd="@dimen/control_SpecingMedium"
+                        android:paddingStart="@dimen/control_SpecingMedium"
+                        android:textColor="@color/purple"
+                        android:textSize="@dimen/control_TextMedium" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOfferTitle"
+                    style="@style/HighLightedTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingBottom="0dp"
+                    android:paddingEnd="@dimen/control_SpecingSmall"
+                    android:paddingStart="@dimen/control_SpecingSmall"
+                    android:paddingTop="@dimen/control_SpecingSmall"
+                    android:text="@string/abBuildVersion" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOfferCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/offer_code_layout"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/control_SpecingSmall"
+                    android:paddingEnd="@dimen/control_SpecingSmall"
+                    android:paddingStart="@dimen/control_SpecingSmall"
+                    android:paddingTop="@dimen/control_SpecingSmall"
+                    android:text="@string/odaOfferHighLight"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/control_TextMedium"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtOfferContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/abBuildVersion"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                android:textSize="@dimen/control_TextSmall" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtOfferHighlight"
+                style="@style/HighLightedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:background="@drawable/separator"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/odaOfferHighLight" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny">
+
+                <ImageView
+                    android:id="@+id/ivTimings"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/timing_drawable"
+                    tools:ignore="ContentDescription" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtFromDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/ivTimings"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:paddingEnd="@dimen/control_SpecingSmall"
+                    android:paddingStart="@dimen/control_SpecingSmall"
+                    android:paddingTop="@dimen/control_SpecingTiny"
+                    android:text="@string/odaOfferHighLight"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                    android:textSize="@dimen/control_TextSmall" />
+
+
+            </RelativeLayout>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtValidDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/odaOfferHighLight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                android:textSize="@dimen/control_TextSmall" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtMinBillAmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/odaOfferHighLight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                android:textSize="@dimen/control_TextSmall" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtOfferCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/odaOfferHighLight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                android:textSize="@dimen/control_TextSmall" />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtValidFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:text="@string/odaOfferHighLight"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
+                android:textSize="@dimen/control_TextSmall" />
+
+            <!--<com.rey.material.widget.TextView-->
+            <!--android:id="@+id/txtOnlineApp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingBottom="@dimen/control_SpecingTiny"-->
+            <!--android:paddingEnd="@dimen/control_SpecingSmall"-->
+            <!--android:paddingStart="0dp"-->
+            <!--android:paddingTop="@dimen/control_SpecingTiny"-->
+            <!--android:text="@string/odaOfferHighLight"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"-->
+            <!--android:textSize="@dimen/control_TextSmall" />-->
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/txtBuyGetItem"
+                style="@style/HighLightedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:background="@drawable/separator"
+                android:paddingBottom="@dimen/control_SpecingTiny"
+                android:paddingTop="@dimen/control_SpecingTiny"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvSelectedItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvBuyItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvGetItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/control_SpecingSmall"
+                android:paddingStart="@dimen/control_SpecingSmall"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/termsConditionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/separator"
+                android:gravity="center">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtOfferCondition"
+                    style="@style/HighLightedTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/odaOfferCondition" />
+
+                <com.rey.material.widget.ImageButton
+                    android:id="@+id/ibVisible"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:background="@color/offWhiteDark"
+                    android:src="@drawable/expand_drawable" />
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvCondition"
+                style="@style/DefaultCardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/control_SpecingSmall"
+                android:layout_marginStart="@dimen/control_SpecingSmall"
+                android:animateLayoutChanges="true"
+                android:visibility="gone">
+
+                <WebView
+                    android:id="@+id/wvCondition"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

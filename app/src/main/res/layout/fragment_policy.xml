@@ -16,6 +16,11 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar_layout" />
 
+        <include
+            android:id="@+id/errorLayout"
+            layout="@layout/error_layout_with_white_background"
+            android:visibility="gone"/>
+
         <WebView
             android:id="@+id/wvPolicy"
             android:layout_width="match_parent"

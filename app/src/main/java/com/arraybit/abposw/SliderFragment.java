@@ -61,6 +61,10 @@ public class SliderFragment extends Fragment {
                         intent.putExtra("isBannerClick", true);
                         intent.putExtra("ItemMasterId", objBannerMaster.getID());
                         getActivity().startActivityForResult(intent, 0);
+                    }else if(objBannerMaster.getType() == Globals.BannerType.Offer.getValue()){
+                        Intent intent = new Intent(getActivity(),OfferDetailActivity.class);
+                        intent.putExtra("OfferMasterId",objBannerMaster.getID());
+                        startActivity(intent);
                     }
                 }
             }
