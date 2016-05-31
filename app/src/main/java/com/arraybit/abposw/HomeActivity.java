@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -36,9 +37,11 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BannerMaster;
+import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BannerMasterJSONParser;
+import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -53,9 +56,10 @@ import java.util.List;
 
 @SuppressWarnings("ResourceType")
 @SuppressLint("InflateParams")
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener, BusinessJSONParser.BusinessRequestListener {
 
     static final int duration = 2000;
+    static BusinessMaster objBusinessMaster;
     final int requestCode = 123;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
@@ -73,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     boolean stopSliding = false, isPause;
     SlidePagerAdapter pagerAdapter;
     FloatingActionMenu famRoot;
+    String shareData;
     private Runnable animateViewPager;
     private Handler handler;
 
@@ -132,6 +137,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             famRoot.setVisibility(View.VISIBLE);
             homeLayout.setVisibility(View.VISIBLE);
             RequestBannerMaster();
+            RequestBusinessMaster();
         } else {
             internetLayout.setVisibility(View.VISIBLE);
             famRoot.setVisibility(View.GONE);
@@ -202,13 +208,28 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (item.getItemId() == R.id.hShare) {
             drawerLayout.closeDrawer(navigationView);
-            Uri imageUri = Uri.parse("android.resource://com.arraybit.abposw/drawable/" + R.mipmap.app_logo);
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("image/*");
-            i.putExtra(Intent.EXTRA_STREAM, imageUri);
-            i.putExtra(Intent.EXTRA_TEXT, "This is the very good app");
-            Intent chooser = Intent.createChooser(i, "Tell a Friend");
-            startActivity(chooser);
+            if (objBusinessMaster != null) {
+                if (objBusinessMaster.getCity() != null && !objBusinessMaster.getCity().equals("")) {
+                    shareData = objBusinessMaster.getBusinessName() + " | " + objBusinessMaster.getCity() + " | " + objBusinessMaster.getPhone1();
+                }else{
+                    shareData = objBusinessMaster.getBusinessName() + " | " + objBusinessMaster.getPhone1();
+                }
+                if (objBusinessMaster.getEmail() != null && !objBusinessMaster.getEmail().equals("")) {
+                    shareData = shareData + " | " + objBusinessMaster.getEmail();
+                }
+                if (objBusinessMaster.getWebsite() != null && !objBusinessMaster.getWebsite().equals("")) {
+                    shareData = shareData + " | " + objBusinessMaster.getWebsite();
+                }
+            } else {
+                shareData = "Share Data";
+            }
+            Intent shareIntent = ShareCompat.IntentBuilder.from(HomeActivity.this)
+                    .setType("text/plain")
+                    .setText(shareData)
+                    .getIntent();
+            if (shareIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(shareIntent);
+            }
         } else if (item.getItemId() == R.id.hRate) {
             drawerLayout.closeDrawer(navigationView);
             Uri uri = Uri.parse("market://details?id=" + getPackageName());
@@ -366,6 +387,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SetSlider(alBannerMaster);
     }
 
+    @Override
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
+        HomeActivity.objBusinessMaster = objBusinessMaster;
+    }
 
     @Override
     public void onClick(View v) {
@@ -439,6 +464,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -493,6 +519,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         BannerMasterJSONParser objBannerMasterJSONParser = new BannerMasterJSONParser();
         objBannerMasterJSONParser.SelectAllBannerMaster(HomeActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
+    }
+
+    private void RequestBusinessMaster() {
+        BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
+        objBusinessJSONParser.SelectBusinessMaster(HomeActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private void SetSlider(ArrayList<BannerMaster> alBannerMaster) {
@@ -728,3 +759,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //endregion
 }
+
+
+

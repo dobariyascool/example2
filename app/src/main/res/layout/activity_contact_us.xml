@@ -15,13 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/control_SpecingSmall"
-        android:layout_marginStart="@dimen/control_SpecingSmall"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/control_SpecingSmall"
-        android:paddingLeft="@dimen/control_SpecingSmall"
-        android:paddingRight="@dimen/control_SpecingSmall"
-        android:paddingTop="@dimen/control_SpecingSmall">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/errorLayout"
@@ -38,124 +32,151 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <fragment
-                    android:id="@+id/mapFragment"
-                    class="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_margin="0dp"
-                    android:visibility="visible" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtOffice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/heading"
-                    android:textSize="16sp" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtCountry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/control_SpecingSmall" />
-
-                <com.rey.material.widget.TextView
-                    android:id="@+id/txtWebSite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/control_SpecingSmall"
-                    android:paddingTop="@dimen/control_SpecingSmall"
-                    android:textColor="@color/colorAccent" />
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="250dp">
 
-                    <ImageView
-                        android:id="@+id/ivCall"
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/myaccount_selector"
-                        android:paddingBottom="@dimen/control_SpecingNormal"
-                        android:paddingTop="@dimen/control_SpecingNormal"
-                        android:src="@drawable/call_drawable"
-                        android:tint="@color/colorPrimary"
-                        tools:ignore="ContentDescription" />
+                    <!--android:layout_marginBottom="-100dp"-->
+                    <!--android:layout_marginTop="-100dp"-->
 
-                    <LinearLayout
+                    <fragment
+                        android:id="@+id/mapFragment"
+                        class="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_toStartOf="@+id/ivCall"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
+                        android:visibility="visible" />
 
-                        <com.rey.material.widget.TextView
-                            android:id="@+id/txtPhone1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start" />
+                    <ImageView
+                        android:id="@+id/mapOverlayImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"
+                        tools:ignore="ContentDescription" />
 
-                        <com.rey.material.widget.TextView
-                            android:id="@+id/txtPhone2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start" />
-
-                    </LinearLayout>
                 </RelativeLayout>
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etContactUsName"
-                    style="@style/EditText"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/cuName"
-                    android:singleLine="true" />
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/control_SpecingSmall"
+                    android:layout_marginStart="@dimen/control_SpecingSmall"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/control_SpecingSmall"
+                    android:paddingLeft="@dimen/control_SpecingSmall"
+                    android:paddingRight="@dimen/control_SpecingSmall"
+                    android:paddingTop="@dimen/control_SpecingSmall">
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etContactUsEmail"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/cuEmail"
-                    android:singleLine="true" />
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtOffice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/control_SpecingSmall"
+                        android:textColor="@color/heading"
+                        android:textSize="16sp" />
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etContactUsMobile"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/cuMobile"
-                    android:singleLine="true" />
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/control_SpecingSmall" />
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etContactUsMessage"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:hint="@string/cuMessage"
-                    android:inputType="textMultiLine" />
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/control_SpecingSmall" />
 
-                <com.rey.material.widget.Button
-                    android:id="@+id/btnSend"
-                    style="@style/Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_margin="0dp"
-                    android:paddingEnd="@dimen/control_SpecingLarge"
-                    android:paddingStart="@dimen/control_SpecingLarge"
-                    android:text="@string/cuSend" />
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/txtWebSite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/control_SpecingSmall"
+                        android:paddingTop="@dimen/control_SpecingSmall"
+                        android:textColor="@color/colorAccent" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/ivCall"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/myaccount_selector"
+                            android:paddingBottom="@dimen/control_SpecingNormal"
+                            android:paddingTop="@dimen/control_SpecingNormal"
+                            android:src="@drawable/call_drawable"
+                            android:tint="@color/colorPrimary"
+                            tools:ignore="ContentDescription" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toStartOf="@+id/ivCall"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtPhone1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start" />
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/txtPhone2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <com.rey.material.widget.EditText
+                        android:id="@+id/etContactUsName"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:hint="@string/cuName"
+                        android:singleLine="true" />
+
+                    <com.rey.material.widget.EditText
+                        android:id="@+id/etContactUsEmail"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/cuEmail"
+                        android:singleLine="true" />
+
+                    <com.rey.material.widget.EditText
+                        android:id="@+id/etContactUsMobile"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/cuMobile"
+                        android:singleLine="true" />
+
+                    <com.rey.material.widget.EditText
+                        android:id="@+id/etContactUsMessage"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:hint="@string/cuMessage"
+                        android:inputType="textMultiLine" />
+
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btnSend"
+                        style="@style/Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_margin="0dp"
+                        android:paddingEnd="@dimen/control_SpecingLarge"
+                        android:paddingStart="@dimen/control_SpecingLarge"
+                        android:text="@string/cuSend" />
+                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>

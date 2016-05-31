@@ -8,12 +8,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rey.material.widget.Button;
@@ -37,20 +40,21 @@ import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "FieldCanBeLocal"})
 public class ContactUsActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, View.OnClickListener, OnMapReadyCallback {
 
     EditText etContactUsName, etContactUsEmail, etContactUsMobile, etContactUsMessage;
     TextView txtOffice, txtCountry, txtAddress, txtWebSite, txtPhone1, txtPhone2;
     Button btnSend;
-    LinearLayout linearLayoutContactUs,errorLayout;
+    LinearLayout linearLayoutContactUs, errorLayout;
     ProgressDialog progressDialog = new ProgressDialog();
     BusinessMaster objBusinessMaster;
     ContactUsMaster objContactUsMaster;
     View view;
     ImageView ivCall;
+    NestedScrollView scrollView;
+    ImageView mapOverlayImage;
     private GoogleMap map;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,9 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         etContactUsMobile = (EditText) findViewById(R.id.etContactUsMobile);
         etContactUsMessage = (EditText) findViewById(R.id.etContactUsMessage);
 
+        scrollView = (NestedScrollView) findViewById(R.id.scrollView);
+
+        mapOverlayImage = (ImageView) findViewById(R.id.mapOverlayImage);
 
         ivCall = (ImageView) findViewById(R.id.ivCall);
 
@@ -97,6 +104,31 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+        mapOverlayImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        scrollView.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        scrollView.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
 
         btnSend.setOnClickListener(this);
         txtWebSite.setOnClickListener(this);
@@ -104,7 +136,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
     }
 
     @Override
-    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster,ArrayList<BusinessMaster> alBusinessMaster) {
+    public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
         if (errorCode == null && objBusinessMaster != null) {
             this.objBusinessMaster = objBusinessMaster;
@@ -116,7 +148,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 
     @Override
     public void onClick(View v) {
-        Globals.HideKeyBoard(ContactUsActivity.this,v);
+        Globals.HideKeyBoard(ContactUsActivity.this, v);
         if (v.getId() == R.id.btnSend) {
             view = v;
             progressDialog.show(getSupportFragmentManager(), "");
@@ -137,10 +169,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             Uri uri = Uri.parse(objBusinessMaster.getWebsite());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        }  else if(v.getId() == R.id.ivCall){
-            if(objBusinessMaster.getPhone2()!=null && !objBusinessMaster.getPhone2().equals("")){
-                ShowPhonePopup(v,v.getId());
-            }else {
+        } else if (v.getId() == R.id.ivCall) {
+            if (objBusinessMaster.getPhone2() != null && !objBusinessMaster.getPhone2().equals("")) {
+                ShowPhonePopup(v);
+            } else {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone1()));
                 startActivity(intent);
@@ -161,15 +193,22 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         map = googleMap;
 
         // Add a marker in Sydney and move the camera
-        //map.getUiSettings().setZoomControlsEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
         map.getUiSettings().setScrollGesturesEnabled(true);
+        map.getUiSettings().setAllGesturesEnabled(true);
         map.getUiSettings().setMapToolbarEnabled(true);
-        LatLng arraybit = new LatLng(21.1904891, 72.7864842);
-        map.addMarker(new MarkerOptions().position(arraybit).title("ArrayBit"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(arraybit, 15));
-        map.animateCamera(CameraUpdateFactory.zoomIn());
+        LatLng arrayBit = new LatLng(21.1904891, 72.7864842);
+        map.addMarker(new MarkerOptions().position(arrayBit).title("ArrayBit"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(arrayBit, 15));
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(arrayBit)
+                        .zoom(googleMap.getCameraPosition().zoom)
+                        .build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
+
 
     //region Private Methods
     private void RequestBusinessInfoMaster() {
@@ -178,8 +217,8 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         objBusinessJSONParser.SelectBusinessMaster(this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
-    private PopupWindow ShowPhonePopup(View view, final int position) {
-        LayoutInflater mInflater = (LayoutInflater)ContactUsActivity.this
+    private PopupWindow ShowPhonePopup(View view) {
+        LayoutInflater mInflater = (LayoutInflater) ContactUsActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
         View layout = mInflater.inflate(R.layout.row_popup, null);
@@ -238,10 +277,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
 
         txtWebSite.setText(content);
         txtPhone1.setText(objBusinessMaster.getPhone1());
-        if(objBusinessMaster.getPhone2()!=null && !objBusinessMaster.getPhone2().equals("")){
+        if (objBusinessMaster.getPhone2() != null && !objBusinessMaster.getPhone2().equals("")) {
             txtPhone2.setVisibility(View.VISIBLE);
             txtPhone2.setText(objBusinessMaster.getPhone2());
-        }else{
+        } else {
             txtPhone2.setVisibility(View.INVISIBLE);
         }
     }
