@@ -211,6 +211,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
             rbAnswer[j].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                    Globals.HideKeyBoard(getActivity(), buttonView);
                     if (rowNumber == -1) {
                         rowNumber = linearLayout.getId();
                     }
@@ -527,6 +528,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
             radioButton[i].setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                    Globals.HideKeyBoard(getActivity(), buttonView);
                     radioButton[rowPosition].setChecked(false);
                     rowPosition = buttonView.getId();
                     feedbackType = (int) buttonView.getTag();
@@ -558,7 +560,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
         etMobileNo.applyStyle(R.style.EditText);
         etMobileNo.setHint(getActivity().getResources().getString(R.string.fbMobileNo));
         etMobileNo.setSingleLine();
-        etMobileNo.setInputType(InputType.TYPE_CLASS_PHONE);
+        etMobileNo.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         final EditText etFeedback = new EditText(getActivity());
         LinearLayout.LayoutParams etFeedbackLayoutParams = new LinearLayout.LayoutParams(600, 200);

@@ -4,7 +4,6 @@
     android:id="@+id/addressLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/divider"
     android:orientation="vertical"
     tools:ignore="ContentDescription">
 
@@ -17,11 +16,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/control_SpecingTiny"
-            android:layout_marginStart="@dimen/control_SpecingTiny"
-            android:layout_marginTop="@dimen/control_SpecingTiny"
+            android:background="@drawable/divider"
             android:orientation="horizontal"
-            android:padding="@dimen/control_SpecingTiny">
+            android:paddingBottom="@dimen/control_SpecingSmall"
+            android:paddingEnd="@dimen/control_SpecingSmall"
+            android:paddingStart="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingSmall">
 
             <ImageView
                 android:layout_width="20dp"
@@ -77,6 +77,7 @@
         android:id="@+id/businessAddressLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/divider"
         android:orientation="vertical">
 
         <com.rey.material.widget.TextView

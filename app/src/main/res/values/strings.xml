@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">LikEat</string>
+    <string name="facebook_AppId">864515457025932</string>
     <string name="action_settings">Settings</string>
     <string name="action_my_account">My Account</string>
     <string name="action_my_orders">My Orders</string>
     <string name="action_my_bookings">My Bookings</string>
-    <string name="action_wishlist">Wishlist</string>
+    <string name="action_wishlist">Sort List</string>
     <string name="action_checkin">Check In</string>
     <string name="action_logout">Logout</string>
     <string name="action_edit">Edit</string>
@@ -12,7 +13,7 @@
     <string name="title_activity_login">Sign In</string>
     <string name="title_activity_registration">Sign Up</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="title_activity_offer">Top Offers</string>
+    <string name="title_activity_offer">Offers</string>
     <string name="title_activity_hotel_profile">Profile</string>
     <string name="title_fragment_your_profile">My Profile</string>
     <string name="title_activity_about_us">About Us</string>
@@ -34,7 +35,7 @@
     <string name="title_home">Home</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="title_fragment_change_password">Change Password</string>
-    <string name="title_activity_wish_list">Wish List</string>
+    <string name="title_activity_wish_list">Sort List</string>
     <string name="title_activity_my_account">My Account</string>
     <string name="title_activity_my_order">YourOrderActivity</string>
     <string name="title_activity_contactus">Contact Us</string>
@@ -295,7 +296,7 @@
     <string name="ybPhone">Mobile Number</string>
     <string name="ybEmail">Email</string>
     <string name="ybRemark">Remark</string>
-    <string name="ybBook">Booking</string>
+    <string name="ybBook">Book</string>
     <string name="ybDate">Date</string>
     <string name="ybTime">Time</string>
     <string name="ybStatus">Status</string>
@@ -392,5 +393,7 @@
     <string name="odaOfferValidApp">app only</string>
     <string name="odaOfferOnlyFor">Only for %s</string>
     <string name="odaDiamond">\u25C6</string>
+    <string name="title_activity_google_login">GoogleLoginActivity</string>
+    <string name="title_activity_facebook_login">FacebookLoginActivity</string>
     <!-- end -->
 </resources>

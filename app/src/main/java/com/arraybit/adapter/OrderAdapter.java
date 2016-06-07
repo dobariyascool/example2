@@ -237,7 +237,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
 
     class OrderMasterViewHolder extends RecyclerView.ViewHolder {
         TextView txtOrderNumber, txtOrderDate, txtTotalAmount, txtStatus;
-        LinearLayout childDetailLayout, headerLayout;
+        LinearLayout childDetailLayout, headerLayout,orderMainLayout;
         ImageButton ibCancelOrder, ibVisible;
 
         public OrderMasterViewHolder(final View itemView) {
@@ -253,8 +253,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
 
             childDetailLayout = (LinearLayout) itemView.findViewById(R.id.childDetailLayout);
             headerLayout = (LinearLayout) itemView.findViewById(R.id.headerLayout);
+            orderMainLayout = (LinearLayout) itemView.findViewById(R.id.orderMainLayout);
 
-            ibVisible.setOnClickListener(new View.OnClickListener() {
+            orderMainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (alOrderMaster.get(getAdapterPosition()).getType() == 0) {

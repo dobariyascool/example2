@@ -58,7 +58,7 @@ import java.util.List;
 @SuppressLint("InflateParams")
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BannerMasterJSONParser.BannerRequestListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener, BusinessJSONParser.BusinessRequestListener {
 
-    static final int duration = 2000;
+    static final int duration = 5000;
     static BusinessMaster objBusinessMaster;
     final int requestCode = 123;
     ActionBarDrawerToggle actionBarDrawerToggle;

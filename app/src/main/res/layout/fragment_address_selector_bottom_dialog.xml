@@ -10,5 +10,5 @@
         android:id="@+id/rvAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/control_SpecingSmall"/>
+        android:padding="@dimen/control_SpecingTiny"/>
 </FrameLayout>

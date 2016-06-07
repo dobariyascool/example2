@@ -42,7 +42,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
     LinearLayout errorLayout, termsConditionLayout, discountLayout;
     ImageView ivOfferImage, ivTimings;
     int offerMasterId;
-    TextView txtOfferTitle, txtOfferContent, txtFromDate, txtValidDays, txtMinBillAmt, txtOfferCustomer, txtOfferCode, txtOfferCondition, txtOfferDiscount, txtBuyGetItem, txtValidFor, txtOnlineApp;
+    TextView txtOfferTitle, txtOfferContent, txtFromDate, txtValidDays, txtMinBillAmt, txtOfferCustomer, txtOfferCode, txtOfferCondition, txtOfferDiscount, txtBuyGetItem, txtValidFor;
     WebView wvCondition;
     ImageButton ibVisible;
     int isShow = 0;
@@ -75,7 +75,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
 
         offerMasterId = getIntent().getIntExtra("OfferMasterId", 0);
 
-        cvCondition=(CardView)findViewById(R.id.cvCondition);
+        cvCondition = (CardView) findViewById(R.id.cvCondition);
 
         rvSelectedItem = (RecyclerView) findViewById(R.id.rvSelectedItem);
         rvBuyItem = (RecyclerView) findViewById(R.id.rvBuyItem);
@@ -110,7 +110,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
         }
 
-        ibVisible.setOnClickListener(new View.OnClickListener() {
+        termsConditionLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isShow == 0) {
@@ -193,7 +193,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             }
 
             if (objOfferMaster.getValidDays() == null || objOfferMaster.getValidDays().equals("")) {
-                txtValidDays.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaValidFor), "All Days"));
+                txtValidDays.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaValidFor), "All Days"));
             } else {
                 String[] strArray = objOfferMaster.getValidDays().split(",");
                 sbDays = new StringBuilder();
@@ -205,22 +205,22 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
                             sbDays.append(strDay).append(", ");
                         }
                     }
-                    txtValidDays.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaValidOn), sbDays.toString()));
+                    txtValidDays.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaValidOn), sbDays.toString()));
                 } else {
-                    txtValidDays.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaValidFor), "All Days"));
+                    txtValidDays.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaValidFor), "All Days"));
                 }
 
             }
             if (objOfferMaster.getMinimumBillAmount() != 0) {
                 txtMinBillAmt.setVisibility(View.VISIBLE);
-                txtMinBillAmt.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaMinAmt), Globals.dfWithPrecision.format(objOfferMaster.getMinimumBillAmount())));
+                txtMinBillAmt.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaMinAmt), Globals.dfWithPrecision.format(objOfferMaster.getMinimumBillAmount())));
             } else {
                 txtMinBillAmt.setVisibility(View.GONE);
             }
             if (objOfferMaster.getIsForCustomers()) {
-                txtOfferCustomer.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferFor), "Customer"));
+                txtOfferCustomer.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferFor), "Customer"));
             } else {
-                txtOfferCustomer.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferFor), "Register User"));
+                txtOfferCustomer.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferFor), "Register User"));
             }
             if (objOfferMaster.getOfferCode() != null && !objOfferMaster.getOfferCode().equals("")) {
                 txtOfferCode.setVisibility(View.VISIBLE);
@@ -310,28 +310,15 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
                     }
                 }
                 if ((objOfferMaster.getIsForApp()) && (objOfferMaster.getIsOnline())) {
-                    txtValidFor.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString())+" ("+getResources().getString(R.string.odaOfferValid)+") ");
+                    txtValidFor.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString()) + " (" + getResources().getString(R.string.odaOfferValid) + ") ");
                 } else if (objOfferMaster.getIsOnline()) {
-                    txtValidFor.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString())+" ("+getResources().getString(R.string.odaOfferValidOnline)+") ");
+                    txtValidFor.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString()) + " (" + getResources().getString(R.string.odaOfferValidOnline) + ") ");
                 } else if (objOfferMaster.getIsForApp()) {
-                    txtValidFor.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString())+" ("+getResources().getString(R.string.odaOfferValidApp)+") ");
+                    txtValidFor.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString()) + " (" + getResources().getString(R.string.odaOfferValidApp) + ") ");
                 } else {
-                    txtValidFor.setText(getResources().getString(R.string.odaDiamond)+" "+String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString()));
+                    txtValidFor.setText(getResources().getString(R.string.odaDiamond) + " " + String.format(getResources().getString(R.string.odaOfferOnlyFor), sbOrderType.toString()));
                 }
             }
-
-//            if ((objOfferMaster.getIsForApp()) && (objOfferMaster.getIsOnline())) {
-//                txtOnlineApp.setVisibility(View.VISIBLE);
-//                txtOnlineApp.setText(getResources().getString(R.string.odaOfferValid));
-//            } else if (objOfferMaster.getIsOnline()) {
-//                txtOnlineApp.setVisibility(View.VISIBLE);
-//                txtOnlineApp.setText(getResources().getString(R.string.odaOfferValidOnline));
-//            } else if (objOfferMaster.getIsForApp()) {
-//                txtOnlineApp.setVisibility(View.VISIBLE);
-//                txtOnlineApp.setText(getResources().getString(R.string.odaOfferValidApp));
-//            } else {
-//                txtOnlineApp.setVisibility(View.GONE);
-//            }
         }
     }
     //endregion
