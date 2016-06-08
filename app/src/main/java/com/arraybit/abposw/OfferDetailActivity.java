@@ -127,6 +127,23 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             }
         });
 
+        ibVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShow == 0) {
+                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.collapse_drawable));
+                    cvCondition.setVisibility(View.VISIBLE);
+                    wvCondition.loadData(objOfferMaster.getTermsAndConditions(), "text/html", "UTF-8");
+//                    wvCondition.setBackgroundColor(ContextCompat.getColor(OfferDetailActivity.this, R.color.offWhiteDark));
+                    isShow = 1;
+                } else {
+                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.expand_drawable));
+                    cvCondition.setVisibility(View.GONE);
+                    isShow = 0;
+                }
+            }
+        });
+
     }
 
     @Override

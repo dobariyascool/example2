@@ -86,6 +86,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<BusinessMaster> alBusinessMaster;
     LinearLayout errorLayout;
     NestedScrollView scrollView;
+    boolean isShow;
 
 
     @SuppressLint("SetTextI18n")
@@ -112,6 +113,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
         }
 
+        isShow = getIntent().getBooleanExtra("IsShowLoginMsg",false);
         scrollView = (NestedScrollView) findViewById(R.id.scrollView);
 
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
@@ -378,6 +380,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        if(isShow){
+            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.siLoginSuccessMsg), CheckOutActivity.this, 2000);
+        }
     }
 
     @Override
@@ -999,6 +1004,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 ItemAdapter.alWishItemMaster = new ArrayList<>();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("ShowMessage", false);
+                returnIntent.putExtra("IsOrderPlace", true);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 break;

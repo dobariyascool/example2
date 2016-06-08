@@ -24,8 +24,8 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/app_logo_likeat"
                 tools:ignore="ContentDescription" />
@@ -165,7 +165,7 @@
                 android:id="@+id/btnSignIn"
                 style="@style/Button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_TouchableHeight"
                 android:layout_marginTop="@dimen/control_SpecingSmall"
                 android:text="@string/suSignIn" />
 

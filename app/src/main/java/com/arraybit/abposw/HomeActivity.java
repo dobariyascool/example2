@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     RelativeLayout relativeLayout;
     com.rey.material.widget.TextView txtCartNumber;
     boolean doubleBackToExitPressedOnce, isNetCheck;
-    LinearLayout homeLayout, internetLayout;
+    LinearLayout homeLayout, internetLayout, nameLayout;
     boolean stopSliding = false, isPause;
     SlidePagerAdapter pagerAdapter;
     FloatingActionMenu famRoot;
@@ -113,6 +113,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
+        nameLayout = (LinearLayout) headerView.findViewById(R.id.nameLayout);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -130,6 +131,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cvTakeAway.setOnClickListener(this);
         cvBookTable.setOnClickListener(this);
         cvOffer.setOnClickListener(this);
+        nameLayout.setOnClickListener(this);
         cbName.setOnClickListener(this);
 
         if (Service.CheckNet(this)) {
@@ -211,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (objBusinessMaster != null) {
                 if (objBusinessMaster.getCity() != null && !objBusinessMaster.getCity().equals("")) {
                     shareData = objBusinessMaster.getBusinessName() + " | " + objBusinessMaster.getCity() + " | " + objBusinessMaster.getPhone1();
-                }else{
+                } else {
                     shareData = objBusinessMaster.getBusinessName() + " | " + objBusinessMaster.getPhone1();
                 }
                 if (objBusinessMaster.getEmail() != null && !objBusinessMaster.getEmail().equals("")) {
@@ -412,10 +414,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (v.getId() == R.id.cvOffer) {
             Intent intent = new Intent(HomeActivity.this, OfferActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.nameLayout) {
+            drawerLayout.closeDrawer(navigationView);
+            if (cbName.getText().equals(getResources().getString(R.string.siSignIn))) {
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 0);
+            } else {
+                Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
+                startActivityForResult(intent, 0);
+            }
         } else if (v.getId() == R.id.cbName) {
             drawerLayout.closeDrawer(navigationView);
             if (cbName.getText().equals(getResources().getString(R.string.siSignIn))) {
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 0);
+            } else {
+                Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
                 startActivityForResult(intent, 0);
             }
         } else if (v.getId() == R.id.cartLayout) {
@@ -474,7 +488,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (data.getBooleanExtra("IsShowMessage", false)) {
                         Globals.ShowSnackBar(drawerLayout, getResources().getString(R.string.siLoginSuccessMsg), HomeActivity.this, 2000);
                     } else if (data.getBooleanExtra("ShowBookingMessage", false)) {
-                        ShowSnackBarWithAction();
+                        ShowSnackBarWithAction(getResources().getString(R.string.ybAddBookingSuccessMsg));
+                    } else if (data.getBooleanExtra("IsOrderPlace", false)) {
+                        ShowSnackBarWithAction(getResources().getString(R.string.MsgOrder));
                     }
                 }
                 SetUserName();
@@ -589,13 +605,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void ShowSnackBarWithAction() {
+    private void ShowSnackBarWithAction(final String msg) {
+        //getResources().getString(R.string.ybAddBookingSuccessMsg)
         Snackbar snackbar = Snackbar
-                .make(drawerLayout, getResources().getString(R.string.ybAddBookingSuccessMsg), Snackbar.LENGTH_LONG)
+                .make(drawerLayout, msg, Snackbar.LENGTH_LONG)
                 .setAction("View", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Globals.ReplaceFragment(new YourBookingFragment(), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_your_booking), R.id.drawerLayout);
+                        if (msg.equals(getResources().getString(R.string.ybAddBookingSuccessMsg))) {
+                            Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
+                            intent.putExtra("IsBookingFromMenu", true);
+                            startActivityForResult(intent, 0);
+                        } else {
+                            Intent intent = new Intent(HomeActivity.this, MyOrderActivity.class);
+                            startActivityForResult(intent, 0);
+                        }
+
                     }
                 })
                 .setDuration(5000);

@@ -331,10 +331,10 @@
         <item name="rd_rippleColor">@color/colorAccent</item>
         <item name="rd_enable">true</item>
         <item name="rd_cornerRadius">4dp</item>
-        <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+        <item name="android:layout_marginTop">@dimen/button_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/button_marginBottom</item>
+        <item name="android:layout_marginStart">@dimen/button_marginStart</item>
+        <item name="android:layout_marginEnd">@dimen/button_marginEnd</item>
         <item name="android:animateOnClick">true</item>
     </style>
 
@@ -351,10 +351,10 @@
         <item name="rd_rippleColor">@color/colorAccent</item>
         <item name="rd_enable">true</item>
         <item name="rd_cornerRadius">4dp</item>
-        <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+        <item name="android:layout_marginTop">@dimen/button_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/button_marginBottom</item>
+        <item name="android:layout_marginStart">@dimen/button_marginStart</item>
+        <item name="android:layout_marginEnd">@dimen/button_marginEnd</item>
         <item name="android:animateOnClick">true</item>
         <!--<item name="android:fontFamily">Roboto-Regular</item>-->
     </style>
@@ -368,10 +368,10 @@
         <item name="rd_enable">false</item>
         <item name="rd_cornerRadius">0dp</item>
         <item name="android:background">@drawable/button_drawable</item>
-        <item name="android:layout_marginTop">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_marginStart">@dimen/control_SpecingTiny</item>
-        <item name="android:layout_marginEnd">@dimen/control_SpecingTiny</item>
+        <item name="android:layout_marginTop">@dimen/button_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/button_marginBottom</item>
+        <item name="android:layout_marginStart">@dimen/button_marginStart</item>
+        <item name="android:layout_marginEnd">@dimen/button_marginEnd</item>
     </style>
 
 

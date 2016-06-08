@@ -208,9 +208,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
                 objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
                 Intent intent = new Intent(getActivity(), CheckOutActivity.class);
+                intent.putExtra("IsShowLoginMsg",true);
                 intent.putExtra("OrderMaster", objOrderMaster);
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
                 intent.putExtra("ParentActivity", activityName);
+                //startActivity(intent);
                 getActivity().startActivityForResult(intent, 0);
             }
         }

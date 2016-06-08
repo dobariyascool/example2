@@ -25,7 +25,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.9">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,8 +56,8 @@
                             android:text="@string/coaOrderType"
                             android:textColor="@color/white_blur" />
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="38dp"
                             android:layout_marginBottom="@dimen/control_SpecingSmall"
                             android:layout_marginTop="@dimen/control_SpecingSmall"
@@ -66,21 +66,49 @@
                             <ToggleButton
                                 android:id="@+id/tbHomeDelivery"
                                 style="@style/ToogleButtonLeftSelector"
-                                android:layout_width="120dp"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
+                                android:layout_weight="1"
                                 android:textOff="@string/coaHomeDelivery"
                                 android:textOn="@string/coaHomeDelivery" />
 
                             <ToggleButton
                                 android:id="@+id/tbTakeAway"
                                 style="@style/ToogleButtonRightSelector"
-                                android:layout_width="120dp"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_toEndOf="@+id/tbHomeDelivery"
+                                android:layout_weight="1"
                                 android:textOff="@string/coaTakeAway"
                                 android:textOn="@string/coaTakeAway" />
 
-                        </RelativeLayout>
+                        </LinearLayout>
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="38dp"-->
+                        <!--android:layout_marginBottom="@dimen/control_SpecingSmall"-->
+                        <!--android:layout_marginTop="@dimen/control_SpecingSmall"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@drawable/toggle_drawable">-->
+
+                        <!--<ToggleButton-->
+                        <!--android:id="@+id/tbHomeDelivery"-->
+                        <!--style="@style/ToogleButtonLeftSelector"-->
+                        <!--android:layout_width="120dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:textOff="@string/coaHomeDelivery"-->
+                        <!--android:textOn="@string/coaHomeDelivery" />-->
+
+                        <!--<ToggleButton-->
+                        <!--android:id="@+id/tbTakeAway"-->
+                        <!--style="@style/ToogleButtonRightSelector"-->
+                        <!--android:layout_width="120dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_toEndOf="@+id/tbHomeDelivery"-->
+                        <!--android:textOff="@string/coaTakeAway"-->
+                        <!--android:textOn="@string/coaTakeAway" />-->
+
+                        <!--</RelativeLayout>-->
 
                     </LinearLayout>
 
@@ -525,35 +553,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="@dimen/control_SpecingTiny"
-            android:layout_marginEnd="@dimen/control_SpecingSmall"
-            android:layout_marginStart="@dimen/control_SpecingSmall"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:layout_weight="0.1"
             android:orientation="horizontal">
-
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnViewOrder"
                 style="@style/BorderButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/coaViewOrder" />
+                android:text="@string/coaViewOrder"
+                tools:ignore="NestedWeights" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnPlaceOrder"
                 style="@style/Button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/coaPlaceOrder"
-                />
+                android:text="@string/coaPlaceOrder" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/btnDisablePlaceOrder"
                 style="@style/DisableButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:enabled="false"
                 android:text="@string/coaPlaceOrder"

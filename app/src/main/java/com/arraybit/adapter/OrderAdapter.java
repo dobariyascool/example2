@@ -269,6 +269,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderMasterV
                     }
                 }
             });
+            ibVisible.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (alOrderMaster.get(getAdapterPosition()).getType() == 0) {
+                        alOrderMaster.get(getAdapterPosition()).setType((short) 1);
+                        isItemAnimate = false;
+                        notifyItemChanged(getAdapterPosition());
+                    } else {
+                        alOrderMaster.get(getAdapterPosition()).setType((short) 0);
+                        isItemAnimate = false;
+                        notifyItemChanged(getAdapterPosition());
+                    }
+                }
+            });
 
 
             ibCancelOrder.setOnClickListener(new View.OnClickListener() {

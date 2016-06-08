@@ -62,7 +62,7 @@
 
             <LinearLayout
                 android:id="@+id/dateLayout"
-                android:layout_width="180dp"
+                android:layout_width="@dimen/offer_layout_width"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/triangle"

@@ -49,7 +49,7 @@
             android:paddingEnd="@dimen/control_SpecingSmall"
             android:paddingStart="@dimen/control_SpecingSmall"
             android:textColor="@android:color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <com.rey.material.widget.CompoundButton
             android:id="@+id/cbName"
@@ -61,6 +61,5 @@
             android:paddingStart="@dimen/control_SpecingSmall"
             android:text="@string/siSignIn"
             android:textColor="@android:color/white" />
-
     </LinearLayout>
 </LinearLayout>

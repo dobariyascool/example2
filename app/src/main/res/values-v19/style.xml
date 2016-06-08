@@ -55,8 +55,8 @@
         <item name="rippleColor">@color/orange_light</item>
         <item name="fabSize">mini</item>
         <item name="android:src">@drawable/edit_drawable</item>
-        <item name="android:layout_marginTop">162dp</item>-->
-        <item name="android:layout_marginEnd">@dimen/control_SpecingSmall</item>
+        <item name="android:layout_marginTop">143dp</item>-->
+        <item name="android:padding">@dimen/control_SpecingSmall</item>
         <item name="backgroundTint">@color/orange</item>
         <item name="pressedTranslationZ">12dp</item>//show shadow when pressed
     </style>

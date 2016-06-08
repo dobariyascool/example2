@@ -292,10 +292,15 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                         returnIntent.putExtra("IsLogin", true);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
+                    }else if(data.getBooleanExtra("IsOrderPlace", false)) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsOrderPlace", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
                     }else{
                         if(data.getBooleanExtra("IsWishListChange", false)){
                             ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
-                            itemListFragment.UpdateWishList(data.getIntExtra("Position",-1), data.getShortExtra("IsChecked",(short) 0));
+                            itemListFragment.UpdateWishList(data.getIntExtra("Position", -1), data.getShortExtra("IsChecked", (short) 0));
                             if(data.getBooleanExtra("ShowMessage", false)){
                                 isShowMsg = data.getBooleanExtra("ShowMessage", false);
                                 this.itemName = data.getStringExtra("ItemName");

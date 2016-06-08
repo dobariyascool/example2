@@ -85,6 +85,7 @@
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <string name="MsgCartItemDelete">%s is deleted from the dish</string>
     <string name="MsgNotification">There is no notification</string>
+    <string name="MsgOrder">Order is place successfully</string>
     <!-- End -->
 
     <!-- signupActivity -->

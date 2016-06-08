@@ -14,15 +14,16 @@ public class CartItemActivity extends AppCompatActivity {
 
     String activityName;
     FrameLayout fragmentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_item);
 
-        fragmentLayout = (FrameLayout)findViewById(R.id.fragmentLayout);
+        fragmentLayout = (FrameLayout) findViewById(R.id.fragmentLayout);
 
         Intent intent = getIntent();
-        if(intent.getStringExtra("ActivityName")!=null){
+        if (intent.getStringExtra("ActivityName") != null) {
             activityName = intent.getStringExtra("ActivityName");
         }
         Globals.ReplaceFragment(new CartItemFragment(activityName), getSupportFragmentManager(), null, R.id.fragmentLayout);
@@ -40,7 +41,7 @@ public class CartItemActivity extends AppCompatActivity {
         returnIntent.putExtra("IsLogin", true);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
-        if(activityName !=null && activityName.equals(getResources().getString(R.string.title_home))){
+        if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
             CheckOutActivity.isBackPressed = false;
         }
     }
@@ -50,9 +51,14 @@ public class CartItemActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 if (data != null) {
-                    if(data.getBooleanExtra("IsShowMessage", false)){
+                    if (data.getBooleanExtra("IsShowMessage", false)) {
                         Globals.ShowSnackBar(fragmentLayout, getResources().getString(R.string.siLoginSuccessMsg), CartItemActivity.this, 2000);
-                    }else{
+                    } else if (data.getBooleanExtra("IsOrderPlace", false)) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsOrderPlace", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } else {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("IsActivityFinish", true);
                         setResult(Activity.RESULT_OK, returnIntent);
@@ -64,7 +70,7 @@ public class CartItemActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void SaveCartDataInSharePreference(){
+    private void SaveCartDataInSharePreference() {
         Gson gson = new Gson();
         SharePreferenceManage objSharePreferenceManage;
         try {
@@ -75,7 +81,7 @@ public class CartItemActivity extends AppCompatActivity {
                 objSharePreferenceManage = new SharePreferenceManage();
                 String string = gson.toJson(Globals.alOrderItemTran);
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, CartItemActivity.this);
-                objSharePreferenceManage.CreatePreference("CartItemListPreference","OrderRemark",RemarkDialogFragment.strRemark,CartItemActivity.this);
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, CartItemActivity.this);
             }
         } catch (Exception e) {
             e.printStackTrace();
