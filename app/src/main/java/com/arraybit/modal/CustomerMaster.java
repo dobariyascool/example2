@@ -47,7 +47,6 @@ public class CustomerMaster implements Parcelable {
     short linktoStateMasterId;
     short linktoCityMasterId;
     short linktoAreaMasterId;
-
     public static final Creator<CustomerMaster> CREATOR = new Creator<CustomerMaster>() {
         public CustomerMaster createFromParcel(Parcel source) {
             CustomerMaster objCustomerMaster = new CustomerMaster();
@@ -101,6 +100,7 @@ public class CustomerMaster implements Parcelable {
             return new CustomerMaster[size];
         }
     };
+    String ImageNamePhysicalNameBytes;
 
     public int getCustomerMasterId() {
         return this.CustomerMasterId;
@@ -428,6 +428,14 @@ public class CustomerMaster implements Parcelable {
 
     public void setLinktoStateMasterId(short linktoStateMasterId) {
         this.linktoStateMasterId = linktoStateMasterId;
+    }
+
+    public String getImageNamePhysicalNameBytes() {
+        return ImageNamePhysicalNameBytes;
+    }
+
+    public void setImageNamePhysicalNameBytes(String imageNamePhysicalNameBytes) {
+        ImageNamePhysicalNameBytes = imageNamePhysicalNameBytes;
     }
 
     /// Extra

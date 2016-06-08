@@ -2,18 +2,25 @@ package com.arraybit.abposw;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
@@ -31,6 +38,8 @@ import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,7 +59,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     LinearLayout cityAreaLayout;
     RadioButton rbMale, rbFemale;
     ProgressDialog progressDialog = new ProgressDialog();
-
+    ImageView ivTakeImage;
+    String imagePhysicalNameBytes,imageName;
+    //yyyy-MM-dd_HH.mm.ss.ffff
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +90,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         txtStateError = (TextView) findViewById(R.id.txtStateError);
         txtCityError = (TextView) findViewById(R.id.txtCityError);
         txtAreaError = (TextView) findViewById(R.id.txtAreaError);
+
+        ivTakeImage = (ImageView)findViewById(R.id.ivTakeImage);
 
         //hide keyboard
         etDateOfBirth.setInputType(InputType.TYPE_NULL);
@@ -113,6 +126,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         btnSignUp.setOnClickListener(this);
         cbSignIn.setOnClickListener(this);
+        ivTakeImage.setOnClickListener(this);
 
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -206,21 +220,24 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         view = v;
         Globals.HideKeyBoard(RegistrationActivity.this, v);
         if (v.getId() == R.id.btnSignUp) {
-            if (!ValidateControls()) {
-                Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
-            } else {
-                if (Service.CheckNet(this)) {
-                    RegistrationRequest();
-                } else {
-                    Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                }
-            }
+            RequestImage();
+//            if (!ValidateControls()) {
+//                Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
+//            } else {
+//                if (Service.CheckNet(this)) {
+//                    RegistrationRequest();
+//                } else {
+//                    Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
+//                }
+//            }
         } else if (v.getId() == R.id.cbSignIn) {
             finish();
         } else if (v.getId() == R.id.cbPrivacyPolicy) {
             Globals.ReplaceFragment(new PolicyFragment("Privacy Policy"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
         } else if (v.getId() == R.id.cbTermsofService) {
             Globals.ReplaceFragment(new PolicyFragment("Terms of service"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_terms_of_service), R.id.registrationLayout);
+        }else if(v.getId()==R.id.ivTakeImage){
+            Globals.SelectImage(RegistrationActivity.this,100,101);
         }
     }
 
@@ -234,6 +251,48 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             spState.setVisibility(View.INVISIBLE);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try {
+            if (resultCode == RESULT_OK) {
+                String picturePath = "";
+                if (requestCode == 100) {
+                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "CameraImage.jpg");
+                    picturePath = f.getAbsolutePath();
+                    imageName = f.getName();
+                } else if (requestCode == 101 && data != null && data.getData() != null) {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    picturePath = cursor.getString(columnIndex);
+                    File file = new File(picturePath);
+                    imageName = file.getName();
+                    cursor.close();
+                }
+                if (!picturePath.equals("")) {
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bitmapOptions);
+                    ivTakeImage.setImageBitmap(bitmap);
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    byte[] bytedata = bos.toByteArray();
+                    imagePhysicalNameBytes = Base64.encodeToString(bytedata, Base64.DEFAULT);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
@@ -286,6 +345,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog.show(getSupportFragmentManager(), "");
         AreaJSONParser objAreaJSONParser = new AreaJSONParser();
         objAreaJSONParser.SelectAllAreaMasterAreaByCity(null, this, String.valueOf(cityMasterId));
+    }
+
+    private void RequestImage() {
+        progressDialog.show(getSupportFragmentManager(), "");
+        CustomerMaster objCustomerMaster = new CustomerMaster();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss",Locale.US);
+        String str = imageName.substring(0,imageName.lastIndexOf("."));
+        String date = str + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."),imageName.length()) ;
+        objCustomerMaster.setImageName(imageName);
+        objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        objCustomerJSONParser.SaveImage(objCustomerMaster,RegistrationActivity.this);
+        progressDialog.dismiss();
     }
 
     private void RegistrationRequest() {

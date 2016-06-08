@@ -27,24 +27,99 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etFirstName"
-                    style="@style/EditText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/suFirstName"
-                    android:inputType="textPersonName"
-                    android:singleLine="true" />
+                    android:layout_marginTop="@dimen/control_SpecingTiny"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etLastName"
-                    style="@style/EditText"
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btnLoginWithFb"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_TouchableHeight"
+                        android:layout_marginEnd="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/facebook_btn_drawable"
+                        android:drawablePadding="@dimen/control_SpecingSmall"
+                        android:drawableStart="@drawable/facebook_drawable"
+                        android:paddingEnd="@dimen/control_SpecingSmall"
+                        android:paddingStart="@dimen/control_SpecingSmall"
+                        android:text="@string/siLoginWithFb"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/control_TextSmall"
+                        tools:ignore="NestedWeights" />
+
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btnLoginWithGplus"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_TouchableHeight"
+                        android:layout_marginStart="@dimen/control_SpecingNormal"
+                        android:layout_weight="1"
+                        android:background="@drawable/google_btn_drawable"
+                        android:drawablePadding="@dimen/control_SpecingSmall"
+                        android:drawableStart="@drawable/google_plus_drawable"
+                        android:paddingEnd="@dimen/control_SpecingSmall"
+                        android:paddingStart="@dimen/control_SpecingSmall"
+                        android:text="@string/siLoginWithGplus"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/control_TextSmall" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/suLastName"
-                    android:inputType="textPersonName"
-                    android:singleLine="true" />
+                    android:layout_marginTop="@dimen/control_SpecingSmall"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivTakeImage"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/rounded_layout"
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/control_SpecingSmall"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.EditText
+                            android:id="@+id/etFirstName"
+                            style="@style/EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/suFirstName"
+                            android:inputType="textPersonName"
+                            android:singleLine="true" />
+
+                        <com.rey.material.widget.EditText
+                            android:id="@+id/etLastName"
+                            style="@style/EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/suLastName"
+                            android:inputType="textPersonName"
+                            android:singleLine="true" />
+
+                        <com.rey.material.widget.EditText
+                            android:id="@+id/etPhone"
+                            style="@style/EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/suPhone"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etEmail"
@@ -71,16 +146,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/suConfirmPassword"
                     android:inputType="textWebPassword"
-                    android:singleLine="true" />
-
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etPhone"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/suPhone"
-                    android:inputType="phone"
-                    android:maxLength="10"
                     android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
@@ -149,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:dropDownWidth="match_parent"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible" />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtStateError"
@@ -178,7 +243,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:dropDownWidth="match_parent"/>
+                        android:dropDownWidth="match_parent" />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/txtCityError"
