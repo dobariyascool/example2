@@ -350,10 +350,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void RequestImage() {
         progressDialog.show(getSupportFragmentManager(), "");
         CustomerMaster objCustomerMaster = new CustomerMaster();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss",Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS",Locale.US);
         String str = imageName.substring(0,imageName.lastIndexOf("."));
-        String date = str + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."),imageName.length()) ;
-        objCustomerMaster.setImageName(imageName);
+        String strImageName = imageName.substring(0,imageName.lastIndexOf(".")) + "_"+simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."),imageName.length()) ;
+        objCustomerMaster.setImageName(strImageName);
         objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.SaveImage(objCustomerMaster,RegistrationActivity.this);
