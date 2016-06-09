@@ -2,12 +2,16 @@ package com.arraybit.abposw;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +22,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
 
-//import com.github.clans.fab.FloatingActionButton;
 
 public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener, UserProfileFragment.UpdateResponseListener {
 
@@ -35,6 +41,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     FloatingActionButton fabEdit;
     TextView txtLoginChar, txtFullName, txtEmail;
     FrameLayout myAccountLayout;
+    ImageView ivProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +59,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
 
+        ivProfile = (ImageView) findViewById(R.id.ivProfile);
 
         SetUserName();
-
-
         GetData();
 
         rvOptions = (RecyclerView) findViewById(R.id.rvOptions);
@@ -123,6 +129,20 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     public void UpdateResponse() {
         SetUserName();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (resultCode == RESULT_OK) {
+                UserProfileFragment userProfileFragment = (UserProfileFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
+                userProfileFragment.SelectImage(requestCode,data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void BookingDateOnClick(View view) {
         AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
@@ -193,6 +213,24 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", MyAccountActivity.this));
         } else {
             txtFullName.setVisibility(View.GONE);
+        }
+
+        if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", MyAccountActivity.this)!=null){
+            ivProfile.setVisibility(View.VISIBLE);
+            txtLoginChar.setVisibility(View.GONE);
+            String url = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", MyAccountActivity.this);
+            Glide.with(MyAccountActivity.this).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(ivProfile) {
+                @Override
+                protected void setResource(Bitmap resource) {
+                    RoundedBitmapDrawable circularBitmapDrawable =
+                            RoundedBitmapDrawableFactory.create(getResources(), resource);
+                    circularBitmapDrawable.setCircular(true);
+                    ivProfile.setImageDrawable(circularBitmapDrawable);
+                }
+            });
+        }else{
+            ivProfile.setVisibility(View.GONE);
+            txtLoginChar.setVisibility(View.VISIBLE);
         }
     }
 

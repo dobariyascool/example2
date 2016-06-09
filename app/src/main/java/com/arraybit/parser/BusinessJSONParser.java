@@ -70,6 +70,7 @@ public class BusinessJSONParser {
                 objBusinessMaster.setCountry(jsonObject.getString("Country"));
                 objBusinessMaster.setState(jsonObject.getString("State"));
                 objBusinessMaster.setBusinessType(jsonObject.getString("BusinessType"));
+                objBusinessMaster.setBusinessGroup(jsonObject.getString("BusinessGroup"));
             }
             return objBusinessMaster;
         } catch (JSONException e) {
@@ -113,6 +114,7 @@ public class BusinessJSONParser {
                 objBusinessMaster.setCountry(jsonArray.getJSONObject(i).getString("Country"));
                 objBusinessMaster.setState(jsonArray.getJSONObject(i).getString("State"));
                 objBusinessMaster.setBusinessType(jsonArray.getJSONObject(i).getString("BusinessType"));
+                objBusinessMaster.setBusinessGroup(jsonArray.getJSONObject(i).getString("BusinessGroup"));
                 lstBusinessMaster.add(objBusinessMaster);
             }
             return lstBusinessMaster;

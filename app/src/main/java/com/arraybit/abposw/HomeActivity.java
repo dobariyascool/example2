@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +30,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +47,8 @@ import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BannerMasterJSONParser;
 import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -78,6 +84,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     SlidePagerAdapter pagerAdapter;
     FloatingActionMenu famRoot;
     String shareData;
+    ImageView imageView;
     private Runnable animateViewPager;
     private Handler handler;
 
@@ -113,6 +120,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
+        imageView = (ImageView) headerView.findViewById(R.id.imageView);
         nameLayout = (LinearLayout) headerView.findViewById(R.id.nameLayout);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
 
@@ -335,6 +343,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             SaveCartDataInSharePreference();
             txtFullName.setVisibility(View.GONE);
             cbName.setText(getResources().getString(R.string.siSignIn));
+            imageView.setImageResource(R.drawable.account_drawable);
+            imageView.setPadding(0,0,0,0);
         } else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
@@ -398,10 +408,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
-            SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
-            objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
-            Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-            startActivityForResult(intent, 0);
+            if(objBusinessMaster.getLinktoBusinessGroupMasterId()==0){
+                SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+                objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                startActivityForResult(intent, 0);
+            }else{
+                Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
+                intent.putExtra("linktoBusinessGroupMasterId",objBusinessMaster.getLinktoBusinessGroupMasterId());
+                startActivityForResult(intent, 111);
+            }
+
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
             SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
@@ -512,6 +529,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
+            }else if(requestCode == 111){
+                if(Globals.linktoOrderTypeMasterId ==(short) Globals.OrderType.HomeDelivery.getValue()){
+                    SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+                    objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                    Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                    startActivityForResult(intent, 0);
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -600,6 +624,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 txtFullName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", HomeActivity.this));
             } else {
                 txtFullName.setVisibility(View.GONE);
+            }
+            if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this)!=null){
+                String url = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this);
+                Glide.with(HomeActivity.this).load(url).asBitmap().override(130,130).centerCrop().into(new BitmapImageViewTarget(imageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        imageView.setImageDrawable(circularBitmapDrawable);
+                        imageView.setPadding(8,8,8,8);
+                    }
+                });
+            }else{
+                imageView.setImageResource(R.drawable.account_drawable);
+                imageView.setPadding(0,0,0,0);
             }
             isLogin = false;
         }

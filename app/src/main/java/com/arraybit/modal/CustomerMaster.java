@@ -47,6 +47,12 @@ public class CustomerMaster implements Parcelable {
     short linktoStateMasterId;
     short linktoCityMasterId;
     short linktoAreaMasterId;
+    String xs_ImagePhysicalName;
+    String sm_ImagePhysicalName;
+    String md_ImagePhysicalName;
+    String lg_ImagePhysicalName;
+    String xl_ImagePhysicalName;
+
     public static final Creator<CustomerMaster> CREATOR = new Creator<CustomerMaster>() {
         public CustomerMaster createFromParcel(Parcel source) {
             CustomerMaster objCustomerMaster = new CustomerMaster();
@@ -91,6 +97,11 @@ public class CustomerMaster implements Parcelable {
             objCustomerMaster.linktoStateMasterId = (short) source.readInt();
             objCustomerMaster.linktoCityMasterId = (short) source.readInt();
             objCustomerMaster.linktoAreaMasterId = (short) source.readInt();
+            objCustomerMaster.sm_ImagePhysicalName = source.readString();
+            objCustomerMaster.xs_ImagePhysicalName = source.readString();
+            objCustomerMaster.md_ImagePhysicalName = source.readString();
+            objCustomerMaster.lg_ImagePhysicalName = source.readString();
+            objCustomerMaster.xl_ImagePhysicalName = source.readString();
             /// Extra
 
             return objCustomerMaster;
@@ -438,6 +449,45 @@ public class CustomerMaster implements Parcelable {
         ImageNamePhysicalNameBytes = imageNamePhysicalNameBytes;
     }
 
+    public String getXl_ImagePhysicalName() {
+        return xl_ImagePhysicalName;
+    }
+
+    public void setXl_ImagePhysicalName(String xl_ImagePhysicalName) {
+        this.xl_ImagePhysicalName = xl_ImagePhysicalName;
+    }
+
+    public String getLg_ImagePhysicalName() {
+        return lg_ImagePhysicalName;
+    }
+
+    public void setLg_ImagePhysicalName(String lg_ImagePhysicalName) {
+        this.lg_ImagePhysicalName = lg_ImagePhysicalName;
+    }
+
+    public String getMd_ImagePhysicalName() {
+        return md_ImagePhysicalName;
+    }
+
+    public void setMd_ImagePhysicalName(String md_ImagePhysicalName) {
+        this.md_ImagePhysicalName = md_ImagePhysicalName;
+    }
+
+    public String getSm_ImagePhysicalName() {
+        return sm_ImagePhysicalName;
+    }
+
+    public void setSm_ImagePhysicalName(String sm_ImagePhysicalName) {
+        this.sm_ImagePhysicalName = sm_ImagePhysicalName;
+    }
+
+    public String getXs_ImagePhysicalName() {
+        return xs_ImagePhysicalName;
+    }
+
+    public void setXs_ImagePhysicalName(String xs_ImagePhysicalName) {
+        this.xs_ImagePhysicalName = xs_ImagePhysicalName;
+    }
     /// Extra
 
 
@@ -489,6 +539,11 @@ public class CustomerMaster implements Parcelable {
         parcel.writeInt(linktoStateMasterId);
         parcel.writeInt(linktoCityMasterId);
         parcel.writeInt(linktoAreaMasterId);
+        parcel.writeString(xs_ImagePhysicalName);
+        parcel.writeString(md_ImagePhysicalName);
+        parcel.writeString(lg_ImagePhysicalName);
+        parcel.writeString(xl_ImagePhysicalName);
+        parcel.writeString(sm_ImagePhysicalName);
         /// Extra
 
     }

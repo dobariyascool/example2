@@ -63,7 +63,14 @@ public class CustomerJSONParser {
                 objCustomerMaster.setEmail1(jsonObject.getString("Email1"));
                 objCustomerMaster.setEmail2(jsonObject.getString("Email2"));
                 objCustomerMaster.setFax(jsonObject.getString("Fax"));
-                objCustomerMaster.setImageName(jsonObject.getString("ImageName"));
+                if(!jsonObject.getString("ImageName").equals("null")) {
+                    objCustomerMaster.setImageName(jsonObject.getString("ImageName"));
+                    objCustomerMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
+                    objCustomerMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
+                    objCustomerMaster.setMd_ImagePhysicalName(jsonObject.getString("md_ImagePhysicalName"));
+                    objCustomerMaster.setLg_ImagePhysicalName(jsonObject.getString("lg_ImagePhysicalName"));
+                    objCustomerMaster.setXl_ImagePhysicalName(jsonObject.getString("xl_ImagePhysicalName"));
+                }
                 if (!jsonObject.getString("BirthDate").equals("null")) {
                     dt = sdfDateFormat.parse(jsonObject.getString("BirthDate"));
                     objCustomerMaster.setBirthDate(sdfControlDateFormat.format(dt));
@@ -201,6 +208,8 @@ public class CustomerJSONParser {
             stringer.key("LastLoginDateTime").value(sdfDateTimeFormat.format(dt));
             stringer.key("IsEnabled").value(objCustomerMaster.getIsEnabled());
             stringer.key("IsPrimary").value(true);
+            stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
+            stringer.key("ImageName").value(objCustomerMaster.getImageName());
 
             stringer.endObject();
             stringer.endObject();
@@ -214,14 +223,9 @@ public class CustomerJSONParser {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         JSONObject jsonResponse = jsonObject.getJSONObject(InsertCustomerMaster + "Result");
-
                         if (jsonResponse != null) {
-                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
                             objCustomerRequestListener = (CustomerRequestListener) context;
-                            objCustomerRequestListener.CustomerResponse(errorCode, null);
-                        } else {
-                            objCustomerRequestListener = (CustomerRequestListener) context;
-                            objCustomerRequestListener.CustomerResponse("-1", null);
+                            objCustomerRequestListener.CustomerResponse("0", SetClassPropertiesFromJSONObject(jsonResponse));
                         }
                     } catch (JSONException e) {
                         objCustomerRequestListener = (CustomerRequestListener) context;
@@ -313,6 +317,10 @@ public class CustomerJSONParser {
             if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
+            if(objCustomerMaster.getImageNamePhysicalNameBytes()!=null) {
+                stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
+                stringer.key("ImageName").value(objCustomerMaster.getImageName());
+            }
             stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
             //stringer.key("linktoUserMasterIdUpdatedBy").value(sdfDateTimeFormat.format(dt));
             stringer.endObject();
@@ -328,12 +336,10 @@ public class CustomerJSONParser {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         JSONObject jsonResponse = jsonObject.getJSONObject(UpdateCustomerMaster + "Result");
-
                         if (jsonResponse != null) {
-                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
                             objCustomerRequestListener = (CustomerRequestListener) targetFragment;
-                            objCustomerRequestListener.CustomerResponse(errorCode, null);
-                        } else {
+                            objCustomerRequestListener.CustomerResponse("0", SetClassPropertiesFromJSONObject(jsonResponse));
+                        }else {
                             objCustomerRequestListener = (CustomerRequestListener) targetFragment;
                             objCustomerRequestListener.CustomerResponse("-1", null);
                         }

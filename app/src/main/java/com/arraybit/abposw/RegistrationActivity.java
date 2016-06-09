@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "UnnecessaryReturnStatement"})
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener {
 
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
@@ -60,8 +60,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     RadioButton rbMale, rbFemale;
     ProgressDialog progressDialog = new ProgressDialog();
     ImageView ivTakeImage;
-    String imagePhysicalNameBytes,imageName;
-    //yyyy-MM-dd_HH.mm.ss.ffff
+    String imagePhysicalNameBytes, imageName,strImageName;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS", Locale.US);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         txtCityError = (TextView) findViewById(R.id.txtCityError);
         txtAreaError = (TextView) findViewById(R.id.txtAreaError);
 
-        ivTakeImage = (ImageView)findViewById(R.id.ivTakeImage);
+        ivTakeImage = (ImageView) findViewById(R.id.ivTakeImage);
 
         //hide keyboard
         etDateOfBirth.setInputType(InputType.TYPE_NULL);
@@ -220,24 +221,23 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         view = v;
         Globals.HideKeyBoard(RegistrationActivity.this, v);
         if (v.getId() == R.id.btnSignUp) {
-            RequestImage();
-//            if (!ValidateControls()) {
-//                Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
-//            } else {
-//                if (Service.CheckNet(this)) {
-//                    RegistrationRequest();
-//                } else {
-//                    Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
-//                }
-//            }
+            if (!ValidateControls()) {
+                Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
+            } else {
+                if (Service.CheckNet(this)) {
+                    RegistrationRequest();
+                } else {
+                    Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
+                }
+            }
         } else if (v.getId() == R.id.cbSignIn) {
             finish();
         } else if (v.getId() == R.id.cbPrivacyPolicy) {
             Globals.ReplaceFragment(new PolicyFragment("Privacy Policy"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_policy), R.id.registrationLayout);
         } else if (v.getId() == R.id.cbTermsofService) {
             Globals.ReplaceFragment(new PolicyFragment("Terms of service"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_terms_of_service), R.id.registrationLayout);
-        }else if(v.getId()==R.id.ivTakeImage){
-            Globals.SelectImage(RegistrationActivity.this,100,101);
+        } else if (v.getId() == R.id.ivTakeImage) {
+            Globals.SelectImage(RegistrationActivity.this, 100, 101);
         }
     }
 
@@ -245,7 +245,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void StateResponse(ArrayList<SpinnerItem> alStateMaster) {
         progressDialog.dismiss();
         this.alStateMaster = alStateMaster;
-        if (alStateMaster!=null && alStateMaster.size() > 0) {
+        if (alStateMaster != null && alStateMaster.size() > 0) {
             FillState();
         } else {
             spState.setVisibility(View.INVISIBLE);
@@ -260,6 +260,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             if (resultCode == RESULT_OK) {
                 String picturePath = "";
                 if (requestCode == 100) {
+                    strImageName =  "CameraImage_"+ simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length())+".jpg";
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "CameraImage.jpg");
                     picturePath = f.getAbsolutePath();
                     imageName = f.getName();
@@ -298,7 +299,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void CityResponse(ArrayList<SpinnerItem> alCityMaster) {
         progressDialog.dismiss();
         this.alCityMaster = alCityMaster;
-        if (alCityMaster!=null && alCityMaster.size() > 0) {
+        if (alCityMaster != null && alCityMaster.size() > 0) {
             FillCity();
         } else {
             spCity.setVisibility(View.INVISIBLE);
@@ -309,7 +310,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void AreaResponse(ArrayList<SpinnerItem> alAreaMaster) {
         progressDialog.dismiss();
         this.alAreaMaster = alAreaMaster;
-        if (alAreaMaster!=null && alAreaMaster.size() > 0) {
+        if (alAreaMaster != null && alAreaMaster.size() > 0) {
             FillArea();
         } else {
             spArea.setVisibility(View.INVISIBLE);
@@ -320,7 +321,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
-        SetError(errorCode);
+        SetError(errorCode, objCustomerMaster);
     }
 
     @Override
@@ -345,19 +346,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog.show(getSupportFragmentManager(), "");
         AreaJSONParser objAreaJSONParser = new AreaJSONParser();
         objAreaJSONParser.SelectAllAreaMasterAreaByCity(null, this, String.valueOf(cityMasterId));
-    }
-
-    private void RequestImage() {
-        progressDialog.show(getSupportFragmentManager(), "");
-        CustomerMaster objCustomerMaster = new CustomerMaster();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS",Locale.US);
-        String str = imageName.substring(0,imageName.lastIndexOf("."));
-        String strImageName = imageName.substring(0,imageName.lastIndexOf(".")) + "_"+simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."),imageName.length()) ;
-        objCustomerMaster.setImageName(strImageName);
-        objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
-        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SaveImage(objCustomerMaster,RegistrationActivity.this);
-        progressDialog.dismiss();
     }
 
     private void RegistrationRequest() {
@@ -400,7 +388,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objCustomerMaster.setCustomerType(Globals.CustomerType);
         objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
-
+        if (imageName != null && !imageName.equals("")) {
+            strImageName = imageName.substring(0, imageName.lastIndexOf(".")) + "_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length());
+            objCustomerMaster.setImageName(strImageName);
+            objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
+        }
         objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
     }
 
@@ -454,7 +446,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void SetError(String errorCode) {
+    private void SetError(String errorCode, CustomerMaster objCustomerMaster) {
         switch (errorCode) {
             case "-1":
                 Globals.ShowSnackBar(view, getResources().getString(R.string.MsgServerNotResponding), RegistrationActivity.this, 1000);
@@ -465,28 +457,32 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 break;
             default:
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", errorCode, this);
-                objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", etEmail.getText().toString(), this);
-                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", etPassword.getText().toString(), this);
-                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", etFirstName.getText().toString() + " " + etLastName.getText().toString(), this);
-                if(!etPhone.getText().toString().equals("")) {
-                    objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", etPhone.getText().toString(), this);
+                if (objCustomerMaster != null) {
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
+                    if (objCustomerMaster.getXs_ImagePhysicalName() != null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
+                    }
+                    if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
+                    }
                 }
-
                 ClearControls();
-                if(getIntent().getStringExtra("Booking")!=null && getIntent().getStringExtra("Booking").equals("Booking")){
+                if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsRedirect", true);
                     returnIntent.putExtra("TargetActivity", "Booking");
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
-                }else if(getIntent().getStringExtra("Order")!=null && getIntent().getStringExtra("Order").equals("Order")){
+                } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsRedirect", true);
                     returnIntent.putExtra("TargetActivity", "Order");
                     setResult(Activity.RESULT_OK, returnIntent);
                     finish();
-                }else {
+                } else {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsLogin", true);
                     returnIntent.putExtra("IsShowMessage", true);

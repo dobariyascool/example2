@@ -255,6 +255,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
+            if(objCustomerMaster.getXs_ImagePhysicalName()!=null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
+                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
+            }
             if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
                 objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
             }

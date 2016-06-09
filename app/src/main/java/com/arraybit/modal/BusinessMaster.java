@@ -34,6 +34,8 @@ public class BusinessMaster implements Parcelable {
     String Country;
     String State;
     String BusinessType;
+    String BusinessGroup;
+
     public static final Parcelable.Creator<BusinessMaster> CREATOR = new Creator<BusinessMaster>() {
         public BusinessMaster createFromParcel(Parcel source) {
             BusinessMaster objBusinessMaster = new BusinessMaster();
@@ -65,6 +67,7 @@ public class BusinessMaster implements Parcelable {
             objBusinessMaster.Country = source.readString();
             objBusinessMaster.State = source.readString();
             objBusinessMaster.BusinessType = source.readString();
+            objBusinessMaster.BusinessGroup = source.readString();
             return objBusinessMaster;
         }
 
@@ -177,10 +180,18 @@ public class BusinessMaster implements Parcelable {
         return linktoBusinessGroupMasterId;
     }
 
-    //endregion
-
     public void setLinktoBusinessGroupMasterId(short linktoBusinessGroupMasterId) {
         this.linktoBusinessGroupMasterId = linktoBusinessGroupMasterId;
+    }
+
+    public String getBusinessGroup() {
+        return BusinessGroup;
+    }
+
+    //endregion
+
+    public void setBusinessGroup(String businessGroup) {
+        BusinessGroup = businessGroup;
     }
 
     public int describeContents() {
@@ -216,5 +227,6 @@ public class BusinessMaster implements Parcelable {
         parcel.writeString(Country);
         parcel.writeString(State);
         parcel.writeString(BusinessType);
+        parcel.writeString(BusinessGroup);
     }
 }

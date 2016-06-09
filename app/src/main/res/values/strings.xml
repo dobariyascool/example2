@@ -41,6 +41,7 @@
     <string name="title_activity_contactus">Contact Us</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
     <string name="title_activity_notification">Notification</string>
+    <string name="title_activity_business_branch">Select Branch</string>
 
     <!-- Operation Message -->
     <string name="MsgValidation">Please correct the errors</string>
@@ -114,6 +115,9 @@
     <string name="suState">\u2013\u2013SELECT STATE\u2013\u2013</string>
     <string name="suCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
     <string name="suArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
+    <string name="suWithFacebook">SignUp with Facebook</string>
+    <string name="suWithGoogle">SignUp with Google+</string>
+
     <!-- end -->
 
     <string name="plus">\u002B</string>

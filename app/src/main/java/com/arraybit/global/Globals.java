@@ -203,6 +203,8 @@ public class Globals {
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerName", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "Phone", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerProfileUrl",context);
         objSharePreferenceManage.ClearPreference("LoginPreference", context);
         ClearCartData();
     }
@@ -252,12 +254,9 @@ public class Globals {
 
 
     public static void SelectImage(final Context context, final int requestCodeCamera, final int requestCodeGallery) {
-        final CharSequence[] items = {
-                "Take Photo",
-                "Choose from Gallery",
-                "CANCEL" };
+        final CharSequence[] items = {"Take Photo","Choose from Gallery"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AlertDialog);
         builder.setTitle("ADD PHOTO");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -267,13 +266,13 @@ public class Globals {
                     File f = new File(android.os.Environment
                             .getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    ((Activity)context).startActivityForResult(intent, requestCodeCamera);
+                    ((Activity) context).startActivityForResult(intent, requestCodeCamera);
                 } else if (items[item].equals("Choose from Gallery")) {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    ((Activity)context).startActivityForResult(
+                    ((Activity) context).startActivityForResult(
                             Intent.createChooser(intent, "Select File"), requestCodeGallery);
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();

@@ -368,17 +368,10 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     private void SetTabLayout() {
         if (alCategoryMaster == null) {
             SetErrorLayout(true, getResources().getString(R.string.MsgSelectFail), 0);
+        }else if(alCategoryMaster.size()==0){
+            SetErrorLayout(true, getResources().getString(R.string.MsgNoRecord), 0);
         } else {
-
             SetErrorLayout(false, null, 0);
-
-//            CategoryMaster objCategoryMaster = new CategoryMaster();
-//            objCategoryMaster.setCategoryMasterId((short) 0);
-//            objCategoryMaster.setCategoryName("All");
-//            ArrayList<CategoryMaster> alCategory = new ArrayList<>();
-//            alCategory.add(objCategoryMaster);
-//            alCategoryMaster.addAll(0, alCategory);
-
             itemPagerAdapter = new PageAdapter(getSupportFragmentManager());
             int cnt = 0;
             for (CategoryMaster objFilterCategoryMaster : alCategoryMaster) {

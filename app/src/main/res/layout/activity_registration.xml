@@ -45,7 +45,7 @@
                         android:drawableStart="@drawable/facebook_drawable"
                         android:paddingEnd="@dimen/control_SpecingSmall"
                         android:paddingStart="@dimen/control_SpecingSmall"
-                        android:text="@string/siLoginWithFb"
+                        android:text="@string/suWithFacebook"
                         android:textAllCaps="false"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/control_TextSmall"
@@ -62,7 +62,7 @@
                         android:drawableStart="@drawable/google_plus_drawable"
                         android:paddingEnd="@dimen/control_SpecingSmall"
                         android:paddingStart="@dimen/control_SpecingSmall"
-                        android:text="@string/siLoginWithGplus"
+                        android:text="@string/suWithGoogle"
                         android:textAllCaps="false"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/control_TextSmall" />
@@ -77,36 +77,17 @@
 
                     <ImageView
                         android:id="@+id/ivTakeImage"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:background="@drawable/rounded_layout"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop"
-                        tools:ignore="ContentDescription"/>
+                        android:src="@drawable/no_image"
+                        tools:ignore="ContentDescription" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/control_SpecingSmall"
                         android:orientation="vertical">
-
-                        <com.rey.material.widget.EditText
-                            android:id="@+id/etFirstName"
-                            style="@style/EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/suFirstName"
-                            android:inputType="textPersonName"
-                            android:singleLine="true" />
-
-                        <com.rey.material.widget.EditText
-                            android:id="@+id/etLastName"
-                            style="@style/EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/suLastName"
-                            android:inputType="textPersonName"
-                            android:singleLine="true" />
 
                         <com.rey.material.widget.EditText
                             android:id="@+id/etPhone"
@@ -118,8 +99,38 @@
                             android:maxLength="10"
                             android:singleLine="true" />
 
+                        <com.rey.material.widget.EditText
+                            android:id="@+id/etDateOfBirth"
+                            style="@style/EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/suBirthDate"
+                            android:inputType="none"
+                            android:onClick="EditTextOnClick"
+                            android:singleLine="true" />
+
+
                     </LinearLayout>
                 </LinearLayout>
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/etFirstName"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/suFirstName"
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/etLastName"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/suLastName"
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
 
                 <com.rey.material.widget.EditText
                     android:id="@+id/etEmail"
@@ -146,16 +157,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/suConfirmPassword"
                     android:inputType="textWebPassword"
-                    android:singleLine="true" />
-
-                <com.rey.material.widget.EditText
-                    android:id="@+id/etDateOfBirth"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/suBirthDate"
-                    android:inputType="none"
-                    android:onClick="EditTextOnClick"
                     android:singleLine="true" />
 
                 <RadioGroup

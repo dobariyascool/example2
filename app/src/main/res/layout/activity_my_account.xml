@@ -11,33 +11,89 @@
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
-        <RelativeLayout
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/topPanel"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="192dp"-->
+        <!--android:background="@color/colorPrimary">-->
+
+        <!--<include-->
+        <!--android:id="@+id/app_bar"-->
+        <!--layout="@layout/app_bar_layout" />-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/ivProfile"-->
+        <!--android:layout_width="@dimen/ct_width"-->
+        <!--android:layout_height="@dimen/ct_width"-->
+        <!--tools:ignore="ContentDescription"-->
+        <!--android:layout_centerInParent="true" />-->
+
+        <!--<com.rey.material.widget.TextView-->
+        <!--android:id="@+id/txtLoginChar"-->
+        <!--style="@style/PrimaryTextView"-->
+        <!--android:layout_width="@dimen/ct_width"-->
+        <!--android:layout_height="@dimen/ct_height"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:background="@drawable/myaccount_selector"-->
+        <!--android:gravity="center"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="@dimen/control_TextLarge"-->
+        <!--android:visibility="gone"/>-->
+
+        <!--<com.rey.material.widget.TextView-->
+        <!--android:id="@+id/txtFullName"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/txtLoginChar"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textStyle="bold" />-->
+
+        <!--<com.rey.material.widget.TextView-->
+        <!--android:id="@+id/txtEmail"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/txtFullName"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textStyle="bold" />-->
+        <!--</RelativeLayout>-->
+        <LinearLayout
             android:id="@+id/topPanel"
             android:layout_width="match_parent"
             android:layout_height="192dp"
-            android:background="@color/colorPrimary">
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/app_bar"
                 layout="@layout/app_bar_layout" />
+
+            <ImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="@dimen/ct_width"
+                android:layout_height="@dimen/ct_width"
+                android:layout_gravity="center"
+                tools:ignore="ContentDescription" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtLoginChar"
                 style="@style/PrimaryTextView"
                 android:layout_width="@dimen/ct_width"
                 android:layout_height="@dimen/ct_height"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:background="@drawable/myaccount_selector"
                 android:gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/control_TextLarge" />
+                android:textSize="@dimen/control_TextLarge"
+                android:visibility="gone" />
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtFullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtLoginChar"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -45,11 +101,11 @@
                 android:id="@+id/txtEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtFullName"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvOptions"
