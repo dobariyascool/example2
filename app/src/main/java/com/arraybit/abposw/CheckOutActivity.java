@@ -68,9 +68,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay, txtBusinessAddress;
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
-    EditText etOfferCode, etOrderDate, etName, etPhone, etBusinessName;
-    Button btnApply, btnViewOrder, btnPlaceOrder,btnDisablePlaceOrder;
-    ImageButton ibAdd, ibViewMore, ibBusinessViewMore;
+    EditText etOfferCode, etOrderDate, etName, etPhone, etBusinessName, etCity;
+    Button btnApply, btnViewOrder, btnPlaceOrder, btnDisablePlaceOrder;
+    ImageButton ibAdd, ibViewMore;
     ProgressDialog progressDialog = new ProgressDialog();
     String customerMasterId, activityName;
     ArrayList<CustomerAddressTran> alCustomerAddressTran;
@@ -79,11 +79,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     View snackFocus;
     FrameLayout checkOutMainLayout;
     ArrayList<SpinnerItem> alOrderTime;
-    AppCompatSpinner spOrderTime, spOrderCity;
-    boolean isDateChange = false, isDataFilter, isCityFilter, isSelected, isDataLoad, isCityLoad, isGroup;
-    CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment,cvMinimumOrder;
+    AppCompatSpinner spOrderTime;
+    boolean isDateChange = false, isDataFilter, isSelected, isDataLoad;
+    CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment, cvMinimumOrder;
     BusinessMaster objBusinessMaster;
-    ArrayList<BusinessMaster> alBusinessMaster;
     LinearLayout errorLayout;
     NestedScrollView scrollView;
     boolean isShow;
@@ -113,7 +112,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             customerMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", CheckOutActivity.this);
         }
 
-        isShow = getIntent().getBooleanExtra("IsShowLoginMsg",false);
+        isShow = getIntent().getBooleanExtra("IsShowLoginMsg", false);
         scrollView = (NestedScrollView) findViewById(R.id.scrollView);
 
         checkOutMainLayout = (FrameLayout) findViewById(R.id.checkOutMainLayout);
@@ -150,9 +149,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         etName = (EditText) findViewById(R.id.etName);
         etPhone = (EditText) findViewById(R.id.etPhone);
         etBusinessName = (EditText) findViewById(R.id.etBusinessName);
+        etCity = (EditText) findViewById(R.id.etCity);
 
         spOrderTime = (AppCompatSpinner) findViewById(R.id.spOrderTime);
-        spOrderCity = (AppCompatSpinner) findViewById(R.id.spOrderCity);
 
         btnApply = (Button) findViewById(R.id.btnApply);
         btnPlaceOrder = (Button) findViewById(R.id.btnPlaceOrder);
@@ -161,7 +160,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         ibAdd = (ImageButton) findViewById(R.id.ibAdd);
         ibViewMore = (ImageButton) findViewById(R.id.ibViewMore);
-        ibBusinessViewMore = (ImageButton) findViewById(R.id.ibBusinessViewMore);
 
         cbGetPromoCode.setOnClickListener(this);
         btnApply.setOnClickListener(this);
@@ -169,7 +167,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         ibViewMore.setOnClickListener(this);
         btnPlaceOrder.setOnClickListener(this);
         btnViewOrder.setOnClickListener(this);
-        ibBusinessViewMore.setOnClickListener(this);
 
         Intent intent = getIntent();
         if (intent.getParcelableExtra("OrderMaster") != null) {
@@ -193,18 +190,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             if (objCheckOut.getOrderType() == Globals.OrderType.HomeDelivery.getValue()) {
                 isDataFilter = false;
                 SetCardVisibility(objCheckOut.getOrderType(), false);
-            } else {
-                //every time check linktobusinessGroupMasterId
-                if (Service.CheckNet(this)) {
-                    isGroup = true;
-                    scrollView.setVisibility(View.VISIBLE);
-                    errorLayout.setVisibility(View.GONE);
-                    RequestBusinessMaster((short) 0, null);
-                } else {
-                    scrollView.setVisibility(View.GONE);
-                    Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
-                    //Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                }
+            } else if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
+                isDataFilter = false;
+                SetCardVisibility(objCheckOut.getOrderType(), false);
             }
         }
 
@@ -270,32 +258,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        spOrderCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TextView spinnerText = (TextView) view.findViewById(R.id.txtSpinnerItem);
-                if (spinnerText != null) {
-                    spinnerText.setTextColor(ContextCompat.getColor(CheckOutActivity.this, R.color.white_blur));
-                }
-                if (!isSelected) {
-                    if (Service.CheckNet(CheckOutActivity.this)) {
-                        isCityFilter = true;
-                        RequestBusinessMaster(alBusinessMaster.get(0).getLinktoBusinessGroupMasterId(), (String) parent.getAdapter().getItem(position));
-                    } else {
-                        Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), CheckOutActivity.this, 1000);
-                    }
-                } else {
-                    if (objCheckOut == null) {
-                        isSelected = false;
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         etOfferCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -327,6 +289,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+
         tbHomeDelivery.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
@@ -380,7 +343,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        if(isShow){
+        if (isShow) {
             Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.siLoginSuccessMsg), CheckOutActivity.this, 2000);
         }
     }
@@ -389,7 +352,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (getSupportFragmentManager().getBackStackEntryCount() != 1) {
-                if(!errorLayout.isShown()) {
+                if (!errorLayout.isShown()) {
                     isBackPressed = true;
                     if (tbTakeAway.isChecked()) {
                         SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
@@ -450,20 +413,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             } else if (v.getId() == R.id.ibAdd) {
                 Globals.HideKeyBoard(CheckOutActivity.this, v);
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
-            } else if (v.getId() == R.id.ibBusinessViewMore) {
-                Globals.HideKeyBoard(CheckOutActivity.this, v);
-                if (spOrderCity != null && spOrderCity.getAdapter() != null) {
-                    if (Service.CheckNet(this)) {
-                        isDataLoad = true;
-                        if (objCheckOut.getObjBusinessMaster() != null) {
-                            RequestBusinessMaster(objCheckOut.getObjBusinessMaster().getLinktoBusinessGroupMasterId(), (String) spOrderCity.getAdapter().getItem(spOrderCity.getSelectedItemPosition()));
-                        } else {
-                            RequestBusinessMaster(objBusinessMaster.getLinktoBusinessGroupMasterId(), (String) spOrderCity.getAdapter().getItem(spOrderCity.getSelectedItemPosition()));
-                        }
-                    } else {
-                        Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                    }
-                }
             }
         }
     }
@@ -473,7 +422,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             Globals.ShowDatePickerDialog(etOrderDate, CheckOutActivity.this, true);
         }
     }
-
 
     @Override
     public void CustomerAddressResponse(String errorCode, ArrayList<CustomerAddressTran> alCustomerAddressTran, CustomerAddressTran objCustomerAddressTran) {
@@ -538,7 +486,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_add_address_fragment), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         } else {
-            if(!errorLayout.isShown()) {
+            if (!errorLayout.isShown()) {
                 isBackPressed = true;
                 if (tbTakeAway.isChecked()) {
                     SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
@@ -565,7 +513,15 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
-        BusinessMasterResponse(objBusinessMaster, alBusinessMaster);
+        this.objBusinessMaster = objBusinessMaster;
+        if (Service.CheckNet(this)) {
+            scrollView.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.GONE);
+            RequestTimeSlots();
+        } else {
+            scrollView.setVisibility(View.GONE);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
+        }
     }
 
     @Override
@@ -708,7 +664,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
                     etPhone.setText(objSharePreferenceManage.GetPreference("LoginPreference", "Phone", CheckOutActivity.this));
                 }
-                FillCity();
+                etCity.setText(objBusinessMaster.getCity());
                 SetBusinessAddress();
                 cbGetPromoCode.setVisibility(View.VISIBLE);
                 etOfferCode.setVisibility(View.GONE);
@@ -717,7 +673,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 tbTakeAway.setChecked(true);
                 isSelected = true;
                 spOrderTime.setSelection(objCheckOut.getOrderTimeIndex());
-                FillCity();
+                etCity.setText(objBusinessMaster.getCity());
                 if (objCheckOut.getObjOfferMaster() != null) {
                     cbGetPromoCode.setVisibility(View.GONE);
                     etOfferCode.setVisibility(View.VISIBLE);
@@ -733,7 +689,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (objCheckOut.getPhone() != null && !objCheckOut.getPhone().equals("")) {
                     etPhone.setText(objCheckOut.getPhone());
                 }
-                spOrderCity.setSelection(objCheckOut.getCityIndex());
+                etCity.setText(objCheckOut.getCity());
                 if (objCheckOut.getObjBusinessMaster() != null) {
                     etBusinessName.setText(objCheckOut.getObjBusinessMaster().getBusinessName());
                     etBusinessName.setEnabled(false);
@@ -743,60 +699,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void FillCity() {
-        if (alBusinessMaster == null && objBusinessMaster != null) {
-            ibBusinessViewMore.setVisibility(View.INVISIBLE);
-            SpinnerItem objSpinnerItem = new SpinnerItem();
-            objSpinnerItem.setText(objBusinessMaster.getCity());
-            objSpinnerItem.setValue(0);
-
-            ArrayList<SpinnerItem> alCity = new ArrayList<>();
-            alCity.add(objSpinnerItem);
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
-            spOrderCity.setAdapter(cityAdapter);
-            isSelected = true;
-        } else {
-            ibBusinessViewMore.setVisibility(View.VISIBLE);
-            ArrayList<SpinnerItem> alCity = new ArrayList<>();
-            short cnt = 0;
-            boolean isDuplicate = false;
-            for (BusinessMaster objBusiness : alBusinessMaster) {
-                SpinnerItem objSpinnerItem = new SpinnerItem();
-                if (alCity.size() == 0) {
-                    objSpinnerItem.setText(objBusiness.getCity());
-                    objSpinnerItem.setValue(cnt);
-                    alCity.add(objSpinnerItem);
-                } else {
-                    for (SpinnerItem objSpinner : alCity) {
-                        if (objSpinner.getText().equals(objBusiness.getCity())) {
-                            isDuplicate = true;
-                            break;
-                        }
-                    }
-                    if (!isDuplicate) {
-                        objSpinnerItem.setText(objBusiness.getCity());
-                        objSpinnerItem.setValue(cnt);
-                        alCity.add(objSpinnerItem);
-                    }
-                }
-                cnt++;
-            }
-            SpinnerAdapter cityAdapter = new SpinnerAdapter(CheckOutActivity.this, alCity, true);
-            spOrderCity.setAdapter(cityAdapter);
-            isSelected = true;
-        }
-    }
-
     private void SetBusinessAddress() {
         if (objBusinessMaster != null) {
             etBusinessName.setText(objBusinessMaster.getBusinessName());
             etBusinessName.setEnabled(false);
             txtBusinessAddress.setText(objBusinessMaster.getAddress());
-        } else if (alBusinessMaster != null) {
-            etBusinessName.setText(alBusinessMaster.get(0).getBusinessName());
-            etBusinessName.setEnabled(false);
-            txtBusinessAddress.setText(alBusinessMaster.get(0).getAddress());
-            objBusinessMaster = alBusinessMaster.get(0);
+            etCity.setText(objBusinessMaster.getCity());
         }
     }
 
@@ -823,28 +731,21 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (Service.CheckNet(this)) {
                     scrollView.setVisibility(View.VISIBLE);
                     errorLayout.setVisibility(View.GONE);
-                    RequestBusinessMaster((short) 0, null);
+                    RequestBusinessMaster();
                 } else {
                     scrollView.setVisibility(View.GONE);
                     Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
                 }
             } else {
-                objBusinessMaster = objCheckOut.getObjBusinessMaster();
                 if (Service.CheckNet(this)) {
                     scrollView.setVisibility(View.VISIBLE);
                     errorLayout.setVisibility(View.GONE);
-                    if (objBusinessMaster != null && objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
-                        RequestTimeSlots();
-                    } else if (objBusinessMaster != null) {
-                        isCityLoad = true;
-                        RequestBusinessMaster(objBusinessMaster.getLinktoBusinessGroupMasterId(), null);
-                    }
+                    RequestTimeSlots();
                 } else {
                     scrollView.setVisibility(View.GONE);
                     Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
                 }
             }
-
         } else if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
             cvEditName.setVisibility(View.GONE);
             cvName.setVisibility(View.VISIBLE);
@@ -853,11 +754,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             cvOfferCode.setVisibility(View.VISIBLE);
             cvDateTime.setVisibility(View.VISIBLE);
             cvPayment.setVisibility(View.VISIBLE);
-            if(objOrderMaster.getTotalAmount() >= 300){
+            if (objOrderMaster.getTotalAmount() >= 300) {
                 btnPlaceOrder.setVisibility(View.VISIBLE);
                 btnDisablePlaceOrder.setVisibility(View.GONE);
                 cvMinimumOrder.setVisibility(View.GONE);
-            }else{
+            } else {
                 btnPlaceOrder.setVisibility(View.GONE);
                 btnDisablePlaceOrder.setVisibility(View.VISIBLE);
                 cvMinimumOrder.setVisibility(View.VISIBLE);
@@ -891,15 +792,15 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void RequestBusinessMaster(short linktoBusinessGroupMasterId, String city) {
+    private void RequestBusinessMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
-        if (linktoBusinessGroupMasterId == 0) {
-            objBusinessJSONParser.SelectBusinessMaster(CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
-        } else {
-            objBusinessJSONParser.SelectAllBusinessMasterByBusinessGroup(CheckOutActivity.this, String.valueOf(linktoBusinessGroupMasterId), city);
-        }
-
+        objBusinessJSONParser.SelectBusinessMaster(CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
+//        if (linktoBusinessGroupMasterId == 0) {
+//            objBusinessJSONParser.SelectBusinessMaster(CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
+//        } else {
+//            objBusinessJSONParser.SelectAllBusinessMasterByBusinessGroup(CheckOutActivity.this, String.valueOf(linktoBusinessGroupMasterId), city);
+//        }
     }
 
     private void SaveCheckOutData(CustomerAddressTran objCustomerAddress, OfferMaster objOffer, int orderType) {
@@ -909,7 +810,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
             objCheckOut.setOrderType(orderType);
             objCheckOut.setOrderDate(etOrderDate.getText().toString());
-            if(spOrderTime!=null && spOrderTime.getAdapter()!=null) {
+            if (spOrderTime != null && spOrderTime.getAdapter() != null) {
                 objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
                 objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
             }
@@ -926,14 +827,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         } else {
             objCheckOut.setOrderType(orderType);
             objCheckOut.setOrderDate(etOrderDate.getText().toString());
-            if(spOrderTime!=null && spOrderTime.getAdapter()!=null) {
+            if (spOrderTime != null && spOrderTime.getAdapter() != null) {
                 objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
                 objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
             }
-            if(spOrderCity!=null && spOrderCity.getAdapter()!=null) {
-                objCheckOut.setCityIndex(spOrderCity.getSelectedItemPosition());
-                objCheckOut.setCity((String) spOrderCity.getAdapter().getItem(spOrderCity.getSelectedItemPosition()));
-            }
+            objCheckOut.setCity(etCity.getText().toString());
             objCheckOut.setBranch(etBusinessName.getText().toString());
             objCheckOut.setName(etName.getText().toString());
             objCheckOut.setPhone(etPhone.getText().toString());
@@ -999,6 +897,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
                 objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", CheckOutActivity.this);
                 objSharePreferenceManage.ClearPreference("OrderTypePreference", CheckOutActivity.this);
+                objSharePreferenceManage.RemovePreference("BusinessPreference", "BusinessMasterId", CheckOutActivity.this);
+                objSharePreferenceManage.ClearPreference("BusinessPreference", CheckOutActivity.this);
                 MenuActivity.i = 0;
                 MenuActivity.isViewChange = false;
                 ItemAdapter.alWishItemMaster = new ArrayList<>();
@@ -1083,79 +983,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void BusinessMasterResponse(BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
-        if (isGroup) {
-            //if linktoBusinessGroupMasterId save in preference and in database have null so clear preference
-            isGroup = false;
-            if (objBusinessMaster != null) {
-                if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0 && objCheckOut.getObjBusinessMaster().getLinktoBusinessGroupMasterId() != 0) {
-                    SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-                    objSharePreferenceManage.RemovePreference("CheckOutDataPreference", "CheckOutData", CheckOutActivity.this);
-                    objSharePreferenceManage.ClearPreference("CheckOutDataPreference", CheckOutActivity.this);
-                    objCheckOut = null;
-                    isDataFilter = true;
-                    SetCardVisibility(Globals.OrderType.TakeAway.getValue(), true);
-                } else {
-                    isDataFilter = false;
-                    SetCardVisibility(objCheckOut.getOrderType(), false);
-                }
-            }
-        } else {
-            if (isDataLoad) {
-                isDataLoad = false;
-                if (alBusinessMaster != null) {
-                    AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(null, alBusinessMaster);
-                    addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
-                }
-            } else {
-                this.objBusinessMaster = objBusinessMaster;
-                if (objBusinessMaster != null) {
-                    if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
-                        if (Service.CheckNet(this)) {
-                            RequestTimeSlots();
-                        } else {
-                            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                        }
-                    } else {
-                        if (Service.CheckNet(this)) {
-                            RequestBusinessMaster(objBusinessMaster.getLinktoBusinessGroupMasterId(), null);
-                        } else {
-                            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                        }
-                    }
-                } else if (alBusinessMaster != null) {
-                    this.alBusinessMaster = alBusinessMaster;
-                    if (isCityLoad) {
-                        isCityLoad = false;
-                        if (objCheckOut != null && objCheckOut.getObjBusinessMaster() != null) {
-                            this.objBusinessMaster = objCheckOut.getObjBusinessMaster();
-                        } else {
-                            this.objBusinessMaster = alBusinessMaster.get(0);
-                        }
-                        FillCity();
-                        if (Service.CheckNet(this)) {
-                            RequestTimeSlots();
-                        } else {
-                            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                        }
-                    } else {
-                        if (isCityFilter) {
-                            SetBusinessAddress();
-                            SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
-                            isCityFilter = false;
-                        } else {
-                            if (Service.CheckNet(this)) {
-                                RequestTimeSlots();
-                            } else {
-                                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgCheckConnection), this, 1000);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private void TimeSlotResponse() {
         if (isDateChange) {
             isDateChange = false;
@@ -1174,10 +1001,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                         FillOrderTime();
                         SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                         SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
-                    } else if (alBusinessMaster != null) {
-                        FillOrderTime();
-                        SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
-                        SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
                     }
                 } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
                     FillOrderTime();
@@ -1191,10 +1014,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                             FillOrderTime();
                             SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                             SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
-                        } else if (alBusinessMaster != null) {
-                            FillOrderTime();
-                            SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
-                            SaveCheckOutData(null, null, Globals.OrderType.TakeAway.getValue());
                         }
                     } else if (tbHomeDelivery.isChecked()) {
                         FillOrderTime();
@@ -1202,11 +1021,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     }
                 } else {
                     if (objCheckOut.getOrderType() == Globals.OrderType.TakeAway.getValue()) {
-                        if (objBusinessMaster != null) {
+                        if (objCheckOut.getObjBusinessMaster() != null) {
+                            objBusinessMaster = objCheckOut.getObjBusinessMaster();
                             FillOrderTime();
-                            SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
-                        } else if (alBusinessMaster != null) {
-                            FillOrderTime();
+                            SetBusinessAddress();
                             SetCheckOutData(null, Globals.OrderType.TakeAway.getValue());
                         }
                     } else if (objCheckOut.getOrderType() == Globals.OrderType.HomeDelivery.getValue()) {

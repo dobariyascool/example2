@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
@@ -37,12 +38,13 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     BusinessMaster objBusinessMaster;
     ReviewAdapter adapter;
     int currentPage = 1;
-    boolean isPause,isDataAppend;
+    boolean isPause, isDataAppend;
     double totalReview;
     RelativeLayout reviewLayout;
-    TextView txtAverage,txtTotal;
+    TextView txtAverage, txtTotal;
     RatingBar rtbReview;
     Button btnReview;
+    LinearLayout errorLayout;
 
     public ReviewFragment(BusinessMaster objBusinessMaster) {
         this.objBusinessMaster = objBusinessMaster;
@@ -52,12 +54,13 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review, container, false);
 
-        reviewLayout = (RelativeLayout)view.findViewById(R.id.reviewLayout);
+        reviewLayout = (RelativeLayout) view.findViewById(R.id.reviewLayout);
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
 
-        txtAverage = (TextView)view.findViewById(R.id.txtAverage);
-        txtTotal = (TextView)view.findViewById(R.id.txtTotal);
+        txtAverage = (TextView) view.findViewById(R.id.txtAverage);
+        txtTotal = (TextView) view.findViewById(R.id.txtTotal);
 
-        rtbReview =(RatingBar)view.findViewById(R.id.rtbReview);
+        rtbReview = (RatingBar) view.findViewById(R.id.rtbReview);
 
         LayerDrawable stars = (LayerDrawable) rtbReview.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
@@ -66,15 +69,18 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
         rvReview.setNestedScrollingEnabled(false);
         rvReview.setVisibility(View.GONE);
 
-        btnReview = (Button)view.findViewById(R.id.btnReview);
+        btnReview = (Button) view.findViewById(R.id.btnReview);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         if (Service.CheckNet(getActivity())) {
+            reviewLayout.setVisibility(View.VISIBLE);
             currentPage = 1;
             RequestReviews();
         } else {
-            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            reviewLayout.setVisibility(View.GONE);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvReview, R.drawable.wifi_drawable);
+            //Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
         }
 
         rvReview.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -102,11 +108,11 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             @Override
             public void onClick(View v) {
                 SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-                if(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) == null){
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) == null) {
                     isPause = true;
-                    Intent intent = new Intent(getActivity(),LoginActivity.class);
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
-                }else{
+                } else {
                     WriteReviewFragment objWriteReviewFragment = new WriteReviewFragment();
                     objWriteReviewFragment.show(getActivity().getSupportFragmentManager(), "");
                 }
@@ -117,7 +123,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     @Override
     public void ReviewMasterResponse(ArrayList<ReviewMaster> alReviewMaster) {
-        if(currentPage > 3) {
+        if (currentPage > 3) {
             progressDialog.dismiss();
         }
         SetRecyclerView(alReviewMaster);
@@ -133,7 +139,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
     @Override
     public void onResume() {
         super.onResume();
-        if(isPause) {
+        if (isPause) {
             isPause = false;
             SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
             if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", getActivity()) != null) {
@@ -145,7 +151,7 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
 
     //region Private Methods
     private void RequestReviews() {
-        if(currentPage > 3) {
+        if (currentPage > 3) {
             progressDialog.show(getFragmentManager(), "");
         }
         ReviewJSONParser objReviewJSONParser = new ReviewJSONParser();
@@ -156,19 +162,16 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
         if (alReviewMaster == null) {
             if (currentPage == 1) {
                 reviewLayout.setVisibility(View.GONE);
-                //txtMsg.setVisibility(View.GONE);
-                //txtMsg.setText(getResources().getString(R.string.MsgSelectFail));
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvReview, 0);
             }
         } else if (alReviewMaster.size() == 0) {
             if (currentPage == 1) {
                 reviewLayout.setVisibility(View.GONE);
-                //txtMsg.setVisibility(View.GONE);
-                //txtMsg.setText(getResources().getString(R.string.MsgSelectFail));
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvReview, 0);
             }
         } else {
-            rvReview.setVisibility(View.VISIBLE);
             reviewLayout.setVisibility(View.VISIBLE);
-            //txtMsg.setVisibility(View.GONE);
+            Globals.SetErrorLayout(errorLayout, false, null, rvReview, 0);
             if (currentPage > 1) {
                 adapter.ReviewDataChanged(alReviewMaster);
                 isDataAppend = true;
@@ -179,19 +182,19 @@ public class ReviewFragment extends Fragment implements ReviewJSONParser.ReviewM
             adapter = new ReviewAdapter(getActivity(), alReviewMaster, this);
             rvReview.setAdapter(adapter);
             rvReview.setLayoutManager(linearLayoutManager);
-            if(!isDataAppend){
+            if (!isDataAppend) {
                 SetAverageReview(alReviewMaster);
                 isDataAppend = false;
             }
         }
     }
 
-    private void SetAverageReview(ArrayList<ReviewMaster> alReviewMaster){
+    private void SetAverageReview(ArrayList<ReviewMaster> alReviewMaster) {
         totalReview = 0;
-        for(ReviewMaster reviewMaster : alReviewMaster){
+        for (ReviewMaster reviewMaster : alReviewMaster) {
             totalReview = totalReview + reviewMaster.getStarRating();
         }
-        totalReview = totalReview/alReviewMaster.size();
+        totalReview = totalReview / alReviewMaster.size();
         txtAverage.setText(Globals.dfWithOnePrecision.format(totalReview));
         txtTotal.setText(String.format(getActivity().getString(R.string.rfAverageReview), alReviewMaster.size()));
         rtbReview.setRating((float) totalReview);

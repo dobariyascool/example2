@@ -185,6 +185,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
             objOrderItemTran.setTax(objItemMaster.getTax());
             objOrderItemTran.setAlOrderItemModifierTran(alOrderItemModifierTran);
+            objOrderItemTran.setTaxRate(objItemMaster.getTaxRate());
             CountTax(objOrderItemTran, isDuplicate);
             objOrderItemTran.setTotalTax(totalTax);
             if (!etRemark.getText().toString().isEmpty()) {
@@ -218,6 +219,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                 objOrderItemTran.setRate(objItemMaster.getRate());
                 objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                 objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
+                objOrderItemTran.setTaxRate(objItemMaster.getTaxRate());
                 CountTax(objOrderItemTran, isDuplicate);
                 objOrderItemTran.setTax(objItemMaster.getTax());
                 objOrderItemTran.setAlOrderItemModifierTran(alOrderItemModifierTran);

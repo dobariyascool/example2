@@ -39,12 +39,12 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"ConstantConditions", "ResourceType"})
 @SuppressLint("ValidFragment")
-public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener ,AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener{
+public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener, AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener {
 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
-    Button btnAddMore, btnConfirmOrder,btnDisableConfirmOrder,btnRemark;
-    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark,txtMinOrder,txtEditMessage;
+    Button btnAddMore, btnConfirmOrder, btnDisableConfirmOrder, btnRemark;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark, txtMinOrder, txtEditMessage;
     ImageView ivRemark;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout, errorLayout;
@@ -56,9 +56,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     SharePreferenceManage objSharePreferenceManage;
     String activityName;
     OrderMaster objOrderMaster;
-    int position;
+    int position, duration;
     FrameLayout cartItemFragment;
     boolean isPause;
+    Snackbar snackbar;
 
 
     public CartItemFragment(String activityName) {
@@ -83,8 +84,8 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
         //end
 
-        cartItemFragment = (FrameLayout)view.findViewById(R.id.cartItemFragment);
-        Globals.SetScaleImageBackground(getActivity(),null,null,cartItemFragment);
+        cartItemFragment = (FrameLayout) view.findViewById(R.id.cartItemFragment);
+        Globals.SetScaleImageBackground(getActivity(), null, null, cartItemFragment);
 
         txtMsg = (TextView) view.findViewById(R.id.txtMsg);
         txtRemark = (TextView) view.findViewById(R.id.txtRemark);
@@ -133,18 +134,18 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnAddMore) {
-            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
+            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
                 objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
-                if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
-                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType", getActivity());
-                    if(str!=null && !str.equals("")) {
+                if (objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity()) != null) {
+                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity());
+                    if (str != null && !str.equals("")) {
                         Globals.linktoOrderTypeMasterId = Short.parseShort(str);
                     }
                 }
-                Intent intent = new Intent(getActivity(),MenuActivity.class);
-                getActivity().startActivityForResult(intent,0);
-            }else {
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
+                getActivity().startActivityForResult(intent, 0);
+            } else {
                 objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
                 Intent returnIntent = new Intent();
@@ -153,10 +154,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 getActivity().finish();
             }
         } else if (v.getId() == R.id.btnConfirmOrder) {
-            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
-                if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
-                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType", getActivity());
-                    if(str!=null && !str.equals("")) {
+            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
+                if (objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity()) != null) {
+                    String str = objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity());
+                    if (str != null && !str.equals("")) {
                         Globals.linktoOrderTypeMasterId = Short.parseShort(str);
                     }
                 }
@@ -208,7 +209,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
                 objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
                 Intent intent = new Intent(getActivity(), CheckOutActivity.class);
-                intent.putExtra("IsShowLoginMsg",true);
+                intent.putExtra("IsShowLoginMsg", true);
                 intent.putExtra("OrderMaster", objOrderMaster);
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
                 intent.putExtra("ParentActivity", activityName);
@@ -221,16 +222,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-//            if(errorLayout.isShown()){
-//                CheckOutActivity.objCheckOut = null;
-//            }
-            if(activityName !=null && activityName.equals(getResources().getString(R.string.title_home))){
+            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
                 CheckOutActivity.isBackPressed = false;
             }
             SaveCartDataInSharePreference();
             Intent returnIntent = new Intent();
-            if(activityName!=null && activityName.equals(getResources().getString(R.string.title_home))){
-                if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
                     returnIntent.putExtra("IsLogin", true);
                 }
             }
@@ -242,13 +240,11 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void ImageViewOnClick(int position, ItemMaster objOrderItemMaster,boolean isDeleteClick) {
-        if(isDeleteClick) {
+    public void ImageViewOnClick(int position, ItemMaster objOrderItemMaster, boolean isDeleteClick) {
+        if (isDeleteClick) {
             ShowSnackBarWithAction(position, objOrderItemMaster);
             adapter.RemoveData(position);
             if (Globals.alOrderItemTran.size() == 0) {
-                RemovePreference();
-                RemarkDialogFragment.strRemark = "";
                 SetRecyclerView();
             }
             if (adapter.changeAmount) {
@@ -265,7 +261,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                     SetTextLayout();
                 }
             }
-        }else{
+        } else {
             this.position = position;
             AddQtyRemarkDialogFragment addQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objOrderItemMaster);
             addQtyRemarkDialogFragment.setTargetFragment(this, 0);
@@ -326,7 +322,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         } else {
             SetVisibility();
             CountAmount();
-            Globals.SetErrorLayout(errorLayout,false,null,rvCartItem,0);
+            Globals.SetErrorLayout(errorLayout, false, null, rvCartItem, 0);
             adapter = new CartItemAdapter(getActivity(), Globals.alOrderItemTran, this, false);
             rvCartItem.setAdapter(adapter);
             rvCartItem.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -344,7 +340,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    private void AllControlVisibility(){
+    private void AllControlVisibility() {
         txtMsg.setVisibility(View.VISIBLE);
         cbMenu.setVisibility(View.GONE);
         rvCartItem.setVisibility(View.GONE);
@@ -359,9 +355,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         txtRoundingOff.setVisibility(View.GONE);
         txtHeaderNetAmount.setVisibility(View.GONE);
         txtNetAmount.setVisibility(View.GONE);
-        if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+        if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_home))) {
             btnAddMore.setVisibility(View.GONE);
-        }else{
+        } else {
             btnAddMore.setVisibility(View.GONE);
         }
         btnConfirmOrder.setVisibility(View.GONE);
@@ -387,9 +383,9 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtRoundingOff.setVisibility(View.GONE);
             txtHeaderNetAmount.setVisibility(View.GONE);
             txtNetAmount.setVisibility(View.GONE);
-            if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
+            if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_home))) {
                 btnAddMore.setVisibility(View.GONE);
-            }else{
+            } else {
                 btnAddMore.setVisibility(View.GONE);
             }
             btnConfirmOrder.setVisibility(View.GONE);
@@ -464,25 +460,25 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             txtTotalAmount.setText(Globals.dfWithPrecision.format(totalAmount));
             txtNetAmount.setText(Globals.dfWithPrecision.format(Math.round(netAmount)));
             txtRoundingOff.setText("- 0." + strNetAmount.substring(strNetAmount.lastIndexOf(".") + 1, strNetAmount.length()));
-            if(totalAmount >= 300){
+            if (totalAmount >= 300) {
                 btnConfirmOrder.setVisibility(View.VISIBLE);
                 btnDisableConfirmOrder.setVisibility(View.GONE);
                 txtMinOrder.setVisibility(View.INVISIBLE);
-            }else{
-                if(activityName!=null && activityName.equals(getActivity().getResources().getString(R.string.title_home))){
-                    if(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity())!=null){
-                        Globals.linktoOrderTypeMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("OrderTypePreference","OrderType",getActivity()));
+            } else {
+                if (activityName != null && activityName.equals(getActivity().getResources().getString(R.string.title_home))) {
+                    if (objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity()) != null) {
+                        Globals.linktoOrderTypeMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("OrderTypePreference", "OrderType", getActivity()));
                     }
                 }
-                if(Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()){
+                if (Globals.linktoOrderTypeMasterId == Globals.OrderType.HomeDelivery.getValue()) {
                     btnConfirmOrder.setVisibility(View.GONE);
                     btnDisableConfirmOrder.setVisibility(View.VISIBLE);
                     txtMinOrder.setVisibility(View.VISIBLE);
-                }else if(Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()){
+                } else if (Globals.linktoOrderTypeMasterId == Globals.OrderType.TakeAway.getValue()) {
                     btnConfirmOrder.setVisibility(View.VISIBLE);
                     btnDisableConfirmOrder.setVisibility(View.GONE);
                     txtMinOrder.setVisibility(View.GONE);
-                }else{
+                } else {
                     btnConfirmOrder.setVisibility(View.VISIBLE);
                     btnDisableConfirmOrder.setVisibility(View.GONE);
                     txtMinOrder.setVisibility(View.GONE);
@@ -555,15 +551,24 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void ShowSnackBarWithAction(final int position, final ItemMaster objItemMaster) {
-        Snackbar snackbar = Snackbar
-                .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete), objItemMaster.getItemName()), 8000)
+        if (position == Globals.alOrderItemTran.size() - 1) {
+            duration = 2000;
+        } else {
+            duration = 8000;
+        }
+        snackbar = Snackbar
+                .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete), objItemMaster.getItemName()), duration)
                 .setCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         super.onDismissed(snackbar, event);
-//                        if (event == DISMISS_EVENT_TIMEOUT) {
-//                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
-//                        }
+                        if (event == DISMISS_EVENT_TIMEOUT) {
+                            //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
+                            if (Globals.alOrderItemTran.size() == 0) {
+                                RemovePreference();
+                                RemarkDialogFragment.strRemark = "";
+                            }
+                        }
                     }
                 })
                 .setAction("UNDO", new View.OnClickListener() {
@@ -610,8 +615,10 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         objSharePreferenceManage.ClearPreference("CheckOutDataPreference", getActivity());
         objSharePreferenceManage.RemovePreference("CartItemListPreference", "OrderRemark", getActivity());
         objSharePreferenceManage.ClearPreference("CartItemListPreference", getActivity());
-        objSharePreferenceManage.RemovePreference("OrderTypePreference","OrderType", getActivity());
+        objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
         objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
+        objSharePreferenceManage.RemovePreference("BusinessPreference", "BusinessMasterId", getActivity());
+        objSharePreferenceManage.ClearPreference("BusinessPreference", getActivity());
     }
 
     private void SaveCartDataInSharePreference() {
@@ -625,7 +632,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 objSharePreferenceManage = new SharePreferenceManage();
                 String string = gson.toJson(Globals.alOrderItemTran);
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", string, getActivity());
-                objSharePreferenceManage.CreatePreference("CartItemListPreference","OrderRemark",RemarkDialogFragment.strRemark,getActivity());
+                objSharePreferenceManage.CreatePreference("CartItemListPreference", "OrderRemark", RemarkDialogFragment.strRemark, getActivity());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,6 +5,13 @@
     android:orientation="vertical"
     tools:context="com.arraybit.abposw.BusinessInformationFragment">
 
+    <include
+        android:id="@+id/errorLayout"
+        layout="@layout/error_layout_with_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvBusinessInfo"
         android:layout_width="match_parent"

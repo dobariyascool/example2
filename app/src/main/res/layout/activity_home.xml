@@ -39,13 +39,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <com.liangfeizc.slidepageindicator.CirclePageIndicator
+                <com.merhold.extensiblepageindicator.ExtensiblePageIndicator
                     android:id="@+id/circlePageIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/control_SpecingMedium" />
+                    android:layout_marginBottom="@dimen/control_SpecingMedium"
+                    app:indicatorPadding="@dimen/control_SpecingSmall"
+                    app:indicatorRadius="5dp"
+                    />
 
             </RelativeLayout>
 

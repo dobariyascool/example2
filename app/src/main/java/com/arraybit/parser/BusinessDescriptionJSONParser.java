@@ -43,7 +43,9 @@ public class BusinessDescriptionJSONParser {
                 objBusinessDescription = new BusinessDescription();
                 objBusinessDescription.setBusinessDescriptionId((short) jsonObject.getInt("BusinessDescriptionId"));
                 objBusinessDescription.setKeyword(jsonObject.getString("Keyword"));
-                objBusinessDescription.setDescription(jsonObject.getString("Description"));
+                if(!jsonObject.getString("Description").equals("null")){
+                    objBusinessDescription.setDescription(jsonObject.getString("Description"));
+                }
                 objBusinessDescription.setlinktoBusinessMasterId((short) jsonObject.getInt("linktoBusinessMasterId"));
                 objBusinessDescription.setIsDefault(jsonObject.getBoolean("IsDefault"));
                 /// Extra
@@ -63,7 +65,9 @@ public class BusinessDescriptionJSONParser {
                 objBusinessDescription = new BusinessDescription();
                 objBusinessDescription.setBusinessDescriptionId((short) jsonArray.getJSONObject(i).getInt("BusinessDescriptionId"));
                 objBusinessDescription.setKeyword(jsonArray.getJSONObject(i).getString("Keyword"));
-                objBusinessDescription.setDescription(jsonArray.getJSONObject(i).getString("Description"));
+                if(!jsonArray.getJSONObject(i).getString("Description").equals("null")) {
+                    objBusinessDescription.setDescription(jsonArray.getJSONObject(i).getString("Description"));
+                }
                 objBusinessDescription.setlinktoBusinessMasterId((short) jsonArray.getJSONObject(i).getInt("linktoBusinessMasterId"));
                 objBusinessDescription.setIsDefault(jsonArray.getJSONObject(i).getBoolean("IsDefault"));
                 objBusinessDescription.setlinktoUserMasterIdCreatedBy((short) jsonArray.getJSONObject(i).getInt("linktoUserMasterIdCreatedBy"));

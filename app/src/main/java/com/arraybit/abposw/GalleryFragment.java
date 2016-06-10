@@ -11,6 +11,7 @@ import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.arraybit.adapter.GalleryAdapter;
 import com.arraybit.global.EndlessRecyclerOnScrollListener;
@@ -31,6 +32,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
     GalleryAdapter adapter;
     GridLayoutManager gridLayoutManager;
     int currentPage = 1;
+    LinearLayout errorLayout;
 
     public GalleryFragment() {
 
@@ -55,7 +57,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
-        txtMsg = (TextView) view.findViewById(R.id.txtMsg);
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
 
         rvGallery = (RecyclerView) view.findViewById(R.id.rvGallery);
         rvGallery.setVisibility(View.GONE);
@@ -64,7 +66,7 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
             currentPage = 1;
             RequestBusinessGallery();
         } else {
-            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvGallery, R.drawable.wifi_drawable);
         }
 
         rvGallery.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -133,17 +135,14 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
     private void SetGalleryRecyclerView(ArrayList<BusinessGalleryTran> lstBusinessGalleryTran) {
         if (lstBusinessGalleryTran == null) {
             if (currentPage == 1) {
-                txtMsg.setVisibility(View.GONE);
-                txtMsg.setText(getResources().getString(R.string.MsgSelectFail));
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvGallery, 0);
             }
         } else if (lstBusinessGalleryTran.size() == 0) {
             if (currentPage == 1) {
-                txtMsg.setVisibility(View.GONE);
-                txtMsg.setText(getResources().getString(R.string.MsgSelectFail));
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgGallery), rvGallery, 0);
             }
         } else {
-            rvGallery.setVisibility(View.VISIBLE);
-            txtMsg.setVisibility(View.GONE);
+            Globals.SetErrorLayout(errorLayout, false, null, rvGallery, 0);
             if (currentPage > 1) {
                 adapter.GalleryDataChanged(lstBusinessGalleryTran);
                 return;

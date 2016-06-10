@@ -851,6 +851,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
             objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
             objOrderItemTran.setTax(objItemMaster.getTax());
+            objOrderItemTran.setTaxRate(objItemMaster.getTaxRate());
             CountTax(objOrderItemTran, isDuplicate);
             objOrderItemTran.setTotalTax(totalTax);
             SetItemRemark();
@@ -894,6 +895,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 objOrderItemTran.setSellPrice(Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate());
                 objOrderItemTran.setQuantity(Integer.valueOf(etQuantity.getText().toString()));
                 objOrderItemTran.setTax(objItemMaster.getTax());
+                objOrderItemTran.setTaxRate(objItemMaster.getTaxRate());
                 CountTax(objOrderItemTran, isDuplicate);
                 objOrderItemTran.setTotalTax(totalTax);
                 if (txtRemark.getText().toString().isEmpty()) {

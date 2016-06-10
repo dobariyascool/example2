@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardViewTransparent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/businessAddressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtBusinessName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/control_SpecingTiny"
+            android:paddingEnd="@dimen/control_SpecingSmall"
+            android:paddingStart="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingSmall"
+            android:textColor="@android:color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/control_SpecingTiny"
+            android:layout_marginEnd="@dimen/control_SpecingTiny"
+            android:layout_marginStart="@dimen/control_SpecingTiny"
+            android:orientation="horizontal"
+            android:padding="@dimen/control_SpecingTiny">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/address_drawable"
+                tools:ignore="ContentDescription" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtBusinessAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/control_SpecingTiny"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:textColor="@color/grey"/>
+
+                <ImageView
+                    android:id="@+id/ivBusinessCall"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtBusinessAddress"
+                    android:src="@drawable/call_drawable"
+                    tools:ignore="ContentDescription" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/txtBusinessPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_below="@+id/txtBusinessAddress"
+                    android:layout_toEndOf="@+id/ivBusinessCall"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/control_SpecingTiny"
+                    android:paddingStart="@dimen/control_SpecingTiny"
+                    android:text="@string/abApp"
+                    android:textColor="@color/dimWhite"
+                    android:textSize="@dimen/control_TextSmall"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -42,7 +42,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     public static short i = 0;
     public static boolean isViewChange = false;
     ProgressDialog progressDialog = new ProgressDialog();
-    boolean isForceToChange = false, isShowMsg = true;
+    boolean isForceToChange = false, isShowMsg = true,isBranchChange;
     CoordinatorLayout menuActivity;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -72,6 +72,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
 
         menuActivity = (CoordinatorLayout) findViewById(R.id.menuActivity);
         Globals.SetScaleImageBackground(MenuActivity.this, menuActivity);
+
+        isBranchChange = getIntent().getBooleanExtra("IsBranchChange",false);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -157,6 +159,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             SaveWishListInSharePreference(true);
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin", true);
+            returnIntent.putExtra("IsBranchChange",isBranchChange);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
             ClearData();
@@ -276,6 +279,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         SaveWishListInSharePreference(true);
         Intent returnIntent = new Intent();
         returnIntent.putExtra("IsLogin", true);
+        returnIntent.putExtra("IsBranchChange",isBranchChange);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
         ClearData();

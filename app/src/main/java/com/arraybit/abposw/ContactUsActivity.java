@@ -275,7 +275,12 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
         SpannableString content = new SpannableString(webSite);
         content.setSpan(new UnderlineSpan(), 0, webSite.length(), 0);
 
-        txtWebSite.setText(content);
+        if(webSite==null || webSite.equals("")){
+            txtWebSite.setVisibility(View.GONE);
+        }else{
+            txtPhone2.setVisibility(View.VISIBLE);
+            txtWebSite.setText(content);
+        }
         txtPhone1.setText(objBusinessMaster.getPhone1());
         if (objBusinessMaster.getPhone2() != null && !objBusinessMaster.getPhone2().equals("")) {
             txtPhone2.setVisibility(View.VISIBLE);

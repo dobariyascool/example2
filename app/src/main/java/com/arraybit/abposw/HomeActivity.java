@@ -52,7 +52,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
-import com.liangfeizc.slidepageindicator.CirclePageIndicator;
+import com.merhold.extensiblepageindicator.ExtensiblePageIndicator;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ProgressDialog progressDialog = new ProgressDialog();
     ViewPager viewPager;
-    CirclePageIndicator circlePageIndicator;
+    ExtensiblePageIndicator circlePageIndicator;
     CompoundButton cbName;
     TextView txtFullName;
     boolean isLogin;
@@ -80,11 +80,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     com.rey.material.widget.TextView txtCartNumber;
     boolean doubleBackToExitPressedOnce, isNetCheck;
     LinearLayout homeLayout, internetLayout, nameLayout;
-    boolean stopSliding = false, isPause;
+    boolean stopSliding = false, isPause, isProgressShow;
     SlidePagerAdapter pagerAdapter;
     FloatingActionMenu famRoot;
     String shareData;
     ImageView imageView;
+    SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+    boolean isRefresh;
     private Runnable animateViewPager;
     private Handler handler;
 
@@ -116,7 +118,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeLayout = (LinearLayout) findViewById(R.id.homeLayout);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
+        circlePageIndicator = (ExtensiblePageIndicator) findViewById(R.id.circlePageIndicator);
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
@@ -142,19 +144,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         nameLayout.setOnClickListener(this);
         cbName.setOnClickListener(this);
 
-        if (Service.CheckNet(this)) {
-            internetLayout.setVisibility(View.GONE);
-            famRoot.setVisibility(View.VISIBLE);
-            homeLayout.setVisibility(View.VISIBLE);
-            RequestBannerMaster();
-            RequestBusinessMaster();
-        } else {
-            internetLayout.setVisibility(View.VISIBLE);
-            famRoot.setVisibility(View.GONE);
-            Globals.SetErrorLayout(internetLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
-            homeLayout.setVisibility(View.GONE);
-        }
-
         if (internetLayout.getVisibility() == View.GONE) {
 
             SaveCartDataInSharePreference();
@@ -162,6 +151,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             SetUserName();
 
             SetWishListFromSharePreference();
+
+            SetBusinessMasterID();
+        }
+
+        if (Service.CheckNet(this)) {
+            internetLayout.setVisibility(View.GONE);
+            famRoot.setVisibility(View.VISIBLE);
+            homeLayout.setVisibility(View.VISIBLE);
+            isProgressShow = true;
+            RequestBannerMaster();
+            RequestBusinessMaster();
+        } else {
+            internetLayout.setVisibility(View.VISIBLE);
+            famRoot.setVisibility(View.GONE);
+            Globals.SetErrorLayout(internetLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
+            homeLayout.setVisibility(View.GONE);
         }
 
         FloatingActionButton fabYou = (FloatingActionButton) findViewById(R.id.fabYou);
@@ -190,8 +195,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         handler.removeCallbacks(animateViewPager);
                     }
                 } else {
-                    stopSliding = false;
-                    handler.postDelayed(animateViewPager, duration);
+                    if (handler != null) {
+                        stopSliding = false;
+                        handler.postDelayed(animateViewPager, duration);
+                    }
                 }
             }
         });
@@ -291,7 +298,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (viewPager.getCurrentItem() == size - 1) {
                         viewPager.setCurrentItem(0, true);
                     } else {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                        if(viewPager.getAdapter().getCount() > 1) {
+                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                        }
                     }
                     handler.postDelayed(animateViewPager, duration);
                 }
@@ -329,7 +338,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         if (isPause) {
-            handler.postDelayed(animateViewPager, duration);
+            if (handler != null) {
+                handler.postDelayed(animateViewPager, duration);
+            }
+            isPause = false;
         }
         super.onResume();
     }
@@ -344,7 +356,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             txtFullName.setVisibility(View.GONE);
             cbName.setText(getResources().getString(R.string.siSignIn));
             imageView.setImageResource(R.drawable.account_drawable);
-            imageView.setPadding(0,0,0,0);
+            imageView.setPadding(0, 0, 0, 0);
         } else if (id == R.id.myAccount) {
             Intent intent = new Intent(HomeActivity.this, MyAccountActivity.class);
             startActivityForResult(intent, 0);
@@ -395,7 +407,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void BannerResponse(ArrayList<BannerMaster> alBannerMaster) {
-        progressDialog.dismiss();
+        if (isProgressShow) {
+            progressDialog.dismiss();
+            isProgressShow = false;
+        }
         SetSlider(alBannerMaster);
     }
 
@@ -408,23 +423,45 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
-            if(objBusinessMaster.getLinktoBusinessGroupMasterId()==0){
-                SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+            if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
+                objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
+                objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
                 objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
                 Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
                 startActivityForResult(intent, 0);
-            }else{
-                Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
-                intent.putExtra("linktoBusinessGroupMasterId",objBusinessMaster.getLinktoBusinessGroupMasterId());
-                startActivityForResult(intent, 111);
+            } else {
+                if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
+                    Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+                    objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                    Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                    startActivityForResult(intent, 0);
+                } else {
+                    Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
+                    intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
+                    startActivityForResult(intent, 111);
+                }
             }
 
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
-            SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
-            objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.TakeAway.getValue()), HomeActivity.this);
-            Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-            startActivityForResult(intent, 0);
+            if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
+                objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
+                objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
+                objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                startActivityForResult(intent, 0);
+            } else {
+                if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
+                    Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+                    objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                    Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                    startActivityForResult(intent, 0);
+                } else {
+                    Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
+                    intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
+                    startActivityForResult(intent, 111);
+                }
+            }
         } else if (v.getId() == R.id.cvBookTable) {
             Intent intent = new Intent(HomeActivity.this, BookingActivity.class);
             startActivityForResult(intent, 0);
@@ -509,6 +546,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     } else if (data.getBooleanExtra("IsOrderPlace", false)) {
                         ShowSnackBarWithAction(getResources().getString(R.string.MsgOrder));
                     }
+                    if (data.getBooleanExtra("IsBranchChange", false)) {
+                        if (Service.CheckNet(this)) {
+                            internetLayout.setVisibility(View.GONE);
+                            famRoot.setVisibility(View.VISIBLE);
+                            homeLayout.setVisibility(View.VISIBLE);
+                            isProgressShow = false;
+                            isRefresh = true;
+                            RequestBannerMaster();
+                            RequestBusinessMaster();
+                        } else {
+                            internetLayout.setVisibility(View.VISIBLE);
+                            famRoot.setVisibility(View.GONE);
+                            Globals.SetErrorLayout(internetLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
+                            homeLayout.setVisibility(View.GONE);
+                        }
+                    }
                 }
                 SetUserName();
                 SaveCartDataInSharePreference();
@@ -529,13 +582,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
-            }else if(requestCode == 111){
-                if(Globals.linktoOrderTypeMasterId ==(short) Globals.OrderType.HomeDelivery.getValue()){
-                    SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
+            } else if (requestCode == 111) {
+                if (Globals.linktoOrderTypeMasterId == (short) Globals.OrderType.HomeDelivery.getValue()) {
                     objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
-                    Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-                    startActivityForResult(intent, 0);
+                } else if (Globals.linktoOrderTypeMasterId == (short) Globals.OrderType.TakeAway.getValue()) {
+                    objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.TakeAway.getValue()), HomeActivity.this);
                 }
+                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                intent.putExtra("IsBranchChange", true);
+                startActivityForResult(intent, 0);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -555,8 +610,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //region Private Methods
     private void RequestBannerMaster() {
-        progressDialog.show(getSupportFragmentManager(), "");
-
+        if (isProgressShow) {
+            progressDialog.show(getSupportFragmentManager(), "");
+        }
         BannerMasterJSONParser objBannerMasterJSONParser = new BannerMasterJSONParser();
         objBannerMasterJSONParser.SelectAllBannerMaster(HomeActivity.this, String.valueOf(Globals.linktoBusinessMasterId));
     }
@@ -568,13 +624,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void SetSlider(ArrayList<BannerMaster> alBannerMaster) {
         if (alBannerMaster != null && alBannerMaster.size() != 0) {
+            circlePageIndicator.setVisibility(View.VISIBLE);
             pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
             pagerAdapter.addAll(alBannerMaster);
             viewPager.setAdapter(pagerAdapter);
             viewPager.setPageTransformer(true, new DepthPageTransformer());
             viewPager.setAnimation(AnimationUtils.makeInAnimation(HomeActivity.this, false));
-            circlePageIndicator.setViewPager(viewPager);
+            circlePageIndicator.initViewPager(viewPager);
             runnable(alBannerMaster.size());
+
             //Re-run callback
             handler.postDelayed(animateViewPager, duration);
             viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -604,6 +662,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             });
+        } else {
+            if (handler != null && !stopSliding) {
+                stopSliding = true;
+                handler.removeCallbacks(animateViewPager);
+            }
+            //circlePageIndicator.removeAllViews();
+            //circlePageIndicator.removeAllViewsInLayout();
+            circlePageIndicator.setVisibility(View.INVISIBLE);
+            viewPager.removeAllViews();
+            viewPager.removeAllViewsInLayout();
+//            circlePageIndicator.refreshDrawableState();
+            stopSliding = false;
+            handler = null;
         }
     }
 
@@ -625,21 +696,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 txtFullName.setVisibility(View.GONE);
             }
-            if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this)!=null){
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this) != null) {
                 String url = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this);
-                Glide.with(HomeActivity.this).load(url).asBitmap().override(130,130).centerCrop().into(new BitmapImageViewTarget(imageView) {
+                Glide.with(HomeActivity.this).load(url).asBitmap().override(130, 130).centerCrop().into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
                         imageView.setImageDrawable(circularBitmapDrawable);
-                        imageView.setPadding(8,8,8,8);
+                        imageView.setPadding(8, 8, 8, 8);
                     }
                 });
-            }else{
+            } else {
                 imageView.setImageResource(R.drawable.account_drawable);
-                imageView.setPadding(0,0,0,0);
+                imageView.setPadding(0, 0, 0, 0);
             }
             isLogin = false;
         }
@@ -760,6 +831,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
     }
+
+    private void SetBusinessMasterID() {
+        if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
+            Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+        }
+    }
     //endregion
 
     //region Page Adapter
@@ -773,6 +850,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public Fragment getItem(int i) {
             return SliderFragment.createInstance(lstBannerMaster.get(i));
+        }
+
+        public View getView(int i) {
+            SliderFragment sliderFragment = SliderFragment.createInstance(lstBannerMaster.get(i));
+            return sliderFragment.getView();
         }
 
         @Override

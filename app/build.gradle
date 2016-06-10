@@ -66,4 +66,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'com.google.android.gms:play-services-location:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
+    compile 'com.merhold.extensiblepageindicator:extensiblepageindicator:1.0'
+    //compile 'me.relex:circleindicator:1.2.1@aar'
 }

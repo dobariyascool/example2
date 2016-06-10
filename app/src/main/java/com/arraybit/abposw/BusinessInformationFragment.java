@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.arraybit.adapter.BusinessInfoAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
-import com.arraybit.modal.BusinessInfoAnswerMaster;
 import com.arraybit.modal.BusinessInfoQuestionMaster;
 import com.arraybit.parser.BusinessInfoQuestionJSONParser;
 
@@ -23,10 +23,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
     LinearLayoutManager linearLayoutManager;
     ProgressDialog progressDialog = new ProgressDialog();
     BusinessInfoAdapter adapter;
-    ArrayList<BusinessInfoQuestionMaster> lstBusinessInfoQuestionMaster;
-    BusinessInfoQuestionMaster objBusinessInfoQuestionMaster;
-    BusinessInfoAnswerMaster objBusinessInfoAnswerMaster;
-    String que;
+    LinearLayout errorLayout;
     int cnt;
 
     public BusinessInformationFragment() {
@@ -37,6 +34,8 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_business_information, container, false);
 
+        errorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
+
         rvBusinessInfo = (RecyclerView) view.findViewById(R.id.rvBusinessInfo);
         rvBusinessInfo.setVisibility(View.GONE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -44,7 +43,7 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
         if (Service.CheckNet(getActivity())) {
             RequestBusinessInfo();
         } else {
-            Globals.ShowSnackBar(container, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), rvBusinessInfo, R.drawable.wifi_drawable);
         }
 
         rvBusinessInfo.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -72,7 +71,12 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
     }
 
     private void SetRecyclerView(ArrayList<BusinessInfoQuestionMaster> alBusinessInfoQuestionMaster) {
-        if (alBusinessInfoQuestionMaster != null && alBusinessInfoQuestionMaster.size() != 0) {
+        if (alBusinessInfoQuestionMaster == null) {
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgSelectFail), rvBusinessInfo, 0);
+        } else if (alBusinessInfoQuestionMaster.size() == 0) {
+            Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNoRecord), rvBusinessInfo, 0);
+        } else {
+            Globals.SetErrorLayout(errorLayout, false, null, rvBusinessInfo, 0);
             adapter = new BusinessInfoAdapter(getActivity(), alBusinessInfoQuestionMaster);
             rvBusinessInfo.setVisibility(View.VISIBLE);
             rvBusinessInfo.setAdapter(adapter);
