@@ -5,7 +5,7 @@
     <string name="action_my_account">My Account</string>
     <string name="action_my_orders">My Orders</string>
     <string name="action_my_bookings">My Bookings</string>
-    <string name="action_wishlist">Sort List</string>
+    <string name="action_wishlist">Short List</string>
     <string name="action_checkin">Check In</string>
     <string name="action_logout">Logout</string>
     <string name="action_edit">Edit</string>
@@ -35,7 +35,7 @@
     <string name="title_home">Home</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="title_fragment_change_password">Change Password</string>
-    <string name="title_activity_wish_list">Sort List</string>
+    <string name="title_activity_wish_list">Short List</string>
     <string name="title_activity_my_account">My Account</string>
     <string name="title_activity_my_order">YourOrderActivity</string>
     <string name="title_activity_contactus">Contact Us</string>
@@ -80,13 +80,13 @@
     <string name="MsgItem">There is no item.</string>
     <string name="MsgChangeMode">Switch to waiter mode?</string>
     <string name="MsgCancelOrder">Order Payment is done</string>
-    <string name="MsgCancelBooking">Booking Payment is done</string>
+    <string name="MsgCancelBooking">Booking Payment is done.</string>
     <string name="MsgBookingIsAAvailable">Booking slot is not available</string>
     <string name="MsgOfferCodeFailed">Offer Not Valid</string>
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <string name="MsgCartItemDelete">%s is deleted from the dish</string>
     <string name="MsgNotification">There is no notification</string>
-    <string name="MsgOrder">Order is place successfully</string>
+    <string name="MsgOrder">Order is place successfully.</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -110,11 +110,11 @@
     <string name="suGender">Gender</string>
     <string name="suBirthDate">Birth Date</string>
     <string name="suUpdate">Update Profile</string>
-    <string name="suSelect">\u2013\u2013SELECT\u2013\u2013</string>
-    <string name="suCountry">\u2013\u2013SELECT COUNTRY\u2013\u2013</string>
-    <string name="suState">\u2013\u2013SELECT STATE\u2013\u2013</string>
-    <string name="suCity">\u2013\u2013SELECT CITY\u2013\u2013</string>
-    <string name="suArea">\u2013\u2013SELECT AREA\u2013\u2013</string>
+    <string name="suSelect">\u2013SELECT\u2013</string>
+    <string name="suCountry">\u2013SELECT COUNTRY\u2013</string>
+    <string name="suState">\u2013SELECT STATE\u2013</string>
+    <string name="suCity">\u2013SELECT CITY\u2013</string>
+    <string name="suArea">\u2013SELECT AREA\u2013</string>
     <string name="suWithFacebook">SignUp with Facebook</string>
     <string name="suWithGoogle">SignUp with Google+</string>
 
@@ -151,6 +151,7 @@
     <string name="siLoginFailedMsg">Username or Password are invalid.</string>
     <string name="siLoginSuccessMsg">Login successfully.</string>
     <string name="clear_text">Clear Text</string>
+    <string name="siLoginMsg">No User</string>
     <!-- end -->
 
     <!-- HomeActivity -->
@@ -168,7 +169,7 @@
     <!-- end -->
 
     <!-- Home Navigation Drawer-->
-    <string name="navProfile">Our Profile</string>
+    <string name="navProfile">Company Info</string>
     <string name="navOffers">Offers</string>
     <string name="navNotification">Notification</string>
     <string name="navFeedback">Feedback</string>
@@ -308,8 +309,8 @@
     <string name="ybCancel">Cancel</string>
     <string name="ybAddBookingSuccessMsg">Booking is done successfully</string>
     <string name="ybStar">\u2605</string>
-    <string name="ybFromTimeHeader">\u2013\u2013From Time\u2013\u2013</string>
-    <string name="ybToTimeHeader">\u2013\u2013To Time\u2013\u2013</string>
+    <string name="ybFromTimeHeader">\u2013From Time\u2013</string>
+    <string name="ybToTimeHeader">\u2013To Time\u2013</string>
     <!--end-->
 
     <!--Contact Us-->
@@ -347,7 +348,7 @@
     <!-- End-->
 
     <!-- CheckOut Activity-->
-    <string name="coaOrderType">OrderType</string>
+    <string name="coaOrderType">Order</string>
     <string name="coaHomeDelivery">Home Delivery</string>
     <string name="coaTakeAway">Take Away</string>
     <string name="coaCity">City</string>

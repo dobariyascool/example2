@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notificationLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -14,6 +15,42 @@
     <include
         android:id="@+id/errorLayout"
         layout="@layout/error_layout_with_white_background"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
+    <RelativeLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ivErrorIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/login_drawable" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/txtMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivErrorIcon"
+            android:padding="@dimen/control_SpecingSmall"
+            android:text="@string/siLoginMsg"
+            android:textColor="@color/disable_grey"
+            android:textSize="@dimen/control_TextMedium" />
+
+        <com.rey.material.widget.CompoundButton
+            android:id="@+id/cbSignIn"
+            style="@style/CompoundButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivErrorIcon"
+            android:layout_toEndOf="@+id/txtMsg"
+            android:gravity="center"
+            android:paddingBottom="@dimen/control_SpecingSmall"
+            android:paddingTop="@dimen/control_SpecingSmall"
+            android:text="@string/siSignIn" />
+
+    </RelativeLayout>
 </LinearLayout>

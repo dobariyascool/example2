@@ -219,11 +219,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else if (item.getItemId() == R.id.hNotification) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } else if (item.getItemId() == R.id.hFeedback) {
             drawerLayout.closeDrawer(navigationView);
             Intent intent = new Intent(HomeActivity.this, FeedbackActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } else if (item.getItemId() == R.id.hShare) {
             drawerLayout.closeDrawer(navigationView);
             if (objBusinessMaster != null) {
@@ -530,7 +530,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

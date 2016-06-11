@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
@@ -83,8 +84,9 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     boolean isDateChange = false, isDataFilter, isSelected, isDataLoad;
     CardView cvEditName, cvCityArea, cvName, cvDateTime, cvAddress, cvOfferCode, cvPayment, cvMinimumOrder;
     BusinessMaster objBusinessMaster;
-    LinearLayout errorLayout;
+    LinearLayout errorLayout,phoneLayout,customerPhoneLayout;
     NestedScrollView scrollView;
+    ImageView ivCall;
     boolean isShow;
 
 
@@ -140,6 +142,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         textLayout = (LinearLayout) findViewById(R.id.textLayout);
         errorLayout = (LinearLayout) findViewById(R.id.errorLayout);
+        phoneLayout = (LinearLayout) findViewById(R.id.phoneLayout);
+        customerPhoneLayout = (LinearLayout) findViewById(R.id.customerPhoneLayout);
 
         cbGetPromoCode = (CompoundButton) findViewById(R.id.cbGetPromoCode);
 
@@ -160,6 +164,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         ibAdd = (ImageButton) findViewById(R.id.ibAdd);
         ibViewMore = (ImageButton) findViewById(R.id.ibViewMore);
+
+        ivCall = (ImageView)findViewById(R.id.ivCall);
 
         cbGetPromoCode.setOnClickListener(this);
         btnApply.setOnClickListener(this);
@@ -607,7 +613,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             if (objCustomerAddress == null) {
                 txtName.setText(objCheckOut.getObjCustomerAddressTran().getCustomerName());
                 if (objCheckOut.getObjCustomerAddressTran().getMobileNum() != null) {
+                    customerPhoneLayout.setVisibility(View.VISIBLE);
                     txtPhone.setText(objCheckOut.getObjCustomerAddressTran().getMobileNum());
+                }else{
+                    customerPhoneLayout.setVisibility(View.INVISIBLE);
                 }
                 if (objCheckOut.getObjCustomerAddressTran().getCity() != null) {
                     txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
@@ -661,8 +670,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
                     etName.setText(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this));
                 }
-                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerName", CheckOutActivity.this) != null) {
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "Phone", CheckOutActivity.this) != null) {
+                    phoneLayout.setVisibility(View.VISIBLE);
                     etPhone.setText(objSharePreferenceManage.GetPreference("LoginPreference", "Phone", CheckOutActivity.this));
+                }else{
+                    phoneLayout.setVisibility(View.INVISIBLE);
                 }
                 etCity.setText(objBusinessMaster.getCity());
                 SetBusinessAddress();

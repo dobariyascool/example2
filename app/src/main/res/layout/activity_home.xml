@@ -42,12 +42,12 @@
                 <me.relex.circleindicator.CircleIndicator
                     android:id="@+id/circlePageIndicator"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="@dimen/control_SpecingMedium"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/control_SpecingSmall"
-                    app:ci_height="10dp"
-                    app:ci_width="10dp"/>
+                    app:ci_height="@dimen/control_SpecingSmall"
+                    app:ci_width="@dimen/control_SpecingSmall"/>
 
             </RelativeLayout>
 
