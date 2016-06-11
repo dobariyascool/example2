@@ -854,11 +854,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             return SliderFragment.createInstance(lstBannerMaster.get(i));
         }
 
-        public View getView(int i) {
-            SliderFragment sliderFragment = SliderFragment.createInstance(lstBannerMaster.get(i));
-            return sliderFragment.getView();
-        }
-
         @Override
         public int getCount() {
             return lstBannerMaster.size();
