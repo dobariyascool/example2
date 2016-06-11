@@ -50,6 +50,8 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 8) / 100).into(ivLogo);
         Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 7) / 100).into(ivText);
 
+        SetBusinessMasterID();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -104,5 +106,13 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+    private void SetBusinessMasterID() {
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("BusinessPreference", "BusinessMasterId", SplashScreenActivity.this) != null) {
+            Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("BusinessPreference", "BusinessMasterId", SplashScreenActivity.this));
+        }else{
+            Globals.linktoBusinessMasterId = 1;
+        }
     }
 }
