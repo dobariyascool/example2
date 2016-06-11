@@ -52,13 +52,14 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
-import com.merhold.extensiblepageindicator.ExtensiblePageIndicator;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 @SuppressWarnings("ResourceType")
 @SuppressLint("InflateParams")
@@ -72,7 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ProgressDialog progressDialog = new ProgressDialog();
     ViewPager viewPager;
-    ExtensiblePageIndicator circlePageIndicator;
+    CircleIndicator circlePageIndicator;
     CompoundButton cbName;
     TextView txtFullName;
     boolean isLogin;
@@ -118,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeLayout = (LinearLayout) findViewById(R.id.homeLayout);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        circlePageIndicator = (ExtensiblePageIndicator) findViewById(R.id.circlePageIndicator);
+        circlePageIndicator = (CircleIndicator) findViewById(R.id.circlePageIndicator);
 
         View headerView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.navigation_header, null);
         cbName = (CompoundButton) headerView.findViewById(R.id.cbName);
@@ -298,9 +299,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (viewPager.getCurrentItem() == size - 1) {
                         viewPager.setCurrentItem(0, true);
                     } else {
-                        if(viewPager.getAdapter().getCount() > 1) {
-                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-                        }
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
                     }
                     handler.postDelayed(animateViewPager, duration);
                 }
@@ -630,7 +629,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             viewPager.setAdapter(pagerAdapter);
             viewPager.setPageTransformer(true, new DepthPageTransformer());
             viewPager.setAnimation(AnimationUtils.makeInAnimation(HomeActivity.this, false));
-            circlePageIndicator.initViewPager(viewPager);
+            //circlePageIndicator.initViewPager(viewPager);
+            circlePageIndicator.setViewPager(viewPager);
             runnable(alBannerMaster.size());
 
             //Re-run callback
@@ -667,12 +667,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 stopSliding = true;
                 handler.removeCallbacks(animateViewPager);
             }
-            //circlePageIndicator.removeAllViews();
-            //circlePageIndicator.removeAllViewsInLayout();
-            circlePageIndicator.setVisibility(View.INVISIBLE);
             viewPager.removeAllViews();
             viewPager.removeAllViewsInLayout();
-//            circlePageIndicator.refreshDrawableState();
+            pagerAdapter = new SlidePagerAdapter(getSupportFragmentManager());
+            alBannerMaster = new ArrayList<>();
+            pagerAdapter.addAll(alBannerMaster);
+            viewPager.setAdapter(pagerAdapter);
+            circlePageIndicator.setViewPager(viewPager);
+            circlePageIndicator.setVisibility(View.INVISIBLE);
             stopSliding = false;
             handler = null;
         }

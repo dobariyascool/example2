@@ -39,16 +39,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <com.merhold.extensiblepageindicator.ExtensiblePageIndicator
+                <me.relex.circleindicator.CircleIndicator
                     android:id="@+id/circlePageIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/control_SpecingMedium"
-                    app:indicatorPadding="@dimen/control_SpecingSmall"
-                    app:indicatorRadius="5dp"
-                    />
+                    android:layout_marginBottom="@dimen/control_SpecingSmall"
+                    app:ci_height="10dp"
+                    app:ci_width="10dp"/>
 
             </RelativeLayout>
 
