@@ -67,7 +67,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                     String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
                     String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this);
                     String businessMasterId = objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId", SplashScreenActivity.this);
-                    if ((!userName.isEmpty() && !userPassword.isEmpty()) && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId))) {
+                    if ((!userName.isEmpty() && !userPassword.isEmpty()) && (businessMasterId!=null && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId)))) {
                         if (Service.CheckNet(SplashScreenActivity.this)) {
                             CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
                             objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
