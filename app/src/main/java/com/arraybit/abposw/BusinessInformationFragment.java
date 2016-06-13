@@ -24,7 +24,6 @@ public class BusinessInformationFragment extends Fragment implements BusinessInf
     ProgressDialog progressDialog = new ProgressDialog();
     BusinessInfoAdapter adapter;
     LinearLayout errorLayout;
-    int cnt;
 
     public BusinessInformationFragment() {
     }
