@@ -169,7 +169,7 @@
     <!-- end -->
 
     <!-- Home Navigation Drawer-->
-    <string name="navProfile">Our Profile</string>
+    <string name="navProfile">Company Profile</string>
     <string name="navOffers">Offers</string>
     <string name="navNotification">Notification</string>
     <string name="navFeedback">Feedback</string>

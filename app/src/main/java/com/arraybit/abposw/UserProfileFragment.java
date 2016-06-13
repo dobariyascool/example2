@@ -258,6 +258,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
             if (objCustomerMaster.getXs_ImagePhysicalName() != null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
                 ivProfile.setVisibility(View.VISIBLE);
                 txtLoginChar.setVisibility(View.GONE);
+                imageName = objCustomerMaster.getImageName();
                 Glide.with(getActivity()).load(objCustomerMaster.getXs_ImagePhysicalName()).asBitmap().centerCrop().into(new BitmapImageViewTarget(ivProfile) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -313,11 +314,16 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
             }
         }
         if (imageName != null && !imageName.equals("")) {
-            strImageName = imageName.substring(0, imageName.lastIndexOf(".")) + "_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length());
+            if (imagePhysicalNameBytes != null && !imagePhysicalNameBytes.equals("")) {
+                strImageName = imageName.substring(0, imageName.lastIndexOf(".")) + "_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length());
+                objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
+            }else{
+                strImageName = imageName;
+            }
             objCustomerMaster.setImageName(strImageName);
-            objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
         }
         objCustomerJSONParser.UpdateCustomerMaster(objCustomerMaster, getActivity(), this);
+
     }
 
     private void SetError(String errorCode, CustomerMaster objCustomerMaster) {

@@ -319,8 +319,8 @@ public class CustomerJSONParser {
             }
             if(objCustomerMaster.getImageNamePhysicalNameBytes()!=null) {
                 stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
-                stringer.key("ImageName").value(objCustomerMaster.getImageName());
             }
+            stringer.key("ImageName").value(objCustomerMaster.getImageName());
             stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
             //stringer.key("linktoUserMasterIdUpdatedBy").value(sdfDateTimeFormat.format(dt));
             stringer.endObject();

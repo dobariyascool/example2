@@ -385,22 +385,38 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
     }
 
     private void SetError(String errorCode) {
-        if (errorCode.equals("-1")) {
-            Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
-
-        } else if (!errorCode.equals("0")) {
-            if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_check_out))) {
-                objAddNewAddressListener = (AddNewAddressListener) getActivity();
-                objCustomerAddressTran.setCustomerAddressTranId(Integer.parseInt(errorCode));
-                objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
-                getActivity().getSupportFragmentManager().popBackStack();
-            } else {
-                objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
-                objCustomerAddressTran.setCustomerAddressTranId(Integer.parseInt(errorCode));
-                objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
-                getActivity().getSupportFragmentManager().popBackStack();
+        if(btnAddress.getText().equals(getResources().getString(R.string.yaAdd))){
+            if (errorCode.equals("-1")) {
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+            } else if (!errorCode.equals("0")) {
+                if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_check_out))) {
+                    objAddNewAddressListener = (AddNewAddressListener) getActivity();
+                    objCustomerAddressTran.setCustomerAddressTranId(Integer.parseInt(errorCode));
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
+                    objCustomerAddressTran.setCustomerAddressTranId(Integer.parseInt(errorCode));
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+        }else{
+            if (errorCode.equals("-1")) {
+                Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgServerNotResponding), getActivity(), 1000);
+            } else if (errorCode.equals("0")) {
+                if (activity.getTitle().equals(getActivity().getResources().getString(R.string.title_activity_check_out))) {
+                    objAddNewAddressListener = (AddNewAddressListener) getActivity();
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    objAddNewAddressListener = (AddNewAddressListener) getTargetFragment();
+                    objAddNewAddressListener.AddNewAddress(objCustomerAddressTran);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         }
+
     }
 
     private void SetAddress() {
