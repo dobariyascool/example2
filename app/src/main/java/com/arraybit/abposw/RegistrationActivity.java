@@ -468,6 +468,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
                         objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
                     }
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "BusinessMasterId", String.valueOf(objCustomerMaster.getlinktoBusinessMasterId()), this);
                 }
                 ClearControls();
                 if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {

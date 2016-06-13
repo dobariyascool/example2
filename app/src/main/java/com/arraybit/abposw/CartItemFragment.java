@@ -175,9 +175,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
                 intent.putExtra("ParentActivity", activityName);
                 getActivity().startActivityForResult(intent, 0);
-                //startActivity(intent);
-                //customerMasterId = Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()));
-                //RequestOrderMaster();
             }
         } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();
@@ -213,7 +210,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 intent.putExtra("OrderMaster", objOrderMaster);
                 intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
                 intent.putExtra("ParentActivity", activityName);
-                //startActivity(intent);
                 getActivity().startActivityForResult(intent, 0);
             }
         }
@@ -315,7 +311,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
 
     private void SetRecyclerView() {
         if (Globals.alOrderItemTran.size() == 0) {
-            //txtMsg.setText(getActivity().getResources().getString(R.string.MsgCart));
             Globals.SetErrorLayout(errorLayout, true, getActivity().getResources().getString(R.string.MsgCart), rvCartItem, R.drawable.cart_drawable);
             RemarkDialogFragment.strRemark = null;
             SetVisibility();

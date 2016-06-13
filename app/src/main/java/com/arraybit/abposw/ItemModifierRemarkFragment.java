@@ -53,6 +53,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
     boolean isDuplicate = false,isKeyClick = false;
     double totalAmount, totalModifierAmount, totalTax;
+    AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener objAddQtyRemarkDialogListener;
 
     public ItemModifierRemarkFragment(ItemMaster objItemMaster) {
         this.objItemMaster = objItemMaster;
@@ -157,7 +158,11 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getActivity().finish();
+            if(objItemMaster.getCategory()!=null && objItemMaster.getCategory().equals(getActivity().getTitle())) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }else{
+                getActivity().finish();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -185,11 +190,20 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
             }
             SetOrderItemModifierTran();
             SetOrderItem();
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("ShowMessage", true);
-            returnIntent.putExtra("ItemName", strItemName);
-            getActivity().setResult(Activity.RESULT_OK, returnIntent);
-            getActivity().finish();
+            if(getArguments()!=null && getArguments().getBoolean("isDetailActivity")){
+                objAddQtyRemarkDialogListener = (AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener)getActivity();
+                ItemMaster objItem = new ItemMaster();
+                objItem.setItemName(strItemName);
+                objAddQtyRemarkDialogListener.AddQtyRemarkResponse(objItem);
+                getActivity().getSupportFragmentManager().popBackStack();
+            }else{
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("ShowMessage", true);
+                returnIntent.putExtra("ItemName", strItemName);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
+            }
+
         }else if (v.getId() == R.id.btnRemark) {
             RemarkDialogFragment remarkDialogFragment = new RemarkDialogFragment(txtRemark.getText().toString());
             remarkDialogFragment.setTargetFragment(this,0);

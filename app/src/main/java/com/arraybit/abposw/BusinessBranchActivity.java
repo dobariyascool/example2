@@ -27,7 +27,7 @@ import com.rey.material.widget.TextView;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class BusinessBranchActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener,BusinessBranchAdapter.BranchSelectorListener {
+public class BusinessBranchActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, BusinessBranchAdapter.BranchSelectorListener {
 
     AppCompatSpinner spOrderCity;
     EditText etBusinessGroupName;
@@ -37,6 +37,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     ArrayList<BusinessMaster> alBusinessMaster;
     LinearLayout businessBranchLayout;
     RecyclerView rvBusinessBranch;
+    short businessMasterId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         }
 
         businessBranchLayout = (LinearLayout) findViewById(R.id.businessBranchLayout);
-        Globals.SetScaleImageBackground(BusinessBranchActivity.this,businessBranchLayout,null,null);
+        Globals.SetScaleImageBackground(BusinessBranchActivity.this, businessBranchLayout, null, null);
 
         businessGroupMasterId = getIntent().getShortExtra("linktoBusinessGroupMasterId", (short) 0);
 
@@ -94,7 +95,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id==android.R.id.home){
+        if (id == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -109,9 +110,9 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
         this.alBusinessMaster = alBusinessMaster;
-        if(isCityFilter){
+        if (isCityFilter) {
             SetRecyclerView();
-        }else{
+        } else {
             FillCity();
         }
 
@@ -122,6 +123,12 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         Globals.linktoBusinessMasterId = objBusinessMaster.getBusinessMasterId();
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         objSharePreferenceManage.CreatePreference("BusinessPreference", "BusinessMasterId", String.valueOf(objBusinessMaster.getBusinessMasterId()), BusinessBranchActivity.this);
+        if(objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId",BusinessBranchActivity.this)!=null){
+            businessMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId",BusinessBranchActivity.this));
+            if(businessMasterId != Globals.linktoBusinessMasterId){
+                Globals.ClearUserPreference(BusinessBranchActivity.this, BusinessBranchActivity.this);
+            }
+        }
         setResult(RESULT_OK);
         finish();
     }

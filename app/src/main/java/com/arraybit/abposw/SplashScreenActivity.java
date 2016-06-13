@@ -16,8 +16,14 @@ import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerMaster;
+import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.CustomerJSONParser;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SplashScreenActivity extends AppCompatActivity implements CustomerJSONParser.CustomerRequestListener {
 
@@ -25,6 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     DisplayMetrics displayMetrics;
     ImageView ivLeft, ivRight, ivLogo, ivText;
     DrawerLayout mainLayout;
+    List<ItemMaster> lstItemMaster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +66,14 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this) != null) {
                     String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
                     String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this);
-                    if (!userName.isEmpty() && !userPassword.isEmpty()) {
+                    String businessMasterId = objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId", SplashScreenActivity.this);
+                    if ((!userName.isEmpty() && !userPassword.isEmpty()) && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId))) {
                         if (Service.CheckNet(SplashScreenActivity.this)) {
                             CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
                             objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
-                        }else {
+                        } else {
                             Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                            intent.putExtra("IsNetCheck",true);
+                            intent.putExtra("IsNetCheck", true);
                             startActivity(intent);
                             finish();
                         }
@@ -90,7 +98,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     }
 
     @Override
-    public void CustomerResponse(String errorCode,CustomerMaster objCustomerMaster) {
+    public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
         if (objCustomerMaster == null) {
             intent.putExtra("IsLogin", false);
@@ -107,12 +115,27 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         startActivity(intent);
         finish();
     }
+
     private void SetBusinessMasterID() {
         objSharePreferenceManage = new SharePreferenceManage();
-        if (objSharePreferenceManage.GetPreference("BusinessPreference", "BusinessMasterId", SplashScreenActivity.this) != null) {
+        Gson gson = new Gson();
+        String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", SplashScreenActivity.this);
+        if (string != null) {
+            ItemMaster[] objItemMaster = gson.fromJson(string,
+                    ItemMaster[].class);
+
+            lstItemMaster = Arrays.asList(objItemMaster);
+            Globals.alOrderItemTran.addAll(new ArrayList<>(lstItemMaster));
+            Globals.counter = Globals.alOrderItemTran.size();
+            if (objSharePreferenceManage.GetPreference("CartItemListPreference", "OrderRemark", SplashScreenActivity.this) != null) {
+                RemarkDialogFragment.strRemark = objSharePreferenceManage.GetPreference("CartItemListPreference", "OrderRemark", SplashScreenActivity.this);
+            }
+        }
+        if (objSharePreferenceManage.GetPreference("BusinessPreference", "BusinessMasterId", SplashScreenActivity.this) != null && Globals.counter != 0) {
             Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("BusinessPreference", "BusinessMasterId", SplashScreenActivity.this));
-        }else{
+        } else {
             Globals.linktoBusinessMasterId = 1;
         }
+
     }
 }

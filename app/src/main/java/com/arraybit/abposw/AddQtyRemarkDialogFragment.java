@@ -129,18 +129,25 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             } else {
                 dismiss();
                 SetOrderItem();
-                if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
-                    MenuActivity menuActivity = (MenuActivity) getActivity();
-                    menuActivity.SetCartItemResponse(strItemName);
-                } else if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))) {
-                    WishListActivity wishListActivity = (WishListActivity) getActivity();
-                    wishListActivity.SetCartItemResponse(strItemName);
-                } else {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("ShowMessage", true);
-                    returnIntent.putExtra("ItemName", strItemName);
-                    getActivity().setResult(Activity.RESULT_OK, returnIntent);
-                    getActivity().finish();
+                if(getArguments()!=null && getArguments().getBoolean("isDetailActivity")){
+                    ItemMaster objItem = new ItemMaster();
+                    objItem.setItemName(strItemName);
+                    objAddQtyRemarkDialogListener = (AddQtyRemarkDialogListener) getActivity();
+                    objAddQtyRemarkDialogListener.AddQtyRemarkResponse(objItem);
+                }else {
+                    if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_menu))) {
+                        MenuActivity menuActivity = (MenuActivity) getActivity();
+                        menuActivity.SetCartItemResponse(strItemName);
+                    } else if (getActivity().getTitle().toString().equals(getResources().getString(R.string.title_activity_wish_list))) {
+                        WishListActivity wishListActivity = (WishListActivity) getActivity();
+                        wishListActivity.SetCartItemResponse(strItemName);
+                    } else {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("ShowMessage", true);
+                        returnIntent.putExtra("ItemName", strItemName);
+                        getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                        getActivity().finish();
+                    }
                 }
             }
         } else if (v.getId() == R.id.ibMinus) {

@@ -131,10 +131,10 @@ public class Globals {
         dp.show();
     }
 
-    public static double CalculateAverageRating(double totalReview){
+    public static double CalculateAverageRating(double totalReview) {
         //Sum of (weight * number of reviews at that weight) / total number of reviews
         //double review = (5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 1 * 33)/totalReview;
-        return  (5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 33)/totalReview;
+        return (5 * 252 + 4 * 124 + 3 * 40 + 2 * 29 + 33) / totalReview;
     }
 
     public static void ShowTimePickerDialog(final EditText txtView, final Context context, final boolean IsPreventPastTimeRequest) {
@@ -204,8 +204,10 @@ public class Globals {
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerName", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "Phone", context);
-        objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerProfileUrl",context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerProfileUrl", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "BusinessMasterId", context);
         objSharePreferenceManage.ClearPreference("LoginPreference", context);
+
         ClearCartData();
     }
 
@@ -252,11 +254,10 @@ public class Globals {
     }
 
 
-
     public static void SelectImage(final Context context, final int requestCodeCamera, final int requestCodeGallery) {
-        final CharSequence[] items = {"Take Photo","Choose from Gallery"};
+        final CharSequence[] items = {"Take Photo", "Choose from Gallery"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle("ADD PHOTO");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -328,7 +329,7 @@ public class Globals {
         coordinatorLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
     }
 
-    public static void SetHomePageBackground(final Context context,final DrawerLayout drawerLayout,final LinearLayout linearLayout, final RelativeLayout relativeLayout, final FrameLayout frameLayout) {
+    public static void SetHomePageBackground(final Context context, final DrawerLayout drawerLayout, final LinearLayout linearLayout, final RelativeLayout relativeLayout, final FrameLayout frameLayout) {
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 

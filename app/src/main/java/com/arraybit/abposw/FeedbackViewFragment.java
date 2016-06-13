@@ -696,6 +696,14 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
             etFeedback.setError("Enter " + getResources().getString(R.string.fbFeedback));
             etEmail.setError("Enter " + getResources().getString(R.string.fbEmail));
             IsValid = false;
+        }else if (!etEmail.getText().toString().equals("") && !etFeedback.getText().toString().equals("")) {
+            if (!Globals.IsValidEmail(etEmail.getText().toString())) {
+                etEmail.setError("Enter Valid " + getResources().getString(R.string.fbEmail));
+                IsValid = false;
+            } else {
+                etEmail.clearError();
+                etFeedback.clearError();
+            }
         }
         if (!etMobileNo.getText().toString().equals("") && etMobileNo.getText().length() != 10) {
             etMobileNo.setError("Enter 10 digit " + getResources().getString(R.string.fbMobileNo));

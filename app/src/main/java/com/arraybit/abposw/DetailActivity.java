@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener, OptionValueJSONParser.OptionValueRequestListener, RemarkDialogFragment.RemarkResponseListener, ModifierAdapter.ModifierCheckedChangeListener {
+public class DetailActivity extends AppCompatActivity implements ItemJSONParser.ItemMasterRequestListener, ItemSuggestedAdapter.ImageViewClickListener, View.OnClickListener, OptionValueJSONParser.OptionValueRequestListener, RemarkDialogFragment.RemarkResponseListener, ModifierAdapter.ModifierCheckedChangeListener, AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener {
 
     public static ArrayList<OptionMaster> alOptionValue;
     ImageView ivItemImage, ivTest, ivJain;
@@ -176,36 +176,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (isItemSuggestedClick) {
-                    if (isBannerClick) {
-                        SaveWishListFromBannerClick(objItemMaster.getItemMasterId());
-                        finish();
-                    } else {
-                        if (tbLike.isChecked() && objItemMaster.getIsChecked() == 1) {
-                            finish();
-                        } else if (!tbLike.isChecked() && (objItemMaster.getIsChecked() == 0 || objItemMaster.getIsChecked() == -1)) {
-                            finish();
-                        } else if (tbLike.isChecked() && (objItemMaster.getIsChecked() != 1)) {
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("IsItemSuggestionClick", true);
-                            returnIntent.putExtra("ItemMasterOldChecked", objItemMaster.getIsChecked());
-                            objItemMaster.setIsChecked((short) 1);
-                            returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
-                            returnIntent.putExtra("ItemMasterId", objItemMaster.getItemMasterId());
-                            returnIntent.putExtra("ItemMaster", objItemMaster);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        } else if (!tbLike.isChecked() && (objItemMaster.getIsChecked() != 0)) {
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("IsItemSuggestionClick", true);
-                            returnIntent.putExtra("ItemMasterOldChecked", objItemMaster.getIsChecked());
-                            objItemMaster.setIsChecked((short) 0);
-                            returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
-                            returnIntent.putExtra("ItemMasterId", objItemMaster.getItemMasterId());
-                            returnIntent.putExtra("ItemMaster", objItemMaster);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        }
-                    }
+                    isItemSuggestedClick = false;
                 } else {
                     if (isBannerClick) {
                         SaveWishListFromBannerClick(objItemMaster.getItemMasterId());
@@ -246,36 +217,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     @Override
     public void onBackPressed() {
         if (isItemSuggestedClick) {
-            if (isBannerClick) {
-                SaveWishListFromBannerClick(objItemMaster.getItemMasterId());
-                finish();
-            } else {
-                if (tbLike.isChecked() && objItemMaster.getIsChecked() == 1) {
-                    finish();
-                } else if (!tbLike.isChecked() && (objItemMaster.getIsChecked() == 0 || objItemMaster.getIsChecked() == -1)) {
-                    finish();
-                } else if (tbLike.isChecked() && (objItemMaster.getIsChecked() != 1)) {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("IsItemSuggestionClick", true);
-                    returnIntent.putExtra("ItemMasterOldChecked", objItemMaster.getIsChecked());
-                    objItemMaster.setIsChecked((short) 1);
-                    returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
-                    returnIntent.putExtra("ItemMasterId", objItemMaster.getItemMasterId());
-                    returnIntent.putExtra("ItemMaster", objItemMaster);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-                } else if (!tbLike.isChecked() && (objItemMaster.getIsChecked() != 0)) {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("IsItemSuggestionClick", true);
-                    returnIntent.putExtra("ItemMasterOldChecked", objItemMaster.getIsChecked());
-                    objItemMaster.setIsChecked((short) 0);
-                    returnIntent.putExtra("IsChecked", objItemMaster.getIsChecked());
-                    returnIntent.putExtra("ItemMasterId", objItemMaster.getItemMasterId());
-                    returnIntent.putExtra("ItemMaster", objItemMaster);
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-                }
-            }
+            getSupportFragmentManager().popBackStack();
         } else {
             if (isBannerClick) {
                 SaveWishListFromBannerClick(objItemMaster.getItemMasterId());
@@ -424,7 +366,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
     }
 
-
     @Override
     public void ItemMasterResponse(ArrayList<ItemMaster> alItemMaster, boolean isFilter) {
         if (isBannerClick) {
@@ -450,7 +391,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                         rvOptionValue.setVisibility(View.GONE);
                         progressDialog.dismiss();
                     } else {
-                        if(!objItemMaster.getIsDineInOnly()) {
+                        if (!objItemMaster.getIsDineInOnly()) {
                             if (Service.CheckNet(DetailActivity.this)) {
                                 RequestOptionValue();
                             } else {
@@ -467,7 +408,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                         if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
                             rvOptionValue.setVisibility(View.GONE);
                         } else {
-                            if(!objItemMaster.getIsDineInOnly()) {
+                            if (!objItemMaster.getIsDineInOnly()) {
                                 if (Service.CheckNet(DetailActivity.this)) {
                                     progressDialog.show(getSupportFragmentManager(), "");
                                     RequestOptionValue();
@@ -477,7 +418,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                             }
                         }
                     } else if (!objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
-                        if(!objItemMaster.getIsDineInOnly()) {
+                        if (!objItemMaster.getIsDineInOnly()) {
                             if (Service.CheckNet(DetailActivity.this)) {
                                 isRequestForModifier = true;
                                 RequestItemModifier();
@@ -497,7 +438,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                     rvOptionValue.setVisibility(View.GONE);
                     progressDialog.dismiss();
                 } else {
-                    if(!objItemMaster.getIsDineInOnly()) {
+                    if (!objItemMaster.getIsDineInOnly()) {
                         if (Service.CheckNet(DetailActivity.this)) {
                             RequestOptionValue();
                         } else {
@@ -514,7 +455,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                     if (objItemMaster.getLinktoOptionMasterIds().equals("")) {
                         rvOptionValue.setVisibility(View.GONE);
                     } else {
-                        if(!objItemMaster.getIsDineInOnly()) {
+                        if (!objItemMaster.getIsDineInOnly()) {
                             if (Service.CheckNet(DetailActivity.this)) {
                                 progressDialog.show(getSupportFragmentManager(), "");
                                 RequestOptionValue();
@@ -524,7 +465,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                         }
                     }
                 } else if (!objItemMaster.getLinktoItemMasterIdModifiers().equals("")) {
-                    if(!objItemMaster.getIsDineInOnly()) {
+                    if (!objItemMaster.getIsDineInOnly()) {
                         if (Service.CheckNet(DetailActivity.this)) {
                             isRequestForModifier = true;
                             RequestItemModifier();
@@ -544,17 +485,33 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
     @Override
     public void ImageOnClick(ItemMaster objItemMaster, View view, String transitionName) {
-        ClearData();
-        this.objItemMaster = objItemMaster;
         isRequestForModifier = false;
         isItemSuggestedClick = true;
-        objItemMaster.setIsChecked(CheckSuggestedItemInWishList(objItemMaster.getItemMasterId()));
-        GetItemDetail(this.objItemMaster);
-        if (Service.CheckNet(DetailActivity.this)) {
-            RequestItemSuggest();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isDetailActivity", true);
+        if (objItemMaster.getLinktoItemMasterIdModifiers().equals("") && objItemMaster.getLinktoOptionMasterIds().equals("")) {
+            AddQtyRemarkDialogFragment objAddQtyRemarkDialogFragment = new AddQtyRemarkDialogFragment(objItemMaster);
+            objAddQtyRemarkDialogFragment.setArguments(bundle);
+            objAddQtyRemarkDialogFragment.show(getSupportFragmentManager(), "Dialog");
         } else {
-            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+            ItemModifierRemarkFragment itemModifierRemarkFragment = new ItemModifierRemarkFragment(objItemMaster);
+            itemModifierRemarkFragment.setArguments(bundle);
+            Globals.ReplaceFragment(itemModifierRemarkFragment, getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
+            //Intent i = new Intent(DetailActivity, ItemModifierRemarkActivity.class);
+            //i.putExtra("ItemMaster", objItemMaster);
+            //getActivity().startActivityForResult(i, 0);
         }
+//        ClearData();
+//        this.objItemMaster = objItemMaster;
+//        isRequestForModifier = false;
+//        isItemSuggestedClick = true;
+        //objItemMaster.setIsChecked(CheckSuggestedItemInWishList(objItemMaster.getItemMasterId()));
+        // GetItemDetail(this.objItemMaster);
+//        if (Service.CheckNet(DetailActivity.this)) {
+//            RequestItemSuggest();
+//        } else {
+//            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
+//        }
     }
 
     @Override
@@ -596,6 +553,11 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
     }
 
+    @Override
+    public void AddQtyRemarkResponse(ItemMaster objItemMaster) {
+        isItemSuggestedClick = false;
+        Globals.ShowSnackBar(detailLayout, String.format(getResources().getString(R.string.MsgCartItem), objItemMaster.getItemName()), DetailActivity.this, 3000);
+    }
 
     //region Private Method
     private void RequestItemSuggest() {
@@ -688,9 +650,9 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             ivTest.setVisibility(View.GONE);
             ivJain.setVisibility(View.GONE);
         }
-        if(objItemMaster.getIsDineInOnly()){
+        if (objItemMaster.getIsDineInOnly()) {
             btnRemark.setVisibility(View.GONE);
-        }else{
+        } else {
             btnRemark.setVisibility(View.VISIBLE);
         }
     }
@@ -1174,7 +1136,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
 
     private void SaveWishListFromBannerClick(int itemMasterId) {
         boolean isDuplicate = false;
-        if (ItemAdapter.alWishItemMaster.size() > 0){
+        if (ItemAdapter.alWishItemMaster.size() > 0) {
             for (ItemMaster objMaster : ItemAdapter.alWishItemMaster) {
                 if (objMaster.getItemMasterId() == itemMasterId) {
                     if (objMaster.getIsChecked() == 1 && tbLike.isChecked()) {
@@ -1193,7 +1155,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
                 objItemMaster.setIsChecked((short) (tbLike.isChecked() ? 1 : 0));
                 ItemAdapter.alWishItemMaster.add(objItemMaster);
             }
-        }else{
+        } else {
             ItemMaster objItemMaster = new ItemMaster();
             objItemMaster.setItemMasterId(itemMasterId);
             objItemMaster.setIsChecked((short) (tbLike.isChecked() ? 1 : 0));
@@ -1206,11 +1168,12 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         ArrayList<String> alString = new ArrayList<>();
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
-            if (objWishItemMaster.getIsChecked() != -1 && objWishItemMaster.getIsChecked()!=0) {
+            if (objWishItemMaster.getIsChecked() != -1 && objWishItemMaster.getIsChecked() != 0) {
                 alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
             }
         }
         objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, DetailActivity.this);
     }
+
     //endregion
 }
