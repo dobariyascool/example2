@@ -30,7 +30,6 @@ public class CustomerJSONParser {
 
 
     public String InsertCustomerMaster = "InsertCustomerMaster";
-    public String SaveImage = "SaveImage";
     public String UpdateCustomerMasterPassword = "UpdateCustomerMasterPassword";
     public String UpdateCustomerMaster = "UpdateCustomerMaster";
     public String SelectCustomerMaster = "SelectCustomerMaster";
@@ -246,59 +245,6 @@ public class CustomerJSONParser {
         }
     }
     //endregion
-
-    public void SaveImage(final CustomerMaster objCustomerMaster, final Context context) {
-        dt = new Date();
-        try {
-            JSONStringer stringer = new JSONStringer();
-            stringer.object();
-
-            stringer.key("objCustomerMaster");
-
-            stringer.object();
-
-            stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
-            stringer.key("ImageName").value(objCustomerMaster.getImageName());
-
-            stringer.endObject();
-            stringer.endObject();
-
-            String url = Service.Url + this.SaveImage;
-
-            RequestQueue queue = Volley.newRequestQueue(context);
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-//                        JSONObject jsonResponse = jsonObject.getJSONObject(SaveImage + "Result");
-//
-//                        if (jsonResponse != null) {
-//                            String errorCode = String.valueOf(jsonResponse.getInt("ErrorNumber"));
-//                            objCustomerRequestListener = (CustomerRequestListener) context;
-//                            objCustomerRequestListener.CustomerResponse(errorCode, null);
-//                        } else {
-//                            objCustomerRequestListener = (CustomerRequestListener) context;
-//                            objCustomerRequestListener.CustomerResponse("-1", null);
-//                        }
-                    } catch (Exception e) {
-//                        objCustomerRequestListener = (CustomerRequestListener) context;
-//                        objCustomerRequestListener.CustomerResponse("-1", null);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-//                    objCustomerRequestListener = (CustomerRequestListener) context;
-//                    objCustomerRequestListener.CustomerResponse("-1", null);
-                }
-            });
-            queue.add(jsonObjectRequest);
-        } catch (Exception ex) {
-//            objCustomerRequestListener = (CustomerRequestListener) context;
-//            objCustomerRequestListener.CustomerResponse("-1", null);
-        }
-    }
 
     //region Update
     public void UpdateCustomerMaster(CustomerMaster objCustomerMaster, final Context context, final Fragment targetFragment) {
