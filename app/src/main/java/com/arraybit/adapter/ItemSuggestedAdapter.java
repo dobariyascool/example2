@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdapter.ItemSuggestdViewHolder> {
+public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdapter.ItemSuggestedViewHolder> {
 
     View view;
     Context context;
@@ -29,13 +29,13 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
     }
 
     @Override
-    public ItemSuggestdViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemSuggestedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = LayoutInflater.from(context).inflate(R.layout.row_suggested_item, parent, false);
-        return new ItemSuggestdViewHolder(view);
+        return new ItemSuggestedViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ItemSuggestdViewHolder holder, int position) {
+    public void onBindViewHolder(ItemSuggestedViewHolder holder, int position) {
         ItemMaster objItemMaster = alItemMaster.get(position);
         holder.txtSuggestedName.setText(objItemMaster.getItemName());
         if (objItemMaster.getXs_ImagePhysicalName() == null || objItemMaster.getXs_ImagePhysicalName().equals("")) {
@@ -54,13 +54,13 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
         void ImageOnClick(ItemMaster objItemMaster, View view, String transitionName);
     }
 
-    class ItemSuggestdViewHolder extends RecyclerView.ViewHolder {
+    class ItemSuggestedViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivSuggestedItem;
         TextView txtSuggestedName;
         LinearLayout suggestedItemLayout;
 
-        public ItemSuggestdViewHolder(View itemView) {
+        public ItemSuggestedViewHolder(View itemView) {
             super(itemView);
 
             suggestedItemLayout = (LinearLayout)itemView.findViewById(R.id.suggestedItemLayout);
@@ -72,11 +72,7 @@ public class ItemSuggestedAdapter extends RecyclerView.Adapter<ItemSuggestedAdap
             suggestedItemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        objImageViewClickListener.ImageOnClick(alItemMaster.get(getAdapterPosition()), v, v.getTransitionName());
-//                    } else {
                     objImageViewClickListener.ImageOnClick(alItemMaster.get(getAdapterPosition()), null, null);
-                    //}
                 }
             });
         }

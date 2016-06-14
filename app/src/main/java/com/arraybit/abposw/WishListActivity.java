@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -332,13 +331,13 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (Globals.counter > 0) {
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
-            txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
+//            txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
 //            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg && itemName != null) {
                 Globals.ShowSnackBar(rvWishItemMaster, String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
             }
         } else {
-            txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));
+//            txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));
         }
     }
 

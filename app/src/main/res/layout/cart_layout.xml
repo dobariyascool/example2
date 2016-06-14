@@ -10,24 +10,34 @@
     android:paddingStart="@dimen/control_SpecingMedium">
 
     <ImageView
+        android:id="@+id/ivMain"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/empty_cart"
+        android:tint="@android:color/white"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
         android:id="@+id/ivCart"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/ivMain"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/cart_layout"
-        tools:ignore="ContentDescription" />
+        android:visibility="gone"
+        tools:ignore="ContentDescription"/>
 
     <com.rey.material.widget.TextView
         android:id="@+id/txtCartNumber"
-        android:layout_width="20dp"
-        android:layout_height="24dp"
-        android:layout_alignEnd="@+id/ivCart"
-        android:layout_alignStart="@+id/ivCart"
-        android:layout_alignTop="@+id/ivCart"
-        android:layout_centerVertical="true"
+        android:layout_width="24dp"
+        android:layout_height="20dp"
+        android:layout_alignEnd="@+id/ivMain"
+        android:layout_alignTop="@+id/ivMain"
         android:background="@android:color/transparent"
         android:gravity="center"
-        android:textColor="@android:color/white"
+        android:textColor="@color/error_text"
         android:textSize="9sp"
         android:textStyle="bold"
         tools:ignore="SmallSp" />

@@ -976,7 +976,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                         }
                     }
                 } else {
-                    //this case come when cart click from home page or wishlist
+                    //this case come when empty_cart click from home page or wishlist
                     if ((activityName != null && activityName.equals(getResources().getString(R.string.title_home))) || (activityName != null && activityName.equals(getResources().getString(R.string.title_activity_wish_list)))) {
                         if (Globals.linktoOrderTypeMasterId == 0) {
                             objCheckOut = null;
