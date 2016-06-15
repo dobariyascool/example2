@@ -751,13 +751,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (Globals.counter > 0) {
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
-//            txtCartNumber.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.cart_number));
-//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
-//            if (isShowMsg && itemName!=null) {
-//                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), HomeActivity.this, 3000);
-//            }
         } else {
-//            txtCartNumber.setBackgroundColor(ContextCompat.getColor(HomeActivity.this, android.R.color.transparent));
+            txtCartNumber.setText("");
         }
     }
 

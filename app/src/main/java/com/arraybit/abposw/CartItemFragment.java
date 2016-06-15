@@ -41,6 +41,7 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class CartItemFragment extends Fragment implements View.OnClickListener, CartItemAdapter.CartItemOnClickListener, TaxJSONParser.TaxMasterRequestListener, RemarkDialogFragment.RemarkResponseListener, AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener {
 
+    public boolean isSnackShow;
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder, btnDisableConfirmOrder, btnRemark;
@@ -59,7 +60,6 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     int position, duration;
     FrameLayout cartItemFragment;
     boolean isPause;
-    Snackbar snackbar;
 
 
     public CartItemFragment(String activityName) {
@@ -218,19 +218,21 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
-                CheckOutActivity.isBackPressed = false;
-            }
-            SaveCartDataInSharePreference();
-            Intent returnIntent = new Intent();
-            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
-                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-                    returnIntent.putExtra("IsLogin", true);
+            if(!isSnackShow){
+                if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
+                    CheckOutActivity.isBackPressed = false;
                 }
+                SaveCartDataInSharePreference();
+                Intent returnIntent = new Intent();
+                if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
+                    if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                        returnIntent.putExtra("IsLogin", true);
+                    }
+                }
+                returnIntent.putExtra("ShowMessage", false);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
             }
-            returnIntent.putExtra("ShowMessage", false);
-            getActivity().setResult(Activity.RESULT_OK, returnIntent);
-            getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -546,12 +548,13 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void ShowSnackBarWithAction(final int position, final ItemMaster objItemMaster) {
-        if (position == Globals.alOrderItemTran.size() - 1) {
-            duration = 2000;
+        if (position == 0 && position == Globals.alOrderItemTran.size()-1) {
+            isSnackShow = true;
+            duration = 3000;
         } else {
             duration = 8000;
         }
-        snackbar = Snackbar
+        Snackbar snackbar = Snackbar
                 .make(rvCartItem, String.format(getActivity().getResources().getString(R.string.MsgCartItemDelete), objItemMaster.getItemName()), duration)
                 .setCallback(new Snackbar.Callback() {
                     @Override
@@ -560,6 +563,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                         if (event == DISMISS_EVENT_TIMEOUT) {
                             //will be true if user not click on Action button (for example: manual dismiss, dismiss by swipe
                             if (Globals.alOrderItemTran.size() == 0) {
+                                isSnackShow = false;
                                 RemovePreference();
                                 RemarkDialogFragment.strRemark = "";
                             }
@@ -569,6 +573,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        isSnackShow = false;
                         adapter.UndoData(position, objItemMaster);
                         if (Globals.alOrderItemTran.size() == 0) {
                             RemarkDialogFragment.strRemark = "";
@@ -623,6 +628,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
             if (Globals.alOrderItemTran.size() == 0) {
                 objSharePreferenceManage = new SharePreferenceManage();
                 objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, getActivity());
+                Globals.counter = 0;
             } else {
                 objSharePreferenceManage = new SharePreferenceManage();
                 String string = gson.toJson(Globals.alOrderItemTran);

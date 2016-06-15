@@ -331,13 +331,11 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
         if (Globals.counter > 0) {
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
-//            txtCartNumber.setBackground(ContextCompat.getDrawable(WishListActivity.this, R.drawable.cart_number));
-//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg && itemName != null) {
                 Globals.ShowSnackBar(rvWishItemMaster, String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
             }
         } else {
-//            txtCartNumber.setBackgroundColor(ContextCompat.getColor(WishListActivity.this, android.R.color.transparent));
+            txtCartNumber.setText("");
         }
     }
 
@@ -350,6 +348,7 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
                 if (isBackPressed) {
                     objSharePreferenceManage = new SharePreferenceManage();
                     objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, WishListActivity.this);
+                    Globals.counter = 0;
                 } else {
                     objSharePreferenceManage = new SharePreferenceManage();
                     String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", WishListActivity.this);

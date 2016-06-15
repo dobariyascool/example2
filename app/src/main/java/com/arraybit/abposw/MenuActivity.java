@@ -457,13 +457,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
         if (Globals.counter > 0) {
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
-//            txtCartNumber.setBackground(ContextCompat.getDrawable(MenuActivity.this, R.drawable.cart_number));
-//            txtCartNumber.setAnimation(AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fab_scale_up));
             if (isShowMsg && itemName!=null) {
                 Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), MenuActivity.this, 3000);
             }
         } else {
-//            txtCartNumber.setBackgroundColor(ContextCompat.getColor(MenuActivity.this, android.R.color.transparent));
+            txtCartNumber.setText("");
         }
     }
 
@@ -554,6 +552,7 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 if (isBackPressed) {
                     objSharePreferenceManage = new SharePreferenceManage();
                     objSharePreferenceManage.CreatePreference("CartItemListPreference", "CartItemList", null, MenuActivity.this);
+                    Globals.counter = 0;
                 } else {
                     objSharePreferenceManage = new SharePreferenceManage();
                     String string = objSharePreferenceManage.GetPreference("CartItemListPreference", "CartItemList", MenuActivity.this);

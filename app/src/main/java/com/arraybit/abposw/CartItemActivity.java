@@ -26,7 +26,7 @@ public class CartItemActivity extends AppCompatActivity {
         if (intent.getStringExtra("ActivityName") != null) {
             activityName = intent.getStringExtra("ActivityName");
         }
-        Globals.ReplaceFragment(new CartItemFragment(activityName), getSupportFragmentManager(), null, R.id.fragmentLayout);
+        Globals.ReplaceFragment(new CartItemFragment(activityName), getSupportFragmentManager(), getResources().getString(R.string.title_cart_item_fragment), R.id.fragmentLayout);
     }
 
     @Override
@@ -35,14 +35,17 @@ public class CartItemActivity extends AppCompatActivity {
 //        if(errorLayout.isShown()){
 //            CheckOutActivity.objCheckOut = null;
 //        }
-        SaveCartDataInSharePreference();
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("ShowMessage", false);
-        returnIntent.putExtra("IsLogin", true);
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-        if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
-            CheckOutActivity.isBackPressed = false;
+        CartItemFragment cartItemFragment = (CartItemFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_cart_item_fragment));
+        if(!cartItemFragment.isSnackShow){
+            SaveCartDataInSharePreference();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("ShowMessage", false);
+            returnIntent.putExtra("IsLogin", true);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+            if (activityName != null && activityName.equals(getResources().getString(R.string.title_home))) {
+                CheckOutActivity.isBackPressed = false;
+            }
         }
     }
 
