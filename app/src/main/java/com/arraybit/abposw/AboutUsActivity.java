@@ -10,8 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.arraybit.global.Globals;
+import com.arraybit.global.Service;
 import com.arraybit.modal.BusinessDescription;
 import com.arraybit.parser.BusinessDescriptionJSONParser;
 import com.rey.material.widget.TextView;
@@ -37,6 +39,9 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
+
+        FrameLayout aboutFragment = (FrameLayout) findViewById(R.id.aboutFragment);
+
         cardTerms = (CardView) findViewById(R.id.cardTerms);
         cardPolicy = (CardView) findViewById(R.id.cardPolicy);
 
@@ -44,7 +49,11 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
         final TextView txtCardTerms = (TextView) findViewById(R.id.txtCardTerms);
         TextView txtVersionCode = (TextView) findViewById(R.id.txtVersionCode);
 
-        RequestBusinessDescription();
+        if (Service.CheckNet(this)) {
+            RequestBusinessDescription();
+        } else {
+            Globals.ShowSnackBar(aboutFragment, getResources().getString(R.string.MsgCheckConnection), this, 1000);
+        }
 
         wvAbout = (WebView) findViewById(R.id.wvAbout);
         wvAbout.getSettings().setJavaScriptEnabled(true);
