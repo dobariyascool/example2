@@ -352,6 +352,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (isShow) {
             Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.siLoginSuccessMsg), CheckOutActivity.this, 2000);
         }
+
+        scrollView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Globals.HideKeyBoard(CheckOutActivity.this, v);
+            }
+        });
     }
 
     @Override
@@ -568,11 +575,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     private void SetPrimaryAddress() {
         if (objCheckOut == null) {
-            for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
-                if (objCustomerAddressTran.getIsPrimary()) {
-                    SetCheckOutData(objCustomerAddressTran, Globals.OrderType.HomeDelivery.getValue());
-                    SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
-                    break;
+            if(alCustomerAddressTran!=null) {
+                for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
+                    if (objCustomerAddressTran.getIsPrimary()) {
+                        SetCheckOutData(objCustomerAddressTran, Globals.OrderType.HomeDelivery.getValue());
+                        SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
+                        break;
+                    }
                 }
             }
         } else {

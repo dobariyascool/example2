@@ -86,7 +86,7 @@
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <string name="MsgCartItemDelete">%s is deleted from the dish</string>
     <string name="MsgNotification">There is no notification</string>
-    <string name="MsgOrder">Order is place successfully.</string>
+    <string name="MsgOrder">Order placed successfully.</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -149,7 +149,7 @@
     <string name="siNewUser">New User?</string>
     <string name="siSignupHere">Sign Up</string>
     <string name="siLoginFailedMsg">Username or Password are invalid.</string>
-    <string name="siLoginSuccessMsg">Login successfully.</string>
+    <string name="siLoginSuccessMsg">Logged in successfully.</string>
     <string name="clear_text">Clear Text</string>
     <string name="siLoginMsg">No User</string>
     <!-- end -->
@@ -370,7 +370,7 @@
     <!-- confirm dialog fragment -->
     <string name="cdfConfirm">Confirm</string>
     <string name="cdfCancel">Cancel</string>
-    <string name="cdfConfirmMsg">You want to place order?</string>
+    <string name="cdfConfirmMsg">Do you want to place order?</string>
     <string name="cdfMsg">Your %s order will be ready on</string>
     <string name="cdfConfirmDeleteMsg">Remove %s?</string>
     <string name="cdfCancelMsg">Cancel %s?</string>
@@ -401,5 +401,7 @@
     <string name="odaDiamond">\u25C6</string>
     <string name="title_activity_google_login">GoogleLoginActivity</string>
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
+    <string name="bbaSelectCity">Select City</string>
+    <string name="bbaSelectBranch">Select Branch</string>
     <!-- end -->
 </resources>

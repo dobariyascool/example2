@@ -25,19 +25,26 @@
         android:paddingBottom="@dimen/control_SpecingSmall"
         android:paddingTop="@dimen/control_SpecingSmall">
 
-        <com.rey.material.widget.EditText
-            android:id="@+id/etBusinessGroupName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/control_SpecingTiny"
-            android:layout_marginStart="@dimen/control_SpecingSmall"
-            android:layout_weight="1"
-            android:background="@drawable/toggle_drawable"
-            android:enabled="false"
-            android:padding="@dimen/control_SpecingSmall"
-            android:singleLine="true"
-            android:textColor="@color/white_blur" />
+        <!--<com.rey.material.widget.EditText-->
+            <!--android:id="@+id/etBusinessGroupName"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginEnd="@dimen/control_SpecingTiny"-->
+            <!--android:layout_marginStart="@dimen/control_SpecingSmall"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/toggle_drawable"-->
+            <!--android:enabled="false"-->
+            <!--android:padding="@dimen/control_SpecingSmall"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/white_blur" />-->
 
+        <com.rey.material.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:padding="@dimen/control_SpecingSmall"
+            android:text="@string/bbaSelectCity"
+            android:textColor="@color/white_blur"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -68,6 +75,17 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/txtBranchHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/separator"
+        android:gravity="center"
+        android:padding="@dimen/control_SpecingSmall"
+        android:text="@string/bbaSelectBranch"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/control_TextMedium"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvBusinessBranch"

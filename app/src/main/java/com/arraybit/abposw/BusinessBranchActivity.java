@@ -38,6 +38,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     LinearLayout businessBranchLayout;
     RecyclerView rvBusinessBranch;
     short businessMasterId;
+    TextView txtBranchHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +60,9 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
 
         businessGroupMasterId = getIntent().getShortExtra("linktoBusinessGroupMasterId", (short) 0);
 
-        spOrderCity = (AppCompatSpinner) findViewById(R.id.spOrderCity);
-        etBusinessGroupName = (EditText) findViewById(R.id.etBusinessGroupName);
 
+        spOrderCity = (AppCompatSpinner) findViewById(R.id.spOrderCity);
+        txtBranchHeader = (TextView)findViewById(R.id.txtBranchHeader);
         rvBusinessBranch = (RecyclerView) findViewById(R.id.rvBusinessBranch);
 
         if (Service.CheckNet(BusinessBranchActivity.this)) {
@@ -169,15 +170,18 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         }
         SpinnerAdapter cityAdapter = new SpinnerAdapter(BusinessBranchActivity.this, alCity, true);
         spOrderCity.setAdapter(cityAdapter);
-        etBusinessGroupName.setText(alBusinessMaster.get(0).getBusinessGroup());
     }
 
     private void SetRecyclerView() {
         if (alBusinessMaster != null && alBusinessMaster.size() != 0) {
             BusinessBranchAdapter adapter = new BusinessBranchAdapter(BusinessBranchActivity.this, alBusinessMaster, this);
             rvBusinessBranch.setVisibility(View.VISIBLE);
+            txtBranchHeader.setVisibility(View.VISIBLE);
             rvBusinessBranch.setAdapter(adapter);
             rvBusinessBranch.setLayoutManager(new LinearLayoutManager(BusinessBranchActivity.this));
+        }else{
+            rvBusinessBranch.setVisibility(View.GONE);
+            txtBranchHeader.setVisibility(View.GONE);
         }
     }
 

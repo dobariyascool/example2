@@ -57,7 +57,8 @@
                             android:paddingStart="@dimen/control_SpecingSmall"
                             android:paddingTop="@dimen/control_SpecingSmall"
                             android:text="@string/coaOrderType"
-                            android:textColor="@color/white_blur" />
+                            android:textColor="@color/white_blur"
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -454,7 +455,7 @@
                             android:layout_marginEnd="@dimen/control_SpecingMedium"
                             android:layout_marginStart="@dimen/control_SpecingMedium"
                             android:background="@drawable/toggle_drawable"
-                            android:hint="Promo Code"
+                            android:hint="Enter promo code"
                             android:padding="@dimen/control_SpecingSmall"
                             android:singleLine="true"
                             android:textColor="@color/white_blur"
