@@ -215,6 +215,7 @@
         <activity
             android:name=".OfferDetailActivity"
             android:label="@string/title_activity_offer_detail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <provider
@@ -225,7 +226,8 @@
         <activity
             android:name=".BusinessBranchActivity"
             android:label="@string/title_activity_business_branch"
-            android:theme="@style/AppTheme"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
