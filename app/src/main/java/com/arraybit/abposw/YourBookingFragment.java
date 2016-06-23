@@ -191,7 +191,7 @@ public class YourBookingFragment extends Fragment implements View.OnClickListene
     public void CancelClickListener(BookingMaster objBookingMaster, int position) {
         this.position = position;
         this.objBooking = objBookingMaster;
-        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),objBookingMaster.getBookingPersonName()+"'s booking"));
+        ConfirmDialog confirmDialog = new ConfirmDialog(null,true,String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),"booking of "+objBookingMaster.getBookingPersonName()+" on "+objBookingMaster.getToDate()));
         confirmDialog.setTargetFragment(this,0);
         confirmDialog.show(getActivity().getSupportFragmentManager(), "");
     }

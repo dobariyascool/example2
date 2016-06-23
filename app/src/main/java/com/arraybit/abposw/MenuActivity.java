@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
@@ -458,7 +459,8 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
             if (isShowMsg && itemName!=null) {
-                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), MenuActivity.this, 3000);
+//                Globals.ShowSnackBar(menuActivity, String.format(getResources().getString(R.string.MsgCartItem), itemName), MenuActivity.this, 3000);
+                Toast.makeText(MenuActivity.this, String.format(getResources().getString(R.string.MsgCartItem), itemName), Toast.LENGTH_LONG).show();
             }
         } else {
             txtCartNumber.setText("");

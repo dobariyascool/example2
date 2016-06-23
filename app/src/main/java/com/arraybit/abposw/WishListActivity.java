@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.Globals;
@@ -332,7 +333,8 @@ public class WishListActivity extends AppCompatActivity implements ItemJSONParse
             txtCartNumber.setText(String.valueOf(Globals.counter));
             txtCartNumber.setSoundEffectsEnabled(true);
             if (isShowMsg && itemName != null) {
-                Globals.ShowSnackBar(rvWishItemMaster, String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
+//                Globals.ShowSnackBar(rvWishItemMaster, String.format(getResources().getString(R.string.MsgCartItem), itemName), WishListActivity.this, 1000);
+                Toast.makeText(WishListActivity.this, String.format(getResources().getString(R.string.MsgCartItem), itemName),Toast.LENGTH_LONG).show();
             }
         } else {
             txtCartNumber.setText("");

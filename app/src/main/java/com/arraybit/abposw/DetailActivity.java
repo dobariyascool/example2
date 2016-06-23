@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.arraybit.adapter.ItemAdapter;
@@ -497,21 +498,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             ItemModifierRemarkFragment itemModifierRemarkFragment = new ItemModifierRemarkFragment(objItemMaster);
             itemModifierRemarkFragment.setArguments(bundle);
             Globals.ReplaceFragment(itemModifierRemarkFragment, getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
-            //Intent i = new Intent(DetailActivity, ItemModifierRemarkActivity.class);
-            //i.putExtra("ItemMaster", objItemMaster);
-            //getActivity().startActivityForResult(i, 0);
         }
-//        ClearData();
-//        this.objItemMaster = objItemMaster;
-//        isRequestForModifier = false;
-//        isItemSuggestedClick = true;
-        //objItemMaster.setIsChecked(CheckSuggestedItemInWishList(objItemMaster.getItemMasterId()));
-        // GetItemDetail(this.objItemMaster);
-//        if (Service.CheckNet(DetailActivity.this)) {
-//            RequestItemSuggest();
-//        } else {
-//            Globals.ShowSnackBar(detailLayout, getResources().getString(R.string.MsgCheckConnection), DetailActivity.this, 1000);
-//        }
     }
 
     @Override
@@ -556,7 +543,8 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
     @Override
     public void AddQtyRemarkResponse(ItemMaster objItemMaster) {
         isItemSuggestedClick = false;
-        Globals.ShowSnackBar(detailLayout, String.format(getResources().getString(R.string.MsgCartItem), objItemMaster.getItemName()), DetailActivity.this, 3000);
+//        Globals.ShowSnackBar(detailLayout, String.format(getResources().getString(R.string.MsgCartItem), objItemMaster.getItemName()), DetailActivity.this, 3000);
+        Toast.makeText(DetailActivity.this, String.format(getResources().getString(R.string.MsgCartItem), objItemMaster.getItemName()), Toast.LENGTH_LONG).show();
     }
 
     //region Private Method
@@ -1104,7 +1092,6 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         alItemMasterModifier = new ArrayList<>();
         alItemMaster = new ArrayList<>();
     }
-
 
     private boolean CheckOptionValue(String optionValueIds, String optionValue) {
         List<String> items = Arrays.asList(optionValueIds.split(","));

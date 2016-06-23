@@ -20,7 +20,7 @@
     <string name="title_fragment_policy">Privacy Policy</string>
     <string name="title_fragment_terms_of_service">Terms of service</string>
     <string name="title_detail">Detail</string>
-    <string name="title_activity_check_out">CheckOut</string>
+    <string name="title_activity_check_out">Address</string>
     <string name="title_activity_offer_detail">Offer Detail</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -373,10 +373,12 @@
     <string name="cdfConfirmMsg">Do you want to place order?</string>
     <string name="cdfMsg">Your %s order will be ready on</string>
     <string name="cdfConfirmDeleteMsg">Remove %s?</string>
-    <string name="cdfCancelMsg">Cancel %s?</string>
+    <string name="cdfCancelMsg">Want to cancel %s?</string>
     <string name="cdfRemove">Remove</string>
     <string name="cdfBooking">booking</string>
     <string name="cdfOrder">order</string>
+    <string name="cdfYes">Yes</string>
+    <string name="cdfNo">No</string>
     <!-- End-->
 
     <!-- row_service -->

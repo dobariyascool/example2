@@ -73,7 +73,7 @@ public class WorkingHoursAdapter extends RecyclerView.Adapter<WorkingHoursAdapte
                 TextColorChange(holder, false);
             }
         } else {
-            if (Globals.Days.valueOf("Day" + calendar.get(Calendar.DAY_OF_WEEK)).getValue().equals(String.valueOf(Globals.Days.valueOf("Day" + current.getDayOfWeek()).getValue()))) {
+            if (Globals.Days.valueOf("Day" + (calendar.get(Calendar.DAY_OF_WEEK)-1)).getValue().equals(String.valueOf(Globals.Days.valueOf("Day" + current.getDayOfWeek()).getValue()))) {
                 TextColorChange(holder,true);
             } else {
                 TextColorChange(holder,false);

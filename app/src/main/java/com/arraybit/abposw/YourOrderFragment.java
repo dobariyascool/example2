@@ -138,7 +138,7 @@ public class YourOrderFragment extends Fragment implements ItemJSONParser.ItemMa
     public void CancelOnClick(OrderMaster objOrderMaster, int position) {
         this.position = position;
         this.objOrder = objOrderMaster;
-        ConfirmDialog confirmDialog = new ConfirmDialog(null, true, String.format(getActivity().getResources().getString(R.string.cdfCancelMsg), objOrder.getOrderNumber() + " Order"));
+        ConfirmDialog confirmDialog = new ConfirmDialog(null, true, String.format(getActivity().getResources().getString(R.string.cdfCancelMsg),"order no ("+ objOrder.getOrderNumber()+")"));
         confirmDialog.setTargetFragment(this, 0);
         confirmDialog.show(getActivity().getSupportFragmentManager(), "");
     }

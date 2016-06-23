@@ -22,7 +22,7 @@ android {
     buildTypes {
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
-                output.outputFile = file("$project.buildDir/outputs/apk/abPOSW.apk")
+                output.outputFile = file("$project.buildDir/outputs/apk/LikEat.apk")
             }
         }
         release {

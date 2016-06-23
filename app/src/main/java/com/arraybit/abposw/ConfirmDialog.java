@@ -57,7 +57,8 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
             txtHeader.setVisibility(View.GONE);
             txtOrderMessage.setVisibility(View.GONE);
             txtMessage.setVisibility(View.VISIBLE);
-            txtConfirm.setText(getActivity().getResources().getString(R.string.cdfRemove));
+            txtConfirm.setText(getActivity().getResources().getString(R.string.cdfYes));
+            txtCancel.setText(getActivity().getResources().getString(R.string.cdfNo));
         } else {
             txtHeader.setVisibility(View.VISIBLE);
             txtOrderMessage.setVisibility(View.VISIBLE);

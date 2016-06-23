@@ -53,9 +53,9 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         if (objCustomerAddressTran.getIsPrimary()) {
             holder.txtDefault.setText(view.getResources().getString(R.string.yaDefault));
             if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
-                holder.txtDefault.setText(holder.txtDefault.getText() + " (" + Globals.AddressType.Home.toString() + ")");
+                holder.txtDefault.setText(Globals.AddressType.Home.toString() + " (" + holder.txtDefault.getText() + ")");
             } else {
-                holder.txtDefault.setText(holder.txtDefault.getText() + " (" + Globals.AddressType.Office.toString() + ")");
+                holder.txtDefault.setText(Globals.AddressType.Office.toString() + " (" + holder.txtDefault.getText() + ")");
             }
         } else {
             if (objCustomerAddressTran.getAddressType() == Globals.AddressType.Home.getValue()) {
@@ -75,7 +75,16 @@ public class CustomerAddressAdapter extends RecyclerView.Adapter<CustomerAddress
         }
 
         holder.txtCity.setText(objCustomerAddressTran.getCity());
-        holder.txtZipCode.setText(context.getResources().getString(R.string.minus) + objCustomerAddressTran.getZipCode());
+        if(objCustomerAddressTran.getCity()==null || objCustomerAddressTran.getCity().equals("")){
+            holder.txtZipCode.setText(objCustomerAddressTran.getZipCode());
+        }else{
+            holder.txtZipCode.setText(context.getResources().getString(R.string.minus) + objCustomerAddressTran.getZipCode());
+        }
+        if(objCustomerAddressTran.getState()==null || objCustomerAddressTran.getState().equals("")){
+            holder.txtState.setVisibility(View.GONE);
+        }else{
+            holder.txtState.setVisibility(View.VISIBLE);
+        }
         holder.txtState.setText(String.valueOf(objCustomerAddressTran.getState()));
         holder.txtPhone.setText(String.valueOf(objCustomerAddressTran.getMobileNum()));
         if (isAddressAnimate) {
