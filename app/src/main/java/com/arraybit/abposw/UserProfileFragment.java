@@ -297,8 +297,8 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         } else {
             objCustomerMaster.setCustomerMasterId(0);
         }
-        objCustomerMaster.setCustomerName(etFirstName.getText().toString());
-        objCustomerMaster.setPhone1(etMobile.getText().toString());
+        objCustomerMaster.setCustomerName(etFirstName.getText().toString().trim());
+        objCustomerMaster.setPhone1(etMobile.getText().toString().trim());
         if (rbMale.isChecked()) {
             objCustomerMaster.setGender(rbMale.getText().toString());
         }

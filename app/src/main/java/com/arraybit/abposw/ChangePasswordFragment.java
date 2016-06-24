@@ -188,7 +188,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
             etNewPassword.clearError();
             etConfirmPassword.clearError();
             etOldPassword.setError("Enter " + getResources().getString(R.string.cpOldPassword));
-            if (!etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+            if (!etNewPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
                 etConfirmPassword.setError(getActivity().getResources().getString(R.string.cpPasswordMisMatch));
             } else {
                 etConfirmPassword.clearError();
@@ -202,7 +202,7 @@ public class ChangePasswordFragment extends Fragment implements CustomerJSONPars
             IsValid = false;
         } else if (!etNewPassword.getText().toString().equals("") &&
                 !etConfirmPassword.getText().toString().equals("") &&
-                !etNewPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+                !etNewPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
             etNewPassword.clearError();
             etOldPassword.clearError();
             etConfirmPassword.setError(getActivity().getResources().getString(R.string.cpPasswordMisMatch));

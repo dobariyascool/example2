@@ -595,7 +595,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         OfferMaster objOfferMaster = new OfferMaster();
         objOfferMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
         objOfferMaster.setLinktoCustomerMasterId(Short.parseShort(customerMasterId));
-        objOfferMaster.setOfferCode(etOfferCode.getText().toString());
+        objOfferMaster.setOfferCode(etOfferCode.getText().toString().trim());
         if (tbHomeDelivery.isChecked()) {
             objOfferMaster.setlinktoOrderTypeMasterId((short) Globals.OrderType.HomeDelivery.getValue());
         } else if (tbTakeAway.isChecked()) {
@@ -852,10 +852,10 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 objCheckOut.setOrderTimeIndex(spOrderTime.getSelectedItemPosition());
                 objCheckOut.setOrderTime((String) spOrderTime.getAdapter().getItem(spOrderTime.getSelectedItemPosition()));
             }
-            objCheckOut.setCity(etCity.getText().toString());
-            objCheckOut.setBranch(etBusinessName.getText().toString());
-            objCheckOut.setName(etName.getText().toString());
-            objCheckOut.setPhone(etPhone.getText().toString());
+            objCheckOut.setCity(etCity.getText().toString().trim());
+            objCheckOut.setBranch(etBusinessName.getText().toString().trim());
+            objCheckOut.setName(etName.getText().toString().trim());
+            objCheckOut.setPhone(etPhone.getText().toString().trim());
             objCheckOut.setObjBusinessMaster(objBusinessMaster);
             if (objOffer != null) {
                 if (objOffer.getOfferCode().equals("Remove")) {

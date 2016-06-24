@@ -157,10 +157,10 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
                 progressDialog.dismiss();
                 Globals.ShowSnackBar(view, this.getResources().getString(R.string.MsgValidation), this, 1000);
             } else {
-                objContactUsMaster.setName(etContactUsName.getText().toString());
-                objContactUsMaster.setEmail(etContactUsEmail.getText().toString());
-                objContactUsMaster.setMobile(etContactUsMobile.getText().toString());
-                objContactUsMaster.setMessage(etContactUsMessage.getText().toString());
+                objContactUsMaster.setName(etContactUsName.getText().toString().trim());
+                objContactUsMaster.setEmail(etContactUsEmail.getText().toString().trim());
+                objContactUsMaster.setMobile(etContactUsMobile.getText().toString().trim());
+                objContactUsMaster.setMessage(etContactUsMessage.getText().toString().trim());
 
                 BusinessJSONParser objBusinessJSONParser = new BusinessJSONParser();
                 objBusinessJSONParser.InsertContactUsMaster(this, objContactUsMaster);
@@ -296,7 +296,7 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
                 Globals.ShowSnackBar(view, this.getResources().getString(R.string.MsgServerNotResponding), this, 1000);
                 break;
             default:
-                Globals.ShowSnackBar(view, this.getResources().getString(R.string.MsgInsertSuccess), this, 1000);
+                Globals.ShowSnackBar(view, this.getResources().getString(R.string.MsgEnquiry), this, 1000);
                 break;
         }
     }

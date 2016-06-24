@@ -194,8 +194,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                     objCustomerAddressTran = new CustomerAddressTran();
                     progressDialog.show(getActivity().getSupportFragmentManager(), "");
                     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-                    objCustomerAddressTran.setCustomerName(etName.getText().toString());
-                    objCustomerAddressTran.setAddress(etAddress.getText().toString());
+                    objCustomerAddressTran.setCustomerName(etName.getText().toString().trim());
+                    objCustomerAddressTran.setAddress(etAddress.getText().toString().trim());
                     if (btnHome.isChecked()) {
                         objCustomerAddressTran.setAddressType((short) Globals.AddressType.Home.getValue());
                     } else {
@@ -213,8 +213,8 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
                         objCustomerAddressTran.setlinktoAreaMasterId((short) spArea.getAdapter().getItemId(spArea.getSelectedItemPosition()));
                         objCustomerAddressTran.setArea(spArea.getSelectedItem().toString());
                     }
-                    objCustomerAddressTran.setZipCode(etZip.getText().toString());
-                    objCustomerAddressTran.setMobileNum(etMobile.getText().toString());
+                    objCustomerAddressTran.setZipCode(etZip.getText().toString().trim());
+                    objCustomerAddressTran.setMobileNum(etMobile.getText().toString().trim());
                     if (objCustomerAddressTran == null) {
                         objCustomerAddressTran.setIsPrimary(true);
                     }

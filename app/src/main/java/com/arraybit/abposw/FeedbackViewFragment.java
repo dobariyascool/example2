@@ -407,7 +407,7 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                alFeedbackAnswer.get(position).setFeedbackAnswer(editText.getText().toString());
+                alFeedbackAnswer.get(position).setFeedbackAnswer(editText.getText().toString().trim());
             }
 
             @Override
@@ -589,10 +589,10 @@ public class FeedbackViewFragment extends Fragment implements FeedbackQuestionJS
                 } else {
                     if (Service.CheckNet(getActivity())) {
                         objFeedbackMaster = new FeedbackMaster();
-                        objFeedbackMaster.setName(etUserName.getText().toString());
-                        objFeedbackMaster.setEmail(etEmail.getText().toString());
-                        objFeedbackMaster.setPhone(etMobileNo.getText().toString());
-                        objFeedbackMaster.setFeedback(etFeedback.getText().toString());
+                        objFeedbackMaster.setName(etUserName.getText().toString().trim());
+                        objFeedbackMaster.setEmail(etEmail.getText().toString().trim());
+                        objFeedbackMaster.setPhone(etMobileNo.getText().toString().trim());
+                        objFeedbackMaster.setFeedback(etFeedback.getText().toString().trim());
                         objFeedbackMaster.setFeedbackType((short) feedbackType);
                         objFeedbackMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
                         objSharePreferenceManage = new SharePreferenceManage();

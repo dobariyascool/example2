@@ -50,8 +50,11 @@ public class NotificationActivity extends AppCompatActivity {
                 errorLayout.setVisibility(View.VISIBLE);
                 Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, 0);
             } else {
-                loginLayout.setVisibility(View.VISIBLE);
-                errorLayout.setVisibility(View.GONE);
+//                loginLayout.setVisibility(View.VISIBLE);
+//                errorLayout.setVisibility(View.GONE);
+                loginLayout.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.VISIBLE);
+                Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgNotification), null, 0);
             }
         } else {
             loginLayout.setVisibility(View.GONE);

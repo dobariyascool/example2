@@ -100,9 +100,9 @@ public class ConfirmDialog extends DialogFragment implements View.OnClickListene
     private void SetOrderMessage(TextView txtMessage) {
         try {
             if (!objCheckOut.getOrderTime().equals(getActivity().getResources().getString(R.string.coaTime))) {
-                Date targetTime = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderTime());
-                targetTime.setTime(targetTime.getTime() + 20 * 60 * 1000); //add minute
-                time = targetTime;
+                time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(objCheckOut.getOrderTime());
+//                targetTime.setTime(targetTime.getTime() + 20 * 60 * 1000); //add minute
+//                time = targetTime;
             } else {
                 Date date = new Date();
                 date.setTime(date.getTime() + 20 * 60 * 1000);

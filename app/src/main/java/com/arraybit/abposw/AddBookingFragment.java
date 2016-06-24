@@ -215,9 +215,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 progressDialog.dismiss();
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
-                objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString()));
+                objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString().trim()));
                 if (!etChildren.getText().toString().equals("")) {
-                    objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString()));
+                    objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString().trim()));
                 }
                 try {
                     date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
@@ -388,10 +388,10 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 objBookingMaster.setlinktoUserMasterIdCreatedBy((short) Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
             }
 
-            objBookingMaster.setBookingPersonName(etCustomerName.getText().toString());
-            objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString()));
+            objBookingMaster.setBookingPersonName(etCustomerName.getText().toString().trim());
+            objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString().trim()));
             if (!etChildren.getText().toString().equals("")) {
-                objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString()));
+                objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString().trim()));
             }
             objBookingMaster.setIsHourly(true);
             try {
@@ -419,8 +419,8 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            objBookingMaster.setEmail(etEmail.getText().toString());
-            objBookingMaster.setPhone(etMobile.getText().toString());
+            objBookingMaster.setEmail(etEmail.getText().toString().trim());
+            objBookingMaster.setPhone(etMobile.getText().toString().trim());
             objBookingMaster.setTotalAmount(0.0);
             objBookingMaster.setDiscountPercentage((short) 0);
             objBookingMaster.setDiscountAmount(0.0);
@@ -428,7 +428,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
             objBookingMaster.setNetAmount(0.0);
             objBookingMaster.setPaidAmount(0.0);
             objBookingMaster.setBalanceAmount(0.0);
-            objBookingMaster.setRemark(etRemark.getText().toString());
+            objBookingMaster.setRemark(etRemark.getText().toString().trim());
             objBookingMaster.setIsPreOrder(false);
             objBookingMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
             objBookingMaster.setIsDeleted(false);

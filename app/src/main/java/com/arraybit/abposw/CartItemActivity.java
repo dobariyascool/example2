@@ -31,10 +31,6 @@ public class CartItemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        LinearLayout errorLayout = (LinearLayout)fragmentLayout.findViewById(R.id.errorLayout);
-//        if(errorLayout.isShown()){
-//            CheckOutActivity.objCheckOut = null;
-//        }
         CartItemFragment cartItemFragment = (CartItemFragment)getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_cart_item_fragment));
         if(!cartItemFragment.isSnackShow){
             SaveCartDataInSharePreference();

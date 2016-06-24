@@ -196,8 +196,8 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
             CountTax(objOrderItemTran, isDuplicate);
             objOrderItemTran.setTotalTax(totalTax);
             if (!etRemark.getText().toString().isEmpty()) {
-                objOrderItemTran.setRemark(etRemark.getText().toString());
-                objOrderItemTran.setItemRemark(etRemark.getText().toString());
+                objOrderItemTran.setRemark(etRemark.getText().toString().trim());
+                objOrderItemTran.setItemRemark(etRemark.getText().toString().trim());
             }
             totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
             objOrderItemTran.setTotalAmount(totalAmount);
@@ -232,8 +232,8 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
                 objOrderItemTran.setAlOrderItemModifierTran(alOrderItemModifierTran);
                 objOrderItemTran.setTotalTax(totalTax);
                 if (!etRemark.getText().toString().isEmpty()) {
-                    objOrderItemTran.setRemark(etRemark.getText().toString());
-                    objOrderItemTran.setItemRemark(etRemark.getText().toString());
+                    objOrderItemTran.setRemark(etRemark.getText().toString().trim());
+                    objOrderItemTran.setItemRemark(etRemark.getText().toString().trim());
                 }
                 totalAmount = Integer.valueOf(etQuantity.getText().toString()) * objItemMaster.getRate();
                 objOrderItemTran.setTotalAmount(totalAmount);
@@ -244,7 +244,7 @@ public class AddQtyRemarkDialogFragment extends DialogFragment implements View.O
     }
 
     private void UpdateOrderItem() {
-        objItemMaster.setItemRemark(etRemark.getText().toString());
+        objItemMaster.setItemRemark(etRemark.getText().toString().trim());
         objItemMaster.setQuantity(Integer.parseInt(etQuantity.getText().toString()));
         CountUpdateTax();
         objItemMaster.setTotalTax(totalTax);

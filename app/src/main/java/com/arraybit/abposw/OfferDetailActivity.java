@@ -241,7 +241,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             }
             if (objOfferMaster.getOfferCode() != null && !objOfferMaster.getOfferCode().equals("")) {
                 txtOfferCode.setVisibility(View.VISIBLE);
-                txtOfferCode.setText("Offer code --> "+objOfferMaster.getOfferCode());
+                txtOfferCode.setText("Offer code : "+objOfferMaster.getOfferCode());
             } else {
                 txtOfferCode.setVisibility(View.GONE);
             }

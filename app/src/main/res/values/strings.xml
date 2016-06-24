@@ -68,7 +68,7 @@
     <string name="MsgDineOnly">Available for Dine-In only</string>
     <string name="MsgFeedbackSubmit">Feedback is submitted</string>
     <string name="MsgCart">Cart is empty.</string>
-    <string name="MsgCartItem">%s is added to dish</string>
+    <string name="MsgCartItem">%s is added to cart</string>
     <string name="MsgConfirmOrder">Items are place into order</string>
     <string name="MsgAddPerson">Person is added successfully</string>
     <string name="MsgUpdateProfile">Profile updated successfully</string>
@@ -84,9 +84,10 @@
     <string name="MsgBookingIsAAvailable">Booking slot is not available</string>
     <string name="MsgOfferCodeFailed">Offer Not Valid</string>
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
-    <string name="MsgCartItemDelete">%s is deleted from the dish</string>
+    <string name="MsgCartItemDelete">%s is deleted from the cart</string>
     <string name="MsgNotification">There is no notification</string>
     <string name="MsgOrder">Order placed successfully.</string>
+    <string name="MsgEnquiry">Enquiry done successfully.</string>
     <!-- End -->
 
     <!-- signupActivity -->
@@ -307,7 +308,7 @@
     <string name="ybTime">Time</string>
     <string name="ybStatus">Status</string>
     <string name="ybCancel">Cancel</string>
-    <string name="ybAddBookingSuccessMsg">Booking is done successfully</string>
+    <string name="ybAddBookingSuccessMsg">Booked successfully</string>
     <string name="ybStar">\u2605</string>
     <string name="ybFromTimeHeader">\u2013From Time\u2013</string>
     <string name="ybToTimeHeader">\u2013To Time\u2013</string>
@@ -405,5 +406,8 @@
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
     <string name="bbaSelectCity">Select City</string>
     <string name="bbaSelectBranch">Select Branch</string>
+    <string name="strChange">\u21d2</string>
+    <!--<string name="strChange">\u226b</string>-->
+    <!--<string name="strChange">\u261e</string>-->
     <!-- end -->
 </resources>

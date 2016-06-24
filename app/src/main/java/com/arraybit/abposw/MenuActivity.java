@@ -125,20 +125,20 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
                 ItemListFragment itemListFragment = (ItemListFragment) itemPagerAdapter.GetCurrentFragment(tabLayout.getSelectedTabPosition());
                 i = (short) (i + 1);
                 if (i == 1) {
-                    item.setIcon(R.drawable.view_grid);
+                    item.setIcon(R.drawable.view_grid_two);
                     isViewChange = true;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true, false,false);
                     objSharePreferenceManage.CreatePreference("ViewPreference","IsViewChange","Grid",MenuActivity.this);
                 } else if (i == 2) {
-                    item.setIcon(R.drawable.view_grid_two);
+                    item.setIcon(R.drawable.view_list);
                     isViewChange = true;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true, false, false);
                     objSharePreferenceManage.CreatePreference("ViewPreference", "IsViewChange", "TwoGrid", MenuActivity.this);
                 } else {
                     i = 0;
-                    item.setIcon(R.drawable.view_list);
+                    item.setIcon(R.drawable.view_grid);
                     isViewChange = false;
                     isForceToChange = true;
                     itemListFragment.SetRecyclerView(true, false,false);
@@ -195,11 +195,11 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.viewChange).setVisible(true);
         if(i == 1){
-            menu.findItem(R.id.viewChange).setIcon(R.drawable.view_grid);
-        }else if(i==2){
             menu.findItem(R.id.viewChange).setIcon(R.drawable.view_grid_two);
-        }else{
+        }else if(i==2){
             menu.findItem(R.id.viewChange).setIcon(R.drawable.view_list);
+        }else{
+            menu.findItem(R.id.viewChange).setIcon(R.drawable.view_grid);
         }
         menu.findItem(R.id.cart_layout).setVisible(true);
         menu.findItem(R.id.logout).setVisible(false);

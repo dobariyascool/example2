@@ -58,14 +58,14 @@ public class RemarkDialogFragment extends android.support.v4.app.DialogFragment 
     public void onClick(View v) {
         if (v.getId() == R.id.txtDone) {
             if(remark==null) {
-                strRemark = etRemark.getText().toString();
+                strRemark = etRemark.getText().toString().trim();
             }
             if(getTargetFragment()!=null) {
                 objRemarkResponseListener = (RemarkResponseListener) getTargetFragment();
-                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString());
+                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString().trim());
             }else{
                 objRemarkResponseListener = (RemarkResponseListener) getActivity();
-                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString());
+                objRemarkResponseListener.RemarkResponse(etRemark.getText().toString().trim());
             }
             dismiss();
         } else if (v.getId() == R.id.txtCancel) {
