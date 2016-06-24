@@ -422,43 +422,47 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
-            if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
-                objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
-                objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
-                objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
-                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-                startActivityForResult(intent, 0);
-            } else {
-                if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
-                    Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+            if(objBusinessMaster!=null) {
+                if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
+                    objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
+                    objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
                     objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
                     Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
                     startActivityForResult(intent, 0);
                 } else {
-                    Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
-                    intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
-                    startActivityForResult(intent, 111);
+                    if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
+                        Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+                        objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                        Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                        startActivityForResult(intent, 0);
+                    } else {
+                        Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
+                        intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
+                        startActivityForResult(intent, 111);
+                    }
                 }
             }
 
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
-            if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
-                objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
-                objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
-                objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
-                Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
-                startActivityForResult(intent, 0);
-            } else {
-                if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
-                    Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+            if(objBusinessMaster!=null) {
+                if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
+                    objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
+                    objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
                     objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
                     Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
                     startActivityForResult(intent, 0);
                 } else {
-                    Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
-                    intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
-                    startActivityForResult(intent, 111);
+                    if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
+                        Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+                        objSharePreferenceManager.CreatePreference("OrderTypePreference", "OrderType", String.valueOf(Globals.OrderType.HomeDelivery.getValue()), HomeActivity.this);
+                        Intent intent = new Intent(HomeActivity.this, MenuActivity.class);
+                        startActivityForResult(intent, 0);
+                    } else {
+                        Intent intent = new Intent(HomeActivity.this, BusinessBranchActivity.class);
+                        intent.putExtra("linktoBusinessGroupMasterId", objBusinessMaster.getLinktoBusinessGroupMasterId());
+                        startActivityForResult(intent, 111);
+                    }
                 }
             }
         } else if (v.getId() == R.id.cvBookTable) {

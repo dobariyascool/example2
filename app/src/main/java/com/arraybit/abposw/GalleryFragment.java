@@ -105,19 +105,21 @@ public class GalleryFragment extends Fragment implements BusinessGalleryJSONPars
 
     @Override
     public void ImageOnClick(BusinessGalleryTran objBusinessGalleryTran, View view, String transitionName) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        FullImageViewDialogFragment fullViewDialogFragment = new FullImageViewDialogFragment();
+        if(objBusinessGalleryTran!=null) {
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FullImageViewDialogFragment fullViewDialogFragment = new FullImageViewDialogFragment();
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("BusinessGallery", objBusinessGalleryTran);
-        if (Build.VERSION.SDK_INT >= 21) {
-            bundle.putString("Element", transitionName);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("BusinessGallery", objBusinessGalleryTran);
+            if (Build.VERSION.SDK_INT >= 21) {
+                bundle.putString("Element", transitionName);
+            }
+            fullViewDialogFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.hotelProfileFragment, fullViewDialogFragment, "fullViewDialogFragment");
+            fragmentTransaction.addToBackStack("fullViewDialogFragment");
+            fragmentTransaction.addSharedElement(view, transitionName);
+            fragmentTransaction.commit();
         }
-        fullViewDialogFragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.hotelProfileFragment, fullViewDialogFragment, "fullViewDialogFragment");
-        fragmentTransaction.addToBackStack("fullViewDialogFragment");
-        fragmentTransaction.addSharedElement(view, transitionName);
-        fragmentTransaction.commit();
     }
 
     //region Private Methods

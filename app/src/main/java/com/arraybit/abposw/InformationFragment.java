@@ -155,56 +155,57 @@ public class InformationFragment extends Fragment implements BusinessHoursJSONPa
         }
     }
 
-
     private void SetContactDetails() {
-        if (objBusinessMaster.getAddress() == null) {
-            txtAddress.setVisibility(View.GONE);
-        } else {
-            txtAddress.setVisibility(View.VISIBLE);
-            txtAddress.setText(objBusinessMaster.getAddress());
-        }
-        if (objBusinessMaster.getPhone1().equals("") && objBusinessMaster.getPhone2().equals("")) {
-            callLayout.setVisibility(View.GONE);
-        } else if(!objBusinessMaster.getPhone2().equals("") && !objBusinessMaster.getPhone1().equals("")) {
-            callLayout.setVisibility(View.VISIBLE);
-            txtPhone2.setVisibility(View.VISIBLE);
-            txtPhone1.setVisibility(View.VISIBLE);
-            txtPhone2.setText(objBusinessMaster.getPhone2());
-            txtPhone1.setText(objBusinessMaster.getPhone1());
-        }else if(objBusinessMaster.getPhone2().equals("") && !objBusinessMaster.getPhone1().equals(""))  {
-            callLayout.setVisibility(View.VISIBLE);
-            txtPhone2.setVisibility(View.GONE);
-            txtPhone1.setVisibility(View.VISIBLE);
-            txtPhone1.setText(objBusinessMaster.getPhone1());
-        }else if(objBusinessMaster.getPhone1().equals("") && !objBusinessMaster.getPhone2().equals("")) {
-            callLayout.setVisibility(View.VISIBLE);
-            txtPhone1.setVisibility(View.GONE);
-            txtPhone2.setVisibility(View.VISIBLE);
-            txtPhone2.setText(objBusinessMaster.getPhone2());
-        }
-        if (objBusinessMaster.getWebsite().equals("")) {
-            siteLayout.setVisibility(View.GONE);
-            webSiteDivider.setVisibility(View.GONE);
-        } else {
-            siteLayout.setVisibility(View.VISIBLE);
-            webSiteDivider.setVisibility(View.VISIBLE);
-            txtWebSite.setText(objBusinessMaster.getWebsite());
-        }
-        if (objBusinessMaster.getEmail().equals("")) {
-            emailLayout.setVisibility(View.GONE);
-            emailDivider.setVisibility(View.GONE);
-        } else {
-            emailLayout.setVisibility(View.VISIBLE);
-            emailDivider.setVisibility(View.VISIBLE);
-            txtEmail.setText(objBusinessMaster.getEmail());
-        }
-        if (objBusinessMaster.getFax().equals("")) {
-            faxLayout.setVisibility(View.GONE);
-            faxDivider.setVisibility(View.GONE);
-        } else {
-            faxLayout.setVisibility(View.VISIBLE);
-            faxDivider.setVisibility(View.VISIBLE);
-            txtFax.setText(objBusinessMaster.getFax());
+        if(objBusinessMaster!=null) {
+            if (objBusinessMaster.getAddress() == null) {
+                txtAddress.setVisibility(View.GONE);
+            } else {
+                txtAddress.setVisibility(View.VISIBLE);
+                txtAddress.setText(objBusinessMaster.getAddress());
+            }
+            if (objBusinessMaster.getPhone1().equals("") && objBusinessMaster.getPhone2().equals("")) {
+                callLayout.setVisibility(View.GONE);
+            } else if (!objBusinessMaster.getPhone2().equals("") && !objBusinessMaster.getPhone1().equals("")) {
+                callLayout.setVisibility(View.VISIBLE);
+                txtPhone2.setVisibility(View.VISIBLE);
+                txtPhone1.setVisibility(View.VISIBLE);
+                txtPhone2.setText(objBusinessMaster.getPhone2());
+                txtPhone1.setText(objBusinessMaster.getPhone1());
+            } else if (objBusinessMaster.getPhone2().equals("") && !objBusinessMaster.getPhone1().equals("")) {
+                callLayout.setVisibility(View.VISIBLE);
+                txtPhone2.setVisibility(View.GONE);
+                txtPhone1.setVisibility(View.VISIBLE);
+                txtPhone1.setText(objBusinessMaster.getPhone1());
+            } else if (objBusinessMaster.getPhone1().equals("") && !objBusinessMaster.getPhone2().equals("")) {
+                callLayout.setVisibility(View.VISIBLE);
+                txtPhone1.setVisibility(View.GONE);
+                txtPhone2.setVisibility(View.VISIBLE);
+                txtPhone2.setText(objBusinessMaster.getPhone2());
+            }
+            if (objBusinessMaster.getWebsite().equals("")) {
+                siteLayout.setVisibility(View.GONE);
+                webSiteDivider.setVisibility(View.GONE);
+            } else {
+                siteLayout.setVisibility(View.VISIBLE);
+                webSiteDivider.setVisibility(View.VISIBLE);
+                txtWebSite.setText(objBusinessMaster.getWebsite());
+            }
+            if (objBusinessMaster.getEmail().equals("")) {
+                emailLayout.setVisibility(View.GONE);
+                emailDivider.setVisibility(View.GONE);
+            } else {
+                emailLayout.setVisibility(View.VISIBLE);
+                emailDivider.setVisibility(View.VISIBLE);
+                txtEmail.setText(objBusinessMaster.getEmail());
+            }
+            if (objBusinessMaster.getFax().equals("")) {
+                faxLayout.setVisibility(View.GONE);
+                faxDivider.setVisibility(View.GONE);
+            } else {
+                faxLayout.setVisibility(View.VISIBLE);
+                faxDivider.setVisibility(View.VISIBLE);
+                txtFax.setText(objBusinessMaster.getFax());
+            }
         }
     }
     //endregion

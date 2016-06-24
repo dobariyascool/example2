@@ -2,12 +2,12 @@ package com.arraybit.adapter;
 
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.BusinessMaster;
@@ -58,17 +58,17 @@ public class BusinessBranchAdapter extends RecyclerView.Adapter<BusinessBranchAd
 
         TextView txtBusinessAddress,txtBusinessName,txtBusinessPhone;
         ImageView ivCall;
-        CardView cvBranch;
+        LinearLayout branchLayout;
 
         public BusinessBranchSelectorViewHolder(View view) {
             super(view);
-            cvBranch = (CardView)view.findViewById(R.id.cvBranch);
+            branchLayout = (LinearLayout)view.findViewById(R.id.branchLayout);
             txtBusinessAddress = (TextView) view.findViewById(R.id.txtBusinessAddress);
             txtBusinessName = (TextView) view.findViewById(R.id.txtBusinessName);
             txtBusinessPhone = (TextView) view.findViewById(R.id.txtBusinessPhone);
             ivCall = (ImageView) view.findViewById(R.id.ivCall);
 
-            cvBranch.setOnClickListener(new View.OnClickListener() {
+            branchLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     objBranchSelectorListener.BranchSelectorOnClickListener(alBusinessMaster.get(getAdapterPosition()));

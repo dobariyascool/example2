@@ -167,14 +167,16 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().startActivityForResult(intent, 0);
             } else {
-                RequestOrderMaster();
-                objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
-                objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
-                Intent intent = new Intent(getActivity(), CheckOutActivity.class);
-                intent.putExtra("OrderMaster", objOrderMaster);
-                intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
-                intent.putExtra("ParentActivity", activityName);
-                getActivity().startActivityForResult(intent, 0);
+                if(alTaxMaster!=null) {
+                    RequestOrderMaster();
+                    objSharePreferenceManage.RemovePreference("OrderTypePreference", "OrderType", getActivity());
+                    objSharePreferenceManage.ClearPreference("OrderTypePreference", getActivity());
+                    Intent intent = new Intent(getActivity(), CheckOutActivity.class);
+                    intent.putExtra("OrderMaster", objOrderMaster);
+                    intent.putParcelableArrayListExtra("TaxMaster", alTaxMaster);
+                    intent.putExtra("ParentActivity", activityName);
+                    getActivity().startActivityForResult(intent, 0);
+                }
             }
         } else if (v.getId() == R.id.cbMenu) {
             Intent returnIntent = new Intent();

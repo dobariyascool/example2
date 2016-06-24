@@ -371,14 +371,16 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
 
     @SuppressLint("SetTextI18n")
     private void SetDetail() {
-        txtItemName.setText(objItemMaster.getItemName());
-        if (objItemMaster.getShortDescription().equals("")) {
-            txtItemDescription.setVisibility(View.GONE);
-        } else {
-            txtItemDescription.setVisibility(View.VISIBLE);
-            txtItemDescription.setText(objItemMaster.getShortDescription());
+        if(objItemMaster!=null) {
+            txtItemName.setText(objItemMaster.getItemName());
+            if (objItemMaster.getShortDescription().equals("")) {
+                txtItemDescription.setVisibility(View.GONE);
+            } else {
+                txtItemDescription.setVisibility(View.VISIBLE);
+                txtItemDescription.setText(objItemMaster.getShortDescription());
+            }
+            txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
         }
-        txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
     }
 
     private void SetItemRemark() {

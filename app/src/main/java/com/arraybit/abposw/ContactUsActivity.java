@@ -170,12 +170,14 @@ public class ContactUsActivity extends AppCompatActivity implements BusinessJSON
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } else if (v.getId() == R.id.ivCall) {
-            if (objBusinessMaster.getPhone2() != null && !objBusinessMaster.getPhone2().equals("")) {
-                ShowPhonePopup(v);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone1()));
-                startActivity(intent);
+            if(objBusinessMaster!=null) {
+                if (objBusinessMaster.getPhone2() != null && !objBusinessMaster.getPhone2().equals("")) {
+                    ShowPhonePopup(v);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + objBusinessMaster.getPhone1()));
+                    startActivity(intent);
+                }
             }
         }
     }

@@ -147,29 +147,31 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         ArrayList<SpinnerItem> alCity = new ArrayList<>();
         short cnt = 0;
         boolean isDuplicate = false;
-        for (BusinessMaster objBusiness : alBusinessMaster) {
-            SpinnerItem objSpinnerItem = new SpinnerItem();
-            if (alCity.size() == 0) {
-                objSpinnerItem.setText(objBusiness.getCity());
-                objSpinnerItem.setValue(cnt);
-                alCity.add(objSpinnerItem);
-            } else {
-                for (SpinnerItem objSpinner : alCity) {
-                    if (objSpinner.getText().equals(objBusiness.getCity())) {
-                        isDuplicate = true;
-                        break;
-                    }
-                }
-                if (!isDuplicate) {
+        if(alBusinessMaster!=null && alBusinessMaster.size()!=0) {
+            for (BusinessMaster objBusiness : alBusinessMaster) {
+                SpinnerItem objSpinnerItem = new SpinnerItem();
+                if (alCity.size() == 0) {
                     objSpinnerItem.setText(objBusiness.getCity());
                     objSpinnerItem.setValue(cnt);
                     alCity.add(objSpinnerItem);
+                } else {
+                    for (SpinnerItem objSpinner : alCity) {
+                        if (objSpinner.getText().equals(objBusiness.getCity())) {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+                    if (!isDuplicate) {
+                        objSpinnerItem.setText(objBusiness.getCity());
+                        objSpinnerItem.setValue(cnt);
+                        alCity.add(objSpinnerItem);
+                    }
                 }
+                cnt++;
             }
-            cnt++;
+            SpinnerAdapter cityAdapter = new SpinnerAdapter(BusinessBranchActivity.this, alCity, true);
+            spOrderCity.setAdapter(cityAdapter);
         }
-        SpinnerAdapter cityAdapter = new SpinnerAdapter(BusinessBranchActivity.this, alCity, true);
-        spOrderCity.setAdapter(cityAdapter);
     }
 
     private void SetRecyclerView() {

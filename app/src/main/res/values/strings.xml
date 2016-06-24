@@ -41,7 +41,7 @@
     <string name="title_activity_contactus">Contact Us</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
     <string name="title_activity_notification">Notification</string>
-    <string name="title_activity_business_branch">Select Branch</string>
+    <string name="title_activity_business_branch">Select City and Branch</string>
 
     <!-- Operation Message -->
     <string name="MsgValidation">Please correct the errors</string>
@@ -375,6 +375,7 @@
     <string name="cdfMsg">Your %s order will be ready on</string>
     <string name="cdfConfirmDeleteMsg">Remove %s?</string>
     <string name="cdfCancelMsg">Want to cancel %s?</string>
+    <string name="cdfConfirmBookingMsg">Do you want to confirm booking?</string>
     <string name="cdfRemove">Remove</string>
     <string name="cdfBooking">booking</string>
     <string name="cdfOrder">order</string>
@@ -404,8 +405,8 @@
     <string name="odaDiamond">\u25C6</string>
     <string name="title_activity_google_login">GoogleLoginActivity</string>
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
-    <string name="bbaSelectCity">Select City</string>
-    <string name="bbaSelectBranch">Select Branch</string>
+    <string name="bbaSelectCity">City</string>
+    <string name="bbaSelectBranch">Branch</string>
     <string name="strChange">\u21d2</string>
     <!--<string name="strChange">\u226b</string>-->
     <!--<string name="strChange">\u261e</string>-->
