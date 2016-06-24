@@ -166,7 +166,6 @@
                 style="@style/Button"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_TouchableHeight"
-                android:layout_marginTop="@dimen/control_SpecingSmall"
                 android:text="@string/suSignIn" />
 
         </LinearLayout>

@@ -53,10 +53,12 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     ArrayList<ItemMaster> alCheckedModifier = new ArrayList<>();
     boolean isDuplicate = false,isKeyClick = false;
     double totalAmount, totalModifierAmount, totalTax;
+    String activityName;
     AddQtyRemarkDialogFragment.AddQtyRemarkDialogListener objAddQtyRemarkDialogListener;
 
-    public ItemModifierRemarkFragment(ItemMaster objItemMaster) {
+    public ItemModifierRemarkFragment(ItemMaster objItemMaster,String activityName) {
         this.objItemMaster = objItemMaster;
+        this.activityName = activityName;
     }
 
 
@@ -158,11 +160,16 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(objItemMaster.getCategory()!=null && objItemMaster.getCategory().equals(getActivity().getTitle())) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }else{
+            if(activityName.equals(getActivity().getResources().getString(R.string.title_activity_menu))){
                 getActivity().finish();
+            }else if(activityName.equals(getActivity().getResources().getString(R.string.title_detail))){
+                getActivity().getSupportFragmentManager().popBackStack();
             }
+//            if(objItemMaster.getCategory()!=null && objItemMaster.getCategory().equals(getActivity().getTitle())) {
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }else{
+//                getActivity().finish();
+//            }
         }
         return super.onOptionsItemSelected(item);
     }

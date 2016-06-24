@@ -112,7 +112,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="0dp"
             android:layout_marginTop="@dimen/control_SpecingSmall"
-            android:layout_weight="0.65"
+            android:layout_weight="0.75"
             android:background="@drawable/dash_line_separator"
             android:paddingBottom="@dimen/control_SpecingSmall"/>
 

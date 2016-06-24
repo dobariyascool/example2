@@ -17,7 +17,7 @@ public class ItemModifierRemarkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_modifier_remark);
 
         Intent intent = getIntent();
-        Globals.ReplaceFragment(new ItemModifierRemarkFragment((ItemMaster) intent.getParcelableExtra("ItemMaster")), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.itemModifierRemarkLayout);
+        Globals.ReplaceFragment(new ItemModifierRemarkFragment((ItemMaster) intent.getParcelableExtra("ItemMaster"),getResources().getString(R.string.title_activity_menu)), getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.itemModifierRemarkLayout);
     }
 
     @Override

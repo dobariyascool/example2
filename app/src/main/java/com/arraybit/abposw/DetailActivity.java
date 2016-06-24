@@ -495,7 +495,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
             objAddQtyRemarkDialogFragment.setArguments(bundle);
             objAddQtyRemarkDialogFragment.show(getSupportFragmentManager(), "Dialog");
         } else {
-            ItemModifierRemarkFragment itemModifierRemarkFragment = new ItemModifierRemarkFragment(objItemMaster);
+            ItemModifierRemarkFragment itemModifierRemarkFragment = new ItemModifierRemarkFragment(objItemMaster,getResources().getString(R.string.title_detail));
             itemModifierRemarkFragment.setArguments(bundle);
             Globals.ReplaceFragment(itemModifierRemarkFragment, getSupportFragmentManager(), getResources().getString(R.string.title_item_modifier_remark), R.id.detailLayout);
         }
