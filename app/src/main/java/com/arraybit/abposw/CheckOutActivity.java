@@ -32,6 +32,7 @@ import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BookingMaster;
+import com.arraybit.modal.BusinessHoursTran;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CheckOut;
 import com.arraybit.modal.CustomerAddressTran;
@@ -40,6 +41,7 @@ import com.arraybit.modal.OfferMaster;
 import com.arraybit.modal.OrderMaster;
 import com.arraybit.modal.TaxMaster;
 import com.arraybit.parser.BookingJSONParser;
+import com.arraybit.parser.BusinessHoursJSONParser;
 import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerAddressJSONParser;
 import com.arraybit.parser.OfferJSONParser;
@@ -61,7 +63,7 @@ import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener, CustomerAddressJSONParser.CustomerAddressRequestListener, AddressSelectorBottomDialog.AddressSelectorResponseListener,
-        OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener, BusinessJSONParser.BusinessRequestListener {
+        OfferJSONParser.OfferRequestListener, ConfirmDialog.ConfirmationResponseListener, OrderJSONParser.OrderMasterRequestListener, AddAddressFragment.AddNewAddressListener, BookingJSONParser.BookingRequestListener, BusinessJSONParser.BusinessRequestListener, BusinessHoursJSONParser.BusinessHoursRequestListener {
 
     public static boolean isBackPressed = false;
     CheckOut objCheckOut;
@@ -88,6 +90,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     NestedScrollView scrollView;
     ImageView ivCall;
     boolean isShow;
+    String todaysDate,dayOfWeek,strDayOfWeek;
+    ArrayList<BusinessHoursTran> alBusinessHoursTran;
 
 
     @SuppressLint("SetTextI18n")
@@ -184,6 +188,12 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         }
         if (intent.getStringExtra("ParentActivity") != null) {
             activityName = intent.getStringExtra("ParentActivity");
+        }
+
+        todaysDate = new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date());
+
+        if (Service.CheckNet(CheckOutActivity.this)) {
+            RequestBusinessHoursTran();
         }
 
         //check data from sharePreference
@@ -380,6 +390,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    public void BusinessHoursResponse(ArrayList<BusinessHoursTran> alBusinessHoursTran) {
+        this.alBusinessHoursTran = alBusinessHoursTran;
+    }
+
+    @Override
     public void onClick(View v) {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             if (v.getId() == R.id.cbGetPromoCode) {
@@ -421,8 +436,34 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             } else if (v.getId() == R.id.btnPlaceOrder) {
                 Globals.HideKeyBoard(CheckOutActivity.this, v);
-                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
-                confirmDialog.show(getSupportFragmentManager(), "");
+                if(!objCheckOut.getOrderDate().equals(todaysDate)){
+                    try {
+                        if(spOrderTime.getSelectedItemPosition()==0) {
+                            Date date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(objCheckOut.getOrderDate());
+                            dayOfWeek = new SimpleDateFormat("EEEE", Locale.US).format(date);
+                            if (alBusinessHoursTran != null && alBusinessHoursTran.size() != 0) {
+                                for (BusinessHoursTran objBusinessHoursTran : alBusinessHoursTran) {
+                                    strDayOfWeek = Globals.Days.valueOf("Day" + objBusinessHoursTran.getDayOfWeek()).getValue();
+                                    if (dayOfWeek.equals(strDayOfWeek)) {
+                                        CheckOut objCheckOutConfirm = objCheckOut;
+                                        objCheckOutConfirm.setOrderTime(objBusinessHoursTran.getOpeningTime());
+                                        ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOutConfirm, false, null);
+                                        confirmDialog.show(getSupportFragmentManager(), "");
+                                        break;
+                                    }
+                                }
+                            }
+                        }else{
+                            ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
+                            confirmDialog.show(getSupportFragmentManager(), "");
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
+                    confirmDialog.show(getSupportFragmentManager(), "");
+                }
             } else if (v.getId() == R.id.ibAdd) {
                 Globals.HideKeyBoard(CheckOutActivity.this, v);
                 Globals.ReplaceFragment(new AddAddressFragment(CheckOutActivity.this, null), getSupportFragmentManager(), getResources().getString(R.string.title_add_address_fragment), R.id.checkOutMainLayout);
@@ -522,7 +563,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-
     @Override
     public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
@@ -557,6 +597,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         BookingJSONParser objBookingJSONParser = new BookingJSONParser();
         objBookingJSONParser.SelectAllTimeSlots(null, CheckOutActivity.this, String.valueOf(Globals.linktoBusinessMasterId), etOrderDate.getText().toString(), true);
+    }
+
+    private void RequestBusinessHoursTran(){
+        BusinessHoursJSONParser objBusinessHoursJSONParser = new BusinessHoursJSONParser();
+        objBusinessHoursJSONParser.SelectAllBusinessHours(null,this, String.valueOf(Globals.linktoBusinessMasterId));
     }
 
     private void FillOrderTime() {

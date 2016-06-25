@@ -94,7 +94,7 @@ public class BusinessHoursJSONParser {
         }
     }
 
-    public void SelectAllBusinessHours(final Fragment targetFragment,Context context, String linktoBusinessMasterId) {
+    public void SelectAllBusinessHours(final Fragment targetFragment, final Context context, String linktoBusinessMasterId) {
         String url = Service.Url + this.SelectAllBusinessHoursTran + "/" + linktoBusinessMasterId;
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -105,19 +105,36 @@ public class BusinessHoursJSONParser {
                     jsonArray = jsonObject.getJSONArray(SelectAllBusinessHoursTran + "Result");
                     if (jsonArray != null) {
                         ArrayList<BusinessHoursTran> alBusinessHoursTran = SetListPropertiesFromJSONArray(jsonArray);
-                        objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
-                        objBusinessHoursRequestListener.BusinessHoursResponse(alBusinessHoursTran);
+                        if(targetFragment==null){
+                            objBusinessHoursRequestListener = (BusinessHoursRequestListener) context;
+                            objBusinessHoursRequestListener.BusinessHoursResponse(alBusinessHoursTran);
+                        }else{
+                            objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
+                            objBusinessHoursRequestListener.BusinessHoursResponse(alBusinessHoursTran);
+                        }
+
                     }
                 } catch (Exception e) {
-                    objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
-                    objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                    if(targetFragment==null){
+                        objBusinessHoursRequestListener = (BusinessHoursRequestListener) context;
+                        objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                    }else{
+                        objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
+                        objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                    }
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
-                objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                if(targetFragment==null){
+                    objBusinessHoursRequestListener = (BusinessHoursRequestListener) context;
+                    objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                }else{
+                    objBusinessHoursRequestListener = (BusinessHoursRequestListener) targetFragment;
+                    objBusinessHoursRequestListener.BusinessHoursResponse(null);
+                }
             }
 
         });
