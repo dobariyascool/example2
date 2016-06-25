@@ -379,7 +379,7 @@ public class ItemModifierRemarkFragment extends Fragment implements OptionValueJ
                 txtItemDescription.setVisibility(View.VISIBLE);
                 txtItemDescription.setText(objItemMaster.getShortDescription());
             }
-            txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
+            txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
         }
     }
 

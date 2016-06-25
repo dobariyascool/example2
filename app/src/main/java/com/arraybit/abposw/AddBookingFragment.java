@@ -39,7 +39,7 @@ import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
 @SuppressLint("ValidFragment")
-public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener,ConfirmDialog.ConfirmationResponseListener {
+public class AddBookingFragment extends Fragment implements View.OnClickListener, BookingJSONParser.BookingRequestListener, ConfirmDialog.ConfirmationResponseListener {
 
     EditText etCustomerName, etAdults, etChildren, etBookingDate, etMobile, etEmail, etRemark;
     Button btnBookTable;
@@ -56,7 +56,7 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     ProgressDialog progressDialog = new ProgressDialog();
     AddNewBookingListener objAddNewBookingListener;
     TextView txtFromError, txtToTimeError;
-    boolean ShowBookingMessage = false,isConfirm=false;
+    boolean ShowBookingMessage = false;
 
     public AddBookingFragment(Activity activity) {
         this.activity = activity;
@@ -215,8 +215,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 progressDialog.dismiss();
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
-                ConfirmDialog confirmDialog = new ConfirmDialog(null,true,getActivity().getResources().getString(R.string.cdfConfirmBookingMsg));
-                confirmDialog.setTargetFragment(this,0);
+                progressDialog.dismiss();
+                ConfirmDialog confirmDialog = new ConfirmDialog(null, true, getActivity().getResources().getString(R.string.cdfConfirmBookingMsg));
+                confirmDialog.setTargetFragment(this, 0);
                 confirmDialog.show(getActivity().getSupportFragmentManager(), "");
             }
         }
@@ -259,7 +260,6 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void ConfirmResponse() {
-        isConfirm = true;
         objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString().trim()));
         if (!etChildren.getText().toString().equals("")) {
             objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString().trim()));
@@ -304,11 +304,9 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        if(isConfirm) {
-            objSharePreferenceManage = new SharePreferenceManage();
-            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null && ShowBookingMessage) {
-                SetBookingMasterForInsert();
-            }
+        objSharePreferenceManage = new SharePreferenceManage();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null && ShowBookingMessage) {
+            SetBookingMasterForInsert();
         }
     }
 
@@ -386,68 +384,66 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
 
     private void SetBookingMasterForInsert() {
         objSharePreferenceManage = new SharePreferenceManage();
-        if(isConfirm) {
-            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
-                progressDialog.dismiss();
-                ShowBookingMessage = true;
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                getActivity().startActivityForResult(intent, 0);
-            } else {
-                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
-                    objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
-                    objBookingMaster.setlinktoUserMasterIdCreatedBy((short) Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
-                }
-
-                objBookingMaster.setBookingPersonName(etCustomerName.getText().toString().trim());
-                objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString().trim()));
-                if (!etChildren.getText().toString().equals("")) {
-                    objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString().trim()));
-                }
-                objBookingMaster.setIsHourly(true);
-                try {
-                    date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
-                    objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
-                    objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
-                    objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
-                    objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                objBookingMaster.setEmail(etEmail.getText().toString().trim());
-                objBookingMaster.setPhone(etMobile.getText().toString().trim());
-                objBookingMaster.setTotalAmount(0.0);
-                objBookingMaster.setDiscountPercentage((short) 0);
-                objBookingMaster.setDiscountAmount(0.0);
-                objBookingMaster.setExtraAmount(0.0);
-                objBookingMaster.setNetAmount(0.0);
-                objBookingMaster.setPaidAmount(0.0);
-                objBookingMaster.setBalanceAmount(0.0);
-                objBookingMaster.setRemark(etRemark.getText().toString().trim());
-                objBookingMaster.setIsPreOrder(false);
-                objBookingMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
-                objBookingMaster.setIsDeleted(false);
-                objBookingMaster.setBookingStatus((short) Globals.BookingStatus.New.getValue());
-
-                BookingJSONParser objBookingJSONParser = new BookingJSONParser();
-                objBookingJSONParser.InsertBookingMaster(getActivity(), this, objBookingMaster);
-                isConfirm = false;
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) == null) {
+            progressDialog.dismiss();
+            ShowBookingMessage = true;
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            getActivity().startActivityForResult(intent, 0);
+        } else {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity()) != null) {
+                objBookingMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
+                objBookingMaster.setlinktoUserMasterIdCreatedBy((short) Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", getActivity())));
             }
+
+            objBookingMaster.setBookingPersonName(etCustomerName.getText().toString().trim());
+            objBookingMaster.setNoOfAdults((short) Integer.parseInt(etAdults.getText().toString().trim()));
+            if (!etChildren.getText().toString().equals("")) {
+                objBookingMaster.setNoOfChildren((short) Integer.parseInt(etChildren.getText().toString().trim()));
+            }
+            objBookingMaster.setIsHourly(true);
+            try {
+                date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
+                objBookingMaster.setFromDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(etBookingDate.getText().toString());
+                objBookingMaster.setToDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(fromTime);
+                objBookingMaster.setFromTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                time = new SimpleDateFormat(Globals.DisplayTimeFormat, Locale.US).parse(toTime);
+                objBookingMaster.setToTime(new SimpleDateFormat("HH:mm:ss", Locale.US).format(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            objBookingMaster.setEmail(etEmail.getText().toString().trim());
+            objBookingMaster.setPhone(etMobile.getText().toString().trim());
+            objBookingMaster.setTotalAmount(0.0);
+            objBookingMaster.setDiscountPercentage((short) 0);
+            objBookingMaster.setDiscountAmount(0.0);
+            objBookingMaster.setExtraAmount(0.0);
+            objBookingMaster.setNetAmount(0.0);
+            objBookingMaster.setPaidAmount(0.0);
+            objBookingMaster.setBalanceAmount(0.0);
+            objBookingMaster.setRemark(etRemark.getText().toString().trim());
+            objBookingMaster.setIsPreOrder(false);
+            objBookingMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+            objBookingMaster.setIsDeleted(false);
+            objBookingMaster.setBookingStatus((short) Globals.BookingStatus.New.getValue());
+
+            BookingJSONParser objBookingJSONParser = new BookingJSONParser();
+            objBookingJSONParser.InsertBookingMaster(getActivity(), this, objBookingMaster);
+
         }
     }
 

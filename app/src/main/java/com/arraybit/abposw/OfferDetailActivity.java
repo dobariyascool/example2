@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class OfferDetailActivity extends AppCompatActivity implements OfferJSONParser.OfferRequestListener {
+public class OfferDetailActivity extends AppCompatActivity implements OfferJSONParser.OfferRequestListener,View.OnClickListener {
 
     ProgressDialog progressDialog = new ProgressDialog();
     OfferMaster objOfferMaster;
@@ -110,40 +111,19 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             Globals.SetErrorLayout(errorLayout, true, getResources().getString(R.string.MsgCheckConnection), null, R.drawable.wifi_drawable);
         }
 
-        termsConditionLayout.setOnClickListener(new View.OnClickListener() {
+
+        termsConditionLayout.setOnClickListener(this);
+        ibVisible.setOnClickListener(this);
+
+        //terms and condition shows that time scroll
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onClick(View v) {
-                if (isShow == 0) {
-                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.collapse_drawable));
-                    cvCondition.setVisibility(View.VISIBLE);
-                    wvCondition.loadData(objOfferMaster.getTermsAndConditions(), "text/html", "UTF-8");
-//                    wvCondition.setBackgroundColor(ContextCompat.getColor(OfferDetailActivity.this, R.color.offWhiteDark));
-                    isShow = 1;
-                } else {
-                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.expand_drawable));
-                    cvCondition.setVisibility(View.GONE);
-                    isShow = 0;
+            public void onGlobalLayout() {
+                if(isShow==1) {
+                    scrollView.scrollBy(0, cvCondition.getHeight());
                 }
             }
         });
-
-        ibVisible.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isShow == 0) {
-                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.collapse_drawable));
-                    cvCondition.setVisibility(View.VISIBLE);
-                    wvCondition.loadData(objOfferMaster.getTermsAndConditions(), "text/html", "UTF-8");
-//                    wvCondition.setBackgroundColor(ContextCompat.getColor(OfferDetailActivity.this, R.color.offWhiteDark));
-                    isShow = 1;
-                } else {
-                    ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.expand_drawable));
-                    cvCondition.setVisibility(View.GONE);
-                    isShow = 0;
-                }
-            }
-        });
-
     }
 
     @Override
@@ -156,6 +136,22 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.termsConditionLayout || v.getId()==R.id.ibVisible){
+            if (isShow == 0) {
+                ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.collapse_drawable));
+                cvCondition.setVisibility(View.VISIBLE);
+                wvCondition.loadData(objOfferMaster.getTermsAndConditions(), "text/html", "UTF-8");
+                isShow = 1;
+            } else {
+                ibVisible.setImageDrawable(ContextCompat.getDrawable(OfferDetailActivity.this, R.drawable.expand_drawable));
+                cvCondition.setVisibility(View.GONE);
+                isShow = 0;
+            }
+        }
     }
 
     @Override
@@ -240,7 +236,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             }
             if (objOfferMaster.getOfferCode() != null && !objOfferMaster.getOfferCode().equals("")) {
                 txtOfferCode.setVisibility(View.VISIBLE);
-                txtOfferCode.setText("Offer code : "+objOfferMaster.getOfferCode());
+                txtOfferCode.setText("Offer code : " + objOfferMaster.getOfferCode());
             } else {
                 txtOfferCode.setVisibility(View.GONE);
             }
@@ -337,5 +333,6 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
             }
         }
     }
+
     //endregion
 }

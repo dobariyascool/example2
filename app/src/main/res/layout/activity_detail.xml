@@ -118,7 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingEnd="@dimen/control_SpecingTiny"
-                            android:paddingStart="0dp"
+                            android:paddingStart="@dimen/control_SpecingTiny"
                             android:text="@string/abBuildVersion" />
 
                     </LinearLayout>

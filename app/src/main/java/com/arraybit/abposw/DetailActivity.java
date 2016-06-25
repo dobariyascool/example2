@@ -601,7 +601,7 @@ public class DetailActivity extends AppCompatActivity implements ItemJSONParser.
         }
         txtShortDescription.setText(objItemMaster.getShortDescription());
         txtItemName.setText(objItemMaster.getItemName());
-        txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + objItemMaster.getRate());
+        txtItemRate.setText(getResources().getString(R.string.cifRupee) + " " + Globals.dfWithPrecision.format(objItemMaster.getRate()));
         if (objItemMaster.getIsChecked() == 1) {
             tbLike.setChecked(true);
         } else {
