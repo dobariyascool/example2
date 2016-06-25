@@ -120,8 +120,7 @@
                 android:id="@+id/btnUpdate"
                 style="@style/Button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/control_SpecingSmall"
+                android:layout_height="@dimen/button_Height"
                 android:text="@string/upUpdateprofile" />
 
         </LinearLayout>

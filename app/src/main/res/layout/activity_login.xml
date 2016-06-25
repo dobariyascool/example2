@@ -33,9 +33,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/control_SpecingTiny"
-            android:layout_weight="0.09"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingEnd="20dp"
@@ -44,7 +43,7 @@
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithFb"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_TouchableHeight"
+                android:layout_height="@dimen/button_Height"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/facebook_btn_drawable"
@@ -61,7 +60,7 @@
             <com.rey.material.widget.Button
                 android:id="@+id/btnLoginWithGplus"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_TouchableHeight"
+                android:layout_height="@dimen/button_Height"
                 android:layout_marginStart="@dimen/control_SpecingNormal"
                 android:layout_weight="1"
                 android:background="@drawable/google_btn_drawable"
@@ -165,7 +164,7 @@
                 android:id="@+id/btnSignIn"
                 style="@style/Button"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_TouchableHeight"
+                android:layout_height="@dimen/button_Height"
                 android:text="@string/suSignIn" />
 
         </LinearLayout>

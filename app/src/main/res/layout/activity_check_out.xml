@@ -25,7 +25,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="10">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -546,7 +546,7 @@
             android:layout_marginBottom="@dimen/control_SpecingTiny"
             android:layout_marginEnd="@dimen/control_SpecingTiny"
             android:layout_marginStart="@dimen/control_SpecingTiny"
-            android:layout_weight="0.1"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <com.rey.material.widget.Button
