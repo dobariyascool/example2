@@ -790,8 +790,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 isSelected = true;
                 etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
             } else {
-                isSelected = true;
-                etOrderDate.setText(objCheckOut.getOrderDate());
+                if(isDataLoad){
+                    isSelected = true;
+                    etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+                }else{
+                    isSelected = true;
+                    etOrderDate.setText(objCheckOut.getOrderDate());
+                }
             }
             if (isDataLoad) {
                 if (Service.CheckNet(this)) {
