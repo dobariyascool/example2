@@ -164,9 +164,6 @@ public class MenuActivity extends AppCompatActivity implements CategoryJSONParse
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
             ClearData();
-            //Globals.ClearCartData();
-        } else if (id == R.id.logout) {
-            Globals.ClearUserPreference(MenuActivity.this, MenuActivity.this);
         }
 
         return super.onOptionsItemSelected(item);

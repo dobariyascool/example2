@@ -483,9 +483,11 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         this.alCustomerAddressTran = alCustomerAddressTran;
         if (isDataLoad) {
             isDataLoad = false;
-            if (alCustomerAddressTran != null) {
+            if (alCustomerAddressTran != null && alCustomerAddressTran.size()!=0) {
                 AddressSelectorBottomDialog addressSelectorBottomDialog = new AddressSelectorBottomDialog(alCustomerAddressTran, null);
                 addressSelectorBottomDialog.show(getSupportFragmentManager(), "");
+            }else{
+                Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgNoAddress), this, 1000);
             }
         } else {
             if (Service.CheckNet(this)) {
@@ -621,11 +623,19 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     private void SetPrimaryAddress() {
         if (objCheckOut == null) {
             if(alCustomerAddressTran!=null) {
-                for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
-                    if (objCustomerAddressTran.getIsPrimary()) {
-                        SetCheckOutData(objCustomerAddressTran, Globals.OrderType.HomeDelivery.getValue());
-                        SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
-                        break;
+                if(alCustomerAddressTran.size()==0){
+                    tbHomeDelivery.setChecked(true);
+                    SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+                    if(objSharePreferenceManage.GetPreference("LoginPreference","CustomerName",CheckOutActivity.this)!=null){
+                        txtName.setText(objSharePreferenceManage.GetPreference("LoginPreference","CustomerName",CheckOutActivity.this));
+                    }
+                }else {
+                    for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
+                        if (objCustomerAddressTran.getIsPrimary()) {
+                            SetCheckOutData(objCustomerAddressTran, Globals.OrderType.HomeDelivery.getValue());
+                            SaveCheckOutData(objCustomerAddressTran, null, Globals.OrderType.HomeDelivery.getValue());
+                            break;
+                        }
                     }
                 }
             }
@@ -674,6 +684,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
                 if (objCheckOut.getObjCustomerAddressTran().getCity() != null) {
                     txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
+
                 }
                 if (objCheckOut.getObjCustomerAddressTran().getArea() != null) {
                     txtArea.setText(objCheckOut.getObjCustomerAddressTran().getArea());

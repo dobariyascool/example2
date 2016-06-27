@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.arraybit.adapter.CartItemAdapter;
@@ -45,8 +44,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCartItem;
     CartItemAdapter adapter;
     Button btnAddMore, btnConfirmOrder, btnDisableConfirmOrder, btnRemark;
-    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtHeaderRemark, txtMinOrder, txtEditMessage;
-    ImageView ivRemark;
+    TextView txtMsg, txtRemark, txtTotalAmount, txtHeaderTotalAmount, txtHeaderDiscount, txtTotalDiscount, txtHeaderRounding, txtRoundingOff, txtHeaderNetAmount, txtNetAmount, txtMinOrder, txtEditMessage;
     CompoundButton cbMenu;
     LinearLayout headerLayout, taxLayout, errorLayout;
     double totalAmount, totalTax, netAmount, tax1, tax2, tax3, tax4, tax5;
@@ -344,8 +342,7 @@ public class CartItemFragment extends Fragment implements View.OnClickListener, 
         cbMenu.setVisibility(View.GONE);
         rvCartItem.setVisibility(View.GONE);
         headerLayout.setVisibility(View.GONE);
-        txtHeaderRemark.setVisibility(View.GONE);
-        ivRemark.setVisibility(View.GONE);
+        btnRemark.setVisibility(View.GONE);
         txtHeaderTotalAmount.setVisibility(View.GONE);
         txtTotalAmount.setVisibility(View.GONE);
         txtHeaderDiscount.setVisibility(View.GONE);

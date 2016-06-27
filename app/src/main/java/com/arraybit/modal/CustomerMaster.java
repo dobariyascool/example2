@@ -52,6 +52,12 @@ public class CustomerMaster implements Parcelable {
     String md_ImagePhysicalName;
     String lg_ImagePhysicalName;
     String xl_ImagePhysicalName;
+    String GooglePlusUserId;
+    String FacebookUserId;
+    int AgeMinRange;
+    int AgeMaxRange;
+    boolean IsVerified;
+
 
     public static final Creator<CustomerMaster> CREATOR = new Creator<CustomerMaster>() {
         public CustomerMaster createFromParcel(Parcel source) {
@@ -103,6 +109,12 @@ public class CustomerMaster implements Parcelable {
             objCustomerMaster.lg_ImagePhysicalName = source.readString();
             objCustomerMaster.xl_ImagePhysicalName = source.readString();
             /// Extra
+
+            objCustomerMaster.GooglePlusUserId = source.readString();
+            objCustomerMaster.FacebookUserId = source.readString();
+            objCustomerMaster.AgeMaxRange = source.readInt();
+            objCustomerMaster.AgeMinRange = source.readInt();
+            objCustomerMaster.IsVerified = source.readByte() != 0;
 
             return objCustomerMaster;
         }
@@ -488,6 +500,48 @@ public class CustomerMaster implements Parcelable {
     public void setXs_ImagePhysicalName(String xs_ImagePhysicalName) {
         this.xs_ImagePhysicalName = xs_ImagePhysicalName;
     }
+
+    public int getAgeMinRange() {
+        return AgeMinRange;
+    }
+
+    public void setAgeMinRange(int ageMinRange) {
+        AgeMinRange = ageMinRange;
+    }
+
+    public int getAgeMaxRange() {
+        return AgeMaxRange;
+    }
+
+    public void setAgeMaxRange(int ageMaxRange) {
+        AgeMaxRange = ageMaxRange;
+    }
+
+    public boolean getIsVerified() {
+        return IsVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        IsVerified = isVerified;
+    }
+
+    public String getFacebookUserId() {
+        return FacebookUserId;
+    }
+
+    public void setFacebookUserId(String facebookUserId) {
+        FacebookUserId = facebookUserId;
+    }
+
+    public String getGooglePlusUserId() {
+        return GooglePlusUserId;
+    }
+
+    public void setGooglePlusUserId(String googlePlusUserId) {
+        GooglePlusUserId = googlePlusUserId;
+    }
+
+
     /// Extra
 
 

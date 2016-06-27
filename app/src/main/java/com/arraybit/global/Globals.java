@@ -40,6 +40,7 @@ import android.widget.TimePicker;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
+import com.facebook.login.LoginManager;
 import com.rey.material.widget.EditText;
 
 import java.io.File;
@@ -199,6 +200,12 @@ public class Globals {
 
     public static void ClearUserPreference(Context context, Activity activity) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",context)!=null)
+        {
+            if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",context).equals("true")){
+                LoginManager.getInstance().logOut();
+            }
+        }
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerMasterId", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserName", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "UserPassword", context);
@@ -206,6 +213,7 @@ public class Globals {
         objSharePreferenceManage.RemovePreference("LoginPreference", "Phone", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerProfileUrl", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "BusinessMasterId", context);
+        objSharePreferenceManage.RemovePreference("LoginPreference", "IntegrationId", context);
         objSharePreferenceManage.ClearPreference("LoginPreference", context);
 
         ClearCartData();

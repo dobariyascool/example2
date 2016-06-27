@@ -63,35 +63,41 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             @Override
             public void run() {
                 objSharePreferenceManage = new SharePreferenceManage();
-                if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this) != null) {
-                    String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
-                    String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this);
-                    String businessMasterId = objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId", SplashScreenActivity.this);
-                    if ((!userName.isEmpty() && !userPassword.isEmpty()) && (businessMasterId!=null && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId)))) {
-                        if (Service.CheckNet(SplashScreenActivity.this)) {
-                            CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                            objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", SplashScreenActivity.this) != null) {
+                    Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this) != null) {
+                        String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
+                        String userPassword = objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this);
+                        String businessMasterId = objSharePreferenceManage.GetPreference("LoginPreference", "BusinessMasterId", SplashScreenActivity.this);
+                        if ((!userName.isEmpty() && !userPassword.isEmpty()) && (businessMasterId != null && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId)))) {
+                            if (Service.CheckNet(SplashScreenActivity.this)) {
+                                CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+                                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
+                            } else {
+                                Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                                intent.putExtra("IsNetCheck", true);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         } else {
                             Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                            intent.putExtra("IsNetCheck", true);
                             startActivity(intent);
                             finish();
                         }
-
                     } else {
-                        Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 3000);
                     }
-                } else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }, 3000);
                 }
             }
         }, 1000);

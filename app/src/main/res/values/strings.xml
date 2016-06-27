@@ -86,6 +86,7 @@
     <string name="MsgOfferCodeSuccess">Offer Applied</string>
     <string name="MsgCartItemDelete">%s is deleted from the cart</string>
     <string name="MsgNotification">There is no notification</string>
+    <string name="MsgNoAddress">There is no address</string>
     <string name="MsgOrder">Order placed successfully.</string>
     <string name="MsgEnquiry">Enquiry done successfully.</string>
     <!-- End -->

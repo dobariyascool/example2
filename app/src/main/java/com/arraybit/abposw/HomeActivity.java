@@ -703,7 +703,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this) != null) {
                 String url = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", HomeActivity.this);
-                Glide.with(HomeActivity.this).load(url).asBitmap().override(130, 130).centerCrop().into(new BitmapImageViewTarget(imageView) {
+                Glide.with(HomeActivity.this).load(url).asBitmap().centerCrop().into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =

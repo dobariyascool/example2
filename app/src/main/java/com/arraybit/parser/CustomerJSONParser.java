@@ -62,7 +62,7 @@ public class CustomerJSONParser {
                 objCustomerMaster.setEmail1(jsonObject.getString("Email1"));
                 objCustomerMaster.setEmail2(jsonObject.getString("Email2"));
                 objCustomerMaster.setFax(jsonObject.getString("Fax"));
-                if(!jsonObject.getString("ImageName").equals("null")) {
+                if(!jsonObject.getString("ImageName").equals("null") && !jsonObject.getString("ImageName").equals("")) {
                     objCustomerMaster.setImageName(jsonObject.getString("ImageName"));
                     objCustomerMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
                     objCustomerMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
@@ -101,6 +101,11 @@ public class CustomerJSONParser {
                 objCustomerMaster.setGender(jsonObject.getString("Gender"));
                 objCustomerMaster.setPassword(jsonObject.getString("Password"));
                 objCustomerMaster.setlinktoSourceMasterId((short) jsonObject.getInt("linktoSourceMasterId"));
+                objCustomerMaster.setGooglePlusUserId(jsonObject.getString("GooglePlusUserId"));
+                objCustomerMaster.setFacebookUserId(jsonObject.getString("FacebookUserId"));
+                objCustomerMaster.setAgeMinRange(jsonObject.getInt("AgeMinRange"));
+                objCustomerMaster.setAgeMaxRange(jsonObject.getInt("AgeMaxRange"));
+                objCustomerMaster.setIsVerified(jsonObject.getBoolean("IsVerified"));
             }
             return objCustomerMaster;
         } catch (JSONException e) {
@@ -163,6 +168,11 @@ public class CustomerJSONParser {
                 objCustomerMaster.setGender(jsonArray.getJSONObject(i).getString("Gender"));
                 objCustomerMaster.setPassword(jsonArray.getJSONObject(i).getString("Password"));
                 objCustomerMaster.setlinktoSourceMasterId((short) jsonArray.getJSONObject(i).getInt("linktoSourceMasterId"));
+                objCustomerMaster.setGooglePlusUserId(jsonArray.getJSONObject(i).getString("GooglePlusUserId"));
+                objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("FacebookUserId"));
+                objCustomerMaster.setAgeMinRange(jsonArray.getJSONObject(i).getInt("AgeMinRange"));
+                objCustomerMaster.setAgeMaxRange(jsonArray.getJSONObject(i).getInt("AgeMaxRange"));
+                objCustomerMaster.setIsVerified(jsonArray.getJSONObject(i).getBoolean("IsVerified"));
 
                 /// Extra
                 lstCustomerMaster.add(objCustomerMaster);
@@ -196,10 +206,12 @@ public class CustomerJSONParser {
             if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
-            stringer.key("linktoCountryMasterId").value(objCustomerMaster.getLinktoCountryMasterId());
-            stringer.key("linktoStateMasterId").value(objCustomerMaster.getLinktoStateMasterId());
-            stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
-            stringer.key("linktoAreaMasterId").value(objCustomerMaster.getLinktoAreaMasterId());
+            if(objCustomerMaster.getLinktoCountryMasterId()!=0) {
+                stringer.key("linktoCountryMasterId").value(objCustomerMaster.getLinktoCountryMasterId());
+                stringer.key("linktoStateMasterId").value(objCustomerMaster.getLinktoStateMasterId());
+                stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
+                stringer.key("linktoAreaMasterId").value(objCustomerMaster.getLinktoAreaMasterId());
+            }
             stringer.key("linktoBusinessMasterId").value(objCustomerMaster.getlinktoBusinessMasterId());
             stringer.key("CreateDateTime").value(sdfDateTimeFormat.format(dt));
             stringer.key("linktoSourceMasterId").value(objCustomerMaster.getlinktoSourceMasterId());
@@ -209,6 +221,18 @@ public class CustomerJSONParser {
             stringer.key("IsPrimary").value(true);
             stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
             stringer.key("ImageName").value(objCustomerMaster.getImageName());
+            if(objCustomerMaster.getGooglePlusUserId()!=null && !objCustomerMaster.getGooglePlusUserId().equals("")){
+                stringer.key("GooglePlusUserId").value(objCustomerMaster.getGooglePlusUserId());
+            }else if(objCustomerMaster.getFacebookUserId()!=null && !objCustomerMaster.getFacebookUserId().equals("")){
+                stringer.key("FacebookUserId").value(objCustomerMaster.getFacebookUserId());
+            }
+            if(objCustomerMaster.getAgeMinRange() > 0){
+                stringer.key("AgeMinRange").value(objCustomerMaster.getAgeMinRange());
+            }
+            if(objCustomerMaster.getAgeMaxRange() > 0){
+                stringer.key("AgeMaxRange").value(objCustomerMaster.getAgeMinRange());
+            }
+            stringer.key("IsVerified").value(objCustomerMaster.getIsVerified());
 
             stringer.endObject();
             stringer.endObject();
