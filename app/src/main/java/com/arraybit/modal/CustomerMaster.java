@@ -54,6 +54,7 @@ public class CustomerMaster implements Parcelable {
     String xl_ImagePhysicalName;
     String GooglePlusUserId;
     String FacebookUserId;
+    String ErrorCode;
     int AgeMinRange;
     int AgeMaxRange;
     boolean IsVerified;
@@ -541,6 +542,13 @@ public class CustomerMaster implements Parcelable {
         GooglePlusUserId = googlePlusUserId;
     }
 
+    public String getErrorCode() {
+        return ErrorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        ErrorCode = errorCode;
+    }
 
     /// Extra
 

@@ -322,6 +322,16 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
             }
             objCustomerMaster.setImageName(strImageName);
         }
+        if(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",getActivity())!=null){
+            if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",getActivity())!=null)
+            {
+                if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",getActivity()).equals("true")){
+                    objCustomerMaster.setFacebookUserId(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",getActivity()));
+                }else{
+                    objCustomerMaster.setGooglePlusUserId(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",getActivity()));
+                }
+            }
+        }
         objCustomerJSONParser.UpdateCustomerMaster(objCustomerMaster, getActivity(), this);
 
     }

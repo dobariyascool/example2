@@ -2,6 +2,8 @@ package com.arraybit.abposw;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.arraybit.adapter.SpinnerAdapter;
 import com.arraybit.global.Globals;
@@ -34,9 +37,25 @@ import com.arraybit.parser.AreaJSONParser;
 import com.arraybit.parser.CityJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
 import com.arraybit.parser.StateJSONParser;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 import com.rey.material.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,8 +66,10 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryReturnStatement"})
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener {
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
+    private static final int RC_SIGN_IN = 22;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 113;
     ArrayList<SpinnerItem> alCountryMaster, alStateMaster, alCityMaster, alAreaMaster;
     EditText etFirstName, etLastName, etEmail, etPassword, etConfirmPassword, etPhone, etDateOfBirth;
     TextView txtCountryError, txtStateError, txtCityError, txtAreaError;
@@ -62,10 +83,19 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     ImageView ivTakeImage;
     String imagePhysicalNameBytes, imageName,strImageName;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS", Locale.US);
+    Button btnLoginWithGPlus, btnLoginWithFb;
+    CallbackManager callbackManager;
+    SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+    private GoogleApiClient mGoogleApiClient;
+    private ConnectionResult mConnectionResult;
+    private boolean mIntentInProgress;
+    private boolean signedInUser, isIntegrationLogin,isLoginWithFb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_registration);
 
         Toolbar app_bar = (Toolbar) findViewById(R.id.app_bar);
@@ -110,6 +140,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
         CompoundButton cbSignIn = (CompoundButton) findViewById(R.id.cbSignIn);
 
+        btnLoginWithGPlus = (Button) findViewById(R.id.btnLoginWithGPlus);
+        btnLoginWithFb = (Button) findViewById(R.id.btnLoginWithFb);
+
         CompoundButton cbPrivacyPolicy = (CompoundButton) findViewById(R.id.cbPrivacyPolicy);
         CompoundButton cbTermsofService = (CompoundButton) findViewById(R.id.cbTermsofService);
 
@@ -128,6 +161,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         btnSignUp.setOnClickListener(this);
         cbSignIn.setOnClickListener(this);
         ivTakeImage.setOnClickListener(this);
+        btnLoginWithGPlus.setOnClickListener(this);
+        btnLoginWithFb.setOnClickListener(this);
 
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -225,6 +260,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), RegistrationActivity.this, 1000);
             } else {
                 if (Service.CheckNet(this)) {
+                    isIntegrationLogin = false;
                     RegistrationRequest();
                 } else {
                     Globals.ShowSnackBar(getCurrentFocus(), getResources().getString(R.string.MsgCheckConnection), this, 1000);
@@ -238,6 +274,138 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             Globals.ReplaceFragment(new PolicyFragment("Terms of service"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_terms_of_service), R.id.registrationLayout);
         } else if (v.getId() == R.id.ivTakeImage) {
             Globals.SelectImage(RegistrationActivity.this, 100, 101);
+        }else if (v.getId() == R.id.btnLoginWithGPlus) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).build();
+            mGoogleApiClient.connect();
+            if (!mGoogleApiClient.isConnecting()) {
+                ResolveSignInError();
+            }
+        } else if (v.getId() == R.id.btnLoginWithFb) {
+            final LoginButton loginButton = new LoginButton(this);
+            loginButton.setReadPermissions("public_profile", "email", "user_birthday", "user_location", "user_friends");
+            loginButton.performClick();
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    // Application code
+                                    try {
+                                        Toast.makeText(RegistrationActivity.this, "get Info", Toast.LENGTH_LONG).show();
+                                        isIntegrationLogin = true;
+                                        CustomerMaster objCustomerMaster = new CustomerMaster();
+                                        if(object!=null) {
+                                            if (object.optString("name") != null && !object.optString("name").equals("")) {
+                                                objCustomerMaster.setCustomerName(object.optString("name"));
+                                            }
+                                            if (object.optString("email") != null && !object.optString("email").equals("")) {
+                                                objCustomerMaster.setEmail1(object.optString("email"));
+                                            }
+                                            if (object.optString("first_name") != null && !object.optString("first_name").equals("")) {
+                                                objCustomerMaster.setShortName(object.optString("first_name"));
+                                            } else {
+                                                objCustomerMaster.setShortName(object.optString("name"));
+                                            }
+                                            if (object.optString("gender") != null && !object.optString("gender").equals("")) {
+                                                objCustomerMaster.setGender(object.optString("gender"));
+                                            }
+                                            if (object.optString("id") != null && !object.optString("id").equals("")) {
+                                                objCustomerMaster.setFacebookUserId(object.optString("id"));
+                                                objCustomerMaster.setImageName("https://graph.facebook.com/" + object.optString("id") + "/picture?type=large");
+                                            }
+                                            objCustomerMaster.setIsVerified(object.optBoolean("verified"));
+                                            if (object.optString("birthday") != null && !object.optString("birthday").equals("")) {
+                                                Date birthDate = new SimpleDateFormat("MM/DD/yyyy", Locale.US).parse(object.optString("birthday"));
+                                                objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
+                                            }
+                                            JSONObject ageObject = object.getJSONObject("age_range");
+                                            if (ageObject != null) {
+                                                if (ageObject.optString("min") != null && !ageObject.optString("min").equals("")) {
+                                                    objCustomerMaster.setAgeMinRange(Integer.parseInt(ageObject.optString("min")));
+                                                }
+                                                if (ageObject.optString("max") != null && !ageObject.optString("max").equals("")) {
+                                                    objCustomerMaster.setAgeMaxRange(Integer.parseInt(ageObject.optString("max")));
+                                                }
+                                            }
+                                            objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+                                            objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
+                                            objCustomerMaster.setCustomerType(Globals.CustomerType);
+                                            objCustomerMaster.setLinktoCountryMasterId((short) 0);
+                                            objCustomerMaster.setPhone1("");
+                                            Toast.makeText(RegistrationActivity.this, "Request For Insert", Toast.LENGTH_LONG).show();
+                                            isLoginWithFb = true;
+                                            RequestInsertCustomerMaster(objCustomerMaster);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        System.out.println("Error Message "+e.getMessage());
+                                        Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            });
+
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "name,email,first_name,gender,id,verified,birthday,age_range");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast.makeText(RegistrationActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+                    Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+        int hasWriteContactsPermission = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+            if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+                GetGooglePlusProfileInformation();
+            }else {
+                requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return;
+            }
+        } else {
+            GetGooglePlusProfileInformation();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+        Toast.makeText(this, "Connection Suspended", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this, "Connection Failed", Toast.LENGTH_LONG).show();
+        if (!connectionResult.hasResolution()) {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
+            return;
+        }
+        if (!mIntentInProgress) {
+            // store mConnectionResult
+            mConnectionResult = connectionResult;
+            if (signedInUser) {
+                ResolveSignInError();
+            }
         }
     }
 
@@ -253,9 +421,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    GetGooglePlusProfileInformation();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(RegistrationActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         try {
             if (resultCode == RESULT_OK) {
                 String picturePath = "";
@@ -288,10 +474,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     imagePhysicalNameBytes = Base64.encodeToString(bytedata, Base64.DEFAULT);
                     return;
                 }
+                if (requestCode == RC_SIGN_IN) {
+                    mIntentInProgress = false;
+                    if (!mGoogleApiClient.isConnecting()) {
+                        mGoogleApiClient.connect();
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -452,12 +645,67 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 Globals.ShowSnackBar(view, getResources().getString(R.string.MsgServerNotResponding), RegistrationActivity.this, 1000);
                 break;
             case "-2":
-                Globals.ShowSnackBar(view, getResources().getString(R.string.MsgAlreadyExist), RegistrationActivity.this, 1000);
-                ClearControls();
+                if(isIntegrationLogin){
+                    if (objCustomerMaster != null) {
+                        if (isIntegrationLogin) {
+                            if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
+                                objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
+                            } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
+                                objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getFacebookUserId(), this);
+                            }
+                        }
+                        if (isLoginWithFb) {
+                            objSharePreferenceManage.CreatePreference("LoginPreference", "isLoginWithFb", "true", this);
+                        }
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
+                        if (objCustomerMaster.getXs_ImagePhysicalName() != null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
+                            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
+                        }
+                        if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
+                            objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
+                        }
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "BusinessMasterId", String.valueOf(objCustomerMaster.getlinktoBusinessMasterId()), this);
+                    }
+                    ClearControls();
+                    if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsRedirect", true);
+                        returnIntent.putExtra("TargetActivity", "Booking");
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsRedirect", true);
+                        returnIntent.putExtra("TargetActivity", "Order");
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    } else {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("IsLogin", true);
+                        returnIntent.putExtra("IsShowMessage", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                }else{
+                    Globals.ShowSnackBar(view, getResources().getString(R.string.MsgAlreadyExist), RegistrationActivity.this, 1000);
+                    ClearControls();
+                }
                 break;
             default:
-                SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                 if (objCustomerMaster != null) {
+                    if (isIntegrationLogin) {
+                        if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
+                            objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
+                        } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
+                            objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getFacebookUserId(), this);
+                        }
+                    }
+                    if (isLoginWithFb) {
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "isLoginWithFb", "true", this);
+                    }
                     objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
                     objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
                     objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
@@ -1743,5 +1991,78 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         etEmail.setText("");
         etPhone.setText("");
     }
+
+    private void ResolveSignInError() {
+        if (mConnectionResult.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+            } catch (IntentSender.SendIntentException e) {
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
+    }
+
+    private void GetGooglePlusProfileInformation() {
+        try {
+            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+                isIntegrationLogin = true;
+                Toast.makeText(this, "Profile Info", Toast.LENGTH_LONG).show();
+
+                Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+
+                CustomerMaster objCustomerMaster = new CustomerMaster();
+                objCustomerMaster.setCustomerName(currentPerson.getDisplayName());
+                objCustomerMaster.setEmail1(Plus.AccountApi.getAccountName(mGoogleApiClient));
+                if (currentPerson.getNickname() != null && !currentPerson.getNickname().equals("")) {
+                    objCustomerMaster.setShortName(currentPerson.getNickname());
+                } else {
+                    if (currentPerson.getName().hasGivenName()) {
+                        objCustomerMaster.setShortName(currentPerson.getName().getGivenName());
+                    } else {
+                        objCustomerMaster.setShortName(currentPerson.getDisplayName());
+                    }
+                }
+                if (currentPerson.getGender() == Person.Gender.MALE) {
+                    objCustomerMaster.setGender("Male");
+                } else if (currentPerson.getGender() == Person.Gender.FEMALE) {
+                    objCustomerMaster.setGender("Female");
+                }
+                objCustomerMaster.setGooglePlusUserId(currentPerson.getId());
+                objCustomerMaster.setIsVerified(currentPerson.isVerified());
+                objCustomerMaster.setPhone1("");
+                if (currentPerson.hasAgeRange()) {
+                    objCustomerMaster.setAgeMinRange(currentPerson.getAgeRange().getMin());
+                    objCustomerMaster.setAgeMaxRange(currentPerson.getAgeRange().getMax());
+                }
+                if (currentPerson.getBirthday() != null && currentPerson.getBirthday().equals("")) {
+                    Date birthDate = new SimpleDateFormat("yyyy-MM-DD", Locale.US).parse(objCustomerMaster.getBirthDate());
+                    objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
+                }
+                if (currentPerson.getImage().hasUrl()) {
+                    objCustomerMaster.setImageName(currentPerson.getImage().getUrl());
+                }
+                objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+                objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
+                objCustomerMaster.setCustomerType(Globals.CustomerType);
+                objCustomerMaster.setLinktoCountryMasterId((short) 0);
+                Toast.makeText(this, "Request For Insert", Toast.LENGTH_LONG).show();
+                RequestInsertCustomerMaster(objCustomerMaster);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster) {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getSupportFragmentManager(), "");
+
+        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+    }
+
     //endregion
 }

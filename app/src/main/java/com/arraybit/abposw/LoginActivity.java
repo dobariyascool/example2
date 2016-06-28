@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
-    private boolean signedInUser, isIntegrationLogin,isLoginWithFb;
+    private boolean signedInUser, isIntegrationLogin,isLoginWithFb,isLoginSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgValidation), LoginActivity.this, 1000);
             } else {
                 if (Service.CheckNet(this)) {
+                    isIntegrationLogin = false;
                     LoginRequest();
                 } else {
                     Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
@@ -213,38 +214,39 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     // Application code
                                     try {
                                     Toast.makeText(LoginActivity.this, "get Info", Toast.LENGTH_LONG).show();
+                                        isIntegrationLogin = true;
                                         CustomerMaster objCustomerMaster = new CustomerMaster();
                                         if(object!=null) {
-                                            if (object.getString("name") != null && !object.getString("name").equals("")) {
-                                                objCustomerMaster.setCustomerName(object.getString("name"));
+                                            if (object.optString("name") != null && !object.optString("name").equals("")) {
+                                                objCustomerMaster.setCustomerName(object.optString("name"));
                                             }
-                                            if (object.getString("email") != null && !object.getString("email").equals("")) {
-                                                objCustomerMaster.setEmail1(object.getString("email"));
+                                            if (object.optString("email") != null && !object.optString("email").equals("")) {
+                                                objCustomerMaster.setEmail1(object.optString("email"));
                                             }
-                                            if (object.getString("first_name") != null && !object.getString("first_name").equals("")) {
-                                                objCustomerMaster.setShortName(object.getString("first_name"));
+                                            if (object.optString("first_name") != null && !object.optString("first_name").equals("")) {
+                                                objCustomerMaster.setShortName(object.optString("first_name"));
                                             } else {
-                                                objCustomerMaster.setShortName(object.getString("name"));
+                                                objCustomerMaster.setShortName(object.optString("name"));
                                             }
-                                            if (object.getString("gender") != null && !object.getString("gender").equals("")) {
-                                                objCustomerMaster.setGender(object.getString("gender"));
+                                            if (object.optString("gender") != null && !object.optString("gender").equals("")) {
+                                                objCustomerMaster.setGender(object.optString("gender"));
                                             }
-                                            if (object.getString("id") != null && !object.getString("id").equals("")) {
-                                                objCustomerMaster.setFacebookUserId(object.getString("id"));
-                                                objCustomerMaster.setImageName("https://graph.facebook.com/" + object.getString("id") + "/picture?type=large");
+                                            if (object.optString("id") != null && !object.optString("id").equals("")) {
+                                                objCustomerMaster.setFacebookUserId(object.optString("id"));
+                                                objCustomerMaster.setImageName("https://graph.facebook.com/" + object.optString("id") + "/picture?type=large");
                                             }
-                                            objCustomerMaster.setIsVerified(object.getBoolean("verified"));
-                                            if (object.getString("birthday") != null && !object.getString("birthday").equals("")) {
-                                                Date birthDate = new SimpleDateFormat("MM/DD/yyyy", Locale.US).parse(objCustomerMaster.getBirthDate());
+                                            objCustomerMaster.setIsVerified(object.optBoolean("verified"));
+                                            if (object.optString("birthday") != null && !object.optString("birthday").equals("")) {
+                                                Date birthDate = new SimpleDateFormat("MM/DD/yyyy", Locale.US).parse(object.optString("birthday"));
                                                 objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
                                             }
                                             JSONObject ageObject = object.getJSONObject("age_range");
                                             if (ageObject != null) {
-                                                if (ageObject.getString("min") != null) {
-                                                    objCustomerMaster.setAgeMinRange(Integer.parseInt(ageObject.getString("min")));
+                                                if (ageObject.optString("min") != null && !ageObject.optString("min").equals("")) {
+                                                    objCustomerMaster.setAgeMinRange(Integer.parseInt(ageObject.optString("min")));
                                                 }
-                                                if (ageObject.getString("max") != null) {
-                                                    objCustomerMaster.setAgeMaxRange(Integer.parseInt(ageObject.getString("max")));
+                                                if (ageObject.optString("max") != null && !ageObject.optString("max").equals("")) {
+                                                    objCustomerMaster.setAgeMaxRange(Integer.parseInt(ageObject.optString("max")));
                                                 }
                                             }
                                             objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
@@ -258,6 +260,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                         }
 
                                     } catch (JSONException e) {
+                                        System.out.println("Error Message "+e.getMessage());
                                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                     } catch (ParseException e) {
                                         e.printStackTrace();
@@ -358,7 +361,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionSuspended(int i) {
         mGoogleApiClient.connect();
         Toast.makeText(this, "Connection Suspended", Toast.LENGTH_LONG).show();
-        //updateProfile(false);
     }
 
     @Override
@@ -449,47 +451,63 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             isLoginWithFb = false;
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
         } else {
-            ClearControls();
-            objSharePreferenceManage = new SharePreferenceManage();
-            if (isIntegrationLogin) {
-                if (objCustomerMaster.getGooglePlusUserId() != null && objCustomerMaster.getGooglePlusUserId().equals("")) {
-                    objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
-                } else if (objCustomerMaster.getFacebookUserId() != null && objCustomerMaster.getFacebookUserId().equals("")) {
-                    objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
+            if (objCustomerMaster.getErrorCode() != null && !objCustomerMaster.getErrorCode().equals("")) {
+                if (objCustomerMaster.getErrorCode().equals("0")) {
+                    isLoginSuccess = true;
+                } else if (objCustomerMaster.getErrorCode().equals("-2")) {
+                     if(isIntegrationLogin) {
+                        isLoginSuccess = true;
+                    }else{
+                        isLoginSuccess = false;
+                        Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
+                    }
                 }
-            }
-            if(isLoginWithFb){
-                objSharePreferenceManage.CreatePreference("LoginPreference", "isLoginWithFb", "true", this);
-            }
-            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
-            objSharePreferenceManage.CreatePreference("LoginPreference", "BusinessMasterId", String.valueOf(objCustomerMaster.getlinktoBusinessMasterId()), this);
-            if (objCustomerMaster.getXs_ImagePhysicalName() != null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
-                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
-            }
-            if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
-                objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
-            }
-            if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("IsRedirect", true);
-                returnIntent.putExtra("TargetActivity", "Booking");
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
-            } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("IsRedirect", true);
-                returnIntent.putExtra("TargetActivity", "Order");
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
             } else {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("IsLogin", true);
-                returnIntent.putExtra("IsShowMessage", true);
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+                isLoginSuccess = false;
+            }
+            if (isLoginSuccess) {
+                ClearControls();
+                objSharePreferenceManage = new SharePreferenceManage();
+                if (isIntegrationLogin) {
+                    if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
+                    } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
+                        objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getFacebookUserId(), this);
+                    }
+                }
+                if (isLoginWithFb) {
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "isLoginWithFb", "true", this);
+                }
+                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerMasterId", String.valueOf(objCustomerMaster.getCustomerMasterId()), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserName", objCustomerMaster.getEmail1(), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "UserPassword", objCustomerMaster.getPassword(), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
+                objSharePreferenceManage.CreatePreference("LoginPreference", "BusinessMasterId", String.valueOf(objCustomerMaster.getlinktoBusinessMasterId()), this);
+                if (objCustomerMaster.getXs_ImagePhysicalName() != null && !objCustomerMaster.getXs_ImagePhysicalName().equals("")) {
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
+                }
+                if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
+                    objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
+                }
+                if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsRedirect", true);
+                    returnIntent.putExtra("TargetActivity", "Booking");
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else if (getIntent().getStringExtra("Order") != null && getIntent().getStringExtra("Order").equals("Order")) {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsRedirect", true);
+                    returnIntent.putExtra("TargetActivity", "Order");
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("IsLogin", true);
+                    returnIntent.putExtra("IsShowMessage", true);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
+                }
             }
         }
     }
@@ -509,6 +527,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster) {
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
+
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, LoginActivity.this);
     }

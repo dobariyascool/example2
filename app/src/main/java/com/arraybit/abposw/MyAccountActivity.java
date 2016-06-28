@@ -42,6 +42,8 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     TextView txtLoginChar, txtFullName, txtEmail;
     FrameLayout myAccountLayout;
     ImageView ivProfile;
+    boolean isIntegrationId;
+    SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,16 +196,22 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         }
     }
 
+
     //region Private Methods
     private void GetData() {
         alString = new ArrayList<>();
+        if(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",MyAccountActivity.this)!=null) {
+            isIntegrationId = true;
+        }
+
         for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
-            alString.add(getResources().getStringArray(R.array.Option)[i]);
+            if(isIntegrationId && !getResources().getStringArray(R.array.Option)[i].equals(getResources().getString(R.string.cpChangePassword))){
+                alString.add(getResources().getStringArray(R.array.Option)[i]);
+            }
         }
     }
 
     private void SetUserName() {
-        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this) != null) {
             txtEmail.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this));
             txtLoginChar.setText(objSharePreferenceManage.GetPreference("LoginPreference", "UserName", MyAccountActivity.this).substring(0, 1).toUpperCase());

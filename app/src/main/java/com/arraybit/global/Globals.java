@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -37,10 +38,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.rey.material.widget.EditText;
 
 import java.io.File;
@@ -71,6 +76,7 @@ public class Globals {
     public static int counter = 0;
     public static ArrayList<ItemMaster> alOrderItemTran = new ArrayList<>();
     static int y, M, d, H, m;
+    static GoogleApiClient googleApiClient;
 
     public static void ShowDatePickerDialog(final EditText txtView, Context context, final boolean IsPreventPreviousDateRequest) {
         final Calendar c = Calendar.getInstance();
@@ -198,12 +204,43 @@ public class Globals {
         Globals.linktoOrderTypeMasterId = 0;
     }
 
-    public static void ClearUserPreference(Context context, Activity activity) {
+    public static void ClearUserPreference(final Context context, Activity activity) {
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
-        if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",context)!=null)
-        {
-            if(objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb",context).equals("true")){
-                LoginManager.getInstance().logOut();
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", context) != null) {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", context) != null) {
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", context).equals("true")) {
+                    LoginManager.getInstance().logOut();
+                }
+            } else {
+                googleApiClient =
+                        new GoogleApiClient.Builder(activity).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(Bundle bundle) {
+                                Toast.makeText(context, "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Google Disconnecting", Toast.LENGTH_LONG).show();
+                                Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                googleApiClient.disconnect();
+                                googleApiClient.connect();
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+                                googleApiClient.connect();
+                                Toast.makeText(context, "Connection Suspended", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                            @Override
+                            public void onConnectionFailed(ConnectionResult connectionResult) {
+                                Toast.makeText(context, "Connection Failed", Toast.LENGTH_LONG).show();
+                            }
+                        }).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                googleApiClient.connect();
+//                if (mGoogleApiClient.isConnected()) {
+//                    Toast.makeText(context, "Google Disconnecting", Toast.LENGTH_LONG).show();
+//                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+//                    mGoogleApiClient.disconnect();
+//                }
+
             }
         }
         objSharePreferenceManage.RemovePreference("LoginPreference", "CustomerMasterId", context);
@@ -215,6 +252,7 @@ public class Globals {
         objSharePreferenceManage.RemovePreference("LoginPreference", "BusinessMasterId", context);
         objSharePreferenceManage.RemovePreference("LoginPreference", "IntegrationId", context);
         objSharePreferenceManage.ClearPreference("LoginPreference", context);
+        googleApiClient = null;
 
         ClearCartData();
     }

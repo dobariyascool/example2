@@ -52,7 +52,7 @@
                         tools:ignore="NestedWeights" />
 
                     <com.rey.material.widget.Button
-                        android:id="@+id/btnLoginWithGplus"
+                        android:id="@+id/btnLoginWithGPlus"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/button_Height"
                         android:layout_marginStart="@dimen/control_SpecingNormal"

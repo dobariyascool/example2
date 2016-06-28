@@ -89,7 +89,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     LinearLayout errorLayout,phoneLayout,customerPhoneLayout;
     NestedScrollView scrollView;
     ImageView ivCall;
-    boolean isShow;
+    boolean isShow,isPlaceOrder,isNoAddress;
     String todaysDate,dayOfWeek,strDayOfWeek;
     ArrayList<BusinessHoursTran> alBusinessHoursTran;
 
@@ -313,6 +313,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     if (isChecked) {
                         if (tbTakeAway.isChecked()) {
                             isDataFilter = true;
+                            Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
                             SetCardVisibility(Globals.OrderType.HomeDelivery.getValue(), true);
                             tbTakeAway.setChecked(false);
                         }
@@ -333,6 +334,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                     if (isChecked) {
                         if (tbHomeDelivery.isChecked()) {
                             isDataFilter = true;
+                            Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
                             SetCardVisibility(Globals.OrderType.TakeAway.getValue(), true);
                             tbHomeDelivery.setChecked(false);
                         }
@@ -436,33 +438,47 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             } else if (v.getId() == R.id.btnPlaceOrder) {
                 Globals.HideKeyBoard(CheckOutActivity.this, v);
-                if(!objCheckOut.getOrderDate().equals(todaysDate)){
-                    try {
-                        if(spOrderTime.getSelectedItemPosition()==0) {
-                            Date date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(objCheckOut.getOrderDate());
-                            dayOfWeek = new SimpleDateFormat("EEEE", Locale.US).format(date);
-                            if (alBusinessHoursTran != null && alBusinessHoursTran.size() != 0) {
-                                for (BusinessHoursTran objBusinessHoursTran : alBusinessHoursTran) {
-                                    strDayOfWeek = Globals.Days.valueOf("Day" + objBusinessHoursTran.getDayOfWeek()).getValue();
-                                    if (dayOfWeek.equals(strDayOfWeek)) {
-                                        CheckOut objCheckOutConfirm = objCheckOut;
-                                        objCheckOutConfirm.setOrderTime(objBusinessHoursTran.getOpeningTime());
-                                        ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOutConfirm, false, null);
-                                        confirmDialog.show(getSupportFragmentManager(), "");
-                                        break;
-                                    }
-                                }
-                            }
+                if(objCheckOut!=null) {
+                    if(objCheckOut.getOrderType()==Globals.OrderType.HomeDelivery.getValue()){
+                        if(txtAddress.getText().equals("")){
+                            isPlaceOrder = false;
+                            Globals.ShowSnackBar(checkOutMainLayout, getResources().getString(R.string.MsgNoAddress), this, 1000);
                         }else{
+                            isPlaceOrder = true;
+                        }
+                    }else{
+                        isPlaceOrder = true;
+                    }
+                    if(isPlaceOrder) {
+                        if (!objCheckOut.getOrderDate().equals(todaysDate)) {
+                            try {
+                                if (spOrderTime.getSelectedItemPosition() == 0) {
+                                    Date date = new SimpleDateFormat(Globals.DateFormat, Locale.US).parse(objCheckOut.getOrderDate());
+                                    dayOfWeek = new SimpleDateFormat("EEEE", Locale.US).format(date);
+                                    if (alBusinessHoursTran != null && alBusinessHoursTran.size() != 0) {
+                                        for (BusinessHoursTran objBusinessHoursTran : alBusinessHoursTran) {
+                                            strDayOfWeek = Globals.Days.valueOf("Day" + objBusinessHoursTran.getDayOfWeek()).getValue();
+                                            if (dayOfWeek.equals(strDayOfWeek)) {
+                                                CheckOut objCheckOutConfirm = objCheckOut;
+                                                objCheckOutConfirm.setOrderTime(objBusinessHoursTran.getOpeningTime());
+                                                ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOutConfirm, false, null);
+                                                confirmDialog.show(getSupportFragmentManager(), "");
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
+                                    confirmDialog.show(getSupportFragmentManager(), "");
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
                             ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
                             confirmDialog.show(getSupportFragmentManager(), "");
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
                     }
-                }else {
-                    ConfirmDialog confirmDialog = new ConfirmDialog(objCheckOut, false, null);
-                    confirmDialog.show(getSupportFragmentManager(), "");
                 }
             } else if (v.getId() == R.id.ibAdd) {
                 Globals.HideKeyBoard(CheckOutActivity.this, v);
@@ -624,11 +640,28 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         if (objCheckOut == null) {
             if(alCustomerAddressTran!=null) {
                 if(alCustomerAddressTran.size()==0){
-                    tbHomeDelivery.setChecked(true);
+                    isNoAddress = true;
+                    if(tbHomeDelivery.isChecked()){
+                        tbHomeDelivery.setChecked(false);
+                    }else{
+                        tbHomeDelivery.setChecked(true);
+                    }
                     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
                     if(objSharePreferenceManage.GetPreference("LoginPreference","CustomerName",CheckOutActivity.this)!=null){
                         txtName.setText(objSharePreferenceManage.GetPreference("LoginPreference","CustomerName",CheckOutActivity.this));
                     }
+                    if(objSharePreferenceManage.GetPreference("LoginPreference","Phone",CheckOutActivity.this)!=null){
+                        String strPhone = objSharePreferenceManage.GetPreference("LoginPreference","Phone",CheckOutActivity.this);
+                        if(strPhone!=null && !strPhone.equals("")) {
+                            customerPhoneLayout.setVisibility(View.VISIBLE);
+                            txtPhone.setText(strPhone);
+                        }else{
+                            customerPhoneLayout.setVisibility(View.INVISIBLE);
+                        }
+                    }else{
+                        customerPhoneLayout.setVisibility(View.INVISIBLE);
+                    }
+                    SaveCheckOutData(null, null, Globals.OrderType.HomeDelivery.getValue());
                 }else {
                     for (CustomerAddressTran objCustomerAddressTran : alCustomerAddressTran) {
                         if (objCustomerAddressTran.getIsPrimary()) {
@@ -640,6 +673,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         } else {
+            isNoAddress = false;
             SetCheckOutData(null, Globals.OrderType.HomeDelivery.getValue());
         }
     }
@@ -675,22 +709,24 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     private void SetCheckOutData(CustomerAddressTran objCustomerAddress, int orderType) {
         if (orderType == Globals.OrderType.HomeDelivery.getValue()) {
             if (objCustomerAddress == null) {
-                txtName.setText(objCheckOut.getObjCustomerAddressTran().getCustomerName());
-                if (objCheckOut.getObjCustomerAddressTran().getMobileNum() != null) {
-                    customerPhoneLayout.setVisibility(View.VISIBLE);
-                    txtPhone.setText(objCheckOut.getObjCustomerAddressTran().getMobileNum());
-                }else{
-                    customerPhoneLayout.setVisibility(View.INVISIBLE);
-                }
-                if (objCheckOut.getObjCustomerAddressTran().getCity() != null) {
-                    txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
+                if(objCheckOut.getObjCustomerAddressTran()!=null) {
+                    txtName.setText(objCheckOut.getObjCustomerAddressTran().getCustomerName());
+                    if (objCheckOut.getObjCustomerAddressTran().getMobileNum() != null && !objCheckOut.getObjCustomerAddressTran().getMobileNum().equals("")) {
+                        customerPhoneLayout.setVisibility(View.VISIBLE);
+                        txtPhone.setText(objCheckOut.getObjCustomerAddressTran().getMobileNum());
+                    } else {
+                        customerPhoneLayout.setVisibility(View.INVISIBLE);
+                    }
+                    if (objCheckOut.getObjCustomerAddressTran().getCity() != null && !objCheckOut.getObjCustomerAddressTran().getCity().equals("")) {
+                        txtCity.setText(objCheckOut.getObjCustomerAddressTran().getCity());
 
-                }
-                if (objCheckOut.getObjCustomerAddressTran().getArea() != null) {
-                    txtArea.setText(objCheckOut.getObjCustomerAddressTran().getArea());
-                }
-                if (objCheckOut.getObjCustomerAddressTran().getAddress() != null) {
-                    txtAddress.setText(objCheckOut.getObjCustomerAddressTran().getAddress());
+                    }
+                    if (objCheckOut.getObjCustomerAddressTran().getArea() != null && !objCheckOut.getObjCustomerAddressTran().getArea().equals("")) {
+                        txtArea.setText(objCheckOut.getObjCustomerAddressTran().getArea());
+                    }
+                    if (objCheckOut.getObjCustomerAddressTran().getAddress() != null && !objCheckOut.getObjCustomerAddressTran().getAddress().equals("")) {
+                        txtAddress.setText(objCheckOut.getObjCustomerAddressTran().getAddress());
+                    }
                 }
                 tbHomeDelivery.setChecked(true);
                 isSelected = true;
@@ -849,8 +885,13 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 isSelected = true;
                 etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
             } else {
-                isSelected = true;
-                etOrderDate.setText(objCheckOut.getOrderDate());
+                if(isDataLoad){
+                    isSelected = true;
+                    etOrderDate.setText(new SimpleDateFormat(Globals.DateFormat, Locale.US).format(new Date()));
+                }else {
+                    isSelected = true;
+                    etOrderDate.setText(objCheckOut.getOrderDate());
+                }
             }
             if (isDataLoad) {
                 if (Service.CheckNet(this)) {
@@ -898,6 +939,17 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
             }
             if (objCustomerAddress != null) {
                 objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
+            }else{
+                if(isNoAddress) {
+                    if (!txtName.getText().equals("")) {
+                        objCustomerAddress = new CustomerAddressTran();
+                        objCustomerAddress.setCustomerName(txtName.getText().toString());
+                        if (customerPhoneLayout.getVisibility() == View.VISIBLE && !txtPhone.getText().equals("")) {
+                            objCustomerAddress.setMobileNum(txtPhone.getText().toString());
+                        }
+                        objCheckOut.setObjCustomerAddressTran(objCustomerAddress);
+                    }
+                }
             }
             if (objOffer != null) {
                 if (objOffer.getOfferCode().equals("Remove")) {

@@ -18,6 +18,7 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.CustomerJSONParser;
+import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -36,6 +37,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_splash_screen);
 
         mainLayout = (DrawerLayout) findViewById(R.id.mainLayout);
@@ -63,10 +65,25 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             @Override
             public void run() {
                 objSharePreferenceManage = new SharePreferenceManage();
+                String str = objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", SplashScreenActivity.this);
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", SplashScreenActivity.this) != null) {
-                    Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String customerId = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", SplashScreenActivity.this);
+                    if (customerId != null && !customerId.equals("")) {
+                        if (Service.CheckNet(SplashScreenActivity.this)) {
+                            CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+                            objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, null, null, customerId, null, String.valueOf(Globals.linktoBusinessMasterId));
+                        } else {
+                            Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                            intent.putExtra("IsNetCheck", true);
+                            startActivity(intent);
+                            finish();
+                        }
+                    } else {
+                        Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 } else {
                     if (objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "UserPassword", SplashScreenActivity.this) != null) {
                         String userName = objSharePreferenceManage.GetPreference("LoginPreference", "UserName", SplashScreenActivity.this);
@@ -116,6 +133,11 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerName", objCustomerMaster.getCustomerName(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "CustomerProfileUrl", objCustomerMaster.getXs_ImagePhysicalName(), this);
             objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
+            if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
+                objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getGooglePlusUserId(), this);
+            } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
+                objSharePreferenceManage.CreatePreference("LoginPreference", "IntegrationId", objCustomerMaster.getFacebookUserId(), this);
+            }
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
