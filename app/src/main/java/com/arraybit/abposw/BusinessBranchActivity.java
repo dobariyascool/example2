@@ -1,5 +1,6 @@
 package com.arraybit.abposw;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.arraybit.adapter.BusinessBranchAdapter;
 import com.arraybit.adapter.SpinnerAdapter;
@@ -21,7 +23,10 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.parser.BusinessJSONParser;
-import com.rey.material.widget.EditText;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,8 +34,8 @@ import java.util.ArrayList;
 @SuppressWarnings("ConstantConditions")
 public class BusinessBranchActivity extends AppCompatActivity implements BusinessJSONParser.BusinessRequestListener, BusinessBranchAdapter.BranchSelectorListener {
 
+    final private int requestCodeForPermission = 55;
     AppCompatSpinner spOrderCity;
-    EditText etBusinessGroupName;
     ProgressDialog progressDialog = new ProgressDialog();
     boolean isCityFilter;
     short businessGroupMasterId;
@@ -39,6 +44,8 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     RecyclerView rvBusinessBranch;
     short businessMasterId;
     TextView txtBranchHeader;
+    GoogleApiClient googleApiClient;
+    SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
 
 
         spOrderCity = (AppCompatSpinner) findViewById(R.id.spOrderCity);
-        txtBranchHeader = (TextView)findViewById(R.id.txtBranchHeader);
+        txtBranchHeader = (TextView) findViewById(R.id.txtBranchHeader);
         rvBusinessBranch = (RecyclerView) findViewById(R.id.rvBusinessBranch);
 
         if (Service.CheckNet(BusinessBranchActivity.this)) {
@@ -108,6 +115,26 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case requestCodeForPermission:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                    googleApiClient.disconnect();
+                    googleApiClient.connect();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(BusinessBranchActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     public void BusinessResponse(String errorCode, BusinessMaster objBusinessMaster, ArrayList<BusinessMaster> alBusinessMaster) {
         progressDialog.dismiss();
         this.alBusinessMaster = alBusinessMaster;
@@ -124,9 +151,10 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         Globals.linktoBusinessMasterId = objBusinessMaster.getBusinessMasterId();
         SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
         objSharePreferenceManage.CreatePreference("BusinessPreference", "BusinessMasterId", String.valueOf(objBusinessMaster.getBusinessMasterId()), BusinessBranchActivity.this);
-        if(objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId",BusinessBranchActivity.this)!=null){
-            businessMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("LoginPreference","BusinessMasterId",BusinessBranchActivity.this));
-            if(businessMasterId != Globals.linktoBusinessMasterId){
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "BusinessMasterId", BusinessBranchActivity.this) != null) {
+            businessMasterId = Short.parseShort(objSharePreferenceManage.GetPreference("LoginPreference", "BusinessMasterId", BusinessBranchActivity.this));
+            if (businessMasterId != Globals.linktoBusinessMasterId) {
+                ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(BusinessBranchActivity.this, BusinessBranchActivity.this);
             }
         }
@@ -147,7 +175,7 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
         ArrayList<SpinnerItem> alCity = new ArrayList<>();
         short cnt = 0;
         boolean isDuplicate = false;
-        if(alBusinessMaster!=null && alBusinessMaster.size()!=0) {
+        if (alBusinessMaster != null && alBusinessMaster.size() != 0) {
             for (BusinessMaster objBusiness : alBusinessMaster) {
                 SpinnerItem objSpinnerItem = new SpinnerItem();
                 if (alCity.size() == 0) {
@@ -181,10 +209,57 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
             txtBranchHeader.setVisibility(View.VISIBLE);
             rvBusinessBranch.setAdapter(adapter);
             rvBusinessBranch.setLayoutManager(new LinearLayoutManager(BusinessBranchActivity.this));
-        }else{
+        } else {
             rvBusinessBranch.setVisibility(View.GONE);
             txtBranchHeader.setVisibility(View.GONE);
         }
     }
 
+    private void ClearGoogleAccountAndFacebook() {
+        if (objSharePreferenceManager.GetPreference("LoginPreference", "IntegrationId", BusinessBranchActivity.this) != null) {
+            if (objSharePreferenceManager.GetPreference("LoginPreference", "isLoginWithFb", BusinessBranchActivity.this) != null) {
+                if (objSharePreferenceManager.GetPreference("LoginPreference", "isLoginWithFb", BusinessBranchActivity.this).equals("true")) {
+                    LoginManager.getInstance().logOut();
+                }
+            } else {
+                googleApiClient =
+                        new GoogleApiClient.Builder(BusinessBranchActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(Bundle bundle) {
+                                Toast.makeText(BusinessBranchActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(BusinessBranchActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
+                                int hasWriteContactsPermission = 0;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+                                    if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+                                        Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                        googleApiClient.disconnect();
+                                        googleApiClient.connect();
+                                    } else {
+                                        requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
+                                                requestCodeForPermission);
+                                        return;
+                                    }
+                                } else {
+                                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                    googleApiClient.disconnect();
+                                    googleApiClient.connect();
+                                }
+
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+                                googleApiClient.connect();
+                            }
+                        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                            @Override
+                            public void onConnectionFailed(ConnectionResult connectionResult) {
+                            }
+                        }).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                googleApiClient.connect();
+
+            }
+        }
+    }
 }

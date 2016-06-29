@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -49,8 +50,12 @@ import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.CompoundButton;
@@ -68,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     static final int duration = 5000;
     static BusinessMaster objBusinessMaster;
     final int requestCode = 123;
+    final private int requestCodeForPermission = 55;
     ActionBarDrawerToggle actionBarDrawerToggle;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -88,6 +94,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ImageView imageView;
     SharePreferenceManage objSharePreferenceManager = new SharePreferenceManage();
     boolean isRefresh;
+    GoogleApiClient googleApiClient;
     private Runnable animateViewPager;
     private Handler handler;
 
@@ -299,7 +306,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (viewPager.getCurrentItem() == size - 1) {
                         viewPager.setCurrentItem(0, true);
                     } else {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                     }
                     handler.postDelayed(animateViewPager, duration);
                 }
@@ -316,6 +323,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             menu.findItem(R.id.myAccount).setVisible(false);
             menu.findItem(R.id.logout).setVisible(false);
             if (!isNetCheck) {
+                ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             }
             SaveCartDataInSharePreference();
@@ -350,6 +358,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.logout) {
+            ClearGoogleAccountAndFacebook();
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
             SaveCartDataInSharePreference();
             txtFullName.setVisibility(View.GONE);
@@ -422,7 +431,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getId() == R.id.cvDelivery) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.HomeDelivery.getValue();
-            if(objBusinessMaster!=null) {
+            if (objBusinessMaster != null) {
                 if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
                     objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
                     objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
@@ -445,7 +454,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (v.getId() == R.id.cvTakeAway) {
             Globals.linktoOrderTypeMasterId = (short) Globals.OrderType.TakeAway.getValue();
-            if(objBusinessMaster!=null) {
+            if (objBusinessMaster != null) {
                 if (objBusinessMaster.getLinktoBusinessGroupMasterId() == 0) {
                     objSharePreferenceManager.RemovePreference("BusinessPreference", "BusinessMasterId", HomeActivity.this);
                     objSharePreferenceManager.ClearPreference("BusinessPreference", HomeActivity.this);
@@ -608,6 +617,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case requestCodeForPermission:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                    googleApiClient.disconnect();
+                    googleApiClient.connect();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(HomeActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     //region Private Methods
@@ -835,6 +864,54 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void SetBusinessMasterID() {
         if (objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this) != null && Globals.counter != 0) {
             Globals.linktoBusinessMasterId = Short.parseShort(objSharePreferenceManager.GetPreference("BusinessPreference", "BusinessMasterId", HomeActivity.this));
+        }
+    }
+
+    private void ClearGoogleAccountAndFacebook() {
+        if (objSharePreferenceManager.GetPreference("LoginPreference", "IntegrationId", HomeActivity.this) != null) {
+            if (objSharePreferenceManager.GetPreference("LoginPreference", "isLoginWithFb", HomeActivity.this) != null) {
+                if (objSharePreferenceManager.GetPreference("LoginPreference", "isLoginWithFb", HomeActivity.this).equals("true")) {
+                    LoginManager.getInstance().logOut();
+                }
+            } else {
+                googleApiClient =
+                        new GoogleApiClient.Builder(HomeActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(Bundle bundle) {
+                                Toast.makeText(HomeActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(HomeActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
+                                int hasWriteContactsPermission = 0;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+                                    if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+                                        Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                        googleApiClient.disconnect();
+                                        googleApiClient.connect();
+                                    } else {
+                                        requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
+                                                requestCodeForPermission);
+                                        return;
+                                    }
+                                } else {
+                                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                    googleApiClient.disconnect();
+                                    googleApiClient.connect();
+                                }
+
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+                                googleApiClient.connect();
+                            }
+                        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                            @Override
+                            public void onConnectionFailed(ConnectionResult connectionResult) {
+                            }
+                        }).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                googleApiClient.connect();
+
+            }
         }
     }
     //endregion

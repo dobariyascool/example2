@@ -23,6 +23,7 @@ public class AboutUsActivity extends AppCompatActivity implements BusinessDescri
     CardView cardPolicy, cardTerms;
     BusinessDescription objBusinessDescription = new BusinessDescription();
     WebView wvAbout;
+
     ProgressDialog progressDialog;
 
     @SuppressLint({"SetTextI18n", "SetJavaScriptEnabled"})

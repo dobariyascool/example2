@@ -3,6 +3,7 @@ package com.arraybit.abposw;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,12 +24,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.rey.material.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,6 +42,7 @@ import java.util.ArrayList;
 
 public class MyAccountActivity extends AppCompatActivity implements MyAccountAdapter.OptionClickListener, UserProfileFragment.UpdateResponseListener {
 
+    final private int requestCodeForPermission = 55;
     ArrayList<String> alString;
     RecyclerView rvOptions;
     FloatingActionButton fabEdit;
@@ -44,6 +51,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     ImageView ivProfile;
     boolean isIntegrationId;
     SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+    GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +114,26 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case requestCodeForPermission:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                    googleApiClient.disconnect();
+                    googleApiClient.connect();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MyAccountActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     public void OptionClick(int id) {
         if (id == 0 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourOrderFragment(), getResources().getString(R.string.title_fragment_your_order));
@@ -116,6 +144,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 3 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
         } else if (id == 4 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            ClearGoogleAccountAndFacebook();
             Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
             setResult(Activity.RESULT_OK);
             finish();
@@ -153,7 +182,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
 
     @Override
     public void onBackPressed() {
-        Globals.HideKeyBoard(MyAccountActivity.this,myAccountLayout);
+        Globals.HideKeyBoard(MyAccountActivity.this, myAccountLayout);
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
@@ -207,6 +236,8 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
             if(isIntegrationId && !getResources().getStringArray(R.array.Option)[i].equals(getResources().getString(R.string.cpChangePassword))){
                 alString.add(getResources().getStringArray(R.array.Option)[i]);
+            }else if(!isIntegrationId){
+                alString.add(getResources().getStringArray(R.array.Option)[i]);
             }
         }
     }
@@ -256,6 +287,54 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         fragmentTransaction.replace(R.id.myAccountLayout, fragment, fragmentName);
         fragmentTransaction.addToBackStack(fragmentName);
         fragmentTransaction.commit();
+    }
+
+    private void ClearGoogleAccountAndFacebook(){
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", MyAccountActivity.this) != null) {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", MyAccountActivity.this) != null) {
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", MyAccountActivity.this).equals("true")) {
+                    LoginManager.getInstance().logOut();
+                }
+            } else {
+                googleApiClient =
+                        new GoogleApiClient.Builder(MyAccountActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                            @Override
+                            public void onConnected(Bundle bundle) {
+                                Toast.makeText(MyAccountActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MyAccountActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
+                                int hasWriteContactsPermission = 0;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                                    hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+                                    if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+                                        Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                        googleApiClient.disconnect();
+                                        googleApiClient.connect();
+                                    }else {
+                                        requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
+                                                requestCodeForPermission);
+                                        return;
+                                    }
+                                } else {
+                                    Plus.AccountApi.clearDefaultAccount(googleApiClient);
+                                    googleApiClient.disconnect();
+                                    googleApiClient.connect();
+                                }
+
+                            }
+
+                            @Override
+                            public void onConnectionSuspended(int i) {
+                                googleApiClient.connect();
+                            }
+                        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                            @Override
+                            public void onConnectionFailed(ConnectionResult connectionResult) {
+                            }
+                        }).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                googleApiClient.connect();
+
+            }
+        }
     }
     //endregion
 
