@@ -878,8 +878,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         new GoogleApiClient.Builder(HomeActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                             @Override
                             public void onConnected(Bundle bundle) {
-                                Toast.makeText(HomeActivity.this, "Connected", Toast.LENGTH_LONG).show();
-                                Toast.makeText(HomeActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
                                 int hasWriteContactsPermission = 0;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                                     hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);

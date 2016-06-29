@@ -226,8 +226,6 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
                         new GoogleApiClient.Builder(BusinessBranchActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                             @Override
                             public void onConnected(Bundle bundle) {
-                                Toast.makeText(BusinessBranchActivity.this, "Connected", Toast.LENGTH_LONG).show();
-                                Toast.makeText(BusinessBranchActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
                                 int hasWriteContactsPermission = 0;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                                     hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);

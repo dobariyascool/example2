@@ -42,10 +42,8 @@ import com.google.android.gms.plus.model.people.Person;
 import com.rey.material.widget.Button;
 import com.rey.material.widget.EditText;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -219,7 +217,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     public void onCompleted(JSONObject object, GraphResponse response) {
                                         // Application code
                                         try {
-                                            Toast.makeText(LoginActivity.this, "get Info", Toast.LENGTH_LONG).show();
                                             isIntegrationLogin = true;
                                             CustomerMaster objCustomerMaster = new CustomerMaster();
                                             if (object != null) {
@@ -260,15 +257,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                                                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
                                                 objCustomerMaster.setPhone1("");
-                                                Toast.makeText(LoginActivity.this, "Request For Insert", Toast.LENGTH_LONG).show();
                                                 isLoginWithFb = true;
                                                 RequestInsertCustomerMaster(objCustomerMaster);
                                             }
 
-                                        } catch (JSONException e) {
-                                            System.out.println("Error Message " + e.getMessage());
-                                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                        } catch (ParseException e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                     }
@@ -283,12 +276,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(LoginActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
+                        Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
                     }
                 });
             }else {
@@ -337,11 +330,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             } else if (requestCode == accountPickerRequest) {
                 String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                Toast.makeText(LoginActivity.this,accountName,Toast.LENGTH_LONG).show();
-                mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).setAccountName(accountName).build();
-                mGoogleApiClient.connect();
-                if (!mGoogleApiClient.isConnecting()) {
-                    ResolveSignInError();
+                if(accountName!=null && !accountName.equals("")) {
+                    mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).setAccountName(accountName).build();
+                    mGoogleApiClient.connect();
+                    if (!mGoogleApiClient.isConnecting()) {
+                        ResolveSignInError();
+                    }
                 }
             }
         }
@@ -358,7 +352,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
         int hasWriteContactsPermission = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
@@ -377,12 +370,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionSuspended(int i) {
         mGoogleApiClient.connect();
-        Toast.makeText(this, "Connection Suspended", Toast.LENGTH_LONG).show();
+        Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(this, "Connection Failed", Toast.LENGTH_LONG).show();
+        Globals.ShowSnackBar(view, getResources().getString(R.string.siIntegrationLoginMsg), LoginActivity.this, 1000);
         if (!connectionResult.hasResolution()) {
             GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
             return;
@@ -554,8 +547,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 isIntegrationLogin = true;
-                Toast.makeText(this, "Profile Info", Toast.LENGTH_LONG).show();
-
                 Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 
                 CustomerMaster objCustomerMaster = new CustomerMaster();
@@ -593,11 +584,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
-                Toast.makeText(this, "Request For Insert", Toast.LENGTH_LONG).show();
                 RequestInsertCustomerMaster(objCustomerMaster);
             }
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

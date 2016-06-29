@@ -142,11 +142,25 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 2 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourAddressFragment(), getResources().getString(R.string.title_fragment_your_address));
         } else if (id == 3 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
+            if(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",MyAccountActivity.this)!=null) {
+                isIntegrationId = true;
+                ClearGoogleAccountAndFacebook();
+                Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("IsLogin", true);
+                returnIntent.putExtra("IsShowMessage", false);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+            }else {
+                ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
+            }
         } else if (id == 4 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ClearGoogleAccountAndFacebook();
             Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
-            setResult(Activity.RESULT_OK);
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("IsLogin",true);
+            returnIntent.putExtra("IsShowMessage",false);
+            setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }
     }
@@ -300,8 +314,6 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                         new GoogleApiClient.Builder(MyAccountActivity.this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                             @Override
                             public void onConnected(Bundle bundle) {
-                                Toast.makeText(MyAccountActivity.this, "Connected", Toast.LENGTH_LONG).show();
-                                Toast.makeText(MyAccountActivity.this, "Google Disconnecting", Toast.LENGTH_LONG).show();
                                 int hasWriteContactsPermission = 0;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                                     hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);

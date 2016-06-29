@@ -152,6 +152,7 @@
     <string name="siSignupHere">Sign Up</string>
     <string name="siLoginFailedMsg">Username or Password are invalid.</string>
     <string name="siLoginSuccessMsg">Logged in successfully.</string>
+    <string name="siIntegrationLoginMsg">Add another account for login.</string>
     <string name="clear_text">Clear Text</string>
     <string name="siLoginMsg">No User</string>
     <!-- end -->
