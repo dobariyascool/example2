@@ -115,9 +115,9 @@
                     android:paddingEnd="@dimen/control_SpecingSmall"
                     android:paddingStart="@dimen/control_SpecingSmall"
                     android:paddingTop="@dimen/control_SpecingSmall"
-                    android:text="@string/odaOfferHighLight"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textColor="@android:color/white"
+                    android:textIsSelectable="true"
                     android:textSize="@dimen/control_TextMedium"
                     android:visibility="visible" />
             </LinearLayout>
@@ -200,18 +200,6 @@
                 android:text="@string/odaOfferHighLight"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"
                 android:textSize="@dimen/control_TextSmall" />
-
-            <!--<com.rey.material.widget.TextView-->
-            <!--android:id="@+id/txtOnlineApp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingBottom="@dimen/control_SpecingTiny"-->
-            <!--android:paddingEnd="@dimen/control_SpecingSmall"-->
-            <!--android:paddingStart="0dp"-->
-            <!--android:paddingTop="@dimen/control_SpecingTiny"-->
-            <!--android:text="@string/odaOfferHighLight"-->
-            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Display4"-->
-            <!--android:textSize="@dimen/control_TextSmall" />-->
 
             <com.rey.material.widget.TextView
                 android:id="@+id/txtBuyGetItem"
