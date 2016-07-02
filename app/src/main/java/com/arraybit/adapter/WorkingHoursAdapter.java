@@ -66,7 +66,7 @@ public class WorkingHoursAdapter extends RecyclerView.Adapter<WorkingHoursAdapte
         //holder.txtDayOfWeek.setText(String.valueOf(Globals.Days.valueOf("Day" + current.getDayOfWeek()).getValue().charAt(0)).toUpperCase());
         holder.txtDayOfWeek.setText(String.valueOf(Globals.Days.valueOf("Day" + current.getDayOfWeek()).getValue().substring(0,3)).toUpperCase());
         Calendar calendar = Calendar.getInstance();
-        if (calendar.get(Calendar.DAY_OF_WEEK) == 7) {
+        if (calendar.get(Calendar.DAY_OF_WEEK) == 1) {
             if (Globals.Days.valueOf("Day" + 0).getValue().equals(String.valueOf(Globals.Days.valueOf("Day" + current.getDayOfWeek()).getValue()))) {
                 TextColorChange(holder,true);
             } else {
