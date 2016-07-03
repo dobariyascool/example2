@@ -216,9 +216,13 @@ public class AddBookingFragment extends Fragment implements View.OnClickListener
                 Globals.ShowSnackBar(view, getActivity().getResources().getString(R.string.MsgValidation), getActivity(), 1000);
             } else {
                 progressDialog.dismiss();
-                ConfirmDialog confirmDialog = new ConfirmDialog(null, true, getActivity().getResources().getString(R.string.cdfConfirmBookingMsg));
-                confirmDialog.setTargetFragment(this, 0);
-                confirmDialog.show(getActivity().getSupportFragmentManager(), "");
+                if (Service.CheckNet(getActivity())) {
+                    ConfirmDialog confirmDialog = new ConfirmDialog(null, true, getActivity().getResources().getString(R.string.cdfConfirmBookingMsg));
+                    confirmDialog.setTargetFragment(this, 0);
+                    confirmDialog.show(getActivity().getSupportFragmentManager(), "");
+                }else {
+                    Globals.ShowSnackBar(view, getResources().getString(R.string.MsgCheckConnection), getActivity(), 1000);
+                }
             }
         }
     }
