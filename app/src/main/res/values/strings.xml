@@ -69,6 +69,7 @@
     <string name="MsgFeedbackSubmit">Feedback is submitted</string>
     <string name="MsgCart">Cart is empty.</string>
     <string name="MsgCartItem">%s is added to cart</string>
+    <string name="MsgWishListItem">%s is added to Wishlist.</string>
     <string name="MsgConfirmOrder">Items are place into order</string>
     <string name="MsgAddPerson">Person is added successfully</string>
     <string name="MsgUpdateProfile">Profile updated successfully</string>

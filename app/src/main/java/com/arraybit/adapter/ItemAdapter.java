@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.arraybit.abposw.MenuActivity;
@@ -414,6 +415,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     if (ibLike.isChecked()) {
                         alItemMaster.get(getAdapterPosition()).setIsChecked((short) 1);
                         CheckDuplicate("1", alItemMaster.get(getAdapterPosition()));
+//                        Toast.makeText(context, alItemMaster.get(getAdapterPosition()).getItemName()+" is added to Wishlist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,String.format(context.getResources().getString(R.string.MsgWishListItem),  alItemMaster.get(getAdapterPosition()).getItemName()), Toast.LENGTH_SHORT).show();
                     } else {
                         if (isLikeClick) {
                             CheckDuplicate("0", alItemMaster.get(getAdapterPosition()));

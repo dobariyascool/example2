@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onSuccess(LoginResult loginResult) {
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
-                                new GraphRequest.GraphJSONObjectCallback() {
+                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject object, GraphResponse response) {
                                         // Application code
