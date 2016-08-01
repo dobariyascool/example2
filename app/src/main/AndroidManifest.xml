@@ -21,6 +21,13 @@
     <!-- To use account credentials -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission
+        android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -35,7 +42,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCEEDwONmNNHca-vVbYwC4NmCdbwIRBNUs" />
+            android:value="AIzaSyBD9E3ZboQX1a9mAblzm7L4WGkYQJYP1rg" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_AppId" />
@@ -45,7 +52,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".GoogleLoginActivity"
+            android:name="com.arraybit.abposw.GoogleLoginActivity"
             android:label="@string/title_activity_google_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -58,7 +65,7 @@
              <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".FacebookLoginActivity"
+            android:name="com.arraybit.abposw.FacebookLoginActivity"
             android:label="@string/title_activity_facebook_login"
             android:theme="@style/AppTheme">
 
@@ -70,7 +77,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ContactUsActivity"
+            android:name="com.arraybit.abposw.ContactUsActivity"
             android:label="@string/title_activity_contact_us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -81,7 +88,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.arraybit.abposw.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
 
@@ -91,15 +98,15 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.arraybit.abposw.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name="com.arraybit.abposw.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.arraybit.abposw.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -109,36 +116,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OfferActivity"
+            android:name="com.arraybit.abposw.OfferActivity"
             android:label="@string/title_activity_offer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".HotelProfileActivity"
+            android:name="com.arraybit.abposw.HotelProfileActivity"
             android:label="@string/title_activity_hotel_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MenuActivity"
+            android:name="com.arraybit.abposw.MenuActivity"
             android:label="@string/title_activity_menu"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".CartItemActivity"
+            android:name="com.arraybit.abposw.CartItemActivity"
             android:label="@string/title_cart_item_fragment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ItemModifierRemarkActivity"
+            android:name="com.arraybit.abposw.ItemModifierRemarkActivity"
             android:label="@string/title_item_modifier_remark"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".DetailActivity"
+            android:name="com.arraybit.abposw.DetailActivity"
             android:label="@string/title_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".HomeActivity"
+            android:name="com.arraybit.abposw.HomeActivity"
             android:label="@string/title_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -152,33 +159,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FeedbackActivity"
+            android:name="com.arraybit.abposw.FeedbackActivity"
             android:label="@string/title_activity_feedback"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".MyAccountActivity"
+            android:name="com.arraybit.abposw.MyAccountActivity"
             android:label="@string/title_activity_my_account"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".BookingActivity"
+            android:name="com.arraybit.abposw.BookingActivity"
             android:label="@string/title_activity_booking"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".AboutUsActivity"
+            android:name="com.arraybit.abposw.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".WishListActivity"
+            android:name="com.arraybit.abposw.WishListActivity"
             android:label="@string/title_activity_wish_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!-- <uses-library android:name="com.google.android.maps" /> -->
         <activity
-            android:name=".MyOrderActivity"
+            android:name="com.arraybit.abposw.MyOrderActivity"
             android:label="@string/title_activity_my_order"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -194,7 +201,7 @@
         <!-- android:value="@integer/google_play_services_version" /> -->
 
         <activity
-            android:name=".CheckOutActivity"
+            android:name="com.arraybit.abposw.CheckOutActivity"
             android:label="@string/title_activity_check_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -208,12 +215,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".NotificationActivity"
+            android:name="com.arraybit.abposw.NotificationActivity"
             android:label="@string/title_activity_notification"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".OfferDetailActivity"
+            android:name="com.arraybit.abposw.OfferDetailActivity"
             android:label="@string/title_activity_offer_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -224,10 +231,41 @@
             android:exported="true" />
 
         <activity
-            android:name=".BusinessBranchActivity"
+            android:name="com.arraybit.abposw.BusinessBranchActivity"
             android:label="@string/title_activity_business_branch"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+        <!-- GCM Receiver -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.gnirt69.gcmexample" />
+            </intent-filter>
+        </receiver>
+
+
+        <!-- GCM Receiver Service -->
+        <service
+            android:name="com.arraybit.abposw.GCMPushReceiverService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+
+        <!-- GCM Registration Intent Service -->
+        <service
+            android:name="com.arraybit.abposw.GCMRegistrationIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

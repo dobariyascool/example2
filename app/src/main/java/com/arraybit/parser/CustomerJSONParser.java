@@ -3,6 +3,7 @@ package com.arraybit.parser;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +34,7 @@ public class CustomerJSONParser {
     public String UpdateCustomerMasterPassword = "UpdateCustomerMasterPassword";
     public String UpdateCustomerMaster = "UpdateCustomerMaster";
     public String SelectCustomerMaster = "SelectCustomerMaster";
+    public String UpdateCustomerMasterGCMToken = "UpdateCustomerMasterGCMToken";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
@@ -40,6 +42,7 @@ public class CustomerJSONParser {
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     CustomerRequestListener objCustomerRequestListener;
+    CustomerGCMListener objCustomerGCMListener;
 
     //region Class Method
     private CustomerMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
@@ -105,6 +108,8 @@ public class CustomerJSONParser {
                     objCustomerMaster.setGooglePlusUserId(jsonObject.getString("GooglePlusUserId"));
                 } if(!jsonObject.getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonObject.getString("FacebookUserId"));
+                } if(!jsonObject.getString("GCMToken").equals("null")) {
+                    objCustomerMaster.setFacebookUserId(jsonObject.getString("GCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonObject.getInt("AgeMinRange"));
                 objCustomerMaster.setAgeMaxRange(jsonObject.getInt("AgeMaxRange"));
@@ -176,6 +181,8 @@ public class CustomerJSONParser {
                     objCustomerMaster.setGooglePlusUserId(jsonArray.getJSONObject(i).getString("GooglePlusUserId"));
                 } if(!jsonArray.getJSONObject(i).getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("FacebookUserId"));
+                }if(!jsonArray.getJSONObject(i).getString("GCMToken").equals("null")) {
+                    objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("GCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonArray.getJSONObject(i).getInt("AgeMinRange"));
                 objCustomerMaster.setAgeMaxRange(jsonArray.getJSONObject(i).getInt("AgeMaxRange"));
@@ -241,7 +248,10 @@ public class CustomerJSONParser {
                 stringer.key("AgeMaxRange").value(objCustomerMaster.getAgeMinRange());
             }
             stringer.key("IsVerified").value(objCustomerMaster.getIsVerified());
-
+            if(objCustomerMaster.getGCMToken()!=null && !objCustomerMaster.getGCMToken().equals("")){
+                Log.e("JSON token:"," "+objCustomerMaster.getGCMToken());
+                stringer.key("GCMToken").value(objCustomerMaster.getGCMToken());
+            }
             stringer.endObject();
             stringer.endObject();
 
@@ -399,6 +409,55 @@ public class CustomerJSONParser {
             objCustomerRequestListener.CustomerResponse("-1", null);
         }
     }
+
+    public void UpdateCustomerMasterGCM(final Context context, String token, String customerMasterId) {
+        String url;
+        try {
+            if (!token.equals("")&& !customerMasterId.equals("0") && !customerMasterId.equals("")) {
+                String token1=token.replace(":", "2E2").replace("-","3E3").replace("_","4E4");
+                Log.e("token Encoded: "," "+token1);
+                url = Service.Url + this.UpdateCustomerMasterGCMToken + "/" + customerMasterId + "/" + token1;
+                Log.e("url"," "+url);
+            } else {
+                url = Service.Url + this.UpdateCustomerMasterGCMToken + "/" + 1 + "/" + null ;
+                Log.e("url"," "+url);
+            }
+            final RequestQueue queue = Volley.newRequestQueue(context);
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        Log.e("jsonobject"," "+jsonObject.toString());
+                        if (jsonObject != null) {
+                            JSONObject jsonResponse = jsonObject.getJSONObject(UpdateCustomerMasterGCMToken + "Result");
+                            if (jsonResponse != null) {
+                                    Log.e("json"," "+jsonResponse.toString());
+                                objCustomerGCMListener = (CustomerGCMListener) context;
+                                objCustomerGCMListener.CustomerGCMToken();
+                            }
+                        }
+                        else
+                        {
+                            Log.e("jsonelse"," "+jsonObject.toString());
+                        }
+                    } catch (Exception e) {
+                        objCustomerGCMListener = (CustomerGCMListener) context;
+                        objCustomerGCMListener.CustomerGCMToken();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCustomerGCMListener = (CustomerGCMListener) context;
+                    objCustomerGCMListener.CustomerGCMToken();
+                }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            objCustomerGCMListener = (CustomerGCMListener) context;
+            objCustomerGCMListener.CustomerGCMToken();
+        }
+    }
     //endregion
 
     //region Select
@@ -466,7 +525,10 @@ public class CustomerJSONParser {
 
     public interface CustomerRequestListener {
         void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster);
+    }
 
+    public interface CustomerGCMListener{
+        void CustomerGCMToken();
     }
 }
 

@@ -2,16 +2,21 @@ package com.arraybit.abposw;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,13 +54,13 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener, CustomerJSONParser.CustomerGCMListener {
 
     private static final int requestCodeForSignIn = 22;
+    public static CustomerMaster objCustomerMaster;
     final private int requestCodeForPermission = 113;
     final private int accountPickerRequest = 114;
     EditText etUserName, etPassword;
-    CustomerMaster objCustomerMaster;
     View view;
     ImageView ibClear;
     ToggleButton tbPasswordShow;
@@ -68,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
     private boolean signedInUser, isIntegrationLogin, isLoginWithFb, isLoginSuccess;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
+        GCMTokenRegistration();
 
         etUserName = (EditText) findViewById(R.id.etUserName);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -199,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
                         false, null, null, null, null);
                 startActivityForResult(intent, accountPickerRequest);
-            }else {
+            } else {
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
         } else if (v.getId() == R.id.btnLoginWithFb) {
@@ -212,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onSuccess(LoginResult loginResult) {
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
-                                 new GraphRequest.GraphJSONObjectCallback() {
+                                new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject object, GraphResponse response) {
                                         // Application code
@@ -284,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
                     }
                 });
-            }else {
+            } else {
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
         }
@@ -330,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             } else if (requestCode == accountPickerRequest) {
                 String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                if(accountName!=null && !accountName.equals("")) {
+                if (accountName != null && !accountName.equals("")) {
                     mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).setAccountName(accountName).build();
                     mGoogleApiClient.connect();
                     if (!mGoogleApiClient.isConnecting()) {
@@ -390,16 +398,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     @Override
-
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         progressDialog.dismiss();
-        if (isIntegrationLogin) {
-            this.objCustomerMaster = objCustomerMaster;
-            SetError();
+//        if (isIntegrationLogin) {
+        this.objCustomerMaster = objCustomerMaster;
+        if (objCustomerMaster != null) {
+//            GCMTokenRegistration();
+//            SetError();
+            UpdateGCMRequest();
         } else {
-            this.objCustomerMaster = objCustomerMaster;
-            SetError();
+            isLoginWithFb = false;
+            Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
         }
+
+//            SetError();
+//        } else {
+//            this.objCustomerMaster = objCustomerMaster;
+//            GCMTokenRegistration();
+////            SetError();
+//        }
+    }
+
+    @Override
+    public void CustomerGCMToken() {
+        SetError();
     }
 
     @Override
@@ -420,6 +442,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_ERROR));
+    }
+
+    //Unregistering receiver on activity paused
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
     //region Private Methods
     private void LoginRequest() {
         progressDialog = new ProgressDialog();
@@ -427,6 +465,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString().trim(), etPassword.getText().toString().trim(), null, null, String.valueOf(Globals.linktoBusinessMasterId));
+    }
+
+    private void UpdateGCMRequest() {
+            CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+            objCustomerJSONParser.UpdateCustomerMasterGCM(LoginActivity.this, token, String.valueOf(objCustomerMaster.getCustomerMasterId()));
     }
 
     private boolean ValidateControls() {
@@ -500,6 +543,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if (objCustomerMaster.getPhone1() != null && !objCustomerMaster.getPhone1().equals("")) {
                     objSharePreferenceManage.CreatePreference("LoginPreference", "Phone", objCustomerMaster.getPhone1(), this);
                 }
+
                 if (getIntent().getStringExtra("Booking") != null && getIntent().getStringExtra("Booking").equals("Booking")) {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("IsRedirect", true);
@@ -589,6 +633,55 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void GCMTokenRegistration() {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //If the broadcast has received with success
+                //that means device is registered successfully
+                if (intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)) {
+                    //Getting the registration token from the intent
+                    token = intent.getStringExtra("token");
+                    //Displaying the token as toast
+//                    Toast.makeText(getApplicationContext(), "Registration token:" + token, Toast.LENGTH_LONG).show();
+
+                    Log.e("login token", " " + token);
+                    //if the intent is not with success then displaying error messages
+
+                } else if (intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)) {
+                    Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        //Checking play service is available or not
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+
+        //if play service is not available
+        if (ConnectionResult.SUCCESS != resultCode) {
+            //If play service is supported but not installed
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                //Displaying message that play service is not installed
+                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+
+                //If play service is not supported
+                //Displaying an error message
+            } else {
+                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+            }
+
+            //If play service is available
+        } else {
+            //Starting intent to register device
+            Intent itent = new Intent(this, GCMRegistrationIntentService.class);
+            startService(itent);
+        }
+
     }
 
     //endregion

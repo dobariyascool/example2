@@ -59,7 +59,7 @@
             android:gravity="start"
             android:paddingEnd="@dimen/control_SpecingSmall"
             android:paddingStart="@dimen/control_SpecingSmall"
-            android:text="@string/siSignIn"
+                android:text="@string/siSignIn"
             android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

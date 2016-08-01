@@ -2,7 +2,10 @@ package com.arraybit.abposw;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,11 +15,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,6 +97,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
     private boolean signedInUser, isIntegrationLogin,isLoginWithFb;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +115,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 app_bar.setElevation(getResources().getDimension(R.dimen.app_bar_elevation));
             }
         }
+        GCMTokenRegistration();
 
         FrameLayout registrationLayout = (FrameLayout) findViewById(R.id.registrationLayout);
 
@@ -340,6 +348,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
                                                 objCustomerMaster.setPhone1("");
                                                 isLoginWithFb = true;
+//                                                GCMTokenRegistration();
+                                                Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+                                                objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
                                                 RequestInsertCustomerMaster(objCustomerMaster);
                                             }
 
@@ -534,6 +545,22 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_SUCCESS));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(GCMRegistrationIntentService.REGISTRATION_ERROR));
+    }
+
+    //Unregistering receiver on activity paused
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+    }
+
     //region Private Methods
     private void RequestStateMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
@@ -556,49 +583,59 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void RegistrationRequest() {
         progressDialog.show(getSupportFragmentManager(), "");
 
-        CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        CustomerMaster objCustomerMaster = new CustomerMaster();
-        objCustomerMaster.setCustomerName(etFirstName.getText().toString().trim() + " " + etLastName.getText().toString().trim());
-        objCustomerMaster.setEmail1(etEmail.getText().toString().trim());
-        objCustomerMaster.setPassword(etPassword.getText().toString().trim());
-        objCustomerMaster.setConfirmPassword(etConfirmPassword.getText().toString().trim());
-        objCustomerMaster.setPhone1(etPhone.getText().toString().trim());
-        if (rbMale.isChecked()) {
-            objCustomerMaster.setGender(rbMale.getText().toString());
-        }
-        if (rbFemale.isChecked()) {
-            objCustomerMaster.setGender(rbFemale.getText().toString());
-        }
-        if (!etDateOfBirth.getText().toString().isEmpty()) {
-            try {
-                birthDate = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etDateOfBirth.getText().toString());
-                objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
+        try {
+
+            CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
+            CustomerMaster objCustomerMaster = new CustomerMaster();
+            objCustomerMaster.setCustomerName(etFirstName.getText().toString().trim() + " " + etLastName.getText().toString().trim());
+            objCustomerMaster.setEmail1(etEmail.getText().toString().trim());
+            objCustomerMaster.setPassword(etPassword.getText().toString().trim());
+            objCustomerMaster.setConfirmPassword(etConfirmPassword.getText().toString().trim());
+            objCustomerMaster.setPhone1(etPhone.getText().toString().trim());
+            if (rbMale.isChecked()) {
+                objCustomerMaster.setGender(rbMale.getText().toString());
             }
+            if (rbFemale.isChecked()) {
+                objCustomerMaster.setGender(rbFemale.getText().toString());
+            }
+            if (!etDateOfBirth.getText().toString().isEmpty()) {
+                try {
+                    birthDate = new SimpleDateFormat("d/M/yyyy", Locale.US).parse(etDateOfBirth.getText().toString());
+                    objCustomerMaster.setBirthDate(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(birthDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (countryMasterId != 0) {
+                objCustomerMaster.setLinktoCountryMasterId(countryMasterId);
+            }
+            if (stateMasterId != 0) {
+                objCustomerMaster.setLinktoStateMasterId(stateMasterId);
+            }
+            if (cityMasterId != 0) {
+                objCustomerMaster.setLinktoCityMasterId(cityMasterId);
+            }
+            if (areaMasterId != 0) {
+                objCustomerMaster.setLinktoAreaMasterId(areaMasterId);
+            }
+            objCustomerMaster.setIsEnabled(true);
+            objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
+            objCustomerMaster.setCustomerType(Globals.CustomerType);
+            objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
+            if (imageName != null && !imageName.equals("")) {
+                strImageName = imageName.substring(0, imageName.lastIndexOf(".")) + "_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length());
+                objCustomerMaster.setImageName(strImageName);
+                objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
+            }
+//        GCMTokenRegistration();
+            Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+            objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+            objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
         }
-        if (countryMasterId != 0) {
-            objCustomerMaster.setLinktoCountryMasterId(countryMasterId);
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
-        if (stateMasterId != 0) {
-            objCustomerMaster.setLinktoStateMasterId(stateMasterId);
-        }
-        if (cityMasterId != 0) {
-            objCustomerMaster.setLinktoCityMasterId(cityMasterId);
-        }
-        if (areaMasterId != 0) {
-            objCustomerMaster.setLinktoAreaMasterId(areaMasterId);
-        }
-        objCustomerMaster.setIsEnabled(true);
-        objCustomerMaster.setlinktoBusinessMasterId(Globals.linktoBusinessMasterId);
-        objCustomerMaster.setCustomerType(Globals.CustomerType);
-        objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
-        if (imageName != null && !imageName.equals("")) {
-            strImageName = imageName.substring(0, imageName.lastIndexOf(".")) + "_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length());
-            objCustomerMaster.setImageName(strImageName);
-            objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
-        }
-        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
     }
 
     private void FillCountry() {
@@ -2058,6 +2095,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
+
+//                GCMTokenRegistration();
+                Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+                objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
                 RequestInsertCustomerMaster(objCustomerMaster);
             }
         } catch (Exception e) {
@@ -2071,6 +2112,54 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
         objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+    }
+
+    private void GCMTokenRegistration()
+    {
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //If the broadcast has received with success
+                //that means device is registered successfully
+                if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
+                    //Getting the registration token from the intent
+                    token = intent.getStringExtra("token");
+                    //Displaying the token as toast
+//                    Toast.makeText(getApplicationContext(), "Registration token:" + token, Toast.LENGTH_LONG).show();
+
+                    Log.e("registrartion token", " " + token);
+                    //if the intent is not with success then displaying error messages
+                } else if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)){
+                    Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+        //Checking play service is available or not
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+
+        //if play service is not available
+        if(ConnectionResult.SUCCESS != resultCode) {
+            //If play service is supported but not installed
+            if(GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                //Displaying message that play service is not installed
+                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+
+                //If play service is not supported
+                //Displaying an error message
+            } else {
+                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+            }
+
+            //If play service is available
+        } else {
+            //Starting intent to register device
+            Intent itent = new Intent(this, GCMRegistrationIntentService.class);
+            startService(itent);
+        }
     }
 
     //endregion
