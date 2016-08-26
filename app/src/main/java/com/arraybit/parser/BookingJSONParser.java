@@ -2,6 +2,7 @@ package com.arraybit.parser;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -377,9 +378,8 @@ public class BookingJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBookingMaster + "Result");
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllBookingMaster + "Result");
                     if (jsonArray != null) {
                         ArrayList<BookingMaster> alBookingMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objBookingRequestListener = (BookingRequestListener) targetFragment;
@@ -407,14 +407,15 @@ public class BookingJSONParser {
         } else {
             url = Service.Url + this.SelectAllTimeSlots + "/" + linktoBusinessMasterId + "/" + strBookingDate + "/" + 30;
         }
+        Log.e("url"," "+url);
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 ArrayList<SpinnerItem> lstSpinnerItem = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllTimeSlots + "Result");
+                    Log.e("json"," "+jsonObject);
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllTimeSlots + "Result");
                     if (jsonArray != null) {
                         lstSpinnerItem = new ArrayList<>();
                         SpinnerItem objSpinnerItem;

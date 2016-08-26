@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -184,13 +185,14 @@ public class OfferJSONParser {
     public void SelectAllOfferMasterByFromDate(String currentPage, String linktoBusinessMasterId, final Context context) {
         String url = Service.Url + this.SelectAllOfferMasterByFromDate + "/" + currentPage + "/" + linktoBusinessMasterId + "/" +
                 sdfControlDateFormat.format(new Date()) + "/" + Globals.GetCurrentTime();
+        Log.e("url"," "+url);
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
+                Log.e("json"," "+jsonObject);
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllOfferMasterByFromDate + "Result");
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllOfferMasterByFromDate + "Result");
                     if (jsonArray != null) {
                         ArrayList<OfferMaster> offerMasters = SetListPropertiesFromJSONArray(jsonArray);
                         objOfferRequestListener = (OfferRequestListener) context;
@@ -234,13 +236,14 @@ public class OfferJSONParser {
             String url = Service.Url + this.SelectOfferCodeVerification;
 
             RequestQueue queue = Volley.newRequestQueue(context);
+Log.e("jsonPost"," "+stringer);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(stringer.toString()), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
-                    JSONObject jObject = null;
                     try {
-                        jObject = jsonObject.getJSONObject(SelectOfferCodeVerification + "Result");
+                        Log.e("json"," "+jsonObject);
+                        JSONObject jObject = jsonObject.getJSONObject(SelectOfferCodeVerification + "Result");
                         if (jObject != null) {
                             OfferMaster offerMaster = SetClassPropertiesFromJSONObject(jObject);
                             objOfferRequestListener = (OfferRequestListener) context;
@@ -272,9 +275,9 @@ public class OfferJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONObject jObject = null;
                 try {
-                    jObject = jsonObject.getJSONObject(SelectOfferMaster + "Result");
+                    Log.e("json"," "+jsonObject);
+                    JSONObject jObject = jsonObject.getJSONObject(SelectOfferMaster + "Result");
                     if (jObject != null) {
                         OfferMaster offerMaster = SetClassPropertiesFromJSONObject(jObject);
                         objOfferRequestListener = (OfferRequestListener) context;

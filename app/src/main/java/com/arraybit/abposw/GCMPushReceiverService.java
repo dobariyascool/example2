@@ -12,36 +12,59 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class GCMPushReceiverService extends GcmListenerService {
 
+    String message,tickerText,contentTitle,subtitle;
+    Bitmap largeBitmap = null;
 
     //This method will be called on every new message received
     @Override
     public void onMessageReceived(String from, Bundle data) {
         //Getting the message from the bundle
-        String message = data.getString("message");
+        message = data.getString("message");
+        tickerText = data.getString("tickerText");
+        contentTitle = data.getString("contentTitle");
+        subtitle = data.getString("subtitle");
+        String largeIconUrl = data.getString("largeIcon"); // the way you obtain this may differ
+
+        try {
+            largeBitmap = Glide
+                    .with(this)
+                    .load(largeIconUrl)
+                    .asBitmap()
+                    .into(100, 100) // Width and height
+                    .get();
+
+
+        } catch (Exception ex){
+            // image download from the url failed
+        }
         //Displaying a notiffication with the message
-        sendNotification(message);
+        sendNotification();
     }
 
     //This method is generating a notification and displaying the notification
-    private void sendNotification(String message) {
+    private void sendNotification() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         int requestCode = 0;
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Bitmap aBigBitmap=BitmapFactory.decodeResource(getResources(), R.drawable.background);
+//        Bitmap aBigBitmap=BitmapFactory.decodeResource(getResources(), R.drawable.default_image);
         NotificationCompat.Builder noBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.app_logo_likeat)
-                .setContentTitle("LikEat")
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentTitle(contentTitle)
                 .setContentText(message)
+                .setTicker(tickerText)
                 .setAutoCancel(true)
                 .setSound(sound)
-                .setLargeIcon(aBigBitmap)
-                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(aBigBitmap))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_logo_likeat))
+                .setVibrate(new long[]{100, 250, 100, 250, 100, 250})
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(largeBitmap))
+                .setPriority(Notification.PRIORITY_MAX)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);

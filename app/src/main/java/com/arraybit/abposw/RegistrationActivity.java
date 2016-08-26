@@ -346,14 +346,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                                                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                                                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
+                                                objCustomerMaster.setIsEnabled(true);
                                                 objCustomerMaster.setPhone1("");
                                                 isLoginWithFb = true;
 //                                                GCMTokenRegistration();
-                                                Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                                                objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                                                RequestInsertCustomerMaster(objCustomerMaster);
+                                                objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+                                                RequestInsertCustomerMaster(objCustomerMaster,false);
                                             }
-
                                         }  catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -630,7 +629,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 //        GCMTokenRegistration();
             Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
             objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-            objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+            objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,false, RegistrationActivity.this);
         }
         catch(Exception e)
         {
@@ -2095,23 +2094,24 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
+                objCustomerMaster.setIsEnabled(true);
 
 //                GCMTokenRegistration();
                 Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
                 objCustomerMaster.setGCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                RequestInsertCustomerMaster(objCustomerMaster);
+                RequestInsertCustomerMaster(objCustomerMaster,false);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster) {
+    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster,boolean isSignIn) {
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, RegistrationActivity.this);
+        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,isSignIn, RegistrationActivity.this);
     }
 
     private void GCMTokenRegistration()

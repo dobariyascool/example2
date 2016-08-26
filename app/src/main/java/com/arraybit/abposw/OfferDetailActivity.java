@@ -162,7 +162,7 @@ public class OfferDetailActivity extends AppCompatActivity implements OfferJSONP
         return super.onOptionsItemSelected(item);
     }
 
-    //region Description
+    //region Private
     private void RequestOfferMaster() {
         progressDialog.show(getSupportFragmentManager(), "");
         OfferJSONParser objOfferJSONParser = new OfferJSONParser();

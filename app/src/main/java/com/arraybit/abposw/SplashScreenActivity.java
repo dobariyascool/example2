@@ -44,20 +44,20 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
 
         displayMetrics = getResources().getDisplayMetrics();
 
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.welcome_background);
-        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.welcome_background_full);
+//        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
 
-        mainLayout.setBackground(new BitmapDrawable(getResources(), resizeBitmap));
+        mainLayout.setBackground(new BitmapDrawable(getResources(), originalBitmap));
 
         ivLeft = (ImageView) findViewById(R.id.ivLeft);
         ivRight = (ImageView) findViewById(R.id.ivRight);
         ivLogo = (ImageView) findViewById(R.id.ivLogo);
         ivText = (ImageView) findViewById(R.id.ivText);
 
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.left_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivLeft);
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.right_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivRight);
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 8) / 100).into(ivLogo);
-        Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 7) / 100).into(ivText);
+//        Picasso.with(SplashScreenActivity.this).load(R.drawable.left_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivLeft);
+//        Picasso.with(SplashScreenActivity.this).load(R.drawable.right_design).resize((displayMetrics.widthPixels * 50) / 100, (displayMetrics.heightPixels * 20) / 100).into(ivRight);
+//        Picasso.with(SplashScreenActivity.this).load(R.drawable.likeat_logo).resize((displayMetrics.widthPixels * 25) / 100, (displayMetrics.heightPixels * 8) / 100).into(ivLogo);
+//        Picasso.with(SplashScreenActivity.this).load(R.drawable.welcome_text).resize((displayMetrics.widthPixels * 80) / 100, (displayMetrics.heightPixels * 7) / 100).into(ivText);
 
         SetBusinessMasterID();
 
@@ -71,7 +71,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                     if (customerId != null && !customerId.equals("")) {
                         if (Service.CheckNet(SplashScreenActivity.this)) {
                             CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                            objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, null, null, customerId, null, String.valueOf(Globals.linktoBusinessMasterId));
+                            objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, null, null, customerId, null, String.valueOf(Globals.linktoBusinessMasterId),null);
                         } else {
                             Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
                             intent.putExtra("IsNetCheck", true);
@@ -92,7 +92,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
                         if ((!userName.isEmpty() && !userPassword.isEmpty()) && (businessMasterId != null && businessMasterId.equals(String.valueOf(Globals.linktoBusinessMasterId)))) {
                             if (Service.CheckNet(SplashScreenActivity.this)) {
                                 CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
+                                objCustomerJSONParser.SelectCustomerMaster(SplashScreenActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId),null);
                             } else {
                                 Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
                                 intent.putExtra("IsNetCheck", true);

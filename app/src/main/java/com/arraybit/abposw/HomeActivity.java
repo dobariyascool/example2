@@ -545,7 +545,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == 0) {
                 if (data != null) {
@@ -844,7 +844,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (!userName.isEmpty() && !userPassword.isEmpty()) {
                 if (Service.CheckNet(HomeActivity.this)) {
                     CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-                    objCustomerJSONParser.SelectCustomerMaster(HomeActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId));
+                    objCustomerJSONParser.SelectCustomerMaster(HomeActivity.this, userName, userPassword, null, null, String.valueOf(Globals.linktoBusinessMasterId),null);
                 } else {
                     Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                     intent.putExtra("IsNetCheck", true);

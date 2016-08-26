@@ -363,6 +363,7 @@
     <string name="coaApply">Apply</string>
     <string name="coaCancel">Cancel</string>
     <string name="coaYouPay">You Pay</string>
+    <string name="coaDiscount">Discount</string>
     <string name="coaViewOrder">View Order</string>
     <string name="coaViewMore">View More</string>
     <string name="coaAddMore">Add More</string>

@@ -481,12 +481,47 @@
                     style="@style/CardViewTransparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/control_SpecingSmall"
                         android:layout_marginStart="@dimen/control_SpecingTiny">
+
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:text="@string/coaDiscount"
+                            android:textColor="@color/white_blur"
+                            android:textSize="@dimen/control_TextMedium"
+                            android:visibility="gone"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/txtTotalDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toEndOf="@+id/txtDiscount"
+                            android:gravity="end"
+                            android:padding="@dimen/control_SpecingSmall"
+                            android:textColor="@color/white_blur"
+                            android:textSize="@dimen/control_TextMedium"
+                            android:visibility="gone"/>
+
+                    </RelativeLayout>
+
+                        <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/control_SpecingSmall"
+                        android:layout_marginStart="@dimen/control_SpecingTiny">
+
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/txtPayment"
@@ -509,6 +544,7 @@
                             android:textSize="@dimen/control_TextMedium" />
 
                     </RelativeLayout>
+                    </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView

@@ -68,7 +68,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
     public static boolean isBackPressed = false;
     CheckOut objCheckOut;
     LinearLayout textLayout;
-    TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay, txtBusinessAddress;
+    TextView txtCity, txtArea, txtAddress, txtPhone, txtName, txtPay, txtBusinessAddress, txtDiscount,txtTotalDiscount;
     CompoundButton cbGetPromoCode;
     ToggleButton tbHomeDelivery, tbTakeAway;
     EditText etOfferCode, etOrderDate, etName, etPhone, etBusinessName, etCity;
@@ -142,6 +142,8 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
         txtPhone = (TextView) findViewById(R.id.txtPhone);
         txtName = (TextView) findViewById(R.id.txtName);
         txtPay = (TextView) findViewById(R.id.txtPay);
+        txtDiscount = (TextView) findViewById(R.id.txtDiscount);
+        txtTotalDiscount = (TextView) findViewById(R.id.txtTotalDiscount);
         txtBusinessAddress = (TextView) findViewById(R.id.txtBusinessAddress);
 
         textLayout = (LinearLayout) findViewById(R.id.textLayout);

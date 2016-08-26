@@ -280,7 +280,7 @@ public class UserProfileFragment extends Fragment implements CustomerJSONParser.
         progressDialog.show(getFragmentManager(), "ProgressDialog");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SelectCustomerMaster(getActivity(), null, null, String.valueOf(customerMasterId), this, String.valueOf(Globals.linktoBusinessMasterId));
+        objCustomerJSONParser.SelectCustomerMaster(getActivity(), null, null, String.valueOf(customerMasterId), this, String.valueOf(Globals.linktoBusinessMasterId),null);
     }
 
 

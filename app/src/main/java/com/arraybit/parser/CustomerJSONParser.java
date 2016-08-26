@@ -34,7 +34,6 @@ public class CustomerJSONParser {
     public String UpdateCustomerMasterPassword = "UpdateCustomerMasterPassword";
     public String UpdateCustomerMaster = "UpdateCustomerMaster";
     public String SelectCustomerMaster = "SelectCustomerMaster";
-    public String UpdateCustomerMasterGCMToken = "UpdateCustomerMasterGCMToken";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
@@ -42,7 +41,6 @@ public class CustomerJSONParser {
     SimpleDateFormat sdfDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     CustomerRequestListener objCustomerRequestListener;
-    CustomerGCMListener objCustomerGCMListener;
 
     //region Class Method
     private CustomerMaster SetClassPropertiesFromJSONObject(JSONObject jsonObject) {
@@ -65,7 +63,7 @@ public class CustomerJSONParser {
                 objCustomerMaster.setEmail1(jsonObject.getString("Email1"));
                 objCustomerMaster.setEmail2(jsonObject.getString("Email2"));
                 objCustomerMaster.setFax(jsonObject.getString("Fax"));
-                if(!jsonObject.getString("ImageName").equals("null") && !jsonObject.getString("ImageName").equals("")) {
+                if (!jsonObject.getString("ImageName").equals("null") && !jsonObject.getString("ImageName").equals("")) {
                     objCustomerMaster.setImageName(jsonObject.getString("ImageName"));
                     objCustomerMaster.setXs_ImagePhysicalName(jsonObject.getString("xs_ImagePhysicalName"));
                     objCustomerMaster.setSm_ImagePhysicalName(jsonObject.getString("sm_ImagePhysicalName"));
@@ -104,11 +102,13 @@ public class CustomerJSONParser {
                 objCustomerMaster.setGender(jsonObject.getString("Gender"));
                 objCustomerMaster.setPassword(jsonObject.getString("Password"));
                 objCustomerMaster.setlinktoSourceMasterId((short) jsonObject.getInt("linktoSourceMasterId"));
-                if(!jsonObject.getString("GooglePlusUserId").equals("null")) {
+                if (!jsonObject.getString("GooglePlusUserId").equals("null")) {
                     objCustomerMaster.setGooglePlusUserId(jsonObject.getString("GooglePlusUserId"));
-                } if(!jsonObject.getString("FacebookUserId").equals("null")) {
+                }
+                if (!jsonObject.getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonObject.getString("FacebookUserId"));
-                } if(!jsonObject.getString("GCMToken").equals("null")) {
+                }
+                if (!jsonObject.getString("GCMToken").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonObject.getString("GCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonObject.getInt("AgeMinRange"));
@@ -136,8 +136,12 @@ public class CustomerJSONParser {
                 objCustomerMaster.setDescription(jsonArray.getJSONObject(i).getString("Description"));
                 objCustomerMaster.setContactPersonName(jsonArray.getJSONObject(i).getString("ContactPersonName"));
                 objCustomerMaster.setDesignation(jsonArray.getJSONObject(i).getString("Designation"));
-                objCustomerMaster.setPhone1(jsonArray.getJSONObject(i).getString("Phone1"));
-                objCustomerMaster.setIsPhone1DND(jsonArray.getJSONObject(i).getBoolean("IsPhone1DND"));
+                if (jsonArray.getJSONObject(i).getString("Phone1")!=null && !jsonArray.getJSONObject(i).getString("Phone1").equals("null") ) {
+                    objCustomerMaster.setPhone1(jsonArray.getJSONObject(i).getString("Phone1"));
+                }
+                if (!jsonArray.getJSONObject(i).getString("IsPhone1DND").equals("null")) {
+                    objCustomerMaster.setIsPhone1DND(jsonArray.getJSONObject(i).getBoolean("IsPhone1DND"));
+                }
                 objCustomerMaster.setPhone2(jsonArray.getJSONObject(i).getString("Phone2"));
                 if (!jsonArray.getJSONObject(i).getString("IsPhone2DND").equals("null")) {
                     objCustomerMaster.setIsPhone2DND(jsonArray.getJSONObject(i).getBoolean("IsPhone2DND"));
@@ -177,11 +181,13 @@ public class CustomerJSONParser {
                 objCustomerMaster.setGender(jsonArray.getJSONObject(i).getString("Gender"));
                 objCustomerMaster.setPassword(jsonArray.getJSONObject(i).getString("Password"));
                 objCustomerMaster.setlinktoSourceMasterId((short) jsonArray.getJSONObject(i).getInt("linktoSourceMasterId"));
-                if(!jsonArray.getJSONObject(i).getString("GooglePlusUserId").equals("null")) {
+                if (!jsonArray.getJSONObject(i).getString("GooglePlusUserId").equals("null")) {
                     objCustomerMaster.setGooglePlusUserId(jsonArray.getJSONObject(i).getString("GooglePlusUserId"));
-                } if(!jsonArray.getJSONObject(i).getString("FacebookUserId").equals("null")) {
+                }
+                if (!jsonArray.getJSONObject(i).getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("FacebookUserId"));
-                }if(!jsonArray.getJSONObject(i).getString("GCMToken").equals("null")) {
+                }
+                if (!jsonArray.getJSONObject(i).getString("GCMToken").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("GCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonArray.getJSONObject(i).getInt("AgeMinRange"));
@@ -202,7 +208,7 @@ public class CustomerJSONParser {
     //endregion
 
     //region Insert
-    public void InsertCustomerMaster(final CustomerMaster objCustomerMaster, final Context context) {
+    public void InsertCustomerMaster(final CustomerMaster objCustomerMaster, boolean isSignIn, final Context context) {
         dt = new Date();
         try {
             JSONStringer stringer = new JSONStringer();
@@ -221,7 +227,7 @@ public class CustomerJSONParser {
             if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
-            if(objCustomerMaster.getLinktoCountryMasterId()!=0) {
+            if (objCustomerMaster.getLinktoCountryMasterId() != 0) {
                 stringer.key("linktoCountryMasterId").value(objCustomerMaster.getLinktoCountryMasterId());
                 stringer.key("linktoStateMasterId").value(objCustomerMaster.getLinktoStateMasterId());
                 stringer.key("linktoCityMasterId").value(objCustomerMaster.getLinktoCityMasterId());
@@ -233,23 +239,23 @@ public class CustomerJSONParser {
             stringer.key("CustomerType").value(objCustomerMaster.getCustomerType());
             stringer.key("LastLoginDateTime").value(sdfDateTimeFormat.format(dt));
             stringer.key("IsEnabled").value(objCustomerMaster.getIsEnabled());
+            stringer.key("IsSignIn").value(isSignIn);
             stringer.key("IsPrimary").value(true);
             stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
             stringer.key("ImageName").value(objCustomerMaster.getImageName());
-            if(objCustomerMaster.getGooglePlusUserId()!=null && !objCustomerMaster.getGooglePlusUserId().equals("")){
+            if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
                 stringer.key("GooglePlusUserId").value(objCustomerMaster.getGooglePlusUserId());
-            }else if(objCustomerMaster.getFacebookUserId()!=null && !objCustomerMaster.getFacebookUserId().equals("")){
+            } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
                 stringer.key("FacebookUserId").value(objCustomerMaster.getFacebookUserId());
             }
-            if(objCustomerMaster.getAgeMinRange() > 0){
+            if (objCustomerMaster.getAgeMinRange() > 0) {
                 stringer.key("AgeMinRange").value(objCustomerMaster.getAgeMinRange());
             }
-            if(objCustomerMaster.getAgeMaxRange() > 0){
+            if (objCustomerMaster.getAgeMaxRange() > 0) {
                 stringer.key("AgeMaxRange").value(objCustomerMaster.getAgeMinRange());
             }
             stringer.key("IsVerified").value(objCustomerMaster.getIsVerified());
-            if(objCustomerMaster.getGCMToken()!=null && !objCustomerMaster.getGCMToken().equals("")){
-                Log.e("JSON token:"," "+objCustomerMaster.getGCMToken());
+            if (objCustomerMaster.getGCMToken() != null && !objCustomerMaster.getGCMToken().equals("")) {
                 stringer.key("GCMToken").value(objCustomerMaster.getGCMToken());
             }
             stringer.endObject();
@@ -305,14 +311,14 @@ public class CustomerJSONParser {
             if (objCustomerMaster.getBirthDate() != null) {
                 stringer.key("BirthDate").value(objCustomerMaster.getBirthDate());
             }
-            if(objCustomerMaster.getImageNamePhysicalNameBytes()!=null) {
+            if (objCustomerMaster.getImageNamePhysicalNameBytes() != null) {
                 stringer.key("ImageNamePhysicalNameBytes").value(objCustomerMaster.getImageNamePhysicalNameBytes());
             }
             stringer.key("ImageName").value(objCustomerMaster.getImageName());
             stringer.key("UpdateDateTime").value(sdfDateTimeFormat.format(dt));
-            if(objCustomerMaster.getGooglePlusUserId()!=null && !objCustomerMaster.getGooglePlusUserId().equals("")){
+            if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
                 stringer.key("GooglePlusUserId").value(objCustomerMaster.getGooglePlusUserId());
-            }else if(objCustomerMaster.getFacebookUserId()!=null && !objCustomerMaster.getFacebookUserId().equals("")){
+            } else if (objCustomerMaster.getFacebookUserId() != null && !objCustomerMaster.getFacebookUserId().equals("")) {
                 stringer.key("FacebookUserId").value(objCustomerMaster.getFacebookUserId());
             }
             //stringer.key("linktoUserMasterIdUpdatedBy").value(sdfDateTimeFormat.format(dt));
@@ -332,7 +338,7 @@ public class CustomerJSONParser {
                         if (jsonResponse != null) {
                             objCustomerRequestListener = (CustomerRequestListener) targetFragment;
                             objCustomerRequestListener.CustomerResponse("0", SetClassPropertiesFromJSONObject(jsonResponse));
-                        }else {
+                        } else {
                             objCustomerRequestListener = (CustomerRequestListener) targetFragment;
                             objCustomerRequestListener.CustomerResponse("-1", null);
                         }
@@ -410,64 +416,20 @@ public class CustomerJSONParser {
         }
     }
 
-    public void UpdateCustomerMasterGCM(final Context context, String token, String customerMasterId) {
-        String url;
-        try {
-            if (!token.equals("")&& !customerMasterId.equals("0") && !customerMasterId.equals("")) {
-                String token1=token.replace(":", "2E2").replace("-","3E3").replace("_","4E4");
-                Log.e("token Encoded: "," "+token1);
-                url = Service.Url + this.UpdateCustomerMasterGCMToken + "/" + customerMasterId + "/" + token1;
-                Log.e("url"," "+url);
-            } else {
-                url = Service.Url + this.UpdateCustomerMasterGCMToken + "/" + 1 + "/" + null ;
-                Log.e("url"," "+url);
-            }
-            final RequestQueue queue = Volley.newRequestQueue(context);
-            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        Log.e("jsonobject"," "+jsonObject.toString());
-                        if (jsonObject != null) {
-                            JSONObject jsonResponse = jsonObject.getJSONObject(UpdateCustomerMasterGCMToken + "Result");
-                            if (jsonResponse != null) {
-                                    Log.e("json"," "+jsonResponse.toString());
-                                objCustomerGCMListener = (CustomerGCMListener) context;
-                                objCustomerGCMListener.CustomerGCMToken();
-                            }
-                        }
-                        else
-                        {
-                            Log.e("jsonelse"," "+jsonObject.toString());
-                        }
-                    } catch (Exception e) {
-                        objCustomerGCMListener = (CustomerGCMListener) context;
-                        objCustomerGCMListener.CustomerGCMToken();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    objCustomerGCMListener = (CustomerGCMListener) context;
-                    objCustomerGCMListener.CustomerGCMToken();
-                }
-            });
-            queue.add(jsonObjectRequest);
-        } catch (Exception e) {
-            objCustomerGCMListener = (CustomerGCMListener) context;
-            objCustomerGCMListener.CustomerGCMToken();
-        }
-    }
     //endregion
 
     //region Select
-    public void SelectCustomerMaster(final Context context, String userName, String password, String customerMasterId, final Fragment targetFragment, String businessMasterId) {
+    public void SelectCustomerMaster(final Context context, String userName, String password, String customerMasterId, final Fragment targetFragment, String businessMasterId, String token) {
         String url;
         try {
+            String token1 = null;
             if (userName != null && password != null) {
-                url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId + "/" + businessMasterId;
+                if (token != null) {
+                    token1 = token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4");
+                }
+                url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId + "/" + businessMasterId + "/" + token1;
             } else {
-                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId;
+                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId + "/" + token1;
             }
             final RequestQueue queue = Volley.newRequestQueue(context);
             final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
@@ -525,10 +487,6 @@ public class CustomerJSONParser {
 
     public interface CustomerRequestListener {
         void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster);
-    }
-
-    public interface CustomerGCMListener{
-        void CustomerGCMToken();
     }
 }
 

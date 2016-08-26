@@ -54,7 +54,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("ConstantConditions")
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener, CustomerJSONParser.CustomerGCMListener {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, CustomerJSONParser.CustomerRequestListener{
 
     private static final int requestCodeForSignIn = 22;
     public static CustomerMaster objCustomerMaster;
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private boolean mIntentInProgress;
     private boolean signedInUser, isIntegrationLogin, isLoginWithFb, isLoginSuccess;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private String token;
+    private String token ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,8 +265,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                                                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
                                                 objCustomerMaster.setPhone1("");
+                                                if(token!=null && !token.equals("")) {
+                                                    Log.e("token"," ");
+                                                    objCustomerMaster.setGCMToken(token);
+                                                }
                                                 isLoginWithFb = true;
-                                                RequestInsertCustomerMaster(objCustomerMaster);
+                                                RequestInsertCustomerMaster(objCustomerMaster,true);
                                             }
 
                                         } catch (Exception e) {
@@ -405,7 +409,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (objCustomerMaster != null) {
 //            GCMTokenRegistration();
 //            SetError();
-            UpdateGCMRequest();
+//            UpdateGCMRequest();
+            SetError();
         } else {
             isLoginWithFb = false;
             Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), LoginActivity.this, 1000);
@@ -417,11 +422,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 //            GCMTokenRegistration();
 ////            SetError();
 //        }
-    }
-
-    @Override
-    public void CustomerGCMToken() {
-        SetError();
     }
 
     @Override
@@ -464,12 +464,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString().trim(), etPassword.getText().toString().trim(), null, null, String.valueOf(Globals.linktoBusinessMasterId));
-    }
-
-    private void UpdateGCMRequest() {
-            CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-            objCustomerJSONParser.UpdateCustomerMasterGCM(LoginActivity.this, token, String.valueOf(objCustomerMaster.getCustomerMasterId()));
+        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString().trim(), etPassword.getText().toString().trim(), null, null, String.valueOf(Globals.linktoBusinessMasterId),token);
     }
 
     private boolean ValidateControls() {
@@ -579,12 +574,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster) {
+    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster,boolean isSignIn) {
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, LoginActivity.this);
+        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,isSignIn, LoginActivity.this);
     }
 
     private void GetGooglePlusProfileInformation() {
@@ -628,7 +623,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
-                RequestInsertCustomerMaster(objCustomerMaster);
+                if(token!=null && !token.equals("")) {
+                    Log.e("token"," ");
+                    objCustomerMaster.setGCMToken(token);
+                }
+                RequestInsertCustomerMaster(objCustomerMaster,true);
             }
         } catch (Exception e) {
             e.printStackTrace();

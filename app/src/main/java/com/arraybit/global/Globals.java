@@ -328,9 +328,9 @@ public class Globals {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
         Bitmap originalBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.mainbackground);
-        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
+//        Bitmap resizeBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, displayMetrics.widthPixels, displayMetrics.heightPixels);
 
-        coordinatorLayout.setBackground(new BitmapDrawable(context.getResources(), resizeBitmap));
+        coordinatorLayout.setBackground(new BitmapDrawable(context.getResources(), originalBitmap));
     }
 
     public static void SetHomePageBackground(final Context context, final DrawerLayout drawerLayout, final LinearLayout linearLayout, final RelativeLayout relativeLayout, final FrameLayout frameLayout) {
