@@ -24,11 +24,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission
-        android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE" />
+    <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
+    <!--<permission-->
+        <!--android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE"-->
+        <!--android:protectionLevel="signature" />-->
+    <!--<uses-permission android:name="com.example.gcmnotificationexample.permission.C2D_MESSAGE" />-->
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -44,7 +44,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBD9E3ZboQX1a9mAblzm7L4WGkYQJYP1rg" />
+            android:value="AIzaSyCRHOJuYfHVr4NfHI12ZBCzsNi2FAHqirY" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_AppId" />
@@ -239,33 +239,47 @@
             android:theme="@style/AppTheme"/>
 
         <!-- GCM Receiver -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.gnirt69.gcmexample" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name="com.google.android.gms.gcm.GcmReceiver"-->
+            <!--android:exported="true"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+                <!--<category android:name="com.gnirt69.gcmexample" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
 
-        <!-- GCM Receiver Service -->
+        <!--&lt;!&ndash; GCM Receiver Service &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name="com.arraybit.abposw.GCMPushReceiverService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+
+
+        <!--&lt;!&ndash; GCM Registration Intent Service &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name="com.arraybit.abposw.GCMRegistrationIntentService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.gms.iid.InstanceID" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+
         <service
-            android:name="com.arraybit.abposw.GCMPushReceiverService"
-            android:exported="false">
+            android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-
-        <!-- GCM Registration Intent Service -->
         <service
-            android:name="com.arraybit.abposw.GCMRegistrationIntentService"
-            android:exported="false">
+            android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
     </application>

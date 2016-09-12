@@ -55,7 +55,7 @@ public class CustomerMaster implements Parcelable {
     String GooglePlusUserId;
     String FacebookUserId;
     String ErrorCode;
-    String GCMToken;
+    String FCMToken;
     int AgeMinRange;
     int AgeMaxRange;
     boolean IsVerified;
@@ -114,7 +114,7 @@ public class CustomerMaster implements Parcelable {
 
             objCustomerMaster.GooglePlusUserId = source.readString();
             objCustomerMaster.FacebookUserId = source.readString();
-            objCustomerMaster.GCMToken = source.readString();
+            objCustomerMaster.FCMToken = source.readString();
             objCustomerMaster.AgeMaxRange = source.readInt();
             objCustomerMaster.AgeMinRange = source.readInt();
             objCustomerMaster.IsVerified = source.readByte() != 0;
@@ -552,12 +552,12 @@ public class CustomerMaster implements Parcelable {
         ErrorCode = errorCode;
     }
 
-    public String getGCMToken() {
-        return GCMToken;
+    public String getFCMToken() {
+        return FCMToken;
     }
 
-    public void setGCMToken(String GCMToken) {
-        this.GCMToken = GCMToken;
+    public void setFCMToken(String FCMToken) {
+        this.FCMToken = FCMToken;
     }
 
     /// Extra
@@ -616,7 +616,7 @@ public class CustomerMaster implements Parcelable {
         parcel.writeString(lg_ImagePhysicalName);
         parcel.writeString(xl_ImagePhysicalName);
         parcel.writeString(sm_ImagePhysicalName);
-        parcel.writeString(GCMToken);
+        parcel.writeString(FCMToken);
         /// Extra
 
     }

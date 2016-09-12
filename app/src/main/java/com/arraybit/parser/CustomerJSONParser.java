@@ -108,8 +108,8 @@ public class CustomerJSONParser {
                 if (!jsonObject.getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonObject.getString("FacebookUserId"));
                 }
-                if (!jsonObject.getString("GCMToken").equals("null")) {
-                    objCustomerMaster.setFacebookUserId(jsonObject.getString("GCMToken"));
+                if (!jsonObject.getString("FCMToken").equals("null")) {
+                    objCustomerMaster.setFacebookUserId(jsonObject.getString("FCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonObject.getInt("AgeMinRange"));
                 objCustomerMaster.setAgeMaxRange(jsonObject.getInt("AgeMaxRange"));
@@ -187,8 +187,8 @@ public class CustomerJSONParser {
                 if (!jsonArray.getJSONObject(i).getString("FacebookUserId").equals("null")) {
                     objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("FacebookUserId"));
                 }
-                if (!jsonArray.getJSONObject(i).getString("GCMToken").equals("null")) {
-                    objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("GCMToken"));
+                if (!jsonArray.getJSONObject(i).getString("FCMToken").equals("null")) {
+                    objCustomerMaster.setFacebookUserId(jsonArray.getJSONObject(i).getString("FCMToken"));
                 }
                 objCustomerMaster.setAgeMinRange(jsonArray.getJSONObject(i).getInt("AgeMinRange"));
                 objCustomerMaster.setAgeMaxRange(jsonArray.getJSONObject(i).getInt("AgeMaxRange"));
@@ -255,8 +255,8 @@ public class CustomerJSONParser {
                 stringer.key("AgeMaxRange").value(objCustomerMaster.getAgeMinRange());
             }
             stringer.key("IsVerified").value(objCustomerMaster.getIsVerified());
-            if (objCustomerMaster.getGCMToken() != null && !objCustomerMaster.getGCMToken().equals("")) {
-                stringer.key("GCMToken").value(objCustomerMaster.getGCMToken());
+            if (objCustomerMaster.getFCMToken() != null && !objCustomerMaster.getFCMToken().equals("")) {
+                stringer.key("FCMToken").value(objCustomerMaster.getFCMToken());
             }
             stringer.endObject();
             stringer.endObject();
@@ -431,11 +431,13 @@ public class CustomerJSONParser {
             } else {
                 url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId + "/" + token1;
             }
+            Log.e("url"," "+url);
             final RequestQueue queue = Volley.newRequestQueue(context);
             final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     try {
+                        Log.e("json"," "+jsonObject);
                         if (jsonObject != null) {
                             JSONObject jsonResponse = jsonObject.getJSONObject(SelectCustomerMaster + "Result");
                             if (jsonResponse != null) {
