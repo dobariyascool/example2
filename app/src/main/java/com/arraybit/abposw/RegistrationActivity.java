@@ -387,9 +387,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onConnected(Bundle bundle) {
 
-        int hasWriteContactsPermission = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
+            int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
             if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
                 GetGooglePlusProfileInformation();
             }else {
@@ -444,8 +443,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     GetGooglePlusProfileInformation();
                 } else {
                     // Permission Denied
-                    Toast.makeText(RegistrationActivity.this, "Permission Denied", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(RegistrationActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
