@@ -3,6 +3,7 @@ package com.arraybit.parser;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -155,6 +156,12 @@ public class ReviewJSONParser {
                     objInsertReviewMasterRequestListener.InsertReviewMasterResponse("-1", null);
                 }
             });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    30000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
             objInsertReviewMasterRequestListener = (InsertReviewMasterRequestListener) targetFragment;
@@ -170,9 +177,8 @@ public class ReviewJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllReviewMaster + "Result");
+                    JSONArray  jsonArray = jsonObject.getJSONArray(SelectAllReviewMaster + "Result");
                     if (jsonArray != null) {
                         ArrayList<ReviewMaster> alReviewMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objReviewMasterRequestListener = (ReviewMasterRequestListener) targetFragment;

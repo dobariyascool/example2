@@ -109,9 +109,8 @@ public class BannerMasterJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBannerMaster + "Result");
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllBannerMaster + "Result");
                     if (jsonArray != null) {
                         ArrayList<BannerMaster> alBannerMaster = SetListPropertiesFromJSONArray(jsonArray);
                         objBannerRequestListener = (BannerRequestListener) context;
@@ -131,7 +130,6 @@ public class BannerMasterJSONParser {
         });
         queue.add(jsonObjectRequest);
     }
-
 
     public interface BannerRequestListener {
         void BannerResponse(ArrayList<BannerMaster> alBannerMaster);

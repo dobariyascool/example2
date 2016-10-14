@@ -3,6 +3,7 @@ package com.arraybit.parser;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -215,6 +216,12 @@ public class CustomerAddressJSONParser {
                     objCustomerAddressRequestListener.CustomerAddressResponse("-1", null, null);
                 }
             });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    30000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
             objCustomerAddressRequestListener = (CustomerAddressRequestListener) targetFragment;

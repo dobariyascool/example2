@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -286,6 +287,12 @@ public class CustomerJSONParser {
                     objCustomerRequestListener.CustomerResponse("-1", null);
                 }
             });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    30000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             queue.add(jsonObjectRequest);
         } catch (Exception ex) {
             objCustomerRequestListener = (CustomerRequestListener) context;
@@ -429,7 +436,7 @@ public class CustomerJSONParser {
                 }
                 url = Service.Url + this.SelectCustomerMaster + "/" + URLEncoder.encode(userName, "utf-8").replace(".", "2E") + "/" + URLEncoder.encode(password, "utf-8").replace(".", "2E") + "/" + customerMasterId + "/" + businessMasterId + "/" + token1;
             } else {
-                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId + "/" + token1;
+                url = Service.Url + this.SelectCustomerMaster + "/" + null + "/" + null + "/" + customerMasterId + "/" + businessMasterId + "/" + null;
             }
             Log.e("url"," "+url);
             final RequestQueue queue = Volley.newRequestQueue(context);

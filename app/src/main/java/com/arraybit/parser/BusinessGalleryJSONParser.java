@@ -86,9 +86,8 @@ public class BusinessGalleryJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBusinessGalleryTran + "Result");
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllBusinessGalleryTran + "Result");
                     if (jsonArray != null) {
                         ArrayList<BusinessGalleryTran> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
                         objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) targetFragment;
@@ -116,9 +115,8 @@ public class BusinessGalleryJSONParser {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-                JSONArray jsonArray = null;
                 try {
-                    jsonArray = jsonObject.getJSONArray(SelectAllBusinessGalleryTran + "Result");
+                    JSONArray jsonArray = jsonObject.getJSONArray(SelectAllBusinessGalleryTran + "Result");
                     if (jsonArray != null) {
                         ArrayList<BusinessGalleryTran> alBusinessGalleryTran = SetListPropertiesFromJSONArray(jsonArray);
                         objBusinessGalleryRequestListener = (BusinessGalleryRequestListener) context;
@@ -139,7 +137,6 @@ public class BusinessGalleryJSONParser {
         });
         queue.add(jsonObjectRequest);
     }
-
 
     public interface BusinessGalleryRequestListener {
         void BusinessGalleryResponse(ArrayList<BusinessGalleryTran> alBusinessGalleryTran);
