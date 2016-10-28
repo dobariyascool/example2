@@ -22,7 +22,9 @@ import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.global.SpinnerItem;
 import com.arraybit.modal.BusinessMaster;
+import com.arraybit.modal.FCMMaster;
 import com.arraybit.parser.BusinessJSONParser;
+import com.arraybit.parser.FCMJSONParser;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -156,6 +158,13 @@ public class BusinessBranchActivity extends AppCompatActivity implements Busines
             if (businessMasterId != Globals.linktoBusinessMasterId) {
                 ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(BusinessBranchActivity.this, BusinessBranchActivity.this);
+                FCMMaster fcmMaster = new FCMMaster();
+                fcmMaster.setFCMToken(SplashScreenActivity.token);
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", BusinessBranchActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", BusinessBranchActivity.this) != null) {
+                    fcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", BusinessBranchActivity.this)));
+                }
+                FCMJSONParser fcmjsonParser = new FCMJSONParser();
+                fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, BusinessBranchActivity.this);
             }
         }
         setResult(RESULT_OK);

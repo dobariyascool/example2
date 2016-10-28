@@ -11,14 +11,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
 import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CustomerMaster;
+import com.arraybit.modal.FCMMaster;
 import com.arraybit.modal.ItemMaster;
+import com.arraybit.modal.NotificationMaster;
 import com.arraybit.parser.CustomerJSONParser;
+import com.arraybit.parser.FCMJSONParser;
+import com.arraybit.parser.NotificationJSONParser;
 import com.facebook.FacebookSdk;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -33,12 +42,17 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     ImageView ivLeft, ivRight, ivLogo, ivText;
     DrawerLayout mainLayout;
     List<ItemMaster> lstItemMaster;
+    public static String token ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_splash_screen);
+
+        if(Service.CheckNet(SplashScreenActivity.this)) {
+            FCMTokenGenerate();
+        }
 
         mainLayout = (DrawerLayout) findViewById(R.id.mainLayout);
 
@@ -64,6 +78,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                AddNotificationRequest();
                 objSharePreferenceManage = new SharePreferenceManage();
                 String str = objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", SplashScreenActivity.this);
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", SplashScreenActivity.this) != null) {
@@ -121,6 +136,11 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     public void CustomerResponse(String errorCode, CustomerMaster objCustomerMaster) {
         Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
         if (objCustomerMaster == null) {
@@ -165,5 +185,50 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
             Globals.linktoBusinessMasterId = 1;
         }
 
+    }
+
+    private void FCMTokenGenerate() {
+
+        //Checking play service is available or not
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+
+        //if play service is not available
+        if (ConnectionResult.SUCCESS != resultCode) {
+            //If play service is supported but not installed
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                //Displaying message that play service is not installed
+                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
+
+                //If play service is not supported
+                //Displaying an error message
+            } else {
+                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+            }
+
+            //If play service is available
+        } else {
+            FirebaseMessaging.getInstance().subscribeToTopic("news");
+            // [END subscribe_topics]
+
+            token = FirebaseInstanceId.getInstance().getToken();
+
+        }
+
+    }
+
+    private void AddNotificationRequest() {
+        try {
+            FCMJSONParser objFcmjsonParser= new FCMJSONParser();
+            FCMMaster objFcmMaster= new FCMMaster();
+            objFcmMaster.setFCMToken(token);
+            objSharePreferenceManage = new SharePreferenceManage();
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", SplashScreenActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", SplashScreenActivity.this) != null) {
+                objFcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", SplashScreenActivity.this)));
+            }
+            objFcmjsonParser.InsertFCMMaster(objFcmMaster,this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

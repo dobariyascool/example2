@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private boolean mIntentInProgress;
     private boolean signedInUser, isIntegrationLogin, isLoginWithFb, isLoginSuccess;
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private String token ;
+//    private String token ="token1" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +84,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-
         app_bar = (Toolbar) findViewById(R.id.app_bar);
+
         setSupportActionBar(app_bar);
         if (app_bar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -267,9 +267,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                                                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
                                                 objCustomerMaster.setPhone1("");
-                                                if(token!=null && !token.equals("")) {
+                                                if(SplashScreenActivity.token!=null && !SplashScreenActivity.token.equals("")) {
                                                     Log.e("token"," ");
-                                                    objCustomerMaster.setFCMToken(token);
+                                                    objCustomerMaster.setFCMToken(SplashScreenActivity.token);
                                                 }
                                                 isLoginWithFb = true;
                                                 RequestInsertCustomerMaster(objCustomerMaster,true);
@@ -466,7 +466,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString().trim(), etPassword.getText().toString().trim(), null, null, String.valueOf(Globals.linktoBusinessMasterId),token);
+        objCustomerJSONParser.SelectCustomerMaster(LoginActivity.this, etUserName.getText().toString().trim(), etPassword.getText().toString().trim(), null, null, String.valueOf(Globals.linktoBusinessMasterId),SplashScreenActivity.token);
     }
 
     private boolean ValidateControls() {
@@ -625,9 +625,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 objCustomerMaster.setlinktoSourceMasterId(Globals.linktoSourceMasterId);
                 objCustomerMaster.setCustomerType(Globals.CustomerType);
                 objCustomerMaster.setLinktoCountryMasterId((short) 0);
-                if(token!=null && !token.equals("")) {
+                if(SplashScreenActivity.token!=null && !SplashScreenActivity.token.equals("")) {
                     Log.e("token"," ");
-                    objCustomerMaster.setFCMToken(token);
+                    objCustomerMaster.setFCMToken(SplashScreenActivity.token);
                 }
                 RequestInsertCustomerMaster(objCustomerMaster,true);
             }
@@ -697,31 +697,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 //Displaying message that play service is not installed
                 Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
                 GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
-
-                //If play service is not supported
-                //Displaying an error message
             } else {
                 Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
             }
-
             //If play service is available
         } else {
             FirebaseMessaging.getInstance().subscribeToTopic("news");
             // [END subscribe_topics]
-
-            // Log and toast
-//            String msg = "Subscribed";
-//            Log.e("MainActivity"," "+ msg);
-//            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-            token = FirebaseInstanceId.getInstance().getToken();
-
-            // Log and toast
-//            String msg = getString(R.string.msg_token_fmt, token);
-//            Log.e("mainActivity", "token:   "+token);
-//            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+            SplashScreenActivity.token = FirebaseInstanceId.getInstance().getToken();
         }
-
     }
-
     //endregion
 }

@@ -1,6 +1,7 @@
 package com.arraybit.parser;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -105,6 +106,7 @@ public class BannerMasterJSONParser {
 
     public void SelectAllBannerMaster(final Context context,String linktoBusinessMasterId) {
         String url = Service.Url + this.SelectAllBannerMaster + "/" + linktoBusinessMasterId;
+        Log.e("url"," "+url);
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
             @Override

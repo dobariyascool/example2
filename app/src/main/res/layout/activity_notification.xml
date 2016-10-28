@@ -53,4 +53,14 @@
             android:text="@string/siSignIn" />
 
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvNotification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/control_SpecingSmall"
+        android:layout_marginEnd="@dimen/control_SpecingTiny"
+        android:layout_marginStart="@dimen/control_SpecingTiny"
+        android:layout_marginTop="@dimen/control_SpecingSmall"
+        android:visibility="gone" />
 </LinearLayout>

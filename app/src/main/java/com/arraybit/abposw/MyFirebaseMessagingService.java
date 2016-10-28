@@ -11,29 +11,85 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.arraybit.global.Globals;
 import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     String message, tickerText, contentTitle, subtitle;
-    int notificaiontype, offeMasterId, ItemMasterId;
+    String title = "LikEat", notificationImage = "";
+    int notificaiontype, offeMasterId, ItemMasterId, type, Id;
     Bitmap largeBitmap = null;
+
+    public static Bitmap getBitmap(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //Displaying data in log
         //It is optional
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        Log.e(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+        Toast.makeText(this, " " + remoteMessage.getData(), Toast.LENGTH_SHORT).show();
+        try {
+            if (remoteMessage.getNotification() != null) {
+                message = remoteMessage.getNotification().getBody();
+                title = remoteMessage.getNotification().getTitle();
+            }
 
-        //Calling method to generate notification
-        sendNotification(remoteMessage.getNotification().getBody());
+            if (remoteMessage.getData().size() > 0) {
+                if (remoteMessage.getData().containsKey("type")) {
+                    type = Integer.parseInt(remoteMessage.getData().get("type"));
+                }
+                if (remoteMessage.getData().containsKey("id")) {
+                    Id = Integer.parseInt(remoteMessage.getData().get("id"));
+                }
+                if (remoteMessage.getData().containsKey("notificationImage")) {
+                    notificationImage = remoteMessage.getData().get("notificationImage");
+//                    if (notificationImage != null && !notificationImage.equals("")) {
+//                        URL url = new URL(notificationImage);
+//                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                        connection.setDoInput(true);
+//                        connection.connect();
+//                        InputStream inputStream = connection.getInputStream();
+//                        largeBitmap = BitmapFactory.decodeStream(inputStream);// Convert to bitmap
+////                        largeBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                    }
+                }
+//                largeBitmap = Glide
+//                        .with(this)
+//                        .load(notificationImage)
+//                        .asBitmap()
+//                        .into(100, 100) // Width and height
+//                        .get();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        sendNotification();
     }
 
     //This method is only generating push notification
@@ -44,46 +100,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             message = json.getString("message");
             tickerText = json.getString("tickerText");
             contentTitle = json.getString("contentTitle");
-            subtitle = json.getString("subtitle");
             notificaiontype = json.getInt("notificationType");
             if (notificaiontype == 0) {
-                offeMasterId = json.getInt("itemOfferId");
+                offeMasterId = json.getInt("Id");
             } else if (notificaiontype == 1) {
-                ItemMasterId = json.getInt("itemOfferId");
+                ItemMasterId = json.getInt("Id");
             }
             String largeIconUrl = json.getString("largeIcon"); // the way you obtain this may differ
 
-//            try {
-                largeBitmap = Glide
-                        .with(this)
-                        .load(largeIconUrl)
-                        .asBitmap()
-                        .into(100, 100) // Width and height
-                        .get();
-
-//
-//            } catch (Exception ex) {
-//                // image download from the url failed
-//            }
-
+            largeBitmap = Glide
+                    .with(this)
+                    .load(largeIconUrl)
+                    .asBitmap()
+                    .into(100, 100) // Width and height
+                    .get();
 
             Intent intent;
             int requestCode = 0;
-            if(notificaiontype== 0)
-            {
+            if (notificaiontype == 2) {
                 intent = new Intent(this, OfferDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("OfferMasterId", offeMasterId);
-            }
-            else if(notificaiontype ==1)
-            {
+            } else if (notificaiontype == 1) {
                 intent = new Intent(this, DetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("isBannerClick", true);
                 intent.putExtra("ItemMasterId", ItemMasterId);
-            }
-            else {
-                intent = new Intent(this, HomeActivity.class);
+            } else {
+                intent = new Intent(this, NotificationActivity.class);
+                intent.putExtra("isStart", true);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             }
             PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -98,32 +143,80 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setAutoCancel(true)
                     .setSound(sound)
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_logo_likeat))
-                    .setVibrate(new long[]{100, 250, 100, 250, 100, 250})
+                    .setVibrate(new long[]{100, 250, 100, 250})
                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(largeBitmap))
                     .setPriority(Notification.PRIORITY_MAX)
                     .setContentIntent(pendingIntent);
 
-            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, noBuilder.build()); //0 = ID of notification
 
-//            Intent intent = new Intent(this, MainActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
-//                    PendingIntent.FLAG_ONE_SHOT);
-//
-//            Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-//                    .setSmallIcon(R.mipmap.ic_launcher)
-//                    .setContentTitle("Firebase Push Notification")
-//                    .setContentText(messageBody)
-//                    .setAutoCancel(true)
-//                    .setSound(defaultSoundUri)
-//                    .setContentIntent(pendingIntent);
-//
-//            NotificationManager notificationManager =
-//                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//            notificationManager.notify(0, notificationBuilder.build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendNotification() {
+        try {
+            Intent intent;
+            if (type == Globals.BannerType.Offer.getValue() && Id > 0) {
+                intent = new Intent(this, OfferDetailActivity.class);
+                intent.putExtra("OfferMasterId", Id);
+            } else if (type == Globals.BannerType.Item.getValue() && Id > 0) {
+                intent = new Intent(this, DetailActivity.class);
+                intent.putExtra("ItemMasterId", Id);
+                intent.putExtra("isBannerClick", true);
+            } else if (type == Globals.BannerType.Item.getValue() && Id > 0) {
+                intent = new Intent(this, ItemListActivity.class);
+                intent.putExtra("CateoryMasterId", Id);
+                intent.putExtra("isBannerClick", true);
+            } else {
+                intent = new Intent(this, NotificationActivity.class);
+                intent.putExtra("isStart", true);
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Bitmap bitmap = getBitmap(notificationImage);
+            Toast.makeText(this, " bitmap :" +bitmap, Toast.LENGTH_SHORT).show();
+            NotificationCompat.Builder notificationBuilder;
+            if (bitmap != null) {
+                Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                notificationBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.app_logo_likeat)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setSound(sound)
+                        .setVibrate(new long[]{100, 400, 100})
+                        .setDefaults(Notification.DEFAULT_SOUND)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_logo_likeat))
+                        .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap))
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setContentIntent(pendingIntent);
+            } else {
+                Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                notificationBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.app_logo_likeat)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setSound(sound)
+                        .setVibrate(new long[]{100, 400, 100})
+                        .setDefaults(Notification.DEFAULT_SOUND)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.app_logo_likeat))
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setContentIntent(pendingIntent);
+            }
+//            if (largeBitmap != null) {
+//                Toast.makeText(this, "large image", Toast.LENGTH_SHORT).show();
+//            notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(largeBitmap));
+//            notificationBuilder.setPriority(Notification.PRIORITY_MAX);
+//            }
+//            notificationBuilder.setContentIntent(pendingIntent);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0, notificationBuilder.build());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -100,7 +100,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private boolean mIntentInProgress;
     private boolean signedInUser, isIntegrationLogin,isLoginWithFb;
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private String token;
+//    private String token ="token1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -352,7 +352,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                                 objCustomerMaster.setPhone1("");
                                                 isLoginWithFb = true;
 //                                                GCMTokenRegistration();
-                                                objCustomerMaster.setFCMToken(token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+                                                objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
                                                 RequestInsertCustomerMaster(objCustomerMaster,false);
                                             }
                                         }  catch (Exception e) {
@@ -627,8 +627,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
             }
 //        GCMTokenRegistration();
-            Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-            objCustomerMaster.setFCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+            Log.e("Registrartion"," encoded token:"+SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+            objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
             objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,false, RegistrationActivity.this);
         }
         catch(Exception e)
@@ -2097,8 +2097,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setIsEnabled(true);
 
 //                GCMTokenRegistration();
-                Log.e("Registrartion"," encoded token:"+token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                objCustomerMaster.setFCMToken(token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+                Log.e("Registrartion"," encoded token:"+SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
+                objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
                 RequestInsertCustomerMaster(objCustomerMaster,false);
             }
         } catch (Exception e) {
@@ -2114,53 +2114,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,isSignIn, RegistrationActivity.this);
     }
 
-//    private void GCMTokenRegistration() {
-//        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                //If the broadcast has received with success
-//                //that means device is registered successfully
-//                if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_SUCCESS)){
-//                    //Getting the registration token from the intent
-//                    token = intent.getStringExtra("token");
-//                    //Displaying the token as toast
-////                    Toast.makeText(getApplicationContext(), "Registration token:" + token, Toast.LENGTH_LONG).show();
-//
-//                    Log.e("registrartion token", " " + token);
-//                    //if the intent is not with success then displaying error messages
-//                } else if(intent.getAction().equals(GCMRegistrationIntentService.REGISTRATION_ERROR)){
-//                    Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        };
-//
-//        //Checking play service is available or not
-//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-//
-//        //if play service is not available
-//        if(ConnectionResult.SUCCESS != resultCode) {
-//            //If play service is supported but not installed
-//            if(GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-//                //Displaying message that play service is not installed
-//                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
-//                GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
-//
-//                //If play service is not supported
-//                //Displaying an error message
-//            } else {
-//                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
-//            }
-//
-//            //If play service is available
-//        } else {
-//            //Starting intent to register device
-//            Intent itent = new Intent(this, GCMRegistrationIntentService.class);
-//            startService(itent);
-//        }
-//    }
-
     private void FCMTokenGenerate() {
 
         //Checking play service is available or not
@@ -2173,31 +2126,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 //Displaying message that play service is not installed
                 Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
                 GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
-
-                //If play service is not supported
-                //Displaying an error message
             } else {
                 Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
             }
-
             //If play service is available
         } else {
             FirebaseMessaging.getInstance().subscribeToTopic("news");
             // [END subscribe_topics]
-
-            // Log and toast
-//            String msg = "Subscribed";
-//            Log.e("MainActivity"," "+ msg);
-//            Toast.makeText(RegistrationActivity.this, msg, Toast.LENGTH_SHORT).show();
-            token = FirebaseInstanceId.getInstance().getToken();
-
-            // Log and toast
-//            String msg = getString(R.string.msg_token_fmt, token);
-//            Log.e("mainActivity", "token:   "+token);
-//            Toast.makeText(RegistrationActivity.this, msg, Toast.LENGTH_SHORT).show();
+            SplashScreenActivity.token = FirebaseInstanceId.getInstance().getToken();
         }
-
     }
-
     //endregion
 }

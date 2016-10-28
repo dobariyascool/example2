@@ -40,6 +40,7 @@ import android.widget.TimePicker;
 
 import com.arraybit.abposw.R;
 import com.arraybit.modal.ItemMaster;
+import com.facebook.FacebookRequestError;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.rey.material.widget.EditText;
 
@@ -530,7 +531,9 @@ public class Globals {
 
     public enum BannerType {
         Item(1),
-        Offer(2);
+        Offer(2),
+        Category(3),
+        General(4);
 
         private int intValue;
 

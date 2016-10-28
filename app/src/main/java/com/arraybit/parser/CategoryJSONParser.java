@@ -24,11 +24,13 @@ import java.util.Locale;
 public class CategoryJSONParser {
 
     public String SelectAllCategoryMaster = "SelectAllCategoryMaster";
+    public String SelectCategoryMaster = "SelectCategoryMaster";
 
     SimpleDateFormat sdfControlDateFormat = new SimpleDateFormat(Globals.DateFormat, Locale.US);
     Date dt = null;
     SimpleDateFormat sdfDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
     CategoryRequestListener objCategoryRequestListener;
+    CategoryListener objCategoryListener;
 
     //region ClassMethod
 
@@ -239,6 +241,39 @@ public class CategoryJSONParser {
 //    }
     //endregion
 
+    public void SelectCategoryMaster(final Context context, String linktoBusinessMasterId, String categoryMasterId) {
+        try {
+            String url = Service.Url + this.SelectCategoryMaster + "/" + linktoBusinessMasterId+ "/" + categoryMasterId;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, new JSONObject(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        JSONObject jsonResponse = jsonObject.getJSONObject(SelectCategoryMaster + "Result");
+                        if(jsonResponse!=null) {
+                            objCategoryListener = (CategoryListener) context;
+                            objCategoryListener.CategoryResponse(SetClassPropertiesFromJSONObject(jsonResponse));
+                        }
+                    } catch (Exception e) {
+                        objCategoryListener = (CategoryListener) context;
+                        objCategoryListener.CategoryResponse(null);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    objCategoryListener = (CategoryListener) context;
+                    objCategoryListener.CategoryResponse(null);
+                }
+            });
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            objCategoryListener = (CategoryListener) context;
+            objCategoryListener.CategoryResponse(null);
+        }
+    }
+
     public void SelectAllCategoryMaster(final Context context, String linktoBusinessMasterId) {
         try {
             String url = Service.Url + this.SelectAllCategoryMaster + "/" + linktoBusinessMasterId;
@@ -276,5 +311,9 @@ public class CategoryJSONParser {
 
     public interface CategoryRequestListener {
         void CategoryResponse(ArrayList<CategoryMaster> alCategoryMaster);
+    }
+
+    public interface CategoryListener {
+        void CategoryResponse(CategoryMaster objCategoryMaster);
     }
 }

@@ -23,7 +23,7 @@ import java.net.URL;
 
 public class Service {
 
-//    public static String Url = "http://10.0.3.2:2630/Service.svc/";
+//    public static String Url = "http://10.0.3.2:25788/Service.svc/";
     public static String Url = "http://10.0.0.100/pos/poswservice/service.svc/";
 
     public static Boolean CheckNet(Context context) {

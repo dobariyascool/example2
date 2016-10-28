@@ -44,10 +44,12 @@ import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.BannerMaster;
 import com.arraybit.modal.BusinessMaster;
 import com.arraybit.modal.CustomerMaster;
+import com.arraybit.modal.FCMMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.BannerMasterJSONParser;
 import com.arraybit.parser.BusinessJSONParser;
 import com.arraybit.parser.CustomerJSONParser;
+import com.arraybit.parser.FCMJSONParser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.facebook.login.LoginManager;
@@ -97,6 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     GoogleApiClient googleApiClient;
     private Runnable animateViewPager;
     private Handler handler;
+    Toast toast = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setLogo(R.mipmap.app_logo);
         }
+        toast = Toast.makeText(HomeActivity.this, getResources().getString(R.string.HoBackMsg), Toast.LENGTH_SHORT);
 
         isNetCheck = getIntent().getBooleanExtra("IsNetCheck", false);
 
@@ -325,6 +329,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (!isNetCheck) {
                 ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+                FCMMaster fcmMaster = new FCMMaster();
+                fcmMaster.setFCMToken(SplashScreenActivity.token);
+                if (objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this) != null && objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this) != null) {
+                    fcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this)));
+                }
+                FCMJSONParser fcmjsonParser = new FCMJSONParser();
+                fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, HomeActivity.this);
             }
             SaveCartDataInSharePreference();
         }
@@ -360,6 +371,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.logout) {
             ClearGoogleAccountAndFacebook();
             Globals.ClearUserPreference(HomeActivity.this, HomeActivity.this);
+            FCMMaster fcmMaster = new FCMMaster();
+            fcmMaster.setFCMToken(SplashScreenActivity.token);
+            if (objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this) != null && objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this) != null) {
+                fcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManager.GetPreference("LoginPreference", "CustomerMasterId", HomeActivity.this)));
+            }
+            FCMJSONParser fcmjsonParser = new FCMJSONParser();
+            fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, HomeActivity.this);
             SaveCartDataInSharePreference();
             txtFullName.setVisibility(View.GONE);
             cbName.setText(getResources().getString(R.string.siSignIn));
@@ -398,11 +416,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (!famRoot.isOpened()) {
             if (doubleBackToExitPressedOnce) {
+                toast.cancel();
                 super.onBackPressed();
                 return;
             }
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(HomeActivity.this, getResources().getString(R.string.HoBackMsg), Toast.LENGTH_LONG).show();
+           doubleBackToExitPressedOnce = true;
+            toast.show();
             new Handler().postDelayed(new Runnable() {
 
                 @Override

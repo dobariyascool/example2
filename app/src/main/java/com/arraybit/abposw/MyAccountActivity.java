@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.arraybit.adapter.MyAccountAdapter;
 import com.arraybit.global.Globals;
 import com.arraybit.global.SharePreferenceManage;
+import com.arraybit.modal.FCMMaster;
+import com.arraybit.parser.FCMJSONParser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.facebook.login.LoginManager;
@@ -146,6 +148,13 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                 isIntegrationId = true;
                 ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
+                FCMMaster fcmMaster = new FCMMaster();
+                fcmMaster.setFCMToken(SplashScreenActivity.token);
+                if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this) != null) {
+                    fcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this)));
+                }
+                FCMJSONParser fcmjsonParser = new FCMJSONParser();
+                fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, MyAccountActivity.this);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsLogin", true);
                 returnIntent.putExtra("IsShowMessage", false);
@@ -157,6 +166,13 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 4 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ClearGoogleAccountAndFacebook();
             Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
+            FCMMaster fcmMaster = new FCMMaster();
+            fcmMaster.setFCMToken(SplashScreenActivity.token);
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this) != null && objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this) != null) {
+                fcmMaster.setlinktoCustomerMasterId(Integer.parseInt(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerMasterId", MyAccountActivity.this)));
+            }
+            FCMJSONParser fcmjsonParser = new FCMJSONParser();
+            fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, MyAccountActivity.this);
             Intent returnIntent = new Intent();
             returnIntent.putExtra("IsLogin",true);
             returnIntent.putExtra("IsShowMessage",false);
