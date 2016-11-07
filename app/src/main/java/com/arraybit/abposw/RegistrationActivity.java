@@ -2,10 +2,7 @@ package com.arraybit.abposw;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -15,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
@@ -74,7 +70,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings({"ConstantConditions", "UnnecessaryReturnStatement"})
-public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener, StateJSONParser.StateRequestListener, CityJSONParser.CityRequestListener, AreaJSONParser.AreaRequestListener, CustomerJSONParser.CustomerRequestListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int requestCodeForSignIn = 22;
     final private int requestCodeForPermission = 113;
@@ -90,7 +86,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     RadioButton rbMale, rbFemale;
     ProgressDialog progressDialog = new ProgressDialog();
     ImageView ivTakeImage;
-    String imagePhysicalNameBytes, imageName,strImageName;
+    String imagePhysicalNameBytes, imageName, strImageName;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS", Locale.US);
     Button btnLoginWithGPlus, btnLoginWithFb;
     CallbackManager callbackManager;
@@ -98,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private GoogleApiClient mGoogleApiClient;
     private ConnectionResult mConnectionResult;
     private boolean mIntentInProgress;
-    private boolean signedInUser, isIntegrationLogin,isLoginWithFb;
+    private boolean signedInUser, isIntegrationLogin, isLoginWithFb;
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
 //    private String token ="token1";
 
@@ -286,12 +282,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             Globals.ReplaceFragment(new PolicyFragment("Terms of service"), getSupportFragmentManager(), getResources().getString(R.string.title_fragment_terms_of_service), R.id.registrationLayout);
         } else if (v.getId() == R.id.ivTakeImage) {
             Globals.SelectImage(RegistrationActivity.this, 100, 101);
-        }else if (v.getId() == R.id.btnLoginWithGPlus) {
+        } else if (v.getId() == R.id.btnLoginWithGPlus) {
             if (Service.CheckNet(this)) {
                 Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
                         false, null, null, null, null);
                 startActivityForResult(intent, accountPickerRequest);
-            }else {
+            } else {
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
         } else if (v.getId() == R.id.btnLoginWithFb) {
@@ -353,9 +349,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                                 isLoginWithFb = true;
 //                                                GCMTokenRegistration();
                                                 objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
-                                                RequestInsertCustomerMaster(objCustomerMaster,false);
+                                                RequestInsertCustomerMaster(objCustomerMaster, false);
                                             }
-                                        }  catch (Exception e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                     }
@@ -378,7 +374,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         Globals.ShowSnackBar(view, getResources().getString(R.string.siLoginFailedMsg), RegistrationActivity.this, 1000);
                     }
                 });
-            }else {
+            } else {
                 Globals.ShowSnackBar(v, getResources().getString(R.string.MsgCheckConnection), this, 1000);
             }
         }
@@ -391,7 +387,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             int hasWriteContactsPermission = checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS);
             if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
                 GetGooglePlusProfileInformation();
-            }else {
+            } else {
                 requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
                         requestCodeForPermission);
                 return;
@@ -459,7 +455,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             if (resultCode == RESULT_OK) {
                 String picturePath = "";
                 if (requestCode == 100) {
-                    strImageName =  "CameraImage_"+ simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length())+".jpg";
+                    strImageName = "CameraImage_" + simpleDateFormat.format(new Date()) + imageName.substring(imageName.lastIndexOf("."), imageName.length()) + ".jpg";
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "CameraImage.jpg");
                     picturePath = f.getAbsolutePath();
                     imageName = f.getName();
@@ -492,9 +488,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     if (!mGoogleApiClient.isConnecting()) {
                         mGoogleApiClient.connect();
                     }
-                }else if (requestCode == accountPickerRequest) {
+                } else if (requestCode == accountPickerRequest) {
                     String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if(accountName!=null && !accountName.equals("")) {
+                    if (accountName != null && !accountName.equals("")) {
                         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).setAccountName(accountName).build();
                         mGoogleApiClient.connect();
                         if (!mGoogleApiClient.isConnecting()) {
@@ -627,12 +623,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
             }
 //        GCMTokenRegistration();
-            Log.e("Registrartion"," encoded token:"+SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-            objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-            objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,false, RegistrationActivity.this);
-        }
-        catch(Exception e)
-        {
+            if (SplashScreenActivity.token != null) {
+                Log.e("Registrartion", " encoded token:" + SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+                objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+            }
+            objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, false, RegistrationActivity.this);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -693,7 +689,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 Globals.ShowSnackBar(view, getResources().getString(R.string.MsgServerNotResponding), RegistrationActivity.this, 1000);
                 break;
             case "-2":
-                if(isIntegrationLogin){
+                if (isIntegrationLogin) {
                     if (objCustomerMaster != null) {
                         if (isIntegrationLogin) {
                             if (objCustomerMaster.getGooglePlusUserId() != null && !objCustomerMaster.getGooglePlusUserId().equals("")) {
@@ -737,7 +733,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
-                }else{
+                } else {
                     Globals.ShowSnackBar(view, getResources().getString(R.string.MsgAlreadyExist), RegistrationActivity.this, 1000);
                     ClearControls();
                 }
@@ -2097,21 +2093,21 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setIsEnabled(true);
 
 //                GCMTokenRegistration();
-                Log.e("Registrartion"," encoded token:"+SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-","3E3").replace("_","4E4"));
-                RequestInsertCustomerMaster(objCustomerMaster,false);
+                Log.e("Registrartion", " encoded token:" + SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+                objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
+                RequestInsertCustomerMaster(objCustomerMaster, false);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster,boolean isSignIn) {
+    private void RequestInsertCustomerMaster(CustomerMaster objCustomerMaster, boolean isSignIn) {
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(), "");
 
         CustomerJSONParser objCustomerJSONParser = new CustomerJSONParser();
-        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster,isSignIn, RegistrationActivity.this);
+        objCustomerJSONParser.InsertCustomerMaster(objCustomerMaster, isSignIn, RegistrationActivity.this);
     }
 
     private void FCMTokenGenerate() {

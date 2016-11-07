@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity implements CustomerJ
     ImageView ivLeft, ivRight, ivLogo, ivText;
     DrawerLayout mainLayout;
     List<ItemMaster> lstItemMaster;
-    public static String token ;
+    public static String token = "" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

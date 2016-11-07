@@ -2,7 +2,6 @@ package com.arraybit.abposw;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -20,22 +19,26 @@ public class ItemListActivity extends AppCompatActivity implements CategoryJSONP
     LinearLayout itemListActivity, llItemListFragment;
     ProgressDialog progressDialog = new ProgressDialog();
     boolean isStart = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-
-        app_bar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(app_bar);
-        if (app_bar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            app_bar = (Toolbar) findViewById(R.id.app_bar);
+            setSupportActionBar(app_bar);
+            if (app_bar != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+            itemListActivity = (LinearLayout) findViewById(R.id.itemListActivity);
+            Globals.SetScaleImageBackground(ItemListActivity.this, itemListActivity, null, null);
+            llItemListFragment = (LinearLayout) findViewById(R.id.llItemListFragment);
+            int categoryMasterId = getIntent().getIntExtra("CateoryMasterId", 0);
+            isStart = getIntent().getBooleanExtra("isStart", false);
+            RequestOfferMaster(categoryMasterId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        itemListActivity = (LinearLayout) findViewById(R.id.itemListActivity);
-        Globals.SetScaleImageBackground(ItemListActivity.this, itemListActivity, null, null);
-        llItemListFragment = (LinearLayout) findViewById(R.id.llItemListFragment);
-        int categoryMasterId = getIntent().getIntExtra("CateoryMasterId", 0);
-        isStart= getIntent().getBooleanExtra("isStart", false);
-        RequestOfferMaster(categoryMasterId);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class ItemListActivity extends AppCompatActivity implements CategoryJSONP
         progressDialog.dismiss();
         if (objCategoryMaster != null) {
             app_bar.setTitle(objCategoryMaster.getCategoryName());
-            Fragment fragment = new ItemListFragment();
+            ItemListFragment fragment = new ItemListFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(ItemListFragment.ITEMS_COUNT_KEY, objCategoryMaster);
             fragment.setArguments(bundle);

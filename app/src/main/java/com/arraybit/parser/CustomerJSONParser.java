@@ -256,7 +256,7 @@ public class CustomerJSONParser {
                 stringer.key("AgeMaxRange").value(objCustomerMaster.getAgeMinRange());
             }
             stringer.key("IsVerified").value(objCustomerMaster.getIsVerified());
-            if (objCustomerMaster.getFCMToken() != null && !objCustomerMaster.getFCMToken().equals("")) {
+            if (objCustomerMaster.getFCMToken() != null ) {
                 stringer.key("FCMToken").value(objCustomerMaster.getFCMToken());
             }
             stringer.endObject();

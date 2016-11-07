@@ -18,6 +18,7 @@ import com.arraybit.adapter.ItemAdapter;
 import com.arraybit.global.EndlessRecyclerOnScrollListener;
 import com.arraybit.global.Globals;
 import com.arraybit.global.Service;
+import com.arraybit.global.SharePreferenceManage;
 import com.arraybit.modal.CategoryMaster;
 import com.arraybit.modal.ItemMaster;
 import com.arraybit.parser.ItemJSONParser;
@@ -70,6 +71,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
         Bundle bundle = getArguments();
         objCategoryMaster = bundle.getParcelable(ITEMS_COUNT_KEY);
         currentTab = bundle.getInt("TabPosition", -1);
+
 
         if (currentPage >= 1 && linearLayoutManager.canScrollVertically()) {
             currentPage = 1;
@@ -164,7 +166,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
 
     @Override
     public void LikeOnClick(int position) {
-
+//        SaveWishListInSharePreference(true);
     }
 
     public void SetRecyclerView(boolean isCurrentPageChange, boolean isWishListCheck, boolean isFilterLayoutManager) {
@@ -231,7 +233,7 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
                 } else if (alItemMaster.size() < 10) {
                     currentPage += 1;
                 }
-                itemAdapter = new ItemAdapter(context, alItemMaster, this, false);
+                itemAdapter = new ItemAdapter(getActivity(), alItemMaster, this, false);
                 rvItemMaster.setAdapter(itemAdapter);
                 if (MenuActivity.isViewChange) {
                     if (isFilterLayoutManager) {
@@ -325,5 +327,81 @@ public class ItemListFragment extends Fragment implements ItemJSONParser.ItemMas
             objItemJSONParser.SelectAllItemMaster(this, getActivity(), String.valueOf(currentPage), String.valueOf(objCategoryMaster.getCategoryMasterId()), OptionIds, String.valueOf(Globals.linktoBusinessMasterId), null, isOptionFilter);
 //        }
     }
+
+    private void SaveWishListInSharePreference(boolean isBackPressed) {
+        SharePreferenceManage objSharePreferenceManage = new SharePreferenceManage();
+        ArrayList<String> alString;
+        if (isBackPressed) {
+            if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity()) != null) {
+                alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity());
+                if (alString.size() > 0) {
+                    if (ItemAdapter.alWishItemMaster.size() > 0) {
+                        for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                            if (objWishItemMaster.getIsChecked() != -1) {
+                                if (!CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) 1)) {
+                                    alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                                }
+                            } else {
+                                CheckDuplicateId(alString, String.valueOf(objWishItemMaster.getItemMasterId()), (short) -1);
+                            }
+                        }
+                        objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, getActivity());
+                    }
+                } else {
+                    if (ItemAdapter.alWishItemMaster.size() > 0) {
+                        alString = new ArrayList<>();
+                        for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                            if (objWishItemMaster.getIsChecked() != -1) {
+                                alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                            }
+                        }
+                        objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, getActivity());
+                    }
+                }
+            } else {
+                if (ItemAdapter.alWishItemMaster.size() > 0) {
+                    alString = new ArrayList<>();
+                    for (ItemMaster objWishItemMaster : ItemAdapter.alWishItemMaster) {
+                        if (objWishItemMaster.getIsChecked() != -1) {
+                            alString.add(String.valueOf(objWishItemMaster.getItemMasterId()));
+                        }
+                    }
+                    objSharePreferenceManage.CreateStringListPreference("WishListPreference", "WishList", alString, getActivity());
+                }
+            }
+        } else {
+            if (objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity()) != null) {
+                alString = objSharePreferenceManage.GetStringListPreference("WishListPreference", "WishList", getActivity());
+                ItemAdapter.alWishItemMaster = new ArrayList<>();
+                if (alString.size() > 0) {
+                    for (String itemMasterId : alString) {
+                        ItemMaster objItemMaster = new ItemMaster();
+                        objItemMaster.setItemMasterId(Integer.parseInt(itemMasterId));
+                        objItemMaster.setIsChecked((short) 1);
+                        ItemAdapter.alWishItemMaster.add(objItemMaster);
+                    }
+                }
+            } else {
+                ItemAdapter.alWishItemMaster = new ArrayList<>();
+            }
+        }
+    }
+
+    private boolean CheckDuplicateId(ArrayList<String> arrayList, String id, short isCheck) {
+        boolean isDuplicate = false;
+        int cnt = 0;
+        for (String strId : arrayList) {
+            if (strId.equals(id)) {
+                isDuplicate = true;
+                if (isCheck == -1) {
+                    arrayList.remove(cnt);
+                    break;
+                }
+            }
+            cnt++;
+        }
+        return isDuplicate;
+    }
+
     //endregion
 }
