@@ -51,15 +51,7 @@
         <item name="android:foreground">@drawable/offer_ripple_effect</item>
     </style>
 
-    <style name="FloatingMiniButton" parent="FloatingButtonDesignSupport">
-        <item name="rippleColor">@color/orange_light</item>
-        <item name="fabSize">mini</item>
-        <item name="android:src">@drawable/edit_drawable</item>
-        <item name="android:layout_marginTop">143dp</item>-->
-        <item name="android:padding">@dimen/control_SpecingSmall</item>
-        <item name="backgroundTint">@color/orange</item>
-        <item name="pressedTranslationZ">12dp</item>//show shadow when pressed
-    </style>
+
     <!--<style name="FloatingMiniButton" parent="FloatingActionButton">-->
     <!--<item name="fab_colorNormal">@color/orange</item>-->
     <!--<item name="rd_rippleColor">@color/orange_light</item>-->

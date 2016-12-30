@@ -66,7 +66,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        myAccountLayout = (FrameLayout)findViewById(R.id.myAccountLayout);
+        myAccountLayout = (FrameLayout) findViewById(R.id.myAccountLayout);
         txtLoginChar = (TextView) findViewById(R.id.txtLoginChar);
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtFullName = (TextView) findViewById(R.id.txtFullName);
@@ -144,7 +144,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         } else if (id == 2 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
             ReplaceFragment(new YourAddressFragment(), getResources().getString(R.string.title_fragment_your_address));
         } else if (id == 3 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            if(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",MyAccountActivity.this)!=null) {
+            if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", MyAccountActivity.this) != null) {
                 isIntegrationId = true;
                 ClearGoogleAccountAndFacebook();
                 Globals.ClearUserPreference(MyAccountActivity.this, MyAccountActivity.this);
@@ -158,9 +158,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("IsLogin", true);
                 returnIntent.putExtra("IsShowMessage", false);
-                setResult(Activity.RESULT_OK,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-            }else {
+            } else {
                 ReplaceFragment(new ChangePasswordFragment(), getResources().getString(R.string.title_fragment_change_password));
             }
         } else if (id == 4 && this.getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -174,9 +174,9 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             FCMJSONParser fcmjsonParser = new FCMJSONParser();
             fcmjsonParser.UpdateFCMMasterByCustomerId(fcmMaster, MyAccountActivity.this);
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("IsLogin",true);
-            returnIntent.putExtra("IsShowMessage",false);
-            setResult(Activity.RESULT_OK,returnIntent);
+            returnIntent.putExtra("IsLogin", true);
+            returnIntent.putExtra("IsShowMessage", false);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
     }
@@ -197,13 +197,12 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         try {
             if (resultCode == RESULT_OK) {
                 UserProfileFragment userProfileFragment = (UserProfileFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_fragment_your_profile));
-                userProfileFragment.SelectImage(requestCode,data);
+                userProfileFragment.SelectImage(requestCode, data);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void BookingDateOnClick(View view) {
         AddBookingFragment addBookingFragment = (AddBookingFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.title_add_booking_fragment));
@@ -244,7 +243,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_fragment_your_order))) {
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_order), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            }else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
+            } else if (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName() != null
                     && getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName()
                     .equals(getResources().getString(R.string.title_fragment_your_profile))) {
                 getSupportFragmentManager().popBackStack(getResources().getString(R.string.title_fragment_your_profile), FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -255,18 +254,17 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         }
     }
 
-
     //region Private Methods
     private void GetData() {
         alString = new ArrayList<>();
-        if(objSharePreferenceManage.GetPreference("LoginPreference","IntegrationId",MyAccountActivity.this)!=null) {
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", MyAccountActivity.this) != null) {
             isIntegrationId = true;
         }
 
         for (int i = 0; i < getResources().getStringArray(R.array.Option).length; i++) {
-            if(isIntegrationId && !getResources().getStringArray(R.array.Option)[i].equals(getResources().getString(R.string.cpChangePassword))){
+            if (isIntegrationId && !getResources().getStringArray(R.array.Option)[i].equals(getResources().getString(R.string.cpChangePassword))) {
                 alString.add(getResources().getStringArray(R.array.Option)[i]);
-            }else if(!isIntegrationId){
+            } else if (!isIntegrationId) {
                 alString.add(getResources().getStringArray(R.array.Option)[i]);
             }
         }
@@ -284,7 +282,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
             txtFullName.setVisibility(View.GONE);
         }
 
-        if(objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", MyAccountActivity.this)!=null){
+        if (objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", MyAccountActivity.this) != null) {
             ivProfile.setVisibility(View.VISIBLE);
             txtLoginChar.setVisibility(View.GONE);
             String url = objSharePreferenceManage.GetPreference("LoginPreference", "CustomerProfileUrl", MyAccountActivity.this);
@@ -297,7 +295,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                     ivProfile.setImageDrawable(circularBitmapDrawable);
                 }
             });
-        }else{
+        } else {
             ivProfile.setVisibility(View.GONE);
             txtLoginChar.setVisibility(View.VISIBLE);
         }
@@ -319,7 +317,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
         fragmentTransaction.commit();
     }
 
-    private void ClearGoogleAccountAndFacebook(){
+    private void ClearGoogleAccountAndFacebook() {
         if (objSharePreferenceManage.GetPreference("LoginPreference", "IntegrationId", MyAccountActivity.this) != null) {
             if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", MyAccountActivity.this) != null) {
                 if (objSharePreferenceManage.GetPreference("LoginPreference", "isLoginWithFb", MyAccountActivity.this).equals("true")) {
@@ -337,7 +335,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAda
                                         Plus.AccountApi.clearDefaultAccount(googleApiClient);
                                         googleApiClient.disconnect();
                                         googleApiClient.connect();
-                                    }else {
+                                    } else {
                                         requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS},
                                                 requestCodeForPermission);
                                         return;

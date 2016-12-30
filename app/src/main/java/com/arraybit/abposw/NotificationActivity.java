@@ -258,8 +258,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         }
     }
 
-    private void RedirectOnActivity()
-    {
+    private void RedirectOnActivity(){
         if (objNotificationMaster != null) {
             if (objNotificationMaster.getType() == Globals.BannerType.Offer.getValue() && objNotificationMaster.getID() > 0) {
                 Intent intent = new Intent(NotificationActivity.this, OfferDetailActivity.class);

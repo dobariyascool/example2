@@ -622,7 +622,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 objCustomerMaster.setImageName(strImageName);
                 objCustomerMaster.setImageNamePhysicalNameBytes(imagePhysicalNameBytes);
             }
-//        GCMTokenRegistration();
             if (SplashScreenActivity.token != null) {
                 Log.e("Registrartion", " encoded token:" + SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
                 objCustomerMaster.setFCMToken(SplashScreenActivity.token.replace(":", "2E2").replace("-", "3E3").replace("_", "4E4"));
